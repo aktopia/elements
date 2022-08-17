@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "rootDir": "src",
+    "strict": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "outDir": "src/js",
+    "allowJs": true,
+    "checkJs": false
+  },
+  "exclude": [
+    "node_modules",
+  ],
+  "include": [
+    "src/**/*"
+  ]
+}
