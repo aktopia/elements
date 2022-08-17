@@ -1,5 +1,5 @@
 import React from "react";
-import { Size } from "../types/size";
+import { Size } from "_util/types/size";
 
 type SizeDimensionMapping = {
   [key in Size]?: number;
@@ -17,12 +17,12 @@ interface Props {
   className?: string;
 }
 
-export function Spinner({ size = Size.md, className }: Props) {
+function Spinner({ size = Size.md, className }: Props) {
   const dimension = resolveDimension[size];
   return (
     <div className={`${className} overflow-hidden`}>
       <svg
-        className={`animate-spin text-gray-400 h-${dimension} w-${dimension} `}
+        className={`animate-spin text-gray-900 h-${dimension} w-${dimension} `}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -44,3 +44,5 @@ export function Spinner({ size = Size.md, className }: Props) {
     </div>
   );
 }
+
+export default Spinner;

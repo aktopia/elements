@@ -1,5 +1,5 @@
 import React from "react";
-import { Size } from "src/types/size";
+import { Size } from "_util/types/size";
 
 type SizeClassMapping = {
   [key in Size]: string;
@@ -23,10 +23,12 @@ interface Props {
   text: string;
 }
 
-export function Button({ size, text }: Props) {
+function Button({ size, text }: Props) {
   return (
     <button type="button" className={sizeClassMapping[size]}>
       {text}
     </button>
   );
 }
+
+export default Button;

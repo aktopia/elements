@@ -4,19 +4,26 @@
     "rootDir": "src",
     "strict": true,
     "moduleResolution": "node",
+    "module": "esnext",
+    "target": "es5",
     "noImplicitAny": true,
     "noUnusedLocals": true,
+    "skipLibCheck": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "outDir": "src/js",
+    "outDir": "dist/esm",
+    "declaration": true,
     "allowJs": true,
     "checkJs": false
   },
   "exclude": [
     "node_modules",
+    "dist",
+    "_stories"
   ],
   "include": [
     "src/**/*"
