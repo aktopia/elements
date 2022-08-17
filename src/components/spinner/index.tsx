@@ -22,7 +22,7 @@ function Spinner({ size = Size.md, className }: Props) {
   return (
     <div className={`${className} overflow-hidden`}>
       <svg
-        className={`animate-spin text-gray-900 h-${dimension} w-${dimension} `}
+        className={`animate-spin text-gray-400 h-${dimension} w-${dimension} `}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"

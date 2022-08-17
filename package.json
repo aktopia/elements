@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch:css": "postcss tailwind.css -o dist/index.css --watch",
     "watch:ts": "tsc --watch",
+    "watch:build": "npx rollup -c -w",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

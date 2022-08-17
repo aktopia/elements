@@ -1,6 +1,6 @@
 import React from "react";
-// import Spinner from "/src/components/spinner";
-import { Spinner } from "/dist/esm";
+import Spinner from "/src/components/spinner";
+// import { Spinner } from "/dist/esm";
 
 export default {
   title: "Components/Spinner",
