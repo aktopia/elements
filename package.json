@@ -1,5 +1,5 @@
 {
-  "name": "@akarma/element",
+  "name": "@akarmic/elements",
   "version": "1.0.0",
   "description": "",
   "main": "dist/esm/index.js",
@@ -14,17 +14,19 @@
   "module": "dist/esm/index.js",
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@headlessui/react": "^1.6.6",
+    "@heroicons/react": "^1.0.6"
+  },
   "peerDependencies": {
     "@googlemaps/markerclusterer": "^2.0.10",
     "@googlemaps/react-wrapper": "^1.1.35",
-    "@headlessui/react": "^1.6.6",
-    "@heroicons/react": "^1.0.6",
-    "@storybook/addon-docs": "^6.5.10",
-    "lodash": "4.17.21",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@storybook/addon-docs": "^6.5.10",
     "@babel/cli": "^7.18.10",
     "@babel/core": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
