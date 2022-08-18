@@ -6,9 +6,8 @@
   "module": "dist/esm/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch:css": "postcss tailwind.css -o dist/index.css --watch",
-    "watch:ts": "tsc --watch",
     "watch:build": "npx rollup -c -w",
+    "build": "npx rollup -c",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -44,8 +43,6 @@
     "@types/react": "^18.0.17",
     "autoprefixer": "^10.4.8",
     "highlight.js": "11.6.0",
-    "postcss": "8.4.16",
-    "postcss-cli": "10.0.0",
     "postcss-import": "^14.1.0",
     "prettier": "2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
