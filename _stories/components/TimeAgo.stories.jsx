@@ -1,5 +1,5 @@
 import React from "react";
-import { TimeAgo } from "components/TimeAgo";
+import { TimeAgo } from "components/time-ago";
 
 export default {
   title: "Components/TimeAgo",

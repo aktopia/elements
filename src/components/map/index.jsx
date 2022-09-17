@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import { debounce, differenceWith, isEmpty, isEqual } from "lodash";
-import { mapsApiKey } from "../secrets";
+import { mapsApiKey } from "secrets";
 import {
   CheckIcon,
   LocationMarkerIcon as LocationMarkerIconSolid,
@@ -14,7 +14,7 @@ import {
   RefreshIcon,
 } from "@heroicons/react/outline";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
-import { Select } from "./Select";
+import { Select } from "components/select";
 
 const render = (status) => {
   if (status === Status.LOADING) return <h3>{status} ..</h3>;

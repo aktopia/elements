@@ -23,7 +23,7 @@ interface Props {
   text: string;
 }
 
-function Button({ size, text }: Props) {
+function Button({ size = Size.md, text }: Props) {
   return (
     <button type="button" className={sizeClassMapping[size]}>
       {text}
