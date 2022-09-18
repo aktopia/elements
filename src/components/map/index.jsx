@@ -3,16 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import { debounce, differenceWith, isEmpty, isEqual } from "lodash";
 import { mapsApiKey } from "secrets";
-import {
-  CheckIcon,
-  LocationMarkerIcon as LocationMarkerIconSolid,
-  PlusIcon,
-  XIcon,
-} from "@heroicons/react/solid";
-import {
-  LocationMarkerIcon as LocationMarkerIconOutline,
-  RefreshIcon,
-} from "@heroicons/react/outline";
+import { CheckIcon, LocationMarkerIcon as LocationMarkerIconSolid, PlusIcon, XIcon, } from "@heroicons/react/solid";
+import { LocationMarkerIcon as LocationMarkerIconOutline, RefreshIcon, } from "@heroicons/react/outline";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { Select } from "components/select";
 
@@ -150,7 +142,7 @@ function Map_({ center, zoom, locations, updateCenter, addLocation }) {
         "relative inline-block flex h-[36rem] w-full items-center justify-center overflow-hidden rounded-lg shadow"
       }
     >
-      <div ref={mapRef} id="map" className={"h-full w-full"} />
+      <div ref={mapRef} id="map" className={"h-full w-full"}/>
 
       {!addingLocation && (
         <button
@@ -174,7 +166,7 @@ function Map_({ center, zoom, locations, updateCenter, addLocation }) {
 
       {addingLocation && (
         <div className={"absolute flex items-center justify-center"}>
-          <LocationMarkerIconSolid className={markerIconCls} />
+          <LocationMarkerIconSolid className={markerIconCls}/>
           <div
             className={
               "absolute h-1.5 w-1.5 cursor-pointer rounded-full bg-indigo-600 shadow-lg ring ring-2 ring-white"
@@ -239,7 +231,7 @@ function Map_({ center, zoom, locations, updateCenter, addLocation }) {
             addLocation();
           }}
         >
-          <CheckIcon className={"h-5 w-5"} />
+          <CheckIcon className={"h-5 w-5"}/>
           <p>Confirm Location</p>
         </button>
       )}

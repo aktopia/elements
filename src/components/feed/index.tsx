@@ -1,11 +1,11 @@
-import {ChatBubbleLeftEllipsisIcon, TagIcon, UserCircleIcon,} from "@heroicons/react/20/solid";
-import {Fragment} from "react";
+import { ChatBubbleLeftEllipsisIcon, TagIcon, UserCircleIcon } from "@heroicons/react/20/solid";
+import React, { Fragment } from "react";
 
-function classNames(...classes) {
+function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function Feed({activityItem}) {
+export function Feed({activityItem}: any) {
   return (
     <div className="relative flex items-start space-x-3">
       {activityItem.type === "comment" ? (
@@ -94,7 +94,7 @@ export function Feed({activityItem}) {
                 added tags
               </span>{" "}
               <span className="mr-0.5">
-                {activityItem.tags.map((tag) => (
+                {activityItem.tags.map((tag: any) => (
                   <Fragment key={tag.name}>
                     <a
                       href={tag.href}
