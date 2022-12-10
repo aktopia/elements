@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useId, useRef } from "react";
+import React, { useEffect, useId, useRef } from "react";
 import { SingleCharacterInput } from "components/single-character-input";
 
 function keydownHandler(
@@ -13,27 +13,32 @@ function keydownHandler(
       refs[index - 1].current.focus();
       e.preventDefault();
     }
-  } else {
-    if (index === refs.length - 1 && refs[index].current.value !== "") {
-      return true;
-    } else if (e.keyCode > 47 && e.keyCode < 58) {
-      refs[index].current.value = e.key;
-      if (index !== refs.length - 1) {
-        refs[index + 1].current.focus();
-        e.preventDefault();
-      }
-    } else if (e.keyCode > 64 && e.keyCode < 91) {
-      refs[index].current.value = String.fromCharCode(e.keyCode);
-      if (index !== refs.length - 1) {
-        refs[index + 1].current.focus();
-        e.preventDefault();
-      }
-    }
+    return;
+  }
 
-    if (refs.every((ref) => !!ref.current.value)) {
-      const slotValues = refs.map((ref) => ref.current.value);
-      onInputComplete(slotValues);
+  if (index === refs.length - 1 && refs[index].current.value !== "") {
+    return;
+  }
+
+  if (e.keyCode > 47 && e.keyCode < 58) {
+    refs[index].current.value = e.key;
+    if (index !== refs.length - 1) {
+      refs[index + 1].current.focus();
+      e.preventDefault();
     }
+  }
+
+  if (e.keyCode > 64 && e.keyCode < 91) {
+    refs[index].current.value = String.fromCharCode(e.keyCode);
+    if (index !== refs.length - 1) {
+      refs[index + 1].current.focus();
+      e.preventDefault();
+    }
+  }
+
+  if (refs.every((ref) => !!ref.current.value)) {
+    const slotValues = refs.map((ref) => ref.current.value);
+    onInputComplete(slotValues);
   }
 }
 
@@ -45,7 +50,7 @@ export const OTPInput = ({ characters, num, onInputComplete }: any) => {
   useEffect(() => {
     const eventHandlers = refs.map(
       (_, index) => (e: KeyboardEvent) =>
-        keydownHandler(e, index, refs, console.log)
+        keydownHandler(e, index, refs, onInputComplete)
     );
 
     refs.forEach((ref, index) => {
@@ -54,11 +59,14 @@ export const OTPInput = ({ characters, num, onInputComplete }: any) => {
       }
     });
 
-    return () =>
+    return () => {
       refs.forEach((ref, index) => {
-        ref.current.removeEventListener("keydown", eventHandlers[index]);
+        if (ref.current) {
+          ref.current.removeEventListener("keydown", eventHandlers[index]);
+        }
       });
-  }, [...refs.map((ref) => ref.current)]);
+    };
+  }, [refs]);
 
   return (
     <>
@@ -77,4 +85,5 @@ export const OTPInput = ({ characters, num, onInputComplete }: any) => {
 /*
 TODO
 Mobile responsiveness
+Number only input
  */
