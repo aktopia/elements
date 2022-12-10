@@ -69,7 +69,7 @@ export const OTPInput = ({ characters, num, onInputComplete }: any) => {
   }, [refs]);
 
   return (
-    <>
+    <div className={"flex gap-4"}>
       {refs.map((ref, index) => (
         <SingleCharacterInput
           id={useId()}
@@ -78,7 +78,7 @@ export const OTPInput = ({ characters, num, onInputComplete }: any) => {
           value={characters && characters[index]}
         />
       ))}
-    </>
+    </div>
   );
 };
 
