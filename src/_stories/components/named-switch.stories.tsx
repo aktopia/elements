@@ -1,5 +1,5 @@
 import React from "react";
-import { NamedSwitch } from "../../components/named-switch";
+import { NamedSwitch } from "components/named-switch";
 
 export const Display = () => {
   return (

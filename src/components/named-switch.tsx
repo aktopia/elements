@@ -2,7 +2,7 @@ import React from "react";
 import { cva, VariantProps } from "cva";
 
 const containerVariant = cva(
-  "flex items-center justify-center gap-1 rounded-lg bg-gray-50",
+  "flex items-center justify-center gap-1 rounded-lg bg-gray-50 overflow-scroll",
   {
     variants: {
       size: {
@@ -52,3 +52,10 @@ export const NamedSwitch = ({
     </div>
   );
 };
+
+/*
+TODO
+Onchange?
+Other size variants
+Types
+ */
