@@ -1,10 +1,6 @@
 import React from "react";
 import { Button } from "../../components/button";
 
-export default {
-  title: "Button",
-};
-
 export const Primary = () => {
   return (
     <div className="flex-column flex gap-10">

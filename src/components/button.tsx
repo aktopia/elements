@@ -28,8 +28,6 @@ interface Props extends React.ComponentPropsWithoutRef<"button"> {
   variant: Variant;
 }
 
-variant();
-
 export const Button = ({ value, variant: { size, type }, ...props }: Props) => {
   return (
     <button {...props} className={variant({ size, type })}>
