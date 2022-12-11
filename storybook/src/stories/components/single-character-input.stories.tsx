@@ -1,6 +1,11 @@
 import React from "react";
 import { SingleCharacterInput } from "@elements/components/single-character-input";
 
+export default {
+  title: "Components/SingleCharacterInput",
+  component: SingleCharacterInput
+};
+
 export const Examples = () => {
   return (
     <div className="flex flex-col gap-10">

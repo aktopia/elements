@@ -1,7 +1,12 @@
 import React from "react";
 import { NamedSwitch } from "@elements/components/named-switch";
 
-export const Display = () => {
+export default {
+  title: "Components/NamedSwitch",
+  component: NamedSwitch
+};
+
+export const Examples = () => {
   return (
     <div className="flex-column flex gap-10">
       <div className="flex gap-10">
@@ -11,7 +16,7 @@ export const Display = () => {
           options={[
             { id: "phone", label: "Phone" },
             { id: "email", label: "Email" },
-            { id: "social", label: "Social" },
+            { id: "social", label: "Social" }
           ]}
         />
       </div>
@@ -22,7 +27,7 @@ export const Display = () => {
           options={[
             { id: "phone", label: "Phone" },
             { id: "email", label: "Email" },
-            { id: "social", label: "Social" },
+            { id: "social", label: "Social" }
           ]}
         />
       </div>
@@ -33,7 +38,7 @@ export const Display = () => {
           options={[
             { id: "phone", label: "Phone" },
             { id: "email", label: "Email" },
-            { id: "social", label: "Social" },
+            { id: "social", label: "Social" }
           ]}
         />
       </div>
