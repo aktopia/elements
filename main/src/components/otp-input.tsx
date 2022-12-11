@@ -86,4 +86,7 @@ export const OTPInput = ({ characters, num, onInputComplete }: any) => {
 TODO
 Mobile responsiveness
 Number only input
+On paste
+Auto complete from messages
+preventDefault consuming browser keyboard shortcuts
  */
