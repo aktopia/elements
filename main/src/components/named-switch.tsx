@@ -2,11 +2,12 @@ import React from "react";
 import { cva, VariantProps } from "cva";
 
 const containerVariant = cva(
-  "flex items-center justify-center gap-1 rounded-lg bg-gray-50 overflow-scroll",
+  "flex w-max items-center justify-center gap-1 rounded-lg bg-gray-50 border border-gray-100 overflow-scroll",
   {
     variants: {
       size: {
         xs: "p-1 text-xs gap-1",
+        sm: "p-1 text-sm gap-1",
       },
     },
   }
@@ -18,6 +19,7 @@ const switchVariant = cva(
     variants: {
       size: {
         xs: "px-2 py-1",
+        sm: "px-2.5 py-1",
       },
       status: {
         active: "text-gray-600 shadow bg-white rounded-md",
