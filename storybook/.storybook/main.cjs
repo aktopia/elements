@@ -1,4 +1,7 @@
-const path = require('path');
+const path = require("path");
+const { mergeConfig } = require("vite");
+
+
 module.exports = {
   "stories": [
     "../src/**/*.mdx",
@@ -15,5 +18,19 @@ module.exports = {
   },
   "docs": {
     "docsPage": true
+  },
+  async viteFinal(config) {
+    // Merge custom configuration into the default config
+    return mergeConfig(config, {
+      resolve: {
+        alias: {
+          '@elements': path.resolve(__dirname, '../../main/src'),
+        },
+      },
+      // Add dependencies to pre-optimization
+      optimizeDeps: {
+        include: ["storybook-dark-mode"]
+      },
+    });
   }
-}
+};
