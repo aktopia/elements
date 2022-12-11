@@ -23,7 +23,8 @@ const switchVariant = cva(
       },
       status: {
         active: "text-gray-600 shadow bg-white rounded-md",
-        inactive: "text-gray-500",
+        inactive:
+          "text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-md",
       },
     },
   }
