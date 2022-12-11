@@ -19,7 +19,7 @@ const switchVariant = cva(
     variants: {
       size: {
         xs: "px-2 py-1",
-        sm: "px-2.5 py-1",
+        sm: "px-3 py-1.5",
       },
       status: {
         active: "text-gray-600 shadow bg-white rounded-md",
@@ -31,25 +31,37 @@ const switchVariant = cva(
 
 export type ContainerVariant = VariantProps<typeof containerVariant>;
 
+interface Option {
+  id: string;
+  label: string;
+}
+
 interface Props {
-  value: string;
+  activeSwitch: string;
+  options: Option[];
+  onSwitchClick: Function;
   variant: ContainerVariant;
 }
 
 export const NamedSwitch = ({
   activeSwitch,
   options,
+  onSwitchClick,
   variant: { size },
-}: any) => {
+}: Props) => {
   return (
     <div className={containerVariant({ size })}>
       {options.map(({ id, label }: any) => {
-        const activeSwitchId =
-          typeof activeSwitch == "object" ? activeSwitch.id : activeSwitch;
+        const status = id == activeSwitch ? "active" : "inactive";
 
-        const status = id == activeSwitchId ? "active" : "inactive";
-
-        return <div className={switchVariant({ status, size })}>{label}</div>;
+        return (
+          <div
+            onClick={() => onSwitchClick(id)}
+            className={switchVariant({ status, size })}
+          >
+            {label}
+          </div>
+        );
       })}
     </div>
   );
@@ -57,7 +69,8 @@ export const NamedSwitch = ({
 
 /*
 TODO
-Onchange?
-Other size variants
+Transitions
+useCallback instead of anon function
+Other size variants when necessary
 Types
  */

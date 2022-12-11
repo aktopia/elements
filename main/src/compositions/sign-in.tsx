@@ -1,20 +1,28 @@
 import { Modal } from "@elements/components/modal";
 import { NamedSwitch } from "@elements/components/named-switch";
 import { Button } from "@elements/components/button";
+import { useCallback, useState } from "react";
 
 const loginOpts = [
   { id: "phone", label: "Phone" },
   { id: "email", label: "Email" },
-  { id: "social", label: "Social" },
+  // { id: "social", label: "Social" },
 ];
-export const SignIn = () => {
+
+export const SignIn = ({ onSendPhoneOTP, onEmailSendOTP }: any) => {
+  const [activeSwitch, setActiveSwitch] = useState("phone");
+  const onSendOTP = useCallback(() => {
+    activeSwitch == "phone" ? onSendPhoneOTP() : onEmailSendOTP;
+  }, [activeSwitch]);
+
   return (
     <Modal title={"Sign in"}>
       <div className={"flex flex-col gap-5"}>
         <NamedSwitch
           options={loginOpts}
           variant={{ size: "sm" }}
-          activeSwitch={"phone"}
+          activeSwitch={activeSwitch}
+          onSwitchClick={setActiveSwitch}
         />
         <input
           type={"text"}
@@ -24,6 +32,7 @@ export const SignIn = () => {
         />
         <div className={"flex w-full justify-center"}>
           <Button
+            onClick={onSendOTP}
             value={"Send OTP"}
             variant={{ size: "sm", type: "primary" }}
           />
