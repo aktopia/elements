@@ -1,5 +1,5 @@
 import React from "react";
-import { OTPInput } from "components/otp-input";
+import { OTPInput } from "@elements/components/otp-input";
 
 export const Examples = () => {
   return (

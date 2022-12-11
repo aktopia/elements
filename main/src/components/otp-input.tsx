@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useRef } from "react";
-import { SingleCharacterInput } from "components/single-character-input";
+import { SingleCharacterInput } from "@elements/components/single-character-input";
 
 function keydownHandler(
   e: KeyboardEvent,

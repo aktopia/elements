@@ -1,5 +1,5 @@
 import React from "react";
-import { XMark } from "_icons";
+import { XMark } from "@elements/_icons";
 
 export const Modal = ({ title, content }: any) => {
   return (
