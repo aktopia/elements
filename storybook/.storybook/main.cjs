@@ -1,6 +1,7 @@
+const path = require('path');
 module.exports = {
   "stories": [
-    "../src/**/*.stories.mdx",
+    "../src/**/*.mdx",
     "../src/**/*.stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [
@@ -8,5 +9,11 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions"
   ],
-  "framework": "@storybook/react"
+  "framework": {
+    "name": "@storybook/react-vite",
+    "options": {}
+  },
+  "docs": {
+    "docsPage": true
+  }
 }
