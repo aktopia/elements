@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "exports": {
-    "./components": "dist/components.js",
-    "./compositions": "dist/compositions.js"
+    "./components": "./dist/components.js",
+    "./compositions": "./dist/compositions.js"
   },
   "dependencies": {
     "cva": "npm:class-variance-authority@^0.4.0"
