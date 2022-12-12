@@ -34,7 +34,7 @@ module.exports = {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          "@elements": path.resolve(__dirname, "../../main/src")
+          "@elements": path.resolve(__dirname, "../../elements/src")
         }
       },
       // Add dependencies to pre-optimization

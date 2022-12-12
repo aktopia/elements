@@ -16,7 +16,7 @@
     "skipLibCheck": true,
     "jsx": "react",
     "paths": {
-      "@elements/*": ["../main/src/*"],
+      "@elements/*": ["../elements/src/*"],
     }
   },
   "include": ["src"]
