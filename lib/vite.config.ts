@@ -15,7 +15,11 @@ export default defineConfig({
       entry: {
         "components": resolve(__dirname, "src/components.ts"),
         "compositions": resolve(__dirname, "src/compositions.ts")
-      }
+      },
+      formats: ["es"]
+    },
+    rollupOptions: {
+      external: ["react", "react-dom"]
     }
   },
   plugins: [react(), dts({ insertTypesEntry: true })]
