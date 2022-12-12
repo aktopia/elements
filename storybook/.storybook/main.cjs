@@ -34,6 +34,7 @@ module.exports = {
     return mergeConfig(config, {
       resolve: {
         alias: {
+          //FIXME: this is probably a bad idea, but I wasn't able to get npm workspaces to work with aliases
           "@elements": path.resolve(__dirname, "../../elements/src")
         }
       },

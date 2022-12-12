@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "jsx": "react",
     "paths": {
+      //FIXME: this is probably a bad idea, but I wasn't able to get npm workspaces to work with aliases
       "@elements/*": ["../elements/src/*"],
     }
   },
