@@ -3,5 +3,5 @@ node_modules/
 dist/
 *.iml
 storybook-static
-elements/node_modules
+lib/node_modules
 storybook/node_modules
