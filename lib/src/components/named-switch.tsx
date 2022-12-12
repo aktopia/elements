@@ -30,7 +30,7 @@ const switchVariant = cva(
   }
 );
 
-export type ContainerVariant = VariantProps<typeof containerVariant>;
+type ContainerVariant = VariantProps<typeof containerVariant>;
 
 interface Option {
   id: string;

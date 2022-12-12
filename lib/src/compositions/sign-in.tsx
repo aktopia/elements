@@ -1,7 +1,7 @@
 import { Modal } from "@elements/components/modal";
 import { NamedSwitch } from "@elements/components/named-switch";
 import { Button } from "@elements/components/button";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 const loginOpts = [
   { id: "phone", label: "Phone" },
