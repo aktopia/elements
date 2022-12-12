@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link"
   },
   "exports": {
     "./components": "./dist/components.js",
