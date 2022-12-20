@@ -8,16 +8,26 @@ export const Modal = ({ title, children, onClose }: any) => {
         <div className="text-left text-lg font-medium tracking-wide text-gray-900">
           {title}
         </div>
-        <div
-          onClick={onClose}
-          className={
-            "cursor-pointer p-1 text-gray-500 hover:rounded hover:rounded-full hover:bg-gray-200 hover:text-gray-900"
-          }
-        >
-          <XMark className={"h-4 w-4"} />
-        </div>
+        {onClose &&
+          <div
+            onClick={onClose}
+            className={
+              "cursor-pointer p-1 text-gray-500 hover:rounded hover:rounded-full hover:bg-gray-200 hover:text-gray-900"
+            }
+          >
+            <XMark className={"h-4 w-4"} />
+          </div>}
       </div>
       <div>{children}</div>
     </div>
   );
 };
+
+/*
+TODO
+z index
+generic modal without title and close
+mobile
+outside click handler
+
+ */

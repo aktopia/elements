@@ -5,18 +5,24 @@ import React, { useCallback, useState } from "react";
 
 const loginOpts = [
   { id: "phone", label: "Phone" },
-  { id: "email", label: "Email" },
-  // { id: "social", label: "Social" },
+  { id: "email", label: "Email" }
 ];
 
-export const SignIn = ({ onSendPhoneOTP, onEmailSendOTP }: any) => {
+interface ISignIn {
+  onSendPhoneOTP: Function,
+  onEmailSendOTP: Function,
+  onClose: Function,
+  t: { title: Function, sendOTP: Function }
+}
+
+export const SignIn = ({ onSendPhoneOTP, onEmailSendOTP, onClose, t }: ISignIn) => {
   const [activeSwitch, setActiveSwitch] = useState("phone");
   const onSendOTP = useCallback(() => {
     activeSwitch == "phone" ? onSendPhoneOTP() : onEmailSendOTP;
   }, [activeSwitch]);
 
   return (
-    <Modal title={"Sign in"}>
+    <Modal title={t.title()} onClose={onClose}>
       <div className={"flex flex-col gap-5"}>
         <NamedSwitch
           options={loginOpts}
@@ -33,7 +39,7 @@ export const SignIn = ({ onSendPhoneOTP, onEmailSendOTP }: any) => {
         <div className={"flex w-full justify-center"}>
           <Button
             onClick={onSendOTP}
-            value={"Send OTP"}
+            value={t.sendOTP()}
             variant={{ size: "sm", type: "primary" }}
           />
         </div>
