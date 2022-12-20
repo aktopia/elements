@@ -57,6 +57,7 @@ export const NamedSwitch = ({
 
         return (
           <div
+            key={id}
             onClick={() => onSwitchClick(id)}
             className={switchVariant({ status, size })}
           >
