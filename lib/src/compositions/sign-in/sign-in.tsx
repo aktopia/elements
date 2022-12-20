@@ -24,8 +24,9 @@ export const SignIn = ({
   t,
 }: ISignIn) => {
   const [activeSwitch, setActiveSwitch] = useState("phone");
-  const [phone, setPhone] = useState<string>();
-  const [email, setEmail] = useState<string>();
+  const [phone, setPhone] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+
   const onSendOtp = useCallback(() => {
     activeSwitch == "phone" ? onSendPhoneOtp(phone) : onSendEmailOtp(email);
   }, [activeSwitch, phone, email]);
