@@ -23,11 +23,14 @@ const icon = cva("text-gray-700", {
 
 export type Variant = VariantProps<typeof container>;
 
-interface Props extends React.ComponentPropsWithoutRef<"button"> {
+interface IBackButton extends React.ComponentPropsWithoutRef<"button"> {
   variant: Variant;
 }
 
-export const BackIconButton = ({ variant: { size }, ...props }: Props) => {
+export const BackIconButton = ({
+  variant: { size },
+  ...props
+}: IBackButton) => {
   return (
     <button {...props} className={container({ size })}>
       <ChevronLeftMini className={icon({ size })} />

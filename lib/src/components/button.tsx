@@ -23,12 +23,16 @@ const variant = cva(
 
 export type Variant = VariantProps<typeof variant>;
 
-interface Props extends React.ComponentPropsWithoutRef<"button"> {
+interface IButton extends React.ComponentPropsWithoutRef<"button"> {
   value: string;
   variant: Variant;
 }
 
-export const Button = ({ value, variant: { size, type }, ...props }: Props) => {
+export const Button = ({
+  value,
+  variant: { size, type },
+  ...props
+}: IButton) => {
   return (
     <button {...props} className={variant({ size, type })}>
       {value}

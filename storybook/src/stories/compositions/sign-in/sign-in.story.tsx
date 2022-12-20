@@ -1,8 +1,8 @@
-import { SignIn } from "@elements/compositions/sign-in";
+import { SignIn } from "@elements/compositions/sign-in/sign-in";
 import React from "react";
 
 export default {
-  title: "Compositions/SignIn",
+  title: "Compositions/SignIn/SignIn",
   component: SignIn,
 };
 
