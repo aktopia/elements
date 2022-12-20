@@ -8,6 +8,7 @@ interface IEnterOTP {
   onBack: MouseEventHandler<HTMLButtonElement>;
   onClose: MouseEventHandler<HTMLButtonElement>;
   onResendOTP: MouseEventHandler<HTMLButtonElement>;
+  isOpen: boolean;
   t: { title: Function; resendOTP: Function };
 }
 
@@ -16,10 +17,11 @@ export const EnterOTP = ({
   onClose,
   onBack,
   onResendOTP,
+  isOpen,
   t,
 }: IEnterOTP) => {
   return (
-    <Modal title={t.title()} onClose={onClose}>
+    <Modal title={t.title()} onClose={onClose} isOpen={isOpen}>
       <div className={"flex flex-col gap-5"}>
         <OTPInput num={6} onInputComplete={onOTPInputComplete} />
         <div className={"grid grid-cols-3 items-center"}>

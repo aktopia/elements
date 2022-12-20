@@ -12,6 +12,7 @@ interface ISignIn {
   onSendPhoneOTP: Function;
   onSendEmailOTP: Function;
   onClose: Function;
+  isOpen: boolean;
   t: { title: Function; sendOTP: Function };
 }
 
@@ -19,6 +20,7 @@ export const SignIn = ({
   onSendPhoneOTP,
   onSendEmailOTP,
   onClose,
+  isOpen,
   t,
 }: ISignIn) => {
   const [activeSwitch, setActiveSwitch] = useState("phone");
@@ -40,7 +42,7 @@ export const SignIn = ({
   const inputValue = activeSwitch == "phone" ? phone : email;
 
   return (
-    <Modal title={t.title()} onClose={onClose}>
+    <Modal title={t.title()} onClose={onClose} isOpen={isOpen}>
       <div className={"flex flex-col gap-5"}>
         <NamedSwitch
           options={loginOpts}

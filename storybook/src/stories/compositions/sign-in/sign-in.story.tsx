@@ -11,8 +11,9 @@ export const Example = () => {
     <SignIn
       t={{ title: () => "Sign in", sendOTP: () => "Send OTP" }}
       onClose={() => {}}
-      onEmailSendOTP={() => {}}
-      onSendPhoneOTP={() => {}}
+      onSendEmailOTP={alert}
+      onSendPhoneOTP={alert}
+      isOpen={true}
     />
   );
 };
