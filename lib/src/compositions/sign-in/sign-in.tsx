@@ -9,16 +9,16 @@ const loginOpts = [
 ];
 
 interface ISignIn {
-  onSendPhoneOTP: Function;
-  onSendEmailOTP: Function;
+  onSendPhoneOtp: Function;
+  onSendEmailOtp: Function;
   onClose: Function;
   show: boolean;
-  t: { title: Function; sendOTP: Function };
+  t: { title: Function; sendOtp: Function };
 }
 
 export const SignIn = ({
-  onSendPhoneOTP,
-  onSendEmailOTP,
+  onSendPhoneOtp,
+  onSendEmailOtp,
   onClose,
   show,
   t,
@@ -26,8 +26,8 @@ export const SignIn = ({
   const [activeSwitch, setActiveSwitch] = useState("phone");
   const [phone, setPhone] = useState<string>();
   const [email, setEmail] = useState<string>();
-  const onSendOTP = useCallback(() => {
-    activeSwitch == "phone" ? onSendPhoneOTP(phone) : onSendEmailOTP(email);
+  const onSendOtp = useCallback(() => {
+    activeSwitch == "phone" ? onSendPhoneOtp(phone) : onSendEmailOtp(email);
   }, [activeSwitch, phone, email]);
 
   const onInputChange = useCallback(
@@ -60,8 +60,8 @@ export const SignIn = ({
         />
         <div className={"flex w-full justify-center"}>
           <Button
-            onClick={onSendOTP}
-            value={t.sendOTP()}
+            onClick={onSendOtp}
+            value={t.sendOtp()}
             variant={{ size: "sm", type: "primary" }}
           />
         </div>
@@ -72,7 +72,7 @@ export const SignIn = ({
 
 /*
 Mobile responsive
-Send OTP disabled
+Send Otp disabled
 Phone validations
 Email validation
 Error messages

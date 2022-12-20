@@ -1,36 +1,36 @@
 import { Modal } from "@elements/components/modal";
 import { Button } from "@elements/components/button";
 import React, { MouseEventHandler } from "react";
-import { BackIconButton, OTPInput } from "@elements/components";
+import { BackIconButton, OtpInput } from "@elements/components";
 
-interface IEnterOTP {
-  onOTPInputComplete: (charArray: string[]) => void;
+interface IEnterOtp {
+  onOtpInputComplete: (charArray: string[]) => void;
   onBack: MouseEventHandler<HTMLButtonElement>;
   onClose: MouseEventHandler<HTMLButtonElement>;
-  onResendOTP: MouseEventHandler<HTMLButtonElement>;
+  onResendOtp: MouseEventHandler<HTMLButtonElement>;
   show: boolean;
-  t: { title: Function; resendOTP: Function };
+  t: { title: Function; resendOtp: Function };
 }
 
-export const EnterOTP = ({
-  onOTPInputComplete,
+export const EnterOtp = ({
+  onOtpInputComplete,
   onClose,
   onBack,
-  onResendOTP,
+  onResendOtp,
   show,
   t,
-}: IEnterOTP) => {
+}: IEnterOtp) => {
   return (
     <Modal title={t.title()} onClose={onClose} show={show}>
       <div className={"flex flex-col gap-5"}>
-        <OTPInput num={6} onInputComplete={onOTPInputComplete} />
+        <OtpInput num={6} onInputComplete={onOtpInputComplete} />
         <div className={"grid grid-cols-3 items-center"}>
           <div>
             <BackIconButton variant={{ size: "xs" }} onClick={onBack} />
           </div>
           <Button
-            onClick={onResendOTP}
-            value={t.resendOTP()}
+            onClick={onResendOtp}
+            value={t.resendOtp()}
             variant={{ size: "xs", type: "tertiary" }}
           />
         </div>
@@ -42,5 +42,5 @@ export const EnterOTP = ({
 /*
 TODO
 - Loading
-- Shaking error on Wrong OTP
+- Shaking error on Wrong Otp
  */

@@ -1,19 +1,19 @@
-import { EnterOTP } from "@elements/compositions/sign-in/enter-otp";
+import { EnterOtp } from "@elements/compositions/sign-in/enter-otp";
 import React from "react";
 
 export default {
-  title: "Compositions/SignIn/EnterOTP",
-  component: EnterOTP,
+  title: "Compositions/SignIn/EnterOtp",
+  component: EnterOtp,
 };
 
 export const Example = () => {
   return (
-    <EnterOTP
-      t={{ title: () => "Enter OTP", resendOTP: () => "Resend OTP" }}
+    <EnterOtp
+      t={{ title: () => "Enter OTP", resendOtp: () => "Resend OTP" }}
       onClose={() => {}}
       onBack={() => {}}
-      onResendOTP={() => {}}
-      onOTPInputComplete={() => {}}
+      onResendOtp={() => {}}
+      onOtpInputComplete={() => {}}
       show={true}
     />
   );

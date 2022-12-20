@@ -9,10 +9,10 @@ export default {
 export const Example = () => {
   return (
     <SignIn
-      t={{ title: () => "Sign in", sendOTP: () => "Send OTP" }}
+      t={{ title: () => "Sign in", sendOtp: () => "Send OTP" }}
       onClose={() => {}}
-      onSendEmailOTP={alert}
-      onSendPhoneOTP={alert}
+      onSendEmailOtp={alert}
+      onSendPhoneOtp={alert}
       show={true}
     />
   );

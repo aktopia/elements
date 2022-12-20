@@ -42,7 +42,7 @@ function keydownHandler(
   }
 }
 
-export const OTPInput = ({ characters, num, onInputComplete }: any) => {
+export const OtpInput = ({ characters, num, onInputComplete }: any) => {
   const refs: React.MutableRefObject<HTMLInputElement>[] = [...Array(num)].map(
     (_) => useRef() as React.MutableRefObject<HTMLInputElement>
   );
