@@ -13,7 +13,7 @@ export const Example = () => {
       onClose={() => {}}
       onSendEmailOTP={alert}
       onSendPhoneOTP={alert}
-      isOpen={true}
+      show={true}
     />
   );
 };

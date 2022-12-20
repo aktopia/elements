@@ -14,7 +14,7 @@ export const Example = () => {
       onBack={() => {}}
       onResendOTP={() => {}}
       onOTPInputComplete={() => {}}
-      isOpen={true}
+      show={true}
     />
   );
 };
