@@ -71,10 +71,11 @@ type Variant = VariantProps<typeof containerVariant>;
 interface IAlert {
   messageText: string;
   variant: Variant;
+  show: boolean;
 }
 
-export function Alert({ messageText, variant: { type } }: IAlert) {
-  return (
+export function Alert({ messageText, show, variant: { type } }: IAlert) {
+  return show ? (
     <div className={containerVariant({ type })}>
       <div className="flex items-center">
         <div className="flex-shrink-0">
@@ -93,5 +94,5 @@ export function Alert({ messageText, variant: { type } }: IAlert) {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 }

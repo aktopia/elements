@@ -7,21 +7,27 @@ export default {
 };
 
 export const Success = {
-  render: () => <Alert messageText={"Success"} variant={{ type: "success" }} />,
+  render: () => (
+    <Alert show={true} messageText={"Success"} variant={{ type: "success" }} />
+  ),
 };
 
 export const Info = {
   render: () => (
-    <Alert messageText={"Information"} variant={{ type: "info" }} />
+    <Alert show={true} messageText={"Information"} variant={{ type: "info" }} />
   ),
 };
 
 export const Warning = {
-  render: () => <Alert messageText={"Warning"} variant={{ type: "warning" }} />,
+  render: () => (
+    <Alert show={true} messageText={"Warning"} variant={{ type: "warning" }} />
+  ),
 };
 
 export const Error = {
-  render: () => <Alert messageText={"Error"} variant={{ type: "error" }} />,
+  render: () => (
+    <Alert show={true} messageText={"Error"} variant={{ type: "error" }} />
+  ),
 };
 
 // https://github.com/storybookjs/storybook/issues/12153
