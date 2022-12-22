@@ -3,7 +3,7 @@ import { Modal } from "@elements/components/modal";
 
 export default {
   title: "Components/Modal",
-  component: Modal
+  component: Modal,
 };
 
 export const Examples = () => {

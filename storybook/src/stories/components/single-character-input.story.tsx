@@ -3,7 +3,7 @@ import { SingleCharacterInput } from "@elements/components/single-character-inpu
 
 export default {
   title: "Components/SingleCharacterInput",
-  component: SingleCharacterInput
+  component: SingleCharacterInput,
 };
 
 export const Examples = () => {

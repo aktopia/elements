@@ -1,5 +1,5 @@
-import React, { useEffect, useId, useRef } from "react";
-import { SingleCharacterInput } from "@elements/components/single-character-input";
+import React, { useEffect, useId, useRef } from 'react';
+import { SingleCharacterInput } from '@elements/components/single-character-input';
 
 function keydownHandler(
   e: KeyboardEvent,
@@ -7,8 +7,8 @@ function keydownHandler(
   refs: React.MutableRefObject<HTMLInputElement>[],
   onInputComplete: Function
 ) {
-  if (e.key === "Backspace") {
-    refs[index].current.value = "";
+  if (e.key === 'Backspace') {
+    refs[index].current.value = '';
     if (index !== 0) {
       refs[index - 1].current.focus();
       e.preventDefault();
@@ -16,7 +16,7 @@ function keydownHandler(
     return;
   }
 
-  if (index === refs.length - 1 && refs[index].current.value !== "") {
+  if (index === refs.length - 1 && refs[index].current.value !== '') {
     return;
   }
 
@@ -49,27 +49,26 @@ export const OtpInput = ({ characters, num, onInputComplete }: any) => {
 
   useEffect(() => {
     const eventHandlers = refs.map(
-      (_, index) => (e: KeyboardEvent) =>
-        keydownHandler(e, index, refs, onInputComplete)
+      (_, index) => (e: KeyboardEvent) => keydownHandler(e, index, refs, onInputComplete)
     );
 
     refs.forEach((ref, index) => {
       if (ref.current) {
-        ref.current.addEventListener("keydown", eventHandlers[index]);
+        ref.current.addEventListener('keydown', eventHandlers[index]);
       }
     });
 
     return () => {
       refs.forEach((ref, index) => {
         if (ref.current) {
-          ref.current.removeEventListener("keydown", eventHandlers[index]);
+          ref.current.removeEventListener('keydown', eventHandlers[index]);
         }
       });
     };
   }, [refs]);
 
   return (
-    <div className={"flex gap-4"}>
+    <div className={'flex gap-4'}>
       {refs.map((ref, index) => (
         <SingleCharacterInput
           id={useId()}

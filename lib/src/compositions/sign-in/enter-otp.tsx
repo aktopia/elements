@@ -1,7 +1,7 @@
-import { Modal } from "@elements/components/modal";
-import { Button } from "@elements/components/button";
-import React, { MouseEventHandler } from "react";
-import { BackIconButton, OtpInput } from "@elements/components";
+import { Modal } from '@elements/components/modal';
+import { Button } from '@elements/components/button';
+import React, { MouseEventHandler } from 'react';
+import { BackIconButton, OtpInput } from '@elements/components';
 
 interface IEnterOtp {
   onOtpInputComplete: (charArray: string[]) => void;
@@ -22,16 +22,16 @@ export const EnterOtp = ({
 }: IEnterOtp) => {
   return (
     <Modal title={t.title()} onClose={onClose} show={show}>
-      <div className={"flex flex-col gap-5"}>
+      <div className={'flex flex-col gap-5'}>
         <OtpInput num={6} onInputComplete={onOtpInputComplete} />
-        <div className={"grid grid-cols-3 items-center"}>
+        <div className={'grid grid-cols-3 items-center'}>
           <div>
-            <BackIconButton variant={{ size: "xs" }} onClick={onBack} />
+            <BackIconButton variant={{ size: 'xs' }} onClick={onBack} />
           </div>
           <Button
             onClick={onResendOtp}
             value={t.resendOtp()}
-            variant={{ size: "xs", type: "tertiary" }}
+            variant={{ size: 'xs', type: 'tertiary' }}
           />
         </div>
       </div>

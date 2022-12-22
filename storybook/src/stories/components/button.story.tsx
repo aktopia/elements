@@ -3,7 +3,7 @@ import { Button } from "@elements/components/button";
 
 export default {
   title: "Components/Button",
-  component: Button
+  component: Button,
 };
 
 export const Primary = {
@@ -16,7 +16,7 @@ export const Primary = {
         </div>
       </div>
     );
-  }
+  },
 };
 
 export const Tertiary = {
@@ -29,5 +29,5 @@ export const Tertiary = {
         </div>
       </div>
     );
-  }
+  },
 };
