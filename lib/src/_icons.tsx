@@ -43,6 +43,11 @@ export {
   XMarkIcon as XMarkMiniSolid,
 } from '@heroicons/react/20/solid';
 
+export {
+  XMarkIcon as XMarkSolid,
+  CheckCircleIcon as CheckCircleSolid,
+} from '@heroicons/react/24/solid';
+
 /*
 TODO Rename existing icons
 

@@ -6,10 +6,12 @@ export default {
   component: Alert,
 };
 
-export const Examples = () => {
-  return (
+export const Examples = {
+  render: () => (
     <div className="flex flex-col gap-10">
-      <Alert />
+      <Alert messageText={"Success"} variant={{ type: "success" }} />
     </div>
-  );
+  ),
 };
+
+// https://github.com/storybookjs/storybook/issues/12153

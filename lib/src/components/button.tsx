@@ -21,7 +21,7 @@ const variant = cva(
   }
 );
 
-export type Variant = VariantProps<typeof variant>;
+type Variant = VariantProps<typeof variant>;
 
 interface IButton extends React.ComponentPropsWithoutRef<'button'> {
   value: string;
