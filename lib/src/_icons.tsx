@@ -41,6 +41,9 @@ export const ChevronLeftMini = ({ className }: { className: string }) => {
 export {
   CheckCircleIcon as CheckCircleMiniSolid,
   XMarkIcon as XMarkMiniSolid,
+  XCircleIcon as XCircleMiniSolid,
+  ExclamationTriangleIcon as ExclamationTriangleMiniSolid,
+  InformationCircleIcon as InformationCircleMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {

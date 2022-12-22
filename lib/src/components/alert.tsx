@@ -1,4 +1,10 @@
-import { CheckCircleMiniSolid, XMarkMiniSolid } from '@elements/_icons';
+import {
+  CheckCircleMiniSolid,
+  ExclamationTriangleMiniSolid,
+  InformationCircleMiniSolid,
+  XCircleMiniSolid,
+  XMarkMiniSolid,
+} from '@elements/_icons';
 import { cva, VariantProps } from 'cva';
 
 const containerVariant = cva('rounded-lg p-4', {
@@ -46,11 +52,16 @@ const closeButtonVariant = cva('inline-flex rounded-full p-1', {
 });
 
 const icon = {
-  success: <XMarkMiniSolid className="h-5 w-5" aria-hidden="true" />,
-  info: <XMarkMiniSolid className="h-5 w-5" aria-hidden="true" />,
-  warning: <XMarkMiniSolid className="h-5 w-5" aria-hidden="true" />,
-  error: <XMarkMiniSolid className="h-5 w-5" aria-hidden="true" />,
+  success: CheckCircleMiniSolid,
+  info: InformationCircleMiniSolid,
+  warning: ExclamationTriangleMiniSolid,
+  error: XCircleMiniSolid,
 };
+
+function Icon({ type }: VariantProps<typeof iconVariant>) {
+  const Component = icon[type || 'info'];
+  return <Component className={iconVariant({ type })} aria-hidden="true" />;
+}
 
 type Variant = VariantProps<typeof containerVariant>;
 
@@ -64,7 +75,7 @@ export function Alert({ messageText, variant: { type } }: IAlert) {
     <div className={containerVariant({ type })}>
       <div className="flex items-center">
         <div className="flex-shrink-0">
-          <CheckCircleMiniSolid className={iconVariant({ type })} aria-hidden="true" />
+          <Icon type={type} aria-hidden="true" />
         </div>
         <div className="ml-3">
           <p className={messageVariant({ type })}>{messageText}</p>
@@ -73,7 +84,7 @@ export function Alert({ messageText, variant: { type } }: IAlert) {
           <div className="-mx-1.5 -my-1.5">
             <button type="button" className={closeButtonVariant({ type })}>
               <span className="sr-only">Dismiss</span>
-              {icon[type || 'info']}
+              <XMarkMiniSolid className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
         </div>
