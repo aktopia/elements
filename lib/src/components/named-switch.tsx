@@ -13,18 +13,21 @@ const containerVariant = cva(
   }
 );
 
-const switchVariant = cva('flex cursor-pointer items-center justify-center font-medium', {
-  variants: {
-    size: {
-      xs: 'px-2 py-1',
-      sm: 'px-3 py-1.5',
+const switchVariant = cva(
+  'flex cursor-pointer items-center justify-center font-medium ease-out transition-all',
+  {
+    variants: {
+      size: {
+        xs: 'px-2 py-1',
+        sm: 'px-3 py-1.5',
+      },
+      status: {
+        active: 'text-gray-600 shadow bg-white rounded-md',
+        inactive: 'text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-md',
+      },
     },
-    status: {
-      active: 'text-gray-600 shadow bg-white rounded-md',
-      inactive: 'text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-md',
-    },
-  },
-});
+  }
+);
 
 type ContainerVariant = VariantProps<typeof containerVariant>;
 

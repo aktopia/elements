@@ -11,7 +11,7 @@ export const Modal = ({ title, children, onClose, show }: any) => {
             <div
               onClick={onClose}
               className={
-                'cursor-pointer p-1 text-gray-500 hover:rounded hover:rounded-full hover:bg-gray-200 hover:text-gray-900'
+                'cursor-pointer p-1 text-gray-500 hover:rounded hover:rounded-full hover:bg-gray-100 hover:text-gray-700'
               }>
               <XMark className={'h-4 w-4'} />
             </div>

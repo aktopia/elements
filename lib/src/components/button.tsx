@@ -2,7 +2,7 @@ import React from 'react';
 import { cva, VariantProps } from 'cva';
 
 const variant = cva(
-  'flex font-medium justify-center w-max cursor-pointer items-center rounded-md',
+  'flex font-medium justify-center w-max cursor-pointer items-center rounded-md ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
   {
     variants: {
       type: {
