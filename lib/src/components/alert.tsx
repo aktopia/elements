@@ -9,14 +9,14 @@ import { cva, VariantProps } from 'cva';
 import { MouseEventHandler } from 'react';
 
 const containerVariant = cva(
-  'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform transition-all ease-out',
+  'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform transition-all ease-out z-40 shadow border',
   {
     variants: {
       type: {
-        success: 'bg-green-50',
-        info: 'bg-blue-50',
-        warning: 'bg-yellow-50',
-        error: 'bg-red-50',
+        success: 'bg-green-50 border-green-300',
+        info: 'bg-blue-50 border-blue-300',
+        warning: 'bg-yellow-50 border-yellow-300',
+        error: 'bg-red-50 border-red-300',
       },
     },
   }
@@ -98,3 +98,8 @@ export function Alert({ messageText, show, variant: { type }, onDismiss }: IAler
     </div>
   ) : null;
 }
+
+/*
+Proper width
+Animation on hide and show
+ */
