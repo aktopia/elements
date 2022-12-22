@@ -37,3 +37,13 @@ export const ChevronLeftMini = ({ className }: { className: string }) => {
     </svg>
   );
 };
+
+export {
+  CheckCircleIcon as CheckCircleMiniSolid,
+  XMarkIcon as XMarkMiniSolid,
+} from '@heroicons/react/20/solid';
+
+/*
+TODO Rename existing icons
+
+ */

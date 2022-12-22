@@ -13,7 +13,8 @@
     "./compositions": "./dist/compositions.js"
   },
   "dependencies": {
-    "cva": "npm:class-variance-authority@^0.4.0"
+    "cva": "npm:class-variance-authority@^0.4.0",
+    "@heroicons/react": "2.0.13"
   },
   "peerDependencies": {
     "react": "^18.2.0",
