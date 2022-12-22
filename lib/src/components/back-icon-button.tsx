@@ -3,7 +3,7 @@ import { cva, VariantProps } from 'cva';
 import { ChevronLeftMini } from '@elements/_icons';
 
 const container = cva(
-  'flex justify-center w-max cursor-pointer items-center rounded-full bg-white border border-gray-300 ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
+  'flex justify-center w-max cursor-pointer items-center rounded-full bg-white border border-gray-300 hover:translate-y-[0.5px] hover:shadow-none transition-all ease-out',
   {
     variants: {
       size: {

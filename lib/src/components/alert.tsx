@@ -6,9 +6,10 @@ import {
   XMarkMiniSolid,
 } from '@elements/_icons';
 import { cva, VariantProps } from 'cva';
+import { MouseEventHandler } from 'react';
 
 const containerVariant = cva(
-  'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform',
+  'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform transition-all ease-out',
   {
     variants: {
       type: {
@@ -43,7 +44,7 @@ const messageVariant = cva('text-sm font-medium', {
   },
 });
 
-const closeButtonVariant = cva('inline-flex rounded-full p-1', {
+const closeButtonVariant = cva('inline-flex rounded-full p-1 transition-all ease-out', {
   variants: {
     type: {
       success: 'bg-green-50 text-green-500 hover:bg-green-100',
@@ -72,9 +73,10 @@ interface IAlert {
   messageText: string;
   variant: Variant;
   show: boolean;
+  onDismiss: MouseEventHandler<HTMLButtonElement>;
 }
 
-export function Alert({ messageText, show, variant: { type } }: IAlert) {
+export function Alert({ messageText, show, variant: { type }, onDismiss }: IAlert) {
   return show ? (
     <div className={containerVariant({ type })}>
       <div className="flex items-center">
@@ -86,7 +88,7 @@ export function Alert({ messageText, show, variant: { type } }: IAlert) {
         </div>
         <div className="ml-auto pl-3">
           <div className="-mx-1.5 -my-1.5">
-            <button type="button" className={closeButtonVariant({ type })}>
+            <button type="button" className={closeButtonVariant({ type })} onClick={onDismiss}>
               <span className="sr-only">Dismiss</span>
               <XMarkMiniSolid className="h-5 w-5" aria-hidden="true" />
             </button>
