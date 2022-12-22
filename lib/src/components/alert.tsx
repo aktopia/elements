@@ -7,16 +7,19 @@ import {
 } from '@elements/_icons';
 import { cva, VariantProps } from 'cva';
 
-const containerVariant = cva('rounded-lg p-4', {
-  variants: {
-    type: {
-      success: 'bg-green-50',
-      info: 'bg-blue-50',
-      warning: 'bg-yellow-50',
-      error: 'bg-red-50',
+const containerVariant = cva(
+  'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform',
+  {
+    variants: {
+      type: {
+        success: 'bg-green-50',
+        info: 'bg-blue-50',
+        warning: 'bg-yellow-50',
+        error: 'bg-red-50',
+      },
     },
-  },
-});
+  }
+);
 
 const iconVariant = cva('h-5 w-5', {
   variants: {

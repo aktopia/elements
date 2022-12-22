@@ -6,15 +6,22 @@ export default {
   component: Alert,
 };
 
-export const Examples = {
+export const Success = {
+  render: () => <Alert messageText={"Success"} variant={{ type: "success" }} />,
+};
+
+export const Info = {
   render: () => (
-    <div className="flex flex-col gap-10">
-      <Alert messageText={"Success"} variant={{ type: "success" }} />
-      <Alert messageText={"Information"} variant={{ type: "info" }} />
-      <Alert messageText={"Warning"} variant={{ type: "warning" }} />
-      <Alert messageText={"Error"} variant={{ type: "error" }} />
-    </div>
+    <Alert messageText={"Information"} variant={{ type: "info" }} />
   ),
+};
+
+export const Warning = {
+  render: () => <Alert messageText={"Warning"} variant={{ type: "warning" }} />,
+};
+
+export const Error = {
+  render: () => <Alert messageText={"Error"} variant={{ type: "error" }} />,
 };
 
 // https://github.com/storybookjs/storybook/issues/12153
