@@ -40,10 +40,16 @@ export const SignIn = ({
     [activeSwitch]
   );
 
+  const onModalClose = useCallback(() => {
+    setPhone('');
+    setEmail('');
+    onClose();
+  }, []);
+
   const inputValue = activeSwitch == 'phone' ? phone : email;
 
   return (
-    <Modal title={titleText} onClose={onClose} show={show}>
+    <Modal title={titleText} onClose={onModalClose} show={show}>
       <div className={'flex flex-col gap-5'}>
         <NamedSwitch
           options={loginOpts}
@@ -73,9 +79,13 @@ export const SignIn = ({
 
 /*
 Mobile responsive
-Send Otp disabled
 Phone validations
 Email validation
+Send Otp disabled until valid phone or email
 Error messages
-Input component
- */
+Phone Input component
+Email Input component
+Translations
+Pass option labels and props
+OutsideClick close
+*/
