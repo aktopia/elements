@@ -9,7 +9,8 @@ export default {
 export const Example = () => {
   return (
     <EnterOtp
-      t={{ title: () => "Enter OTP", resendOtp: () => "Resend OTP" }}
+      titleText="Enter OTP"
+      resendOtpText={"Resend OTP"}
       onClose={() => {}}
       onBack={() => {}}
       onResendOtp={() => {}}

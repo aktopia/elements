@@ -9,7 +9,8 @@ export default {
 export const Example = () => {
   return (
     <SignIn
-      t={{ title: () => "Sign in", sendOtp: () => "Send OTP" }}
+      titleText={"Sign in"}
+      sendOtpText={"Send OTP"}
       onClose={() => {}}
       onSendEmailOtp={alert}
       onSendPhoneOtp={alert}

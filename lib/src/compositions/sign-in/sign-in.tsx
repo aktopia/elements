@@ -13,10 +13,18 @@ interface ISignIn {
   onSendEmailOtp: Function;
   onClose: Function;
   show: boolean;
-  t: { title: Function; sendOtp: Function };
+  titleText: string;
+  sendOtpText: string;
 }
 
-export const SignIn = ({ onSendPhoneOtp, onSendEmailOtp, onClose, show, t }: ISignIn) => {
+export const SignIn = ({
+  onSendPhoneOtp,
+  onSendEmailOtp,
+  onClose,
+  show,
+  titleText,
+  sendOtpText,
+}: ISignIn) => {
   const [activeSwitch, setActiveSwitch] = useState('phone');
   const [phone, setPhone] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -35,7 +43,7 @@ export const SignIn = ({ onSendPhoneOtp, onSendEmailOtp, onClose, show, t }: ISi
   const inputValue = activeSwitch == 'phone' ? phone : email;
 
   return (
-    <Modal title={t.title()} onClose={onClose} show={show}>
+    <Modal title={titleText} onClose={onClose} show={show}>
       <div className={'flex flex-col gap-5'}>
         <NamedSwitch
           options={loginOpts}
@@ -54,7 +62,7 @@ export const SignIn = ({ onSendPhoneOtp, onSendEmailOtp, onClose, show, t }: ISi
         <div className={'flex w-full justify-center'}>
           <Button
             onClick={onSendOtp}
-            value={t.sendOtp()}
+            value={sendOtpText}
             variant={{ size: 'sm', type: 'primary' }}
           />
         </div>

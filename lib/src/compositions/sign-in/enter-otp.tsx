@@ -9,7 +9,8 @@ interface IEnterOtp {
   onClose: MouseEventHandler<HTMLButtonElement>;
   onResendOtp: MouseEventHandler<HTMLButtonElement>;
   show: boolean;
-  t: { title: Function; resendOtp: Function };
+  titleText: string;
+  resendOtpText: string;
 }
 
 export const EnterOtp = ({
@@ -18,10 +19,11 @@ export const EnterOtp = ({
   onBack,
   onResendOtp,
   show,
-  t,
+  titleText,
+  resendOtpText,
 }: IEnterOtp) => {
   return (
-    <Modal title={t.title()} onClose={onClose} show={show}>
+    <Modal title={titleText} onClose={onClose} show={show}>
       <div className={'flex flex-col gap-5'}>
         <OtpInput num={6} onInputComplete={onOtpInputComplete} />
         <div className={'grid grid-cols-3 items-center'}>
@@ -30,7 +32,7 @@ export const EnterOtp = ({
           </div>
           <Button
             onClick={onResendOtp}
-            value={t.resendOtp()}
+            value={resendOtpText}
             variant={{ size: 'xs', type: 'tertiary' }}
           />
         </div>

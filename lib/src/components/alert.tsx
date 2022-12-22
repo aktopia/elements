@@ -1,6 +1,6 @@
 import { CheckCircleMiniSolid, XMarkMiniSolid } from '@elements/_icons';
 
-export function Alert() {
+export function Alert({ messageText, variant: { type } }: any) {
   return (
     <div className="rounded-md bg-green-50 p-4">
       <div className="flex">
@@ -8,7 +8,7 @@ export function Alert() {
           <CheckCircleMiniSolid className="h-5 w-5 text-green-400" aria-hidden="true" />
         </div>
         <div className="ml-3">
-          <p className="text-sm font-medium text-green-800">Successfully uploaded</p>
+          <p className="text-sm font-medium text-green-800">{messageText}</p>
         </div>
         <div className="ml-auto pl-3">
           <div className="-mx-1.5 -my-1.5">
