@@ -11,7 +11,7 @@ const variant = cva(
       },
       size: {
         xs: 'text-xs gap-2 px-3 py-2 shadow-sm',
-        sm: 'text-sm gap-3 px-4 py-2.5 shadow',
+        sm: 'text-sm gap-3 px-4 py-2.5 shadow-md',
       },
     },
     defaultVariants: {

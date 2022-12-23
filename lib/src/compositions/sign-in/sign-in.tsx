@@ -2,6 +2,7 @@ import { Modal } from '@elements/components/modal';
 import { NamedSwitch } from '@elements/components/named-switch';
 import { Button } from '@elements/components/button';
 import React, { ChangeEventHandler, MouseEventHandler } from 'react';
+import { Spinner } from '@elements/components/spinner';
 
 interface ISignIn {
   onSendOtp: MouseEventHandler<HTMLButtonElement>;
@@ -17,6 +18,7 @@ interface ISignIn {
   onPhoneChange: ChangeEventHandler<HTMLInputElement>;
   onEmailChange: ChangeEventHandler<HTMLInputElement>;
   onSwitchClick: Function;
+  sendingOtp: boolean;
 }
 
 export const SignIn = ({
@@ -33,6 +35,7 @@ export const SignIn = ({
   emailSwitchText,
   onPhoneChange,
   onEmailChange,
+  sendingOtp,
 }: ISignIn) => {
   const opts = [
     { id: 'phone', label: phoneSwitchText },
@@ -51,6 +54,7 @@ export const SignIn = ({
         {activeSwitch == 'phone' ? (
           <input
             value={phone}
+            disabled={sendingOtp}
             type={'text'}
             onChange={onPhoneChange}
             className={
@@ -60,6 +64,7 @@ export const SignIn = ({
         ) : (
           <input
             value={email}
+            disabled={sendingOtp}
             type={'text'}
             onChange={onEmailChange}
             className={
@@ -68,11 +73,15 @@ export const SignIn = ({
           />
         )}
         <div className={'flex w-full justify-center'}>
-          <Button
-            onClick={onSendOtp}
-            value={sendOtpText}
-            variant={{ size: 'sm', type: 'primary' }}
-          />
+          {sendingOtp ? (
+            <Spinner variant={{ size: 'sm', type: 'primary' }} />
+          ) : (
+            <Button
+              onClick={onSendOtp}
+              value={sendOtpText}
+              variant={{ size: 'sm', type: 'primary' }}
+            />
+          )}
         </div>
       </div>
     </Modal>
