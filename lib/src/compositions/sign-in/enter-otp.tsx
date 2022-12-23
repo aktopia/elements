@@ -42,10 +42,9 @@ export const EnterOtp = ({
             value={otp}
             disabled={resendingOtp}
             type="text"
-            pattern="\d*"
             onChange={onOtpChange}
             className={
-              'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner'
+              'h-max w-[280px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-center text-2xl font-medium tracking-[1rem] text-gray-600 shadow-inner'
             }
           />
         )}
@@ -75,7 +74,6 @@ export const EnterOtp = ({
 
 /*
 TODO
-- Search or Build own OTP Input
 - Controlled component
 - Fixed width on input when loading and input
 - Timeout and Timeout until Resend OTP is enabled again
