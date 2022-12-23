@@ -1,70 +1,72 @@
 import { Modal } from '@elements/components/modal';
 import { NamedSwitch } from '@elements/components/named-switch';
 import { Button } from '@elements/components/button';
-import React, { useCallback, useState } from 'react';
-
-const loginOpts = [
-  { id: 'phone', label: 'Phone' },
-  { id: 'email', label: 'Email' },
-];
+import React, { ChangeEventHandler, MouseEventHandler } from 'react';
 
 interface ISignIn {
-  onSendPhoneOtp: Function;
-  onSendEmailOtp: Function;
+  onSendOtp: MouseEventHandler<HTMLButtonElement>;
   onClose: Function;
   show: boolean;
   titleText: string;
   sendOtpText: string;
+  phone: string;
+  email: string;
+  activeSwitch: string;
+  phoneSwitchText: string;
+  emailSwitchText: string;
+  onPhoneChange: ChangeEventHandler<HTMLInputElement>;
+  onEmailChange: ChangeEventHandler<HTMLInputElement>;
+  onSwitchClick: Function;
 }
 
 export const SignIn = ({
-  onSendPhoneOtp,
-  onSendEmailOtp,
+  onSendOtp,
   onClose,
   show,
   titleText,
   sendOtpText,
+  phone,
+  email,
+  activeSwitch,
+  onSwitchClick,
+  phoneSwitchText,
+  emailSwitchText,
+  onPhoneChange,
+  onEmailChange,
 }: ISignIn) => {
-  const [activeSwitch, setActiveSwitch] = useState('phone');
-  const [phone, setPhone] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-
-  const onSendOtp = useCallback(() => {
-    activeSwitch == 'phone' ? onSendPhoneOtp(phone) : onSendEmailOtp(email);
-  }, [activeSwitch, phone, email]);
-
-  const onInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      activeSwitch == 'phone' ? setPhone(e.target.value) : setEmail(e.target.value);
-    },
-    [activeSwitch]
-  );
-
-  const onModalClose = useCallback(() => {
-    setPhone('');
-    setEmail('');
-    onClose();
-  }, []);
-
-  const inputValue = activeSwitch == 'phone' ? phone : email;
+  const opts = [
+    { id: 'phone', label: phoneSwitchText },
+    { id: 'email', label: emailSwitchText },
+  ];
 
   return (
-    <Modal title={titleText} onClose={onModalClose} show={show}>
+    <Modal title={titleText} onClose={onClose} show={show}>
       <div className={'flex flex-col gap-5'}>
         <NamedSwitch
-          options={loginOpts}
+          options={opts}
           variant={{ size: 'sm' }}
           activeSwitch={activeSwitch}
-          onSwitchClick={setActiveSwitch}
+          onSwitchClick={onSwitchClick}
         />
-        <input
-          value={inputValue}
-          type={'text'}
-          onChange={onInputChange}
-          className={
-            'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner'
-          }
-        />
+        {activeSwitch == 'phone' ? (
+          <input
+            value={phone}
+            type={'text'}
+            onChange={onPhoneChange}
+            className={
+              'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner'
+            }
+          />
+        ) : (
+          <input
+            value={email}
+            type={'text'}
+            onChange={onEmailChange}
+            className={
+              'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner'
+            }
+          />
+        )}
         <div className={'flex w-full justify-center'}>
           <Button
             onClick={onSendOtp}
@@ -78,14 +80,12 @@ export const SignIn = ({
 };
 
 /*
+Loading for get otp
 Mobile responsive
-Phone validations
-Email validation
-Send Otp disabled until valid phone or email
-Error messages
 Phone Input component
 Email Input component
-Translations
-Pass option labels and props
-OutsideClick close
+Email validations
+Phone validations
+Send Otp disabled until valid phone or email
+Error messages
 */

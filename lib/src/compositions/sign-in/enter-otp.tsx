@@ -43,6 +43,9 @@ export const EnterOtp = ({
 
 /*
 TODO
-- Loading
+- Check if a lib exists for OTP input - github otp input
+- Loading when verifying otp
+- loading when resending otp
 - Shaking error on Wrong Otp
+- Successfully logged in state
  */
