@@ -14,7 +14,9 @@ export const Main = () => {
       onClose={() => {}}
       onBack={() => {}}
       onResendOtp={() => {}}
-      onOtpInputComplete={() => {}}
+      onOtpChange={() => {}}
+      num={6}
+      otp={''}
       show={true}
       resendingOtp={false}
       verifyingOtp={false}
@@ -30,7 +32,9 @@ export const ResendingOTP = () => {
       onClose={() => {}}
       onBack={() => {}}
       onResendOtp={() => {}}
-      onOtpInputComplete={() => {}}
+      onOtpChange={() => {}}
+      num={6}
+      otp={''}
       show={true}
       resendingOtp={true}
       verifyingOtp={false}
@@ -46,7 +50,9 @@ export const VerifyingOTP = () => {
       onClose={() => {}}
       onBack={() => {}}
       onResendOtp={() => {}}
-      onOtpInputComplete={() => {}}
+      onOtpChange={() => {}}
+      num={6}
+      otp={''}
       show={true}
       resendingOtp={false}
       verifyingOtp={true}
