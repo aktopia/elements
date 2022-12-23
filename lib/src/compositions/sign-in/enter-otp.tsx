@@ -2,6 +2,7 @@ import { Modal } from '@elements/components/modal';
 import { Button } from '@elements/components/button';
 import React, { MouseEventHandler } from 'react';
 import { BackIconButton, OtpInput } from '@elements/components';
+import { Spinner } from '@elements/components/spinner';
 
 interface IEnterOtp {
   onOtpInputComplete: (charArray: string[]) => void;
@@ -11,6 +12,8 @@ interface IEnterOtp {
   show: boolean;
   titleText: string;
   resendOtpText: string;
+  resendingOtp: boolean;
+  verifyingOtp: boolean;
 }
 
 export const EnterOtp = ({
@@ -21,20 +24,35 @@ export const EnterOtp = ({
   show,
   titleText,
   resendOtpText,
+  verifyingOtp,
+  resendingOtp,
 }: IEnterOtp) => {
   return (
     <Modal title={titleText} onClose={onClose} show={show}>
-      <div className={'flex flex-col gap-5'}>
-        <OtpInput num={6} onInputComplete={onOtpInputComplete} />
-        <div className={'grid grid-cols-3 items-center'}>
+      <div className={'flex flex-col items-center justify-center gap-5'}>
+        {verifyingOtp ? (
+          <Spinner variant={{ type: 'primary', size: 'sm' }} />
+        ) : (
+          <OtpInput num={6} onInputComplete={onOtpInputComplete} />
+        )}
+        <div className={'grid w-full grid-cols-3 items-center'}>
           <div>
             <BackIconButton variant={{ size: 'xs' }} onClick={onBack} />
           </div>
-          <Button
-            onClick={onResendOtp}
-            value={resendOtpText}
-            variant={{ size: 'xs', type: 'tertiary' }}
-          />
+          <div className={'flex items-center justify-center'}>
+            {resendingOtp ? (
+              <div className={'flex items-center justify-center'}>
+                <Spinner variant={{ type: 'secondary', size: 'xs' }} />
+              </div>
+            ) : (
+              <Button
+                onClick={onResendOtp}
+                value={resendOtpText}
+                variant={{ size: 'xs', type: 'tertiary' }}
+                disabled={verifyingOtp}
+              />
+            )}
+          </div>
         </div>
       </div>
     </Modal>
@@ -44,8 +62,9 @@ export const EnterOtp = ({
 /*
 TODO
 - Check if a lib exists for OTP input - github otp input
-- Loading when verifying otp
-- loading when resending otp
+- Controlled component
+- Fixed width on input when loading and input
+- Timeout and Timeout until Resend OTP is enabled again
 - Shaking error on Wrong Otp
 - Successfully logged in state
  */

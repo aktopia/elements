@@ -89,7 +89,6 @@ export const SignIn = ({
 };
 
 /*
-Loading for get otp
 Mobile responsive
 Phone Input component
 Email Input component

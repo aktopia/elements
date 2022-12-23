@@ -21,7 +21,7 @@ const icon = cva('text-gray-700', {
   },
 });
 
-export type Variant = VariantProps<typeof container>;
+type Variant = VariantProps<typeof container>;
 
 interface IBackButton extends React.ComponentPropsWithoutRef<'button'> {
   variant: Variant;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { cva } from 'cva';
+import { cva, VariantProps } from 'cva';
 
 const variant = cva('animate-spin', {
   variants: {
@@ -9,12 +9,18 @@ const variant = cva('animate-spin', {
     },
     type: {
       primary: 'text-blue-500',
-      secondary: 'text-gray-500',
+      secondary: 'text-gray-400',
     },
   },
 });
 
-export function Spinner({ variant: { size, type } }: any) {
+type Variant = VariantProps<typeof variant>;
+
+interface ISpinner {
+  variant: Variant;
+}
+
+export function Spinner({ variant: { size, type } }: ISpinner) {
   return (
     <svg fill="none" className={variant({ size, type })} viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-20" />
