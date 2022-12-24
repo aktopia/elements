@@ -90,6 +90,7 @@ export const SignIn = ({
 
 /*
 Mobile responsive
+Agree to terms and conditions
 Phone Input component
 Email Input component
 Email validations
