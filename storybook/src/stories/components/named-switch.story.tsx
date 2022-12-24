@@ -1,8 +1,7 @@
-import React from "react";
-import { NamedSwitch } from "@elements/components/named-switch";
+import { NamedSwitch } from '@elements/components/named-switch';
 
 export default {
-  title: "Components/NamedSwitch",
+  title: 'Components/NamedSwitch',
   component: NamedSwitch,
 };
 
@@ -12,36 +11,36 @@ export const Examples = () => {
       <div className="flex gap-10">
         <NamedSwitch
           onSwitchClick={() => {}}
-          variant={{ size: "xs" }}
-          activeSwitch={"phone"}
+          variant={{ size: 'xs' }}
+          activeSwitch={'phone'}
           options={[
-            { id: "phone", label: "Phone" },
-            { id: "email", label: "Email" },
-            { id: "social", label: "Social" },
+            { id: 'phone', label: 'Phone' },
+            { id: 'email', label: 'Email' },
+            { id: 'social', label: 'Social' },
           ]}
         />
       </div>
       <div className="flex gap-10">
         <NamedSwitch
           onSwitchClick={() => {}}
-          variant={{ size: "xs" }}
-          activeSwitch={"email"}
+          variant={{ size: 'xs' }}
+          activeSwitch={'email'}
           options={[
-            { id: "phone", label: "Phone" },
-            { id: "email", label: "Email" },
-            { id: "social", label: "Social" },
+            { id: 'phone', label: 'Phone' },
+            { id: 'email', label: 'Email' },
+            { id: 'social', label: 'Social' },
           ]}
         />
       </div>
       <div className="flex gap-10">
         <NamedSwitch
           onSwitchClick={() => {}}
-          variant={{ size: "xs" }}
-          activeSwitch={"social"}
+          variant={{ size: 'xs' }}
+          activeSwitch={'social'}
           options={[
-            { id: "phone", label: "Phone" },
-            { id: "email", label: "Email" },
-            { id: "social", label: "Social" },
+            { id: 'phone', label: 'Phone' },
+            { id: 'email', label: 'Email' },
+            { id: 'social', label: 'Social' },
           ]}
         />
       </div>

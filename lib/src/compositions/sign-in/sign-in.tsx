@@ -1,7 +1,7 @@
 import { Modal } from '@elements/components/modal';
 import { NamedSwitch } from '@elements/components/named-switch';
 import { Button } from '@elements/components/button';
-import React, { ChangeEventHandler, MouseEventHandler } from 'react';
+import { ChangeEventHandler, MouseEventHandler } from 'react';
 import { Spinner } from '@elements/components/spinner';
 
 interface ISignIn {

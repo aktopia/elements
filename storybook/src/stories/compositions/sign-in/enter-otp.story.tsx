@@ -1,5 +1,4 @@
 import { EnterOtp } from '@elements/compositions/sign-in/enter-otp';
-import React from 'react';
 
 export default {
   title: 'Compositions/SignIn/EnterOtp',

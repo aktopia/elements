@@ -1,8 +1,7 @@
-import React from "react";
-import { OtpInput } from "@elements/components/otp-input";
+import { OtpInput } from '@elements/components/otp-input';
 
 export default {
-  title: "Components/OtpInput",
+  title: 'Components/OtpInput',
   component: OtpInput,
 };
 

@@ -1,6 +1,6 @@
 import { Modal } from '@elements/components/modal';
 import { Button } from '@elements/components/button';
-import React, { ChangeEventHandler, MouseEventHandler } from 'react';
+import { ChangeEventHandler, MouseEventHandler } from 'react';
 import { BackIconButton } from '@elements/components';
 import { Spinner } from '@elements/components/spinner';
 

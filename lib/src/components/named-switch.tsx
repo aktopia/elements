@@ -1,4 +1,3 @@
-import React from 'react';
 import { cva, VariantProps } from 'cva';
 
 const containerVariant = cva(

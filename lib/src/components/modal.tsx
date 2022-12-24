@@ -1,4 +1,3 @@
-import React from 'react';
 import { XMark } from '@elements/_icons';
 
 export function Modal({ title, children, onClose, show }: any) {
