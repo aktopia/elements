@@ -1,43 +1,45 @@
-const path = require("path");
-const { mergeConfig } = require("vite");
+const path = require('path');
+const { mergeConfig } = require('vite');
 
 module.exports = {
-  stories: ["../src/**/*.story.@(js|jsx|ts|tsx|mdx)"],
+  stories: ['../src/**/*.story.@(js|jsx|ts|tsx|mdx)'],
   addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
     {
-      name: "@storybook/addon-postcss",
+      name: '@storybook/addon-postcss',
       options: {
         cssLoaderOptions: {
           importLoaders: 1,
         },
         postcssLoaderOptions: {
-          implementation: require("postcss"),
+          implementation: require('postcss'),
         },
       },
     },
   ],
   framework: {
-    name: "@storybook/react-vite",
+    name: '@storybook/react-vite',
     options: {},
   },
   docs: {
     docsPage: true,
+  },
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
   },
   async viteFinal(config) {
     // Merge custom configuration into the default config
     return mergeConfig(config, {
       resolve: {
         alias: {
-          //FIXME: this is probably a bad idea, but I wasn't able to get npm workspaces to work with aliases
-          "@elements": path.resolve(__dirname, "../../lib/src"),
+          '@elements': path.resolve(__dirname, '../../lib/src'),
         },
       },
       // Add dependencies to pre-optimization
       optimizeDeps: {
-        include: ["storybook-dark-mode"],
+        include: ['storybook-dark-mode'],
       },
     });
   },
