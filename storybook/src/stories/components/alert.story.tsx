@@ -1,37 +1,45 @@
 import { Alert } from '@elements/components/alert';
+import React from 'react';
+import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Alert',
   component: Alert,
 };
 
-export const Success = {
-  render: () => (
-    <Alert show={true} messageText={'Success'} variant={{ type: 'success' }} onDismiss={() => {}} />
-  ),
+type Story = StoryObj<typeof Alert>;
+
+export const Success: Story = {
+  args: {
+    variant: { type: 'success' },
+    show: true,
+    messageText: 'Successfully sent OTP to random@email.com.',
+    onDismiss: (e: React.MouseEvent) => {
+      console.log(e);
+    },
+  },
 };
 
-export const Info = {
-  render: () => (
-    <Alert
-      show={true}
-      messageText={'Information'}
-      variant={{ type: 'info' }}
-      onDismiss={() => {}}
-    />
-  ),
+export const Info: Story = {
+  args: {
+    ...Success.args,
+    variant: { type: 'info' },
+    messageText: 'Some information',
+  },
 };
 
-export const Warning = {
-  render: () => (
-    <Alert show={true} messageText={'Warning'} variant={{ type: 'warning' }} onDismiss={() => {}} />
-  ),
+export const Warning: Story = {
+  args: {
+    ...Success.args,
+    variant: { type: 'warning' },
+    messageText: 'Some information',
+  },
 };
 
-export const Error = {
-  render: () => (
-    <Alert show={true} messageText={'Error'} variant={{ type: 'error' }} onDismiss={() => {}} />
-  ),
+export const Error: Story = {
+  args: {
+    ...Success.args,
+    variant: { type: 'error' },
+    messageText: 'Some information',
+  },
 };
-
-// https://github.com/storybookjs/storybook/issues/12153

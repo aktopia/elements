@@ -6,7 +6,7 @@ import {
   XMarkMiniSolid,
 } from '@elements/_icons';
 import { cva, VariantProps } from 'cva';
-import { MouseEventHandler } from 'react';
+import React from 'react';
 
 const containerVariant = cva(
   'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform transition-all ease-out z-40 shadow border',
@@ -69,14 +69,19 @@ function Icon({ type }: VariantProps<typeof iconVariant>) {
 
 type Variant = VariantProps<typeof containerVariant>;
 
-interface IAlert {
+export interface IAlert {
   messageText: string;
   variant: Variant;
   show: boolean;
-  onDismiss: MouseEventHandler<HTMLButtonElement>;
+  onDismiss: (event: React.MouseEvent) => void;
 }
 
-export function Alert({ messageText, show, variant: { type }, onDismiss }: IAlert) {
+export function Alert({
+  messageText,
+  show,
+  variant: { type } = { type: 'info' },
+  onDismiss,
+}: IAlert) {
   return show ? (
     <div className={containerVariant({ type })}>
       <div className="flex items-center">
