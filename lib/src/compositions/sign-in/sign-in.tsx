@@ -13,12 +13,11 @@ interface ISignIn {
   phone: string;
   email: string;
   activeSwitch: string;
-  phoneSwitchText: string;
-  emailSwitchText: string;
   onPhoneChange: ChangeEventHandler<HTMLInputElement>;
   onEmailChange: ChangeEventHandler<HTMLInputElement>;
   onSwitchClick: Function;
   sendingOtp: boolean;
+  switches: any;
 }
 
 export const SignIn = ({
@@ -31,22 +30,16 @@ export const SignIn = ({
   email,
   activeSwitch,
   onSwitchClick,
-  phoneSwitchText,
-  emailSwitchText,
   onPhoneChange,
   onEmailChange,
   sendingOtp,
+  switches,
 }: ISignIn) => {
-  const opts = [
-    { id: 'phone', label: phoneSwitchText },
-    { id: 'email', label: emailSwitchText },
-  ];
-
   return (
     <Modal title={titleText} onClose={onClose} show={show}>
       <div className={'flex flex-col gap-5'}>
         <NamedSwitch
-          options={opts}
+          switches={switches}
           variant={{ size: 'sm' }}
           activeSwitch={activeSwitch}
           onSwitchClick={onSwitchClick}

@@ -13,7 +13,7 @@ export const Examples = () => {
           onSwitchClick={() => {}}
           variant={{ size: 'xs' }}
           activeSwitch={'phone'}
-          options={[
+          switches={[
             { id: 'phone', label: 'Phone' },
             { id: 'email', label: 'Email' },
             { id: 'social', label: 'Social' },
@@ -25,7 +25,7 @@ export const Examples = () => {
           onSwitchClick={() => {}}
           variant={{ size: 'xs' }}
           activeSwitch={'email'}
-          options={[
+          switches={[
             { id: 'phone', label: 'Phone' },
             { id: 'email', label: 'Email' },
             { id: 'social', label: 'Social' },
@@ -37,7 +37,7 @@ export const Examples = () => {
           onSwitchClick={() => {}}
           variant={{ size: 'xs' }}
           activeSwitch={'social'}
-          options={[
+          switches={[
             { id: 'phone', label: 'Phone' },
             { id: 'email', label: 'Email' },
             { id: 'social', label: 'Social' },

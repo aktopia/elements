@@ -37,15 +37,20 @@ interface Option {
 
 interface Props {
   activeSwitch: string;
-  options: Option[];
+  switches: Option[];
   onSwitchClick: Function;
   variant: ContainerVariant;
 }
 
-export const NamedSwitch = ({ activeSwitch, options, onSwitchClick, variant: { size } }: Props) => {
+export const NamedSwitch = ({
+  activeSwitch,
+  switches,
+  onSwitchClick,
+  variant: { size },
+}: Props) => {
   return (
     <div className={containerVariant({ size })}>
-      {options.map(({ id, label }: any) => {
+      {switches.map(({ id, label }: any) => {
         const status = id == activeSwitch ? 'active' : 'inactive';
 
         return (

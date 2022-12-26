@@ -17,10 +17,12 @@ export const Main = () => {
       show={true}
       activeSwitch={'phone'}
       email={''}
-      emailSwitchText={'Email'}
+      switches={[
+        { id: 'phone', label: 'Phone' },
+        { id: 'email', label: 'Email' },
+      ]}
       onSendOtp={() => {}}
       phone={''}
-      phoneSwitchText={'Phone'}
       sendingOtp={false}
     />
   );
@@ -38,10 +40,12 @@ export const SendingOTP = () => {
       show={true}
       activeSwitch={'phone'}
       email={''}
-      emailSwitchText={'Email'}
+      switches={[
+        { id: 'phone', label: 'Phone' },
+        { id: 'email', label: 'Email' },
+      ]}
       onSendOtp={() => {}}
       phone={''}
-      phoneSwitchText={'Phone'}
       sendingOtp={true}
     />
   );
