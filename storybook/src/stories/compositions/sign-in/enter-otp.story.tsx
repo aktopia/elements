@@ -17,7 +17,7 @@ export const Main = () => {
       num={6}
       otp={''}
       show={true}
-      resendingOtp={false}
+      resendOtpState={'can-resend'}
       verifyingOtp={false}
     />
   );
@@ -35,7 +35,7 @@ export const ResendingOTP = () => {
       num={6}
       otp={''}
       show={true}
-      resendingOtp={true}
+      resendOtpState={'resending'}
       verifyingOtp={false}
     />
   );
@@ -53,8 +53,27 @@ export const VerifyingOTP = () => {
       num={6}
       otp={''}
       show={true}
-      resendingOtp={false}
+      resendOtpState={'can-resend'}
       verifyingOtp={true}
+    />
+  );
+};
+
+export const WaitingForOTP = () => {
+  return (
+    <EnterOtp
+      titleText="Enter OTP"
+      resendOtpText={'Resend OTP'}
+      onClose={() => {}}
+      onBack={() => {}}
+      onResendOtp={() => {}}
+      onOtpChange={() => {}}
+      num={6}
+      otp={''}
+      show={true}
+      resendOtpState={'waiting'}
+      waitToSendOtpText={'You can resend OTP in 12s'}
+      verifyingOtp={false}
     />
   );
 };

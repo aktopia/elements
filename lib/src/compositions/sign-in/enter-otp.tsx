@@ -13,9 +13,10 @@ interface IEnterOtp {
   show: boolean;
   titleText: string;
   resendOtpText: string;
-  resendingOtp: boolean;
   verifyingOtp: boolean;
   num: number;
+  waitToSendOtpText?: string;
+  resendOtpState: 'resending' | 'waiting' | 'can-resend';
 }
 
 export const EnterOtp = ({
@@ -28,44 +29,53 @@ export const EnterOtp = ({
   titleText,
   resendOtpText,
   verifyingOtp,
-  resendingOtp,
   num,
+  resendOtpState,
+  waitToSendOtpText,
 }: IEnterOtp) => {
+  let resendOtpView;
+
+  if (resendOtpState == 'waiting') {
+    resendOtpView = <p className={'text-xs text-gray-500'}>{waitToSendOtpText}</p>;
+  } else if (resendOtpState == 'resending') {
+    resendOtpView = (
+      <div className={'flex items-center justify-center'}>
+        <Spinner variant={{ type: 'secondary', size: 'xs' }} />
+      </div>
+    );
+  } else {
+    resendOtpView = (
+      <Button
+        onClick={onResendOtp}
+        value={resendOtpText}
+        variant={{ size: 'xs', type: 'tertiary' }}
+        disabled={verifyingOtp}
+      />
+    );
+  }
+
   return (
     <Modal title={titleText} onClose={onClose} show={show}>
-      <div className={'flex flex-col items-center justify-center gap-5'}>
+      <div className={'flex w-[280px] flex-col items-center justify-center gap-5'}>
         {verifyingOtp ? (
           <Spinner variant={{ type: 'primary', size: 'sm' }} />
         ) : (
           <input
             maxLength={num}
             value={otp}
-            disabled={resendingOtp}
+            disabled={resendOtpState == 'resending'}
             type="text"
             onChange={onOtpChange}
             className={
-              'h-max w-[280px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-center text-2xl font-medium tracking-[1rem] text-gray-600 shadow-inner'
+              'h-max rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-center text-2xl font-medium tracking-[1rem] text-gray-600 shadow-inner'
             }
           />
         )}
-        <div className={'grid w-full grid-cols-3 items-center'}>
-          <div>
+        <div className={'relative flex w-full items-center justify-center'}>
+          <div className={'absolute left-0'}>
             <BackIconButton variant={{ size: 'xs' }} onClick={onBack} />
           </div>
-          <div className={'flex items-center justify-center'}>
-            {resendingOtp ? (
-              <div className={'flex items-center justify-center'}>
-                <Spinner variant={{ type: 'secondary', size: 'xs' }} />
-              </div>
-            ) : (
-              <Button
-                onClick={onResendOtp}
-                value={resendOtpText}
-                variant={{ size: 'xs', type: 'tertiary' }}
-                disabled={verifyingOtp}
-              />
-            )}
-          </div>
+          <div className={'flex items-center justify-center'}>{resendOtpView}</div>
         </div>
       </div>
     </Modal>
