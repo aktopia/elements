@@ -23,6 +23,25 @@ export const Main = () => {
   );
 };
 
+export const WrongOTP = () => {
+  return (
+    <EnterOtp
+      titleText="Enter OTP"
+      resendOtpText={'Resend OTP'}
+      onClose={() => {}}
+      onBack={() => {}}
+      onResendOtp={() => {}}
+      onOtpChange={() => {}}
+      num={6}
+      otp={'575246'}
+      show={true}
+      resendOtpState={'can-resend'}
+      verifyingOtp={false}
+      errorText={'Incorrect OTP, please try again.'}
+    />
+  );
+};
+
 export const ResendingOTP = () => {
   return (
     <EnterOtp
