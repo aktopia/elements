@@ -1,11 +1,11 @@
 import { Modal } from '@elements/components/modal';
 import { Button } from '@elements/components/button';
-import { ChangeEventHandler, MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useCallback } from 'react';
 import { BackIconButton } from '@elements/components';
 import { Spinner } from '@elements/components/spinner';
 
 interface IEnterOtp {
-  onOtpChange: ChangeEventHandler<HTMLInputElement>;
+  onOtpChange: (value: string) => void;
   otp: string;
   onBack: MouseEventHandler<HTMLButtonElement>;
   onClose: MouseEventHandler<HTMLButtonElement>;
@@ -33,6 +33,10 @@ export const EnterOtp = ({
   resendOtpState,
   waitToSendOtpText,
 }: IEnterOtp) => {
+  const onOtpChangeMemo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    onOtpChange(e.target.value);
+  }, []);
+
   let resendOtpView;
 
   if (resendOtpState == 'waiting') {
@@ -65,7 +69,7 @@ export const EnterOtp = ({
             value={otp}
             disabled={resendOtpState == 'resending'}
             type="text"
-            onChange={onOtpChange}
+            onChange={onOtpChangeMemo}
             className={
               'h-max rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-center text-2xl font-medium tracking-[1rem] text-gray-600 shadow-inner'
             }
@@ -84,9 +88,6 @@ export const EnterOtp = ({
 
 /*
 TODO
-- Controlled component
-- Fixed width on input when loading and input
-- Timeout and Timeout until Resend OTP is enabled again
 - Shaking error on Wrong Otp
 - Successfully logged in state
  */
