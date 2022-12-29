@@ -18,7 +18,8 @@ interface IEnterOtp {
   num: number;
   waitToSendOtpText?: string;
   resendOtpState: 'resending' | 'waiting' | 'can-resend';
-  errorText?: string;
+  otpErrorText?: string;
+  onOtpFocus: (e: React.FocusEvent) => void;
 }
 
 const inputVariant = cva(
@@ -46,7 +47,8 @@ export const EnterOtp = ({
   num,
   resendOtpState,
   waitToSendOtpText,
-  errorText,
+  otpErrorText,
+  onOtpFocus,
 }: IEnterOtp) => {
   const onOtpChangeMemo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     onOtpChange(e.target.value);
@@ -79,17 +81,20 @@ export const EnterOtp = ({
         {verifyingOtp ? (
           <Spinner variant={{ type: 'primary', size: 'sm' }} />
         ) : (
-          <div>
-            <input
-              maxLength={num}
-              value={otp}
-              disabled={resendOtpState == 'resending'}
-              type="text"
-              onChange={onOtpChangeMemo}
-              className={inputVariant({ error: !!errorText })}
-            />
-            {errorText && (
-              <div className={'pt-1 text-xs font-medium text-rose-500'}>{errorText}</div>
+          <div className={'h-20'}>
+            <div className={'mt-2'}>
+              <input
+                maxLength={num}
+                value={otp}
+                disabled={resendOtpState == 'resending'}
+                type="text"
+                onChange={onOtpChangeMemo}
+                className={inputVariant({ error: !!otpErrorText })}
+                onFocus={onOtpFocus}
+              />
+            </div>
+            {otpErrorText && (
+              <div className={'pt-1 text-xs font-medium text-rose-500'}>{otpErrorText}</div>
             )}
           </div>
         )}
@@ -106,6 +111,8 @@ export const EnterOtp = ({
 
 /*
 TODO
+- fixed heights for desktop and mobile to prevent jarring resizes
 - Shaking error on Wrong Otp
 - Successfully logged in state
+- OTP input
  */

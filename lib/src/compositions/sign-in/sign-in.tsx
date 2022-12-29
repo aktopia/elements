@@ -1,11 +1,11 @@
 import { Modal } from '@elements/components/modal';
 import { NamedSwitch } from '@elements/components/named-switch';
 import { Button } from '@elements/components/button';
-import React, { MouseEventHandler, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Spinner } from '@elements/components/spinner';
 
 interface ISignIn {
-  onSendOtp: MouseEventHandler<HTMLButtonElement>;
+  onSendOtp: (e: React.FormEvent) => void;
   onClose: Function;
   show: boolean;
   titleText: string;
@@ -43,9 +43,14 @@ export const SignIn = ({
     onEmailChange(e.target.value);
   }, []);
 
+  const onFormSubmitMemo = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    onSendOtp(e);
+  }, []);
+
   return (
     <Modal title={titleText} onClose={onClose} show={show}>
-      <div className={'flex flex-col gap-5'}>
+      <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
         <NamedSwitch
           switches={switches}
           variant={{ size: 'sm' }}
@@ -77,19 +82,16 @@ export const SignIn = ({
           {sendingOtp ? (
             <Spinner variant={{ size: 'sm', type: 'primary' }} />
           ) : (
-            <Button
-              onClick={onSendOtp}
-              value={sendOtpText}
-              variant={{ size: 'sm', type: 'primary' }}
-            />
+            <Button type={'submit'} value={sendOtpText} variant={{ size: 'sm', type: 'primary' }} />
           )}
         </div>
-      </div>
+      </form>
     </Modal>
   );
 };
 
 /*
+Enter to submit
 Mobile responsive
 Agree to terms and conditions
 Phone Input component

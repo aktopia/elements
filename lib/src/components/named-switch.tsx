@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'cva';
 
 const containerVariant = cva(
-  'flex w-max items-center justify-center gap-1 rounded-lg bg-gray-50 border border-gray-100 overflow-scroll',
+  'flex w-max items-center justify-center gap-1 rounded-lg bg-gray-50 border border-gray-100',
   {
     variants: {
       size: {

@@ -19,6 +19,7 @@ export const Main = () => {
       show={true}
       resendOtpState={'can-resend'}
       verifyingOtp={false}
+      onOtpFocus={() => {}}
     />
   );
 };
@@ -37,7 +38,8 @@ export const WrongOTP = () => {
       show={true}
       resendOtpState={'can-resend'}
       verifyingOtp={false}
-      errorText={'Incorrect OTP, please try again.'}
+      otpErrorText={'Incorrect OTP, please try again.'}
+      onOtpFocus={() => {}}
     />
   );
 };
@@ -56,6 +58,7 @@ export const ResendingOTP = () => {
       show={true}
       resendOtpState={'resending'}
       verifyingOtp={false}
+      onOtpFocus={() => {}}
     />
   );
 };
@@ -74,6 +77,7 @@ export const VerifyingOTP = () => {
       show={true}
       resendOtpState={'can-resend'}
       verifyingOtp={true}
+      onOtpFocus={() => {}}
     />
   );
 };
@@ -93,6 +97,7 @@ export const WaitingForOTP = () => {
       resendOtpState={'waiting'}
       waitToSendOtpText={'You can resend OTP in 12s'}
       verifyingOtp={false}
+      onOtpFocus={() => {}}
     />
   );
 };
