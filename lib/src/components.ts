@@ -5,3 +5,4 @@ export { NamedSwitch } from '@elements/components/named-switch';
 export { OtpInput } from '@elements/components/otp-input';
 export { SingleCharacterInput } from '@elements/components/single-character-input';
 export { Alert } from '@elements/components/alert';
+export { Spinner } from '@elements/components/spinner';
