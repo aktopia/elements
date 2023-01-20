@@ -8,7 +8,7 @@ export default {
 export const Examples = () => {
   return (
     <div className="flex flex-col gap-10">
-      <Spinner show={true} variant={{ size: 'xs', type: 'primary' }} />
+      <Spinner show={true} kind="primary" size="sm" />
     </div>
   );
 };

@@ -80,7 +80,7 @@ export const SignIn = ({
         )}
         <div className={'flex w-full justify-center'}>
           {sendingOtp ? (
-            <Spinner variant={{ size: 'sm', type: 'primary' }} />
+            <Spinner show={true} kind="primary" size="sm" />
           ) : (
             <Button type="submit" value={sendOtpText} size="sm" kind="primary" />
           )}

@@ -61,7 +61,7 @@ export const EnterOtp = ({
   } else if (resendOtpState == 'resending') {
     resendOtpView = (
       <div className={'flex items-center justify-center'}>
-        <Spinner variant={{ type: 'secondary', size: 'xs' }} />
+        <Spinner show={true} kind="secondary" size="xs" />
       </div>
     );
   } else {
@@ -80,7 +80,7 @@ export const EnterOtp = ({
     <Modal title={titleText} onClose={onClose} show={show}>
       <div className={'flex w-[280px] flex-col items-center justify-center gap-5'}>
         {verifyingOtp ? (
-          <Spinner variant={{ type: 'primary', size: 'sm' }} />
+          <Spinner show={true} kind="primary" size="sm" />
         ) : (
           <div className={'h-20'}>
             <div className={'mt-2'}>
