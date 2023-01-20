@@ -16,11 +16,21 @@ const variant = cva('w-max h-max flex font-medium justify-center w-max items-cen
       false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
       true: 'cursor-default bg-gray-100 text-gray-400 shadow-none',
     },
+    clicked: { true: '' },
+    hasIcon: { true: '' },
   },
   defaultVariants: {
     kind: 'primary',
     size: 'sm',
   },
+  compoundVariants: [
+    { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5' },
+    {
+      kind: 'tertiary',
+      clicked: true,
+      class: 'bg-gray-50 translate-y-[0.5px] shadow-none',
+    },
+  ],
 });
 
 const iconVariant = cva('', {
@@ -59,9 +69,26 @@ export interface IButton
   Icon?: React.ComponentType<any>;
 }
 
-export const Button = ({ value, count, Icon, size, kind, disabled, ...props }: IButton) => {
+export const Button = ({
+  value,
+  count,
+  Icon,
+  size,
+  kind,
+  disabled,
+  clicked,
+  ...props
+}: IButton) => {
   return (
-    <button {...props} className={variant({ size, kind, disabled: !!disabled })}>
+    <button
+      {...props}
+      className={variant({
+        size,
+        kind,
+        disabled: !!disabled,
+        hasIcon: !!Icon,
+        clicked: !!clicked,
+      })}>
       {Icon && <Icon className={iconVariant({ size, kind })} />}
       <span>{value}</span>
       {count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}

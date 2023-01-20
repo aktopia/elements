@@ -43,6 +43,7 @@ export {
   ExclamationTriangleIcon as ExclamationTriangleMiniSolid,
   InformationCircleIcon as InformationCircleMiniSolid,
   RssIcon as RssMiniSolid,
+  PlusIcon as PlusMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {

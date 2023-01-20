@@ -24,6 +24,7 @@ export const Tertiary = {
       <div className="flex-column flex gap-10">
         <div className="flex items-center gap-10">
           <Button value={'Button'} size="xs" kind="tertiary" />
+          <Button value={'Button'} size="xs" kind="tertiary" clicked={true} />
           <Button value={'Button'} size="sm" kind="tertiary" />
         </div>
       </div>
