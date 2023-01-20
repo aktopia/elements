@@ -4,7 +4,7 @@ import { formatCount } from '@elements/_utils';
 
 const variant = cva('w-max h-max flex font-medium justify-center w-max items-center rounded-md', {
   variants: {
-    type: {
+    kind: {
       primary: 'bg-blue-600 text-white',
       tertiary: 'bg-white text-gray-700 border border-gray-300',
     },
@@ -18,14 +18,14 @@ const variant = cva('w-max h-max flex font-medium justify-center w-max items-cen
     },
   },
   defaultVariants: {
-    type: 'primary',
+    kind: 'primary',
     size: 'sm',
   },
 });
 
 const iconVariant = cva('', {
   variants: {
-    type: {
+    kind: {
       primary: 'text-white',
       tertiary: 'text-gray-500',
     },
@@ -38,7 +38,7 @@ const iconVariant = cva('', {
 
 const countVariant = cva('font-medium', {
   variants: {
-    type: {
+    kind: {
       primary: 'text-white',
       tertiary: 'text-gray-400',
     },
@@ -51,26 +51,20 @@ const countVariant = cva('font-medium', {
 
 type Variant = VariantProps<typeof variant>;
 
-export interface IButton extends React.ComponentPropsWithoutRef<'button'> {
+export interface IButton
+  extends React.ComponentPropsWithoutRef<'button'>,
+    Omit<Variant, 'disabled'> {
   value: string;
   count?: number;
   Icon?: React.ComponentType<any>;
-  variant: Variant;
 }
 
-export const Button = ({
-  value,
-  count,
-  Icon,
-  variant: { size, type },
-  disabled,
-  ...props
-}: IButton) => {
+export const Button = ({ value, count, Icon, size, kind, disabled, ...props }: IButton) => {
   return (
-    <button {...props} className={variant({ size, type, disabled: !!disabled })}>
-      {Icon && <Icon className={iconVariant({ size, type })} />}
+    <button {...props} className={variant({ size, kind, disabled: !!disabled })}>
+      {Icon && <Icon className={iconVariant({ size, kind })} />}
       <span>{value}</span>
-      {count && <span className={countVariant({ size, type })}>{formatCount(count)}</span>}
+      {count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
     </button>
   );
 };

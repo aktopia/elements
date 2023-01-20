@@ -10,8 +10,8 @@ export const Primary = {
     return (
       <div className="flex-column flex gap-10">
         <div className="flex items-center gap-10">
-          <Button value={'Button'} variant={{ type: 'primary', size: 'xs' }} />
-          <Button value={'Button'} variant={{ type: 'primary', size: 'sm' }} />
+          <Button value={'Button'} size="xs" kind="primary" />
+          <Button value={'Button'} size="sm" kind="primary" />
         </div>
       </div>
     );
@@ -23,8 +23,8 @@ export const Tertiary = {
     return (
       <div className="flex-column flex gap-10">
         <div className="flex items-center gap-10">
-          <Button value={'Button'} variant={{ type: 'tertiary', size: 'xs' }} />
-          <Button value={'Button'} variant={{ type: 'tertiary', size: 'sm' }} />
+          <Button value={'Button'} size="xs" kind="tertiary" />
+          <Button value={'Button'} size="sm" kind="tertiary" />
         </div>
       </div>
     );

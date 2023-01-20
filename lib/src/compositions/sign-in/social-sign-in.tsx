@@ -13,11 +13,7 @@ export const SocialSignIn = ({ onClose, show, onGoogleClick, titleText }: ISignI
   return (
     <Modal title={titleText} onClose={onClose} show={show}>
       <div className={'m-6 flex w-80 flex-col items-center'}>
-        <Button
-          onClick={onGoogleClick}
-          value={'Google'}
-          variant={{ size: 'sm', type: 'primary' }}
-        />
+        <Button onClick={onGoogleClick} value={'Google'} size="sm" kind="primary" />
       </div>
     </Modal>
   );

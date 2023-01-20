@@ -69,7 +69,8 @@ export const EnterOtp = ({
       <Button
         onClick={onResendOtp}
         value={resendOtpText}
-        variant={{ size: 'xs', type: 'tertiary' }}
+        size="xs"
+        kind="tertiary"
         disabled={verifyingOtp}
       />
     );
