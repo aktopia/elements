@@ -6,12 +6,13 @@ const variant = cva('w-max h-max flex font-medium justify-center w-max items-cen
   variants: {
     kind: {
       primary: 'bg-blue-600 text-white shadow-md',
+      secondary: 'bg-white text-blue-700 border border-blue-500 shadow-sm',
       tertiary: 'bg-white text-gray-700 border border-gray-300 shadow-sm',
     },
     size: {
       xs: 'text-xs gap-2 px-2.5 py-1.5',
-      sm: 'text-sm gap-3 px-3 py-2 leading-4',
-      md: 'text-sm gap-3 px-4 py-2',
+      sm: 'text-sm gap-2 px-3 py-2 leading-4',
+      md: 'text-sm gap-2 px-4 py-2',
     },
     disabled: {
       false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
@@ -26,6 +27,7 @@ const variant = cva('w-max h-max flex font-medium justify-center w-max items-cen
   },
   compoundVariants: [
     { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5' },
+    { size: 'md', hasIcon: true, class: 'pl-2 pr-3' },
     {
       kind: 'tertiary',
       clicked: true,
@@ -38,6 +40,7 @@ const iconVariant = cva('', {
   variants: {
     kind: {
       primary: 'text-white',
+      secondary: 'text-blue-600',
       tertiary: 'text-gray-500',
     },
     size: {
@@ -52,6 +55,7 @@ const countVariant = cva('font-medium', {
   variants: {
     kind: {
       primary: 'text-white',
+      secondary: 'text-blue-600',
       tertiary: 'text-gray-400',
     },
     size: {

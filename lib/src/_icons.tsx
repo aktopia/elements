@@ -51,6 +51,8 @@ export {
   CheckCircleIcon as CheckCircleSolid,
 } from '@heroicons/react/24/solid';
 
+export { BoltIcon as BoltOutline } from '@heroicons/react/24/outline';
+
 /*
 TODO Rename existing icons
 
