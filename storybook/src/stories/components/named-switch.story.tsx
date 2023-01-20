@@ -7,43 +7,37 @@ export default {
 
 export const Examples = () => {
   return (
-    <div className="flex-column flex gap-10">
-      <div className="flex gap-10">
-        <NamedSwitch
-          onSwitchClick={() => {}}
-          size="xs"
-          activeSwitch={'phone'}
-          switches={[
-            { id: 'phone', label: 'Phone' },
-            { id: 'email', label: 'Email' },
-            { id: 'social', label: 'Social' },
-          ]}
-        />
-      </div>
-      <div className="flex gap-10">
-        <NamedSwitch
-          onSwitchClick={() => {}}
-          size="xs"
-          activeSwitch={'email'}
-          switches={[
-            { id: 'phone', label: 'Phone' },
-            { id: 'email', label: 'Email' },
-            { id: 'social', label: 'Social' },
-          ]}
-        />
-      </div>
-      <div className="flex gap-10">
-        <NamedSwitch
-          onSwitchClick={() => {}}
-          size="xs"
-          activeSwitch={'social'}
-          switches={[
-            { id: 'phone', label: 'Phone' },
-            { id: 'email', label: 'Email' },
-            { id: 'social', label: 'Social' },
-          ]}
-        />
-      </div>
+    <div className="flex items-end gap-10 ">
+      <NamedSwitch
+        onSwitchClick={() => {}}
+        size="xs"
+        activeSwitch={'phone'}
+        switches={[
+          { id: 'phone', label: 'Phone' },
+          { id: 'email', label: 'Email' },
+          { id: 'social', label: 'Social' },
+        ]}
+      />
+      <NamedSwitch
+        onSwitchClick={() => {}}
+        size="sm"
+        activeSwitch={'email'}
+        switches={[
+          { id: 'phone', label: 'Phone' },
+          { id: 'email', label: 'Email' },
+          { id: 'social', label: 'Social' },
+        ]}
+      />
+      <NamedSwitch
+        onSwitchClick={() => {}}
+        size="md"
+        activeSwitch={'social'}
+        switches={[
+          { id: 'phone', label: 'Phone' },
+          { id: 'email', label: 'Email' },
+          { id: 'social', label: 'Social' },
+        ]}
+      />
     </div>
   );
 };

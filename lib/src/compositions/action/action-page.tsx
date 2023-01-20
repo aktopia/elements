@@ -51,7 +51,7 @@ const ActionBar = React.memo(({ onBump, onFund, bumpCount, bumped }: any) => {
 
 export const Progress = React.memo(({}: any) => {
   return (
-    <div>
+    <div className={'flex flex-col gap-1'}>
       <NamedSwitch
         activeSwitch={'work'}
         switches={[
@@ -68,7 +68,7 @@ export const Progress = React.memo(({}: any) => {
 
 export const ActionPage = ({ onTitleEdit, titleText }: any) => {
   return (
-    <div>
+    <div className={'flex flex-col gap-4'}>
       <Tracking />
       <div className={'flex'}>
         <div className={'mr-auto'}>

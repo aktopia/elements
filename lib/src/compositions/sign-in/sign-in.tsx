@@ -53,7 +53,7 @@ export const SignIn = ({
       <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
         <NamedSwitch
           switches={switches}
-          size="sm"
+          size="md"
           activeSwitch={activeSwitch}
           onSwitchClick={onSwitchClick}
         />
