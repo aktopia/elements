@@ -6,8 +6,8 @@ const variant = cva('w-max h-max flex font-medium justify-center w-max items-cen
   variants: {
     kind: {
       primary: 'bg-blue-600 text-white shadow-md',
-      secondary: 'bg-white text-blue-700 border border-blue-500 shadow-sm',
-      tertiary: 'bg-white text-gray-700 border border-gray-300 shadow-sm',
+      secondary: 'bg-white text-blue-700 border border-blue-500 shadow',
+      tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
     },
     size: {
       xs: 'text-xs gap-2 px-2.5 py-1.5',

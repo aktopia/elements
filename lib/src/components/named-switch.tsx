@@ -35,19 +35,13 @@ interface Option {
   label: string;
 }
 
-interface Props {
+interface INamedSwitch extends ContainerVariant {
   activeSwitch: string;
   switches: Option[];
   onSwitchClick: Function;
-  variant: ContainerVariant;
 }
 
-export const NamedSwitch = ({
-  activeSwitch,
-  switches,
-  onSwitchClick,
-  variant: { size },
-}: Props) => {
+export const NamedSwitch = ({ activeSwitch, switches, onSwitchClick, size }: INamedSwitch) => {
   return (
     <div className={containerVariant({ size })}>
       {switches.map(({ id, label }: any) => {

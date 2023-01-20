@@ -3,6 +3,8 @@ import { FollowButton } from '@elements/components/follow-button';
 import { SaveButton } from '@elements/components/save-button';
 import { Button } from '@elements/components/button';
 import { BoltOutline } from '@elements/_icons';
+import { NamedSwitch } from '@elements/components/named-switch';
+import { ProgressBar } from '@elements/components/progress-bar';
 
 // interface IActionPage {}
 
@@ -26,6 +28,10 @@ export const Title = React.memo(({ onEdit, value }: any) => {
   return <h2 className={'text-2xl font-bold text-gray-900'}>{value}</h2>;
 });
 
+export const TimeAgo = React.memo(({}: any) => {
+  return <div className={'text-xs text-gray-500'}>Active 5 days ago</div>;
+});
+
 const ActionBar = React.memo(({ onBump, onFund, bumpCount, bumped }: any) => {
   return (
     <div className={'flex gap-4'}>
@@ -43,6 +49,23 @@ const ActionBar = React.memo(({ onBump, onFund, bumpCount, bumped }: any) => {
   );
 });
 
+export const Progress = React.memo(({}: any) => {
+  return (
+    <div>
+      <NamedSwitch
+        activeSwitch={'work'}
+        switches={[
+          { id: 'work', label: 'Work' },
+          { id: 'funding', label: 'Funding' },
+        ]}
+        onSwitchClick={() => {}}
+        size="xs"
+      />
+      <ProgressBar total={100} current={23} />
+    </div>
+  );
+});
+
 export const ActionPage = ({ onTitleEdit, titleText }: any) => {
   return (
     <div>
@@ -53,6 +76,8 @@ export const ActionPage = ({ onTitleEdit, titleText }: any) => {
         </div>
         <ActionBar />
       </div>
+      <TimeAgo />
+      <Progress />
     </div>
   );
 };

@@ -11,7 +11,7 @@ export const Examples = () => {
       <div className="flex gap-10">
         <NamedSwitch
           onSwitchClick={() => {}}
-          variant={{ size: 'xs' }}
+          size="xs"
           activeSwitch={'phone'}
           switches={[
             { id: 'phone', label: 'Phone' },
@@ -23,7 +23,7 @@ export const Examples = () => {
       <div className="flex gap-10">
         <NamedSwitch
           onSwitchClick={() => {}}
-          variant={{ size: 'xs' }}
+          size="xs"
           activeSwitch={'email'}
           switches={[
             { id: 'phone', label: 'Phone' },
@@ -35,7 +35,7 @@ export const Examples = () => {
       <div className="flex gap-10">
         <NamedSwitch
           onSwitchClick={() => {}}
-          variant={{ size: 'xs' }}
+          size="xs"
           activeSwitch={'social'}
           switches={[
             { id: 'phone', label: 'Phone' },
