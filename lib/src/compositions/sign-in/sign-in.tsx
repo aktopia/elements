@@ -82,7 +82,7 @@ export const SignIn = ({
           {sendingOtp ? (
             <Spinner show={true} kind="primary" size="sm" />
           ) : (
-            <Button type="submit" value={sendOtpText} size="sm" kind="primary" />
+            <Button type="submit" value={sendOtpText} size="md" kind="primary" />
           )}
         </div>
       </form>
