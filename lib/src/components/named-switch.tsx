@@ -32,18 +32,18 @@ const switchVariant = cva(
 
 type ContainerVariant = VariantProps<typeof containerVariant>;
 
-interface Option {
+interface Switch {
   id: string;
   label: string;
 }
 
-interface INamedSwitch extends ContainerVariant {
+interface NamedSwitchProps extends ContainerVariant {
   activeId: string;
-  switches: Option[];
+  switches: Switch[];
   onSwitchClick: Function;
 }
 
-export const NamedSwitch = ({ activeId, switches, onSwitchClick, size }: INamedSwitch) => {
+export const NamedSwitch = ({ activeId, switches, onSwitchClick, size }: NamedSwitchProps) => {
   return (
     <div className={containerVariant({ size })}>
       {switches.map(({ id, label }: any) => {
@@ -66,6 +66,4 @@ export const NamedSwitch = ({ activeId, switches, onSwitchClick, size }: INamedS
 TODO
 Transitions
 useCallback instead of anon function
-Other size variants when necessary
-Types
  */
