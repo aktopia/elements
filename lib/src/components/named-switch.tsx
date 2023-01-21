@@ -38,16 +38,16 @@ interface Option {
 }
 
 interface INamedSwitch extends ContainerVariant {
-  activeSwitch: string;
+  activeId: string;
   switches: Option[];
   onSwitchClick: Function;
 }
 
-export const NamedSwitch = ({ activeSwitch, switches, onSwitchClick, size }: INamedSwitch) => {
+export const NamedSwitch = ({ activeId, switches, onSwitchClick, size }: INamedSwitch) => {
   return (
     <div className={containerVariant({ size })}>
       {switches.map(({ id, label }: any) => {
-        const status = id == activeSwitch ? 'active' : 'inactive';
+        const status = id == activeId ? 'active' : 'inactive';
 
         return (
           <div

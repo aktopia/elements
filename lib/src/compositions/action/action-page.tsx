@@ -54,7 +54,7 @@ export const Progress = React.memo(({}: any) => {
     <div className={'flex flex-col gap-2'}>
       <div className={'flex items-end justify-between'}>
         <NamedSwitch
-          activeSwitch={'work'}
+          activeId={'work'}
           switches={[
             { id: 'work', label: 'Work' },
             { id: 'funding', label: 'Funding' },

@@ -11,7 +11,7 @@ export const Examples = () => {
       <NamedSwitch
         onSwitchClick={() => {}}
         size="xs"
-        activeSwitch={'phone'}
+        activeId={'phone'}
         switches={[
           { id: 'phone', label: 'Phone' },
           { id: 'email', label: 'Email' },
@@ -21,7 +21,7 @@ export const Examples = () => {
       <NamedSwitch
         onSwitchClick={() => {}}
         size="sm"
-        activeSwitch={'email'}
+        activeId={'email'}
         switches={[
           { id: 'phone', label: 'Phone' },
           { id: 'email', label: 'Email' },
@@ -31,7 +31,7 @@ export const Examples = () => {
       <NamedSwitch
         onSwitchClick={() => {}}
         size="md"
-        activeSwitch={'social'}
+        activeId={'social'}
         switches={[
           { id: 'phone', label: 'Phone' },
           { id: 'email', label: 'Email' },
