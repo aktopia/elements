@@ -1,14 +1,17 @@
 import { Spinner } from '@elements/components/spinner';
+import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Spinner',
   component: Spinner,
 };
 
-export const Examples = () => {
-  return (
-    <div className="flex flex-col gap-10">
-      <Spinner show={true} kind="primary" size="sm" />
-    </div>
-  );
+type Story = StoryObj<typeof Spinner>;
+
+export const Primary: Story = {
+  args: {
+    show: true,
+    kind: 'primary',
+    size: 'sm',
+  },
 };
