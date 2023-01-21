@@ -62,7 +62,10 @@ export const Progress = React.memo(({}: any) => {
           onSwitchClick={() => {}}
           size="xs"
         />
-        <div className={'text-xs text-gray-500'}>23% Complete</div>
+        <div className={'flex gap-1 text-xs text-gray-500'}>
+          <span className={'font-bold'}>23%</span>
+          <span>Complete</span>
+        </div>
       </div>
       <ProgressBar total={100} current={23} />
     </div>
