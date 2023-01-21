@@ -51,16 +51,19 @@ const ActionBar = React.memo(({ onBump, onFund, bumpCount, bumped }: any) => {
 
 export const Progress = React.memo(({}: any) => {
   return (
-    <div className={'flex flex-col gap-1'}>
-      <NamedSwitch
-        activeSwitch={'work'}
-        switches={[
-          { id: 'work', label: 'Work' },
-          { id: 'funding', label: 'Funding' },
-        ]}
-        onSwitchClick={() => {}}
-        size="xs"
-      />
+    <div className={'flex flex-col gap-2'}>
+      <div className={'flex items-end justify-between'}>
+        <NamedSwitch
+          activeSwitch={'work'}
+          switches={[
+            { id: 'work', label: 'Work' },
+            { id: 'funding', label: 'Funding' },
+          ]}
+          onSwitchClick={() => {}}
+          size="xs"
+        />
+        <div className={'text-xs text-gray-500'}>23% Complete</div>
+      </div>
       <ProgressBar total={100} current={23} />
     </div>
   );
