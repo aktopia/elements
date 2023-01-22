@@ -36,6 +36,35 @@ export const ChevronLeftMini = ({ className }: { className: string }) => {
   );
 };
 
+export const Giving = ({ className }: { className: string }) => {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className={`${className} relative bottom-0.5`}>
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M7.25 12.75h-2.5v6.5h2.5v-6.5ZM7.5 14l2.512-1.615a4 4 0 0 1 2.163-.635h1.075V14l-2.5 1.25"
+      />
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M7 19c6.5 0 12.25-4.25 12.25-4.25V13H13.5"
+      />
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M14.153 5.19a1.296 1.296 0 0 1 1.944 0l.403.439.403-.44a1.296 1.296 0 0 1 1.944 0 1.598 1.598 0 0 1 0 2.122l-1.375 1.5a1.296 1.296 0 0 1-1.944 0l-1.375-1.5a1.598 1.598 0 0 1 0-2.122Z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+};
+
 export {
   CheckCircleIcon as CheckCircleMiniSolid,
   XMarkIcon as XMarkMiniSolid,

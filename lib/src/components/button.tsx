@@ -2,7 +2,7 @@ import React from 'react';
 import { cva, VariantProps } from 'cva';
 import { formatCount } from '@elements/_utils';
 
-const variant = cva('w-max h-max flex font-medium justify-center w-max items-center rounded-md', {
+const variant = cva('relative flex items-center justify-center font-medium w-max rounded-md', {
   variants: {
     kind: {
       primary: 'bg-blue-600 text-white shadow-md',
@@ -12,7 +12,7 @@ const variant = cva('w-max h-max flex font-medium justify-center w-max items-cen
     size: {
       xs: 'text-xs gap-2 px-2.5 py-1.5',
       sm: 'text-sm gap-2 px-3 py-2 leading-4',
-      md: 'text-sm gap-2 px-4 py-2',
+      md: 'text-sm gap-3 px-4 h-[38px]',
     },
     disabled: {
       false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
@@ -26,8 +26,8 @@ const variant = cva('w-max h-max flex font-medium justify-center w-max items-cen
     size: 'sm',
   },
   compoundVariants: [
-    { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5' },
-    { size: 'md', hasIcon: true, class: 'pl-2 pr-3' },
+    { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5 shadow-sm' },
+    { size: 'md', hasIcon: true, class: 'pl-3 pr-4' },
     {
       kind: 'tertiary',
       clicked: true,
