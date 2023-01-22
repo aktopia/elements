@@ -38,16 +38,21 @@ interface Switch {
 }
 
 interface NamedSwitchProps extends ContainerVariant {
-  activeId: string;
+  activeSwitchId: string;
   switches: Switch[];
   onSwitchClick: Function;
 }
 
-export const NamedSwitch = ({ activeId, switches, onSwitchClick, size }: NamedSwitchProps) => {
+export const NamedSwitch = ({
+  activeSwitchId,
+  switches,
+  onSwitchClick,
+  size,
+}: NamedSwitchProps) => {
   return (
     <div className={containerVariant({ size })}>
       {switches.map(({ id, label }: any) => {
-        const status = id == activeId ? 'active' : 'inactive';
+        const status = id == activeSwitchId ? 'active' : 'inactive';
 
         return (
           <div

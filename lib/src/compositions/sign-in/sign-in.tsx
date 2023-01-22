@@ -12,7 +12,7 @@ interface ISignIn {
   sendOtpText: string;
   phone: string;
   email: string;
-  activeId: string;
+  activeSwitchId: string;
   onPhoneChange: (value: string) => void;
   onEmailChange: (value: string) => void;
   onSwitchClick: Function;
@@ -28,7 +28,7 @@ export const SignIn = ({
   sendOtpText,
   phone,
   email,
-  activeId,
+  activeSwitchId,
   onSwitchClick,
   onPhoneChange,
   onEmailChange,
@@ -54,10 +54,10 @@ export const SignIn = ({
         <NamedSwitch
           switches={switches}
           size="md"
-          activeId={activeId}
+          activeSwitchId={activeSwitchId}
           onSwitchClick={onSwitchClick}
         />
-        {activeId == 'phone' ? (
+        {activeSwitchId == 'phone' ? (
           <input
             value={phone}
             disabled={sendingOtp}

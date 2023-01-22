@@ -15,7 +15,7 @@ export const Main = () => {
       onEmailChange={() => {}}
       onPhoneChange={() => {}}
       show={true}
-      activeId={'phone'}
+      activeSwitchId={'phone'}
       email={''}
       switches={[
         { id: 'phone', label: 'Phone' },
@@ -38,7 +38,7 @@ export const SendingOTP = () => {
       onEmailChange={() => {}}
       onPhoneChange={() => {}}
       show={true}
-      activeId={'phone'}
+      activeSwitchId={'phone'}
       email={''}
       switches={[
         { id: 'phone', label: 'Phone' },
