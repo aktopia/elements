@@ -5,9 +5,23 @@ import { NamedSwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { Tabs } from '@elements/components/tabs';
+import { useDispatch, useValue } from '@elements/store';
 import React from 'react';
 
 // interface ActionPageProps {}
+
+export const Test = () => {
+  const v = useValue('test');
+  const e = useValue('else');
+  const d = useDispatch('testd');
+  console.log('rendering');
+  return (
+    <div>
+      <div onClick={() => d(8, 7)}>{v}</div>
+      <div>{e}</div>
+    </div>
+  );
+};
 
 const SubscriptionBar = React.memo(({ followCount, onFollow, onSave, saved, followed }: any) => {
   return (

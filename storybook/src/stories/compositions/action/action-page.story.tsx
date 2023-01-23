@@ -1,15 +1,29 @@
-import { ActionHeader } from '@elements/compositions/action/action-header';
+import { Test } from '@elements/compositions/action/action-header';
 import { StoryObj } from '@storybook/react';
+import { MockStore } from '../../../utils/mock-store';
 
 export default {
   title: 'Compositions/Action/Main',
-  component: ActionHeader,
+  component: Test,
 };
 
-type Story = StoryObj<typeof ActionHeader>;
+const m = {
+  test: 'hello',
+  else: 'amazing',
+};
+
+const d = {
+  testd: (x: number, y: number) => console.log(x + y),
+};
+
+type Story = StoryObj<typeof Test>;
 
 export const Main: Story = {
-  args: {
-    titleText: 'Clear large garbage dump on Vandipalayam road',
+  render: () => {
+    return (
+      <MockStore dispatch={d} read={m}>
+        <Test />
+      </MockStore>
+    );
   },
 };
