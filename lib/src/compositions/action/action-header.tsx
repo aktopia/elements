@@ -9,7 +9,7 @@ import React from 'react';
 
 // interface ActionPageProps {}
 
-const Tracking = React.memo(({ followCount, onFollow, onSave, saved, followed }: any) => {
+const SubscriptionBar = React.memo(({ followCount, onFollow, onSave, saved, followed }: any) => {
   return (
     <div className={'flex gap-4'}>
       <FollowButton
@@ -52,7 +52,8 @@ const ActionBar = React.memo(({ onBump, onFund, bumpCount, bumped }: any) => {
 });
 
 export const Progress = React.memo(
-  ({ activeSwitchId, switches, onSwitchClick, workPercentage }: any) => {
+  ({ activeSwitchId, switches, onSwitchClick, workPercentage, fundingPercentage }: any) => {
+    console.log(fundingPercentage);
     return (
       <div className={'flex flex-col gap-2'}>
         <div className={'flex items-end justify-between'}>
@@ -73,7 +74,7 @@ export const Progress = React.memo(
   }
 );
 
-export const ActionPage = ({
+export const ActionHeader = ({
   onBump,
   onFund,
   bumpCount,
@@ -93,12 +94,13 @@ export const ActionPage = ({
   onSwitchClick,
   workPercentage,
   onTabClick,
+  fundingPercentage,
 }: any) => {
   return (
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>
         <div className={'flex flex-col gap-4'}>
-          <Tracking
+          <SubscriptionBar
             followCount={followCount}
             onFollow={onFollow}
             onSave={onSave}
@@ -120,6 +122,7 @@ export const ActionPage = ({
           switches={progressBarSwitches}
           onSwitchClick={onSwitchClick}
           workPercentage={workPercentage}
+          fundingPercentage={fundingPercentage}
         />
       </div>
       <div className={'flex justify-center'}>

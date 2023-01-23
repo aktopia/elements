@@ -1,12 +1,12 @@
-import { ActionPage } from '@elements/compositions/action/action-page';
+import { ActionHeader } from '@elements/compositions/action/action-header';
 import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Compositions/Action/Main',
-  component: ActionPage,
+  component: ActionHeader,
 };
 
-type Story = StoryObj<typeof ActionPage>;
+type Story = StoryObj<typeof ActionHeader>;
 
 export const Main: Story = {
   args: {
