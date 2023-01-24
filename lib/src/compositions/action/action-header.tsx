@@ -52,13 +52,13 @@ export const SubscriptionBar = memo(() => {
 
 export const Title = memo(() => {
   const actionId = useValue('action/id');
-  const title = useValue('action/title', { 'action-id': actionId });
+  const title = useValue('action/title', { 'action/id': actionId });
   return <h2 className={'text-2xl font-bold text-gray-900'}>{title}</h2>;
 });
 
 export const TimeAgo = memo(() => {
   const actionId = useValue('action/id');
-  const lastActive = useValue('action/last-active', { 'action-id': actionId });
+  const lastActive = useValue('action/last-active', { 'action/id': actionId });
   console.log(lastActive);
   return <div className={'text-xs text-gray-500'}>Active 5 days ago</div>;
 });
@@ -104,14 +104,14 @@ const ActionBar = memo(() => {
 export const ProgressIndicator = memo(() => {
   const actionId = useValue('action/id');
   const activeSwitchId = useValue('action.ui.progress-bar/active-switch-id');
-  const workPercentage = useValue('action.work/percentage', { 'action-id': actionId });
-  const fundingPercentage = useValue('action.funding/percentage', { 'action-id': actionId });
+  const workPercentage = useValue('action.work/percentage', { 'action/id': actionId });
+  const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
   const switches = useValue('action.ui.progress-bar/switches');
   const updateSwitch = useDispatch('action.ui.progress-bar/update');
 
   const onSwitchClick = useCallback(
     (switchId: string) => {
-      updateSwitch({ 'switch-id': switchId });
+      updateSwitch({ 'switch/id': switchId });
     },
     [updateSwitch]
   );
@@ -144,7 +144,7 @@ export const ActionTabs = () => {
 
   const onTabClick = useCallback(
     (tabId: string) => {
-      updateTab({ 'tab-id': tabId });
+      updateTab({ 'tab/id': tabId });
     },
     [updateTab]
   );
