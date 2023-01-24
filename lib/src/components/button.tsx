@@ -10,9 +10,9 @@ const variant = cva('relative flex items-center justify-center font-medium w-max
       tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
     },
     size: {
-      xs: 'text-xs gap-2 px-2.5 py-1.5',
-      sm: 'text-sm gap-2 px-3 py-2 leading-4',
-      md: 'text-sm gap-3 px-4 h-[38px]',
+      xs: 'text-xs gap-1.5 px-2.5 py-1.5',
+      sm: 'text-sm gap-1.5 px-3 py-2 leading-4',
+      md: 'text-sm gap-2 px-4 h-[38px]',
     },
     disabled: {
       false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
