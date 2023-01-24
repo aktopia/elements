@@ -11,9 +11,9 @@ import React, { useCallback } from 'react';
 export const SubscriptionBar = React.memo(() => {
   const actionId = useValue('action/id');
   const userId = useValue('user.me/id');
-  const followCount = useValue('action.follow/count', actionId);
-  const saved = useValue('action/saved', userId, actionId);
-  const followed = useValue('action/followed', userId, actionId);
+  const followCount = useValue('action.follow/count', { actionId });
+  const saved = useValue('action/saved', { userId, actionId });
+  const followed = useValue('action/followed', { userId, actionId });
   const follow = useDispatch('action/follow');
   const unFollow = useDispatch('action/unfollow');
   const save = useDispatch('action/save');
@@ -21,17 +21,17 @@ export const SubscriptionBar = React.memo(() => {
 
   const onFollowButtonClick = useCallback(() => {
     if (followed) {
-      unFollow(userId, actionId);
+      unFollow({ userId, actionId });
     } else {
-      follow(userId, actionId);
+      follow({ userId, actionId });
     }
   }, [followed]);
 
   const onSaveButtonClick = useCallback(() => {
     if (saved) {
-      unSave(userId, actionId);
+      unSave({ userId, actionId });
     } else {
-      save(userId, actionId);
+      save({ userId, actionId });
     }
   }, [saved]);
 

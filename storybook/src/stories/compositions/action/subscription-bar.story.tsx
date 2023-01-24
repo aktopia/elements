@@ -16,10 +16,10 @@ const read = {
 };
 
 const dispatch = createActions([
-  ['action/follow', 'userId', 'actionId'],
-  ['action/unfollow', 'userId', 'actionId'],
-  ['action/save', 'userId', 'actionId'],
-  ['action/unsave', 'userId', 'actionId'],
+  'action/follow',
+  'action/unfollow',
+  'action/save',
+  'action/unsave',
 ]);
 
 type Story = StoryObj<typeof SubscriptionBar>;

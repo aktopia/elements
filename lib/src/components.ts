@@ -7,3 +7,4 @@ export { SingleCharacterInput } from '@elements/components/single-character-inpu
 export { Alert } from '@elements/components/alert';
 export { Spinner } from '@elements/components/spinner';
 export { Store } from '@elements/store';
+export { SubscriptionBar } from '@elements/compositions/action/action-header';

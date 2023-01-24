@@ -13,7 +13,7 @@ interface MockStoreProps {
 export const MockStore = ({ read, dispatch, children }: MockStoreProps) => {
   const _read = useCallback<Read>((key, _) => read && read[key], [read]);
   const _dispatch = useCallback<Dispatch>(
-    (key, args) => dispatch && dispatch[key](...args),
+    (key, params?) => dispatch && dispatch[key](params),
     [dispatch]
   );
 
@@ -24,18 +24,11 @@ export const MockStore = ({ read, dispatch, children }: MockStoreProps) => {
   );
 };
 
-type Action = [actionId: string, ...argNames: Array<string>];
-
-export function createActions(actions: Action[]) {
-  return actions.reduce((o: any, [actionId, ...argNames]) => {
+export function createActions(actions: string[]) {
+  return actions.reduce((o: any, actionId) => {
     return {
       ...o,
-      [actionId]: (...args: any[]) =>
-        action(actionId)(
-          argNames.reduce((obj: any, argName, i: number) => {
-            return { ...obj, [argName]: args[i] };
-          }, {})
-        ),
+      [actionId]: (params?: { [key: string]: any }) => action(actionId)(params),
     };
   }, {});
 }
