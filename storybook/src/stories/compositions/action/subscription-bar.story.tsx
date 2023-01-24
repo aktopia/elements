@@ -1,10 +1,10 @@
-import { SubscriptionBar } from '@elements/compositions/action/action-header';
+import { SubscriptionBar as Component } from '@elements/compositions/action/action-header';
 import { StoryObj } from '@storybook/react';
 import { createActions, MockStore } from '../../../utils/mock-store';
 
 export default {
   title: 'Compositions/Action/SubscriptionBar',
-  component: SubscriptionBar,
+  component: Component,
 };
 
 const read = {
@@ -22,14 +22,14 @@ const dispatch = createActions([
   'action/unsave',
 ]);
 
-type Story = StoryObj<typeof SubscriptionBar>;
+type Story = StoryObj<typeof Component>;
 
-export const Main: Story = {
+export const SubscriptionBar: Story = {
   args: read,
   render: (args: any) => {
     return (
       <MockStore dispatch={dispatch} read={args}>
-        <SubscriptionBar />
+        <Component />
       </MockStore>
     );
   },
