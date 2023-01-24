@@ -1,4 +1,11 @@
-import { createContext, ReactNode, useCallback, useContext, useSyncExternalStore } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useDeferredValue,
+  useSyncExternalStore,
+} from 'react';
 
 export type Subscribe = (onStoreChange: () => void) => () => void;
 
@@ -10,7 +17,8 @@ export const StoreContext = createContext<any>({});
 
 export function useValue(id: string, params?: { [key: string]: any }) {
   const { read, subscribe } = useContext(StoreContext);
-  return useSyncExternalStore(subscribe, () => read(id, params));
+  const syncValue = useSyncExternalStore(subscribe, () => read(id, params));
+  return useDeferredValue(syncValue);
 }
 
 export function useDispatch(id: string) {
