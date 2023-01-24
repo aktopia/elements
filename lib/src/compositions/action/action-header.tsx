@@ -9,8 +9,8 @@ import { useDispatch, useValue } from '@elements/store';
 import { memo, useCallback } from 'react';
 
 export const SubscriptionBar = memo(() => {
-  const actionId = useValue('action/id');
-  const userId = useValue('user/id');
+  const actionId = useValue('current.action/id');
+  const userId = useValue('current.user/id');
   const ident = { 'user/id': userId, 'action/id': actionId };
   const followCount = useValue('action.follow/count', { 'action/id': actionId });
   const saved = useValue('action/saved', ident);
@@ -51,21 +51,21 @@ export const SubscriptionBar = memo(() => {
 });
 
 export const Title = memo(() => {
-  const actionId = useValue('action/id');
+  const actionId = useValue('current.action/id');
   const title = useValue('action/title', { 'action/id': actionId });
   return <h2 className={'text-2xl font-bold text-gray-900'}>{title}</h2>;
 });
 
 export const TimeAgo = memo(() => {
-  const actionId = useValue('action/id');
+  const actionId = useValue('current.action/id');
   const lastActive = useValue('action/last-active', { 'action/id': actionId });
   console.log(lastActive);
   return <div className={'text-xs text-gray-500'}>Active 5 days ago</div>;
 });
 
 const ActionBar = memo(() => {
-  const actionId = useValue('action/id');
-  const userId = useValue('user/id');
+  const actionId = useValue('current.action/id');
+  const userId = useValue('current.user/id');
   const ident = { 'user/id': userId, 'action/id': actionId };
   const bumped = useValue('action/bumped', ident);
   const bumpCount = useValue('action.bump/count', { 'action/id': actionId });
@@ -102,12 +102,12 @@ const ActionBar = memo(() => {
 });
 
 export const ProgressIndicator = memo(() => {
-  const actionId = useValue('action/id');
-  const activeSwitchId = useValue('action.ui.progress-bar/active-switch-id');
+  const actionId = useValue('current.action/id');
+  const activeSwitchId = useValue('ui.action.progress-bar/active-switch-id');
   const workPercentage = useValue('action.work/percentage', { 'action/id': actionId });
   const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
-  const switches = useValue('action.ui.progress-bar/switches');
-  const updateSwitch = useDispatch('action.ui.progress-bar/update');
+  const switches = useValue('ui.action.progress-bar/switches');
+  const updateSwitch = useDispatch('ui.action.progress-bar/update');
 
   const onSwitchClick = useCallback(
     (switchId: string) => {
@@ -138,9 +138,9 @@ export const ProgressIndicator = memo(() => {
 });
 
 export const ActionTabs = () => {
-  const tabs = useValue('action.ui/tabs');
-  const activeTabId = useValue('action.ui.tabs/active-tab-id');
-  const updateTab = useDispatch('action.ui.tabs/update');
+  const tabs = useValue('ui.action/tabs');
+  const activeTabId = useValue('ui.action.tabs/active-tab-id');
+  const updateTab = useDispatch('ui.action.tabs/update');
 
   const onTabClick = useCallback(
     (tabId: string) => {

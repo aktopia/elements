@@ -8,8 +8,8 @@ export default {
 };
 
 const read = {
-  'action/id': '1',
-  'user/id': '2',
+  'current.action/id': '1',
+  'current.user/id': '2',
   'action.follow/count': 2600,
   'action/saved': false,
   'action/followed': false,
@@ -17,21 +17,21 @@ const read = {
   'action/last-active': 'ADD-ME',
   'action/bumped': false,
   'action.bump/count': 10,
-  'action.ui.progress-bar/active-switch-id': 'work',
+  'ui.action.progress-bar/active-switch-id': 'work',
   'action.work/percentage': 23,
   'action.funding/percentage': 24,
-  'action.ui.progress-bar/switches': [
+  'ui.action.progress-bar/switches': [
     { id: 'work', label: 'Work' },
     { id: 'funding', label: 'Funding' },
   ],
-  'action.ui/tabs': [
+  'ui.action/tabs': [
     { id: 'home', label: 'Home' },
     { id: 'updates', label: 'Updates' },
     { id: 'funding', label: 'Funding' },
     { id: 'discussion', label: 'Discussion' },
     { id: 'team', label: 'Team' },
   ],
-  'action.ui.tabs/active-tab-id': 'home',
+  'ui.action.tabs/active-tab-id': 'home',
 };
 
 const dispatch = createActions([
@@ -42,8 +42,8 @@ const dispatch = createActions([
   'action/bump',
   'action/unbump',
   'action.navigate/funding',
-  'action.ui.progress-bar/update',
-  'action.ui.tabs/update',
+  'ui.action.progress-bar/update',
+  'ui.action.tabs/update',
 ]);
 
 type Story = StoryObj<typeof Component>;
