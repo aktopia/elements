@@ -1,4 +1,5 @@
 import { Dispatch, Read, Store, Subscribe } from '@elements/store';
+import { action } from '@storybook/addon-actions';
 import { ReactNode, useCallback } from 'react';
 
 const subscribe: Subscribe = (_) => () => null;
@@ -22,3 +23,19 @@ export const MockStore = ({ read, dispatch, children }: MockStoreProps) => {
     </Store>
   );
 };
+
+type Action = [actionId: string, ...argNames: Array<string>];
+
+export function createActions(actions: Action[]) {
+  return actions.reduce((o: any, [actionId, ...argNames]) => {
+    return {
+      ...o,
+      [actionId]: (...args: any[]) =>
+        action(actionId)(
+          argNames.reduce((obj: any, argName, i: number) => {
+            return { ...obj, [argName]: args[i] };
+          }, {})
+        ),
+    };
+  }, {});
+}
