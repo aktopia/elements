@@ -18,14 +18,14 @@ export function useDispatch(id: string) {
   return useCallback((...args: Array<any>) => dispatch(id, args), [id]);
 }
 
-interface MockStoreProps {
+interface StoreProps {
   subscribe: Subscribe;
   read: Read;
   dispatch: Dispatch;
   children: ReactNode;
 }
 
-export const Store = ({ read, dispatch, subscribe, children }: MockStoreProps) => {
+export const Store = ({ read, dispatch, subscribe, children }: StoreProps) => {
   return (
     <StoreContext.Provider value={{ read, dispatch, subscribe }}>{children}</StoreContext.Provider>
   );
