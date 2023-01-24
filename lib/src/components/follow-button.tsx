@@ -1,9 +1,10 @@
-import { Button, IButton } from '@elements/components/button';
 import { RssMiniSolid } from '@elements/_icons';
+import { Button, IButton } from '@elements/components/button';
+import { memo } from 'react';
 
 type IFollowButton = Omit<IButton, 'value' | 'Icon'>;
 
-export const FollowButton = ({ clicked, ...props }: IFollowButton) => {
+export const FollowButton = memo(({ clicked, ...props }: IFollowButton) => {
   return (
     <Button
       {...props}
@@ -11,4 +12,4 @@ export const FollowButton = ({ clicked, ...props }: IFollowButton) => {
       clicked={clicked}
       Icon={RssMiniSolid}></Button>
   );
-};
+});

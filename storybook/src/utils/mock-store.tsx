@@ -1,4 +1,4 @@
-import { Dispatch, Read, StoreContext, Subscribe } from '@elements/store';
+import { Dispatch, Read, Store, Subscribe } from '@elements/store';
 import { ReactNode, useCallback } from 'react';
 
 const subscribe: Subscribe = (_) => () => null;
@@ -17,8 +17,8 @@ export const MockStore = ({ read, dispatch, children }: MockStoreProps) => {
   );
 
   return (
-    <StoreContext.Provider value={{ read: _read, dispatch: _dispatch, subscribe }}>
+    <Store read={_read} dispatch={_dispatch} subscribe={subscribe}>
       {children}
-    </StoreContext.Provider>
+    </Store>
   );
 };

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useSyncExternalStore } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useSyncExternalStore } from 'react';
 
 export type Subscribe = (onStoreChange: () => void) => () => void;
 
@@ -17,3 +17,16 @@ export function useDispatch(id: string) {
   const { dispatch } = useContext(StoreContext);
   return useCallback((...args: Array<any>) => dispatch(id, args), [id]);
 }
+
+interface MockStoreProps {
+  subscribe: Subscribe;
+  read: Read;
+  dispatch: Dispatch;
+  children: ReactNode;
+}
+
+export const Store = ({ read, dispatch, subscribe, children }: MockStoreProps) => {
+  return (
+    <StoreContext.Provider value={{ read, dispatch, subscribe }}>{children}</StoreContext.Provider>
+  );
+};
