@@ -6,34 +6,45 @@ import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { Tabs } from '@elements/components/tabs';
 import { useDispatch, useValue } from '@elements/store';
-import React from 'react';
+import React, { useCallback } from 'react';
 
-// interface ActionPageProps {}
+export const SubscriptionBar = React.memo(() => {
+  const actionId = useValue('action/id');
+  const userId = useValue('user.me/id');
+  const followCount = useValue('action.follow/count', actionId);
+  const saved = useValue('action/saved', userId, actionId);
+  const followed = useValue('action/followed', userId, actionId);
+  const follow = useDispatch('action/follow');
+  const unFollow = useDispatch('action/unfollow');
+  const save = useDispatch('action/save');
+  const unSave = useDispatch('action/unsave');
 
-export const Test = () => {
-  const v = useValue('test');
-  const e = useValue('else');
-  const d = useDispatch('testd');
-  console.log('rendering');
-  return (
-    <div>
-      <div onClick={() => d(8, 7)}>{v}</div>
-      <div>{e}</div>
-    </div>
-  );
-};
+  const onFollowButtonClick = useCallback(() => {
+    if (followed) {
+      unFollow(userId, actionId);
+    } else {
+      follow(userId, actionId);
+    }
+  }, [followed]);
 
-const SubscriptionBar = React.memo(({ followCount, onFollow, onSave, saved, followed }: any) => {
+  const onSaveButtonClick = useCallback(() => {
+    if (saved) {
+      unSave(userId, actionId);
+    } else {
+      save(userId, actionId);
+    }
+  }, [saved]);
+
   return (
     <div className={'flex gap-4'}>
       <FollowButton
         kind="tertiary"
         size="xs"
         count={followCount}
-        onClick={onFollow}
+        onClick={onFollowButtonClick}
         clicked={followed}
       />
-      <SaveButton kind="tertiary" size="xs" onClick={onSave} clicked={saved} />
+      <SaveButton kind="tertiary" size="xs" onClick={onSaveButtonClick} clicked={saved} />
     </div>
   );
 });
@@ -96,11 +107,6 @@ export const ActionHeader = ({
   lastUpdated,
   titleText,
   onTitleEdit,
-  followCount,
-  onFollow,
-  onSave,
-  followed,
-  saved,
   tabs,
   activeTabId,
   progressBarActiveSwitchId,
@@ -114,13 +120,7 @@ export const ActionHeader = ({
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>
         <div className={'flex flex-col gap-4'}>
-          <SubscriptionBar
-            followCount={followCount}
-            onFollow={onFollow}
-            onSave={onSave}
-            saved={saved}
-            followed={followed}
-          />
+          <SubscriptionBar />
           <div>
             <div className={'flex'}>
               <div className={'mr-auto'}>

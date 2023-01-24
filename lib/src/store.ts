@@ -1,4 +1,4 @@
-import { createContext, useContext, useSyncExternalStore } from 'react';
+import { createContext, useCallback, useContext, useSyncExternalStore } from 'react';
 
 export type Subscribe = (onStoreChange: () => void) => () => void;
 
@@ -15,5 +15,5 @@ export function useValue(id: string, ...args: Array<any>) {
 
 export function useDispatch(id: string) {
   const { dispatch } = useContext(StoreContext);
-  return (...args: Array<any>) => dispatch(id, args);
+  return useCallback((...args: Array<any>) => dispatch(id, args), [id]);
 }
