@@ -10,7 +10,7 @@ import { memo, useCallback } from 'react';
 
 export const SubscriptionBar = memo(() => {
   const actionId = useValue('action/id');
-  const userId = useValue('user.me/id');
+  const userId = useValue('user/id');
   const ident = { 'user/id': userId, 'action/id': actionId };
   const followCount = useValue('action.follow/count', { 'action/id': actionId });
   const saved = useValue('action/saved', ident);
@@ -62,7 +62,7 @@ export const TimeAgo = memo(({ lastUpdated }: any) => {
 
 const ActionBar = memo(() => {
   const actionId = useValue('action/id');
-  const userId = useValue('user.me/id');
+  const userId = useValue('user/id');
   const ident = { 'user/id': userId, 'action/id': actionId };
   const bumped = useValue('action/bumped', ident);
   const bumpCount = useValue('action.bump/count', { 'action/id': actionId });
@@ -98,28 +98,41 @@ const ActionBar = memo(() => {
   );
 });
 
-export const Progress = memo(
-  ({ activeSwitchId, switches, onSwitchClick, workPercentage, fundingPercentage }: any) => {
-    console.log(fundingPercentage);
-    return (
-      <div className={'flex flex-col gap-2'}>
-        <div className={'flex items-end justify-between'}>
-          <NamedSwitch
-            activeSwitchId={activeSwitchId}
-            switches={switches}
-            onSwitchClick={onSwitchClick}
-            size="xs"
-          />
-          <div className={'flex gap-1 text-xs text-gray-500'}>
-            <span className={'font-bold'}>{`${workPercentage}%`}</span>
-            <span>Complete</span>
-          </div>
+export const ProgressIndicator = memo(() => {
+  const actionId = useValue('action/id');
+  const activeSwitchId = useValue('action.ui.progress-bar/active-switch-id');
+  const workPercentage = useValue('action.work/percentage', { 'action-id': actionId });
+  const fundingPercentage = useValue('action.funding/percentage', { 'action-id': actionId });
+  const switches = useValue('action.ui.progress-bar/switches');
+  const updateSwitch = useDispatch('action.ui.progress-bar/switch');
+
+  const onSwitchButtonClick = useCallback(
+    (switchId: string) => {
+      updateSwitch({ 'switch-id': switchId });
+    },
+    [updateSwitch]
+  );
+
+  console.log(fundingPercentage);
+
+  return (
+    <div className={'flex flex-col gap-2'}>
+      <div className={'flex items-end justify-between'}>
+        <NamedSwitch
+          activeSwitchId={activeSwitchId}
+          switches={switches}
+          onSwitchClick={onSwitchButtonClick}
+          size="xs"
+        />
+        <div className={'flex gap-1 text-xs text-gray-500'}>
+          <span className={'font-bold'}>{`${workPercentage}%`}</span>
+          <span>Complete</span>
         </div>
-        <ProgressBar total={100} current={workPercentage} />
       </div>
-    );
-  }
-);
+      <ProgressBar total={100} current={workPercentage} />
+    </div>
+  );
+});
 
 export const ActionHeader = ({
   lastUpdated,
@@ -127,12 +140,7 @@ export const ActionHeader = ({
   onTitleEdit,
   tabs,
   activeTabId,
-  progressBarActiveSwitchId,
-  progressBarSwitches,
-  onSwitchClick,
-  workPercentage,
   onTabClick,
-  fundingPercentage,
 }: any) => {
   return (
     <div className={'flex flex-col gap-10'}>
@@ -149,13 +157,7 @@ export const ActionHeader = ({
             <TimeAgo lastUpdated={lastUpdated} />
           </div>
         </div>
-        <Progress
-          activeSwitchId={progressBarActiveSwitchId}
-          switches={progressBarSwitches}
-          onSwitchClick={onSwitchClick}
-          workPercentage={workPercentage}
-          fundingPercentage={fundingPercentage}
-        />
+        <ProgressIndicator />
       </div>
       <div className={'flex justify-center'}>
         <Tabs size="md" tabs={tabs} activeTabId={activeTabId} onTabClick={onTabClick} />
