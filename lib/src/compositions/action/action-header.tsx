@@ -11,10 +11,8 @@ import { memo, useCallback } from 'react';
 export const SubscriptionBar = memo(() => {
   const actionId = useValue('action/id');
   const userId = useValue('user.me/id');
-  const followCount = useValue('action.follow/count', { 'action/id': actionId });
-
   const ident = { 'user/id': userId, 'action/id': actionId };
-
+  const followCount = useValue('action.follow/count', { 'action/id': actionId });
   const saved = useValue('action/saved', ident);
   const followed = useValue('action/followed', ident);
   const follow = useDispatch('action/follow');
@@ -28,7 +26,7 @@ export const SubscriptionBar = memo(() => {
     } else {
       follow(ident);
     }
-  }, [followed]);
+  }, [followed, follow, unFollow, ident]);
 
   const onSaveButtonClick = useCallback(() => {
     if (saved) {
@@ -36,7 +34,7 @@ export const SubscriptionBar = memo(() => {
     } else {
       save(ident);
     }
-  }, [saved]);
+  }, [saved, save, unSave, ident]);
 
   return (
     <div className={'flex gap-4'}>
@@ -62,7 +60,28 @@ export const TimeAgo = memo(({ lastUpdated }: any) => {
   return <div className={'text-xs text-gray-500'}>Active 5 days ago</div>;
 });
 
-const ActionBar = memo(({ onBump, onFund, bumpCount, bumped }: any) => {
+const ActionBar = memo(() => {
+  const actionId = useValue('action/id');
+  const userId = useValue('user.me/id');
+  const ident = { 'user/id': userId, 'action/id': actionId };
+  const bumped = useValue('action/bumped', ident);
+  const bumpCount = useValue('action.bump/count', { 'action/id': actionId });
+  const bump = useDispatch('action/bump');
+  const unBump = useDispatch('action/unbump');
+  const navigateToFunding = useDispatch('action.navigate/funding');
+
+  const onBumpButtonClick = useCallback(() => {
+    if (bumped) {
+      unBump(ident);
+    } else {
+      bump(ident);
+    }
+  }, [bumped, bump, unBump, ident]);
+
+  const onFundButtonClick = useCallback(() => {
+    navigateToFunding(ident);
+  }, [navigateToFunding, ident]);
+
   return (
     <div className={'flex gap-4'}>
       <Button
@@ -71,10 +90,10 @@ const ActionBar = memo(({ onBump, onFund, bumpCount, bumped }: any) => {
         kind="secondary"
         size="md"
         clicked={bumped}
-        onClick={onBump}
+        onClick={onBumpButtonClick}
         count={bumpCount}
       />
-      <Button value={'Fund'} kind="primary" size="md" onClick={onFund} Icon={Giving} />
+      <Button value={'Fund'} kind="primary" size="md" onClick={onFundButtonClick} Icon={Giving} />
     </div>
   );
 });
@@ -103,10 +122,6 @@ export const Progress = memo(
 );
 
 export const ActionHeader = ({
-  onBump,
-  onFund,
-  bumpCount,
-  bumped,
   lastUpdated,
   titleText,
   onTitleEdit,
@@ -129,7 +144,7 @@ export const ActionHeader = ({
               <div className={'mr-auto'}>
                 <Title value={titleText} onEdit={onTitleEdit} />
               </div>
-              <ActionBar onBump={onBump} onFund={onFund} bumpCount={bumpCount} bumped={bumped} />
+              <ActionBar />
             </div>
             <TimeAgo lastUpdated={lastUpdated} />
           </div>

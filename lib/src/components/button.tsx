@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { cva, VariantProps } from 'cva';
 import { formatCount } from '@elements/_utils';
 
@@ -76,29 +76,22 @@ export interface IButton
   Icon?: React.ComponentType<any>;
 }
 
-export const Button = ({
-  value,
-  count,
-  Icon,
-  size,
-  kind,
-  disabled,
-  clicked,
-  ...props
-}: IButton) => {
-  return (
-    <button
-      {...props}
-      className={variant({
-        size,
-        kind,
-        disabled: !!disabled,
-        hasIcon: !!Icon,
-        clicked: !!clicked,
-      })}>
-      {Icon && <Icon className={iconVariant({ size, kind })} />}
-      <span>{value}</span>
-      {count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
-    </button>
-  );
-};
+export const Button = memo(
+  ({ value, count, Icon, size, kind, disabled, clicked, ...props }: IButton) => {
+    return (
+      <button
+        {...props}
+        className={variant({
+          size,
+          kind,
+          disabled: !!disabled,
+          hasIcon: !!Icon,
+          clicked: !!clicked,
+        })}>
+        {Icon && <Icon className={iconVariant({ size, kind })} />}
+        <span>{value}</span>
+        {count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
+      </button>
+    );
+  }
+);
