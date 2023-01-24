@@ -6,9 +6,9 @@ import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { Tabs } from '@elements/components/tabs';
 import { useDispatch, useValue } from '@elements/store';
-import React, { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
-export const SubscriptionBar = React.memo(() => {
+export const SubscriptionBar = memo(() => {
   const actionId = useValue('action/id');
   const userId = useValue('user.me/id');
   const followCount = useValue('action.follow/count', { 'action/id': actionId });
@@ -52,17 +52,17 @@ export const SubscriptionBar = React.memo(() => {
   );
 });
 
-export const Title = React.memo(({ onEdit, value }: any) => {
+export const Title = memo(({ onEdit, value }: any) => {
   console.log(onEdit);
   return <h2 className={'text-2xl font-bold text-gray-900'}>{value}</h2>;
 });
 
-export const TimeAgo = React.memo(({ lastUpdated }: any) => {
+export const TimeAgo = memo(({ lastUpdated }: any) => {
   console.log(lastUpdated);
   return <div className={'text-xs text-gray-500'}>Active 5 days ago</div>;
 });
 
-const ActionBar = React.memo(({ onBump, onFund, bumpCount, bumped }: any) => {
+const ActionBar = memo(({ onBump, onFund, bumpCount, bumped }: any) => {
   return (
     <div className={'flex gap-4'}>
       <Button
@@ -79,7 +79,7 @@ const ActionBar = React.memo(({ onBump, onFund, bumpCount, bumped }: any) => {
   );
 });
 
-export const Progress = React.memo(
+export const Progress = memo(
   ({ activeSwitchId, switches, onSwitchClick, workPercentage, fundingPercentage }: any) => {
     console.log(fundingPercentage);
     return (
