@@ -9,7 +9,7 @@ export default {
 
 const read = {
   'action/id': '1',
-  'user.me/id': '2',
+  'user/id': '2',
   'action.follow/count': 34000,
   'action/saved': true,
   'action/followed': false,

@@ -50,13 +50,16 @@ export const SubscriptionBar = memo(() => {
   );
 });
 
-export const Title = memo(({ onEdit, value }: any) => {
-  console.log(onEdit);
-  return <h2 className={'text-2xl font-bold text-gray-900'}>{value}</h2>;
+export const Title = memo(() => {
+  const actionId = useValue('action/id');
+  const title = useValue('action/title', { 'action-id': actionId });
+  return <h2 className={'text-2xl font-bold text-gray-900'}>{title}</h2>;
 });
 
-export const TimeAgo = memo(({ lastUpdated }: any) => {
-  console.log(lastUpdated);
+export const TimeAgo = memo(() => {
+  const actionId = useValue('action/id');
+  const lastActive = useValue('action/last-active', { 'action-id': actionId });
+  console.log(lastActive);
   return <div className={'text-xs text-gray-500'}>Active 5 days ago</div>;
 });
 
@@ -104,9 +107,9 @@ export const ProgressIndicator = memo(() => {
   const workPercentage = useValue('action.work/percentage', { 'action-id': actionId });
   const fundingPercentage = useValue('action.funding/percentage', { 'action-id': actionId });
   const switches = useValue('action.ui.progress-bar/switches');
-  const updateSwitch = useDispatch('action.ui.progress-bar/switch');
+  const updateSwitch = useDispatch('action.ui.progress-bar/update');
 
-  const onSwitchButtonClick = useCallback(
+  const onSwitchClick = useCallback(
     (switchId: string) => {
       updateSwitch({ 'switch-id': switchId });
     },
@@ -121,7 +124,7 @@ export const ProgressIndicator = memo(() => {
         <NamedSwitch
           activeSwitchId={activeSwitchId}
           switches={switches}
-          onSwitchClick={onSwitchButtonClick}
+          onSwitchClick={onSwitchClick}
           size="xs"
         />
         <div className={'flex gap-1 text-xs text-gray-500'}>
@@ -134,14 +137,22 @@ export const ProgressIndicator = memo(() => {
   );
 });
 
-export const ActionHeader = ({
-  lastUpdated,
-  titleText,
-  onTitleEdit,
-  tabs,
-  activeTabId,
-  onTabClick,
-}: any) => {
+export const ActionTabs = () => {
+  const tabs = useValue('action.ui/tabs');
+  const activeTabId = useValue('action.ui.tabs/active-tab-id');
+  const updateTab = useDispatch('action.ui.tabs/update');
+
+  const onTabClick = useCallback(
+    (tabId: string) => {
+      updateTab({ 'tab-id': tabId });
+    },
+    [updateTab]
+  );
+
+  return <Tabs size="md" tabs={tabs} activeTabId={activeTabId} onTabClick={onTabClick} />;
+};
+
+export const ActionHeader = () => {
   return (
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>
@@ -150,17 +161,17 @@ export const ActionHeader = ({
           <div>
             <div className={'flex'}>
               <div className={'mr-auto'}>
-                <Title value={titleText} onEdit={onTitleEdit} />
+                <Title />
               </div>
               <ActionBar />
             </div>
-            <TimeAgo lastUpdated={lastUpdated} />
+            <TimeAgo />
           </div>
         </div>
         <ProgressIndicator />
       </div>
       <div className={'flex justify-center'}>
-        <Tabs size="md" tabs={tabs} activeTabId={activeTabId} onTabClick={onTabClick} />
+        <ActionTabs />
       </div>
     </div>
   );
