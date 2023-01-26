@@ -1,6 +1,6 @@
 import { HomeSection as Component } from '@elements/compositions/action/home-section';
 import { StoryObj } from '@storybook/react';
-import { createActions, MockStore } from '../../../utils/mock-store';
+import { createActions, MockStore } from '@story/utils/mock-store';
 
 export default {
   title: 'Compositions/Action/ActionHeader',

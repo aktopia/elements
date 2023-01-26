@@ -20,7 +20,8 @@
     "paths": {
       "@elements/*": [
         "../lib/src/*"
-      ]
+      ],
+      "@story/*": ["src/*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,

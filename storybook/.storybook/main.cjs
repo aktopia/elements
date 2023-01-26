@@ -36,6 +36,7 @@ module.exports = {
       resolve: {
         alias: {
           '@elements': path.resolve(__dirname, '../../lib/src'),
+          '@story': path.resolve(__dirname, '../src'),
         },
       },
       // Add dependencies to pre-optimization
