@@ -26,8 +26,8 @@ const read = {
   ],
   'ui.action/tabs': [
     { id: 'home', label: 'Home' },
-    { id: 'updates', label: 'Updates' },
     { id: 'funding', label: 'Funding' },
+    { id: 'updates', label: 'Updates' },
     { id: 'discussion', label: 'Discussion' },
     { id: 'team', label: 'Team' },
   ],

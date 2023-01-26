@@ -73,6 +73,7 @@ export {
   InformationCircleIcon as InformationCircleMiniSolid,
   RssIcon as RssMiniSolid,
   PlusIcon as PlusMiniSolid,
+  TrophyIcon as TrophyMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
