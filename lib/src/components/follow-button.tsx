@@ -1,8 +1,8 @@
 import { RssMiniSolid } from '@elements/_icons';
-import { Button, IButton } from '@elements/components/button';
+import { Button, ButtonProps } from '@elements/components/button';
 import { memo } from 'react';
 
-type IFollowButton = Omit<IButton, 'value' | 'Icon'>;
+type IFollowButton = Omit<ButtonProps, 'value' | 'Icon'>;
 
 export const FollowButton = memo(({ clicked, ...props }: IFollowButton) => {
   return (

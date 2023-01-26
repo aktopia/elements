@@ -1,6 +1,6 @@
-import React, { memo } from 'react';
-import { cva, VariantProps } from 'cva';
 import { formatCount } from '@elements/_utils';
+import { cva, VariantProps } from 'cva';
+import React, { memo } from 'react';
 
 const variant = cva('relative flex items-center justify-center font-medium w-max rounded-md', {
   variants: {
@@ -68,16 +68,17 @@ const countVariant = cva('font-medium', {
 
 type Variant = VariantProps<typeof variant>;
 
-export interface IButton
+export interface ButtonProps
   extends React.ComponentPropsWithoutRef<'button'>,
-    Omit<Variant, 'disabled'> {
+    Omit<Variant, 'disabled' | 'clicked'> {
   value: string;
   count?: number;
+  clicked?: boolean;
   Icon?: React.ComponentType<any>;
 }
 
 export const Button = memo(
-  ({ value, count, Icon, size, kind, disabled, clicked, ...props }: IButton) => {
+  ({ value, count, Icon, size, kind, disabled, clicked, ...props }: ButtonProps) => {
     return (
       <button
         {...props}
@@ -93,5 +94,5 @@ export const Button = memo(
         {count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
       </button>
     );
-  }
+  },
 );

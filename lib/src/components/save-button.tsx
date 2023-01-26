@@ -1,10 +1,10 @@
 import { PlusMiniSolid } from '@elements/_icons';
-import { Button, IButton } from '@elements/components/button';
+import { Button, ButtonProps } from '@elements/components/button';
 import { memo } from 'react';
 
-type ISaveButton = Omit<IButton, 'value' | 'Icon'>;
+type SaveButtonProps = Omit<ButtonProps, 'value' | 'Icon'>;
 
-export const SaveButton = memo(({ clicked, ...props }: ISaveButton) => {
+export const SaveButton = memo(({ clicked, ...props }: SaveButtonProps) => {
   return (
     <Button
       {...props}
