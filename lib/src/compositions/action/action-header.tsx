@@ -39,13 +39,13 @@ export const SubscriptionBar = memo(() => {
   return (
     <div className={'flex gap-4'}>
       <FollowButton
-        kind='tertiary'
-        size='xs'
-        count={followCount}
-        onClick={onFollowButtonClick}
         clicked={followed}
+        count={followCount}
+        kind={"tertiary"}
+        size={"xs"}
+        onClick={onFollowButtonClick}
       />
-      <SaveButton kind='tertiary' size='xs' onClick={onSaveButtonClick} clicked={saved} />
+      <SaveButton clicked={saved} kind={"tertiary"} size={"xs"} onClick={onSaveButtonClick} />
     </div>
   );
 });
@@ -60,7 +60,7 @@ export const TimeAgo = memo(() => {
   const actionId = useValue('current.action/id');
   const lastActive = useValue('action/last-active', { 'action/id': actionId });
   console.log(lastActive);
-  return <div className={'text-xs text-gray-500'}>Active 5 days ago</div>;
+  return <div className={'text-xs text-gray-500'}>{"Active 5 days ago"}</div>;
 });
 
 const ActionBar = memo(() => {
@@ -89,14 +89,14 @@ const ActionBar = memo(() => {
     <div className={'flex gap-4'}>
       <Button
         Icon={BoltOutline}
-        value={'Bump'}
-        kind='secondary'
-        size='md'
         clicked={bumped}
-        onClick={onBumpButtonClick}
         count={bumpCount}
+        kind={"secondary"}
+        size={"md"}
+        value={'Bump'}
+        onClick={onBumpButtonClick}
       />
-      <Button value={'Fund'} kind='primary' size='md' onClick={onFundButtonClick} Icon={Giving} />
+      <Button Icon={Giving} kind={"primary"} size={"md"} value={'Fund'} onClick={onFundButtonClick} />
     </div>
   );
 });
@@ -123,21 +123,21 @@ export const ProgressIndicator = memo(() => {
       <div className={'flex items-end justify-between'}>
         <NamedSwitch
           activeSwitchId={activeSwitchId}
+          size={"xs"}
           switches={switches}
           onSwitchClick={onSwitchClick}
-          size='xs'
         />
         <div className={'flex gap-1 text-xs text-gray-500'}>
           <span className={'font-bold'}>{`${workPercentage}%`}</span>
-          <span>Complete</span>
+          <span>{"Complete"}</span>
         </div>
       </div>
-      <ProgressBar total={100} current={workPercentage} />
+      <ProgressBar current={workPercentage} total={100} />
     </div>
   );
 });
 
-export const ActionTabs = () => {
+export function ActionTabs() {
   const tabs = useValue('ui.action/tabs');
   const activeTabId = useValue('ui.action.tabs/active-tab-id');
   const updateTab = useDispatch('ui.action.tabs/update');
@@ -149,11 +149,11 @@ export const ActionTabs = () => {
     [updateTab],
   );
 
-  return <Tabs size='md' tabs={tabs} activeTabId={activeTabId} onTabClick={onTabClick} />;
-};
+  return <Tabs activeTabId={activeTabId} size={"md"} tabs={tabs} onTabClick={onTabClick} />;
+}
 
-export const ActionHeader = () => (
-  <div className={'flex flex-col gap-10'}>
+export function ActionHeader() {
+  return <div className={'flex flex-col gap-10'}>
     <div className={'flex flex-col gap-8'}>
       <div className={'flex flex-col gap-4'}>
         <SubscriptionBar />
@@ -173,4 +173,4 @@ export const ActionHeader = () => (
       <ActionTabs />
     </div>
   </div>
-);
+}

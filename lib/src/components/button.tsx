@@ -78,7 +78,7 @@ export interface ButtonProps
 }
 
 export const Button = memo(
-  ({ value, count, Icon, size, kind, disabled, clicked, ...props }: ButtonProps) => {
+  ({ value, count, type = 'button', Icon, size, kind, disabled, clicked, ...props }: ButtonProps) => {
     return (
       <button
         {...props}
@@ -88,7 +88,8 @@ export const Button = memo(
           disabled: !!disabled,
           hasIcon: !!Icon,
           clicked: !!clicked,
-        })}>
+        })}
+        type={type === 'submit' ? 'submit' : 'button'}>
         {!!Icon && <Icon className={iconVariant({ size, kind })} />}
         <span>{value}</span>
         {!!count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
