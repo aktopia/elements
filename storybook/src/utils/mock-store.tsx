@@ -11,7 +11,16 @@ interface MockStoreProps {
 }
 
 export const MockStore = ({ read, dispatch, children }: MockStoreProps) => {
-  const _read = useCallback<Read>((key, _) => read && read[key], [read]);
+  const _read = useCallback<Read>(
+    (key, params) => {
+      const fnOrValue = read && read[key];
+      if (typeof fnOrValue === 'function') {
+        return fnOrValue(params);
+      }
+      return fnOrValue;
+    },
+    [read]
+  );
   const _dispatch = useCallback<Dispatch>(
     (key, params?) => dispatch && dispatch[key](params),
     [dispatch]
