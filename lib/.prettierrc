@@ -1,6 +1,6 @@
 {
   "bracketSameLine": true,
-  "jsxSingleQuote": false,
+  "jsxSingleQuote": true,
   "printWidth": 100,
   "proseWrap": "always",
   "quoteProps": "as-needed",
@@ -8,5 +8,6 @@
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "es5",
-  "useTabs": false
+  "useTabs": false,
+  "bracketSpacing": true
 }

@@ -1,9 +1,9 @@
-interface IProgressBar {
+interface ProgressBarProps {
   total: number;
   current: number;
 }
 
-export const ProgressBar = ({ total, current }: IProgressBar) => {
+export const ProgressBar = ({ total, current }: ProgressBarProps) => {
   const percentage = (current / total) * 100;
   return (
     <div className={'relative h-1 w-full rounded'}>

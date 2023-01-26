@@ -1,5 +1,5 @@
-import React from 'react';
 import { cva, VariantProps } from 'cva';
+import React from 'react';
 
 const containerVariant = cva('flex', {
   variants: {
