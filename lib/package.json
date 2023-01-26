@@ -10,7 +10,8 @@
   },
   "exports": {
     "./components": "./dist/components.js",
-    "./compositions": "./dist/compositions.js"
+    "./compositions": "./dist/compositions.js",
+    "./store": "./dist/store.js"
   },
   "dependencies": {
     "@heroicons/react": "2.0.13",
