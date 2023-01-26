@@ -3,7 +3,7 @@ import { createActions, MockStore } from '@story/utils/mock-store';
 import { StoryObj } from '@storybook/react';
 
 export default {
-  title: 'Compositions/Action/ActionHeader',
+  title: 'Compositions/Action/HomeSection',
   component: Component,
 };
 

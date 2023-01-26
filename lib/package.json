@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@heroicons/react": "2.0.13",
-    "cva": "npm:class-variance-authority@^0.4.0",
-    "lodash": "^4.17.21"
+    "@iconicicons/react": "^1.5.1",
+    "cva": "npm:class-variance-authority@^0.4.0"
   },
   "peerDependencies": {
     "react": "^18.2.0",

@@ -1,10 +1,4 @@
-import {
-  createContext,
-  type ReactNode,
-  useCallback,
-  useContext,
-  useSyncExternalStore,
-} from 'react';
+import { createContext, type ReactNode, useCallback, useContext, useSyncExternalStore } from 'react';
 
 export type Subscribe = (onStoreChange: () => void) => () => void;
 
@@ -12,7 +6,25 @@ export type Read = (id: string, params?: Record<string, any>) => any;
 
 export type Dispatch = (id: string, params?: Record<string, any>) => void;
 
-export const StoreContext = createContext<any>({});
+type StoreContextType = {
+  subscribe: Subscribe;
+  read: Read;
+  dispatch: Dispatch;
+}
+
+const placeholderContext: StoreContextType = {
+  read: (_id, _params) => {
+    throw new Error('"read" not set for StoreContext');
+  },
+  subscribe: (_callback) => {
+    throw new Error('"subscribe" not set for StoreContext');
+  },
+  dispatch: (_id, _params) => {
+    throw new Error('"dispatch" not set for StoreContext');
+  },
+};
+
+export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
 export function useValue(id: string, params?: Record<string, any>) {
   const { read, subscribe } = useContext(StoreContext);

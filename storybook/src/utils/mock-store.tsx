@@ -19,11 +19,11 @@ export const MockStore = ({ read, dispatch, children }: MockStoreProps) => {
       }
       return fnOrValue;
     },
-    [read]
+    [read],
   );
   const _dispatch = useCallback<Dispatch>(
     (key, params?) => dispatch && dispatch[key](params),
-    [dispatch]
+    [dispatch],
   );
 
   return (
