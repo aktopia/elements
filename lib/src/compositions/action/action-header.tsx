@@ -6,12 +6,12 @@ import {ProgressBar} from '@elements/components/progress-bar';
 import {SaveButton} from '@elements/components/save-button';
 import {Tabs} from '@elements/components/tabs';
 import {useDispatch, useValue} from '@elements/store';
-import {memo, useCallback} from 'react';
+import {memo, useCallback, useMemo} from 'react';
 
 export const SubscriptionBar = memo(() => {
 	const actionId = useValue('current.action/id');
 	const userId = useValue('current.user/id');
-	const ident = {'user/id': userId, 'action/id': actionId};
+	const ident = useMemo(() => ({'user/id': userId, 'action/id': actionId}), [userId, actionId]);
 	const followCount = useValue('action.follow/count', {'action/id': actionId});
 	const saved = useValue('action/saved', ident);
 	const followed = useValue('action/followed', ident);
@@ -66,7 +66,7 @@ export const TimeAgo = memo(() => {
 const ActionBar = memo(() => {
 	const actionId = useValue('current.action/id');
 	const userId = useValue('current.user/id');
-	const ident = {'user/id': userId, 'action/id': actionId};
+	const ident = useMemo(() => ({'user/id': userId, 'action/id': actionId}), [userId, actionId]);
 	const bumped = useValue('action/bumped', ident);
 	const bumpCount = useValue('action.bump/count', {'action/id': actionId});
 	const bump = useDispatch('action/bump');
