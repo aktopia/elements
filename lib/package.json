@@ -7,7 +7,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link",
-    "lint": "npx eslint '**/*.{js,jsx,ts,tsx}'",
+    "lint": "npx eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "lint-fix": "npx eslint --fix '**/*.{js,jsx,ts,tsx}'"
   },
   "exports": {

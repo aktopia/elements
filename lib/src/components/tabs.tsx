@@ -1,5 +1,5 @@
 import { cva, VariantProps } from 'cva';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 const containerVariant = cva('flex', {
   variants: {
@@ -39,6 +39,21 @@ interface TabsProps extends ContainerVariant {
   onTabClick: Function;
 }
 
+interface TabProps {
+  id: string;
+  label: string;
+  status: 'active' | 'inactive';
+  size: any;
+  onTabClick: Function;
+}
+
+function Tab({ id, label, status, size, onTabClick }: TabProps) {
+  const onClick = useCallback(() => onTabClick(id), [id, onTabClick]);
+  return <div key={id} className={tabVariant({ status, size })} onClick={onClick}>
+    {label}
+  </div>;
+}
+
 export const Tabs = React.memo(({ activeTabId, tabs, size, onTabClick }: TabsProps) => {
   return (
     <div className={containerVariant({ size })}>
@@ -46,9 +61,7 @@ export const Tabs = React.memo(({ activeTabId, tabs, size, onTabClick }: TabsPro
         const status = id == activeTabId ? 'active' : 'inactive';
 
         return (
-          <div key={id} className={tabVariant({ status, size })} onClick={() => onTabClick(id)}>
-            {label}
-          </div>
+          <Tab key={id} id={id} label={label} size={size} status={status} onTabClick={onTabClick} />
         );
       })}
     </div>
