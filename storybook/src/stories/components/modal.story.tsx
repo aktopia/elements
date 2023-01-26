@@ -7,8 +7,10 @@ export default {
 
 export const Examples = () => {
   return (
-    <div className="flex-column flex gap-10">
-      <Modal show={true} title={'Sign in'} content={<div className={'w-56'}>Whatever</div>} />
+    <div className='flex-column flex gap-10'>
+      <Modal show={true} title={'Sign in'}>
+        <div className={'w-56'}>Whatever</div>
+      </Modal>
     </div>
   );
 };

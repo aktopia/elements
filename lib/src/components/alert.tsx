@@ -19,7 +19,7 @@ const containerVariant = cva(
         error: 'bg-red-50 border-red-300',
       },
     },
-  }
+  },
 );
 
 const iconVariant = cva('h-5 w-5', {
@@ -64,7 +64,7 @@ const icon = {
 
 function Icon({ type }: VariantProps<typeof iconVariant>) {
   const Component = icon[type || 'info'];
-  return <Component className={iconVariant({ type })} aria-hidden="true" />;
+  return <Component aria-hidden='true' className={iconVariant({ type })} />;
 }
 
 type Variant = VariantProps<typeof containerVariant>;
@@ -84,18 +84,18 @@ export function Alert({
 }: IAlert) {
   return show ? (
     <div className={containerVariant({ type })}>
-      <div className="flex items-center">
-        <div className="flex-shrink-0">
-          <Icon type={type} aria-hidden="true" />
+      <div className='flex items-center'>
+        <div className='flex-shrink-0'>
+          <Icon aria-hidden='true' type={type}  />
         </div>
-        <div className="ml-3">
+        <div className='ml-3'>
           <p className={messageVariant({ type })}>{messageText}</p>
         </div>
-        <div className="ml-auto pl-3">
-          <div className="-mx-1.5 -my-1.5">
-            <button type="button" className={closeButtonVariant({ type })} onClick={onDismiss}>
-              <span className="sr-only">Dismiss</span>
-              <XMarkMiniSolid className="h-5 w-5" aria-hidden="true" />
+        <div className='ml-auto pl-3'>
+          <div className='-mx-1.5 -my-1.5'>
+            <button className={closeButtonVariant({ type })} type='button' onClick={onDismiss}>
+              <span className='sr-only'>Dismiss</span>
+              <XMarkMiniSolid aria-hidden='true' className='h-5 w-5' />
             </button>
           </div>
         </div>

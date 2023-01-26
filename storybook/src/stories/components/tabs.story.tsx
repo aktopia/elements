@@ -1,14 +1,15 @@
-import { Tabs } from '@elements/components/tabs';
+import { Tabs as Component } from '@elements/components/tabs';
+import { action } from '@storybook/addon-actions';
 import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Tabs',
-  component: Tabs,
+  component: Component,
 };
 
-type Story = StoryObj<typeof Tabs>;
+type Story = StoryObj<typeof Component>;
 
-export const Main: Story = {
+export const Tabs: Story = {
   args: {
     tabs: [
       { id: 'home', label: 'Home' },
@@ -18,7 +19,7 @@ export const Main: Story = {
       { id: 'team', label: 'Team' },
     ],
     activeTabId: 'updates',
-    onTabClick: () => {},
+    onTabClick: action('onTabClick'),
     size: 'md',
   },
 };

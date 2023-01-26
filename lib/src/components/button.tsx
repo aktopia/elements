@@ -89,9 +89,9 @@ export const Button = memo(
           hasIcon: !!Icon,
           clicked: !!clicked,
         })}>
-        {Icon && <Icon className={iconVariant({ size, kind })} />}
+        {!!Icon && <Icon className={iconVariant({ size, kind })} />}
         <span>{value}</span>
-        {count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
+        {!!count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
       </button>
     );
   },
