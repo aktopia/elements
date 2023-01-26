@@ -34,7 +34,7 @@ const inputVariant = cva(
   }
 );
 
-export const EnterOtp = ({
+export function EnterOtp({
   onOtpChange,
   otp,
   onClose,
@@ -49,7 +49,7 @@ export const EnterOtp = ({
   waitToSendOtpText,
   otpErrorText,
   onOtpFocus,
-}: EnterOtpProps) => {
+}: EnterOtpProps) {
   const onOtpChangeMemo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     onOtpChange(e.target.value);
   }, []);
@@ -61,42 +61,40 @@ export const EnterOtp = ({
   } else if (resendOtpState === 'resending') {
     resendOtpView = (
       <div className={'flex items-center justify-center'}>
-        <Spinner show={true} kind="secondary" size="xs" />
+        <Spinner kind={'secondary'} show={true} size={'xs'} />
       </div>
     );
   } else {
     resendOtpView = (
       <Button
-        onClick={onResendOtp}
-        value={resendOtpText}
-        size="xs"
-        kind="tertiary"
         disabled={verifyingOtp}
+        kind={'tertiary'}
+        size={'xs'}
+        value={resendOtpText}
+        onClick={onResendOtp}
       />
     );
   }
 
   return (
-    <Modal title={titleText} onClose={onClose} show={show}>
+    <Modal show={show} title={titleText} onClose={onClose}>
       <div className={'flex w-[280px] flex-col items-center justify-center gap-5'}>
         {verifyingOtp ? (
-          <Spinner show={true} kind="primary" size="sm" />
+          <Spinner kind={'primary'} show={true} size={'sm'} />
         ) : (
           <div className={'h-20'}>
             <div className={'mt-2'}>
               <input
-                maxLength={num}
-                value={otp}
-                disabled={resendOtpState == 'resending'}
-                type="text"
-                onChange={onOtpChangeMemo}
                 className={inputVariant({ error: Boolean(otpErrorText) })}
+                disabled={resendOtpState == 'resending'}
+                maxLength={num}
+                type={'text'}
+                value={otp}
+                onChange={onOtpChangeMemo}
                 onFocus={onOtpFocus}
               />
             </div>
-            {otpErrorText && (
-              <div className={'pt-1 text-xs font-medium text-rose-500'}>{otpErrorText}</div>
-            )}
+            {!!otpErrorText && <div className={'pt-1 text-xs font-medium text-rose-500'}>{otpErrorText}</div>}
           </div>
         )}
         <div className={'relative flex w-full items-center justify-center'}>
@@ -108,7 +106,7 @@ export const EnterOtp = ({
       </div>
     </Modal>
   );
-};
+}
 
 /*
 TODO

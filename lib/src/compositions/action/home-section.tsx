@@ -14,7 +14,7 @@ function Outcome() {
     <div className={'flex flex-col gap-2 rounded-md border border-blue-600 bg-blue-50 p-6'}>
       <div className={'flex items-center gap-3'}>
         <TrophyMiniSolid className={'h-4 w-5 text-blue-700'} />
-        <div className={'font-medium text-blue-700'}>Outcome</div>
+        <div className={'font-medium text-blue-700'}>{'Outcome'}</div>
       </div>
       <div className={'text-blue-700'}>{outcome}</div>
     </div>
@@ -25,7 +25,7 @@ function Relations() {
   const actionId = useValue('current.action/id');
   const relations = useValue('action/relations', { 'action/id': actionId });
   console.log(relations);
-  return <div></div>;
+  return <div />;
 }
 
 export function HomeSection() {

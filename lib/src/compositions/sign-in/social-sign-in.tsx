@@ -9,15 +9,15 @@ interface ISignIn {
   onGoogleClick: React.MouseEventHandler;
 }
 
-export const SocialSignIn = ({ onClose, show, onGoogleClick, titleText }: ISignIn) => {
+export function SocialSignIn({ onClose, show, onGoogleClick, titleText }: ISignIn) {
   return (
-    <Modal title={titleText} onClose={onClose} show={show}>
+    <Modal show={show} title={titleText} onClose={onClose}>
       <div className={'m-6 flex w-80 flex-col items-center'}>
-        <Button onClick={onGoogleClick} value={'Google'} size="sm" kind="primary" />
+        <Button kind={'primary'} size={'sm'} value={'Google'} onClick={onGoogleClick} />
       </div>
     </Modal>
   );
-};
+}
 
 /*
 Mobile responsive

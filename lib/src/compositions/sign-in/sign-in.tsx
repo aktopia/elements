@@ -20,7 +20,7 @@ interface ISignIn {
   switches: any;
 }
 
-export const SignIn = ({
+export function SignIn({
   onSendOtp,
   onClose,
   show,
@@ -34,7 +34,7 @@ export const SignIn = ({
   onEmailChange,
   sendingOtp,
   switches,
-}: ISignIn) => {
+}: ISignIn) {
   const onPhoneChangeMemo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     onPhoneChange(e.target.value);
   }, []);
@@ -49,46 +49,46 @@ export const SignIn = ({
   }, []);
 
   return (
-    <Modal title={titleText} onClose={onClose} show={show}>
+    <Modal show={show} title={titleText} onClose={onClose}>
       <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
         <NamedSwitch
-          switches={switches}
-          size="md"
           activeSwitchId={activeSwitchId}
+          size={'md'}
+          switches={switches}
           onSwitchClick={onSwitchClick}
         />
         {activeSwitchId == 'phone' ? (
           <input
-            value={phone}
-            disabled={sendingOtp}
-            type={'text'}
-            onChange={onPhoneChangeMemo}
             className={
               'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner'
             }
+            disabled={sendingOtp}
+            type={'text'}
+            value={phone}
+            onChange={onPhoneChangeMemo}
           />
         ) : (
           <input
-            value={email}
-            disabled={sendingOtp}
-            type={'text'}
-            onChange={onEmailChangeMemo}
             className={
               'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner'
             }
+            disabled={sendingOtp}
+            type={'text'}
+            value={email}
+            onChange={onEmailChangeMemo}
           />
         )}
         <div className={'flex w-full justify-center'}>
           {sendingOtp ? (
-            <Spinner show={true} kind="primary" size="sm" />
+            <Spinner kind={'primary'} show={true} size={'sm'} />
           ) : (
-            <Button type="submit" value={sendOtpText} size="md" kind="primary" />
+            <Button kind={'primary'} size={'md'} type={'submit'} value={sendOtpText} />
           )}
         </div>
       </form>
     </Modal>
   );
-};
+}
 
 /*
 Enter to submit

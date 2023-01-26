@@ -27,10 +27,10 @@ interface IBackButton extends React.ComponentPropsWithoutRef<'button'> {
   variant: Variant;
 }
 
-export const BackIconButton = ({ variant: { size }, ...props }: IBackButton) => {
+export function BackIconButton({ variant: { size }, ...props }: IBackButton) {
   return (
     <button {...props} className={container({ size })}>
       <ChevronLeftMini className={icon({ size })} />
     </button>
   );
-};
+}

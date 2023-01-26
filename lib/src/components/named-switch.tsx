@@ -43,12 +43,12 @@ interface NamedSwitchProps extends ContainerVariant {
   onSwitchClick: Function;
 }
 
-export const NamedSwitch = ({
+export function NamedSwitch({
   activeSwitchId,
   switches,
   onSwitchClick,
   size,
-}: NamedSwitchProps) => {
+}: NamedSwitchProps) {
   return (
     <div className={containerVariant({ size })}>
       {switches.map(({ id, label }: any) => {
@@ -57,15 +57,15 @@ export const NamedSwitch = ({
         return (
           <div
             key={id}
-            onClick={() => onSwitchClick(id)}
-            className={switchVariant({ status, size })}>
+            className={switchVariant({ status, size })}
+            onClick={() => onSwitchClick(id)}>
             {label}
           </div>
         );
       })}
     </div>
   );
-};
+}
 
 /*
 TODO

@@ -8,8 +8,8 @@ export const FollowButton = memo(({ clicked, ...props }: IFollowButton) => {
   return (
     <Button
       {...props}
-      value={clicked ? 'Following' : 'Follow'}
+      Icon={RssMiniSolid}
       clicked={clicked}
-      Icon={RssMiniSolid}></Button>
+      value={clicked ? 'Following' : 'Follow'} />
   );
 });

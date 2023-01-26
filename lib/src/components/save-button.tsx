@@ -10,6 +10,6 @@ export const SaveButton = memo(({ clicked, ...props }: SaveButtonProps) => {
       {...props}
       Icon={PlusMiniSolid}
       clicked={clicked}
-      value={clicked ? 'Saved' : 'Save'}></Button>
+      value={clicked ? 'Saved' : 'Save'} />
   );
 });

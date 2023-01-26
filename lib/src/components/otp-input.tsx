@@ -42,7 +42,7 @@ function keydownHandler(
   }
 }
 
-export const OtpInput = ({ characters, num, onInputComplete }: any) => {
+export function OtpInput({ characters, num, onInputComplete }: any) {
   const refs: React.MutableRefObject<HTMLInputElement>[] = [...Array(num)].map(
     (_) => useRef() as React.MutableRefObject<HTMLInputElement>
   );
@@ -71,15 +71,15 @@ export const OtpInput = ({ characters, num, onInputComplete }: any) => {
     <div className={'flex gap-4'}>
       {refs.map((ref, index) => (
         <SingleCharacterInput
-          id={useId()}
-          ref={ref}
           key={index}
-          value={characters && characters[index]}
+          ref={ref}
+          id={useId()}
+          value={!!characters && characters[index]}
         />
       ))}
     </div>
   );
-};
+}
 
 /*
 TODO

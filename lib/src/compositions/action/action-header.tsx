@@ -41,11 +41,11 @@ export const SubscriptionBar = memo(() => {
       <FollowButton
         clicked={followed}
         count={followCount}
-        kind={"tertiary"}
-        size={"xs"}
+        kind={'tertiary'}
+        size={'xs'}
         onClick={onFollowButtonClick}
       />
-      <SaveButton clicked={saved} kind={"tertiary"} size={"xs"} onClick={onSaveButtonClick} />
+      <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
     </div>
   );
 });
@@ -60,7 +60,7 @@ export const TimeAgo = memo(() => {
   const actionId = useValue('current.action/id');
   const lastActive = useValue('action/last-active', { 'action/id': actionId });
   console.log(lastActive);
-  return <div className={'text-xs text-gray-500'}>{"Active 5 days ago"}</div>;
+  return <div className={'text-xs text-gray-500'}>{'Active 5 days ago'}</div>;
 });
 
 const ActionBar = memo(() => {
@@ -91,12 +91,12 @@ const ActionBar = memo(() => {
         Icon={BoltOutline}
         clicked={bumped}
         count={bumpCount}
-        kind={"secondary"}
-        size={"md"}
+        kind={'secondary'}
+        size={'md'}
         value={'Bump'}
         onClick={onBumpButtonClick}
       />
-      <Button Icon={Giving} kind={"primary"} size={"md"} value={'Fund'} onClick={onFundButtonClick} />
+      <Button Icon={Giving} kind={'primary'} size={'md'} value={'Fund'} onClick={onFundButtonClick} />
     </div>
   );
 });
@@ -108,6 +108,7 @@ export const ProgressIndicator = memo(() => {
   const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
   const switches = useValue('ui.action.progress-bar/switches');
   const updateSwitch = useDispatch('ui.action.progress-bar/update');
+  const workPercentageText = `${workPercentage}%`;
 
   const onSwitchClick = useCallback(
     (switchId: string) => {
@@ -123,13 +124,13 @@ export const ProgressIndicator = memo(() => {
       <div className={'flex items-end justify-between'}>
         <NamedSwitch
           activeSwitchId={activeSwitchId}
-          size={"xs"}
+          size={'xs'}
           switches={switches}
           onSwitchClick={onSwitchClick}
         />
         <div className={'flex gap-1 text-xs text-gray-500'}>
-          <span className={'font-bold'}>{`${workPercentage}%`}</span>
-          <span>{"Complete"}</span>
+          <span className={'font-bold'}>{workPercentageText}</span>
+          <span>{'Complete'}</span>
         </div>
       </div>
       <ProgressBar current={workPercentage} total={100} />
@@ -149,7 +150,7 @@ export function ActionTabs() {
     [updateTab],
   );
 
-  return <Tabs activeTabId={activeTabId} size={"md"} tabs={tabs} onTabClick={onTabClick} />;
+  return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
 }
 
 export function ActionHeader() {
@@ -172,5 +173,5 @@ export function ActionHeader() {
     <div className={'flex justify-center'}>
       <ActionTabs />
     </div>
-  </div>
+  </div>;
 }

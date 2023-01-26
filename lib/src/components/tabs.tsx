@@ -46,7 +46,7 @@ export const Tabs = React.memo(({ activeTabId, tabs, size, onTabClick }: TabsPro
         const status = id == activeTabId ? 'active' : 'inactive';
 
         return (
-          <div key={id} onClick={() => onTabClick(id)} className={tabVariant({ status, size })}>
+          <div key={id} className={tabVariant({ status, size })} onClick={() => onTabClick(id)}>
             {label}
           </div>
         );
