@@ -10,8 +10,8 @@ const variant = cva('relative flex items-center justify-center font-medium w-max
       tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
     },
     size: {
-      xs: 'text-xs gap-1.5 px-2.5 py-1.5',
-      sm: 'text-sm gap-1.5 px-3 py-2 leading-4',
+      xs: 'text-xs gap-1.5 px-2.5 h-[30px]',
+      sm: 'text-sm gap-1.5 px-3 h-[32px] leading-4',
       md: 'text-sm gap-2 px-4 h-[38px]',
     },
     disabled: {
