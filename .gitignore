@@ -5,3 +5,6 @@ dist/
 storybook-static
 lib/node_modules
 storybook/node_modules
+/lib/tsconfig.node.tsbuildinfo
+/lib/vite.config.d.ts
+/lib/vite.config.js
