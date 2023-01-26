@@ -71,7 +71,7 @@ const ActionBar = memo(() => {
   const bumpCount = useValue('action.bump/count', { 'action/id': actionId });
   const bump = useDispatch('action/bump');
   const unBump = useDispatch('action/unbump');
-  const navigateToFunding = useDispatch('action.navigate/funding');
+  const navigateToFunding = useDispatch('navigate.action/funding');
 
   const onBumpButtonClick = useCallback(() => {
     if (bumped) {

@@ -41,7 +41,7 @@ const dispatch = createActions([
   'action/unsave',
   'action/bump',
   'action/unbump',
-  'action.navigate/funding',
+  'navigate.action/funding',
   'ui.action.progress-bar/update',
   'ui.action.tabs/update',
 ]);
