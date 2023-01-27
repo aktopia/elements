@@ -31,7 +31,7 @@ export function useValue(id: string, params?: Record<string, any>) {
   return useSyncExternalStore(subscribe, () => read(id, params));
 }
 
-export function useDispatch(id: string) {
+export function useDispatch(id: string): ((params?: Record<string, any>) => void) {
   const { dispatch } = useContext(StoreContext);
   return useCallback((params?: Record<string, any>) => dispatch(id, params), [dispatch, id]);
 }

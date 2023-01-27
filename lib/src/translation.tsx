@@ -3,10 +3,14 @@ import { createContext, type ReactNode, useCallback, useContext, useMemo } from 
 
 type T = (id: string, params?: Record<string, any>) => string;
 
+type TValue = string | ((params?: any) => string)
+
+type SetLocale = (locale: string) => void
+
 type TranslationContextType = {
   locale: string;
   locales: any;
-  setLocale: Function;
+  setLocale: SetLocale;
   t: T
 }
 
@@ -16,7 +20,7 @@ const placeholderContext: TranslationContextType = {
   t: () => {
     throw new Error('TranslationContext not initialized');
   },
-  setLocale: () => {
+  setLocale: (_) => {
     throw new Error('TranslationContext not initialized');
   },
 };
@@ -39,14 +43,14 @@ interface TranslationProps {
   children: ReactNode;
 }
 
-type TValue = string | ((params?: any) => string)
-
 export function Translation({ fallbackLocale, locales, children }: TranslationProps) {
   const currentLocale = useValue('current/locale');
-  const setLocale = useDispatch('current/locale');
+  const setCurrentLocale = useDispatch('current/locale');
   const locale = currentLocale || fallbackLocale;
-
   const translations = locales[locale];
+
+  const setLocale = useCallback<SetLocale>((locale) =>
+    setCurrentLocale({ 'locale': locale }), [setCurrentLocale]);
 
   const t: T = useCallback((id, params?) => {
     const fnOrString: TValue = translations[id];
