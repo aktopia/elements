@@ -21,9 +21,16 @@ export function useTranslation() {
 
   return useCallback((id: string, params?: Record<string, any>) => {
     const fnOrString = currentLocale[id];
+
+    if (!fnOrString) {
+      console.error(`No translation found for key: ${id}`);
+      return null;
+    }
+
     if (typeof fnOrString === 'function') {
       return fnOrString(params);
     }
+
     return fnOrString;
   }, [currentLocale]);
 }
