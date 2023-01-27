@@ -1,5 +1,4 @@
 import { useDispatch, useValue } from '@elements/store';
-import { useInputTranslation } from '@elements/translation-input';
 import { createContext, type ReactNode, useCallback, useContext, useMemo } from 'react';
 
 type T = (id: string, params?: Record<string, any>) => string;
@@ -35,21 +34,18 @@ interface TranslationProps {
 }
 
 export function getTranslation(translations: any, id: string, params?: any) {
-  const fnOrString: TValue = translations[id];
+  const translationValue: TValue = translations[id];
 
-  if (typeof fnOrString === 'function') {
-    return fnOrString(params);
+  if (typeof translationValue === 'function') {
+    return translationValue(params);
   }
 
-  return fnOrString;
+  return translationValue;
 }
 
 export function useTranslation() {
-  const translationMode = useValue('translation/mode');
   const { t } = useContext(TranslationContext);
-  const renderTranslationInput = useInputTranslation();
-
-  return translationMode === 'input' ? renderTranslationInput : t;
+  return t;
 }
 
 export function useLocale() {
