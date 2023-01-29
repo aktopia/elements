@@ -1,6 +1,6 @@
 import { XMark } from '@elements/_icons';
 
-export function Modal({ title, children, onClose, show }: any) {
+export const Modal = ({ title, children, onClose, show }: any) => {
   return show ? (
     <div
       className={
@@ -21,7 +21,7 @@ export function Modal({ title, children, onClose, show }: any) {
       <div>{children}</div>
     </div>
   ) : null;
-}
+};
 
 /*
 TODO

@@ -2,13 +2,13 @@ import { TrophyMiniSolid } from '@elements/_icons';
 import { useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 
-function Description() {
+const Description = () => {
   const actionId = useValue('current.action/id');
   const description = useValue<string>('action/description', { 'action/id': actionId });
   return <div className={'text-gray-700'}>{description}</div>;
-}
+};
 
-function Outcome() {
+const Outcome = () => {
   const t = useTranslation();
   const actionId = useValue('current.action/id');
   const outcome = useValue<string>('action/outcome', { 'action/id': actionId });
@@ -22,16 +22,16 @@ function Outcome() {
       <div className={'text-blue-700'}>{outcome}</div>
     </div>
   );
-}
+};
 
-function Relations() {
+const Relations = () => {
   const actionId = useValue('current.action/id');
   const relations = useValue('action/relations', { 'action/id': actionId });
   console.log(relations);
   return <div />;
-}
+};
 
-export function HomeSection() {
+export const HomeSection = () => {
   return (
     <div className={'flex gap-8'}>
       <div className={'flex flex-col gap-5'}>
@@ -41,4 +41,4 @@ export function HomeSection() {
       <Relations />
     </div>
   );
-}
+};

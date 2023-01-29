@@ -52,7 +52,7 @@ interface SwitchProps extends SwitchVariant {
   label: string;
 }
 
-function Switch({ id, status, size, onSwitchClick, label }: SwitchProps) {
+const Switch = ({ id, status, size, onSwitchClick, label }: SwitchProps) => {
   const onClick = useCallback(() => onSwitchClick(id), [id, onSwitchClick]);
 
   return (
@@ -60,9 +60,14 @@ function Switch({ id, status, size, onSwitchClick, label }: SwitchProps) {
       {label}
     </div>
   );
-}
+};
 
-export function NamedSwitch({ activeSwitchId, switches, onSwitchClick, size }: NamedSwitchProps) {
+export const NamedSwitch = ({
+  activeSwitchId,
+  switches,
+  onSwitchClick,
+  size,
+}: NamedSwitchProps) => {
   return (
     <div className={containerVariant({ size })}>
       {switches.map(({ id, label }: any) => {
@@ -81,7 +86,7 @@ export function NamedSwitch({ activeSwitchId, switches, onSwitchClick, size }: N
       })}
     </div>
   );
-}
+};
 
 /*
 TODO

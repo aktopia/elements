@@ -3,7 +3,7 @@ interface ProgressBarProps {
   current: number;
 }
 
-export function ProgressBar({ total, current }: ProgressBarProps) {
+export const ProgressBar = ({ total, current }: ProgressBarProps) => {
   const percentage = (current / total) * 100;
   return (
     <div className={'relative h-1 w-full rounded'}>
@@ -11,4 +11,4 @@ export function ProgressBar({ total, current }: ProgressBarProps) {
       <div className={'absolute h-1 rounded bg-green-500'} style={{ width: `${percentage}%` }} />
     </div>
   );
-}
+};

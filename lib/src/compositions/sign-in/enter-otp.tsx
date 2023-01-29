@@ -34,7 +34,7 @@ const inputVariant = cva(
   }
 );
 
-export function EnterOtp({
+export const EnterOtp = ({
   onOtpChange,
   otp,
   onClose,
@@ -49,7 +49,7 @@ export function EnterOtp({
   waitToSendOtpText,
   otpErrorText,
   onOtpFocus,
-}: EnterOtpProps) {
+}: EnterOtpProps) => {
   const onOtpChangeMemo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     onOtpChange(e.target.value);
   }, []);
@@ -108,7 +108,7 @@ export function EnterOtp({
       </div>
     </Modal>
   );
-}
+};
 
 /*
 TODO

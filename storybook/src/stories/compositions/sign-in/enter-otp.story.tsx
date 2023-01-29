@@ -5,7 +5,7 @@ export default {
   component: EnterOtp,
 };
 
-export function Main() {
+export const Main = () => {
   return (
     <EnterOtp
       num={6}
@@ -22,9 +22,9 @@ export function Main() {
       onResendOtp={() => {}}
     />
   );
-}
+};
 
-export function WrongOTP() {
+export const WrongOTP = () => {
   return (
     <EnterOtp
       num={6}
@@ -42,9 +42,9 @@ export function WrongOTP() {
       onResendOtp={() => {}}
     />
   );
-}
+};
 
-export function ResendingOTP() {
+export const ResendingOTP = () => {
   return (
     <EnterOtp
       num={6}
@@ -61,9 +61,9 @@ export function ResendingOTP() {
       onResendOtp={() => {}}
     />
   );
-}
+};
 
-export function VerifyingOTP() {
+export const VerifyingOTP = () => {
   return (
     <EnterOtp
       num={6}
@@ -80,9 +80,9 @@ export function VerifyingOTP() {
       onResendOtp={() => {}}
     />
   );
-}
+};
 
-export function WaitingForOTP() {
+export const WaitingForOTP = () => {
   return (
     <EnterOtp
       num={6}
@@ -100,4 +100,4 @@ export function WaitingForOTP() {
       onResendOtp={() => {}}
     />
   );
-}
+};

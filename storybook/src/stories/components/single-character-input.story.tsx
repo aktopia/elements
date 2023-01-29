@@ -5,7 +5,7 @@ export default {
   component: SingleCharacterInput,
 };
 
-export function Examples() {
+export const Examples = () => {
   return (
     <div className={'flex flex-col gap-10'}>
       <div className={'flex gap-10'}>
@@ -22,4 +22,4 @@ export function Examples() {
       </div>
     </div>
   );
-}
+};

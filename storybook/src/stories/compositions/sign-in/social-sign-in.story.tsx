@@ -5,7 +5,7 @@ export default {
   component: SocialSignIn,
 };
 
-export function Main() {
+export const Main = () => {
   return (
     <SocialSignIn
       show={true}
@@ -14,4 +14,4 @@ export function Main() {
       onGoogleClick={console.log}
     />
   );
-}
+};

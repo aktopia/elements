@@ -20,7 +20,7 @@ interface ISignIn {
   switches: any;
 }
 
-export function SignIn({
+export const SignIn = ({
   onSendOtp,
   onClose,
   show,
@@ -34,7 +34,7 @@ export function SignIn({
   onEmailChange,
   sendingOtp,
   switches,
-}: ISignIn) {
+}: ISignIn) => {
   const onPhoneChangeMemo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     onPhoneChange(e.target.value);
   }, []);
@@ -88,7 +88,7 @@ export function SignIn({
       </form>
     </Modal>
   );
-}
+};
 
 /*
 Enter to submit

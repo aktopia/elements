@@ -47,14 +47,14 @@ interface TabProps {
   onTabClick: Function;
 }
 
-function Tab({ id, label, status, size, onTabClick }: TabProps) {
+const Tab = ({ id, label, status, size, onTabClick }: TabProps) => {
   const onClick = useCallback(() => onTabClick(id), [id, onTabClick]);
   return (
     <div key={id} className={tabVariant({ status, size })} onClick={onClick}>
       {label}
     </div>
   );
-}
+};
 
 export const Tabs = React.memo(({ activeTabId, tabs, size, onTabClick }: TabsProps) => {
   return (

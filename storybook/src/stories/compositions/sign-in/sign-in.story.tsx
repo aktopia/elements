@@ -5,7 +5,7 @@ export default {
   component: SignIn,
 };
 
-export function Main() {
+export const Main = () => {
   return (
     <SignIn
       activeSwitchId={'phone'}
@@ -26,9 +26,9 @@ export function Main() {
       onSwitchClick={() => {}}
     />
   );
-}
+};
 
-export function SendingOTP() {
+export const SendingOTP = () => {
   return (
     <SignIn
       activeSwitchId={'phone'}
@@ -49,4 +49,4 @@ export function SendingOTP() {
       onSwitchClick={() => {}}
     />
   );
-}
+};

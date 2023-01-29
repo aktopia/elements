@@ -146,7 +146,7 @@ export const ProgressIndicator = memo(() => {
   );
 });
 
-export function ActionTabs() {
+export const ActionTabs = () => {
   const tabs = useValue<Tab[]>('ui.action/tabs');
   const activeTabId = useValue<string>('ui.action.tabs/active-tab-id');
   const updateTab = useDispatch('ui.action.tabs/update');
@@ -159,9 +159,9 @@ export function ActionTabs() {
   );
 
   return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
-}
+};
 
-export function ActionHeader() {
+export const ActionHeader = () => {
   return (
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>
@@ -184,4 +184,4 @@ export function ActionHeader() {
       </div>
     </div>
   );
-}
+};

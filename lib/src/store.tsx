@@ -52,7 +52,7 @@ type StoreProps = {
   children: ReactNode;
 };
 
-export function Store({ read, dispatch, subscribe, children }: StoreProps) {
+export const Store = ({ read, dispatch, subscribe, children }: StoreProps) => {
   const ctx = useMemo(
     () => ({
       read,
@@ -63,4 +63,4 @@ export function Store({ read, dispatch, subscribe, children }: StoreProps) {
   );
 
   return <StoreContext.Provider value={ctx}>{children}</StoreContext.Provider>;
-}
+};

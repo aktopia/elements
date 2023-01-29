@@ -1,4 +1,4 @@
-export function XMark({ className }: { className: string }) {
+export const XMark = ({ className }: { className: string }) => {
   return (
     <svg
       className={className}
@@ -9,9 +9,9 @@ export function XMark({ className }: { className: string }) {
       <path d={'M6 18L18 6M6 6l12 12'} strokeLinecap={'round'} strokeLinejoin={'round'} />
     </svg>
   );
-}
+};
 
-export function ChevronLeft({ className }: { className: string }) {
+export const ChevronLeft = ({ className }: { className: string }) => {
   return (
     <svg
       className={className}
@@ -22,9 +22,9 @@ export function ChevronLeft({ className }: { className: string }) {
       <path d={'M15.75 19.5L8.25 12l7.5-7.5'} strokeLinecap={'round'} strokeLinejoin={'round'} />
     </svg>
   );
-}
+};
 
-export function ChevronLeftMini({ className }: { className: string }) {
+export const ChevronLeftMini = ({ className }: { className: string }) => {
   return (
     <svg className={className} fill={'currentColor'} viewBox={'0 0 20 20'}>
       <path
@@ -36,9 +36,9 @@ export function ChevronLeftMini({ className }: { className: string }) {
       />
     </svg>
   );
-}
+};
 
-export function Giving({ className }: { className: string }) {
+export const Giving = ({ className }: { className: string }) => {
   return (
     <svg className={`${className} relative bottom-0.5`} fill={'none'} viewBox={'0 0 20 20'}>
       <path
@@ -69,7 +69,7 @@ export function Giving({ className }: { className: string }) {
       />
     </svg>
   );
-}
+};
 
 export {
   CheckCircleIcon as CheckCircleMiniSolid,

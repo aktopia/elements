@@ -13,7 +13,7 @@ interface MockStoreProps {
   locales?: Record<string, any>;
 }
 
-export function MockStore({ read, dispatch, children, locales }: MockStoreProps) {
+export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps) => {
   const _read = useCallback<Read>(
     (key, params) => {
       const fnOrValue = read && read[key];
@@ -37,7 +37,7 @@ export function MockStore({ read, dispatch, children, locales }: MockStoreProps)
       </Translation>
     </Store>
   );
-}
+};
 
 export function createActions(actions: string[]) {
   return actions.reduce((o: any, actionId) => {

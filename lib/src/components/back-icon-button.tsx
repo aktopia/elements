@@ -25,10 +25,10 @@ type Variant = VariantProps<typeof container>;
 
 interface BackButtonProps extends React.ComponentPropsWithoutRef<'button'>, Variant {}
 
-export function BackIconButton({ size, ...props }: BackButtonProps) {
+export const BackIconButton = ({ size, ...props }: BackButtonProps) => {
   return (
     <button {...props} className={container({ size })} type={'button'}>
       <ChevronLeftMini className={icon({ size })} />
     </button>
   );
-}
+};
