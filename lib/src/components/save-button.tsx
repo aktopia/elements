@@ -6,10 +6,6 @@ type SaveButtonProps = Omit<ButtonProps, 'value' | 'Icon'>;
 
 export const SaveButton = memo(({ clicked, ...props }: SaveButtonProps) => {
   return (
-    <Button
-      {...props}
-      Icon={PlusMiniSolid}
-      clicked={clicked}
-      value={clicked ? 'Saved' : 'Save'} />
+    <Button {...props} Icon={PlusMiniSolid} clicked={clicked} value={clicked ? 'Saved' : 'Save'} />
   );
 });

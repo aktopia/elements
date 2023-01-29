@@ -78,7 +78,17 @@ export interface ButtonProps
 }
 
 export const Button = memo(
-  ({ value, count, type = 'button', Icon, size, kind, disabled, clicked, ...props }: ButtonProps) => {
+  ({
+    value,
+    count,
+    type = 'button',
+    Icon,
+    size,
+    kind,
+    disabled,
+    clicked,
+    ...props
+  }: ButtonProps) => {
     return (
       <button
         {...props}
@@ -95,5 +105,5 @@ export const Button = memo(
         {!!count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
       </button>
     );
-  },
+  }
 );
