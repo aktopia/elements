@@ -1,4 +1,5 @@
 import { NamedSwitch } from '@elements/components/named-switch';
+import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Components/NamedSwitch',
@@ -6,6 +7,8 @@ export default {
 };
 
 export function Examples() {
+  const onClick = action('onSwitchClick');
+
   return (
     <div className={'flex items-end gap-10 '}>
       <NamedSwitch
@@ -16,7 +19,7 @@ export function Examples() {
           { id: 'email', label: 'Email' },
           { id: 'social', label: 'Social' },
         ]}
-        onSwitchClick={() => {}}
+        onSwitchClick={onClick}
       />
       <NamedSwitch
         activeSwitchId={'email'}
@@ -26,7 +29,7 @@ export function Examples() {
           { id: 'email', label: 'Email' },
           { id: 'social', label: 'Social' },
         ]}
-        onSwitchClick={() => {}}
+        onSwitchClick={onClick}
       />
       <NamedSwitch
         activeSwitchId={'social'}
@@ -36,7 +39,7 @@ export function Examples() {
           { id: 'email', label: 'Email' },
           { id: 'social', label: 'Social' },
         ]}
-        onSwitchClick={() => {}}
+        onSwitchClick={onClick}
       />
     </div>
   );
