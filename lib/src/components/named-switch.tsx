@@ -32,7 +32,7 @@ const switchVariant = cva(
 
 type ContainerVariant = VariantProps<typeof containerVariant>;
 
-interface Switch {
+export interface Switch {
   id: string;
   label: string;
 }
@@ -43,12 +43,7 @@ interface NamedSwitchProps extends ContainerVariant {
   onSwitchClick: Function;
 }
 
-export function NamedSwitch({
-  activeSwitchId,
-  switches,
-  onSwitchClick,
-  size,
-}: NamedSwitchProps) {
+export function NamedSwitch({ activeSwitchId, switches, onSwitchClick, size }: NamedSwitchProps) {
   return (
     <div className={containerVariant({ size })}>
       {switches.map(({ id, label }: any) => {

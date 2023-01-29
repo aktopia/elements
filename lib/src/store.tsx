@@ -1,4 +1,11 @@
-import { createContext, type ReactNode, useCallback, useContext, useMemo, useSyncExternalStore } from 'react';
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useMemo,
+  useSyncExternalStore,
+} from 'react';
 
 export type Subscribe = (onStoreChange: () => void) => () => void;
 
@@ -10,7 +17,9 @@ type StoreContextType = {
   subscribe: Subscribe;
   read: Read;
   dispatch: Dispatch;
-}
+};
+
+type DispatchReturn = (params?: Record<string, any>) => void;
 
 const placeholderContext: StoreContextType = {
   read: (_id, _params) => {
@@ -26,12 +35,12 @@ const placeholderContext: StoreContextType = {
 
 export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
-export function useValue(id: string, params?: Record<string, any>) {
+export function useValue<T>(id: string, params?: Record<string, any>): T {
   const { read, subscribe } = useContext(StoreContext);
   return useSyncExternalStore(subscribe, () => read(id, params));
 }
 
-export function useDispatch(id: string): ((params?: Record<string, any>) => void) {
+export function useDispatch(id: string): DispatchReturn {
   const { dispatch } = useContext(StoreContext);
   return useCallback((params?: Record<string, any>) => dispatch(id, params), [dispatch, id]);
 }
@@ -44,12 +53,14 @@ type StoreProps = {
 };
 
 export function Store({ read, dispatch, subscribe, children }: StoreProps) {
-  const ctx = useMemo(() => ({
-      read, dispatch, subscribe,
-    }), [read, dispatch, subscribe],
+  const ctx = useMemo(
+    () => ({
+      read,
+      dispatch,
+      subscribe,
+    }),
+    [read, dispatch, subscribe]
   );
 
-  return (
-    <StoreContext.Provider value={ctx}>{children}</StoreContext.Provider>
-  );
+  return <StoreContext.Provider value={ctx}>{children}</StoreContext.Provider>;
 }

@@ -1,5 +1,6 @@
 import { TrophyMiniSolid } from '@elements/_icons';
 import { useValue } from '@elements/store';
+import { useTranslation } from '@elements/translation';
 
 function Description() {
   const actionId = useValue('current.action/id');
@@ -10,13 +11,17 @@ function Description() {
 function Outcome() {
   const actionId = useValue('current.action/id');
   const outcome = useValue('action/outcome', { 'action/id': actionId });
+  const t = useTranslation();
+  console.log('rendering');
+
   return (
     <div className={'flex flex-col gap-2 rounded-md border border-blue-600 bg-blue-50 p-6'}>
       <div className={'flex items-center gap-3'}>
         <TrophyMiniSolid className={'h-4 w-5 text-blue-700'} />
-        <div className={'font-medium text-blue-700'}>{'Outcome'}</div>
+        <div className={'font-medium text-blue-700'}>{t('action/outcome', { a: 'what' })}</div>
       </div>
       <div className={'text-blue-700'}>{outcome}</div>
+      {/*<div onClick={() => setLocale('tn')}>{'Switch'}</div>*/}
     </div>
   );
 }

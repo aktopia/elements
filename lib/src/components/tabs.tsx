@@ -27,7 +27,7 @@ const tabVariant = cva('flex cursor-pointer items-center justify-center ease-out
 
 type ContainerVariant = VariantProps<typeof containerVariant>;
 
-interface Tab {
+export interface Tab {
   id: string;
   label: string;
   badge?: string;
@@ -49,9 +49,11 @@ interface TabProps {
 
 function Tab({ id, label, status, size, onTabClick }: TabProps) {
   const onClick = useCallback(() => onTabClick(id), [id, onTabClick]);
-  return <div key={id} className={tabVariant({ status, size })} onClick={onClick}>
-    {label}
-  </div>;
+  return (
+    <div key={id} className={tabVariant({ status, size })} onClick={onClick}>
+      {label}
+    </div>
+  );
 }
 
 export const Tabs = React.memo(({ activeTabId, tabs, size, onTabClick }: TabsProps) => {
