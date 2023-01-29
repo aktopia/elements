@@ -1,4 +1,5 @@
 import { cva, VariantProps } from 'cva';
+import { useCallback } from 'react';
 
 const containerVariant = cva(
   'flex h-min w-max items-center justify-center gap-1 bg-gray-50 border border-gray-100',
@@ -32,15 +33,33 @@ const switchVariant = cva(
 
 type ContainerVariant = VariantProps<typeof containerVariant>;
 
-export interface Switch {
+type SwitchVariant = VariantProps<typeof switchVariant>;
+
+interface SwitchProps {
   id: string;
   label: string;
 }
 
 interface NamedSwitchProps extends ContainerVariant {
   activeSwitchId: string;
-  switches: Switch[];
+  switches: SwitchProps[];
   onSwitchClick: Function;
+}
+
+interface SwitchProps extends SwitchVariant {
+  id: string;
+  onSwitchClick: Function;
+  label: string;
+}
+
+function Switch({ id, status, size, onSwitchClick, label }: SwitchProps) {
+  const onClick = useCallback(() => onSwitchClick(id), [id, onSwitchClick]);
+
+  return (
+    <div className={switchVariant({ status, size })} onClick={onClick}>
+      {label}
+    </div>
+  );
 }
 
 export function NamedSwitch({ activeSwitchId, switches, onSwitchClick, size }: NamedSwitchProps) {
@@ -50,12 +69,14 @@ export function NamedSwitch({ activeSwitchId, switches, onSwitchClick, size }: N
         const status = id == activeSwitchId ? 'active' : 'inactive';
 
         return (
-          <div
+          <Switch
             key={id}
-            className={switchVariant({ status, size })}
-            onClick={() => onSwitchClick(id)}>
-            {label}
-          </div>
+            id={id}
+            label={label}
+            size={size}
+            status={status}
+            onSwitchClick={onSwitchClick}
+          />
         );
       })}
     </div>
@@ -65,5 +86,4 @@ export function NamedSwitch({ activeSwitchId, switches, onSwitchClick, size }: N
 /*
 TODO
 Transitions
-useCallback instead of anon function
  */
