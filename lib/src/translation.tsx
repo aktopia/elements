@@ -28,7 +28,7 @@ const placeholderContext: TranslationContextType = {
 export const TranslationContext = createContext<TranslationContextType>(placeholderContext);
 
 interface TranslationProps {
-  fallbackLocale: string;
+  defaultLocale: string;
   locales: any;
   children: ReactNode;
 }
@@ -53,10 +53,10 @@ export function useLocale() {
   return { locale, setLocale };
 }
 
-export function Translation({ fallbackLocale, locales, children }: TranslationProps) {
-  const currentLocale = useValue('current/locale');
+export function Translation({ defaultLocale, locales, children }: TranslationProps) {
+  const currentLocale = useValue<string>('current/locale');
   const setCurrentLocale = useDispatch('current/locale');
-  const locale = currentLocale || fallbackLocale;
+  const locale = currentLocale || defaultLocale;
   const translations = locales[locale];
 
   const setLocale = useCallback<SetLocale>(

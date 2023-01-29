@@ -1,6 +1,6 @@
-import React from 'react';
-import { cva, VariantProps } from 'cva';
 import { ChevronLeftMini } from '@elements/_icons';
+import { cva, VariantProps } from 'cva';
+import React from 'react';
 
 const container = cva(
   'flex justify-center w-max cursor-pointer items-center rounded-full bg-white border border-gray-300 hover:translate-y-[0.5px] hover:shadow-none transition-all ease-out',
@@ -29,7 +29,7 @@ interface IBackButton extends React.ComponentPropsWithoutRef<'button'> {
 
 export function BackIconButton({ variant: { size }, ...props }: IBackButton) {
   return (
-    <button {...props} className={container({ size })}>
+    <button {...props} className={container({ size })} type={'button'}>
       <ChevronLeftMini className={icon({ size })} />
     </button>
   );

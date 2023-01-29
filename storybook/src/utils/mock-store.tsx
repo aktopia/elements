@@ -1,4 +1,6 @@
 import { Dispatch, Read, Store, Subscribe } from '@elements/store';
+import { Translation } from '@elements/translation';
+import translations from '@elements/translations';
 import { action } from '@storybook/addon-actions';
 import { ReactNode, useCallback } from 'react';
 
@@ -8,9 +10,10 @@ interface MockStoreProps {
   read?: { [key: string]: any };
   dispatch?: { [key: string]: any };
   children: ReactNode;
+  locales?: Record<string, any>;
 }
 
-export const MockStore = ({ read, dispatch, children }: MockStoreProps) => {
+export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps) => {
   const _read = useCallback<Read>(
     (key, params) => {
       const fnOrValue = read && read[key];
@@ -19,16 +22,19 @@ export const MockStore = ({ read, dispatch, children }: MockStoreProps) => {
       }
       return fnOrValue;
     },
-    [read],
+    [read]
   );
+
   const _dispatch = useCallback<Dispatch>(
     (key, params?) => dispatch && dispatch[key](params),
-    [dispatch],
+    [dispatch]
   );
 
   return (
     <Store read={_read} dispatch={_dispatch} subscribe={subscribe}>
-      {children}
+      <Translation defaultLocale={'en'} locales={locales || translations}>
+        {children}
+      </Translation>
     </Store>
   );
 };
