@@ -1,7 +1,7 @@
 import { BoltOutline, Giving } from '@elements/_icons';
 import { Button } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
-import { NamedSwitch, ISwitch } from '@elements/components/named-switch';
+import { ISwitch, NamedSwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { Tab, Tabs } from '@elements/components/tabs';

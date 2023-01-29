@@ -21,7 +21,7 @@
       "@elements/*": [
         "../lib/src/*"
       ],
-      "@story/*": ["src/*"]
+      "@story/*": ["./src/*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,

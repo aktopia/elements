@@ -6,10 +6,7 @@
     "dev": "npx vite",
     "build": "npx tsc && npx vite build",
     "preview": "npx vite preview",
-    "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link",
-    "lint": "npx eslint '**/*.{js,jsx,ts,tsx}'",
-    "lint-fix": "npx eslint --fix '**/*.{js,jsx,ts,tsx}'",
-    "ts-check": "npx tsc --noEmit"
+    "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link"
   },
   "exports": {
     "./components": "./dist/components.js",
@@ -36,15 +33,7 @@
     "@typescript-eslint/parser": "^5.49.0",
     "@vitejs/plugin-react": "3.0.0",
     "autoprefixer": "^10.4.13",
-    "eslint": "^8.32.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-react": "^7.32.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.20",
-    "prettier": "^2.8.1",
-    "prettier-eslint": "15.0.1",
-    "eslint-plugin-prettier": "4.2.1",
-    "prettier-plugin-tailwindcss": "^0.2.1",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.9.4",
     "vite": "4.0.1",

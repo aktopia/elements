@@ -5,13 +5,13 @@ export default {
   component: SocialSignIn,
 };
 
-export const Main = () => {
+export function Main() {
   return (
     <SocialSignIn
+      show={true}
       titleText={'Sign in'}
       onClose={() => {}}
-      show={true}
       onGoogleClick={console.log}
     />
   );
-};
+}

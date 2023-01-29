@@ -1,0 +1,26 @@
+{
+  "name": "@aktopia/elements-container",
+  "type": "module",
+  "scripts": {
+    "lint": "npx eslint '**/*.{js,jsx,ts,tsx}'",
+    "lint-fix": "npx eslint --fix '**/*.{cjs,js,jsx,ts,tsx}'",
+    "pretty":  "npx prettier -c '**/*.{cjs,js,jsx,ts,tsx}'",
+    "pretty-fix":  "npx prettier -w '**/*.{cjs,js,jsx,ts,tsx}'",
+    "ts-lib": "npx tsc --noEmit -p lib",
+    "ts-storybook": "npx tsc --noEmit -p storybook",
+    "ts": "npm run ts-lib && npm run ts-storybook"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/parser": "^5.49.0",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-react": "^7.32.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.1",
+    "prettier-eslint": "15.0.1",
+    "eslint-plugin-prettier": "4.2.1",
+    "prettier-plugin-tailwindcss": "^0.2.1",
+    "typescript": "^4.9.4"
+  }
+}

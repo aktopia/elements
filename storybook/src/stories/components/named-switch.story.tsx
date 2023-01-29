@@ -5,39 +5,39 @@ export default {
   component: NamedSwitch,
 };
 
-export const Examples = () => {
+export function Examples() {
   return (
-    <div className="flex items-end gap-10 ">
+    <div className={'flex items-end gap-10 '}>
       <NamedSwitch
-        onSwitchClick={() => {}}
-        size="xs"
         activeSwitchId={'phone'}
+        size={'xs'}
         switches={[
           { id: 'phone', label: 'Phone' },
           { id: 'email', label: 'Email' },
           { id: 'social', label: 'Social' },
         ]}
+        onSwitchClick={() => {}}
       />
       <NamedSwitch
-        onSwitchClick={() => {}}
-        size="sm"
         activeSwitchId={'email'}
+        size={'sm'}
         switches={[
           { id: 'phone', label: 'Phone' },
           { id: 'email', label: 'Email' },
           { id: 'social', label: 'Social' },
         ]}
+        onSwitchClick={() => {}}
       />
       <NamedSwitch
-        onSwitchClick={() => {}}
-        size="md"
         activeSwitchId={'social'}
+        size={'md'}
         switches={[
           { id: 'phone', label: 'Phone' },
           { id: 'email', label: 'Email' },
           { id: 'social', label: 'Social' },
         ]}
+        onSwitchClick={() => {}}
       />
     </div>
   );
-};
+}

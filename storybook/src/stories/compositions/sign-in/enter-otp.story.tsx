@@ -5,99 +5,99 @@ export default {
   component: EnterOtp,
 };
 
-export const Main = () => {
+export function Main() {
   return (
     <EnterOtp
-      titleText="Enter OTP"
-      resendOtpText={'Resend OTP'}
-      onClose={() => {}}
-      onBack={() => {}}
-      onResendOtp={() => {}}
-      onOtpChange={() => {}}
       num={6}
       otp={''}
-      show={true}
       resendOtpState={'can-resend'}
+      resendOtpText={'Resend OTP'}
+      show={true}
+      titleText={'Enter OTP'}
       verifyingOtp={false}
+      onBack={() => {}}
+      onClose={() => {}}
+      onOtpChange={() => {}}
       onOtpFocus={() => {}}
+      onResendOtp={() => {}}
     />
   );
-};
+}
 
-export const WrongOTP = () => {
+export function WrongOTP() {
   return (
     <EnterOtp
-      titleText="Enter OTP"
-      resendOtpText={'Resend OTP'}
-      onClose={() => {}}
-      onBack={() => {}}
-      onResendOtp={() => {}}
-      onOtpChange={() => {}}
       num={6}
       otp={'575246'}
-      show={true}
-      resendOtpState={'can-resend'}
-      verifyingOtp={false}
       otpErrorText={'Incorrect OTP, please try again.'}
-      onOtpFocus={() => {}}
-    />
-  );
-};
-
-export const ResendingOTP = () => {
-  return (
-    <EnterOtp
-      titleText="Enter OTP"
-      resendOtpText={'Resend OTP'}
-      onClose={() => {}}
-      onBack={() => {}}
-      onResendOtp={() => {}}
-      onOtpChange={() => {}}
-      num={6}
-      otp={''}
-      show={true}
-      resendOtpState={'resending'}
-      verifyingOtp={false}
-      onOtpFocus={() => {}}
-    />
-  );
-};
-
-export const VerifyingOTP = () => {
-  return (
-    <EnterOtp
-      titleText="Enter OTP"
-      resendOtpText={'Resend OTP'}
-      onClose={() => {}}
-      onBack={() => {}}
-      onResendOtp={() => {}}
-      onOtpChange={() => {}}
-      num={6}
-      otp={''}
-      show={true}
       resendOtpState={'can-resend'}
-      verifyingOtp={true}
+      resendOtpText={'Resend OTP'}
+      show={true}
+      titleText={'Enter OTP'}
+      verifyingOtp={false}
+      onBack={() => {}}
+      onClose={() => {}}
+      onOtpChange={() => {}}
       onOtpFocus={() => {}}
+      onResendOtp={() => {}}
     />
   );
-};
+}
 
-export const WaitingForOTP = () => {
+export function ResendingOTP() {
   return (
     <EnterOtp
-      titleText="Enter OTP"
-      resendOtpText={'Resend OTP'}
-      onClose={() => {}}
-      onBack={() => {}}
-      onResendOtp={() => {}}
-      onOtpChange={() => {}}
       num={6}
       otp={''}
+      resendOtpState={'resending'}
+      resendOtpText={'Resend OTP'}
       show={true}
-      resendOtpState={'waiting'}
-      waitToSendOtpText={'You can resend OTP in 12s'}
+      titleText={'Enter OTP'}
       verifyingOtp={false}
+      onBack={() => {}}
+      onClose={() => {}}
+      onOtpChange={() => {}}
       onOtpFocus={() => {}}
+      onResendOtp={() => {}}
     />
   );
-};
+}
+
+export function VerifyingOTP() {
+  return (
+    <EnterOtp
+      num={6}
+      otp={''}
+      resendOtpState={'can-resend'}
+      resendOtpText={'Resend OTP'}
+      show={true}
+      titleText={'Enter OTP'}
+      verifyingOtp={true}
+      onBack={() => {}}
+      onClose={() => {}}
+      onOtpChange={() => {}}
+      onOtpFocus={() => {}}
+      onResendOtp={() => {}}
+    />
+  );
+}
+
+export function WaitingForOTP() {
+  return (
+    <EnterOtp
+      num={6}
+      otp={''}
+      resendOtpState={'waiting'}
+      resendOtpText={'Resend OTP'}
+      show={true}
+      titleText={'Enter OTP'}
+      verifyingOtp={false}
+      waitToSendOtpText={'You can resend OTP in 12s'}
+      onBack={() => {}}
+      onClose={() => {}}
+      onOtpChange={() => {}}
+      onOtpFocus={() => {}}
+      onResendOtp={() => {}}
+    />
+  );
+}

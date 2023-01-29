@@ -5,48 +5,48 @@ export default {
   component: SignIn,
 };
 
-export const Main = () => {
+export function Main() {
   return (
     <SignIn
-      titleText={'Sign in'}
-      sendOtpText={'Send OTP'}
-      onClose={() => {}}
-      onSwitchClick={() => {}}
-      onEmailChange={() => {}}
-      onPhoneChange={() => {}}
-      show={true}
       activeSwitchId={'phone'}
       email={''}
-      switches={[
-        { id: 'phone', label: 'Phone' },
-        { id: 'email', label: 'Email' },
-      ]}
-      onSendOtp={() => {}}
       phone={''}
+      sendOtpText={'Send OTP'}
       sendingOtp={false}
-    />
-  );
-};
-
-export const SendingOTP = () => {
-  return (
-    <SignIn
-      titleText={'Sign in'}
-      sendOtpText={'Send OTP'}
-      onClose={() => {}}
-      onSwitchClick={() => {}}
-      onEmailChange={() => {}}
-      onPhoneChange={() => {}}
       show={true}
-      activeSwitchId={'phone'}
-      email={''}
       switches={[
         { id: 'phone', label: 'Phone' },
         { id: 'email', label: 'Email' },
       ]}
+      titleText={'Sign in'}
+      onClose={() => {}}
+      onEmailChange={() => {}}
+      onPhoneChange={() => {}}
       onSendOtp={() => {}}
-      phone={''}
-      sendingOtp={true}
+      onSwitchClick={() => {}}
     />
   );
-};
+}
+
+export function SendingOTP() {
+  return (
+    <SignIn
+      activeSwitchId={'phone'}
+      email={''}
+      phone={''}
+      sendOtpText={'Send OTP'}
+      sendingOtp={true}
+      show={true}
+      switches={[
+        { id: 'phone', label: 'Phone' },
+        { id: 'email', label: 'Email' },
+      ]}
+      titleText={'Sign in'}
+      onClose={() => {}}
+      onEmailChange={() => {}}
+      onPhoneChange={() => {}}
+      onSendOtp={() => {}}
+      onSwitchClick={() => {}}
+    />
+  );
+}

@@ -5,12 +5,12 @@ export default {
   component: Modal,
 };
 
-export const Examples = () => {
+export function Examples() {
   return (
-    <div className='flex-column flex gap-10'>
+    <div className={'flex-column flex gap-10'}>
       <Modal show={true} title={'Sign in'}>
-        <div className={'w-56'}>Whatever</div>
+        <div className={'w-56'}>{'Whatever'}</div>
       </Modal>
     </div>
   );
-};
+}

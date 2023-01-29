@@ -8,11 +8,11 @@ export default {
 export const Primary = {
   render: () => {
     return (
-      <div className="flex-column flex gap-10">
-        <div className="flex items-end gap-10">
-          <Button value={'Button'} size="xs" kind="primary" />
-          <Button value={'Button'} size="sm" kind="primary" />
-          <Button value={'Button'} size="md" kind="primary" />
+      <div className={'flex-column flex gap-10'}>
+        <div className={'flex items-end gap-10'}>
+          <Button kind={'primary'} size={'xs'} value={'Button'} />
+          <Button kind={'primary'} size={'sm'} value={'Button'} />
+          <Button kind={'primary'} size={'md'} value={'Button'} />
         </div>
       </div>
     );
@@ -22,11 +22,11 @@ export const Primary = {
 export const Tertiary = {
   render: () => {
     return (
-      <div className="flex-column flex gap-10">
-        <div className="flex items-end gap-10">
-          <Button value={'Button'} size="xs" kind="tertiary" />
-          <Button value={'Button'} size="sm" kind="tertiary" />
-          <Button value={'Button'} size="md" kind="tertiary" />
+      <div className={'flex-column flex gap-10'}>
+        <div className={'flex items-end gap-10'}>
+          <Button kind={'tertiary'} size={'xs'} value={'Button'} />
+          <Button kind={'tertiary'} size={'sm'} value={'Button'} />
+          <Button kind={'tertiary'} size={'md'} value={'Button'} />
         </div>
       </div>
     );

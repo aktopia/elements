@@ -1,8 +1,6 @@
 module.exports = {
   settings: {
-    react: {
-      version: 'detect',
-    },
+    react: { version: 'detect' },
   },
   env: {
     browser: true,
