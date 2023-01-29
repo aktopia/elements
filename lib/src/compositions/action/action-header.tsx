@@ -1,7 +1,7 @@
 import { BoltOutline, Giving } from '@elements/_icons';
 import { Button } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
-import { NamedSwitch, Switch } from '@elements/components/named-switch';
+import { NamedSwitch, ISwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { Tab, Tabs } from '@elements/components/tabs';
@@ -114,7 +114,7 @@ export const ProgressIndicator = memo(() => {
   const activeSwitchId = useValue<string>('ui.action.progress-bar/active-switch-id');
   const workPercentage = useValue<number>('action.work/percentage', { 'action/id': actionId });
   const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
-  const switches = useValue<Switch[]>('ui.action.progress-bar/switches');
+  const switches = useValue<ISwitch[]>('ui.action.progress-bar/switches');
   const updateSwitch = useDispatch('ui.action.progress-bar/update');
   const workPercentageText = `${workPercentage}%`;
 

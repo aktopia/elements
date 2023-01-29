@@ -35,14 +35,14 @@ type ContainerVariant = VariantProps<typeof containerVariant>;
 
 type SwitchVariant = VariantProps<typeof switchVariant>;
 
-interface SwitchProps {
+export interface ISwitch {
   id: string;
   label: string;
 }
 
 interface NamedSwitchProps extends ContainerVariant {
   activeSwitchId: string;
-  switches: SwitchProps[];
+  switches: ISwitch[];
   onSwitchClick: Function;
 }
 

@@ -6,5 +6,5 @@ export default {
 };
 
 export const Primary = {
-  render: () => <BackIconButton variant={{ size: 'xs' }} />,
+  render: () => <BackIconButton size={'xs'} />,
 };

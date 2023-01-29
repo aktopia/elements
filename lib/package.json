@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "dev": "npx vite",
+    "build": "npx tsc && npx vite build",
+    "preview": "npx vite preview",
     "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link",
     "lint": "npx eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint-fix": "npx eslint --fix '**/*.{js,jsx,ts,tsx}'"
+    "lint-fix": "npx eslint --fix '**/*.{js,jsx,ts,tsx}'",
+    "ts-check": "npx tsc --noEmit"
   },
   "exports": {
     "./components": "./dist/components.js",

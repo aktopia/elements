@@ -94,12 +94,14 @@ export function EnterOtp({
                 onFocus={onOtpFocus}
               />
             </div>
-            {!!otpErrorText && <div className={'pt-1 text-xs font-medium text-rose-500'}>{otpErrorText}</div>}
+            {!!otpErrorText && (
+              <div className={'pt-1 text-xs font-medium text-rose-500'}>{otpErrorText}</div>
+            )}
           </div>
         )}
         <div className={'relative flex w-full items-center justify-center'}>
           <div className={'absolute left-0'}>
-            <BackIconButton variant={{ size: 'xs' }} onClick={onBack} />
+            <BackIconButton size={'xs'} onClick={onBack} />
           </div>
           <div className={'flex items-center justify-center'}>{resendOtpView}</div>
         </div>
