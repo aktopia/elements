@@ -11,7 +11,7 @@ type Story = StoryObj<typeof Alert>;
 
 export const Success: Story = {
   args: {
-    variant: { type: 'success' },
+    kind: 'success',
     show: true,
     messageText: 'Successfully sent OTP to random@email.com.',
     onDismiss: (e: React.MouseEvent) => {
@@ -23,7 +23,7 @@ export const Success: Story = {
 export const Info: Story = {
   args: {
     ...Success.args,
-    variant: { type: 'info' },
+    kind: 'info',
     messageText: 'Some information',
   },
 };
@@ -31,7 +31,7 @@ export const Info: Story = {
 export const Warning: Story = {
   args: {
     ...Success.args,
-    variant: { type: 'warning' },
+    kind: 'warning',
     messageText: 'Some information',
   },
 };
@@ -39,7 +39,7 @@ export const Warning: Story = {
 export const Error: Story = {
   args: {
     ...Success.args,
-    variant: { type: 'error' },
+    kind: 'error',
     messageText: 'Some information',
   },
 };
