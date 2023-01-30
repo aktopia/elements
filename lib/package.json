@@ -6,6 +6,7 @@
     "dev": "npx vite",
     "build": "npx tsc && npx vite build",
     "preview": "npx vite preview",
+    "extract-store-ids": "npx zx src/_scripts/extract-ids.js",
     "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link"
   },
   "exports": {
@@ -33,10 +34,12 @@
     "@typescript-eslint/parser": "^5.49.0",
     "@vitejs/plugin-react": "3.0.0",
     "autoprefixer": "^10.4.13",
+    "nbb": "1.2.162",
     "postcss": "^8.4.20",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.9.4",
     "vite": "4.0.1",
-    "vite-plugin-dts": "^1.7.1"
+    "vite-plugin-dts": "^1.7.1",
+    "zx": "^7.1.1"
   }
 }
