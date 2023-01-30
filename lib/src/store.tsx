@@ -42,7 +42,7 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
 
 export function useDispatch(id: string): DispatchReturn {
   const { dispatch } = useContext(StoreContext);
-  return useCallback((params?: Record<string, any>) => dispatch(id, params), [dispatch, id]);
+  return useCallback((params?: Record<string, any>) => dispatch(id, params || {}), [dispatch, id]);
 }
 
 type StoreProps = {
