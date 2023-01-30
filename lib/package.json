@@ -6,12 +6,15 @@
     "dev": "npx vite",
     "build": "npx tsc && npx vite build",
     "preview": "npx vite preview",
+    "extract-store-ids": "npx zx src/_scripts/extract-store-ids.js",
+    "extract-translation-keys": "npx zx src/_scripts/extract-translation-keys.js",
     "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link"
   },
   "exports": {
     "./components": "./dist/components.js",
     "./compositions": "./dist/compositions.js",
-    "./store": "./dist/store.js"
+    "./store": "./dist/store.js",
+    "./translation": "./dist/translation.js"
   },
   "dependencies": {
     "@heroicons/react": "2.0.13",
@@ -19,8 +22,8 @@
     "cva": "npm:class-variance-authority@^0.4.0"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
@@ -37,6 +40,7 @@
     "tailwindcss": "^3.2.4",
     "typescript": "^4.9.4",
     "vite": "4.0.1",
-    "vite-plugin-dts": "^1.7.1"
+    "vite-plugin-dts": "^1.7.1",
+    "zx": "^7.1.1"
   }
 }

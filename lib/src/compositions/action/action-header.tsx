@@ -72,7 +72,7 @@ const ActionBar = memo(() => {
   const bumpCount = useValue<number>('action.bump/count', { 'action/id': actionId });
   const bump = useDispatch('action/bump');
   const unBump = useDispatch('action/unbump');
-  const navigateToFunding = useDispatch('navigate.action/funding');
+  const navigateToFunding = useDispatch('action/fund');
 
   const onBumpButtonClick = useCallback(() => {
     if (bumped) {
@@ -111,11 +111,11 @@ const ActionBar = memo(() => {
 export const ProgressIndicator = memo(() => {
   const t = useTranslation();
   const actionId = useValue('current.action/id');
-  const activeSwitchId = useValue<string>('ui.action.progress-bar/active-switch-id');
+  const activeSwitchId = useValue<string>('action.progress-bar/active-switch-id');
   const workPercentage = useValue<number>('action.work/percentage', { 'action/id': actionId });
   const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
-  const switches = useValue<ISwitch[]>('ui.action.progress-bar/switches');
-  const updateSwitch = useDispatch('ui.action.progress-bar/update');
+  const switches = useValue<ISwitch[]>('action.progress-bar/switches');
+  const updateSwitch = useDispatch('action.progress-bar/update');
   const workPercentageText = `${workPercentage}%`;
 
   const onSwitchClick = useCallback(
@@ -146,10 +146,10 @@ export const ProgressIndicator = memo(() => {
   );
 });
 
-export function ActionTabs() {
-  const tabs = useValue<Tab[]>('ui.action/tabs');
-  const activeTabId = useValue<string>('ui.action.tabs/active-tab-id');
-  const updateTab = useDispatch('ui.action.tabs/update');
+export const ActionTabs = () => {
+  const tabs = useValue<Tab[]>('action/tabs');
+  const activeTabId = useValue<string>('action.tabs/active-tab-id');
+  const updateTab = useDispatch('action.tabs/update');
 
   const onTabClick = useCallback(
     (tabId: string) => {
@@ -159,9 +159,9 @@ export function ActionTabs() {
   );
 
   return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
-}
+};
 
-export function ActionHeader() {
+export const ActionHeader = () => {
   return (
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>
@@ -184,4 +184,4 @@ export function ActionHeader() {
       </div>
     </div>
   );
-}
+};

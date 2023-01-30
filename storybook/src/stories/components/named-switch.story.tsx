@@ -6,7 +6,7 @@ export default {
   component: NamedSwitch,
 };
 
-export function Examples() {
+export const Examples = () => {
   const onClick = action('onSwitchClick');
 
   return (
@@ -43,4 +43,4 @@ export function Examples() {
       />
     </div>
   );
-}
+};

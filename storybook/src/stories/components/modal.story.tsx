@@ -5,7 +5,7 @@ export default {
   component: Modal,
 };
 
-export function Examples() {
+export const Examples = () => {
   return (
     <div className={'flex-column flex gap-10'}>
       <Modal show={true} title={'Sign in'}>
@@ -13,4 +13,4 @@ export function Examples() {
       </Modal>
     </div>
   );
-}
+};

@@ -16,6 +16,7 @@ export default defineConfig({
         components: resolve(__dirname, 'src/components.ts'),
         compositions: resolve(__dirname, 'src/compositions.ts'),
         store: resolve(__dirname, 'src/store.tsx'),
+        translation: resolve(__dirname, 'src/translation.tsx'),
       },
       formats: ['es'],
     },

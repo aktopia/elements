@@ -42,7 +42,7 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
 
 export function useDispatch(id: string): DispatchReturn {
   const { dispatch } = useContext(StoreContext);
-  return useCallback((params?: Record<string, any>) => dispatch(id, params), [dispatch, id]);
+  return useCallback((params?: Record<string, any>) => dispatch(id, params || {}), [dispatch, id]);
 }
 
 type StoreProps = {
@@ -52,7 +52,7 @@ type StoreProps = {
   children: ReactNode;
 };
 
-export function Store({ read, dispatch, subscribe, children }: StoreProps) {
+export const Store = ({ read, dispatch, subscribe, children }: StoreProps) => {
   const ctx = useMemo(
     () => ({
       read,
@@ -63,4 +63,4 @@ export function Store({ read, dispatch, subscribe, children }: StoreProps) {
   );
 
   return <StoreContext.Provider value={ctx}>{children}</StoreContext.Provider>;
-}
+};

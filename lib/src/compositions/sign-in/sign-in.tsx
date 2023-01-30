@@ -1,61 +1,70 @@
+import { Button } from '@elements/components/button';
 import { Modal } from '@elements/components/modal';
 import { NamedSwitch } from '@elements/components/named-switch';
-import { Button } from '@elements/components/button';
-import React, { useCallback } from 'react';
 import { Spinner } from '@elements/components/spinner';
+import { useDispatch, useValue } from '@elements/store';
+import { useTranslation } from '@elements/translation';
+import React, { useCallback, useMemo } from 'react';
 
-interface ISignIn {
-  onSendOtp: (e: React.FormEvent) => void;
-  onClose: Function;
-  show: boolean;
-  titleText: string;
-  sendOtpText: string;
-  phone: string;
-  email: string;
-  activeSwitchId: string;
-  onPhoneChange: (value: string) => void;
-  onEmailChange: (value: string) => void;
-  onSwitchClick: Function;
-  sendingOtp: boolean;
-  switches: any;
-}
+export const SignIn = () => {
+  const t = useTranslation();
+  const show = useValue<boolean>('auth.sign-in/visible');
+  const sendingOtp = useValue<boolean>('auth.sign-in/sending-otp');
+  const phone = useValue<string>('auth.sign-in/phone');
+  const email = useValue<string>('auth.sign-in/email');
+  const activeSwitchId = useValue<string>('auth.sign-in/active-switch-id');
 
-export function SignIn({
-  onSendOtp,
-  onClose,
-  show,
-  titleText,
-  sendOtpText,
-  phone,
-  email,
-  activeSwitchId,
-  onSwitchClick,
-  onPhoneChange,
-  onEmailChange,
-  sendingOtp,
-  switches,
-}: ISignIn) {
-  const onPhoneChangeMemo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    onPhoneChange(e.target.value);
-  }, []);
+  const switches = useMemo(
+    () => [
+      { id: 'phone', label: t('common/phone') },
+      { id: 'email', label: t('common/email') },
+    ],
+    [t]
+  );
 
-  const onEmailChangeMemo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    onEmailChange(e.target.value);
-  }, []);
+  const onSendOtp = useDispatch('auth.sign-in/send-otp');
+  const onClose = useDispatch('auth.sign-in/close');
+  const onSwitchClick = useDispatch('auth.sign-in/update-switch');
+  const onPhoneChange = useDispatch('auth.sign-in/update-phone');
+  const onEmailChange = useDispatch('auth.sign-in/update-email');
 
-  const onFormSubmitMemo = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    onSendOtp(e);
-  }, []);
+  const onSwitch = useCallback(
+    (switchId: string) => {
+      onSwitchClick({ 'switch-id': switchId });
+    },
+    [onSwitchClick]
+  );
+
+  const onPhoneChangeMemo = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onPhoneChange({ phone: e.target.value });
+    },
+    [onPhoneChange]
+  );
+
+  const onEmailChangeMemo = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onEmailChange({ email: e.target.value });
+    },
+    [onEmailChange]
+  );
+
+  const onFormSubmitMemo = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      onSendOtp();
+    },
+    [onSendOtp]
+  );
 
   return (
-    <Modal show={show} title={titleText} onClose={onClose}>
+    <Modal show={show} title={t('auth/sign-in')} onClose={onClose}>
       <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
         <NamedSwitch
           activeSwitchId={activeSwitchId}
           size={'md'}
           switches={switches}
-          onSwitchClick={onSwitchClick}
+          onSwitchClick={onSwitch}
         />
         {activeSwitchId == 'phone' ? (
           <input
@@ -82,16 +91,15 @@ export function SignIn({
           {sendingOtp ? (
             <Spinner kind={'primary'} show={true} size={'sm'} />
           ) : (
-            <Button kind={'primary'} size={'md'} type={'submit'} value={sendOtpText} />
+            <Button kind={'primary'} size={'md'} type={'submit'} value={t('auth/send-otp')} />
           )}
         </div>
       </form>
     </Modal>
   );
-}
+};
 
 /*
-Enter to submit
 Mobile responsive
 Agree to terms and conditions
 Phone Input component

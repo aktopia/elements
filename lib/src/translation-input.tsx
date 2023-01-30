@@ -3,7 +3,7 @@ import { useValue } from '@elements/store';
 import { getTranslation, TranslationContext } from '@elements/translation';
 import React, { useCallback, useContext, useState } from 'react';
 
-function InputTranslation({ id, params, currentLocales, setLocales, currentLocale }: any) {
+const InputTranslation = ({ id, params, currentLocales, setLocales, currentLocale }: any) => {
   const originalTranslation = getTranslation(currentLocales[currentLocale], id, params);
   const [workingLocales, setWorkingLocales] = useState(currentLocales);
   const [workingLocale, setWorkingLocale] = useState(currentLocale);
@@ -81,7 +81,7 @@ function InputTranslation({ id, params, currentLocales, setLocales, currentLocal
       {originalTranslation}
     </span>
   );
-}
+};
 
 export function useInputTranslation() {
   /* TODO This can be updated and use when a feature is built around this to take

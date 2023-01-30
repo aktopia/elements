@@ -62,10 +62,10 @@ const icon = {
   error: XCircleMiniSolid,
 };
 
-function Icon({ kind }: VariantProps<typeof iconVariant>) {
+const Icon = ({ kind }: VariantProps<typeof iconVariant>) => {
   const Component = icon[kind || 'info'];
   return <Component aria-hidden={'true'} className={iconVariant({ kind })} />;
-}
+};
 
 type Variant = VariantProps<typeof containerVariant>;
 
@@ -75,7 +75,7 @@ export interface AlertProps extends Variant {
   onDismiss: (event: React.MouseEvent) => void;
 }
 
-export function Alert({ messageText, show, kind = 'info', onDismiss }: AlertProps) {
+export const Alert = ({ messageText, show, kind = 'info', onDismiss }: AlertProps) => {
   return show ? (
     <div className={containerVariant({ kind })}>
       <div className={'flex items-center'}>
@@ -95,7 +95,7 @@ export function Alert({ messageText, show, kind = 'info', onDismiss }: AlertProp
       </div>
     </div>
   ) : null;
-}
+};
 
 /*
 Proper width

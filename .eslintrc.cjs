@@ -1,6 +1,6 @@
 module.exports = {
   settings: {
-    react: { version: 'detect' },
+    react: { version: '18.2.0' },
   },
   env: {
     browser: true,
@@ -65,7 +65,7 @@ module.exports = {
     'react/function-component-definition': [
       'error',
       {
-        namedComponents: 'function-declaration',
+        namedComponents: 'arrow-function',
         unnamedComponents: 'arrow-function',
       },
     ],

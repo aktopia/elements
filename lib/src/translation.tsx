@@ -53,7 +53,7 @@ export function useLocale() {
   return { locale, setLocale };
 }
 
-export function Translation({ defaultLocale, locales, children }: TranslationProps) {
+export const Translation = ({ defaultLocale, locales, children }: TranslationProps) => {
   const currentLocale = useValue<string>('current/locale');
   const setCurrentLocale = useDispatch('current/locale');
   const locale = currentLocale || defaultLocale;
@@ -88,4 +88,6 @@ export function Translation({ defaultLocale, locales, children }: TranslationPro
   );
 
   return <TranslationContext.Provider value={ctx}>{children}</TranslationContext.Provider>;
-}
+};
+
+export { default as locales } from '@elements/translations';

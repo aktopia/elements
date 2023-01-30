@@ -17,7 +17,7 @@ interface ISpinner extends VariantProps<typeof variant> {
   show: boolean;
 }
 
-export function Spinner({ show, size, kind }: ISpinner) {
+export const Spinner = ({ show, size, kind }: ISpinner) => {
   return show ? (
     <svg className={variant({ size, kind })} fill={'none'} viewBox={'0 0 24 24'}>
       <circle
@@ -36,7 +36,7 @@ export function Spinner({ show, size, kind }: ISpinner) {
       />
     </svg>
   ) : null;
-}
+};
 
 /*
 TODO

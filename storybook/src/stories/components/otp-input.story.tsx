@@ -5,11 +5,11 @@ export default {
   component: OtpInput,
 };
 
-export function Examples() {
+export const Examples = () => {
   return (
     <div className={'flex flex-col gap-10'}>
       <OtpInput num={6} onInputComplete={console.log} />
       <OtpInput num={4} onInputComplete={console.log} />
     </div>
   );
-}
+};
