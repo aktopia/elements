@@ -1,5 +1,5 @@
 import { ActionHeader as Component } from '@elements/compositions/action/action-header';
-import { story } from '@story/utils/story';
+import { connectedStory } from '@story/utils/connected-story';
 
 export default {
   title: 'Compositions/Action/ActionHeader',
@@ -46,7 +46,7 @@ const store = {
   ],
 };
 
-export const ActionHeader = story({
+export const ActionHeader = connectedStory({
   store,
   render: () => {
     return <Component />;

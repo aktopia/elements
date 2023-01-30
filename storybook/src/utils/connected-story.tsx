@@ -16,6 +16,11 @@ interface MockStoreProps {
   locales?: Record<string, any>;
 }
 
+interface IConnectedStory {
+  store: { read: ReadMock; dispatch: DispatchMock };
+  render: () => JSX.Element;
+}
+
 function createActions(actions: string[]) {
   return actions.reduce((o: any, actionId) => {
     return {
@@ -55,4 +60,17 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
       </Translation>
     </Store>
   );
+};
+
+export const connectedStory = ({ store, render }: IConnectedStory) => {
+  return {
+    args: store.read,
+    render: (args: any) => {
+      return (
+        <MockStore dispatch={store.dispatch} read={args}>
+          {render()}
+        </MockStore>
+      );
+    },
+  };
 };
