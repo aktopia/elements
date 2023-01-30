@@ -6,8 +6,8 @@
     "dev": "npx vite",
     "build": "npx tsc && npx vite build",
     "preview": "npx vite preview",
-    "extract-store-ids": "npx zx src/_scripts/extract-store-ids.js",
-    "extract-translation-keys": "npx zx src/_scripts/extract-translation-keys.js",
+    "extract-store-ids": "npx zx _scripts/extract-store-ids.js",
+    "extract-translation-keys": "npx zx _scripts/extract-translation-keys.js",
     "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link"
   },
   "exports": {
@@ -22,8 +22,8 @@
     "cva": "npm:class-variance-authority@^0.4.0"
   },
   "peerDependencies": {
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
