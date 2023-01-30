@@ -1,6 +1,5 @@
 import { HomeSection as Component } from '@elements/compositions/action/home-section';
-import { MockStore } from '@story/utils/mock-store';
-import { StoryObj } from '@storybook/react';
+import { connectedStory } from '@story/utils/connected-story';
 
 export default {
   title: 'Compositions/Action/HomeSection',
@@ -42,15 +41,9 @@ const store = {
   dispatch: [],
 };
 
-type Story = StoryObj<typeof Component>;
-
-export const HomeSection: Story = {
-  args: store.read,
-  render: (args: any) => {
-    return (
-      <MockStore dispatch={store.dispatch} read={args}>
-        <Component />
-      </MockStore>
-    );
+export const HomeSection = connectedStory({
+  store,
+  render: () => {
+    return <Component />;
   },
-};
+});

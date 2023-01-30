@@ -1,6 +1,5 @@
 import { SignIn as Component } from '@elements/compositions/sign-in/sign-in';
-import { MockStore } from '@story/utils/mock-store';
-import { StoryObj } from '@storybook/react';
+import { connectedStory } from '@story/utils/connected-story';
 
 export default {
   title: 'Compositions/SignIn/SignIn',
@@ -24,15 +23,9 @@ const store = {
   ],
 };
 
-type Story = StoryObj<typeof Component>;
-
-export const SignIn: Story = {
-  args: store.read,
-  render: (args: any) => {
-    return (
-      <MockStore dispatch={store.dispatch} read={args}>
-        <Component />
-      </MockStore>
-    );
+export const SignIn = connectedStory({
+  store,
+  render: () => {
+    return <Component />;
   },
-};
+});
