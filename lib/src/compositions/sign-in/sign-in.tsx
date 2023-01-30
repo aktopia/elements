@@ -6,13 +6,13 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import React, { useCallback, useMemo } from 'react';
 
-export const SignIn = ({}) => {
+export const SignIn = () => {
   const t = useTranslation();
-  const show = useValue<boolean>('auth.sign-in.modal/visible');
-  const sendingOtp = useValue<boolean>('auth.sign-in.modal/sending-otp');
-  const phone = useValue<string>('auth.sign-in.modal/phone');
-  const email = useValue<string>('auth.sign-in.modal/email');
-  const activeSwitchId = useValue<string>('auth.sign-in.modal/active-switch-id');
+  const show = useValue<boolean>('auth.sign-in/visible');
+  const sendingOtp = useValue<boolean>('auth.sign-in/sending-otp');
+  const phone = useValue<string>('auth.sign-in/phone');
+  const email = useValue<string>('auth.sign-in/email');
+  const activeSwitchId = useValue<string>('auth.sign-in/active-switch-id');
 
   const switches = useMemo(
     () => [
@@ -22,11 +22,11 @@ export const SignIn = ({}) => {
     [t]
   );
 
-  const onSendOtp = useDispatch('auth.sign-in.modal/send-otp');
-  const onClose = useDispatch('auth.sign-in.modal/close');
-  const onSwitchClick = useDispatch('auth.sign-in.modal/update-switch');
-  const onPhoneChange = useDispatch('auth.sign-in.modal/update-phone');
-  const onEmailChange = useDispatch('auth.sign-in.modal/update-email');
+  const onSendOtp = useDispatch('auth.sign-in/send-otp');
+  const onClose = useDispatch('auth.sign-in/close');
+  const onSwitchClick = useDispatch('auth.sign-in/update-switch');
+  const onPhoneChange = useDispatch('auth.sign-in/update-phone');
+  const onEmailChange = useDispatch('auth.sign-in/update-email');
 
   const onSwitch = useCallback(
     (switchId: string) => {

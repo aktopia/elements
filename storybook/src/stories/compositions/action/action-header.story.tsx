@@ -17,21 +17,21 @@ const store = {
     'action/last-active': 'ADD-ME',
     'action/bumped': false,
     'action.bump/count': 10,
-    'ui.action.progress-bar/active-switch-id': 'work',
+    'action.progress-bar/active-switch-id': 'work',
     'action.work/percentage': 23,
     'action.funding/percentage': 24,
-    'ui.action.progress-bar/switches': [
+    'action.progress-bar/switches': [
       { id: 'work', label: 'Work' },
       { id: 'funding', label: 'Funding' },
     ],
-    'ui.action/tabs': [
+    'action/tabs': [
       { id: 'home', label: 'Home' },
       { id: 'funding', label: 'Funding' },
       { id: 'updates', label: 'Updates' },
       { id: 'discussion', label: 'Discussion' },
       { id: 'team', label: 'Team' },
     ],
-    'ui.action.tabs/active-tab-id': 'home',
+    'action.tabs/active-tab-id': 'home',
   },
   dispatch: [
     'action/follow',
@@ -40,9 +40,9 @@ const store = {
     'action/unsave',
     'action/bump',
     'action/unbump',
-    'navigate.action/funding',
-    'ui.action.progress-bar/update',
-    'ui.action.tabs/update',
+    'action/fund',
+    'action.progress-bar/update',
+    'action.tabs/update',
   ],
 };
 
