@@ -13,7 +13,8 @@
   "exports": {
     "./components": "./dist/components.js",
     "./compositions": "./dist/compositions.js",
-    "./store": "./dist/store.js"
+    "./store": "./dist/store.js",
+    "./translation": "./dist/translation.js"
   },
   "dependencies": {
     "@heroicons/react": "2.0.13",

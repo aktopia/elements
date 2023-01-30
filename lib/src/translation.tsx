@@ -89,3 +89,5 @@ export const Translation = ({ defaultLocale, locales, children }: TranslationPro
 
   return <TranslationContext.Provider value={ctx}>{children}</TranslationContext.Provider>;
 };
+
+export { default as locales } from '@elements/translations';
