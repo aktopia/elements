@@ -8,19 +8,30 @@
 
 (defn extract-value-ids
   [s]
-  (->> (re-seq value-rgx s)
-       (mapv second)
-       (mapv (fn [id]
-               [id ""]))
-       (into {})))
+  (let [value-ids (->> (re-seq value-rgx s)
+                       (mapv second))]
+    (prn "useValue ids:")
+    (prn (json/generate-string value-ids))
+    value-ids))
+
 
 (defn extract-dispatch-ids
   [s]
-  (mapv second (re-seq dispatch-rgx s)))
+  (let [dispatch-ids (mapv second (re-seq dispatch-rgx s))]
+    (prn "useDispatch ids:")
+    (prn (json/generate-string dispatch-ids))
+    dispatch-ids))
 
 (defn extract-store-hook-ids
   [s]
-  (println (json/generate-string {:read (extract-value-ids s) :dispatch (extract-dispatch-ids s)})))
+  (let [value-ids (extract-value-ids s)
+        dispatches-mock (extract-dispatch-ids s)
+        values-mock (->> value-ids
+                         (mapv (fn [id]
+                                 [id ""]))
+                         (into {}))]
+    (prn "mock-store:")
+    (println (json/generate-string {:read values-mock :dispatch dispatches-mock}))))
 
 (defn -main
   [& args]
