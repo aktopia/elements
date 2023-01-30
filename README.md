@@ -1,6 +1,6 @@
 # Elements Design System
 
-This is a mono repo with two projects `lib` and `storybook`. All the components and compositions are created in `lib` and the stories for these are added in `storybook`.
+This is a mono repo with two projects `lib` and `storybook`. All the components and compositions are created in `lib` and the stories for these are written in `storybook`.
 
 ## Workflow to create a component
 - Start storybook from the storybook folder 
