@@ -1,5 +1,5 @@
 import { cva, VariantProps } from 'cva';
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 const containerVariant = cva(
   'flex h-min w-max items-center justify-center gap-1 bg-gray-50 border border-gray-100',
@@ -62,31 +62,28 @@ const Switch = ({ id, status, size, onSwitchClick, label }: SwitchProps) => {
   );
 };
 
-export const NamedSwitch = ({
-  activeSwitchId,
-  switches,
-  onSwitchClick,
-  size,
-}: NamedSwitchProps) => {
-  return (
-    <div className={containerVariant({ size })}>
-      {switches.map(({ id, label }: any) => {
-        const status = id == activeSwitchId ? 'active' : 'inactive';
+export const NamedSwitch = memo(
+  ({ activeSwitchId, switches, onSwitchClick, size }: NamedSwitchProps) => {
+    return (
+      <div className={containerVariant({ size })}>
+        {switches.map(({ id, label }: any) => {
+          const status = id == activeSwitchId ? 'active' : 'inactive';
 
-        return (
-          <Switch
-            key={id}
-            id={id}
-            label={label}
-            size={size}
-            status={status}
-            onSwitchClick={onSwitchClick}
-          />
-        );
-      })}
-    </div>
-  );
-};
+          return (
+            <Switch
+              key={id}
+              id={id}
+              label={label}
+              size={size}
+              status={status}
+              onSwitchClick={onSwitchClick}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+);
 
 /*
 TODO
