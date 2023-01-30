@@ -64,11 +64,13 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
 };
 
 function storeEdn(store: { read: ReadMock; dispatch: DispatchMock }) {
-  const subs = Object.keys(store.read).reduce((res: Array<any>, key) => {
-    return [...res, [{ key }, { sym: 'get-' + key.split('/')[1] }]];
-  }, []);
+  const subs = Object.keys(store.read)
+    .sort()
+    .reduce((res: Array<any>, key) => {
+      return [...res, [{ key }, { sym: 'get-' + key.split('/')[1] }]];
+    }, []);
 
-  const events = store.dispatch.reduce((res: Array<any>, key) => {
+  const events = store.dispatch.sort().reduce((res: Array<any>, key) => {
     return [...res, [{ key }, { sym: 'handle-' + key.split('/')[1] }]];
   }, []);
 
