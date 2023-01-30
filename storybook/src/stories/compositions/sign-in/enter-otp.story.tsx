@@ -1,103 +1,33 @@
-import { EnterOtp } from '@elements/compositions/sign-in/enter-otp';
+import { EnterOtp as Component } from '@elements/compositions/sign-in/enter-otp';
+import { connectedStory } from '@story/utils/connected-story';
 
 export default {
   title: 'Compositions/SignIn/EnterOtp',
-  component: EnterOtp,
+  component: Component,
 };
 
-export const Main = () => {
-  return (
-    <EnterOtp
-      num={6}
-      otp={''}
-      resendOtpState={'can-resend'}
-      resendOtpText={'Resend OTP'}
-      show={true}
-      titleText={'Enter OTP'}
-      verifyingOtp={false}
-      onBack={() => {}}
-      onClose={() => {}}
-      onOtpChange={() => {}}
-      onOtpFocus={() => {}}
-      onResendOtp={() => {}}
-    />
-  );
+const store = {
+  read: {
+    'auth.enter-otp/otp': '',
+    'auth.enter-otp/visible': true,
+    'auth.enter-otp/verifying': false,
+    'auth.enter-otp/max-otp-digits': 6,
+    'auth.enter-otp/resend-otp-state': 'can-enter',
+    'auth.enter-otp/error': null,
+    'auth.enter-otp/wait-seconds': 10,
+  },
+  dispatch: [
+    'auth.enter-otp/resend-otp',
+    'auth.enter-otp/go-back',
+    'auth.enter-otp/close',
+    'auth.enter-otp/update-otp',
+    'auth.enter-otp/focus-input',
+  ],
 };
 
-export const WrongOTP = () => {
-  return (
-    <EnterOtp
-      num={6}
-      otp={'575246'}
-      otpErrorText={'Incorrect OTP, please try again.'}
-      resendOtpState={'can-resend'}
-      resendOtpText={'Resend OTP'}
-      show={true}
-      titleText={'Enter OTP'}
-      verifyingOtp={false}
-      onBack={() => {}}
-      onClose={() => {}}
-      onOtpChange={() => {}}
-      onOtpFocus={() => {}}
-      onResendOtp={() => {}}
-    />
-  );
-};
-
-export const ResendingOTP = () => {
-  return (
-    <EnterOtp
-      num={6}
-      otp={''}
-      resendOtpState={'resending'}
-      resendOtpText={'Resend OTP'}
-      show={true}
-      titleText={'Enter OTP'}
-      verifyingOtp={false}
-      onBack={() => {}}
-      onClose={() => {}}
-      onOtpChange={() => {}}
-      onOtpFocus={() => {}}
-      onResendOtp={() => {}}
-    />
-  );
-};
-
-export const VerifyingOTP = () => {
-  return (
-    <EnterOtp
-      num={6}
-      otp={''}
-      resendOtpState={'can-resend'}
-      resendOtpText={'Resend OTP'}
-      show={true}
-      titleText={'Enter OTP'}
-      verifyingOtp={true}
-      onBack={() => {}}
-      onClose={() => {}}
-      onOtpChange={() => {}}
-      onOtpFocus={() => {}}
-      onResendOtp={() => {}}
-    />
-  );
-};
-
-export const WaitingForOTP = () => {
-  return (
-    <EnterOtp
-      num={6}
-      otp={''}
-      resendOtpState={'waiting'}
-      resendOtpText={'Resend OTP'}
-      show={true}
-      titleText={'Enter OTP'}
-      verifyingOtp={false}
-      waitToSendOtpText={'You can resend OTP in 12s'}
-      onBack={() => {}}
-      onClose={() => {}}
-      onOtpChange={() => {}}
-      onOtpFocus={() => {}}
-      onResendOtp={() => {}}
-    />
-  );
-};
+export const EnterOtp = connectedStory({
+  store,
+  render: () => {
+    return <Component />;
+  },
+});
