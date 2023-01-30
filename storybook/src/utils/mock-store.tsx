@@ -13,6 +13,15 @@ interface MockStoreProps {
   locales?: Record<string, any>;
 }
 
+function createActions(actions: string[]) {
+  return actions.reduce((o: any, actionId) => {
+    return {
+      ...o,
+      [actionId]: (params?: { [key: string]: any }) => action(actionId)(params),
+    };
+  }, {});
+}
+
 export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps) => {
   const _read = useCallback<Read>(
     (key, params) => {
@@ -26,7 +35,13 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
   );
 
   const _dispatch = useCallback<Dispatch>(
-    (key, params?) => dispatch && createActions(dispatch)[key](params),
+    (key, params?) => {
+      if (!dispatch) {
+        return {};
+      }
+      const actionsObj = createActions(dispatch);
+      return actionsObj[key](params);
+    },
     [dispatch]
   );
 
@@ -38,12 +53,3 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
     </Store>
   );
 };
-
-export function createActions(actions: string[]) {
-  return actions.reduce((o: any, actionId) => {
-    return {
-      ...o,
-      [actionId]: (params?: { [key: string]: any }) => action(actionId)(params),
-    };
-  }, {});
-}
