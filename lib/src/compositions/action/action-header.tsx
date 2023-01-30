@@ -59,9 +59,9 @@ export const Title = memo(() => {
 
 export const TimeAgo = memo(() => {
   const actionId = useValue('current.action/id');
-  const lastActive = useValue('action/last-active', { 'action/id': actionId });
-  console.log(lastActive);
-  return <div className={'text-xs text-gray-500'}>{'Active 5 days ago'}</div>;
+  const lastActive = useValue<number>('action/last-active', { 'action/id': actionId });
+  // TODO Format lastActive
+  return <div className={'text-xs text-gray-500'}>{lastActive}</div>;
 });
 
 const ActionBar = memo(() => {
