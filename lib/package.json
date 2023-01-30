@@ -6,7 +6,7 @@
     "dev": "npx vite",
     "build": "npx tsc && npx vite build",
     "preview": "npx vite preview",
-    "extract-store-ids": "npx zx src/_scripts/extract-ids.js",
+    "extract-store-ids": "npx zx src/_scripts/extract-store-ids.js",
     "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link"
   },
   "exports": {
