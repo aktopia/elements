@@ -6,9 +6,12 @@ import { ReactNode, useCallback } from 'react';
 
 const subscribe: Subscribe = (_) => () => null;
 
+export type ReadMock = Record<string, any>;
+export type DispatchMock = string[];
+
 interface MockStoreProps {
-  read?: { [key: string]: any };
-  dispatch?: string[];
+  read?: ReadMock;
+  dispatch?: DispatchMock;
   children: ReactNode;
   locales?: Record<string, any>;
 }

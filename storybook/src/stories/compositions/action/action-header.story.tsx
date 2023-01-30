@@ -1,6 +1,5 @@
 import { ActionHeader as Component } from '@elements/compositions/action/action-header';
-import { MockStore } from '@story/utils/mock-store';
-import { StoryObj } from '@storybook/react';
+import { story } from '@story/utils/story';
 
 export default {
   title: 'Compositions/Action/ActionHeader',
@@ -47,15 +46,9 @@ const store = {
   ],
 };
 
-type Story = StoryObj<typeof Component>;
-
-export const ActionHeader: Story = {
-  args: store.read,
-  render: (args: any) => {
-    return (
-      <MockStore dispatch={store.dispatch} read={args}>
-        <Component />
-      </MockStore>
-    );
+export const ActionHeader = story({
+  store,
+  render: () => {
+    return <Component />;
   },
-};
+});
