@@ -8,7 +8,7 @@ const subscribe: Subscribe = (_) => () => null;
 
 interface MockStoreProps {
   read?: { [key: string]: any };
-  dispatch?: { [key: string]: any };
+  dispatch?: string[];
   children: ReactNode;
   locales?: Record<string, any>;
 }
@@ -26,7 +26,7 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
   );
 
   const _dispatch = useCallback<Dispatch>(
-    (key, params?) => dispatch && dispatch[key](params),
+    (key, params?) => dispatch && createActions(dispatch)[key](params),
     [dispatch]
   );
 

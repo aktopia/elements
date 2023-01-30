@@ -13,10 +13,11 @@ export const SignIn = ({}) => {
   const phone = useValue<string>('auth.sign-in.modal/phone');
   const email = useValue<string>('auth.sign-in.modal/email');
   const activeSwitchId = useValue<string>('auth.sign-in.modal/active-switch-id');
+
   const switches = useMemo(
     () => [
-      { id: 'phone', label: t('phone') },
-      { id: 'email', label: t('email') },
+      { id: 'phone', label: t('common/phone') },
+      { id: 'email', label: t('common/email') },
     ],
     [t]
   );
@@ -26,6 +27,13 @@ export const SignIn = ({}) => {
   const onSwitchClick = useDispatch('auth.sign-in.modal/update-switch');
   const onPhoneChange = useDispatch('auth.sign-in.modal/update-phone');
   const onEmailChange = useDispatch('auth.sign-in.modal/update-email');
+
+  const onSwitch = useCallback(
+    (switchId: string) => {
+      onSwitchClick({ 'switch-id': switchId });
+    },
+    [onSwitchClick]
+  );
 
   const onPhoneChangeMemo = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,13 +58,13 @@ export const SignIn = ({}) => {
   );
 
   return (
-    <Modal show={show} title={t('common/sign-in')} onClose={onClose}>
+    <Modal show={show} title={t('auth/sign-in')} onClose={onClose}>
       <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
         <NamedSwitch
           activeSwitchId={activeSwitchId}
           size={'md'}
           switches={switches}
-          onSwitchClick={onSwitchClick}
+          onSwitchClick={onSwitch}
         />
         {activeSwitchId == 'phone' ? (
           <input
@@ -92,7 +100,6 @@ export const SignIn = ({}) => {
 };
 
 /*
-Enter to submit
 Mobile responsive
 Agree to terms and conditions
 Phone Input component
