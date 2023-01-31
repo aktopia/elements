@@ -14,11 +14,13 @@ export type Read = (id: string, params?: Record<string, any>) => any;
 
 export type Dispatch = (id: string, params?: Record<string, any>) => void;
 
+export type CheckPending = (value: any) => boolean;
+
 type StoreContextType = {
   subscribe: Subscribe;
   read: Read;
   dispatch: Dispatch;
-  checkPending: (value: any) => boolean;
+  checkPending: CheckPending;
 };
 
 type DispatchReturn = (params?: Record<string, any>) => void;
@@ -77,7 +79,7 @@ type StoreProps = {
   read: Read;
   dispatch: Dispatch;
   children: ReactNode;
-  checkPending: any;
+  checkPending: CheckPending;
 };
 
 export const Store = ({ read, dispatch, subscribe, checkPending, children }: StoreProps) => {
