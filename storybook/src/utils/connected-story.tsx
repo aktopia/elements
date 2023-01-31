@@ -31,6 +31,8 @@ function createActions(actions: string[]) {
   }, {});
 }
 
+const checkPending = (value: any) => value === 'sentinel/pending';
+
 export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps) => {
   const _read = useCallback<Read>(
     (key, params) => {
@@ -55,7 +57,7 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
   );
 
   return (
-    <Store dispatch={_dispatch} read={_read} subscribe={subscribe}>
+    <Store checkPending={checkPending} dispatch={_dispatch} read={_read} subscribe={subscribe}>
       <Translation defaultLocale={'en'} locales={locales || translations}>
         {children}
       </Translation>
@@ -64,11 +66,13 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
 };
 
 function storeEdn(store: { read: ReadMock; dispatch: DispatchMock }) {
-  const subs = Object.keys(store.read).reduce((res: Array<any>, key) => {
-    return [...res, [{ key }, { sym: 'get-' + key.split('/')[1] }]];
-  }, []);
+  const subs = Object.keys(store.read)
+    .sort()
+    .reduce((res: Array<any>, key) => {
+      return [...res, [{ key }, { sym: 'get-' + key.split('/')[1] }]];
+    }, []);
 
-  const events = store.dispatch.reduce((res: Array<any>, key) => {
+  const events = store.dispatch.sort().reduce((res: Array<any>, key) => {
     return [...res, [{ key }, { sym: 'handle-' + key.split('/')[1] }]];
   }, []);
 
@@ -80,19 +84,12 @@ function storeEdn(store: { read: ReadMock; dispatch: DispatchMock }) {
   });
 }
 
-function copyTextToClipboard(text: string) {
-  navigator.clipboard.writeText(text).then(
-    function () {
-      console.log('Async: Copying to clipboard was successful!');
-    },
-    function (err) {
-      console.error('Async: Could not copy text: ', err);
-    }
-  );
+function copyToClipboard(s: string) {
+  navigator.clipboard.writeText(s).then(console.log, console.error);
 }
 
 const CopyStoreEdn = ({ storeEdnString }: { storeEdnString: string }) => {
-  const onClick = useCallback(() => copyTextToClipboard(storeEdnString), [storeEdnString]);
+  const onClick = useCallback(() => copyToClipboard(storeEdnString), [storeEdnString]);
   const label = 'Copy store as EDN';
 
   return (

@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useRef,
   useSyncExternalStore,
 } from 'react';
 
@@ -17,6 +18,7 @@ type StoreContextType = {
   subscribe: Subscribe;
   read: Read;
   dispatch: Dispatch;
+  checkPending: (value: any) => boolean;
 };
 
 type DispatchReturn = (params?: Record<string, any>) => void;
@@ -31,13 +33,38 @@ const placeholderContext: StoreContextType = {
   dispatch: (_id, _params) => {
     throw new Error('"dispatch" not set for StoreContext');
   },
+  checkPending: (_value: any) => {
+    throw new Error('"checkPending" not set for StoreContext');
+  },
 };
 
 export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
 export function useValue<T>(id: string, params?: Record<string, any>): T {
-  const { read, subscribe } = useContext(StoreContext);
-  return useSyncExternalStore(subscribe, () => read(id, params));
+  const { read, subscribe, checkPending } = useContext(StoreContext);
+  const promiseResolveRef = useRef<Function>();
+  const _subscribe = useCallback<Subscribe>(
+    (onStoreChange) => {
+      const promiseResolve = promiseResolveRef.current;
+      if (promiseResolve) {
+        const value = read(id, params);
+        checkPending(value) && promiseResolve(value);
+      }
+
+      return subscribe(onStoreChange);
+    },
+    [read, subscribe, id, params, checkPending]
+  );
+
+  const value = useSyncExternalStore(_subscribe, () => read(id, params));
+
+  if (checkPending(value)) {
+    throw new Promise((resolve) => {
+      promiseResolveRef.current = resolve;
+    });
+  }
+
+  return value;
 }
 
 export function useDispatch(id: string): DispatchReturn {
@@ -50,16 +77,18 @@ type StoreProps = {
   read: Read;
   dispatch: Dispatch;
   children: ReactNode;
+  checkPending: any;
 };
 
-export const Store = ({ read, dispatch, subscribe, children }: StoreProps) => {
+export const Store = ({ read, dispatch, subscribe, checkPending, children }: StoreProps) => {
   const ctx = useMemo(
     () => ({
       read,
       dispatch,
       subscribe,
+      checkPending,
     }),
-    [read, dispatch, subscribe]
+    [read, dispatch, subscribe, checkPending]
   );
 
   return <StoreContext.Provider value={ctx}>{children}</StoreContext.Provider>;
