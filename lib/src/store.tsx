@@ -45,8 +45,8 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
   const promiseResolveRef = useRef<Function>();
   const _subscribe = useCallback<Subscribe>(
     (onStoreChange) => {
-      if (promiseResolveRef.current) {
-        const promiseResolve = promiseResolveRef.current;
+      const promiseResolve = promiseResolveRef.current;
+      if (promiseResolve) {
         const value = read(id, params);
         checkPending(value) && promiseResolve(value);
       }
