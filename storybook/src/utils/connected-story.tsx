@@ -31,6 +31,8 @@ function createActions(actions: string[]) {
   }, {});
 }
 
+const checkPending = (value: any) => value === 'sentinel/pending';
+
 export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps) => {
   const _read = useCallback<Read>(
     (key, params) => {
@@ -55,11 +57,7 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
   );
 
   return (
-    <Store
-      dispatch={_dispatch}
-      pendingSentinel={'sentinel/pending'}
-      read={_read}
-      subscribe={subscribe}>
+    <Store checkPending={checkPending} dispatch={_dispatch} read={_read} subscribe={subscribe}>
       <Translation defaultLocale={'en'} locales={locales || translations}>
         {children}
       </Translation>
