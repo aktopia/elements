@@ -19,7 +19,8 @@
   "dependencies": {
     "@heroicons/react": "2.0.13",
     "@iconicicons/react": "^1.5.1",
-    "cva": "npm:class-variance-authority@^0.4.0"
+    "cva": "npm:class-variance-authority@^0.4.0",
+    "react-loading-skeleton": "^3.1.0"
   },
   "peerDependencies": {
     "react": "^18.2.0",

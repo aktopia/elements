@@ -55,7 +55,11 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
   );
 
   return (
-    <Store dispatch={_dispatch} read={_read} subscribe={subscribe}>
+    <Store
+      dispatch={_dispatch}
+      pendingSentinel={'sentinel/pending'}
+      read={_read}
+      subscribe={subscribe}>
       <Translation defaultLocale={'en'} locales={locales || translations}>
         {children}
       </Translation>
@@ -82,19 +86,12 @@ function storeEdn(store: { read: ReadMock; dispatch: DispatchMock }) {
   });
 }
 
-function copyTextToClipboard(text: string) {
-  navigator.clipboard.writeText(text).then(
-    function () {
-      console.log('Async: Copying to clipboard was successful!');
-    },
-    function (err) {
-      console.error('Async: Could not copy text: ', err);
-    }
-  );
+function copyToClipboard(s: string) {
+  navigator.clipboard.writeText(s).then(console.log, console.error);
 }
 
 const CopyStoreEdn = ({ storeEdnString }: { storeEdnString: string }) => {
-  const onClick = useCallback(() => copyTextToClipboard(storeEdnString), [storeEdnString]);
+  const onClick = useCallback(() => copyToClipboard(storeEdnString), [storeEdnString]);
   const label = 'Copy store as EDN';
 
   return (

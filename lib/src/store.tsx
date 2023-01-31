@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useRef,
   useSyncExternalStore,
 } from 'react';
 
@@ -17,6 +18,7 @@ type StoreContextType = {
   subscribe: Subscribe;
   read: Read;
   dispatch: Dispatch;
+  pendingSentinel: any;
 };
 
 type DispatchReturn = (params?: Record<string, any>) => void;
@@ -31,13 +33,36 @@ const placeholderContext: StoreContextType = {
   dispatch: (_id, _params) => {
     throw new Error('"dispatch" not set for StoreContext');
   },
+  pendingSentinel: 'sentinel/pending',
 };
 
 export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
 export function useValue<T>(id: string, params?: Record<string, any>): T {
-  const { read, subscribe } = useContext(StoreContext);
-  return useSyncExternalStore(subscribe, () => read(id, params));
+  const { read, subscribe, pendingSentinel } = useContext(StoreContext);
+
+  const resolveRef = useRef<Function>();
+
+  const checkPendingAndSubscribe = useCallback<Subscribe>(
+    (onStoreChange) => {
+      if (Object.is(read(id, params), pendingSentinel)) {
+        resolveRef.current && resolveRef.current(read(id, params));
+      }
+
+      return subscribe(onStoreChange);
+    },
+    [read, subscribe, id, params, pendingSentinel]
+  );
+
+  const value = useSyncExternalStore(checkPendingAndSubscribe, () => read(id, params));
+
+  if (Object.is(value, pendingSentinel)) {
+    throw new Promise((resolve) => {
+      resolveRef.current = resolve;
+    });
+  }
+
+  return value;
 }
 
 export function useDispatch(id: string): DispatchReturn {
@@ -50,16 +75,18 @@ type StoreProps = {
   read: Read;
   dispatch: Dispatch;
   children: ReactNode;
+  pendingSentinel: any;
 };
 
-export const Store = ({ read, dispatch, subscribe, children }: StoreProps) => {
+export const Store = ({ read, dispatch, subscribe, pendingSentinel, children }: StoreProps) => {
   const ctx = useMemo(
     () => ({
       read,
       dispatch,
       subscribe,
+      pendingSentinel,
     }),
-    [read, dispatch, subscribe]
+    [read, dispatch, subscribe, pendingSentinel]
   );
 
   return <StoreContext.Provider value={ctx}>{children}</StoreContext.Provider>;

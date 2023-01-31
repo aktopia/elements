@@ -78,7 +78,7 @@ module.exports = {
         propElementValues: 'always',
       },
     ],
-    'react/jsx-fragments': ['error', 'element'],
+    'react/jsx-fragments': ['error', 'syntax'],
     'react/void-dom-elements-no-children': ['error'],
     'react/self-closing-comp': [
       'error',
