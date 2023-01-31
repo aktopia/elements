@@ -40,13 +40,11 @@ export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
 export function useValue<T>(id: string, params?: Record<string, any>): T {
   const { read, subscribe, pendingSentinel } = useContext(StoreContext);
-
   const resolveRef = useRef<Function>();
-
-  const checkPendingAndSubscribe = useCallback<Subscribe>(
+  const _subscribe = useCallback<Subscribe>(
     (onStoreChange) => {
-      if (Object.is(read(id, params), pendingSentinel)) {
-        resolveRef.current && resolveRef.current(read(id, params));
+      if (read(id, params) === pendingSentinel && resolveRef.current) {
+        resolveRef.current(read(id, params));
       }
 
       return subscribe(onStoreChange);
@@ -54,9 +52,9 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
     [read, subscribe, id, params, pendingSentinel]
   );
 
-  const value = useSyncExternalStore(checkPendingAndSubscribe, () => read(id, params));
+  const value = useSyncExternalStore(_subscribe, () => read(id, params));
 
-  if (Object.is(value, pendingSentinel)) {
+  if (value === pendingSentinel) {
     throw new Promise((resolve) => {
       resolveRef.current = resolve;
     });
