@@ -44,13 +44,15 @@ export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
 export function useValue<T>(id: string, params?: Record<string, any>): T {
   const { read, subscribe, checkPending } = useContext(StoreContext);
-  const promiseResolveRef = useRef<Function>();
+  const suspenseResolveRef = useRef<Function>();
+  const valueRef = useRef<any>();
   const _subscribe = useCallback<Subscribe>(
     (onStoreChange) => {
-      const promiseResolve = promiseResolveRef.current;
-      if (promiseResolve) {
-        const value = read(id, params);
-        checkPending(value) && promiseResolve(value);
+      const value = read(id, params);
+      const suspenseResolve = suspenseResolveRef.current;
+      valueRef.current = value;
+      if (suspenseResolve && checkPending(value)) {
+        suspenseResolve(value);
       }
 
       return subscribe(onStoreChange);
@@ -58,11 +60,11 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
     [read, subscribe, id, params, checkPending]
   );
 
-  const value = useSyncExternalStore(_subscribe, () => read(id, params));
+  const value = useSyncExternalStore(_subscribe, () => valueRef.current);
 
   if (checkPending(value)) {
     throw new Promise((resolve) => {
-      promiseResolveRef.current = resolve;
+      suspenseResolveRef.current = resolve;
     });
   }
 
