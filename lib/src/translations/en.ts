@@ -1,5 +1,5 @@
 export default {
-  'common/outcome': 'something else',
+  'common/outcome': 'Outcome',
   'common/email': 'Email',
   'common/phone': 'Phone',
   'auth/send-otp': 'Send OTP',
