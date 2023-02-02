@@ -2,6 +2,7 @@ import { wrapLoader } from '@elements/_hocs';
 import { TrophyMiniSolid } from '@elements/_icons';
 import { useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
+import { memo } from 'react';
 
 const Description = wrapLoader(() => {
   const actionId = useValue('current.action/id');
@@ -15,7 +16,7 @@ const OutcomeText = wrapLoader(() => {
   return <div className={'text-blue-700'}>{outcome}</div>;
 });
 
-const Outcome = () => {
+const Outcome = memo(() => {
   const t = useTranslation();
 
   return (
@@ -27,7 +28,7 @@ const Outcome = () => {
       <OutcomeText loaderKind={'primary'} loaderLineCount={6} />
     </div>
   );
-};
+});
 
 const Relations = wrapLoader(() => {
   const actionId = useValue('current.action/id');

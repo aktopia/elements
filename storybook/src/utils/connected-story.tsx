@@ -3,9 +3,7 @@ import { Translation } from '@elements/translation';
 import translations from '@elements/translations';
 import { action } from '@storybook/addon-actions';
 import { toEDNString } from 'edn-data';
-import { ReactNode, useCallback } from 'react';
-
-const subscribe: Subscribe = (_) => () => null;
+import { memo, ReactNode, useCallback, useEffect, useRef } from 'react';
 
 export type ReadMock = Record<string, any>;
 export type DispatchMock = string[];
@@ -33,7 +31,10 @@ function createActions(actions: string[]) {
 
 const checkPending = (value: any) => value === 'sentinel/pending';
 
-export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps) => {
+export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreProps) => {
+  const readRef = useRef(read);
+  const callbackRefs = useRef<Function[]>([]);
+
   const _read = useCallback<Read>(
     (key, params) => {
       const fnOrValue = read && read[key];
@@ -56,14 +57,28 @@ export const MockStore = ({ read, dispatch, children, locales }: MockStoreProps)
     [dispatch]
   );
 
+  const _subscribe: Subscribe = useCallback((onStoreChange) => {
+    callbackRefs.current.push(onStoreChange);
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    if (readRef.current !== read) {
+      for (const callback of callbackRefs.current) {
+        callback();
+      }
+    }
+    readRef.current = read;
+  }, [read]);
+
   return (
-    <Store checkPending={checkPending} dispatch={_dispatch} read={_read} subscribe={subscribe}>
+    <Store checkPending={checkPending} dispatch={_dispatch} read={_read} subscribe={_subscribe}>
       <Translation defaultLocale={'en'} locales={locales || translations}>
         {children}
       </Translation>
     </Store>
   );
-};
+});
 
 function storeEdn(store: { read: ReadMock; dispatch: DispatchMock }) {
   const subs = Object.keys(store.read)
@@ -95,7 +110,7 @@ const CopyStoreEdn = ({ storeEdnString }: { storeEdnString: string }) => {
   return (
     <button
       className={
-        'fixed bottom-2 right-2 rounded-md border border-gray-200 px-1 py-0.5 text-xs text-gray-500'
+        'z-100 fixed bottom-2 right-2 rounded-md border border-gray-200 px-1 py-0.5 text-xs text-gray-500'
       }
       type={'submit'}
       onClick={onClick}>
