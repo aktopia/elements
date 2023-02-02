@@ -22,6 +22,45 @@ interface IConnectedStory {
   render: () => JSX.Element;
 }
 
+function copyToClipboard(s: string) {
+  navigator.clipboard.writeText(s).then(console.log, console.error);
+}
+
+const CopyStoreEdn = ({ storeEdnString }: { storeEdnString: string }) => {
+  const onClick = useCallback(() => copyToClipboard(storeEdnString), [storeEdnString]);
+  const label = 'Copy store as EDN';
+
+  return (
+    <button
+      className={
+        'z-100 fixed bottom-2 right-2 rounded-md border border-gray-200 px-1 py-0.5 text-xs text-gray-500'
+      }
+      type={'submit'}
+      onClick={onClick}>
+      {label}
+    </button>
+  );
+};
+
+function storeEdn(store: { read: ReadMock; dispatch: DispatchMock }) {
+  const subs = Object.keys(store.read)
+    .sort()
+    .reduce((res: Array<any>, key) => {
+      return [...res, [{ key }, { sym: 'get-' + key.split('/')[1] }]];
+    }, []);
+
+  const events = store.dispatch.sort().reduce((res: Array<any>, key) => {
+    return [...res, [{ key }, { sym: 'handle-' + key.split('/')[1] }]];
+  }, []);
+
+  return toEDNString({
+    map: [
+      [{ key: 'subs' }, { map: subs }],
+      [{ key: 'events' }, { map: events }],
+    ],
+  });
+}
+
 function createActions(actions: string[]) {
   return actions.reduce((o: any, actionId) => {
     return {
@@ -38,6 +77,7 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
   const listenersRef = useRef<Function[]>([]);
 
   const _subscribe = useCallback((onStoreChange: any) => {
+    console.log('subs');
     listenersRef.current.push(onStoreChange);
     return () => {};
   }, []);
@@ -86,49 +126,10 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
   );
 });
 
-function storeEdn(store: { read: ReadMock; dispatch: DispatchMock }) {
-  const subs = Object.keys(store.read)
-    .sort()
-    .reduce((res: Array<any>, key) => {
-      return [...res, [{ key }, { sym: 'get-' + key.split('/')[1] }]];
-    }, []);
-
-  const events = store.dispatch.sort().reduce((res: Array<any>, key) => {
-    return [...res, [{ key }, { sym: 'handle-' + key.split('/')[1] }]];
-  }, []);
-
-  return toEDNString({
-    map: [
-      [{ key: 'subs' }, { map: subs }],
-      [{ key: 'events' }, { map: events }],
-    ],
-  });
-}
-
-function copyToClipboard(s: string) {
-  navigator.clipboard.writeText(s).then(console.log, console.error);
-}
-
-const CopyStoreEdn = ({ storeEdnString }: { storeEdnString: string }) => {
-  const onClick = useCallback(() => copyToClipboard(storeEdnString), [storeEdnString]);
-  const label = 'Copy store as EDN';
-
-  return (
-    <button
-      className={
-        'z-100 fixed bottom-2 right-2 rounded-md border border-gray-200 px-1 py-0.5 text-xs text-gray-500'
-      }
-      type={'submit'}
-      onClick={onClick}>
-      {label}
-    </button>
-  );
-};
-
 export const mockStory = ({ store, render }: IConnectedStory) => {
   return {
     args: store.read,
-    render: (args: any) => {
+    render: (args: Record<string, any>) => {
       const storeEdnString = storeEdn(store);
       return (
         <MockStore dispatch={store.dispatch} read={args}>

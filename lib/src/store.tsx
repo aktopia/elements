@@ -47,6 +47,7 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
   const { read, subscribe, checkPending } = useContext(StoreContext);
   const suspenseResolveRef = useRef<Function | null>();
   const valueRef = useRef<any>(read(id, params));
+  const paramsStringified = JSON.stringify(params);
 
   const _subscribe = useCallback<Subscribe>(
     (onStoreChange) => {
@@ -61,7 +62,8 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
         onStoreChange();
       });
     },
-    [read, id, params, checkPending, subscribe]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [read, paramsStringified, id, checkPending, subscribe]
   );
 
   const value = useSyncExternalStore(_subscribe, () => valueRef.current);
