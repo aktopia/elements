@@ -1,5 +1,6 @@
 import {
   createContext,
+  memo,
   type ReactNode,
   useCallback,
   useContext,
@@ -46,6 +47,7 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
   const { read, subscribe, checkPending } = useContext(StoreContext);
   const suspenseResolveRef = useRef<Function>();
   const valueRef = useRef<any>(read(id, params));
+
   const _subscribe = useCallback<Subscribe>(
     (onStoreChange) => {
       return subscribe(() => {
@@ -85,7 +87,7 @@ type StoreProps = {
   checkPending: CheckPending;
 };
 
-export const Store = ({ read, dispatch, subscribe, checkPending, children }: StoreProps) => {
+export const Store = memo(({ read, dispatch, subscribe, checkPending, children }: StoreProps) => {
   const ctx = useMemo(
     () => ({
       read,
@@ -97,4 +99,4 @@ export const Store = ({ read, dispatch, subscribe, checkPending, children }: Sto
   );
 
   return <StoreContext.Provider value={ctx}>{children}</StoreContext.Provider>;
-};
+});

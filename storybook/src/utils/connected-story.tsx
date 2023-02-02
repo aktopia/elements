@@ -1,9 +1,11 @@
-import { Dispatch, Read, Store, Subscribe } from '@elements/store';
+import { Dispatch, Store } from '@elements/store';
 import { Translation } from '@elements/translation';
 import translations from '@elements/translations';
 import { action } from '@storybook/addon-actions';
 import { toEDNString } from 'edn-data';
+import { isEqual } from 'lodash';
 import { memo, ReactNode, useCallback, useEffect, useRef } from 'react';
+import { proxy, subscribe as listen } from 'valtio';
 
 export type ReadMock = Record<string, any>;
 export type DispatchMock = string[];
@@ -29,22 +31,24 @@ function createActions(actions: string[]) {
   }, {});
 }
 
-const checkPending = (value: any) => value === 'sentinel/pending';
+const checkPending = (value: any) => value === 'signal/pending';
 
 export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreProps) => {
-  const readRef = useRef(read);
-  const callbackRefs = useRef<Function[]>([]);
+  const stateRef = useRef<any>(proxy(read));
+  const listenersRef = useRef<Function[]>([]);
 
-  const _read = useCallback<Read>(
-    (key, params) => {
-      const fnOrValue = read && read[key];
-      if (typeof fnOrValue === 'function') {
-        return fnOrValue(params);
-      }
-      return fnOrValue;
-    },
-    [read]
-  );
+  const _subscribe = useCallback((onStoreChange: any) => {
+    listenersRef.current.push(onStoreChange);
+    return () => {};
+  }, []);
+
+  const _read = useCallback((key: any, params?: any) => {
+    const fnOrValue = stateRef.current[key];
+    if (typeof fnOrValue === 'function') {
+      return fnOrValue(params);
+    }
+    return fnOrValue;
+  }, []);
 
   const _dispatch = useCallback<Dispatch>(
     (key, params?) => {
@@ -57,18 +61,20 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
     [dispatch]
   );
 
-  const _subscribe: Subscribe = useCallback((onStoreChange) => {
-    callbackRefs.current.push(onStoreChange);
-    return () => {};
+  useEffect(() => {
+    listen(stateRef.current, () => {
+      for (const listener of listenersRef.current) {
+        listener();
+      }
+    });
   }, []);
 
   useEffect(() => {
-    if (readRef.current !== read) {
-      for (const callback of callbackRefs.current) {
-        callback();
+    for (const k in read) {
+      if (!isEqual(stateRef.current[k], read[k])) {
+        stateRef.current[k] = read[k];
       }
     }
-    readRef.current = read;
   }, [read]);
 
   return (
