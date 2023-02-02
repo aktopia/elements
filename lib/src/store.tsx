@@ -75,9 +75,7 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
     [read, paramsStringified, id, checkPending, subscribe]
   );
 
-  const value = useSyncExternalStore(_subscribe, () =>
-    marshal ? marshal(valueRef.current) : valueRef.current
-  );
+  const value = useSyncExternalStore(_subscribe, () => valueRef.current);
 
   if (checkPending(value)) {
     throw new Promise((resolve) => {
@@ -85,7 +83,7 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
     });
   }
 
-  return value;
+  return marshal ? marshal(value) : value;
 }
 
 export function useDispatch(id: string): DispatchReturn {
