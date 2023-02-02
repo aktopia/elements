@@ -14,7 +14,7 @@ interface LoaderProps {
   loaderKind?: string;
 }
 
-export const wrapLoader = (Component: ComponentType) =>
+export const suspensify = (Component: ComponentType) =>
   memo(({ loaderLineCount, loaderKind = 'grey', ...props }: LoaderProps) => {
     const { baseColor, highlightColor } = kindToColors(loaderKind);
 

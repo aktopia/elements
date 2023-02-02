@@ -1,16 +1,16 @@
-import { wrapLoader } from '@elements/_hocs';
+import { suspensify } from '@elements/_hocs';
 import { TrophyMiniSolid } from '@elements/_icons';
 import { useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { memo } from 'react';
 
-const Description = wrapLoader(() => {
+const Description = suspensify(() => {
   const actionId = useValue('current.action/id');
   const description = useValue<string>('action/description', { 'action/id': actionId });
   return <div className={' w-full text-gray-700'}>{description}</div>;
 });
 
-const OutcomeText = wrapLoader(() => {
+const OutcomeText = suspensify(() => {
   const actionId = useValue<string>('current.action/id');
   const outcome = useValue<string>('action/outcome', { 'action/id': actionId });
   return <div className={'text-blue-700'}>{outcome}</div>;
@@ -30,7 +30,7 @@ const Outcome = memo(() => {
   );
 });
 
-const Relations = wrapLoader(() => {
+const Relations = suspensify(() => {
   const actionId = useValue('current.action/id');
   const relations = useValue('action/relations', { 'action/id': actionId });
   relations;
