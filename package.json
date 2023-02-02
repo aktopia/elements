@@ -12,6 +12,8 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "valtio": "1.9.0",
+    "lodash": "4.17.21",
     "@typescript-eslint/parser": "^5.49.0",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",

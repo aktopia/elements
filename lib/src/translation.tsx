@@ -1,5 +1,5 @@
 import { useDispatch, useValue } from '@elements/store';
-import { createContext, type ReactNode, useCallback, useContext, useMemo } from 'react';
+import { createContext, memo, type ReactNode, useCallback, useContext, useMemo } from 'react';
 
 type T = (id: string, params?: Record<string, any>) => string;
 
@@ -53,7 +53,7 @@ export function useLocale() {
   return { locale, setLocale };
 }
 
-export const Translation = ({ defaultLocale, locales, children }: TranslationProps) => {
+export const Translation = memo(({ defaultLocale, locales, children }: TranslationProps) => {
   const currentLocale = useValue<string>('current/locale');
   const setCurrentLocale = useDispatch('current/locale');
   const locale = currentLocale || defaultLocale;
@@ -88,6 +88,6 @@ export const Translation = ({ defaultLocale, locales, children }: TranslationPro
   );
 
   return <TranslationContext.Provider value={ctx}>{children}</TranslationContext.Provider>;
-};
+});
 
 export { default as locales } from '@elements/translations';
