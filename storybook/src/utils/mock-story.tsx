@@ -125,7 +125,7 @@ const CopyStoreEdn = ({ storeEdnString }: { storeEdnString: string }) => {
   );
 };
 
-export const connectedStory = ({ store, render }: IConnectedStory) => {
+export const mockStory = ({ store, render }: IConnectedStory) => {
   return {
     args: store.read,
     render: (args: any) => {

@@ -1,5 +1,5 @@
 import { SignIn as Component } from '@elements/compositions/sign-in/sign-in';
-import { connectedStory } from '@story/utils/connected-story';
+import { mockStory } from '@story/utils/mock-story';
 
 export default {
   title: 'Compositions/SignIn/SignIn',
@@ -23,7 +23,7 @@ const store = {
   ],
 };
 
-export const SignIn = connectedStory({
+export const SignIn = mockStory({
   store,
   render: () => {
     return <Component />;

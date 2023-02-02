@@ -1,5 +1,5 @@
 import { EnterOtp as Component } from '@elements/compositions/sign-in/enter-otp';
-import { connectedStory } from '@story/utils/connected-story';
+import { mockStory } from '@story/utils/mock-story';
 
 export default {
   title: 'Compositions/SignIn/EnterOtp',
@@ -25,7 +25,7 @@ const store = {
   ],
 };
 
-export const EnterOtp = connectedStory({
+export const EnterOtp = mockStory({
   store,
   render: () => {
     return <Component />;

@@ -1,5 +1,5 @@
 import { HomeSection as Component } from '@elements/compositions/action/home-section';
-import { connectedStory } from '@story/utils/connected-story';
+import { mockStory } from '@story/utils/mock-story';
 
 export default {
   title: 'Compositions/Action/HomeSection',
@@ -41,7 +41,7 @@ const store = {
   dispatch: [],
 };
 
-export const HomeSection = connectedStory({
+export const HomeSection = mockStory({
   store,
   render: () => {
     return <Component />;
