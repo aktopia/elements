@@ -17,11 +17,17 @@ export type Dispatch = (id: string, params?: Record<string, any>) => void;
 
 export type CheckPending = (value: any) => boolean;
 
+export type Equal = (x: any, y: any) => boolean;
+
+export type Marshal = (x: any) => any;
+
 type StoreContextType = {
   subscribe: Subscribe;
   read: Read;
   dispatch: Dispatch;
   checkPending: CheckPending;
+  equal?: Equal;
+  marshal?: Marshal;
 };
 
 type DispatchReturn = (params?: Record<string, any>) => void;
@@ -44,23 +50,29 @@ const placeholderContext: StoreContextType = {
 export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
 export function useValue<T>(id: string, params?: Record<string, any>): T {
-  const { read, subscribe, checkPending } = useContext(StoreContext);
-  const suspenseResolveRef = useRef<Function>();
+  const { read, subscribe, checkPending, equal, marshal } = useContext(StoreContext);
+  const suspenseResolveRef = useRef<Function | null>();
   const valueRef = useRef<any>(read(id, params));
+  const paramsStringified = JSON.stringify(params);
 
   const _subscribe = useCallback<Subscribe>(
     (onStoreChange) => {
       return subscribe(() => {
         const value = read(id, params);
         const suspenseResolve = suspenseResolveRef.current;
+        if (!equal || (equal && !equal(valueRef.current, value))) {
+          valueRef.current = value;
+        }
         valueRef.current = value;
         if (suspenseResolve && !checkPending(value)) {
           suspenseResolve(value);
+          suspenseResolveRef.current = null;
         }
         onStoreChange();
       });
     },
-    [read, id, params, checkPending, subscribe]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [read, paramsStringified, id, checkPending, subscribe]
   );
 
   const value = useSyncExternalStore(_subscribe, () => valueRef.current);
@@ -71,7 +83,7 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
     });
   }
 
-  return value;
+  return marshal ? marshal(value) : value;
 }
 
 export function useDispatch(id: string): DispatchReturn {
@@ -85,18 +97,24 @@ type StoreProps = {
   dispatch: Dispatch;
   children: ReactNode;
   checkPending: CheckPending;
+  equal?: Equal;
+  marshal?: Marshal;
 };
 
-export const Store = memo(({ read, dispatch, subscribe, checkPending, children }: StoreProps) => {
-  const ctx = useMemo(
-    () => ({
-      read,
-      dispatch,
-      subscribe,
-      checkPending,
-    }),
-    [read, dispatch, subscribe, checkPending]
-  );
+export const Store = memo(
+  ({ read, dispatch, subscribe, checkPending, children, equal, marshal }: StoreProps) => {
+    const ctx = useMemo(
+      () => ({
+        read,
+        dispatch,
+        subscribe,
+        checkPending,
+        equal,
+        marshal,
+      }),
+      [read, dispatch, subscribe, checkPending, equal, marshal]
+    );
 
-  return <StoreContext.Provider value={ctx}>{children}</StoreContext.Provider>;
-});
+    return <StoreContext.Provider value={ctx}>{children}</StoreContext.Provider>;
+  }
+);
