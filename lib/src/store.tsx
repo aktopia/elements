@@ -63,7 +63,6 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
         if (!equal || (equal && !equal(valueRef.current, value))) {
           valueRef.current = value;
         }
-        valueRef.current = value;
         if (suspenseResolve && !checkPending(value)) {
           suspenseResolve(value);
           suspenseResolveRef.current = null;
