@@ -69,10 +69,13 @@ const Icon = ({ kind }: VariantProps<typeof iconVariant>) => {
 
 type Variant = VariantProps<typeof containerVariant>;
 
+export type Kind = 'info' | 'success' | 'warning' | 'error';
+
 export interface AlertProps extends Variant {
   messageText: string;
   show: boolean;
   onDismiss: (event: React.MouseEvent) => void;
+  kind: Kind;
 }
 
 export const Alert = ({ messageText, show, kind = 'info', onDismiss }: AlertProps) => {

@@ -1,3 +1,4 @@
+import { Alert } from '@elements/compositions/alert';
 import { Router } from '@elements/router';
 import { Store, StoreProps } from '@elements/store';
 import { locales, Translation, TranslationProps } from '@elements/translation';
@@ -23,6 +24,7 @@ export const App = ({
       subscribe={subscribe}>
       <Translation defaultLocale={defaultLocale} locales={locales}>
         <Router />
+        <Alert />
       </Translation>
     </Store>
   );
