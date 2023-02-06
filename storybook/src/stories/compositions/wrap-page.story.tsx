@@ -4,7 +4,8 @@ import { store as signInStore } from '@story/stores/sign-in';
 import { mockStory } from '@story/utils/mock-story';
 
 const Component = wrapPage(() => {
-  return <div>{'Test'}</div>;
+  const text = 'Test';
+  return <div>{text}</div>;
 });
 export default {
   title: 'Compositions/WrapPage',
