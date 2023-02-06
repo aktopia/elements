@@ -27,7 +27,7 @@ const placeholderContext: TranslationContextType = {
 
 export const TranslationContext = createContext<TranslationContextType>(placeholderContext);
 
-interface TranslationProps {
+export interface TranslationProps {
   defaultLocale: string;
   locales: any;
   children: ReactNode;

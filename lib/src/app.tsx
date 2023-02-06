@@ -1,6 +1,8 @@
 import { Router } from '@elements/router';
-import { Store } from '@elements/store';
-import { locales, Translation } from '@elements/translation';
+import { Store, StoreProps } from '@elements/store';
+import { locales, Translation, TranslationProps } from '@elements/translation';
+
+interface AppProps extends StoreProps, TranslationProps {}
 
 export const App = ({
   subscribe,
@@ -10,7 +12,7 @@ export const App = ({
   equal,
   marshal,
   defaultLocale,
-}: any) => {
+}: AppProps) => {
   return (
     <Store
       checkPending={checkPending}

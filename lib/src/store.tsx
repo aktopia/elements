@@ -90,7 +90,7 @@ export function useDispatch(id: string): DispatchReturn {
   return useCallback((params?: Record<string, any>) => dispatch(id, params || {}), [dispatch, id]);
 }
 
-type StoreProps = {
+export type StoreProps = {
   subscribe: Subscribe;
   read: Read;
   dispatch: Dispatch;
