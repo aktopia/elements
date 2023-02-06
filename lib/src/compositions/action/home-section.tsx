@@ -32,9 +32,19 @@ const Outcome = memo(() => {
 
 const Relations = suspensify(() => {
   const actionId = useValue('current.action/id');
-  const relations = useValue('action/relations', { 'action/id': actionId });
-  relations;
-  return <div />;
+  const relations = useValue<{ type: string; title: string }[]>('action/relations', {
+    'action/id': actionId,
+  });
+  return (
+    <div>
+      {relations.map((r) => (
+        <>
+          <div>{r.type}</div>
+          <div>{r.title}</div>
+        </>
+      ))}
+    </div>
+  );
 });
 
 export const HomeSection = () => {
@@ -47,8 +57,4 @@ export const HomeSection = () => {
       <Relations loaderLineCount={8} />
     </div>
   );
-};
-
-export const routes = {
-  action: <HomeSection />,
 };

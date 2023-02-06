@@ -1,8 +1,8 @@
-import { EnterOtp as Component } from '@elements/compositions/sign-in/enter-otp';
+import { EnterOtp as Component } from '@elements/compositions/auth/enter-otp';
 import { mockStory } from '@story/utils/mock-story';
 
 export default {
-  title: 'Compositions/SignIn/EnterOtp',
+  title: 'Compositions/Auth/EnterOtp',
   component: Component,
 };
 

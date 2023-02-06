@@ -1,4 +1,4 @@
-import { Skeleton } from '@elements/components/Skeleton';
+import { Skeleton } from '@elements/components/skeleton';
 import { ComponentType, memo, Suspense } from 'react';
 
 function kindToColors(kind: string) {

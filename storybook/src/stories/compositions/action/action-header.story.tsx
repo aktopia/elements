@@ -1,4 +1,4 @@
-import { ActionHeader as Component } from '@elements/compositions/action/action-header';
+import { Header as Component } from '@elements/compositions/action/header';
 import { mockStory } from '@story/utils/mock-story';
 
 export default {

@@ -25,3 +25,5 @@ export const App = ({
     </Store>
   );
 };
+
+export default App;
