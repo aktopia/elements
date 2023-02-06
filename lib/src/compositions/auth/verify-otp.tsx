@@ -19,7 +19,7 @@ const inputVariant = cva(
   }
 );
 
-export const EnterOtp = () => {
+export const VerifyOtp = () => {
   const t = useTranslation();
   const otp = useValue<string>('auth.enter-otp/otp');
   const show = useValue<boolean>('auth.enter-otp/visible');

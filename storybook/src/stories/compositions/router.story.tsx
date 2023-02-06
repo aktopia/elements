@@ -2,7 +2,7 @@ import { Router as Component } from '@elements/router';
 import { mockStory } from '@story/utils/mock-story';
 
 export default {
-  title: 'Router',
+  title: 'Compositions/Router',
   component: Component,
 };
 

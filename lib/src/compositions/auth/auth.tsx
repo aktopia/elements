@@ -1,4 +1,4 @@
-import { EnterOtp } from '@elements/compositions/auth/enter-otp';
+import { VerifyOtp } from '@elements/compositions/auth/verify-otp';
 import { SignIn } from '@elements/compositions/auth/sign-in';
 import { useDispatch, useValue } from '@elements/store';
 
@@ -12,7 +12,7 @@ export const Auth = () => {
     <div>
       <div onClick={onSignInClick}>{buttonText}</div>
       <SignIn />
-      <EnterOtp />
+      <VerifyOtp />
     </div>
   );
 };

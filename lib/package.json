@@ -8,7 +8,7 @@
     "preview": "npx vite preview",
     "extract-store-ids": "npx zx _scripts/extract-store-ids.js",
     "extract-translation-keys": "npx zx _scripts/extract-translation-keys.js",
-    "link": "npm run build && cp package.json ./dist/package.json && cd dist && rm app store && npm link"
+    "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link"
   },
   "exports": {
     "./components": "./dist/components.js",
