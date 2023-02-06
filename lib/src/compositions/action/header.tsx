@@ -161,7 +161,7 @@ export const ActionTabs = () => {
   return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
 };
 
-export const ActionHeader = () => {
+export const Header = () => {
   return (
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>

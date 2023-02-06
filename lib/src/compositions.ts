@@ -1,2 +1,2 @@
-export { SignIn } from '@elements/compositions/sign-in/sign-in';
-export { EnterOtp } from '@elements/compositions/sign-in/enter-otp';
+export { SignIn } from '@elements/compositions/auth/sign-in';
+export { VerifyOtp } from '@elements/compositions/auth/verify-otp';

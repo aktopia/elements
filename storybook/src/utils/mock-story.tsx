@@ -77,7 +77,6 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
   const listenersRef = useRef<Function[]>([]);
 
   const _subscribe = useCallback((onStoreChange: any) => {
-    console.log('subs');
     listenersRef.current.push(onStoreChange);
     return () => {};
   }, []);

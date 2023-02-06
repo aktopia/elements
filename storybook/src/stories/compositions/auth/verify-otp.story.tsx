@@ -1,8 +1,8 @@
-import { EnterOtp as Component } from '@elements/compositions/sign-in/enter-otp';
+import { VerifyOtp as Component } from '@elements/compositions/auth/verify-otp';
 import { mockStory } from '@story/utils/mock-story';
 
 export default {
-  title: 'Compositions/SignIn/EnterOtp',
+  title: 'Compositions/Auth/VerifyOtp',
   component: Component,
 };
 
@@ -25,7 +25,7 @@ const store = {
   ],
 };
 
-export const EnterOtp = mockStory({
+export const VerifyOtp = mockStory({
   store,
   render: () => {
     return <Component />;

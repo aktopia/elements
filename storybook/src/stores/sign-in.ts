@@ -1,12 +1,4 @@
-import { SignIn as Component } from '@elements/compositions/sign-in/sign-in';
-import { mockStory } from '@story/utils/mock-story';
-
-export default {
-  title: 'Compositions/SignIn/SignIn',
-  component: Component,
-};
-
-const store = {
+export const store = {
   read: {
     'auth.sign-in/visible': true,
     'auth.sign-in/sending-otp': false,
@@ -22,10 +14,3 @@ const store = {
     'auth.sign-in/update-email',
   ],
 };
-
-export const SignIn = mockStory({
-  store,
-  render: () => {
-    return <Component />;
-  },
-});
