@@ -11,4 +11,5 @@ export default {
   'auth/resend-otp': 'Resend OTP',
   'auth/enter-otp': 'Enter OTP',
   'auth/invalid-otp': 'Incorrect OTP, please try again.',
+  'auth.verify-otp/success': 'OTP successfully verified.',
 };
