@@ -4,11 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "build": "npx tsc && npx vite build",
+    "build": "npx tsc && npx vite build && cp package.json ./dist/package.json",
     "preview": "npx vite preview",
     "extract-store-ids": "npx zx _scripts/extract-store-ids.js",
-    "extract-translation-keys": "npx zx _scripts/extract-translation-keys.js",
-    "link": "npm run build && cp package.json ./dist/package.json && cd dist && npm link"
+    "extract-translation-keys": "npx zx _scripts/extract-translation-keys.js"
   },
   "exports": {
     "./components": "./dist/components.js",
