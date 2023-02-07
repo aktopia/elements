@@ -125,7 +125,7 @@ export const ProgressIndicator = memo(() => {
     [updateSwitch]
   );
 
-  console.log(fundingPercentage);
+  fundingPercentage;
 
   return (
     <div className={'flex flex-col gap-2'}>

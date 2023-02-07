@@ -1,6 +1,6 @@
 import { formatCount } from '@elements/_utils';
-import { cva, VariantProps } from 'cva';
-import React, { memo } from 'react';
+import { cva } from 'cva';
+import React, { memo, MouseEventHandler } from 'react';
 
 const variant = cva('relative flex items-center justify-center font-medium w-max rounded-md', {
   variants: {
@@ -66,15 +66,20 @@ const countVariant = cva('font-medium', {
   },
 });
 
-type Variant = VariantProps<typeof variant>;
+type Size = 'xs' | 'sm' | 'md';
 
-export interface ButtonProps
-  extends React.ComponentPropsWithoutRef<'button'>,
-    Omit<Variant, 'disabled' | 'clicked'> {
+type Kind = 'primary' | 'secondary' | 'tertiary';
+
+export interface ButtonProps {
+  size: Size;
   value: string;
   count?: number;
   clicked?: boolean;
   Icon?: React.ComponentType<any>;
+  type?: 'button' | 'submit';
+  kind: Kind;
+  disabled?: boolean;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const Button = memo(

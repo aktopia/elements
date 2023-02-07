@@ -1,32 +1,25 @@
-import { Button } from '@elements/components/button';
+import { Button as Component } from '@elements/components/button';
+import { action } from '@storybook/addon-actions';
+import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Button',
-  component: Button,
+  component: Component,
 };
 
-export const Primary = {
-  render: () => {
-    return (
-      <div className={'flex-column flex gap-10'}>
-        <div className={'flex items-end gap-10'}>
-          <Button kind={'primary'} size={'xs'} value={'Button'} />
-          <Button kind={'primary'} size={'sm'} value={'Button'} />
-          <Button kind={'primary'} size={'md'} value={'Button'} />
-        </div>
-      </div>
-    );
+export const Button: StoryObj<typeof Component> = {
+  args: {
+    onClick: action('onClick'),
+    kind: 'primary',
+    value: 'Button',
   },
-};
-
-export const Tertiary = {
-  render: () => {
+  render: (args) => {
     return (
       <div className={'flex-column flex gap-10'}>
         <div className={'flex items-end gap-10'}>
-          <Button kind={'tertiary'} size={'xs'} value={'Button'} />
-          <Button kind={'tertiary'} size={'sm'} value={'Button'} />
-          <Button kind={'tertiary'} size={'md'} value={'Button'} />
+          <Component {...args} size={'xs'} />
+          <Component {...args} size={'sm'} />
+          <Component {...args} size={'md'} />
         </div>
       </div>
     );
