@@ -1,33 +1,10 @@
 import { Skeleton } from '@elements/components/skeleton';
 import { ComponentType, memo, Suspense } from 'react';
 
-function kindToColors(kind: string) {
-  if (kind === 'primary') {
-    return { baseColor: '#dbeafe', highlightColor: '#eff6ff' };
-  }
-
-  return { baseColor: '#f3f4f6', highlightColor: '#f8fafc' };
-}
-
-interface LoaderProps {
-  loaderLineCount: number;
-  loaderKind?: string;
-}
-
 export const suspensify = (Component: ComponentType) =>
-  memo(({ loaderLineCount, loaderKind = 'grey', ...props }: LoaderProps) => {
-    const { baseColor, highlightColor } = kindToColors(loaderKind);
-
+  memo(({ loaderLineCount, loaderKind = 'grey', ...props }: any) => {
     return (
-      <Suspense
-        fallback={
-          <Skeleton
-            baseColor={baseColor}
-            count={loaderLineCount}
-            highlightColor={highlightColor}
-            inline={true}
-          />
-        }>
+      <Suspense fallback={<Skeleton count={loaderLineCount} kind={loaderKind} />}>
         <Component {...props} />
       </Suspense>
     );
