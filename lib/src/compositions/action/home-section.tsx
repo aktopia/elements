@@ -25,7 +25,7 @@ const Outcome = memo(() => {
         <TrophyMiniSolid className={'h-4 w-5 text-blue-700'} />
         <div className={'font-medium text-blue-700'}>{t('common/outcome')}</div>
       </div>
-      <OutcomeText loaderKind={'primary'} loaderLineCount={6} />
+      <OutcomeText suspenseColor={'primary'} suspenseLines={6} />
     </div>
   );
 });
@@ -51,10 +51,10 @@ export const HomeSection = () => {
   return (
     <div className={'flex w-full gap-8'}>
       <div className={'flex w-full flex-col gap-5'}>
-        <Description loaderLineCount={6} />
+        <Description suspenseLines={6} />
         <Outcome />
       </div>
-      <Relations loaderLineCount={8} />
+      <Relations suspenseLines={8} />
     </div>
   );
 };

@@ -2,9 +2,9 @@ import { Skeleton } from '@elements/components/skeleton';
 import { ComponentType, memo, Suspense } from 'react';
 
 export const suspensify = (Component: ComponentType) =>
-  memo(({ loaderLineCount, loaderKind = 'grey', ...props }: any) => {
+  memo(({ suspenseLines, suspenseColor = 'grey', ...props }: any) => {
     return (
-      <Suspense fallback={<Skeleton count={loaderLineCount} kind={loaderKind} />}>
+      <Suspense fallback={<Skeleton count={suspenseLines} kind={suspenseColor} />}>
         <Component {...props} />
       </Suspense>
     );
