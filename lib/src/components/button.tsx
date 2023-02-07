@@ -79,7 +79,7 @@ export interface ButtonProps {
   type?: 'button' | 'submit';
   kind: Kind;
   disabled?: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const Button = memo(

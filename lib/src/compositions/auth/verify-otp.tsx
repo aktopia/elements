@@ -21,24 +21,34 @@ const inputVariant = cva(
 
 export const VerifyOtp = () => {
   const t = useTranslation();
-  const otp = useValue<string>('auth.enter-otp/otp');
-  const show = useValue<boolean>('auth.enter-otp/visible');
-  const verifyingOtp = useValue<boolean>('auth.enter-otp/verifying');
-  const maxDigits = useValue<number>('auth.enter-otp/max-otp-digits');
-  const resendOtpState = useValue<string>('auth.enter-otp/resend-otp-state');
-  const otpError = useValue<string>('auth.enter-otp/error');
-  const waitSeconds = useValue<string>('auth.enter-otp/wait-seconds');
-  const onResendOtp = useDispatch('auth.enter-otp/resend-otp');
-  const onBack = useDispatch('auth.enter-otp/go-back');
-  const onClose = useDispatch('auth.enter-otp/close');
-  const onOtpChange = useDispatch('auth.enter-otp/update-otp');
-  const onOtpFocus = useDispatch('auth.enter-otp/focus-input');
+  const otp = useValue<string>('auth.verify-otp/otp');
+  const show = useValue<boolean>('auth.verify-otp/visible');
+  const verifyingOtp = useValue<boolean>('auth.verify-otp/verifying');
+  const maxDigits = useValue<number>('auth.verify-otp/max-otp-digits');
+  const resendOtpState = useValue<string>('auth.verify-otp/resend-otp-state');
+  const otpError = useValue<string>('auth.verify-otp/error');
+  const waitSeconds = useValue<string>('auth.verify-otp/wait-seconds');
+  const onResendOtp = useDispatch('auth.verify-otp/resend-otp');
+  const onBack = useDispatch('auth.verify-otp/go-back');
+  const onClose = useDispatch('auth.verify-otp/close');
+  const onOtpChange = useDispatch('auth.verify-otp/update-otp');
+  const verifyOtp = useDispatch('auth.verify-otp/verify-otp');
+  const onOtpFocus = useDispatch('auth.verify-otp/focus-input');
+  const alert = useDispatch('alert/display');
 
   const onOtpChangeMemo = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onOtpChange({ otp: e.target.value });
+      const otp = e.target.value.trim();
+      const onSuccess = () => alert({ message: t('auth.verify-otp/success'), kind: 'success' });
+      onOtpChange({ otp });
+      if (otp.length === maxDigits) {
+        verifyOtp({
+          otp,
+          'on-success': onSuccess,
+        });
+      }
     },
-    [onOtpChange]
+    [onOtpChange, alert, t, verifyOtp, maxDigits]
   );
 
   let resendOtpView;
