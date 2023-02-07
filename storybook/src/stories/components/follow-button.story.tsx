@@ -1,14 +1,14 @@
-import { FollowButton } from '@elements/components/follow-button';
+import { FollowButton as Component } from '@elements/components/follow-button';
 import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/FollowButton',
-  component: FollowButton,
+  component: Component,
 };
 
-type Story = StoryObj<typeof FollowButton>;
+type Story = StoryObj<typeof Component>;
 
-export const Tertiary: Story = {
+export const FollowButton: Story = {
   args: {
     kind: 'tertiary',
     size: 'xs',

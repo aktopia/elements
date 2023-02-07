@@ -1,18 +1,18 @@
-import { ProgressBar } from '@elements/components/progress-bar';
+import { ProgressBar as Component } from '@elements/components/progress-bar';
 import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/ProgressBar',
-  component: ProgressBar,
+  component: Component,
 };
 
-type Story = StoryObj<typeof ProgressBar>;
+type Story = StoryObj<typeof Component>;
 
-export const Main: Story = {
+export const ProgressBar: Story = {
   render: (props) => {
     return (
       <div className={'w-full'}>
-        <ProgressBar {...props} />
+        <Component {...props} />
       </div>
     );
   },

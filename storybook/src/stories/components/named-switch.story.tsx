@@ -1,46 +1,21 @@
-import { NamedSwitch } from '@elements/components/named-switch';
+import { NamedSwitch as Component } from '@elements/components/named-switch';
 import { action } from '@storybook/addon-actions';
+import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/NamedSwitch',
-  component: NamedSwitch,
+  component: Component,
 };
 
-export const Examples = () => {
-  const onClick = action('onSwitchClick');
-
-  return (
-    <div className={'flex items-end gap-10 '}>
-      <NamedSwitch
-        activeSwitchId={'phone'}
-        size={'xs'}
-        switches={[
-          { id: 'phone', label: 'Phone' },
-          { id: 'email', label: 'Email' },
-          { id: 'social', label: 'Social' },
-        ]}
-        onSwitchClick={onClick}
-      />
-      <NamedSwitch
-        activeSwitchId={'email'}
-        size={'sm'}
-        switches={[
-          { id: 'phone', label: 'Phone' },
-          { id: 'email', label: 'Email' },
-          { id: 'social', label: 'Social' },
-        ]}
-        onSwitchClick={onClick}
-      />
-      <NamedSwitch
-        activeSwitchId={'social'}
-        size={'md'}
-        switches={[
-          { id: 'phone', label: 'Phone' },
-          { id: 'email', label: 'Email' },
-          { id: 'social', label: 'Social' },
-        ]}
-        onSwitchClick={onClick}
-      />
-    </div>
-  );
+export const NamedSwitch: StoryObj<typeof Component> = {
+  args: {
+    activeSwitchId: 'phone',
+    switches: [
+      { id: 'phone', label: 'Phone' },
+      { id: 'email', label: 'Email' },
+      { id: 'social', label: 'Social' },
+    ],
+    size: 'xs',
+    onSwitchClick: action('onSwitchClick'),
+  },
 };

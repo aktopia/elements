@@ -1,5 +1,5 @@
 import { ChevronLeftMini } from '@elements/_icons';
-import { cva, VariantProps } from 'cva';
+import { cva } from 'cva';
 import React from 'react';
 
 const container = cva(
@@ -21,9 +21,9 @@ const icon = cva('text-gray-700', {
   },
 });
 
-type Variant = VariantProps<typeof container>;
-
-interface BackButtonProps extends React.ComponentPropsWithoutRef<'button'>, Variant {}
+interface BackButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+  size: 'xs';
+}
 
 export const BackIconButton = ({ size, ...props }: BackButtonProps) => {
   return (

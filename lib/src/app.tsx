@@ -1,6 +1,9 @@
+import { Alert } from '@elements/compositions/alert';
 import { Router } from '@elements/router';
-import { Store } from '@elements/store';
-import { locales, Translation } from '@elements/translation';
+import { Store, StoreProps } from '@elements/store';
+import { locales, Translation, TranslationProps } from '@elements/translation';
+
+interface AppProps extends StoreProps, TranslationProps {}
 
 export const App = ({
   subscribe,
@@ -10,7 +13,7 @@ export const App = ({
   equal,
   marshal,
   defaultLocale,
-}: any) => {
+}: AppProps) => {
   return (
     <Store
       checkPending={checkPending}
@@ -21,9 +24,8 @@ export const App = ({
       subscribe={subscribe}>
       <Translation defaultLocale={defaultLocale} locales={locales}>
         <Router />
+        <Alert />
       </Translation>
     </Store>
   );
 };
-
-export default App;

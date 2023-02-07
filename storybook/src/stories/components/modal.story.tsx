@@ -1,17 +1,20 @@
-import { Modal } from '@elements/components/modal';
+import { Modal as Component } from '@elements/components/modal';
 import { lorem } from '@story/utils/string';
+import { action } from '@storybook/addon-actions';
+import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Modal',
-  component: Modal,
+  component: Component,
 };
 
-export const Examples = () => {
-  return (
-    <div className={'flex-column flex gap-10'}>
-      <Modal show={true} title={'Sign in'}>
-        <div className={'w-56'}>{lorem.generateWords(2)}</div>
-      </Modal>
-    </div>
-  );
+export const Modal: StoryObj<typeof Component> = {
+  args: { title: 'How are you?', show: true, onClose: action('onClose') },
+  render: (args) => {
+    return (
+      <Component {...args}>
+        <div className={'w-[300px]'}>{lorem.generateSentences(5)}</div>
+      </Component>
+    );
+  },
 };
