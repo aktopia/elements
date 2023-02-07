@@ -1,4 +1,4 @@
-import { cva, VariantProps } from 'cva';
+import { cva } from 'cva';
 import { memo, useCallback } from 'react';
 
 const containerVariant = cva(
@@ -31,25 +31,26 @@ const switchVariant = cva(
   }
 );
 
-type ContainerVariant = VariantProps<typeof containerVariant>;
-
-type SwitchVariant = VariantProps<typeof switchVariant>;
+type Size = 'xs' | 'sm' | 'md';
 
 export interface ISwitch {
   id: string;
   label: string;
 }
 
-interface NamedSwitchProps extends ContainerVariant {
+interface NamedSwitchProps {
   activeSwitchId: string;
   switches: ISwitch[];
   onSwitchClick: Function;
+  size: Size;
 }
 
-interface SwitchProps extends SwitchVariant {
+interface SwitchProps {
   id: string;
   onSwitchClick: Function;
   label: string;
+  status: 'active' | 'inactive';
+  size: Size;
 }
 
 const Switch = ({ id, status, size, onSwitchClick, label }: SwitchProps) => {

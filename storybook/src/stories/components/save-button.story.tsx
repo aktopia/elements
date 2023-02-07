@@ -1,24 +1,16 @@
-import { SaveButton } from '@elements/components/save-button';
+import { SaveButton as Component } from '@elements/components/save-button';
 import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/SaveButton',
-  component: SaveButton,
+  component: Component,
 };
 
-type Story = StoryObj<typeof SaveButton>;
+type Story = StoryObj<typeof Component>;
 
-export const Tertiary: Story = {
+export const SaveButton: Story = {
   args: {
     kind: 'tertiary',
     size: 'xs',
-  },
-};
-
-export const Saved: Story = {
-  args: {
-    kind: 'tertiary',
-    size: 'xs',
-    clicked: true,
   },
 };

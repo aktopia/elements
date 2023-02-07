@@ -67,18 +67,16 @@ const Icon = ({ kind }: VariantProps<typeof iconVariant>) => {
   return <Component aria-hidden={'true'} className={iconVariant({ kind })} />;
 };
 
-type Variant = VariantProps<typeof containerVariant>;
-
 export type Kind = 'info' | 'success' | 'warning' | 'error';
 
-export interface AlertProps extends Variant {
+export interface AlertProps {
   messageText: string;
   show: boolean;
   onDismiss: (event: React.MouseEvent) => void;
   kind: Kind;
 }
 
-export const Alert = ({ messageText, show, kind = 'info', onDismiss }: AlertProps) => {
+export const Alert = ({ messageText, show, kind, onDismiss }: AlertProps) => {
   return show ? (
     <div className={containerVariant({ kind })}>
       <div className={'flex items-center'}>
@@ -103,4 +101,5 @@ export const Alert = ({ messageText, show, kind = 'info', onDismiss }: AlertProp
 /*
 Proper width
 Animation on hide and show
+stack on top of each other when there are many
  */

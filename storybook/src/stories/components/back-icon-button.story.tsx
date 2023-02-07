@@ -1,10 +1,15 @@
-import { BackIconButton } from '@elements/components/back-icon-button';
+import { BackIconButton as Component } from '@elements/components/back-icon-button';
+import { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/BackIconButton',
-  component: BackIconButton,
+  component: Component,
 };
 
-export const Primary = {
-  render: () => <BackIconButton size={'xs'} />,
+type Story = StoryObj<typeof Component>;
+
+export const BackIconButton: Story = {
+  args: {
+    size: 'xs',
+  },
 };
