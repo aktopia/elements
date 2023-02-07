@@ -9,7 +9,7 @@ export default {
 };
 
 export const Modal: StoryObj<typeof Component> = {
-  args: { title: 'How are you?', show: true, onClose: action('onClose') },
+  args: { title: 'How are you?', visible: true, onClose: action('onClose') },
   render: (args) => {
     return (
       <Component {...args}>

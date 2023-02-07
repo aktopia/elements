@@ -22,7 +22,7 @@ const inputVariant = cva(
 export const VerifyOtp = () => {
   const t = useTranslation();
   const otp = useValue<string>('auth.verify-otp/otp');
-  const show = useValue<boolean>('auth.verify-otp/visible');
+  const visible = useValue<boolean>('auth.verify-otp/visible');
   const verifyingOtp = useValue<boolean>('auth.verify-otp/verifying');
   const maxDigits = useValue<number>('auth.verify-otp/max-otp-digits');
   const resendOtpState = useValue<string>('auth.verify-otp/resend-otp-state');
@@ -60,7 +60,7 @@ export const VerifyOtp = () => {
   } else if (resendOtpState === 'resending') {
     resendOtpView = (
       <div className={'flex items-center justify-center'}>
-        <Spinner kind={'secondary'} show={true} size={'xs'} />
+        <Spinner kind={'secondary'} size={'xs'} visible={true} />
       </div>
     );
   } else {
@@ -76,10 +76,10 @@ export const VerifyOtp = () => {
   }
 
   return (
-    <Modal show={show} title={t('auth/enter-otp')} onClose={onClose}>
+    <Modal title={t('auth/enter-otp')} visible={visible} onClose={onClose}>
       <div className={'flex w-[280px] flex-col items-center justify-center gap-5'}>
         {verifyingOtp ? (
-          <Spinner kind={'primary'} show={true} size={'sm'} />
+          <Spinner kind={'primary'} size={'sm'} visible={true} />
         ) : (
           <div className={'h-20'}>
             <div className={'mt-2'}>

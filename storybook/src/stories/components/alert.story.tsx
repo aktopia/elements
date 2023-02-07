@@ -12,7 +12,7 @@ type Story = StoryObj<typeof Component>;
 export const Alert: Story = {
   args: {
     kind: 'success',
-    show: true,
+    visible: true,
     messageText: 'Successfully sent OTP to random@email.com.',
     onDismiss: action('onDismiss'),
   },

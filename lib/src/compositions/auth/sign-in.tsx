@@ -8,7 +8,7 @@ import React, { useCallback, useMemo } from 'react';
 
 export const SignIn = () => {
   const t = useTranslation();
-  const show = useValue<boolean>('auth.sign-in/visible');
+  const visible = useValue<boolean>('auth.sign-in/visible');
   const sendingOtp = useValue<boolean>('auth.sign-in/sending-otp');
   const phone = useValue<string>('auth.sign-in/phone');
   const email = useValue<string>('auth.sign-in/email');
@@ -58,7 +58,7 @@ export const SignIn = () => {
   );
 
   return (
-    <Modal show={show} title={t('auth/sign-in')} onClose={onClose}>
+    <Modal title={t('auth/sign-in')} visible={visible} onClose={onClose}>
       <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
         <NamedSwitch
           activeSwitchId={activeSwitchId}
@@ -89,7 +89,7 @@ export const SignIn = () => {
         )}
         <div className={'flex w-full justify-center'}>
           {sendingOtp ? (
-            <Spinner kind={'primary'} show={true} size={'sm'} />
+            <Spinner kind={'primary'} size={'sm'} visible={true} />
           ) : (
             <Button kind={'primary'} size={'md'} type={'submit'} value={t('auth/send-otp')} />
           )}

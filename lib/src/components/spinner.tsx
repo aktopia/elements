@@ -14,11 +14,11 @@ const variant = cva('animate-spin', {
 });
 
 interface ISpinner extends VariantProps<typeof variant> {
-  show: boolean;
+  visible: boolean;
 }
 
-export const Spinner = ({ show, size, kind }: ISpinner) => {
-  return show ? (
+export const Spinner = ({ visible, size, kind }: ISpinner) => {
+  return visible ? (
     <svg className={variant({ size, kind })} fill={'none'} viewBox={'0 0 24 24'}>
       <circle
         className={'opacity-20'}

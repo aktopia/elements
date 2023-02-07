@@ -10,7 +10,7 @@ type Story = StoryObj<typeof Component>;
 
 export const Spinner: Story = {
   args: {
-    show: true,
+    visible: true,
     kind: 'primary',
     size: 'sm',
   },

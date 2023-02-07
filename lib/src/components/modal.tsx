@@ -1,7 +1,7 @@
 import { XMark } from '@elements/_icons';
 
-export const Modal = ({ title, children, onClose, show }: any) => {
-  return show ? (
+export const Modal = ({ title, children, onClose, visible }: any) => {
+  return visible ? (
     <div
       className={
         'fixed left-1/2 top-1/3 z-30 flex w-max -translate-x-1/2 -translate-y-1/2 transform flex-col gap-5 rounded-lg border border-gray-100 bg-white px-5 pt-4 pb-5 shadow-md transition-all ease-out'

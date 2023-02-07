@@ -71,13 +71,13 @@ export type Kind = 'info' | 'success' | 'warning' | 'error';
 
 export interface AlertProps {
   messageText: string;
-  show: boolean;
+  visible: boolean;
   onDismiss: (event: React.MouseEvent) => void;
   kind: Kind;
 }
 
-export const Alert = ({ messageText, show, kind, onDismiss }: AlertProps) => {
-  return show ? (
+export const Alert = ({ messageText, visible, kind, onDismiss }: AlertProps) => {
+  return visible ? (
     <div className={containerVariant({ kind })}>
       <div className={'flex items-center'}>
         <div className={'flex-shrink-0'}>
@@ -100,6 +100,6 @@ export const Alert = ({ messageText, show, kind, onDismiss }: AlertProps) => {
 
 /*
 Proper width
-Animation on hide and show
+Animation on hide and visible
 stack on top of each other when there are many
  */
