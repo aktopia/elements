@@ -1,6 +1,6 @@
 import { formatCount } from '@elements/_utils';
 import { cva } from 'cva';
-import React, { memo, MouseEventHandler } from 'react';
+import React, { memo, MouseEventHandler, useCallback } from 'react';
 
 const variant = cva('relative flex items-center justify-center font-medium w-max rounded-md', {
   variants: {
@@ -92,8 +92,16 @@ export const Button = memo(
     kind,
     disabled,
     clicked,
+    onClick,
     ...props
   }: ButtonProps) => {
+    const onClickMemo = useCallback(
+      (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        onClick && !disabled && onClick(e);
+      },
+      [onClick, disabled]
+    );
+
     return (
       <button
         {...props}
@@ -104,7 +112,8 @@ export const Button = memo(
           hasIcon: !!Icon,
           clicked: !!clicked,
         })}
-        type={type === 'submit' ? 'submit' : 'button'}>
+        type={type === 'submit' ? 'submit' : 'button'}
+        onClick={onClickMemo}>
         {!!Icon && <Icon className={iconVariant({ size, kind })} />}
         <span>{value}</span>
         {!!count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
