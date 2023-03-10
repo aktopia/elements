@@ -1,3 +1,4 @@
+import { HomeSection } from '@elements/compositions/action/home-section';
 import { wrapPage } from '@elements/compositions/wrap-page';
 
 export const Action = wrapPage(() => {
@@ -11,5 +12,5 @@ export const Action = wrapPage(() => {
 });
 
 export const routes = {
-  action: <Action />,
+  action: <HomeSection />,
 };

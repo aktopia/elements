@@ -1,4 +1,4 @@
-import { suspensify } from '@elements/_hocs';
+import { suspensify } from '@elements/components/suspensify';
 import { TrophyMiniSolid } from '@elements/_icons';
 import { useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
