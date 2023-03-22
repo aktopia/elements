@@ -9,7 +9,11 @@ import {
   useSyncExternalStore,
 } from 'react';
 
-export type Subscribe = (onStoreChange: () => void) => () => void;
+export type Subscribe = (
+  id: string,
+  params: Record<string, any>,
+  onStoreChange: () => void
+) => () => void;
 
 export type Read = (id: string, params?: Record<string, any>) => any;
 
@@ -55,9 +59,9 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
   const valueRef = useRef<any>(read(id, params));
   const paramsStringified = JSON.stringify(params);
 
-  const _subscribe = useCallback<Subscribe>(
-    (onStoreChange) => {
-      return subscribe(() => {
+  const _subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      return subscribe(id, params || {}, () => {
         const value = read(id, params);
         const suspenseResolve = suspenseResolveRef.current;
         if (!equal || (equal && !equal(valueRef.current, value))) {

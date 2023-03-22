@@ -76,10 +76,13 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
   const stateRef = useRef<any>(proxy(read));
   const listenersRef = useRef<Function[]>([]);
 
-  const _subscribe = useCallback((onStoreChange: any) => {
-    listenersRef.current.push(onStoreChange);
-    return () => {};
-  }, []);
+  const _subscribe = useCallback(
+    (_id: string, _params: Record<string, any>, onStoreChange: () => void) => {
+      listenersRef.current.push(onStoreChange);
+      return () => {};
+    },
+    []
+  );
 
   const _read = useCallback((key: any, params?: any) => {
     const fnOrValue = stateRef.current[key];
