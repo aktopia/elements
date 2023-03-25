@@ -4,6 +4,7 @@ import { FollowButton } from '@elements/components/follow-button';
 import { ISwitch, NamedSwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
+import { suspensify } from '@elements/components/suspensify';
 import { Tab, Tabs } from '@elements/components/tabs';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -51,7 +52,7 @@ export const SubscriptionBar = memo(() => {
   );
 });
 
-export const Title = memo(() => {
+export const Title = suspensify(() => {
   const actionId = useValue('current.action/id');
   const title = useValue<string>('action/title', { 'action/id': actionId });
   return <h2 className={'text-2xl font-bold text-gray-900'}>{title}</h2>;
@@ -169,8 +170,8 @@ export const Header = () => {
           <SubscriptionBar />
           <div>
             <div className={'flex'}>
-              <div className={'mr-auto'}>
-                <Title />
+              <div className={'mr-5 h-full w-full'}>
+                <Title suspenseLineHeight={36} suspenseLines={1} />
               </div>
               <ActionBar />
             </div>

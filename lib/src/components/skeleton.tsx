@@ -11,11 +11,19 @@ function kindToColors(kind: string) {
 
 export interface SkeletonProps {
   count: number;
+  height?: string;
   kind?: string;
 }
 
-export const Skeleton = ({ count, kind = 'grey' }: SkeletonProps) => {
+export const Skeleton = ({ count, kind = 'grey', height }: SkeletonProps) => {
   const { baseColor, highlightColor } = kindToColors(kind);
 
-  return <Component baseColor={baseColor} count={count} highlightColor={highlightColor} />;
+  return (
+    <Component
+      baseColor={baseColor}
+      count={count}
+      height={height}
+      highlightColor={highlightColor}
+    />
+  );
 };
