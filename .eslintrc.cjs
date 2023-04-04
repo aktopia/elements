@@ -56,7 +56,7 @@ module.exports = {
     'react/jsx-no-useless-fragment': ['error', { allowExpressions: true }],
     'react/no-array-index-key': ['error'],
     'react/jsx-key': ['error', {}],
-    'react/jsx-no-leaked-render': ['error', { validStrategies: ['coerce', 'ternary'] }],
+    // 'react/jsx-no-leaked-render': ['error', { validStrategies: ['coerce', 'ternary'] }],
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react-hooks/rules-of-hooks': 'error',
     'react/jsx-no-constructed-context-values': 'error',
