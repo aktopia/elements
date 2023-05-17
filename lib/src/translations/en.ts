@@ -2,6 +2,11 @@ export default {
   'common/outcome': 'Outcome',
   'common/email': 'Email',
   'common/phone': 'Phone',
+  'common/issue': 'Issue',
+  'common/action': 'Action',
+  'relation/resolves': 'Resolves',
+  'relation/partially-resolves': 'Partially Resolves',
+  'relation/relates': 'Relates To',
   'auth/send-otp': 'Send OTP',
   'auth/sign-in': 'Sign In',
   'auth/wait-to-resend-otp': ({ waitSeconds }: { waitSeconds: number }) => {

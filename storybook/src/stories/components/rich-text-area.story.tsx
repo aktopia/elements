@@ -13,6 +13,6 @@ export const RichTextArea: Story = {
   args: {
     className: 'text-gray-700',
     onChange: action('onChange'),
-    initialValue: '<p>Hello World!</p>',
+    initialValue: 'Hello World!',
   },
 };

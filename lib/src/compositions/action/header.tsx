@@ -6,6 +6,7 @@ import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tab, Tabs } from '@elements/components/tabs';
+import { WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { memo, useCallback, useMemo } from 'react';
@@ -55,7 +56,11 @@ export const SubscriptionBar = memo(() => {
 export const Title = suspensify(() => {
   const actionId = useValue('current.action/id');
   const title = useValue<string>('action/title', { 'action/id': actionId });
-  return <h2 className={'text-2xl font-bold text-gray-900'}>{title}</h2>;
+  return (
+    <WithContextMenu items={[{ id: 'edit', label: 'Edit' }]} onItemClick={console.log}>
+      <h2 className={'text-2xl font-bold text-gray-900'}>{title}</h2>
+    </WithContextMenu>
+  );
 });
 
 export const TimeAgo = memo(() => {

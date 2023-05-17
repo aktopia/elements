@@ -1,12 +1,17 @@
 import React, { useCallback, useState } from 'react';
 
+interface Item {
+  id: string;
+  label: string;
+}
+
 interface WithContextMenuProps {
   onItemClick: (id: string) => void;
-  items: any[];
+  items: Item[];
   children: React.ReactNode;
 }
 
-export function getMousePosition(e: any) {
+export function getPosition(e: any) {
   const pos = {
     x: (e as MouseEvent).clientX,
     y: (e as MouseEvent).clientY,
@@ -18,7 +23,8 @@ export function getMousePosition(e: any) {
   return pos;
 }
 
-const ContextMenuItem = ({ id, label, onItemClick }: any) => {
+const ContextMenuItem = ({ item, onItemClick }: any) => {
+  const { id, label } = item;
   const onClick = useCallback((_: any) => onItemClick(id), [onItemClick, id]);
   return (
     <div key={id} className={'cursor-pointer p-2 hover:bg-gray-100'} onClick={onClick}>
@@ -31,7 +37,7 @@ const ContextMenu = ({ onItemClick, items }: any) => {
   return (
     <div className={'rounded-md border bg-white shadow-md'}>
       {items.map((item: any) => (
-        <ContextMenuItem key={item.id} {...item} onItemClick={onItemClick} />
+        <ContextMenuItem key={item.id} item={item} onItemClick={onItemClick} />
       ))}
     </div>
   );
@@ -42,9 +48,8 @@ export const WithContextMenu = ({ onItemClick, items, children }: WithContextMen
 
   const onClick = useCallback(
     (e: React.MouseEvent) => {
-      console.dir(e);
       setShowMenu(!showMenu);
-      setPos(getMousePosition(e));
+      setPos(getPosition(e));
     },
     [showMenu]
   );
@@ -62,3 +67,5 @@ export const WithContextMenu = ({ onItemClick, items, children }: WithContextMen
     </div>
   );
 };
+
+// TODO complete types
