@@ -12,6 +12,7 @@
     "chromatic": "npx chromatic --project-token=80175b34de1e"
   },
   "devDependencies": {
+    "@headlessui/tailwindcss": "0.1.3",
     "@storybook/addon-actions": "^7.0.0-beta.32",
     "@storybook/addon-docs": "^7.0.0-beta.32",
     "@storybook/addon-essentials": "^7.0.0-beta.32",

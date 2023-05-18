@@ -80,11 +80,13 @@ export {
   RssIcon as RssMiniSolid,
   PlusIcon as PlusMiniSolid,
   TrophyIcon as TrophyMiniSolid,
+  ChevronDownIcon as ChevronDownMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
   XMarkIcon as XMarkSolid,
   CheckCircleIcon as CheckCircleSolid,
+  UserCircleIcon as UserCircleSolid,
 } from '@heroicons/react/24/solid';
 
 export { BoltIcon as BoltOutline } from '@heroicons/react/24/outline';
