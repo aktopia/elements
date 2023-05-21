@@ -1,21 +1,35 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 
-export const Item = ({ text, Icon, onClick }: any) => {
+interface ItemProps {
+  text: string;
+  href?: string;
+  Icon?: React.ComponentType<{ className: string }>;
+  onClick?: () => void;
+}
+
+export const Item = ({ text, href, Icon, onClick }: ItemProps) => {
+  const body = (
+    <>
+      {Icon && <Icon className={'mr-3 h-5 w-5 text-gray-700'} />}
+      <div className={'rounded px-3 py-2 text-xs font-medium text-gray-700'}>{text}</div>
+    </>
+  );
+
   return (
     <Menu.Item as={Fragment}>
-      <button
-        className={'flex items-center justify-center py-0.5'}
-        type={'button'}
-        onClick={onClick}>
-        {Icon && <Icon className={'ui-active:text-white mr-3 h-5 w-5 text-blue-500'} />}
-        <div
-          className={
-            'ui-active:bg-gray-100 rounded bg-white px-3 py-2 text-xs font-medium text-gray-700'
-          }>
-          {text}
-        </div>
-      </button>
+      {href ? (
+        <a className={'ui-active:bg-gray-100 my-1 flex w-full items-center bg-white'} href={href}>
+          {body}
+        </a>
+      ) : (
+        <button
+          className={'ui-active:bg-gray-100 my-1 flex w-full items-center bg-white'}
+          type={'button'}
+          onClick={onClick}>
+          {body}
+        </button>
+      )}
     </Menu.Item>
   );
 };
@@ -37,9 +51,9 @@ export const Dropdown = ({ Button, items, align }: any) => {
         <Menu.Items
           className={`${
             align === 'right' ? 'right-0 origin-top-right' : 'left-0 origin-top-left'
-          } absolute z-10 mt-2 w-max divide-y divide-gray-100 overflow-hidden rounded-md bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none`}>
-          {items.map(({ text, Icon }: any) => (
-            <Item key={text} Icon={Icon} text={text} />
+          } absolute z-10 mt-2 w-max overflow-hidden rounded-md bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none`}>
+          {items.map((item: ItemProps) => (
+            <Item key={item.text} {...item} />
           ))}
         </Menu.Items>
       </Transition>
