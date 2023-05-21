@@ -84,7 +84,7 @@ export const NavBar = () => {
   return (
     <div
       className={
-        'flex w-full items-center justify-between border-b border-gray-200 bg-white px-4 py-2.5 shadow-sm'
+        'flex w-full items-center justify-between border-b border-gray-200 bg-white px-14 py-2.5 shadow-sm'
       }>
       <CreateDropdown />
       <UserDropdown />

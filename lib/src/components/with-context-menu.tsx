@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import { useOutsideClick } from '@elements/_utils';
+import React, { useCallback, useRef, useState } from 'react';
 
 interface Item {
   id: string;
@@ -27,8 +28,8 @@ const ContextMenuItem = ({ item, onItemClick }: any) => {
   const { id, label } = item;
   const onClick = useCallback((_: any) => onItemClick(id), [onItemClick, id]);
   return (
-    <div key={id} className={'cursor-pointer p-2 hover:bg-gray-100'} onClick={onClick}>
-      {label}
+    <div key={id} className={'my-1 cursor-pointer'} onClick={onClick}>
+      <p className={'py-2 px-3 text-xs font-medium hover:bg-gray-100 '}>{label}</p>
     </div>
   );
 };
@@ -42,9 +43,13 @@ const ContextMenu = ({ onItemClick, items }: any) => {
     </div>
   );
 };
+
 export const WithContextMenu = ({ onItemClick, items, children }: WithContextMenuProps) => {
+  const menuRef = useRef<HTMLDivElement>(null);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  useOutsideClick(menuRef, () => setShowMenu(false));
 
   const onClick = useCallback(
     (e: React.MouseEvent) => {
@@ -55,7 +60,7 @@ export const WithContextMenu = ({ onItemClick, items, children }: WithContextMen
   );
 
   const menuUI = (
-    <div className={'fixed'} style={{ top: pos.y, left: pos.x }}>
+    <div ref={menuRef} className={'fixed z-10'} style={{ top: pos.y, left: pos.x }}>
       <ContextMenu items={items} onItemClick={onItemClick} />
     </div>
   );
