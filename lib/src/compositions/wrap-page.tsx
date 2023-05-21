@@ -1,12 +1,14 @@
-import { Header } from '@elements/compositions/header';
+import { NavBar } from '@elements/compositions/nav-bar';
 import { ComponentType, memo } from 'react';
 
 export const wrapPage = (Component: ComponentType) =>
   memo((props) => {
     return (
-      <div>
-        <Header />
-        <Component {...props} />
+      <div className={'h-full w-full bg-white'}>
+        <NavBar />
+        <div className={'p-14'}>
+          <Component {...props} />
+        </div>
       </div>
     );
   });
