@@ -1,6 +1,7 @@
-import { routeMaps } from '@elements/routes';
+import { suspensify } from '@elements/components/suspensify';
+import { routes } from '@elements/routes';
 import { useValue } from '@elements/store';
-import { memo, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 const _routes: Record<string, ReactNode> = {};
 
@@ -14,11 +15,11 @@ export function registerRoutes(routeMap: Record<string, ReactNode>) {
   }
 }
 
-for (const routeMap of routeMaps) {
+for (const routeMap of routes) {
   registerRoutes(routeMap);
 }
 
-export const Router = memo(() => {
+export const Router = suspensify(() => {
   const routeId = useValue<string>('current.route/id');
   return <>{_routes[routeId]}</>;
 });
