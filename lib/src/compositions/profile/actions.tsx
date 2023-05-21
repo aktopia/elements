@@ -6,7 +6,7 @@ const ActionCard = ({ id }: any) => {
   return (
     <div
       className={
-        'flex w-full flex-col items-start justify-center gap-4 rounded-lg border border-gray-300 bg-white p-4'
+        'flex w-full flex-col items-start justify-center gap-4 rounded-lg border border-gray-300 bg-white p-4 shadow-sm'
       }>
       <a
         className={'w-full cursor-pointer text-left text-base text-gray-700'}

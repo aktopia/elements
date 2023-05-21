@@ -3,7 +3,7 @@ import { mockStory } from '@story/utils/mock-story';
 import { lorem } from '@story/utils/string';
 
 export default {
-  title: 'Compositions/Profile',
+  title: 'Compositions/Profile/Profile',
   component: Component,
 };
 

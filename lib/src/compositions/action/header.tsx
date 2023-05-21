@@ -70,7 +70,7 @@ export const TimeAgo = memo(() => {
   return <div className={'text-xs text-gray-500'}>{lastActive}</div>;
 });
 
-const ActionBar = memo(() => {
+export const ActionBar = memo(() => {
   const actionId = useValue('current.action/id');
   const userId = useValue('current.user/id');
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
@@ -167,7 +167,7 @@ export const ActionTabs = () => {
   return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
 };
 
-export const Header = () => {
+export const HeaderFuture = () => {
   return (
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>
@@ -190,4 +190,8 @@ export const Header = () => {
       </div>
     </div>
   );
+};
+
+export const Header = () => {
+  return <Title suspenseLineHeight={36} suspenseLines={1} />;
 };

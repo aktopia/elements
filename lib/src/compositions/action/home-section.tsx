@@ -88,7 +88,7 @@ const Relations = suspensify(() => {
   );
 });
 
-export const HomeSection = () => {
+export const HomeSectionFuture = () => {
   return (
     <div className={'flex w-full gap-8'}>
       <div className={'flex w-full flex-col gap-5'}>
@@ -96,6 +96,15 @@ export const HomeSection = () => {
         <Outcome />
       </div>
       <Relations suspenseLines={8} />
+    </div>
+  );
+};
+
+export const HomeSection = () => {
+  return (
+    <div className={'flex w-full flex-col gap-5'}>
+      <Description suspenseLines={6} />
+      <Outcome />
     </div>
   );
 };
