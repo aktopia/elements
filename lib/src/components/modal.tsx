@@ -1,6 +1,14 @@
 import { XMark } from '@elements/_icons';
+import React from 'react';
 
-export const Modal = ({ title, children, onClose, visible }: any) => {
+interface ModalProps {
+  title: string;
+  children: React.ReactNode;
+  onClose?: () => void;
+  visible: boolean;
+}
+
+export const Modal = ({ title, children, onClose, visible }: ModalProps) => {
   return visible ? (
     <div
       className={
@@ -11,7 +19,7 @@ export const Modal = ({ title, children, onClose, visible }: any) => {
         {!!onClose && (
           <div
             className={
-              'cursor-pointer p-1 text-gray-500 transition-all ease-out hover:rounded hover:rounded-full hover:bg-gray-100 hover:text-gray-700'
+              'cursor-pointer p-1 text-gray-500 transition-all ease-out hover:rounded-full hover:bg-gray-100 hover:text-gray-700'
             }
             onClick={onClose}>
             <XMark className={'h-4 w-4'} />
