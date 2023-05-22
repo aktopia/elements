@@ -29,7 +29,7 @@ const ContextMenuItem = ({ item, onItemClick }: any) => {
   const onClick = useCallback((_: any) => onItemClick(id), [onItemClick, id]);
   return (
     <div key={id} className={'my-1 cursor-pointer'} onClick={onClick}>
-      <p className={'py-2 px-3 text-xs font-medium hover:bg-gray-100 '}>{label}</p>
+      <p className={'py-2 px-3 text-xs font-medium text-gray-700 hover:bg-gray-100'}>{label}</p>
     </div>
   );
 };
@@ -49,10 +49,16 @@ export const WithContextMenu = ({ onItemClick, items, children }: WithContextMen
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
-  useOutsideClick(menuRef, () => setShowMenu(false));
+  useOutsideClick(menuRef, () => {
+    setShowMenu(false);
+  });
 
   const onClick = useCallback(
     (e: React.MouseEvent) => {
+      const selection = window.getSelection();
+      if (selection && selection.type === 'Range') {
+        return;
+      }
       setShowMenu(!showMenu);
       setPos(getPosition(e));
     },
@@ -60,13 +66,13 @@ export const WithContextMenu = ({ onItemClick, items, children }: WithContextMen
   );
 
   const menuUI = (
-    <div ref={menuRef} className={'fixed z-10'} style={{ top: pos.y, left: pos.x }}>
+    <div className={'fixed z-10'} style={{ top: pos.y, left: pos.x }}>
       <ContextMenu items={items} onItemClick={onItemClick} />
     </div>
   );
 
   return (
-    <div className={'relative cursor-pointer'} onClick={onClick}>
+    <div ref={menuRef} className={'relative cursor-pointer'} onClick={onClick}>
       {showMenu && menuUI}
       {children}
     </div>

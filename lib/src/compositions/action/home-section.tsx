@@ -1,15 +1,19 @@
 import { TrophyMiniSolid } from '@elements/_icons';
 import { suspensify } from '@elements/components/suspensify';
 import { WithContextMenu } from '@elements/components/with-context-menu';
-import { useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 const Description = suspensify(() => {
+  const t = useTranslation();
   const actionId = useValue('current.action/id');
   const description = useValue<string>('action/description', { 'action/id': actionId });
+  const editDescription = useDispatch('action.description/edit');
+  const onEditClick = useCallback((_id: string) => editDescription({}), [editDescription]);
+
   return (
-    <WithContextMenu items={[{ id: 'edit', label: 'Edit' }]} onItemClick={console.log}>
+    <WithContextMenu items={[{ id: 'edit', label: t('common/edit') }]} onItemClick={onEditClick}>
       <div className={'text-gray-700'}>{description}</div>
     </WithContextMenu>
   );

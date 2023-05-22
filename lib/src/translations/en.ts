@@ -7,6 +7,7 @@ export default {
   'common/create': 'Create',
   'common/sign-in': 'Sign in',
   'common/sign-out': 'Sign out',
+  'common/edit': 'Edit',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',
