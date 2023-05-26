@@ -42,6 +42,8 @@ function getRelation(params: any) {
 const store = {
   read: {
     'current.action/id': '1',
+    'current.action.description/editing': false,
+    'current.action.outcome/editing': false,
     'current.user/id': '2',
     'action.follow/count': 2600,
     'action/saved': false,

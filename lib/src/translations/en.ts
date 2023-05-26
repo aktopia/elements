@@ -8,6 +8,8 @@ export default {
   'common/sign-in': 'Sign in',
   'common/sign-out': 'Sign out',
   'common/edit': 'Edit',
+  'common/save': 'Save',
+  'common/cancel': 'Cancel',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',

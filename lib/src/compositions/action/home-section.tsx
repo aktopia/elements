@@ -1,18 +1,50 @@
 import { TrophyMiniSolid } from '@elements/_icons';
+import { Button } from '@elements/components/button';
+import RichTextArea from '@elements/components/rich-text-area';
 import { suspensify } from '@elements/components/suspensify';
 import { WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { memo, useCallback } from 'react';
 
+const TextAreaEditor = suspensify(({ value, onSave, onCancel, onChange }: any) => {
+  const t = useTranslation();
+  return (
+    <div
+      className={
+        'flex flex-col items-end justify-start gap-3 rounded-lg border border-gray-400 bg-gray-50 p-3 text-gray-700 shadow-inner'
+      }>
+      <RichTextArea initialValue={value} onChange={onChange} />
+      <div className={'flex items-start justify-end gap-3'}>
+        <Button kind={'tertiary'} size={'xs'} value={t('common/cancel')} onClick={onCancel} />
+        <Button
+          color={'green'}
+          kind={'primary'}
+          size={'xs'}
+          value={t('common/save')}
+          onClick={onSave}
+        />
+      </div>
+    </div>
+  );
+});
+
 const Description = suspensify(() => {
   const t = useTranslation();
   const actionId = useValue('current.action/id');
   const description = useValue<string>('action/description', { 'action/id': actionId });
+  const isEditing = useValue<boolean>('current.action.description/editing');
   const editDescription = useDispatch('action.description/edit');
   const onEditClick = useCallback((_id: string) => editDescription({}), [editDescription]);
 
-  return (
+  return isEditing ? (
+    <TextAreaEditor
+      value={description}
+      onCancel={console.log}
+      onChange={console.log}
+      onSave={console.log}
+    />
+  ) : (
     <WithContextMenu items={[{ id: 'edit', label: t('common/edit') }]} onItemClick={onEditClick}>
       <div className={'text-gray-700'}>{description}</div>
     </WithContextMenu>
@@ -20,9 +52,25 @@ const Description = suspensify(() => {
 });
 
 const OutcomeText = suspensify(() => {
+  const t = useTranslation();
   const actionId = useValue<string>('current.action/id');
   const outcome = useValue<string>('action/outcome', { 'action/id': actionId });
-  return <div className={'text-blue-700'}>{outcome}</div>;
+  const isEditing = useValue<boolean>('current.action.outcome/editing');
+  const editOutcome = useDispatch('action.outcome/edit');
+  const onEditClick = useCallback((_id: string) => editOutcome({}), [editOutcome]);
+
+  return isEditing ? (
+    <TextAreaEditor
+      value={outcome}
+      onCancel={console.log}
+      onChange={console.log}
+      onSave={console.log}
+    />
+  ) : (
+    <WithContextMenu items={[{ id: 'edit', label: t('common/edit') }]} onItemClick={onEditClick}>
+      <div className={'text-blue-700'}>{outcome}</div>
+    </WithContextMenu>
+  );
 });
 
 const Outcome = memo(() => {

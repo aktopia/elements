@@ -20,6 +20,7 @@ const variant = cva('relative flex items-center justify-center font-medium w-max
     },
     clicked: { true: '' },
     hasIcon: { true: '' },
+    color: { green: '', blue: '' },
   },
   defaultVariants: {
     kind: 'primary',
@@ -32,6 +33,16 @@ const variant = cva('relative flex items-center justify-center font-medium w-max
       kind: 'tertiary',
       clicked: true,
       class: 'bg-gray-50 translate-y-[0.5px] shadow-none',
+    },
+    {
+      kind: 'primary',
+      color: 'green',
+      class: 'bg-green-600',
+    },
+    {
+      kind: 'secondary',
+      color: 'green',
+      class: 'text-green-600 border-green-500',
     },
   ],
 });
@@ -79,6 +90,7 @@ export interface ButtonProps {
   type?: 'button' | 'submit';
   kind: Kind;
   disabled?: boolean;
+  color?: 'green' | 'blue';
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -90,6 +102,7 @@ export const Button = memo(
     Icon,
     size,
     kind,
+    color,
     disabled,
     clicked,
     onClick,
@@ -108,6 +121,7 @@ export const Button = memo(
         className={variant({
           size,
           kind,
+          color,
           disabled: !!disabled,
           hasIcon: !!Icon,
           clicked: !!clicked,
