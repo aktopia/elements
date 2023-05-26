@@ -1,34 +1,26 @@
 const path = require('path');
-const { mergeConfig } = require('vite');
-
+const {
+  mergeConfig
+} = require('vite');
 module.exports = {
   stories: ['../src/**/*.story.@(js|jsx|ts|tsx|mdx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    '@storybook/addon-actions',
-    {
-      name: '@storybook/addon-postcss',
-      options: {
-        cssLoaderOptions: {
-          importLoaders: 1,
-        },
-        postcssLoaderOptions: {
-          implementation: require('postcss'),
-        },
-      },
-    },
-  ],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions', '@storybook/addon-actions', {
+    name: '@storybook/addon-styling',
+    options: {
+      postCss: {
+        implementation: require('postcss')
+      }
+    }
+  }],
   framework: {
     name: '@storybook/react-vite',
-    options: {},
+    options: {}
   },
   docs: {
-    docsPage: true,
+    autodocs: 'tag'
   },
   typescript: {
-    reactDocgen: 'react-docgen-typescript',
+    reactDocgen: 'react-docgen-typescript'
   },
   async viteFinal(config) {
     // Merge custom configuration into the default config
@@ -36,13 +28,13 @@ module.exports = {
       resolve: {
         alias: {
           '@elements': path.resolve(__dirname, '../../lib/src'),
-          '@story': path.resolve(__dirname, '../src'),
-        },
+          '@story': path.resolve(__dirname, '../src')
+        }
       },
       // Add dependencies to pre-optimization
       optimizeDeps: {
-        include: ['storybook-dark-mode'],
-      },
+        include: ['storybook-dark-mode']
+      }
     });
-  },
+  }
 };
