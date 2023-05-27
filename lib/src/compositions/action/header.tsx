@@ -6,6 +6,7 @@ import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tab, Tabs } from '@elements/components/tabs';
+import { TitleEditor } from '@elements/components/title-editor';
 import { WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -54,10 +55,30 @@ export const SubscriptionBar = memo(() => {
 });
 
 export const Title = suspensify(() => {
+  const t = useTranslation();
   const actionId = useValue('current.action/id');
   const title = useValue<string>('action/title', { 'action/id': actionId });
-  return (
-    <WithContextMenu items={[{ id: 'edit', label: 'Edit' }]} onItemClick={console.log}>
+  const isEditing = useValue<boolean>('current.action.title/editing');
+  const onEdit = useDispatch('current.action.title/edit', { emptyParams: true });
+  const onEditCancel = useDispatch('current.action.title.edit/cancel', {
+    emptyParams: true,
+  });
+  const onEditDone = useDispatch('current.action.title.edit/done', {
+    emptyParams: true,
+  });
+  const updateTitle = useDispatch('current.action.title/update');
+  const onChange = useCallback((value: string) => updateTitle({ value }), [updateTitle]);
+  return isEditing ? (
+    <TitleEditor
+      cancelText={t('common/cancel')}
+      doneText={t('common/done')}
+      value={title}
+      onCancel={onEditCancel}
+      onChange={onChange}
+      onDone={onEditDone}
+    />
+  ) : (
+    <WithContextMenu items={[{ id: 'edit', label: 'Edit' }]} onItemClick={onEdit}>
       <h2 className={'text-2xl font-bold text-gray-900'}>{title}</h2>
     </WithContextMenu>
   );
@@ -176,7 +197,7 @@ export const HeaderFuture = () => {
           <div>
             <div className={'flex'}>
               <div className={'mr-5 h-full w-full'}>
-                <Title suspenseLineHeight={36} suspenseLines={1} />
+                <Title suspenseLineHeight={'36'} suspenseLines={1} />
               </div>
               <ActionBar />
             </div>
@@ -193,5 +214,5 @@ export const HeaderFuture = () => {
 };
 
 export const Header = () => {
-  return <Title suspenseLineHeight={36} suspenseLines={1} />;
+  return <Title suspenseLineHeight={'36'} suspenseLines={1} />;
 };

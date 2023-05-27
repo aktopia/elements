@@ -42,6 +42,7 @@ function getRelation(params: any) {
 const store = {
   read: {
     'current.action/id': '1',
+    'current.action.title/editing': false,
     'current.action.description/editing': false,
     'current.action.outcome/editing': false,
     'current.user/id': '2',
@@ -92,6 +93,10 @@ const store = {
     'current.action.outcome.edit/cancel',
     'current.action.outcome.edit/done',
     'current.action.outcome/update',
+    'current.action.title/edit',
+    'current.action.title.edit/cancel',
+    'current.action.title.edit/done',
+    'current.action.title/update',
   ],
 };
 

@@ -1,7 +1,19 @@
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 
-export const RichTextArea = ({ className, onChange, initialValue }: any) => {
+interface RichTextAreaProps {
+  className?: string;
+  onChange: (value: string) => void;
+  initialValue: string;
+  output?: 'html' | 'text';
+}
+
+export const RichTextArea = ({
+  className,
+  onChange,
+  initialValue,
+  output = 'html',
+}: RichTextAreaProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -21,7 +33,16 @@ export const RichTextArea = ({ className, onChange, initialValue }: any) => {
       },
     },
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      let value;
+      switch (output) {
+        case 'html':
+          value = editor.getHTML();
+          break;
+        case 'text':
+          value = editor.getText();
+          break;
+      }
+      onChange(value);
     },
     content: initialValue,
   });
