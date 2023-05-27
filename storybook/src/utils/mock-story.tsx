@@ -33,7 +33,7 @@ const CopyStoreEdn = ({ storeEdnString }: { storeEdnString: string }) => {
   return (
     <button
       className={
-        'z-100 fixed bottom-2 right-2 rounded-md border border-gray-200 px-1 py-0.5 text-xs text-gray-500'
+        'z-100 fixed bottom-2 right-2 rounded-md border border-gray-200 bg-white px-1 py-0.5 text-xs text-gray-500'
       }
       type={'submit'}
       onClick={onClick}>
