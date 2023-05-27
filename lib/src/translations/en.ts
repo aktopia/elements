@@ -10,6 +10,7 @@ export default {
   'common/edit': 'Edit',
   'common/save': 'Save',
   'common/cancel': 'Cancel',
+  'common/done': 'Done',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',

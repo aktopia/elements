@@ -1,51 +1,40 @@
 import { TrophyMiniSolid } from '@elements/_icons';
-import { Button } from '@elements/components/button';
-import RichTextArea from '@elements/components/rich-text-area';
 import { suspensify } from '@elements/components/suspensify';
+import { TextAreaEditor } from '@elements/components/text-area-editor';
 import { WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { memo, useCallback } from 'react';
-
-const TextAreaEditor = suspensify(({ value, onSave, onCancel, onChange }: any) => {
-  const t = useTranslation();
-  return (
-    <div
-      className={
-        'flex flex-col items-end justify-start gap-3 rounded-lg border border-gray-400 bg-gray-50 p-3 text-gray-700 shadow-inner'
-      }>
-      <RichTextArea initialValue={value} onChange={onChange} />
-      <div className={'flex items-start justify-end gap-3'}>
-        <Button kind={'tertiary'} size={'xs'} value={t('common/cancel')} onClick={onCancel} />
-        <Button
-          color={'green'}
-          kind={'primary'}
-          size={'xs'}
-          value={t('common/save')}
-          onClick={onSave}
-        />
-      </div>
-    </div>
-  );
-});
 
 const Description = suspensify(() => {
   const t = useTranslation();
   const actionId = useValue('current.action/id');
   const description = useValue<string>('action/description', { 'action/id': actionId });
   const isEditing = useValue<boolean>('current.action.description/editing');
-  const editDescription = useDispatch('action.description/edit');
-  const onEditClick = useCallback((_id: string) => editDescription({}), [editDescription]);
+  const onEdit = useDispatch('current.action.description/edit', { emptyParams: true });
+  const onEditCancel = useDispatch('current.action.description.edit/cancel', {
+    emptyParams: true,
+  });
+  const onEditDone = useDispatch('current.action.description.edit/done', {
+    emptyParams: true,
+  });
+  const updateDescription = useDispatch('current.action.description/update');
+  const onChange = useCallback(
+    (value: string) => updateDescription({ value }),
+    [updateDescription]
+  );
 
   return isEditing ? (
     <TextAreaEditor
+      cancelText={t('common/cancel')}
+      doneText={t('common/done')}
       value={description}
-      onCancel={console.log}
-      onChange={console.log}
-      onSave={console.log}
+      onCancel={onEditCancel}
+      onChange={onChange}
+      onDone={onEditDone}
     />
   ) : (
-    <WithContextMenu items={[{ id: 'edit', label: t('common/edit') }]} onItemClick={onEditClick}>
+    <WithContextMenu items={[{ id: 'edit', label: t('common/edit') }]} onItemClick={onEdit}>
       <div className={'text-gray-700'}>{description}</div>
     </WithContextMenu>
   );
@@ -56,18 +45,27 @@ const OutcomeText = suspensify(() => {
   const actionId = useValue<string>('current.action/id');
   const outcome = useValue<string>('action/outcome', { 'action/id': actionId });
   const isEditing = useValue<boolean>('current.action.outcome/editing');
-  const editOutcome = useDispatch('action.outcome/edit');
-  const onEditClick = useCallback((_id: string) => editOutcome({}), [editOutcome]);
+  const onEdit = useDispatch('current.action.outcome/edit', { emptyParams: true });
+  const onEditCancel = useDispatch('current.action.outcome.edit/cancel', {
+    emptyParams: true,
+  });
+  const onEditDone = useDispatch('current.action.outcome.edit/done', {
+    emptyParams: true,
+  });
+  const updateOutcome = useDispatch('current.action.outcome/update');
+  const onChange = useCallback((value: string) => updateOutcome({ value }), [updateOutcome]);
 
   return isEditing ? (
     <TextAreaEditor
+      cancelText={t('common/cancel')}
+      doneText={t('common/done')}
       value={outcome}
-      onCancel={console.log}
-      onChange={console.log}
-      onSave={console.log}
+      onCancel={onEditCancel}
+      onChange={onChange}
+      onDone={onEditDone}
     />
   ) : (
-    <WithContextMenu items={[{ id: 'edit', label: t('common/edit') }]} onItemClick={onEditClick}>
+    <WithContextMenu items={[{ id: 'edit', label: t('common/edit') }]} onItemClick={onEdit}>
       <div className={'text-blue-700'}>{outcome}</div>
     </WithContextMenu>
   );

@@ -3,8 +3,8 @@ import { ComponentProps, ComponentType, memo, Suspense } from 'react';
 
 interface SuspensifyProps {
   suspenseLines: number;
-  suspenseColor: 'grey' | 'primary';
-  suspenseLineHeight: string;
+  suspenseColor?: 'grey' | 'primary';
+  suspenseLineHeight?: string;
 }
 
 export const suspensify = <P extends object>(Component: ComponentType<P>) =>

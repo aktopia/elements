@@ -84,6 +84,14 @@ const store = {
     'action/fund',
     'action.progress-bar/update',
     'action.tabs/update',
+    'current.action.description/edit',
+    'current.action.description.edit/cancel',
+    'current.action.description.edit/done',
+    'current.action.description/update',
+    'current.action.outcome/edit',
+    'current.action.outcome.edit/cancel',
+    'current.action.outcome.edit/done',
+    'current.action.outcome/update',
   ],
 };
 

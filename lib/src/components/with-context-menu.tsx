@@ -7,7 +7,7 @@ interface Item {
 }
 
 interface WithContextMenuProps {
-  onItemClick: (id: string) => void;
+  onItemClick: () => void;
   items: Item[];
   children: React.ReactNode;
 }
@@ -26,9 +26,8 @@ export function getPosition(e: any) {
 
 const ContextMenuItem = ({ item, onItemClick }: any) => {
   const { id, label } = item;
-  const onClick = useCallback((_: any) => onItemClick(id), [onItemClick, id]);
   return (
-    <div key={id} className={'my-1 cursor-pointer'} onClick={onClick}>
+    <div key={id} className={'my-1 cursor-pointer'} onClick={onItemClick}>
       <p className={'py-2 px-3 text-xs font-medium text-gray-700 hover:bg-gray-100'}>{label}</p>
     </div>
   );
