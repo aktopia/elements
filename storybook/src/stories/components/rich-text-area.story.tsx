@@ -14,5 +14,6 @@ export const RichTextArea: Story = {
     className: 'text-gray-700',
     onChange: action('onChange'),
     initialValue: 'Hello World!',
+    editable: true,
   },
 };

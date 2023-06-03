@@ -24,18 +24,20 @@ const Description = suspensify(() => {
     [updateDescription]
   );
 
-  return isEditing ? (
-    <TextAreaEditor
-      cancelText={t('common/cancel')}
-      doneText={t('common/done')}
-      value={description}
-      onCancel={onEditCancel}
-      onChange={onChange}
-      onDone={onEditDone}
-    />
-  ) : (
-    <WithContextMenu items={[{ id: 'edit', label: t('common/edit') }]} onItemClick={onEdit}>
-      <div className={'text-gray-700'}>{description}</div>
+  return (
+    <WithContextMenu
+      disable={isEditing}
+      items={[{ id: 'edit', label: t('common/edit') }]}
+      onItemClick={onEdit}>
+      <TextAreaEditor
+        cancelText={t('common/cancel')}
+        doneText={t('common/done')}
+        editable={isEditing}
+        value={description}
+        onCancel={onEditCancel}
+        onChange={onChange}
+        onDone={onEditDone}
+      />
     </WithContextMenu>
   );
 });
@@ -55,18 +57,20 @@ const OutcomeText = suspensify(() => {
   const updateOutcome = useDispatch('current.action.outcome/update');
   const onChange = useCallback((value: string) => updateOutcome({ value }), [updateOutcome]);
 
-  return isEditing ? (
-    <TextAreaEditor
-      cancelText={t('common/cancel')}
-      doneText={t('common/done')}
-      value={outcome}
-      onCancel={onEditCancel}
-      onChange={onChange}
-      onDone={onEditDone}
-    />
-  ) : (
-    <WithContextMenu items={[{ id: 'edit', label: t('common/edit') }]} onItemClick={onEdit}>
-      <div className={'text-blue-700'}>{outcome}</div>
+  return (
+    <WithContextMenu
+      disable={isEditing}
+      items={[{ id: 'edit', label: t('common/edit') }]}
+      onItemClick={onEdit}>
+      <TextAreaEditor
+        cancelText={t('common/cancel')}
+        doneText={t('common/done')}
+        editable={isEditing}
+        value={outcome}
+        onCancel={onEditCancel}
+        onChange={onChange}
+        onDone={onEditDone}
+      />
     </WithContextMenu>
   );
 });

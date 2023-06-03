@@ -9,6 +9,7 @@ interface Item {
 interface WithContextMenuProps {
   onItemClick: () => void;
   items: Item[];
+  disable?: boolean;
   children: React.ReactNode;
 }
 
@@ -43,7 +44,11 @@ const ContextMenu = ({ onItemClick, items }: any) => {
   );
 };
 
-export const WithContextMenu = ({ onItemClick, items, children }: WithContextMenuProps) => {
+export const _WithContextMenu = ({
+  onItemClick,
+  items,
+  children,
+}: Omit<WithContextMenuProps, 'disable'>) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -75,6 +80,19 @@ export const WithContextMenu = ({ onItemClick, items, children }: WithContextMen
       {showMenu && menuUI}
       {children}
     </div>
+  );
+};
+
+export const WithContextMenu = ({
+  onItemClick,
+  items,
+  disable,
+  children,
+}: WithContextMenuProps) => {
+  return disable ? (
+    <>{children}</>
+  ) : (
+    <_WithContextMenu {...{ onItemClick, items }}>{children}</_WithContextMenu>
   );
 };
 

@@ -5,6 +5,7 @@ interface RichTextAreaProps {
   className?: string;
   onChange: (value: string) => void;
   initialValue: string;
+  editable: boolean;
   output?: 'html' | 'text';
 }
 
@@ -13,8 +14,10 @@ export const RichTextArea = ({
   onChange,
   initialValue,
   output = 'html',
+  editable,
 }: RichTextAreaProps) => {
   const editor = useEditor({
+    editable,
     extensions: [
       StarterKit.configure({
         bulletList: {
@@ -29,7 +32,7 @@ export const RichTextArea = ({
     ],
     editorProps: {
       attributes: {
-        class: `focus:outline-none ${className}`,
+        class: `focus:outline-none ${className || ''}`.trim(),
       },
     },
     onUpdate: ({ editor }) => {

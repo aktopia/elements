@@ -4,11 +4,12 @@ import React, { Fragment } from 'react';
 interface ItemProps {
   text: string;
   href?: string;
+  openNewTab?: boolean;
   Icon?: React.ComponentType<{ className: string }>;
   onClick?: () => void;
 }
 
-export const Item = ({ text, href, Icon, onClick }: ItemProps) => {
+export const Item = ({ text, href, Icon, onClick, openNewTab }: ItemProps) => {
   const body = (
     <>
       {Icon && <Icon className={'mr-3 h-5 w-5 text-gray-700'} />}
@@ -19,7 +20,11 @@ export const Item = ({ text, href, Icon, onClick }: ItemProps) => {
   return (
     <Menu.Item as={Fragment}>
       {href ? (
-        <a className={'ui-active:bg-gray-100 my-1 flex w-full items-center bg-white'} href={href}>
+        <a
+          className={'ui-active:bg-gray-100 my-1 flex w-full items-center bg-white'}
+          href={href}
+          rel={'noreferrer'}
+          target={openNewTab ? '_blank' : '_self'}>
           {body}
         </a>
       ) : (

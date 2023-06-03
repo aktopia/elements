@@ -7,7 +7,7 @@ export const SocialSignIn = () => {
   const t = useTranslation();
   const visible = useValue<boolean>('auth.sign-in/visible');
   const onGoogleClick = useDispatch('auth.sign-in.google/initiate');
-  const onModalClose = useDispatch('auth.sign-in.modal/close');
+  const onModalClose = useDispatch('auth.sign-in/close');
 
   return (
     <Modal title={t('common/sign-in')} visible={visible} onClose={onModalClose}>

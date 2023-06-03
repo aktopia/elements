@@ -24,7 +24,7 @@ export const App = ({
       read={read}
       subscribe={subscribe}>
       <Translation defaultLocale={defaultLocale} locales={locales}>
-        <Router />
+        <Router suspenseLines={20} />
         <Alert />
       </Translation>
     </Store>

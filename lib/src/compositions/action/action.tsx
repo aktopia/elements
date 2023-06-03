@@ -12,5 +12,5 @@ export const Action = wrapPage(() => {
 });
 
 export const routes = {
-  action: <Action />,
+  'action/read': <Action />,
 };

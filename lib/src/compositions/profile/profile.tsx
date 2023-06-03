@@ -18,5 +18,5 @@ export const Profile = wrapPage(() => {
 });
 
 export const routes = {
-  profile: <Profile />,
+  'profile/read': <Profile />,
 };

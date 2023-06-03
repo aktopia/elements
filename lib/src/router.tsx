@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 
 const _routes: Record<string, ReactNode> = {};
 
-export function registerRoutes(routeMap: Record<string, ReactNode>) {
+function registerRoutes(routeMap: Record<string, ReactNode>) {
   for (const routeId in routeMap) {
     if (_routes[routeId]) {
       throw Error(`route ${routeId} already registered.`);

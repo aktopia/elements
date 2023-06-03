@@ -54,7 +54,7 @@ export const SubscriptionBar = memo(() => {
   );
 });
 
-export const Title = suspensify(() => {
+const Title = suspensify(() => {
   const t = useTranslation();
   const actionId = useValue('current.action/id');
   const title = useValue<string>('action/title', { 'action/id': actionId });
@@ -68,18 +68,20 @@ export const Title = suspensify(() => {
   });
   const updateTitle = useDispatch('current.action.title/update');
   const onChange = useCallback((value: string) => updateTitle({ value }), [updateTitle]);
-  return isEditing ? (
-    <TitleEditor
-      cancelText={t('common/cancel')}
-      doneText={t('common/done')}
-      value={title}
-      onCancel={onEditCancel}
-      onChange={onChange}
-      onDone={onEditDone}
-    />
-  ) : (
-    <WithContextMenu items={[{ id: 'edit', label: 'Edit' }]} onItemClick={onEdit}>
-      <h2 className={'text-2xl font-bold text-gray-900'}>{title}</h2>
+  return (
+    <WithContextMenu
+      disable={isEditing}
+      items={[{ id: 'edit', label: 'Edit' }]}
+      onItemClick={onEdit}>
+      <TitleEditor
+        cancelText={t('common/cancel')}
+        doneText={t('common/done')}
+        editable={isEditing}
+        value={title}
+        onCancel={onEditCancel}
+        onChange={onChange}
+        onDone={onEditDone}
+      />
     </WithContextMenu>
   );
 });

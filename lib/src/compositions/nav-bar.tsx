@@ -21,15 +21,15 @@ const CreateButton = () => {
 };
 
 const CreateDropdown = () => {
-  const onCreateActionClick = useDispatch('navigate.action/create');
   const items = useMemo(
     () => [
       {
         text: 'Action',
-        onClick: () => onCreateActionClick({}),
+        href: '/action/create',
+        openNewTab: true,
       },
     ],
-    [onCreateActionClick]
+    []
   );
   return <Dropdown Button={CreateButton} items={items} />;
 };
@@ -84,7 +84,7 @@ export const NavBar = () => {
   return (
     <div
       className={
-        'flex w-full items-center justify-between border-b border-gray-200 bg-white px-14 py-2.5 shadow-sm'
+        'flex w-full items-center justify-between border-b border-gray-200 bg-white px-6 py-2.5 shadow-sm md:px-14'
       }>
       <CreateDropdown />
       <UserDropdown />
