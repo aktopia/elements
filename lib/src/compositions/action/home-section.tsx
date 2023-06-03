@@ -31,6 +31,7 @@ const Description = suspensify(() => {
       onItemClick={onEdit}>
       <TextAreaEditor
         cancelText={t('common/cancel')}
+        className={'text-gray-700'}
         doneText={t('common/done')}
         editable={isEditing}
         value={description}
@@ -64,6 +65,7 @@ const OutcomeText = suspensify(() => {
       onItemClick={onEdit}>
       <TextAreaEditor
         cancelText={t('common/cancel')}
+        className={isEditing ? 'text-gray-700' : 'text-blue-700'}
         doneText={t('common/done')}
         editable={isEditing}
         value={outcome}

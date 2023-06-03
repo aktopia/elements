@@ -14,7 +14,7 @@ export const RichTextArea = ({
   onChange,
   initialValue,
   output = 'html',
-  editable,
+  editable = false,
 }: RichTextAreaProps) => {
   const editor = useEditor({
     editable,

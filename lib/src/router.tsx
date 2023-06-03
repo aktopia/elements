@@ -20,6 +20,6 @@ for (const routeMap of routes) {
 }
 
 export const Router = suspensify(() => {
-  const routeId = useValue<string>('current.route/id');
+  const routeId = useValue<string>('current.route/name');
   return <>{_routes[routeId]}</>;
 });
