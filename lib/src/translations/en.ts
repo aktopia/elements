@@ -11,6 +11,7 @@ export default {
   'common/save': 'Save',
   'common/cancel': 'Cancel',
   'common/done': 'Done',
+  'common/expected-outcome': 'Expected Outcome',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',
