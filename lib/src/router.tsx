@@ -21,5 +21,12 @@ for (const routeMap of routes) {
 
 export const Router = suspensify(() => {
   const routeId = useValue<string>('current.route/name');
-  return <>{_routes[routeId]}</>;
+  const route = _routes[routeId];
+
+  if (!route) {
+    console.error('No route found for route name: ', routeId);
+  }
+
+  // TODO Create and show not found page
+  return <>{route}</>;
 });

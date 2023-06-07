@@ -88,7 +88,7 @@ export const NavBar = () => {
       }>
       <CreateDropdown />
       <UserDropdown />
-      <SocialSignIn />
+      <SocialSignIn suspenseLines={5} />
     </div>
   );
 };
