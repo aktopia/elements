@@ -1,13 +1,14 @@
 import { useOutsideClick } from '@elements/_utils';
+import { isEmpty } from 'lodash';
 import React, { useCallback, useRef, useState } from 'react';
 
 interface Item {
   id: string;
   label: string;
+  onClick: () => void;
 }
 
 interface WithContextMenuProps {
-  onItemClick: () => void;
   items: Item[];
   disable?: boolean;
   children: React.ReactNode;
@@ -25,10 +26,10 @@ export function getPosition(e: any) {
   return pos;
 }
 
-const ContextMenuItem = ({ item, onItemClick }: any) => {
-  const { id, label } = item;
+const ContextMenuItem = ({ item }: any) => {
+  const { id, label, onClick } = item;
   return (
-    <div key={id} className={'my-1 cursor-pointer'} onClick={onItemClick}>
+    <div key={id} className={'my-1 cursor-pointer'} onClick={onClick}>
       <p className={'py-2 px-3 text-xs font-medium text-gray-700 hover:bg-gray-100'}>{label}</p>
     </div>
   );
@@ -44,11 +45,7 @@ const ContextMenu = ({ onItemClick, items }: any) => {
   );
 };
 
-export const _WithContextMenu = ({
-  onItemClick,
-  items,
-  children,
-}: Omit<WithContextMenuProps, 'disable'>) => {
+export const _WithContextMenu = ({ items, children }: Omit<WithContextMenuProps, 'disable'>) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -71,7 +68,7 @@ export const _WithContextMenu = ({
 
   const menuUI = (
     <div className={'fixed z-10'} style={{ top: pos.y, left: pos.x }}>
-      <ContextMenu items={items} onItemClick={onItemClick} />
+      <ContextMenu items={items} />
     </div>
   );
 
@@ -83,16 +80,11 @@ export const _WithContextMenu = ({
   );
 };
 
-export const WithContextMenu = ({
-  onItemClick,
-  items,
-  disable,
-  children,
-}: WithContextMenuProps) => {
-  return disable ? (
+export const WithContextMenu = ({ items, disable, children }: WithContextMenuProps) => {
+  return disable || isEmpty(items) ? (
     <>{children}</>
   ) : (
-    <_WithContextMenu {...{ onItemClick, items }}>{children}</_WithContextMenu>
+    <_WithContextMenu items={items}>{children}</_WithContextMenu>
   );
 };
 

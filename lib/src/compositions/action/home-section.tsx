@@ -4,7 +4,7 @@ import { TextAreaEditor } from '@elements/components/text-area-editor';
 import { WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 const Description = suspensify(() => {
   const t = useTranslation();
@@ -23,12 +23,14 @@ const Description = suspensify(() => {
     (value: string) => updateDescription({ value }),
     [updateDescription]
   );
+  const showEdit = useValue<boolean>('current.action.description/can-edit');
+  const menuItems: any = useMemo(
+    () => [showEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
+    [onEdit, showEdit, t]
+  );
 
   return (
-    <WithContextMenu
-      disable={isEditing}
-      items={[{ id: 'edit', label: t('common/edit') }]}
-      onItemClick={onEdit}>
+    <WithContextMenu disable={isEditing} items={menuItems}>
       <TextAreaEditor
         cancelText={t('common/cancel')}
         className={'text-gray-700'}
@@ -56,13 +58,15 @@ const OutcomeText = suspensify(() => {
     emptyParams: true,
   });
   const updateOutcome = useDispatch('current.action.outcome/update');
-  const onChange = useCallback((value: string) => updateOutcome({ value }), [updateOutcome]);
+  const onUpdate = useCallback((value: string) => updateOutcome({ value }), [updateOutcome]);
+  const showEdit = useValue<boolean>('current.action.outcome/can-edit');
+  const menuItems: any = useMemo(
+    () => [showEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
+    [onEdit, showEdit, t]
+  );
 
   return (
-    <WithContextMenu
-      disable={isEditing}
-      items={[{ id: 'edit', label: t('common/edit') }]}
-      onItemClick={onEdit}>
+    <WithContextMenu disable={isEditing} items={menuItems}>
       <TextAreaEditor
         cancelText={t('common/cancel')}
         className={isEditing ? 'text-gray-700' : 'text-blue-700'}
@@ -70,7 +74,7 @@ const OutcomeText = suspensify(() => {
         editable={isEditing}
         value={outcome}
         onCancel={onEditCancel}
-        onChange={onChange}
+        onChange={onUpdate}
         onDone={onEditDone}
       />
     </WithContextMenu>

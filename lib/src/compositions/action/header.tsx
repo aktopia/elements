@@ -68,11 +68,14 @@ const Title = suspensify(() => {
   });
   const updateTitle = useDispatch('current.action.title/update');
   const onChange = useCallback((value: string) => updateTitle({ value }), [updateTitle]);
+  const showEdit = useValue<boolean>('current.action.title/can-edit');
+  const menuItems: any = useMemo(
+    () => [showEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
+    [onEdit, showEdit, t]
+  );
+
   return (
-    <WithContextMenu
-      disable={isEditing}
-      items={[{ id: 'edit', label: 'Edit' }]}
-      onItemClick={onEdit}>
+    <WithContextMenu disable={isEditing} items={menuItems}>
       <TitleEditor
         cancelText={t('common/cancel')}
         doneText={t('common/done')}
