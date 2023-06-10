@@ -81,6 +81,7 @@ export {
   PlusIcon as PlusMiniSolid,
   TrophyIcon as TrophyMiniSolid,
   ChevronDownIcon as ChevronDownMiniSolid,
+  ChevronUpIcon as ChevronUpMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
