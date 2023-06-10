@@ -12,6 +12,9 @@ export default {
   'common/cancel': 'Cancel',
   'common/done': 'Done',
   'common/expected-outcome': 'Expected Outcome',
+  'common/home': 'Home',
+  'common/post': 'Post',
+  'common/discussion': 'Discussion',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',
@@ -26,4 +29,5 @@ export default {
   'auth/invalid-otp': 'Incorrect OTP, please try again.',
   'auth.verify-otp/success': 'OTP successfully verified.',
   'auth/sign-in-with-google': 'Sign in with Google',
+  'comment/placeholder': 'What do you think?',
 };

@@ -1,0 +1,121 @@
+import { ChevronDownMiniSolid, ChevronUpMiniSolid, UserCircleSolid } from '@elements/_icons';
+import { TextAreaEditor } from '@elements/components/text-area-editor';
+import { WithContextMenu } from '@elements/components/with-context-menu';
+import { useDispatch, useValue } from '@elements/store';
+import { useTranslation } from '@elements/translation';
+import { isEmpty } from 'lodash';
+import { memo, useCallback, useMemo, useState } from 'react';
+
+export const User = ({ name }: { name: string }) => {
+  return (
+    <div className={'flex items-center gap-3'}>
+      <UserCircleSolid className={'h-8 w-8 object-cover text-gray-500'} />
+      <p className={'text-sm font-medium text-gray-700'}>{name}</p>
+    </div>
+  );
+};
+
+export const Comment = memo(({ id }: { id: string }) => {
+  const t = useTranslation();
+
+  const userId = useValue<string>('current.user/id');
+  const authorName = useValue<string>('comment/author-name', { 'comment/id': id });
+  const commentText = useValue<string>('comment/text', { 'comment/id': id });
+  const responseIds = useValue<string[]>('comment/response-ids', { 'comment/id': id });
+  const canEdit = useValue<boolean>('comment/can-edit', {
+    'comment/id': id,
+    'user/id': userId,
+  });
+
+  const onEditDone = useDispatch('ui.comment.edit/done');
+  const onEditCancel = useDispatch('ui.comment.edit/cancel');
+  const onUpdate = useDispatch('inter.comment.text/update');
+
+  const [expanded, setExpanded] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const onExpandCollapse = useCallback(() => {
+    setExpanded(!expanded);
+  }, [expanded]);
+
+  const onEdit = useCallback(() => {
+    setIsEditing(true);
+  }, []);
+
+  const onCancel = useCallback(() => {
+    onEditCancel({ 'comment/id': id });
+    setIsEditing(false);
+  }, [id, onEditCancel]);
+
+  const onDone = useCallback(() => {
+    onEditDone({ 'comment/id': id });
+    setIsEditing(false);
+  }, [id, onEditDone]);
+
+  const onChange = useCallback(
+    (value: string) => {
+      onUpdate({ 'comment/id': id, value });
+    },
+    [id, onUpdate]
+  );
+
+  const menuItems: any = useMemo(
+    () => [canEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
+    [onEdit, canEdit, t]
+  );
+
+  const showResponses = expanded && responseIds && !isEmpty(responseIds);
+
+  return (
+    <div
+      className={'flex flex-col gap-4 rounded-lg border-b border-l border-gray-300 p-4 shadow-sm'}>
+      <div className={'flex flex-col gap-3'}>
+        <div className={'flex items-center justify-between'}>
+          <User name={authorName} />
+          {expanded ? (
+            <ChevronUpMiniSolid
+              className={'h-4 w-4 cursor-pointer text-gray-700'}
+              onClick={onExpandCollapse}
+            />
+          ) : (
+            <ChevronDownMiniSolid
+              className={'h-4 w-4 cursor-pointer text-gray-700'}
+              onClick={onExpandCollapse}
+            />
+          )}
+        </div>
+        {expanded && (
+          <WithContextMenu disable={isEditing} items={menuItems}>
+            <TextAreaEditor
+              cancelText={t('common/cancel')}
+              className={'text-base text-gray-700'}
+              doneText={t('common/done')}
+              editable={isEditing}
+              value={commentText}
+              onCancel={onCancel}
+              onChange={onChange}
+              onDone={onDone}
+            />
+          </WithContextMenu>
+        )}
+      </div>
+      {showResponses && <Comments ids={responseIds} />}
+    </div>
+  );
+});
+
+export const Comments = ({ ids }: { ids: string[] }) => {
+  return (
+    <>
+      {ids.map((id) => {
+        return <Comment key={id} id={id} />;
+      })}
+    </>
+  );
+};
+/*
+ TODO
+ - Add transitions for a smoother animation
+ - Expand collapse by clicking comment header
+ - Avatar url
+ */

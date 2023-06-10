@@ -19,7 +19,7 @@ const args: CommentProps = {
   onEditCancel: action('onEditCancel'),
   onEditDone: action('onEditDone'),
   onUpdate: action('onUpdate'),
-  subComments: [
+  responses: [
     {
       id: '2',
       canEdit: true,
@@ -31,7 +31,7 @@ const args: CommentProps = {
       onUpdate: action('onUpdate'),
       value: lorem.generateSentences(2),
       authorName: 'Madhumitha Sriram',
-      subComments: [
+      responses: [
         {
           id: '3',
           canEdit: true,
@@ -51,7 +51,4 @@ const args: CommentProps = {
 
 export const Comment: StoryObj<typeof Component> = {
   args,
-  render: (args) => {
-    return <Component {...args} />;
-  },
 };

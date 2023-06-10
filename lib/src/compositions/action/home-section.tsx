@@ -133,7 +133,7 @@ const Relation = suspensify(({ id }: any) => {
   );
 });
 
-const Relations = suspensify(() => {
+export const Relations = suspensify(() => {
   const actionId = useValue('current.action/id');
   const relationIds = useValue<{ type: string; title: string }[]>('action.relation/ids', {
     'action/id': actionId,
@@ -148,23 +148,14 @@ const Relations = suspensify(() => {
   );
 });
 
-export const HomeSectionFuture = () => {
+export const HomeSection = () => {
   return (
     <div className={'flex w-full gap-8'}>
       <div className={'flex w-full flex-col gap-5'}>
         <Description suspenseLines={6} />
         <Outcome />
       </div>
-      <Relations suspenseLines={8} />
-    </div>
-  );
-};
-
-export const HomeSection = () => {
-  return (
-    <div className={'flex w-full flex-col gap-5'}>
-      <Description suspenseLines={6} />
-      <Outcome />
+      {/*<Relations suspenseLines={8} />*/}
     </div>
   );
 };

@@ -1,19 +1,30 @@
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Placeholder from '@tiptap/extension-placeholder';
+import { isNil } from 'lodash';
 import { memo, useEffect } from 'react';
 
 interface RichTextAreaProps {
   className?: string;
   onChange: (value: string) => void;
-  initialValue: string;
-  editable: boolean;
+  initialValue?: string;
+  editable?: boolean;
   output?: 'html' | 'text';
+  placeholder?: string;
 }
 
 export const RichTextArea = memo(
-  ({ className, onChange, initialValue, output = 'html', editable }: RichTextAreaProps) => {
+  ({
+    className,
+    onChange,
+    initialValue,
+    output = 'html',
+    editable,
+    placeholder,
+  }: RichTextAreaProps) => {
+    const initialContent = isNil(initialValue) ? '' : initialValue;
     const editor = useEditor({
-      editable: editable || false,
+      editable: isNil(editable) ? true : editable,
       extensions: [
         StarterKit.configure({
           bulletList: {
@@ -24,6 +35,9 @@ export const RichTextArea = memo(
             keepMarks: true,
             keepAttributes: false,
           },
+        }),
+        Placeholder.configure({
+          placeholder: placeholder,
         }),
       ],
       editorProps: {
@@ -43,14 +57,14 @@ export const RichTextArea = memo(
         }
         onChange(value);
       },
-      content: initialValue,
+      content: initialContent,
     });
 
     useEffect(() => {
-      editor?.commands.setContent(initialValue, true);
-    }, [editor, initialValue]);
+      editor?.commands.setContent(initialContent, true);
+    }, [editor, initialContent]);
 
-    return <EditorContent editor={editor} />;
+    return <EditorContent className={'h-full w-full'} editor={editor} />;
   }
 );
 

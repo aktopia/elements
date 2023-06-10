@@ -8,7 +8,7 @@ export interface CommentProps {
   id: string;
   authorName: string;
   value: string;
-  subComments?: CommentProps[];
+  responses?: CommentProps[];
   canEdit: boolean;
   onEditCancel: (id: string) => void;
   onEditDone: (id: string) => void;
@@ -21,12 +21,22 @@ export interface CommentProps {
 interface CommentsProps {
   comments: CommentProps[];
 }
+
+export const User = ({ name }: { name: string }) => {
+  return (
+    <div className={'flex items-center gap-3'}>
+      <UserCircleSolid className={'h-8 w-8 object-cover text-gray-500'} />
+      <p className={'text-sm font-medium text-gray-700'}>{name}</p>
+    </div>
+  );
+};
+
 export const Comment = memo(
   ({
     id,
     authorName,
     value,
-    subComments,
+    responses,
     canEdit,
     editText,
     editCancelText,
@@ -63,19 +73,16 @@ export const Comment = memo(
       [onEdit, canEdit, editText]
     );
 
-    const showSubComments = expanded && subComments && !isEmpty(subComments);
+    const showResponses = expanded && responses && !isEmpty(responses);
 
     return (
       <div
         className={
           'flex flex-col gap-4 rounded-lg border-b border-l border-gray-300 p-4 shadow-sm'
         }>
-        <div className={'flex flex-col gap-4'}>
+        <div className={'flex flex-col gap-3'}>
           <div className={'flex items-center justify-between'}>
-            <div className={'flex items-center gap-3'}>
-              <UserCircleSolid className={'h-8 w-8 object-cover text-gray-500'} />
-              <p className={'text-sm font-medium text-gray-600'}>{authorName}</p>
-            </div>
+            <User name={authorName} />
             {expanded ? (
               <ChevronUpMiniSolid
                 className={'h-4 w-4 cursor-pointer text-gray-700'}
@@ -103,7 +110,7 @@ export const Comment = memo(
             </WithContextMenu>
           )}
         </div>
-        {showSubComments && <Comments comments={subComments} />}
+        {showResponses && <Comments comments={responses} />}
       </div>
     );
   }

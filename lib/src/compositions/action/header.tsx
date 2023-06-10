@@ -5,7 +5,7 @@ import { ISwitch, NamedSwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
-import { Tab, Tabs } from '@elements/components/tabs';
+import { Tabs } from '@elements/components/tabs';
 import { TitleEditor } from '@elements/components/title-editor';
 import { WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
@@ -179,9 +179,19 @@ export const ProgressIndicator = memo(() => {
 });
 
 export const ActionTabs = () => {
-  const tabs = useValue<Tab[]>('action/tabs');
+  const t = useTranslation();
   const activeTabId = useValue<string>('action.tabs/active-tab-id');
   const updateTab = useDispatch('action.tabs/update');
+  const tabs = useMemo(
+    () => [
+      { id: 'home', label: t('common/home') },
+      // { id: 'funding', label: t('common/funding') },
+      // { id: 'updates', label: t('common/updates') },
+      { id: 'discussion', label: t('common/discussion') },
+      // { id: 'team', label: t('common/team') },
+    ],
+    [t]
+  );
 
   const onTabClick = useCallback(
     (tabId: string) => {
@@ -193,31 +203,27 @@ export const ActionTabs = () => {
   return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
 };
 
-export const HeaderFuture = () => {
+export const Header = () => {
   return (
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>
         <div className={'flex flex-col gap-4'}>
-          <SubscriptionBar />
+          {/*<SubscriptionBar />*/}
           <div>
             <div className={'flex'}>
               <div className={'mr-5 h-full w-full'}>
                 <Title suspenseLineHeight={'36'} suspenseLines={1} />
               </div>
-              <ActionBar />
+              {/*<ActionBar />*/}
             </div>
-            <TimeAgo />
+            {/*<TimeAgo />*/}
           </div>
         </div>
-        <ProgressIndicator />
+        {/*<ProgressIndicator />*/}
       </div>
       <div className={'flex justify-center'}>
         <ActionTabs />
       </div>
     </div>
   );
-};
-
-export const Header = () => {
-  return <Title suspenseLineHeight={'36'} suspenseLines={1} />;
 };
