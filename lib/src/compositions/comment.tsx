@@ -39,8 +39,8 @@ export const Comment = memo(({ id }: { id: string }) => {
   const onEditCancel = useDispatch('ui.comment.edit/cancel');
   const onUpdate = useDispatch('inter.comment.text/update');
 
-  const updateNewComment = useDispatch('new.comment.text/update', { 'parent/id': id });
-  const postNewComment = useDispatch('new.comment/post', { 'parent/id': id });
+  const updateNewComment = useDispatch('new.comment.text/update');
+  const postNewComment = useDispatch('new.comment/post');
 
   const [expanded, setExpanded] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -83,7 +83,7 @@ export const Comment = memo(({ id }: { id: string }) => {
   );
 
   const onNewCommentPost = useCallback(() => {
-    postNewComment({ 'comment/id': id });
+    postNewComment({ 'parent/id': id });
   }, [id, postNewComment]);
 
   const menuItems: any = useMemo(
@@ -94,8 +94,7 @@ export const Comment = memo(({ id }: { id: string }) => {
   const showResponses = expanded && responseIds && !isEmpty(responseIds);
 
   return (
-    <div
-      className={'flex flex-col gap-4 rounded-lg border-b border-l border-gray-300 p-4 shadow-sm'}>
+    <div className={'flex flex-col gap-4 rounded-lg border-b border-l border-gray-300 p-4'}>
       <div className={'flex flex-col gap-3'}>
         <div className={'flex items-center justify-between'}>
           <User name={authorName} />

@@ -61,7 +61,7 @@ export const RichTextArea = memo(
     });
 
     useEffect(() => {
-      editor?.commands.setContent(initialContent, true);
+      editor?.commands.setContent(initialContent);
     }, [editor, initialContent]);
 
     return <EditorContent className={'h-full w-full'} editor={editor} />;
