@@ -15,6 +15,7 @@ export default {
   'common/home': 'Home',
   'common/post': 'Post',
   'common/discussion': 'Discussion',
+  'common/reply': 'Reply',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',

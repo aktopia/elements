@@ -1,4 +1,11 @@
-import { ChevronDownMiniSolid, ChevronUpMiniSolid, UserCircleSolid } from '@elements/_icons';
+import {
+  ChatBubbleLeftEllipsisOutline,
+  ChevronDownMiniSolid,
+  ChevronUpMiniSolid,
+  UserCircleSolid,
+} from '@elements/_icons';
+import { Button } from '@elements/components/button';
+import { NewComment } from '@elements/components/new-comment';
 import { TextAreaEditor } from '@elements/components/text-area-editor';
 import { WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
@@ -19,6 +26,7 @@ export const Comment = memo(({ id }: { id: string }) => {
   const t = useTranslation();
 
   const userId = useValue<string>('current.user/id');
+  const currentUserName = useValue<string>('user/name', { 'user/id': userId });
   const authorName = useValue<string>('comment/author-name', { 'comment/id': id });
   const commentText = useValue<string>('comment/text', { 'comment/id': id });
   const responseIds = useValue<string[]>('comment/response-ids', { 'comment/id': id });
@@ -31,12 +39,20 @@ export const Comment = memo(({ id }: { id: string }) => {
   const onEditCancel = useDispatch('ui.comment.edit/cancel');
   const onUpdate = useDispatch('inter.comment.text/update');
 
+  const updateNewComment = useDispatch('new.comment.text/update', { 'parent/id': id });
+  const postNewComment = useDispatch('new.comment/post', { 'parent/id': id });
+
   const [expanded, setExpanded] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
 
   const onExpandCollapse = useCallback(() => {
     setExpanded(!expanded);
   }, [expanded]);
+
+  const onToggleReply = useCallback(() => {
+    setIsReplying(!isReplying);
+  }, [isReplying]);
 
   const onEdit = useCallback(() => {
     setIsEditing(true);
@@ -58,6 +74,17 @@ export const Comment = memo(({ id }: { id: string }) => {
     },
     [id, onUpdate]
   );
+
+  const onNewCommentUpdate = useCallback(
+    (value: string) => {
+      updateNewComment({ 'parent/id': id, value });
+    },
+    [id, updateNewComment]
+  );
+
+  const onNewCommentPost = useCallback(() => {
+    postNewComment({ 'comment/id': id });
+  }, [id, postNewComment]);
 
   const menuItems: any = useMemo(
     () => [canEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
@@ -98,7 +125,26 @@ export const Comment = memo(({ id }: { id: string }) => {
             />
           </WithContextMenu>
         )}
+        <Button
+          Icon={ChatBubbleLeftEllipsisOutline}
+          clicked={isReplying}
+          kind={'tertiary'}
+          size={'xxs'}
+          value={t('common/reply')}
+          onClick={onToggleReply}
+        />
       </div>
+      {isReplying && (
+        <NewComment
+          authorName={currentUserName}
+          cancelText={t('common/cancel')}
+          placeholderText={t('comment/placeholder')}
+          postText={t('common/post')}
+          onCancel={onToggleReply}
+          onChange={onNewCommentUpdate}
+          onPost={onNewCommentPost}
+        />
+      )}
       {showResponses && <Comments ids={responseIds} />}
     </div>
   );

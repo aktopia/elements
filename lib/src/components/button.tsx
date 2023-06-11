@@ -2,7 +2,7 @@ import { formatCount } from '@elements/_utils';
 import { cva } from 'cva';
 import React, { memo, MouseEventHandler, useCallback } from 'react';
 
-const variant = cva('relative flex items-center justify-center font-medium w-max rounded-md', {
+const variant = cva('relative flex items-center justify-center w-max rounded-md', {
   variants: {
     kind: {
       primary: 'bg-blue-600 text-white shadow-md',
@@ -10,9 +10,10 @@ const variant = cva('relative flex items-center justify-center font-medium w-max
       tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
     },
     size: {
-      xs: 'text-xs gap-1.5 px-2.5 h-[30px]',
-      sm: 'text-sm gap-1.5 px-3 h-[32px] leading-4',
-      md: 'text-sm gap-2 px-4 h-[38px]',
+      xxs: 'text-xs gap-1.5 px-1.5 h-[28px]',
+      xs: 'text-xs gap-1.5 px-2.5 h-[30px] font-medium ',
+      sm: 'text-sm gap-1.5 px-3 h-[32px] font-medium ',
+      md: 'text-sm gap-2 px-4 h-[38px] font-medium ',
     },
     disabled: {
       false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
@@ -55,6 +56,7 @@ const iconVariant = cva('', {
       tertiary: 'text-gray-500',
     },
     size: {
+      xxs: 'h-4 w-4',
       xs: 'h-4 w-4',
       sm: 'h-5 w-5',
       md: 'h-5 w-5',
@@ -70,6 +72,7 @@ const countVariant = cva('font-medium', {
       tertiary: 'text-gray-400',
     },
     size: {
+      xxs: 'text-xs',
       xs: 'text-xs',
       sm: 'text-sm',
       md: 'text-sm',
@@ -77,7 +80,7 @@ const countVariant = cva('font-medium', {
   },
 });
 
-type Size = 'xs' | 'sm' | 'md';
+type Size = 'xxs' | 'xs' | 'sm' | 'md';
 
 type Kind = 'primary' | 'secondary' | 'tertiary';
 

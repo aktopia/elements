@@ -90,7 +90,10 @@ export {
   UserCircleIcon as UserCircleSolid,
 } from '@heroicons/react/24/solid';
 
-export { BoltIcon as BoltOutline } from '@heroicons/react/24/outline';
+export {
+  BoltIcon as BoltOutline,
+  ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisOutline,
+} from '@heroicons/react/24/outline';
 
 /*
 TODO Rename existing icons

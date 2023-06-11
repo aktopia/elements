@@ -42,35 +42,34 @@ function getRelation(params: any) {
 
 const discussionTabStore = {
   read: {
-    'action/comment-ids': ['c1', 'c5'],
+    'action/comment-ids': ['comment-1', 'comment-5'],
     'comment/response-ids': ({ 'comment/id': id }: { 'comment/id': string }) => {
-      console.log({ id });
       switch (id) {
-        case 'c1':
-          return ['c2', 'c3'];
-        case 'c2':
-          return ['c4'];
+        case 'comment-1':
+          return ['comment-2', 'comment-3'];
+        case 'comment-2':
+          return ['comment-4'];
         default:
           return [];
       }
     },
     'comment/author-name': ({ 'comment/id': id }: { 'comment/id': string }) => {
       switch (id) {
-        case 'c1':
+        case 'comment-1':
           return 'Sunil KS';
-        case 'c2':
+        case 'comment-2':
           return 'Madhumitha Sriram';
-        case 'c3':
+        case 'comment-3':
           return 'Krishna Sunil';
-        case 'c4':
+        case 'comment-4':
           return 'Krishna Sunil';
-        case 'c5':
+        case 'comment-5':
           return 'Meera Sunil';
         default:
           return 'Madhumitha Sriram';
       }
     },
-    'comment/text': (_: any) => lorem.generateSentences(4),
+    'comment/text': () => lorem.generateSentences(4),
     'comment/can-edit': true,
   },
   dispatch: [
@@ -84,7 +83,7 @@ const discussionTabStore = {
 
 const store = {
   read: {
-    'current.action/id': '1',
+    'current.action/id': 'action-1',
     'current.action.title/editing': false,
     'current.action.description/editing': false,
     'current.action.outcome/editing': false,
@@ -108,10 +107,8 @@ const store = {
       { id: 'funding', label: 'Funding' },
     ],
     'action.tabs/active-tab-id': 'discussion',
-    'action/outcome':
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies non euismod lectus blandit venenatis. Eget aenean faucibus netus arcu sed sed et amet. Venenatis arcu ipsum scelerisque sed ac luctus. Ornare id libero faucibus donec. Nunc magnis lacus pulvinar euismod egestas amet. Ornare at id cras imperdiet.',
-    'action/description':
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies non euismod lectus blandit venenatis. Eget aenean faucibus netus arcu sed sed et amet. Venenatis arcu ipsum scelerisque sed ac luctus. Ornare id libero faucibus donec. Nunc magnis lacus pulvinar euismod egestas amet. Ornare at id cras imperdiet. Fermentum vulputate faucibus commodo ut imperdiet nisl etiam ac augue. Odio id eget senectus et. Gravida arcu elementum arcu non. Vitae facilisi risus, ultricies cras feugiat duis semper enim. Odio fermentum ultricies rutrum diam.',
+    'action/outcome': () => lorem.generateSentences(7),
+    'action/description': () => lorem.generateSentences(8),
     'action.relation/ids': ['1', '2', '3'],
     'action/relation': getRelation,
     ...discussionTabStore.read,

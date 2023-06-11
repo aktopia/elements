@@ -17,6 +17,7 @@ export const Button: StoryObj<typeof Component> = {
     return (
       <div className={'flex-column flex gap-10'}>
         <div className={'flex items-end gap-10'}>
+          <Component {...args} size={'xxs'} />
           <Component {...args} size={'xs'} />
           <Component {...args} size={'sm'} />
           <Component {...args} size={'md'} />

@@ -5,6 +5,8 @@ import RichTextArea from '@elements/components/rich-text-area';
 interface NewCommentProps {
   placeholderText: string;
   postText: string;
+  cancelText?: string;
+  onCancel?: () => void;
   onChange: (value: string) => void;
   onPost: () => void;
   authorName: string;
@@ -16,6 +18,8 @@ export const NewComment = ({
   onPost,
   onChange,
   authorName,
+  cancelText,
+  onCancel,
 }: NewCommentProps) => {
   return (
     <div className={'flex flex-col gap-3'}>
@@ -29,7 +33,10 @@ export const NewComment = ({
           placeholder={placeholderText}
           onChange={onChange}
         />
-        <div className={'flex w-full justify-end'}>
+        <div className={'flex w-full items-center justify-end gap-3'}>
+          {onCancel && cancelText && (
+            <Button kind={'tertiary'} size={'xs'} value={cancelText} onClick={onCancel} />
+          )}
           <Button color={'green'} kind={'primary'} size={'xs'} value={postText} onClick={onPost} />
         </div>
       </div>

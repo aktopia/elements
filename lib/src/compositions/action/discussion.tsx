@@ -12,14 +12,19 @@ export const Discussion = () => {
   const actionId = useValue<string>('current.action/id');
   const ids = useValue<string[]>('action/comment-ids', { 'action/id': actionId });
 
-  const newCommentChange = useDispatch('new.comment.text/update', { 'parent/id': actionId });
-  const onNewCommentPost = useDispatch('new.comment/post', { 'parent/id': actionId });
+  const updateNewComment = useDispatch('new.comment.text/update', { 'parent/id': actionId });
+  const postNewComment = useDispatch('new.comment/post', { 'parent/id': actionId });
+
   const onNewCommentChange = useCallback(
     (value: string) => {
-      newCommentChange({ value });
+      updateNewComment({ 'parent/id': actionId, value });
     },
-    [newCommentChange]
+    [updateNewComment, actionId]
   );
+
+  const onNewCommentPost = useCallback(() => {
+    postNewComment({ 'parent/id': actionId });
+  }, [postNewComment, actionId]);
 
   return (
     <div className={'flex flex-col gap-7'}>
