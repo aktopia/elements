@@ -42,16 +42,24 @@ function getRelation(params: any) {
 
 const discussionTabStore = {
   read: {
-    'action/comment-ids': ['comment-1', 'comment-5'],
-    'comment/response-ids': ({ 'comment/id': id }: { 'comment/id': string }) => {
-      switch (id) {
-        case 'comment-1':
-          return ['comment-2', 'comment-3'];
-        case 'comment-2':
-          return ['comment-4'];
-        default:
-          return [];
+    'comment/comments-by-parent-id': ({
+      'parent/id': id,
+      'parent.id/identifier': identifier,
+    }: any) => {
+      if (identifier === 'action/id') {
+        return ['comment-1', 'comment-5'];
       }
+      if (identifier === 'comment/id') {
+        switch (id) {
+          case 'comment-1':
+            return ['comment-2', 'comment-3'];
+          case 'comment-2':
+            return ['comment-4'];
+          default:
+            return [];
+        }
+      }
+      return [];
     },
     'comment/author-name': ({ 'comment/id': id }: { 'comment/id': string }) => {
       switch (id) {

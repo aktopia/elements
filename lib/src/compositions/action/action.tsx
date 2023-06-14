@@ -7,7 +7,7 @@ import { useRef } from 'react';
 
 type TabId = 'home' | 'discussion';
 export const Action = wrapPage(() => {
-  const tabsRef = useRef({ home: <HomeSection />, discussion: <Discussion /> });
+  const tabsRef = useRef({ home: <HomeSection />, discussion: <Discussion suspenseLines={12} /> });
   const activeTabId = useValue<TabId>('action.tabs/active-tab-id');
 
   return (

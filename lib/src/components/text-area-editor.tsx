@@ -32,7 +32,7 @@ export const TextAreaEditor = ({
       <RichTextArea
         className={className}
         editable={editable}
-        initialValue={value}
+        initialContent={value}
         onChange={onChange}
       />
       {editable && (

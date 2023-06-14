@@ -6,12 +6,13 @@ import {
 } from '@elements/_icons';
 import { Button } from '@elements/components/button';
 import { NewComment } from '@elements/components/new-comment';
+import { suspensify } from '@elements/components/suspensify';
 import { TextAreaEditor } from '@elements/components/text-area-editor';
 import { WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { isEmpty } from 'lodash';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 export const User = ({ name }: { name: string }) => {
   return (
@@ -22,14 +23,17 @@ export const User = ({ name }: { name: string }) => {
   );
 };
 
-export const Comment = memo(({ id }: { id: string }) => {
+export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
 
   const userId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': userId });
   const authorName = useValue<string>('comment/author-name', { 'comment/id': id });
   const commentText = useValue<string>('comment/text', { 'comment/id': id });
-  const responseIds = useValue<string[]>('comment/response-ids', { 'comment/id': id });
+  const responseIds = useValue<string[]>('comment/comments-by-parent-id', {
+    'parent/id': id,
+    'parent.id/identifier': 'comment/id',
+  });
   const canEdit = useValue<boolean>('comment/can-edit', {
     'comment/id': id,
     'user/id': userId,
@@ -83,7 +87,8 @@ export const Comment = memo(({ id }: { id: string }) => {
   );
 
   const onNewCommentPost = useCallback(() => {
-    postNewComment({ 'parent/id': id });
+    postNewComment({ 'parent/id': id, 'parent.id/identifier': 'comment/id' });
+    setIsReplying(false);
   }, [id, postNewComment]);
 
   const menuItems: any = useMemo(
@@ -111,27 +116,29 @@ export const Comment = memo(({ id }: { id: string }) => {
           )}
         </div>
         {expanded && (
-          <WithContextMenu disable={isEditing} items={menuItems}>
-            <TextAreaEditor
-              cancelText={t('common/cancel')}
-              className={'text-base text-gray-700'}
-              doneText={t('common/done')}
-              editable={isEditing}
-              value={commentText}
-              onCancel={onCancel}
-              onChange={onChange}
-              onDone={onDone}
+          <>
+            <WithContextMenu disable={isEditing} items={menuItems}>
+              <TextAreaEditor
+                cancelText={t('common/cancel')}
+                className={'text-base text-gray-700'}
+                doneText={t('common/done')}
+                editable={isEditing}
+                value={commentText}
+                onCancel={onCancel}
+                onChange={onChange}
+                onDone={onDone}
+              />
+            </WithContextMenu>
+            <Button
+              Icon={ChatBubbleLeftEllipsisOutline}
+              clicked={isReplying}
+              kind={'tertiary'}
+              size={'xxs'}
+              value={t('common/reply')}
+              onClick={onToggleReply}
             />
-          </WithContextMenu>
+          </>
         )}
-        <Button
-          Icon={ChatBubbleLeftEllipsisOutline}
-          clicked={isReplying}
-          kind={'tertiary'}
-          size={'xxs'}
-          value={t('common/reply')}
-          onClick={onToggleReply}
-        />
       </div>
       {isReplying && (
         <NewComment
@@ -144,20 +151,20 @@ export const Comment = memo(({ id }: { id: string }) => {
           onPost={onNewCommentPost}
         />
       )}
-      {showResponses && <Comments ids={responseIds} />}
+      {showResponses && <Comments ids={responseIds} suspenseLines={8} />}
     </div>
   );
 });
 
-export const Comments = ({ ids }: { ids: string[] }) => {
+export const Comments = suspensify(({ ids }: { ids: string[] }) => {
   return (
     <>
       {ids.map((id) => {
-        return <Comment key={id} id={id} />;
+        return <Comment key={id} id={id} suspenseLines={2} />;
       })}
     </>
   );
-};
+});
 /*
  TODO
  - Add transitions for a smoother animation

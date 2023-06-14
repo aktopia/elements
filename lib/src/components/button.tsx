@@ -10,10 +10,10 @@ const variant = cva('relative flex items-center justify-center w-max rounded-md'
       tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
     },
     size: {
-      xxs: 'text-xs gap-1.5 px-1.5 h-[28px]',
-      xs: 'text-xs gap-1.5 px-2.5 h-[30px] font-medium ',
-      sm: 'text-sm gap-1.5 px-3 h-[32px] font-medium ',
-      md: 'text-sm gap-2 px-4 h-[38px] font-medium ',
+      xxs: 'text-xs gap-1.5 px-1.5 h-[28px] font-normal shadow-sm',
+      xs: 'text-xs gap-1.5 px-2.5 h-[30px] font-medium',
+      sm: 'text-sm gap-1.5 px-3 h-[32px] font-medium',
+      md: 'text-sm gap-2 px-4 h-[38px] font-medium',
     },
     disabled: {
       false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
