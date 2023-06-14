@@ -9,7 +9,7 @@ export default {
 
 const store = {
   read: {
-    'current.user/id': '2',
+    'profile.user/id': '2',
     'user/name': 'Sunil KS',
     'profile/actions': ['1', '2', '3'],
     'action/title': (_params: any) => lorem.generateSentences(1),

@@ -19,7 +19,7 @@ const ActionCard = suspensify(({ id }: any) => {
 });
 
 export const ActionSection = suspensify(() => {
-  const userId = useValue<string>('current.user/id');
+  const userId = useValue<string>('profile.user/id');
   const actionIds = useValue<string[]>('profile/actions', { 'user/id': userId });
 
   return (
