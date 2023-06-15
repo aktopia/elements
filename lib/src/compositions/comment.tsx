@@ -151,7 +151,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
           onPost={onNewCommentPost}
         />
       )}
-      {showResponses && <Comments ids={responseIds} suspenseLines={8} />}
+      {showResponses && <Comments ids={responseIds} suspense={{ lines: 8 }} />}
     </div>
   );
 });
@@ -160,7 +160,7 @@ export const Comments = suspensify(({ ids }: { ids: string[] }) => {
   return (
     <>
       {ids.map((id) => {
-        return <Comment key={id} id={id} suspenseLines={2} />;
+        return <Comment key={id} id={id} suspense={{ lines: 2 }} />;
       })}
     </>
   );

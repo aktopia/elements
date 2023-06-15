@@ -10,7 +10,7 @@ function kindToColors(kind: string) {
 }
 
 export interface SkeletonProps {
-  count: number;
+  count?: number;
   height?: string;
   kind?: string;
 }

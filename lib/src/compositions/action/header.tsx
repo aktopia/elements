@@ -212,7 +212,7 @@ export const Header = () => {
           <div>
             <div className={'flex'}>
               <div className={'mr-5 h-full w-full'}>
-                <Title suspenseLineHeight={'36'} suspenseLines={1} />
+                <Title suspense={{ lines: 1, lineHeight: '36' }} />
               </div>
               {/*<ActionBar />*/}
             </div>

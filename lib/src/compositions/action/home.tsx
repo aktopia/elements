@@ -90,7 +90,7 @@ const Outcome = memo(() => {
         <TrophyMiniSolid className={'h-4 w-5 text-blue-700'} />
         <div className={'font-medium text-blue-700'}>{t('common/expected-outcome')}</div>
       </div>
-      <OutcomeText suspenseColor={'primary'} suspenseLines={6} />
+      <OutcomeText suspense={{ lines: 6, color: 'primary' }} />
     </div>
   );
 });
@@ -142,20 +142,20 @@ export const Relations = suspensify(() => {
   return (
     <div className={'flex flex-col gap-5'}>
       {relationIds.map((relationId) => (
-        <Relation key={relationId} id={relationId} suspenseLines={3} />
+        <Relation key={relationId} id={relationId} suspense={{ lines: 3 }} />
       ))}
     </div>
   );
 });
 
-export const HomeSection = () => {
+export const Home = () => {
   return (
     <div className={'flex w-full gap-8'}>
       <div className={'flex w-full flex-col gap-5'}>
-        <Description suspenseLines={6} />
+        <Description suspense={{ lines: 6 }} />
         <Outcome />
       </div>
-      {/*<Relations suspenseLines={8} />*/}
+      {/*<Relations suspense={{lines:8} />*/}
     </div>
   );
 };

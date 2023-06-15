@@ -41,7 +41,7 @@ export const Discussion = suspensify(() => {
         onChange={onNewCommentChange}
         onPost={onNewCommentPost}
       />
-      <Comments ids={ids} suspenseLines={8} />
+      <Comments ids={ids} suspense={{ lines: 8 }} />
     </div>
   );
 });

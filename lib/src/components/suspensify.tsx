@@ -2,24 +2,21 @@ import { Skeleton } from '@elements/components/skeleton';
 import { ComponentProps, ComponentType, memo, Suspense } from 'react';
 
 interface SuspensifyProps {
-  suspenseLines: number;
-  suspenseColor?: 'grey' | 'primary';
-  suspenseLineHeight?: string;
+  suspense: {
+    lines?: number;
+    color?: 'grey' | 'primary';
+    lineHeight?: string;
+  };
 }
 
 export const suspensify = <P extends object>(Component: ComponentType<P>) =>
   memo(
     ({
-      suspenseLines,
-      suspenseColor = 'grey',
-      suspenseLineHeight,
+      suspense: { lines, lineHeight, color },
       ...props
     }: ComponentProps<ComponentType<P>> & SuspensifyProps) => {
       return (
-        <Suspense
-          fallback={
-            <Skeleton count={suspenseLines} height={suspenseLineHeight} kind={suspenseColor} />
-          }>
+        <Suspense fallback={<Skeleton count={lines} height={lineHeight} kind={color} />}>
           <Component {...(props as ComponentProps<ComponentType<P>>)} />
         </Suspense>
       );

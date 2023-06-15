@@ -12,8 +12,8 @@ const Name = suspensify(() => {
 export const Profile = wrapPage(() => {
   return (
     <div className={'flex flex-col gap-6'}>
-      <Name suspenseLines={1} />
-      <ActionSection suspenseLines={10} />
+      <Name suspense={{ lines: 1 }} />
+      <ActionSection suspense={{ lines: 10 }} />
     </div>
   );
 });
