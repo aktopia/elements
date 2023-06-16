@@ -1,15 +1,15 @@
-import { NewComment as Component } from '@elements/components/new-comment';
+import { NewContent as Component } from '@elements/components/new-content';
 import { action } from '@storybook/addon-actions';
 import { StoryObj } from '@storybook/react';
 
 export default {
-  title: 'Components/NewComment',
+  title: 'Components/NewContent',
   component: Component,
 };
 
 type Story = StoryObj<typeof Component>;
 
-export const NewComment: Story = {
+export const NewContent: Story = {
   args: {
     placeholderText: 'What do you think?',
     postText: 'Post',

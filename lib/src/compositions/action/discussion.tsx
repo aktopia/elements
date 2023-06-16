@@ -1,4 +1,4 @@
-import { NewComment } from '@elements/components/new-comment';
+import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
 import { Comments } from '@elements/compositions/comment';
 import { useDispatch, useValue } from '@elements/store';
@@ -34,7 +34,7 @@ export const Discussion = suspensify(() => {
 
   return (
     <div className={'flex flex-col gap-7'}>
-      <NewComment
+      <NewContent
         authorName={authorName}
         placeholderText={t('comment/placeholder')}
         postText={t('common/post')}

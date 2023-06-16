@@ -5,7 +5,7 @@ import {
   UserCircleSolid,
 } from '@elements/_icons';
 import { Button } from '@elements/components/button';
-import { NewComment } from '@elements/components/new-comment';
+import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
 import { TextAreaEditor } from '@elements/components/text-area-editor';
 import { WithContextMenu } from '@elements/components/with-context-menu';
@@ -141,7 +141,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
         )}
       </div>
       {isReplying && (
-        <NewComment
+        <NewContent
           authorName={currentUserName}
           cancelText={t('common/cancel')}
           placeholderText={t('comment/placeholder')}

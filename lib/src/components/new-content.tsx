@@ -13,7 +13,7 @@ interface NewCommentProps {
   authorName: string;
 }
 
-export const NewComment = ({
+export const NewContent = ({
   placeholderText,
   postText,
   onPost,
