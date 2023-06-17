@@ -1,6 +1,10 @@
 import { UserCircleSolid } from '@elements/_icons';
+import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
-import { useValue } from '@elements/store';
+import { TextEditor } from '@elements/compositions/text-editor';
+import { useDispatch, useValue } from '@elements/store';
+import { useTranslation } from '@elements/translation';
+import { useCallback } from 'react';
 
 const User = ({ name }: { name: string }) => {
   return (
@@ -11,9 +15,9 @@ const User = ({ name }: { name: string }) => {
   );
 };
 
-const Update = ({ id }: { id: string }) => {
-  const content = useValue<string>('update/content', { 'update/id': id });
+const Update = suspensify(({ id }: { id: string }) => {
   const creatorName = useValue<string>('update/creator-name', { 'update/id': id });
+  const content = useValue<string>('update/content', { 'update/id': id });
 
   return (
     <div
@@ -24,30 +28,61 @@ const Update = ({ id }: { id: string }) => {
         <User name={creatorName} />
         {/*<p className={'text-sm text-gray-500'}>{'2 days ago'}</p>*/}
       </div>
-      <p className={'w-full text-base text-gray-700'}>{content}</p>
+      <TextEditor
+        content={content}
+        referenceAttribute={'update/id'}
+        referenceId={id}
+        suspense={{ lines: 4 }}
+      />
     </div>
   );
-};
+});
 
 interface UpdatesProps {
-  parentId: string;
-  parentIdentifier: string;
+  referenceId: string;
+  referenceAttribute: string;
 }
 
-export const Updates = suspensify(({ parentId, parentIdentifier }: UpdatesProps) => {
-  const updateIds = useValue<string[]>('updates/ids-by-parent-id', {
-    'parent/id': parentId,
-    'parent.id/identifier': parentIdentifier,
+export const Updates = suspensify(({ referenceId, referenceAttribute }: UpdatesProps) => {
+  const t = useTranslation();
+  const currentUserId = useValue<string>('current.user/id');
+  const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
+  const updateIds = useValue<string[]>('updates/ids-by-reference', {
+    'reference/id': referenceId,
+    'reference/attribute': referenceAttribute,
   });
 
+  const updateContent = useDispatch('new.content/update');
+  const postContent = useDispatch('new.content/post');
+
+  const onChange = useCallback(
+    (value: string) => {
+      updateContent({ 'reference/id': referenceId, value });
+    },
+    [updateContent, referenceId]
+  );
+
+  const onPost = useCallback(() => {
+    postContent({ 'reference/id': referenceId, 'reference/attribute': referenceAttribute });
+  }, [postContent, referenceId, referenceAttribute]);
+
   return (
-    <div className={'flex flex-col gap-2.5'}>
-      {updateIds.map((id, idx) => (
-        <>
-          {idx !== 0 && <div className={'ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
-          <Update key={id} id={id} />
-        </>
-      ))}
+    <div className={'flex flex-col gap-7'}>
+      <NewContent
+        creatorName={currentUserName}
+        placeholderText={"Any updates that you'd like to share?"}
+        postText={t('common/post')}
+        onChange={onChange}
+        onPost={onPost}
+      />
+      <div>
+        {updateIds.map((id, idx) => (
+          <>
+            {idx !== 0 && <div className={'my-2.5 ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
+            <Update key={id} id={id} suspense={{ lines: 5 }} />
+          </>
+        ))}
+      </div>
     </div>
   );
 });

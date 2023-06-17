@@ -1,19 +1,37 @@
 import { Discussion } from '@elements/compositions/action/discussion';
 import { Header } from '@elements/compositions/action/header';
-import { HomeSection } from '@elements/compositions/action/home-section';
+import { Home } from '@elements/compositions/action/home';
+import { Updates } from '@elements/compositions/action/updates';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
-import { useRef } from 'react';
 
-type TabId = 'home' | 'discussion';
+type TabId = 'home' | 'discussion' | 'updates';
+
 export const Action = wrapPage(() => {
-  const tabsRef = useRef({ home: <HomeSection />, discussion: <Discussion suspenseLines={12} /> });
   const activeTabId = useValue<TabId>('action.tabs/active-tab-id');
+  const actionId = useValue<string>('current.action/id');
+  let tab;
+
+  switch (activeTabId) {
+    case 'home':
+      tab = <Home />;
+      break;
+    case 'updates':
+      tab = (
+        <Updates referenceAttribute={'action/id'} referenceId={actionId} suspense={{ lines: 12 }} />
+      );
+      break;
+    case 'discussion':
+      tab = <Discussion suspense={{ lines: 12 }} />;
+      break;
+    default:
+      tab = <Home />;
+  }
 
   return (
     <div className={'flex flex-col gap-6'}>
       <Header />
-      {tabsRef.current[activeTabId]}
+      {tab}
     </div>
   );
 });

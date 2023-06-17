@@ -121,9 +121,9 @@ export const Comment = suspensify(({ id }: { id: string }) => {
               <TextAreaEditor
                 cancelText={t('common/cancel')}
                 className={'text-base text-gray-700'}
+                content={commentText}
                 doneText={t('common/done')}
                 editable={isEditing}
-                value={commentText}
                 onCancel={onCancel}
                 onChange={onChange}
                 onDone={onDone}
@@ -142,8 +142,8 @@ export const Comment = suspensify(({ id }: { id: string }) => {
       </div>
       {isReplying && (
         <NewContent
-          authorName={currentUserName}
           cancelText={t('common/cancel')}
+          creatorName={currentUserName}
           placeholderText={t('comment/placeholder')}
           postText={t('common/post')}
           onCancel={onToggleReply}

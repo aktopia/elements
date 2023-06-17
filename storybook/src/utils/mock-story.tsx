@@ -18,8 +18,9 @@ interface MockStoreProps {
 }
 
 interface IConnectedStory {
+  args?: any;
   store: { read: ReadMock; dispatch: DispatchMock };
-  render: () => JSX.Element;
+  render: (args?: any) => JSX.Element;
 }
 
 function copyToClipboard(s: string) {
@@ -128,14 +129,14 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
   );
 });
 
-export const mockStory = ({ store, render }: IConnectedStory) => {
+export const mockStory = ({ store, args, render }: IConnectedStory) => {
   return {
     args: store.read,
-    render: (args: Record<string, any>) => {
+    render: (args_: Record<string, any>) => {
       const storeEdnString = storeEdn(store);
       return (
-        <MockStore dispatch={store.dispatch} read={args}>
-          {render()}
+        <MockStore dispatch={store.dispatch} read={args_}>
+          {render(args)}
           <CopyStoreEdn storeEdnString={storeEdnString} />
         </MockStore>
       );

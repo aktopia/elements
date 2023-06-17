@@ -10,7 +10,7 @@ interface NewCommentProps {
   onCancel?: () => void;
   onChange: (value: string) => void;
   onPost: () => void;
-  authorName: string;
+  creatorName: string;
 }
 
 export const NewContent = ({
@@ -18,7 +18,7 @@ export const NewContent = ({
   postText,
   onPost,
   onChange,
-  authorName,
+  creatorName,
   cancelText,
   onCancel,
 }: NewCommentProps) => {
@@ -31,7 +31,7 @@ export const NewContent = ({
 
   return (
     <div className={'flex flex-col gap-3'}>
-      <User name={authorName} />
+      <User name={creatorName} />
       <div
         className={
           'flex h-max w-full flex-col items-start justify-between gap-2 rounded-md border border-gray-300 p-3 shadow-sm'

@@ -35,7 +35,7 @@ export const Discussion = suspensify(() => {
   return (
     <div className={'flex flex-col gap-7'}>
       <NewContent
-        authorName={authorName}
+        creatorName={authorName}
         placeholderText={t('comment/placeholder')}
         postText={t('common/post')}
         onChange={onNewCommentChange}

@@ -15,6 +15,6 @@ export const NewContent: Story = {
     postText: 'Post',
     onPost: action('onPost'),
     onChange: action('onChange'),
-    authorName: 'Krishna Sunil',
+    creatorName: 'Krishna Sunil',
   },
 };

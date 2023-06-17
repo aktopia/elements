@@ -100,9 +100,9 @@ export const Comment = memo(
               <TextAreaEditor
                 cancelText={editCancelText}
                 className={'text-base text-gray-700'}
+                content={value}
                 doneText={editDoneText}
                 editable={isEditing}
-                value={value}
                 onCancel={onCancel}
                 onChange={onChange}
                 onDone={onDone}

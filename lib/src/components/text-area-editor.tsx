@@ -2,7 +2,7 @@ import { Button } from '@elements/components/button';
 import RichTextArea from '@elements/components/rich-text-area';
 
 interface TextAreaEditorProps {
-  value: string;
+  content: string;
   doneText: string;
   cancelText: string;
   editable: boolean;
@@ -13,7 +13,7 @@ interface TextAreaEditorProps {
 }
 
 export const TextAreaEditor = ({
-  value,
+  content,
   onDone,
   onCancel,
   doneText,
@@ -26,13 +26,13 @@ export const TextAreaEditor = ({
     <div
       className={
         editable
-          ? 'flex flex-col gap-3 rounded-lg border border-gray-400 bg-gray-50 p-3 text-gray-700 shadow-inner'
+          ? 'flex w-full flex-col gap-3 rounded-lg border border-gray-400 bg-gray-50 p-3 text-gray-700 shadow-inner'
           : ''
       }>
       <RichTextArea
         className={className}
         editable={editable}
-        initialContent={value}
+        initialContent={content}
         onChange={onChange}
       />
       {editable && (

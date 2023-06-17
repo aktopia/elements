@@ -17,6 +17,7 @@ export default {
   'common/discussion': 'Discussion',
   'common/reply': 'Reply',
   'common/update': 'Update',
+  'common/updates': 'Updates',
   'common/you': 'You',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',

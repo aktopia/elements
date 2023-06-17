@@ -186,7 +186,7 @@ export const ActionTabs = () => {
     () => [
       { id: 'home', label: t('common/home') },
       // { id: 'funding', label: t('common/funding') },
-      // { id: 'updates', label: t('common/updates') },
+      { id: 'updates', label: t('common/updates') },
       { id: 'discussion', label: t('common/discussion') },
       // { id: 'team', label: t('common/team') },
     ],
