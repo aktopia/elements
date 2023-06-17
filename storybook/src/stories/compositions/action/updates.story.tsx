@@ -19,8 +19,8 @@ const store = {
 };
 
 const args = {
-  refId: '1',
-  refAttr: 'action/id',
+  entityId: '1',
+  entityType: 'entity/action',
   suspense: { lines: 5 },
 };
 

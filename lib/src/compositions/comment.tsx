@@ -24,7 +24,7 @@ export const User = ({ name }: { name: string }) => {
 
 export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
-  const reference = useMemo(() => ({ 'ref/id': id, 'ref/attr': 'comment/id' }), [id]);
+  const reference = useMemo(() => ({ 'entity/id': id, 'entity/type': 'comment/id' }), [id]);
 
   const currentUserId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
@@ -81,8 +81,8 @@ export const Comment = suspensify(({ id }: { id: string }) => {
           <>
             <TextEditor
               content={content}
-              refAttr={'comment/id'}
-              refId={id}
+              entityId={id}
+              entityType={'entity/comment'}
               suspense={{ lines: 2 }}
             />
             <Button

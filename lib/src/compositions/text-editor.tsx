@@ -6,14 +6,17 @@ import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 
 interface TextEditorProps {
-  refId: string;
-  refAttr: string;
+  entityId: string;
+  entityType: string;
   content: string;
 }
 
-export const TextEditor = suspensify(({ refId, refAttr, content }: TextEditorProps) => {
+export const TextEditor = suspensify(({ entityId, entityType, content }: TextEditorProps) => {
   const t = useTranslation();
-  const reference = useMemo(() => ({ 'ref/id': refId, 'ref/attr': refAttr }), [refAttr, refId]);
+  const reference = useMemo(
+    () => ({ 'entity/id': entityId, 'entity/type': entityType }),
+    [entityType, entityId]
+  );
   const userId = useValue<string>('current.user/id');
   const canEdit = useValue<boolean>('text-editor/can-edit', {
     ...reference,

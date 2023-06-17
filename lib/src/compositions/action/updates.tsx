@@ -28,19 +28,27 @@ const Update = suspensify(({ id }: { id: string }) => {
         <User name={creatorName} />
         {/*<p className={'text-sm text-gray-500'}>{'2 days ago'}</p>*/}
       </div>
-      <TextEditor content={content} refAttr={'update/id'} refId={id} suspense={{ lines: 4 }} />
+      <TextEditor
+        content={content}
+        entityId={id}
+        entityType={'entity/update'}
+        suspense={{ lines: 4 }}
+      />
     </div>
   );
 });
 
 interface UpdatesProps {
-  refId: string;
-  refAttr: string;
+  entityId: string;
+  entityType: string;
 }
 
-export const Updates = suspensify(({ refId, refAttr }: UpdatesProps) => {
+export const Updates = suspensify(({ entityId, entityType }: UpdatesProps) => {
   const t = useTranslation();
-  const reference = useMemo(() => ({ 'ref/id': refId, 'ref/attr': refAttr }), [refId, refAttr]);
+  const reference = useMemo(
+    () => ({ 'entity/id': entityId, 'entity/type': entityType }),
+    [entityId, entityType]
+  );
   const currentUserId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
   const updateIds = useValue<string[]>('updates/ids-by-reference', reference);
@@ -68,12 +76,14 @@ export const Updates = suspensify(({ refId, refAttr }: UpdatesProps) => {
         onChange={onChange}
         onPost={onPost}
       />
-      {updateIds.map((id, idx) => (
-        <>
-          {idx !== 0 && <div key={id} className={'my-2.5 ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
-          <Update key={id} id={id} suspense={{ lines: 5 }} />
-        </>
-      ))}
+      <div className={'w-full'}>
+        {updateIds.map((id, idx) => (
+          <div key={id} className={'w-full'}>
+            {idx !== 0 && <div className={'my-2.5 ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
+            <Update id={id} suspense={{ lines: 5 }} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 });
