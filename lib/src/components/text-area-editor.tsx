@@ -27,7 +27,7 @@ export const TextAreaEditor = ({
       className={
         editable
           ? 'flex w-full flex-col gap-3 rounded-lg border border-gray-400 bg-gray-50 p-3 text-gray-700 shadow-inner'
-          : ''
+          : 'w-full'
       }>
       <RichTextArea
         className={className}

@@ -42,10 +42,7 @@ function getRelation(params: any) {
 
 const discussionTabStore = {
   read: {
-    'comment/comments-by-parent-id': ({
-      'parent/id': id,
-      'parent.id/identifier': identifier,
-    }: any) => {
+    'comment/comments-by-parent-id': ({ 'ref/id': id, 'ref/attr': identifier }: any) => {
       if (identifier === 'action/id') {
         return ['comment-1', 'comment-5'];
       }

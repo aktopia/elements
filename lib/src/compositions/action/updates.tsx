@@ -28,28 +28,23 @@ const Update = suspensify(({ id }: { id: string }) => {
         <User name={creatorName} />
         {/*<p className={'text-sm text-gray-500'}>{'2 days ago'}</p>*/}
       </div>
-      <TextEditor
-        content={content}
-        referenceAttribute={'update/id'}
-        referenceId={id}
-        suspense={{ lines: 4 }}
-      />
+      <TextEditor content={content} refAttr={'update/id'} refId={id} suspense={{ lines: 4 }} />
     </div>
   );
 });
 
 interface UpdatesProps {
-  referenceId: string;
-  referenceAttribute: string;
+  refId: string;
+  refAttr: string;
 }
 
-export const Updates = suspensify(({ referenceId, referenceAttribute }: UpdatesProps) => {
+export const Updates = suspensify(({ refId, refAttr }: UpdatesProps) => {
   const t = useTranslation();
   const currentUserId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
   const updateIds = useValue<string[]>('updates/ids-by-reference', {
-    'reference/id': referenceId,
-    'reference/attribute': referenceAttribute,
+    'ref/id': refId,
+    'ref/attr': refAttr,
   });
 
   const updateContent = useDispatch('new.content/update');
@@ -57,14 +52,14 @@ export const Updates = suspensify(({ referenceId, referenceAttribute }: UpdatesP
 
   const onChange = useCallback(
     (value: string) => {
-      updateContent({ 'reference/id': referenceId, value });
+      updateContent({ 'ref/id': refId, value });
     },
-    [updateContent, referenceId]
+    [updateContent, refId]
   );
 
   const onPost = useCallback(() => {
-    postContent({ 'reference/id': referenceId, 'reference/attribute': referenceAttribute });
-  }, [postContent, referenceId, referenceAttribute]);
+    postContent({ 'ref/id': refId, 'ref/attr': refAttr });
+  }, [postContent, refId, refAttr]);
 
   return (
     <div className={'flex flex-col gap-7'}>
@@ -78,7 +73,7 @@ export const Updates = suspensify(({ referenceId, referenceAttribute }: UpdatesP
       <div>
         {updateIds.map((id, idx) => (
           <>
-            {idx !== 0 && <div className={'my-2.5 ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
+            {idx !== 0 && <div key={id} className={'my-2.5 ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
             <Update key={id} id={id} suspense={{ lines: 5 }} />
           </>
         ))}

@@ -73,7 +73,7 @@ export const _WithContextMenu = ({ items, children }: Omit<WithContextMenuProps,
   );
 
   return (
-    <div ref={menuRef} className={'relative cursor-pointer'} onClick={onClick}>
+    <div ref={menuRef} className={'relative w-full cursor-pointer'} onClick={onClick}>
       {showMenu && menuUI}
       {children}
     </div>

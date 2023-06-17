@@ -6,67 +6,62 @@ import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 
 interface TextEditorProps {
-  referenceId: string;
-  referenceAttribute: string;
+  refId: string;
+  refAttr: string;
   content: string;
 }
 
-export const TextEditor = suspensify(
-  ({ referenceId, referenceAttribute, content }: TextEditorProps) => {
-    const t = useTranslation();
-    const reference = useMemo(
-      () => ({ 'reference/id': referenceId, 'reference/attribute': referenceAttribute }),
-      [referenceAttribute, referenceId]
-    );
-    const userId = useValue<string>('current.user/id');
-    const canEdit = useValue<boolean>('text-editor/can-edit', {
-      ...reference,
-      'user/id': userId,
-    });
-    const isEditing = useValue<boolean>('text-editor/editing', reference) || false;
+export const TextEditor = suspensify(({ refId, refAttr, content }: TextEditorProps) => {
+  const t = useTranslation();
+  const reference = useMemo(() => ({ 'ref/id': refId, 'ref/attr': refAttr }), [refAttr, refId]);
+  const userId = useValue<string>('current.user/id');
+  const canEdit = useValue<boolean>('text-editor/can-edit', {
+    ...reference,
+    'user/id': userId,
+  });
+  const isEditing = useValue<boolean>('text-editor/editing', reference) || false;
 
-    const edit = useDispatch('text-editor/edit');
-    const editDone = useDispatch('text-editor.edit/done');
-    const editCancel = useDispatch('text-editor.edit/cancel');
-    const updateContent = useDispatch('text-editor.content/update');
+  const edit = useDispatch('text-editor/edit');
+  const editDone = useDispatch('text-editor.edit/done');
+  const editCancel = useDispatch('text-editor.edit/cancel');
+  const updateContent = useDispatch('text-editor.content/update');
 
-    const onEdit = useCallback(() => {
-      edit(reference);
-    }, [edit, reference]);
+  const onEdit = useCallback(() => {
+    edit(reference);
+  }, [edit, reference]);
 
-    const onChange = useCallback(
-      (value: string) => {
-        updateContent({ ...reference, value });
-      },
-      [updateContent, reference]
-    );
+  const onChange = useCallback(
+    (value: string) => {
+      updateContent({ ...reference, value });
+    },
+    [updateContent, reference]
+  );
 
-    const onCancel = useCallback(() => {
-      editCancel(reference);
-    }, [reference, editCancel]);
+  const onCancel = useCallback(() => {
+    editCancel(reference);
+  }, [reference, editCancel]);
 
-    const onDone = useCallback(() => {
-      editDone(reference);
-    }, [reference, editDone]);
+  const onDone = useCallback(() => {
+    editDone(reference);
+  }, [reference, editDone]);
 
-    const menuItems: any = useMemo(
-      () => [canEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
-      [onEdit, canEdit, t]
-    );
+  const menuItems: any = useMemo(
+    () => [canEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
+    [onEdit, canEdit, t]
+  );
 
-    return (
-      <WithContextMenu disable={isEditing} items={menuItems}>
-        <TextAreaEditor
-          cancelText={t('common/cancel')}
-          className={'text-base text-gray-700'}
-          content={content}
-          doneText={t('common/done')}
-          editable={isEditing}
-          onCancel={onCancel}
-          onChange={onChange}
-          onDone={onDone}
-        />
-      </WithContextMenu>
-    );
-  }
-);
+  return (
+    <WithContextMenu disable={isEditing} items={menuItems}>
+      <TextAreaEditor
+        cancelText={t('common/cancel')}
+        className={'text-base text-gray-700'}
+        content={content}
+        doneText={t('common/done')}
+        editable={isEditing}
+        onCancel={onCancel}
+        onChange={onChange}
+        onDone={onDone}
+      />
+    </WithContextMenu>
+  );
+});

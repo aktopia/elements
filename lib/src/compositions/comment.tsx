@@ -31,8 +31,8 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   const authorName = useValue<string>('comment/author-name', { 'comment/id': id });
   const commentText = useValue<string>('comment/text', { 'comment/id': id });
   const responseIds = useValue<string[]>('comment/comments-by-parent-id', {
-    'parent/id': id,
-    'parent.id/identifier': 'comment/id',
+    'ref/id': id,
+    'ref/attr': 'comment/id',
   });
   const canEdit = useValue<boolean>('comment/can-edit', {
     'comment/id': id,
@@ -81,13 +81,13 @@ export const Comment = suspensify(({ id }: { id: string }) => {
 
   const onNewCommentUpdate = useCallback(
     (value: string) => {
-      updateNewComment({ 'parent/id': id, value });
+      updateNewComment({ 'ref/id': id, value });
     },
     [id, updateNewComment]
   );
 
   const onNewCommentPost = useCallback(() => {
-    postNewComment({ 'parent/id': id, 'parent.id/identifier': 'comment/id' });
+    postNewComment({ 'ref/id': id, 'ref/attr': 'comment/id' });
     setIsReplying(false);
   }, [id, postNewComment]);
 

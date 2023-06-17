@@ -17,9 +17,7 @@ export const Action = wrapPage(() => {
       tab = <Home />;
       break;
     case 'updates':
-      tab = (
-        <Updates referenceAttribute={'action/id'} referenceId={actionId} suspense={{ lines: 12 }} />
-      );
+      tab = <Updates refAttr={'action/id'} refId={actionId} suspense={{ lines: 12 }} />;
       break;
     case 'discussion':
       tab = <Discussion suspense={{ lines: 12 }} />;
