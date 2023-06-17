@@ -4,7 +4,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 const User = ({ name }: { name: string }) => {
   return (
@@ -40,26 +40,24 @@ interface UpdatesProps {
 
 export const Updates = suspensify(({ refId, refAttr }: UpdatesProps) => {
   const t = useTranslation();
+  const reference = useMemo(() => ({ 'ref/id': refId, 'ref/attr': refAttr }), [refId, refAttr]);
   const currentUserId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
-  const updateIds = useValue<string[]>('updates/ids-by-reference', {
-    'ref/id': refId,
-    'ref/attr': refAttr,
-  });
+  const updateIds = useValue<string[]>('updates/ids-by-reference', reference);
 
-  const updateContent = useDispatch('new.content/update');
-  const postContent = useDispatch('new.content/post');
+  const updateContent = useDispatch('new.update/update');
+  const postContent = useDispatch('new.update/post');
 
   const onChange = useCallback(
     (value: string) => {
-      updateContent({ 'ref/id': refId, value });
+      updateContent({ ...reference, value });
     },
-    [updateContent, refId]
+    [updateContent, reference]
   );
 
   const onPost = useCallback(() => {
-    postContent({ 'ref/id': refId, 'ref/attr': refAttr });
-  }, [postContent, refId, refAttr]);
+    postContent(reference);
+  }, [postContent, reference]);
 
   return (
     <div className={'flex flex-col gap-7'}>
@@ -70,14 +68,12 @@ export const Updates = suspensify(({ refId, refAttr }: UpdatesProps) => {
         onChange={onChange}
         onPost={onPost}
       />
-      <div>
-        {updateIds.map((id, idx) => (
-          <>
-            {idx !== 0 && <div key={id} className={'my-2.5 ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
-            <Update key={id} id={id} suspense={{ lines: 5 }} />
-          </>
-        ))}
-      </div>
+      {updateIds.map((id, idx) => (
+        <>
+          {idx !== 0 && <div key={id} className={'my-2.5 ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
+          <Update key={id} id={id} suspense={{ lines: 5 }} />
+        </>
+      ))}
     </div>
   );
 });

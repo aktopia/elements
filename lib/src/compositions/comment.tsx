@@ -7,8 +7,7 @@ import {
 import { Button } from '@elements/components/button';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
-import { TextAreaEditor } from '@elements/components/text-area-editor';
-import { WithContextMenu } from '@elements/components/with-context-menu';
+import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { isEmpty } from 'lodash';
@@ -25,29 +24,18 @@ export const User = ({ name }: { name: string }) => {
 
 export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
+  const reference = useMemo(() => ({ 'ref/id': id, 'ref/attr': 'comment/id' }), [id]);
 
-  const userId = useValue<string>('current.user/id');
-  const currentUserName = useValue<string>('user/name', { 'user/id': userId });
-  const authorName = useValue<string>('comment/author-name', { 'comment/id': id });
-  const commentText = useValue<string>('comment/text', { 'comment/id': id });
-  const responseIds = useValue<string[]>('comment/comments-by-parent-id', {
-    'ref/id': id,
-    'ref/attr': 'comment/id',
-  });
-  const canEdit = useValue<boolean>('comment/can-edit', {
-    'comment/id': id,
-    'user/id': userId,
-  });
+  const currentUserId = useValue<string>('current.user/id');
+  const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
+  const creatorName = useValue<string>('comment/creator-name', { 'comment/id': id });
+  const content = useValue<string>('comment/content', { 'comment/id': id });
+  const responseIds = useValue<string[]>('comments/ids-by-reference', reference);
 
-  const onEditDone = useDispatch('ui.comment.edit/done');
-  const onEditCancel = useDispatch('ui.comment.edit/cancel');
-  const onUpdate = useDispatch('inter.comment.text/update');
-
-  const updateNewComment = useDispatch('new.comment.text/update');
+  const updateNewComment = useDispatch('new.comment/update');
   const postNewComment = useDispatch('new.comment/post');
 
   const [expanded, setExpanded] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
 
   const onExpandCollapse = useCallback(() => {
@@ -58,43 +46,17 @@ export const Comment = suspensify(({ id }: { id: string }) => {
     setIsReplying(!isReplying);
   }, [isReplying]);
 
-  const onEdit = useCallback(() => {
-    setIsEditing(true);
-  }, []);
-
-  const onCancel = useCallback(() => {
-    onEditCancel({ 'comment/id': id });
-    setIsEditing(false);
-  }, [id, onEditCancel]);
-
-  const onDone = useCallback(() => {
-    onEditDone({ 'comment/id': id });
-    setIsEditing(false);
-  }, [id, onEditDone]);
-
-  const onChange = useCallback(
-    (value: string) => {
-      onUpdate({ 'comment/id': id, value });
-    },
-    [id, onUpdate]
-  );
-
   const onNewCommentUpdate = useCallback(
     (value: string) => {
-      updateNewComment({ 'ref/id': id, value });
+      updateNewComment({ ...reference, value });
     },
-    [id, updateNewComment]
+    [reference, updateNewComment]
   );
 
   const onNewCommentPost = useCallback(() => {
-    postNewComment({ 'ref/id': id, 'ref/attr': 'comment/id' });
+    postNewComment(reference);
     setIsReplying(false);
-  }, [id, postNewComment]);
-
-  const menuItems: any = useMemo(
-    () => [canEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
-    [onEdit, canEdit, t]
-  );
+  }, [reference, postNewComment]);
 
   const showResponses = expanded && responseIds && !isEmpty(responseIds);
 
@@ -102,7 +64,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
     <div className={'flex flex-col gap-4 rounded-lg border-b border-l border-gray-300 p-4'}>
       <div className={'flex flex-col gap-3'}>
         <div className={'flex items-center justify-between'}>
-          <User name={authorName} />
+          <User name={creatorName} />
           {expanded ? (
             <ChevronUpMiniSolid
               className={'h-4 w-4 cursor-pointer text-gray-700'}
@@ -117,18 +79,12 @@ export const Comment = suspensify(({ id }: { id: string }) => {
         </div>
         {expanded && (
           <>
-            <WithContextMenu disable={isEditing} items={menuItems}>
-              <TextAreaEditor
-                cancelText={t('common/cancel')}
-                className={'text-base text-gray-700'}
-                content={commentText}
-                doneText={t('common/done')}
-                editable={isEditing}
-                onCancel={onCancel}
-                onChange={onChange}
-                onDone={onDone}
-              />
-            </WithContextMenu>
+            <TextEditor
+              content={content}
+              refAttr={'comment/id'}
+              refId={id}
+              suspense={{ lines: 2 }}
+            />
             <Button
               Icon={ChatBubbleLeftEllipsisOutline}
               clicked={isReplying}

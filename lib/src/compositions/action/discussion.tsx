@@ -14,12 +14,12 @@ export const Discussion = suspensify(() => {
   const reference = useMemo(() => ({ 'ref/id': actionId, 'ref/attr': 'action/id' }), [actionId]);
   const commentIds = useValue<string[]>('comments/ids-by-reference', reference);
 
-  const updateNewComment = useDispatch('new.comment.text/update');
+  const updateNewComment = useDispatch('new.comment/update');
   const postNewComment = useDispatch('new.comment/post');
 
   const onNewCommentChange = useCallback(
-    (content: string) => {
-      updateNewComment({ ...reference, content });
+    (value: string) => {
+      updateNewComment({ ...reference, value });
     },
     [updateNewComment, reference]
   );
