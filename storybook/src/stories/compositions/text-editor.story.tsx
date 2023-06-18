@@ -25,6 +25,7 @@ const args = {
   refId: '5',
   content: lorem.generateSentences(5),
   refAttribute: 'entity/action',
+  className: 'text-base text-gray-700',
   suspense: { lines: 5 },
 };
 

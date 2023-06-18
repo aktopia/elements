@@ -80,6 +80,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
         {expanded && (
           <>
             <TextEditor
+              className={'text-base text-gray-700'}
               content={text}
               refAttribute={'comment/text'}
               refId={id}

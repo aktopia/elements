@@ -28,7 +28,13 @@ const Update = suspensify(({ id }: { id: string }) => {
         <User name={creatorName} />
         {/*<p className={'text-sm text-gray-500'}>{'2 days ago'}</p>*/}
       </div>
-      <TextEditor content={text} refAttribute={'update/text'} refId={id} suspense={{ lines: 4 }} />
+      <TextEditor
+        className={'text-gray-700'}
+        content={text}
+        refAttribute={'update/text'}
+        refId={id}
+        suspense={{ lines: 4 }}
+      />
     </div>
   );
 });

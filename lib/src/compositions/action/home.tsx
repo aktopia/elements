@@ -1,83 +1,43 @@
 import { TrophyMiniSolid } from '@elements/_icons';
 import { suspensify } from '@elements/components/suspensify';
-import { TextAreaEditor } from '@elements/components/text-area-editor';
-import { WithContextMenu } from '@elements/components/with-context-menu';
-import { useDispatch, useValue } from '@elements/store';
+import { TextEditor } from '@elements/compositions/text-editor';
+import { useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 const Description = suspensify(() => {
-  const t = useTranslation();
-  const actionId = useValue('current.action/id');
+  const actionId = useValue<string>('current.action/id');
   const description = useValue<string>('action/description', { 'action/id': actionId });
-  const isEditing = useValue<boolean>('current.action.description/editing');
-  const onEdit = useDispatch('current.action.description/edit', { emptyParams: true });
-  const onEditCancel = useDispatch('current.action.description.edit/cancel', {
-    emptyParams: true,
-  });
-  const onEditDone = useDispatch('current.action.description.edit/done', {
-    emptyParams: true,
-  });
-  const updateDescription = useDispatch('current.action.description/update');
-  const onChange = useCallback(
-    (value: string) => updateDescription({ value }),
-    [updateDescription]
-  );
-  const showEdit = useValue<boolean>('current.action.description/can-edit');
-  const menuItems: any = useMemo(
-    () => [showEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
-    [onEdit, showEdit, t]
-  );
 
   return (
-    <WithContextMenu disable={isEditing} items={menuItems}>
-      <TextAreaEditor
-        cancelText={t('common/cancel')}
-        className={'text-gray-700'}
-        content={description}
-        doneText={t('common/done')}
-        editable={isEditing}
-        onCancel={onEditCancel}
-        onChange={onChange}
-        onDone={onEditDone}
-      />
-    </WithContextMenu>
+    <TextEditor
+      className={'text-gray-700'}
+      content={description}
+      refAttribute={'action.description/text'}
+      refId={actionId}
+      suspense={{ lines: 3 }}
+    />
   );
 });
 
 const OutcomeText = suspensify(() => {
-  const t = useTranslation();
   const actionId = useValue<string>('current.action/id');
   const outcome = useValue<string>('action/outcome', { 'action/id': actionId });
-  const isEditing = useValue<boolean>('current.action.outcome/editing');
-  const onEdit = useDispatch('current.action.outcome/edit', { emptyParams: true });
-  const onEditCancel = useDispatch('current.action.outcome.edit/cancel', {
-    emptyParams: true,
-  });
-  const onEditDone = useDispatch('current.action.outcome.edit/done', {
-    emptyParams: true,
-  });
-  const updateOutcome = useDispatch('current.action.outcome/update');
-  const onUpdate = useCallback((value: string) => updateOutcome({ value }), [updateOutcome]);
-  const showEdit = useValue<boolean>('current.action.outcome/can-edit');
-  const menuItems: any = useMemo(
-    () => [showEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
-    [onEdit, showEdit, t]
+  const reference = useMemo(
+    () => ({ 'ref/id': actionId, 'ref/attribute': 'action.outcome/text' }),
+    [actionId]
   );
 
+  const isEditing = useValue<boolean>('text-editor/editing', reference) || false;
+
   return (
-    <WithContextMenu disable={isEditing} items={menuItems}>
-      <TextAreaEditor
-        cancelText={t('common/cancel')}
-        className={isEditing ? 'text-gray-700' : 'text-blue-700'}
-        content={outcome}
-        doneText={t('common/done')}
-        editable={isEditing}
-        onCancel={onEditCancel}
-        onChange={onUpdate}
-        onDone={onEditDone}
-      />
-    </WithContextMenu>
+    <TextEditor
+      className={isEditing ? 'text-gray-700' : 'text-blue-700'}
+      content={outcome}
+      refAttribute={'action.outcome/text'}
+      refId={actionId}
+      suspense={{ lines: 3 }}
+    />
   );
 });
 
