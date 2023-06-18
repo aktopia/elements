@@ -12,7 +12,7 @@ export const Discussion = suspensify(() => {
   const currentUserName = useValue<string>('user/name', { 'user/id': userId });
   const actionId = useValue<string>('current.action/id');
   const reference = useMemo(
-    () => ({ 'entity/id': actionId, 'entity/type': 'action/id' }),
+    () => ({ 'ref/id': actionId, 'ref/attribute': 'action/id' }),
     [actionId]
   );
   const commentIds = useValue<string[]>('comments/ids-by-reference', reference);

@@ -17,7 +17,7 @@ const User = ({ name }: { name: string }) => {
 
 const Update = suspensify(({ id }: { id: string }) => {
   const creatorName = useValue<string>('update/creator-name', { 'update/id': id });
-  const content = useValue<string>('update/content', { 'update/id': id });
+  const text = useValue<string>('update/text', { 'update/id': id });
 
   return (
     <div
@@ -28,26 +28,21 @@ const Update = suspensify(({ id }: { id: string }) => {
         <User name={creatorName} />
         {/*<p className={'text-sm text-gray-500'}>{'2 days ago'}</p>*/}
       </div>
-      <TextEditor
-        content={content}
-        entityId={id}
-        entityType={'entity/update'}
-        suspense={{ lines: 4 }}
-      />
+      <TextEditor content={text} refAttribute={'update/text'} refId={id} suspense={{ lines: 4 }} />
     </div>
   );
 });
 
 interface UpdatesProps {
-  entityId: string;
-  entityType: string;
+  refId: string;
+  refAttribute: string;
 }
 
-export const Updates = suspensify(({ entityId, entityType }: UpdatesProps) => {
+export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
   const t = useTranslation();
   const reference = useMemo(
-    () => ({ 'entity/id': entityId, 'entity/type': entityType }),
-    [entityId, entityType]
+    () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
+    [refId, refAttribute]
   );
   const currentUserId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });

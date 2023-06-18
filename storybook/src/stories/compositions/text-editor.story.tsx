@@ -22,9 +22,9 @@ const store = {
 };
 
 const args = {
-  entityId: '5',
+  refId: '5',
   content: lorem.generateSentences(5),
-  entityType: 'entity/action',
+  refAttribute: 'entity/action',
   suspense: { lines: 5 },
 };
 

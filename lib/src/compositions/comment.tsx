@@ -24,12 +24,12 @@ export const User = ({ name }: { name: string }) => {
 
 export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
-  const reference = useMemo(() => ({ 'entity/id': id, 'entity/type': 'comment/id' }), [id]);
+  const reference = useMemo(() => ({ 'ref/id': id, 'ref/attribute': 'comment/id' }), [id]);
 
   const currentUserId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
   const creatorName = useValue<string>('comment/creator-name', { 'comment/id': id });
-  const content = useValue<string>('comment/content', { 'comment/id': id });
+  const text = useValue<string>('comment/text', { 'comment/id': id });
   const responseIds = useValue<string[]>('comments/ids-by-reference', reference);
 
   const updateNewComment = useDispatch('new.comment/update');
@@ -80,9 +80,9 @@ export const Comment = suspensify(({ id }: { id: string }) => {
         {expanded && (
           <>
             <TextEditor
-              content={content}
-              entityId={id}
-              entityType={'entity/comment'}
+              content={text}
+              refAttribute={'comment/text'}
+              refId={id}
               suspense={{ lines: 2 }}
             />
             <Button
