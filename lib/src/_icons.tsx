@@ -88,6 +88,7 @@ export {
   XMarkIcon as XMarkSolid,
   CheckCircleIcon as CheckCircleSolid,
   UserCircleIcon as UserCircleSolid,
+  MagnifyingGlassIcon as MagnifyingGlassSolid,
 } from '@heroicons/react/24/solid';
 
 export {
