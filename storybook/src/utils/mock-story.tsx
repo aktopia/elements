@@ -122,7 +122,7 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
 
   return (
     <Store checkPending={checkPending} dispatch={_dispatch} read={_read} subscribe={_subscribe}>
-      <Translation defaultLocale={'en'} locales={locales || translations}>
+      <Translation defaultLocale={'en'} locales={locales || translations} suspense={{ lines: 8 }}>
         {children}
       </Translation>
     </Store>

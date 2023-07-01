@@ -14,7 +14,7 @@ export const Action = wrapPage(() => {
 
   switch (activeTabId) {
     case 'home':
-      tab = <Home />;
+      tab = <Home suspense={{ lines: 12 }} />;
       break;
     case 'updates':
       tab = <Updates refAttribute={'action/id'} refId={actionId} suspense={{ lines: 12 }} />;
@@ -23,7 +23,7 @@ export const Action = wrapPage(() => {
       tab = <Discussion suspense={{ lines: 12 }} />;
       break;
     default:
-      tab = <Home />;
+      tab = <Home suspense={{ lines: 12 }} />;
   }
 
   return (
@@ -35,5 +35,5 @@ export const Action = wrapPage(() => {
 });
 
 export const routes = {
-  'action/view': <Action />,
+  'action/view': <Action suspense={{ lines: 10 }} />,
 };

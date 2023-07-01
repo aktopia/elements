@@ -56,6 +56,7 @@ const Outcome = memo(() => {
 });
 
 interface Relation {
+  id: string;
   relation: 'resolves' | 'partially-resolves';
   type: 'issue' | 'action';
   title: string;
@@ -72,50 +73,58 @@ const relationTKey = {
   relates: 'relation/relates',
 };
 
-const Relation = suspensify(({ id }: any) => {
+const Relationship = suspensify(({ id }: any) => {
   const t = useTranslation();
-  const relation = useValue<Relation>('action/relation', {
+  const relationship = useValue<Relation>('relationship/data', {
     'relation/id': id,
   });
 
   return (
     <div className={'flex flex-col gap-2 rounded-md border border-gray-300 p-4 shadow-sm'}>
       <div className={'flex'}>
-        <div>{t(relationTKey[relation.relation])}</div>
+        <div>{t(relationTKey[relationship.relation])}</div>
         <div className={'w-max rounded border border-rose-200 bg-rose-50 px-2 py-1 shadow-inner'}>
           <p className={'text-xs font-medium text-rose-600'}>
-            {t(relationTypeTKey[relation.type])}
+            {t(relationTypeTKey[relationship.type])}
           </p>
         </div>
       </div>
-      <div className={'text-gray-700'}>{relation.title}</div>
+      <div className={'text-gray-700'}>{relationship.title}</div>
     </div>
   );
 });
 
-export const Relations = suspensify(() => {
-  const actionId = useValue('current.action/id');
-  const relationIds = useValue<{ type: string; title: string }[]>('action.relation/ids', {
-    'action/id': actionId,
+interface RelationsProps {
+  refId: string;
+  refAttribute: string;
+}
+
+// TODO Make this generic
+export const Relationships = suspensify(({ refId, refAttribute }: RelationsProps) => {
+  const relationIds = useValue<string[]>('relationship/ids', {
+    'ref/id': refId,
+    'ref/attribute': refAttribute,
   });
 
   return (
     <div className={'flex flex-col gap-5'}>
       {relationIds.map((relationId) => (
-        <Relation key={relationId} id={relationId} suspense={{ lines: 3 }} />
+        <Relationship key={relationId} id={relationId} suspense={{ lines: 3 }} />
       ))}
     </div>
   );
 });
 
-export const Home = () => {
+export const Home = suspensify(() => {
+  const actionId = useValue<string>('current.action/id');
+
   return (
     <div className={'flex w-full gap-8'}>
       <div className={'flex w-full flex-col gap-5'}>
         <Description suspense={{ lines: 6 }} />
         <Outcome />
       </div>
-      {/*<Relations suspense={{lines:8} />*/}
+      <Relationships refAttribute={'action/id'} refId={actionId} suspense={{ lines: 8 }} />
     </div>
   );
-};
+});

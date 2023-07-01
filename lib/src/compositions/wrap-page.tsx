@@ -1,8 +1,9 @@
+import { suspensify } from '@elements/components/suspensify';
 import { NavBar } from '@elements/compositions/nav-bar';
-import { ComponentType, memo } from 'react';
+import { ComponentType } from 'react';
 
 export const wrapPage = (Component: ComponentType) =>
-  memo((props) => {
+  suspensify((props) => {
     return (
       <div className={'h-full w-full bg-white'}>
         <NavBar />

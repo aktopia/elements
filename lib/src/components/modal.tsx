@@ -52,9 +52,7 @@ export const Modal = ({ title, children, onClose, visible }: ModalProps) => {
                   </div>
                 )}
               </div>
-              <Dialog.Description className={'text-sm text-gray-500'}>
-                {children}
-              </Dialog.Description>
+              <>{children}</>
             </Dialog.Panel>
           </Transition.Child>
         </div>
@@ -69,6 +67,4 @@ mobile
 outside click handler
 types
 generic modal without title and close
-Use dialog component
-ESC to close
  */

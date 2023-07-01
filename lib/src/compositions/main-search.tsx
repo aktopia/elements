@@ -1,22 +1,9 @@
 import { MagnifyingGlassSolid } from '@elements/_icons';
-import { useValue } from '@elements/store';
+import { suspensify } from '@elements/components/suspensify';
+import { useDispatch, useState, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { Combobox, Dialog, Transition } from '@headlessui/react';
-/*
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 
 interface ResultProps {
   type: 'entity/action' | 'entity/issue';
@@ -53,13 +40,30 @@ const Result = ({ type, id, text }: ResultProps) => {
   );
 };
 
-export const MainSearch = () => {
-  const query = useValue<string>('main-search/query');
+export const MainSearch = suspensify(() => {
+  const t = useTranslation();
+  const visible = useValue<boolean>('main-search/visible');
   const results = useValue<any[]>('main-search/results');
 
+  const close = useDispatch('main-search/close', { emptyParams: true });
+  const onClose = useCallback(() => close(), [close]);
+
+  const [query, setQuery] = useState('main-search/query');
+
+  const onQueryChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  }, []);
+
+  const onAfterLeave = useCallback(() => {
+    setQuery('');
+  }, []);
+
+  const noResults = query && query.trim() !== '' && results.length === 0;
+
   return (
-    <Transition.Root appear afterLeave={console.log} as={Fragment} show={true}>
-      <Dialog as={'div'} className={'relative z-10'} onClose={console.log}>
+    // eslint-disable-next-line react/jsx-handler-names
+    <Transition.Root appear afterLeave={onAfterLeave} as={Fragment} show={visible}>
+      <Dialog as={'div'} className={'relative z-10'} onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter={'ease-out duration-300'}
@@ -84,7 +88,7 @@ export const MainSearch = () => {
               className={
                 'mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all'
               }>
-              <Combobox onChange={console.log}>
+              <Combobox>
                 <div className={'relative'}>
                   <MagnifyingGlassSolid
                     aria-hidden={'true'}
@@ -94,14 +98,14 @@ export const MainSearch = () => {
                     className={
                       'h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm'
                     }
-                    placeholder={'Search...'}
-                    onChange={console.log}
+                    placeholder={t('main-search/placeholder')}
+                    value={query}
+                    onChange={onQueryChange}
                   />
                 </div>
 
                 {results.length > 0 && (
                   <Combobox.Options
-                    static
                     className={'max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800'}>
                     {results.map((result) => (
                       <Result key={result.id} {...result} />
@@ -109,8 +113,8 @@ export const MainSearch = () => {
                   </Combobox.Options>
                 )}
 
-                {query !== '' && results.length === 0 && (
-                  <p className={'p-4 text-sm text-gray-500'}>{'Nothing found.'}</p>
+                {noResults && (
+                  <p className={'p-4 text-sm text-gray-500'}>{t('common.phrase/empty-results')}</p>
                 )}
               </Combobox>
             </Dialog.Panel>
@@ -119,4 +123,8 @@ export const MainSearch = () => {
       </Dialog>
     </Transition.Root>
   );
-};
+});
+
+/*
+TODO Unify with modal
+ */

@@ -89,14 +89,14 @@ const Title = suspensify(() => {
   );
 });
 
-export const TimeAgo = memo(() => {
+export const TimeAgo = suspensify(() => {
   const actionId = useValue('current.action/id');
   const lastActive = useValue<number>('action/last-active', { 'action/id': actionId });
   // TODO Format lastActive
   return <div className={'text-xs text-gray-500'}>{lastActive}</div>;
 });
 
-export const ActionBar = memo(() => {
+export const ActionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
   const userId = useValue('current.user/id');
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
@@ -140,7 +140,7 @@ export const ActionBar = memo(() => {
   );
 });
 
-export const ProgressIndicator = memo(() => {
+export const ProgressIndicator = suspensify(() => {
   const t = useTranslation();
   const actionId = useValue('current.action/id');
   const activeSwitchId = useValue<string>('action.progress-bar/active-switch-id');
@@ -178,7 +178,7 @@ export const ProgressIndicator = memo(() => {
   );
 });
 
-export const ActionTabs = () => {
+export const ActionTabs = suspensify(() => {
   const t = useTranslation();
   const activeTabId = useValue<string>('action.tabs/active-tab-id');
   const updateTab = useDispatch('action.tabs/update');
@@ -201,7 +201,7 @@ export const ActionTabs = () => {
   );
 
   return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
-};
+});
 
 export const Header = () => {
   return (
@@ -222,7 +222,7 @@ export const Header = () => {
         {/*<ProgressIndicator />*/}
       </div>
       <div className={'flex justify-center'}>
-        <ActionTabs />
+        <ActionTabs suspense={{ lines: 1 }} />
       </div>
     </div>
   );

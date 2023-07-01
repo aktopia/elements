@@ -34,4 +34,6 @@ export default {
   'auth.verify-otp/success': 'OTP successfully verified.',
   'auth/sign-in-with-google': 'Sign in with Google',
   'comment/placeholder': 'What do you think?',
+  'main-search/placeholder': 'Search',
+  'common.phrase/empty-results': 'No results found.',
 };

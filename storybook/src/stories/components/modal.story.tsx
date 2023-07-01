@@ -13,7 +13,7 @@ export const Modal: StoryObj<typeof Component> = {
   render: (args) => {
     return (
       <Component {...args}>
-        <div>{lorem.generateSentences(3)}</div>
+        <div className={'text-sm text-gray-500'}>{lorem.generateSentences(3)}</div>
       </Component>
     );
   },

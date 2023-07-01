@@ -1,6 +1,5 @@
 import { MainSearch as Component } from '@elements/compositions/main-search';
 import { mockStory } from '@story/utils/mock-story';
-import { lorem } from '@story/utils/string';
 
 export default {
   title: 'Compositions/MainSearch',
@@ -9,7 +8,7 @@ export default {
 
 const store = {
   read: {
-    'main-search/query': 'what is',
+    'main-search/visible': true,
     'main-search/results': [
       {
         id: '1',
@@ -25,16 +24,10 @@ const store = {
       },
     ],
   },
-  dispatch: [],
+  dispatch: ['generic.state/set', 'main-search/close'],
 };
 
-const args = {
-  refId: '5',
-  content: lorem.generateSentences(5),
-  refAttribute: 'entity/action',
-  className: 'text-base text-gray-700',
-  suspense: { lines: 5 },
-};
+const args = {};
 
 export const MainSearch = mockStory({
   store,

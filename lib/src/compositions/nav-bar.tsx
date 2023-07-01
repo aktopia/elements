@@ -1,5 +1,6 @@
 import { ChevronDownMiniSolid, UserCircleSolid } from '@elements/_icons';
 import { Dropdown } from '@elements/components/dropdown';
+import { suspensify } from '@elements/components/suspensify';
 import { SocialSignIn } from '@elements/compositions/auth/social-sign-in';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -56,7 +57,7 @@ export const SignInButton = () => {
   );
 };
 
-const UserDropdown = () => {
+const UserDropdown = suspensify(() => {
   const userId = useValue('current.user/id');
   const authenticated = useValue<boolean>('auth.session/exists');
   const onSignOutClick = useDispatch('auth/sign-out');
@@ -78,7 +79,7 @@ const UserDropdown = () => {
   ) : (
     <SignInButton />
   );
-};
+});
 
 export const NavBar = () => {
   return (
@@ -87,7 +88,7 @@ export const NavBar = () => {
         'flex w-full items-center justify-between border-b border-gray-200 bg-white px-6 py-2.5 shadow-sm md:px-14'
       }>
       <CreateDropdown />
-      <UserDropdown />
+      <UserDropdown suspense={{ lines: 5 }} />
       <SocialSignIn suspense={{ lines: 5 }} />
     </div>
   );

@@ -23,9 +23,9 @@ export const App = ({
       marshal={marshal}
       read={read}
       subscribe={subscribe}>
-      <Translation defaultLocale={defaultLocale} locales={locales}>
+      <Translation defaultLocale={defaultLocale} locales={locales} suspense={{ lines: 10 }}>
         <Router suspense={{ lines: 20 }} />
-        <Alert />
+        <Alert suspense={{ lines: 5 }} />
       </Translation>
     </Store>
   );
