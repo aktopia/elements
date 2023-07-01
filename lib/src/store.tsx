@@ -102,6 +102,13 @@ export function useDispatch(id: string, options?: any): DispatchReturn {
   );
 }
 
+export function useState(id: string): [any, (value: any) => void] {
+  const value = useValue('generic/state', { id });
+  const dispatch = useDispatch('generic.state/set');
+  const setValue = useCallback((value: any) => dispatch({ id, value }), [dispatch, id]);
+  return [value, setValue];
+}
+
 export type StoreProps = {
   subscribe: Subscribe;
   read: Read;
