@@ -5,7 +5,6 @@ import {
   useCallback,
   useContext,
   useMemo,
-  useRef,
   useSyncExternalStore,
 } from 'react';
 
@@ -54,39 +53,22 @@ const placeholderContext: StoreContextType = {
 export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
 export function useValue<T>(id: string, params?: Record<string, any>): T {
-  const { read, subscribe, checkPending, equal, marshal } = useContext(StoreContext);
-  const suspenseResolveRef = useRef<Function | null>();
-  const valueRef = useRef<any>(read(id, params));
+  const { read, subscribe } = useContext(StoreContext);
   const paramsStringified = JSON.stringify(params);
 
   const _subscribe = useCallback(
-    (onStoreChange: () => void) => {
-      return subscribe(id, params || {}, () => {
-        const value = read(id, params);
-        const suspenseResolve = suspenseResolveRef.current;
-        if (!equal || (equal && !equal(valueRef.current, value))) {
-          valueRef.current = value;
-        }
-        if (suspenseResolve && !checkPending(value)) {
-          suspenseResolve(value);
-          suspenseResolveRef.current = null;
-        }
-        onStoreChange();
-      });
-    },
+    (onStoreChange: () => void) => subscribe(id, params || {}, onStoreChange),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [read, paramsStringified, id, checkPending, subscribe]
+    [paramsStringified, id, subscribe]
   );
 
-  const value = useSyncExternalStore(_subscribe, () => valueRef.current);
+  const _read = useCallback(
+    () => read(id, params || {}),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [paramsStringified, id, read]
+  );
 
-  if (checkPending(value)) {
-    throw new Promise((resolve) => {
-      suspenseResolveRef.current = resolve;
-    });
-  }
-
-  return marshal ? marshal(value) : value;
+  return useSyncExternalStore(_subscribe, _read);
 }
 
 interface DispatchOptions {
