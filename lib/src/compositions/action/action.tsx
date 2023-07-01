@@ -35,5 +35,5 @@ export const Action = wrapPage(() => {
 });
 
 export const routes = {
-  'action/view': <Action suspense={{ lines: 10 }} />,
+  'action/view': Action,
 };

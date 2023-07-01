@@ -6,5 +6,5 @@ export const SignInPage = wrapPage(() => {
   return <SocialSignIn suspense={{ lines: 3 }} />;
 });
 export const routes = {
-  'auth/sign-in': <SignInPage suspense={{ lines: 8 }} />,
+  'auth/sign-in': SignInPage,
 };

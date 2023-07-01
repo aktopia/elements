@@ -1,7 +1,7 @@
 import { Skeleton } from '@elements/components/skeleton';
 import { ComponentProps, ComponentType, memo, Suspense } from 'react';
 
-interface SuspensifyProps {
+export interface SuspensifyProps {
   suspense: {
     lines?: number;
     color?: 'grey' | 'primary';

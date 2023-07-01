@@ -19,5 +19,5 @@ export const Profile = wrapPage(() => {
 });
 
 export const routes = {
-  'profile/view': <Profile suspense={{ lines: 8 }} />,
+  'profile/view': Profile,
 };
