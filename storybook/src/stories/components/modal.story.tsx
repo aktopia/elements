@@ -1,4 +1,4 @@
-import { Modal as Component } from '@elements/components/modal';
+import { Modal as Component, ModalHeader } from '@elements/components/modal';
 import { lorem } from '@story/utils/string';
 import { action } from '@storybook/addon-actions';
 import { StoryObj } from '@storybook/react';
@@ -9,11 +9,14 @@ export default {
 };
 
 export const Modal: StoryObj<typeof Component> = {
-  args: { title: 'How are you?', visible: true, onClose: action('onClose') },
+  args: { visible: true, onClose: action('onClose') },
   render: (args) => {
     return (
       <Component {...args}>
-        <div className={'text-sm text-gray-500'}>{lorem.generateSentences(3)}</div>
+        <div className={'flex flex-col gap-2'}>
+          <ModalHeader title={'How are you?'} onClose={args.onClose} />
+          <div className={'text-sm text-gray-500'}>{lorem.generateSentences(3)}</div>
+        </div>
       </Component>
     );
   },

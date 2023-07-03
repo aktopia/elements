@@ -4,13 +4,38 @@ import { identity } from 'lodash';
 import React, { Fragment } from 'react';
 
 interface ModalProps {
-  title: string;
   children: React.ReactNode;
   onClose?: () => void;
   visible: boolean;
 }
 
-export const Modal = ({ title, children, onClose, visible }: ModalProps) => {
+const Close = ({ onClose }: any) => {
+  return onClose ? (
+    <div
+      className={
+        'cursor-pointer p-1 text-gray-500 transition-all ease-out hover:rounded-full hover:bg-gray-100 hover:text-gray-700'
+      }
+      onClick={onClose}>
+      <XMark className={'h-4 w-4'} />
+    </div>
+  ) : null;
+};
+
+const Title = ({ title }: any) => {
+  return title ? (
+    <Dialog.Title className={'text-lg font-medium leading-6 text-gray-900'}>{title}</Dialog.Title>
+  ) : null;
+};
+
+export const ModalHeader = ({ title, onClose }: any) => {
+  return (
+    <div className={'flex items-center justify-between'}>
+      <Title title={title} />
+      <Close onClose={onClose} />
+    </div>
+  );
+};
+export const Modal = ({ children, onClose, visible }: ModalProps) => {
   return (
     <Transition.Root appear afterLeave={console.log} as={Fragment} show={visible}>
       <Dialog className={'relative z-30'} open={visible} onClose={onClose || identity}>
@@ -36,23 +61,9 @@ export const Modal = ({ title, children, onClose, visible }: ModalProps) => {
             leaveTo={'opacity-0 scale-95'}>
             <Dialog.Panel
               className={
-                'mx-auto flex w-full max-w-md scale-100 transform flex-col gap-2 overflow-hidden rounded-2xl bg-white p-6 text-left align-middle opacity-100 shadow-xl ring-1 ring-black ring-opacity-5 transition-all'
+                'mx-auto flex w-full max-w-md scale-100 transform overflow-hidden rounded-2xl bg-white p-6 opacity-100 shadow-xl ring-1 ring-black ring-opacity-5 transition-all'
               }>
-              <div className={'flex items-center justify-between'}>
-                <Dialog.Title className={'text-lg font-medium leading-6 text-gray-900'}>
-                  {title}
-                </Dialog.Title>
-                {!!onClose && (
-                  <div
-                    className={
-                      'cursor-pointer p-1 text-gray-500 transition-all ease-out hover:rounded-full hover:bg-gray-100 hover:text-gray-700'
-                    }
-                    onClick={onClose}>
-                    <XMark className={'h-4 w-4'} />
-                  </div>
-                )}
-              </div>
-              <>{children}</>
+              {children}
             </Dialog.Panel>
           </Transition.Child>
         </div>
