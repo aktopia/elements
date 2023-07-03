@@ -1,6 +1,7 @@
 import { TextEditor as Component } from '@elements/compositions/text-editor';
 import { mockStory } from '@story/utils/mock-story';
 import { lorem } from '@story/utils/string';
+import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Compositions/TextEditor',
@@ -11,7 +12,9 @@ const store = {
   read: {
     'current.user/id': '',
     'text-editor/editing': true,
-    'text-editor/can-edit': true,
+    'text-editor.menu/items': [
+      { id: '1', label: 'common/edit', onClick: action('text-editor/edit') },
+    ],
   },
   dispatch: [
     'text-editor.content/update',

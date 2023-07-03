@@ -12,6 +12,12 @@ interface TextEditorProps {
   className: string;
 }
 
+interface MenuItem {
+  id: string;
+  label: string;
+  onClick: () => void;
+}
+
 export const TextEditor = suspensify(
   ({ refId, refAttribute, content, className }: TextEditorProps) => {
     const t = useTranslation();
@@ -19,21 +25,12 @@ export const TextEditor = suspensify(
       () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
       [refAttribute, refId]
     );
-    const userId = useValue<string>('current.user/id');
-    const canEdit = useValue<boolean>('text-editor/can-edit', {
-      ...reference,
-      'user/id': userId,
-    });
+    const menuItems = useValue<MenuItem[]>('text-editor.menu/items', reference);
     const isEditing = useValue<boolean>('text-editor/editing', reference) || false;
 
-    const edit = useDispatch('text-editor/edit');
     const editDone = useDispatch('text-editor.edit/done');
     const editCancel = useDispatch('text-editor.edit/cancel');
     const updateContent = useDispatch('text-editor.text/update');
-
-    const onEdit = useCallback(() => {
-      edit(reference);
-    }, [edit, reference]);
 
     const onChange = useCallback(
       (value: string) => {
@@ -50,13 +47,10 @@ export const TextEditor = suspensify(
       editDone(reference);
     }, [reference, editDone]);
 
-    const menuItems: any = useMemo(
-      () => [canEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
-      [onEdit, canEdit, t]
-    );
+    const items = menuItems.map((item) => ({ ...item, label: t(item.label) }));
 
     return (
-      <WithContextMenu disable={isEditing} items={menuItems}>
+      <WithContextMenu disable={isEditing} items={items}>
         <TextAreaEditor
           cancelText={t('common/cancel')}
           className={className}
