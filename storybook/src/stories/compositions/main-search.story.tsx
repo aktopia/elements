@@ -27,7 +27,9 @@ const store = {
   dispatch: ['generic.state/set', 'main-search/close'],
 };
 
-const args = {};
+const args = {
+  suspense: { lines: 5 },
+};
 
 export const MainSearch = mockStory({
   store,

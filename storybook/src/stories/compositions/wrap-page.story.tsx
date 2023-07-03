@@ -21,9 +21,14 @@ const store = {
   dispatch: [],
 };
 
+const args = {
+  suspense: { lines: 5 },
+};
+
 export const WrapPage = mockStory({
   store,
-  render: () => {
-    return <Component />;
+  args,
+  render: (args) => {
+    return <Component {...args} />;
   },
 });

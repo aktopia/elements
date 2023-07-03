@@ -17,9 +17,13 @@ const store = {
   dispatch: ['navigate.profile/actions', 'navigate.create/action', 'auth.sign-in/initiate'],
 };
 
+const args = {
+  suspense: { lines: 5 },
+};
 export const Profile = mockStory({
   store,
-  render: () => {
-    return <Component />;
+  args,
+  render: (args) => {
+    return <Component {...args} />;
   },
 });
