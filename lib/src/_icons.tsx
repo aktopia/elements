@@ -89,10 +89,12 @@ export {
   CheckCircleIcon as CheckCircleSolid,
   UserCircleIcon as UserCircleSolid,
   MagnifyingGlassIcon as MagnifyingGlassSolid,
+  CheckIcon as CheckSolid,
 } from '@heroicons/react/24/solid';
 
 export {
   BoltIcon as BoltOutline,
+  ExclamationTriangleIcon as ExclamationTriangleOutline,
   ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisOutline,
 } from '@heroicons/react/24/outline';
 

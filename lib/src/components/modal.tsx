@@ -9,6 +9,8 @@ interface ModalProps {
   visible: boolean;
 }
 
+export const ModalTitle = Dialog.Title;
+
 const Close = ({ onClose }: any) => {
   return onClose ? (
     <div
@@ -23,7 +25,7 @@ const Close = ({ onClose }: any) => {
 
 const Title = ({ title }: any) => {
   return title ? (
-    <Dialog.Title className={'text-lg font-medium leading-6 text-gray-900'}>{title}</Dialog.Title>
+    <ModalTitle className={'text-lg font-medium leading-6 text-gray-900'}>{title}</ModalTitle>
   ) : null;
 };
 
