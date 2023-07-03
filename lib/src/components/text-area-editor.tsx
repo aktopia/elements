@@ -38,7 +38,7 @@ export const TextAreaEditor = ({
       {editable && (
         <div className={'flex items-start justify-end gap-3'}>
           <Button kind={'tertiary'} size={'xs'} value={cancelText} onClick={onCancel} />
-          <Button color={'green'} kind={'primary'} size={'xs'} value={doneText} onClick={onDone} />
+          <Button kind={'success'} size={'xs'} value={doneText} onClick={onDone} />
         </div>
       )}
     </div>

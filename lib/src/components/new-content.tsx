@@ -46,13 +46,7 @@ export const NewContent = ({
           {onCancel && cancelText && (
             <Button kind={'tertiary'} size={'xs'} value={cancelText} onClick={onCancel} />
           )}
-          <Button
-            color={'green'}
-            kind={'primary'}
-            size={'xs'}
-            value={postText}
-            onClick={onPostClick}
-          />
+          <Button kind={'success'} size={'xs'} value={postText} onClick={onPostClick} />
         </div>
       </div>
     </div>

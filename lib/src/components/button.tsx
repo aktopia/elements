@@ -8,6 +8,8 @@ const variant = cva('relative flex items-center justify-center w-max rounded-md'
       primary: 'bg-blue-600 text-white shadow-md',
       secondary: 'bg-white text-blue-700 border border-blue-500 shadow',
       tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
+      success: 'bg-green-600 text-white shadow-md',
+      danger: 'bg-red-600 text-white shadow-md',
     },
     size: {
       xxs: 'text-xs gap-1.5 px-1.5 h-[28px] font-normal shadow-sm',
@@ -21,7 +23,6 @@ const variant = cva('relative flex items-center justify-center w-max rounded-md'
     },
     clicked: { true: '' },
     hasIcon: { true: '' },
-    color: { green: '', blue: '' },
   },
   defaultVariants: {
     kind: 'primary',
@@ -35,16 +36,6 @@ const variant = cva('relative flex items-center justify-center w-max rounded-md'
       clicked: true,
       class: 'bg-gray-50 translate-y-[0.5px] shadow-none',
     },
-    {
-      kind: 'primary',
-      color: 'green',
-      class: 'bg-green-600',
-    },
-    {
-      kind: 'secondary',
-      color: 'green',
-      class: 'text-green-600 border-green-500',
-    },
   ],
 });
 
@@ -54,6 +45,8 @@ const iconVariant = cva('', {
       primary: 'text-white',
       secondary: 'text-blue-600',
       tertiary: 'text-gray-500',
+      success: 'text-white',
+      danger: 'text-white',
     },
     size: {
       xxs: 'h-4 w-4',
@@ -70,6 +63,8 @@ const countVariant = cva('font-medium', {
       primary: 'text-white',
       secondary: 'text-blue-600',
       tertiary: 'text-gray-400',
+      success: 'text-white',
+      danger: 'text-white',
     },
     size: {
       xxs: 'text-xs',
@@ -82,7 +77,7 @@ const countVariant = cva('font-medium', {
 
 type Size = 'xxs' | 'xs' | 'sm' | 'md';
 
-type Kind = 'primary' | 'secondary' | 'tertiary';
+type Kind = 'primary' | 'secondary' | 'tertiary' | 'success' | 'danger';
 
 export interface ButtonProps {
   size: Size;
@@ -93,7 +88,6 @@ export interface ButtonProps {
   type?: 'button' | 'submit';
   kind: Kind;
   disabled?: boolean;
-  color?: 'green' | 'blue';
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -105,7 +99,6 @@ export const Button = memo(
     Icon,
     size,
     kind,
-    color,
     disabled,
     clicked,
     onClick,
@@ -124,7 +117,6 @@ export const Button = memo(
         className={variant({
           size,
           kind,
-          color,
           disabled: !!disabled,
           hasIcon: !!Icon,
           clicked: !!clicked,
