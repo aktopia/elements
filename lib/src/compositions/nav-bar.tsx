@@ -6,6 +6,8 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useMemo } from 'react';
 
+const aktopia = 'Aktopia';
+
 const CreateButton = () => {
   const t = useTranslation();
   return (
@@ -81,15 +83,29 @@ const UserDropdown = suspensify(() => {
   );
 });
 
-export const NavBar = () => {
+const Logo = () => {
   return (
     <div
       className={
-        'flex w-full items-center justify-between border-b border-gray-200 bg-white px-6 py-2.5 shadow-sm md:px-14'
+        'font-logo flex items-center self-stretch bg-gradient-to-br from-blue-800 to-blue-600 px-3 text-xl text-white'
       }>
-      <CreateDropdown />
-      <UserDropdown suspense={{ lines: 5 }} />
-      <SocialSignIn suspense={{ lines: 5 }} />
+      <a href={'/home'}>{aktopia}</a>
+    </div>
+  );
+};
+
+export const NavBar = () => {
+  return (
+    <div className={'flex h-full'}>
+      <Logo />
+      <div
+        className={
+          'flex w-full items-center justify-between border-b border-gray-200 bg-white py-2.5 pl-2 pr-6 shadow-sm md:pr-14 md:pl-7'
+        }>
+        <CreateDropdown />
+        <UserDropdown suspense={{ lines: 5 }} />
+        <SocialSignIn suspense={{ lines: 5 }} />
+      </div>
     </div>
   );
 };

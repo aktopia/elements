@@ -90,6 +90,7 @@ export {
   UserCircleIcon as UserCircleSolid,
   MagnifyingGlassIcon as MagnifyingGlassSolid,
   CheckIcon as CheckSolid,
+  PlusIcon as PlusSolid,
 } from '@heroicons/react/24/solid';
 
 export {
