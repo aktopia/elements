@@ -58,7 +58,7 @@ export const SignIn = () => {
   );
 
   return (
-    <Modal title={t('auth/sign-in')} visible={visible} onClose={onClose}>
+    <Modal visible={visible} onClose={onClose}>
       <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
         <NamedSwitch
           activeSwitchId={activeSwitchId}

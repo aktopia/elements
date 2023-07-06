@@ -28,8 +28,28 @@ const IconBadge = ({ kind }: { kind: any }) => {
   return component;
 };
 
+interface ConfirmationModalProps {
+  titleText: string;
+  bodyText: string;
+  visible: boolean;
+  onClose: () => void;
+  confirmText: string;
+  onConfirm: () => void;
+  kind: 'success' | 'danger';
+  cancelText?: string;
+}
+
 export const ConfirmationModal = memo(
-  ({ titleText, bodyText, visible, onClose, confirmText, onConfirm, kind, cancelText }: any) => {
+  ({
+    titleText,
+    bodyText,
+    visible,
+    onClose,
+    confirmText,
+    onConfirm,
+    kind,
+    cancelText,
+  }: ConfirmationModalProps) => {
     return (
       <Modal visible={visible} onClose={onClose}>
         <div className={'flex w-full flex-col items-center justify-center gap-6'}>
@@ -45,7 +65,9 @@ export const ConfirmationModal = memo(
             </div>
           </div>
           <div className={'flex gap-6'}>
-            <Button kind={'tertiary'} size={'sm'} value={cancelText} onClick={onClose} />
+            {cancelText ? (
+              <Button kind={'tertiary'} size={'sm'} value={cancelText} onClick={onClose} />
+            ) : null}
             <Button kind={kind} size={'sm'} value={confirmText} onClick={onConfirm} />
           </div>
         </div>

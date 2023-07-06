@@ -26,8 +26,7 @@ export function getPosition(e: any) {
   return pos;
 }
 
-const ContextMenuItem = ({ item }: any) => {
-  const { id, label, onClick } = item;
+export const ContextMenuItem = ({ id, label, onClick }: Item) => {
   return (
     <div key={id} className={'my-1 cursor-pointer'} onClick={onClick}>
       <p className={'py-2 px-3 text-xs font-medium text-gray-700 hover:bg-gray-100'}>{label}</p>
@@ -35,14 +34,8 @@ const ContextMenuItem = ({ item }: any) => {
   );
 };
 
-const ContextMenu = ({ onItemClick, items }: any) => {
-  return (
-    <div className={'rounded-md border bg-white shadow-md'}>
-      {items.map((item: any) => (
-        <ContextMenuItem key={item.id} item={item} onItemClick={onItemClick} />
-      ))}
-    </div>
-  );
+const ContextMenu = ({ items }: any) => {
+  return <div className={'rounded-md border bg-white shadow-md'}>{...items}</div>;
 };
 
 export const _WithContextMenu = ({ items, children }: Omit<WithContextMenuProps, 'disable'>) => {

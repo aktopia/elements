@@ -19,6 +19,7 @@ export default {
   'common/update': 'Update',
   'common/updates': 'Updates',
   'common/you': 'You',
+  'common/delete': 'Delete',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',
@@ -36,4 +37,6 @@ export default {
   'comment/placeholder': 'What do you think?',
   'main-search/placeholder': 'Search',
   'common.phrase/empty-results': 'No results found.',
+  'update.delete.modal/title': 'Delete update',
+  'update.delete.modal/body': 'Are you sure you want to delete the update? This cannot be undone.',
 };

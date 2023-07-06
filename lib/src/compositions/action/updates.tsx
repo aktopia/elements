@@ -1,6 +1,8 @@
 import { UserCircleSolid } from '@elements/_icons';
+import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
+import { ContextMenuItem } from '@elements/components/with-context-menu';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -15,9 +17,49 @@ const User = ({ name }: { name: string }) => {
   );
 };
 
+const DeleteConfirmationModal = suspensify(({ id }: { id: string }) => {
+  const t = useTranslation();
+  const visible = useValue<boolean>('update.delete.modal/visible', { 'update/id': id });
+
+  const closeModal = useDispatch('update.delete.modal/close');
+  const deleteUpdate = useDispatch('update/delete');
+
+  const onClose = useCallback(() => closeModal({ 'update/id': id }), [closeModal, id]);
+  const onDelete = useCallback(() => deleteUpdate({ 'update/id': id }), [deleteUpdate, id]);
+
+  return (
+    <ConfirmationModal
+      bodyText={t('update.delete.modal/body')}
+      cancelText={t('common/cancel')}
+      confirmText={t('common/delete')}
+      kind={'danger'}
+      titleText={t('update.delete.modal/title')}
+      visible={visible}
+      onClose={onClose}
+      onConfirm={onDelete}
+    />
+  );
+});
+
 const Update = suspensify(({ id }: { id: string }) => {
+  const t = useTranslation();
+
   const creatorName = useValue<string>('update/creator-name', { 'update/id': id });
   const text = useValue<string>('update/text', { 'update/id': id });
+
+  const onDeleteMenuItemClick = useDispatch('update.delete.modal/show', { emptyParams: true });
+
+  const menuItems = useMemo(
+    () => [
+      <ContextMenuItem
+        key={id}
+        id={'delete'}
+        label={t('common/delete')}
+        onClick={onDeleteMenuItemClick}
+      />,
+    ],
+    [id, onDeleteMenuItemClick, t]
+  );
 
   return (
     <div
@@ -31,10 +73,12 @@ const Update = suspensify(({ id }: { id: string }) => {
       <TextEditor
         className={'text-gray-700'}
         content={text}
+        moreMenuItems={menuItems}
         refAttribute={'update/text'}
         refId={id}
         suspense={{ lines: 4 }}
       />
+      <DeleteConfirmationModal id={id} suspense={{ lines: 3 }} />
     </div>
   );
 });

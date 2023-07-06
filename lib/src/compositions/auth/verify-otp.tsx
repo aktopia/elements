@@ -76,7 +76,7 @@ export const VerifyOtp = () => {
   }
 
   return (
-    <Modal title={t('auth/enter-otp')} visible={visible} onClose={onClose}>
+    <Modal visible={visible} onClose={onClose}>
       <div className={'flex w-[280px] flex-col items-center justify-center gap-5'}>
         {verifyingOtp ? (
           <Spinner kind={'primary'} size={'sm'} visible={true} />
