@@ -187,7 +187,7 @@ export const ActionTabs = suspensify(() => {
       { id: 'home', label: t('common/home') },
       // { id: 'funding', label: t('common/funding') },
       { id: 'updates', label: t('common/updates') },
-      { id: 'discussion', label: t('common/discussion') },
+      { id: 'discuss', label: t('common/discuss') },
       // { id: 'team', label: t('common/team') },
     ],
     [t]

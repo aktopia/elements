@@ -111,7 +111,7 @@ const store = {
       { id: 'work', label: 'Work' },
       { id: 'funding', label: 'Funding' },
     ],
-    'action.tabs/active-tab-id': 'discussion',
+    'action.tabs/active-tab-id': 'discuss',
     'action/outcome': () => lorem.generateSentences(7),
     'action/description': () => lorem.generateSentences(8),
     'action.relation/ids': ['1', '2', '3'],

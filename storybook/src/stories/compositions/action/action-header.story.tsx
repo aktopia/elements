@@ -28,7 +28,7 @@ const store = {
       { id: 'home', label: 'Home' },
       { id: 'funding', label: 'Funding' },
       { id: 'updates', label: 'Updates' },
-      { id: 'discussion', label: 'Discussion' },
+      { id: 'discuss', label: 'Discuss' },
       { id: 'team', label: 'Team' },
     ],
     'action.tabs/active-tab-id': 'home',

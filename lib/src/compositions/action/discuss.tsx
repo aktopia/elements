@@ -5,7 +5,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 
-export const Discussion = suspensify(() => {
+export const Discuss = suspensify(() => {
   const t = useTranslation();
 
   const userId = useValue<string>('current.user/id');

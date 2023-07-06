@@ -14,7 +14,7 @@ export default {
   'common/expected-outcome': 'Expected Outcome',
   'common/home': 'Home',
   'common/post': 'Post',
-  'common/discussion': 'Discussion',
+  'common/discuss': 'Discuss',
   'common/reply': 'Reply',
   'common/update': 'Update',
   'common/updates': 'Updates',

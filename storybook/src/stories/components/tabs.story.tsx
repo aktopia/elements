@@ -15,7 +15,7 @@ export const Tabs: Story = {
       { id: 'home', label: 'Home' },
       { id: 'updates', label: 'Updates' },
       { id: 'funding', label: 'Funding' },
-      { id: 'discussion', label: 'Discussion' },
+      { id: 'discuss', label: 'Discuss' },
       { id: 'team', label: 'Team' },
     ],
     activeTabId: 'updates',

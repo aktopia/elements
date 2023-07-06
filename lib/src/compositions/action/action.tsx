@@ -1,11 +1,11 @@
-import { Discussion } from '@elements/compositions/action/discussion';
+import { Discuss } from '@elements/compositions/action/discuss';
 import { Header } from '@elements/compositions/action/header';
 import { Home } from '@elements/compositions/action/home';
 import { Updates } from '@elements/compositions/action/updates';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 
-type TabId = 'home' | 'discussion' | 'updates';
+type TabId = 'home' | 'discuss' | 'updates';
 
 export const Action = wrapPage(() => {
   const activeTabId = useValue<TabId>('action.tabs/active-tab-id');
@@ -19,8 +19,8 @@ export const Action = wrapPage(() => {
     case 'updates':
       tab = <Updates refAttribute={'action/id'} refId={actionId} suspense={{ lines: 12 }} />;
       break;
-    case 'discussion':
-      tab = <Discussion suspense={{ lines: 12 }} />;
+    case 'discuss':
+      tab = <Discuss suspense={{ lines: 12 }} />;
       break;
     default:
       tab = <Home suspense={{ lines: 12 }} />;
