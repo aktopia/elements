@@ -37,6 +37,9 @@ export default {
   'comment/placeholder': 'What do you think?',
   'main-search/placeholder': 'Search',
   'common.phrase/empty-results': 'No results found.',
-  'update.delete.modal/title': 'Delete update',
-  'update.delete.modal/body': 'Are you sure you want to delete the update? This cannot be undone.',
+  'update.delete.modal/title': 'Delete Update',
+  'update.delete.modal/body': 'Are you sure you want to delete the Update? This cannot be undone.',
+  'comment.delete.modal/title': 'Delete Comment',
+  'comment.delete.modal/body':
+    'Are you sure you want to delete the Comment? This cannot be undone.',
 };
