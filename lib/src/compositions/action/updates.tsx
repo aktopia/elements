@@ -17,14 +17,16 @@ const User = ({ name }: { name: string }) => {
   );
 };
 
-const DeleteConfirmationModal = suspensify(({ id }: { id: string }) => {
+const DeleteConfirmationModal = suspensify(() => {
   const t = useTranslation();
-  const visible = useValue<boolean>('update.delete.modal/visible', { 'update/id': id });
+  const { id, inProgress } = useValue<{ id: string; inProgress: boolean }>(
+    'update.deletion/in-progress'
+  );
 
-  const closeModal = useDispatch('update.delete.modal/close');
+  const cancelDeletion = useDispatch('update.deletion/cancel');
   const deleteUpdate = useDispatch('update/delete');
 
-  const onClose = useCallback(() => closeModal({ 'update/id': id }), [closeModal, id]);
+  const onClose = useCallback(() => cancelDeletion({ 'update/id': id }), [cancelDeletion, id]);
   const onDelete = useCallback(() => deleteUpdate({ 'update/id': id }), [deleteUpdate, id]);
 
   return (
@@ -34,7 +36,7 @@ const DeleteConfirmationModal = suspensify(({ id }: { id: string }) => {
       confirmText={t('common/delete')}
       kind={'danger'}
       titleText={t('update.delete.modal/title')}
-      visible={visible}
+      visible={inProgress}
       onClose={onClose}
       onConfirm={onDelete}
     />
@@ -47,18 +49,15 @@ const Update = suspensify(({ id }: { id: string }) => {
   const creatorName = useValue<string>('update/creator-name', { 'update/id': id });
   const text = useValue<string>('update/text', { 'update/id': id });
 
-  const onDeleteMenuItemClick = useDispatch('update.delete.modal/show', { emptyParams: true });
+  const startDeletion = useDispatch('update.deletion/start');
+
+  const onDeleteClick = useCallback(() => startDeletion({ 'update/id': id }), [id, startDeletion]);
 
   const menuItems = useMemo(
     () => [
-      <ContextMenuItem
-        key={id}
-        id={'delete'}
-        label={t('common/delete')}
-        onClick={onDeleteMenuItemClick}
-      />,
+      <ContextMenuItem key={id} id={'delete'} label={t('common/delete')} onClick={onDeleteClick} />,
     ],
-    [id, onDeleteMenuItemClick, t]
+    [id, onDeleteClick, t]
   );
 
   return (
@@ -78,7 +77,6 @@ const Update = suspensify(({ id }: { id: string }) => {
         refId={id}
         suspense={{ lines: 4 }}
       />
-      <DeleteConfirmationModal id={id} suspense={{ lines: 3 }} />
     </div>
   );
 });
@@ -129,6 +127,7 @@ export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
           </div>
         ))}
       </div>
+      <DeleteConfirmationModal suspense={{ lines: 3 }} />
     </div>
   );
 });
