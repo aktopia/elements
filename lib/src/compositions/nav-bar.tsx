@@ -1,7 +1,8 @@
-import { ChevronDownMiniSolid, UserCircleSolid } from '@elements/_icons';
+import { ChevronDownMiniSolid, MagnifyingGlassOutline, UserCircleSolid } from '@elements/_icons';
 import { Dropdown } from '@elements/components/dropdown';
 import { suspensify } from '@elements/components/suspensify';
 import { SocialSignIn } from '@elements/compositions/auth/social-sign-in';
+import { MainSearch } from '@elements/compositions/main-search';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useMemo } from 'react';
@@ -94,18 +95,38 @@ const Logo = () => {
   );
 };
 
+const SearchBar = () => {
+  const t = useTranslation();
+  const onSearchClick = useDispatch('main-search/open', { emptyParams: true });
+
+  return (
+    <div
+      className={
+        'flex cursor-pointer gap-3 rounded-md border border-gray-300 bg-gray-100 px-3 py-2'
+      }
+      onClick={onSearchClick}>
+      <MagnifyingGlassOutline className={'h-4 w-4 text-gray-500'} />
+      <div className={'text-xs text-gray-400'}>{t('main-search/placeholder')}</div>
+    </div>
+  );
+};
+
 export const NavBar = () => {
   return (
-    <div className={'flex h-full'}>
-      <Logo />
-      <div
-        className={
-          'flex w-full items-center justify-between border-b border-gray-200 bg-white py-2.5 pl-2 pr-6 shadow-sm md:pr-14 md:pl-7'
-        }>
-        <CreateDropdown />
-        <UserDropdown suspense={{ lines: 5 }} />
-        <SocialSignIn suspense={{ lines: 5 }} />
+    <>
+      <div className={'flex h-full'}>
+        <Logo />
+        <div
+          className={
+            'flex w-full items-center justify-between border-b border-gray-200 bg-white py-2.5 pl-2 pr-6 shadow-sm md:pl-10 md:pr-14'
+          }>
+          <CreateDropdown />
+          <SearchBar />
+          <UserDropdown suspense={{ lines: 5 }} />
+        </div>
       </div>
-    </div>
+      <SocialSignIn suspense={{ lines: 5 }} />
+      <MainSearch suspense={{ lines: 5 }} />
+    </>
   );
 };

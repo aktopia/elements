@@ -84,10 +84,10 @@ export function useDispatch(id: string, options?: any): DispatchReturn {
   );
 }
 
-export function useState(id: string): [any, (value: any) => void] {
-  const value = useValue('generic/state', { id });
-  const dispatch = useDispatch('generic.state/set');
-  const setValue = useCallback((value: any) => dispatch({ id, value }), [dispatch, id]);
+export function useState(valueId: string, dispatchId: string): [any, (value: any) => void] {
+  const value = useValue(valueId);
+  const dispatch = useDispatch(dispatchId);
+  const setValue = useCallback((value: any) => dispatch({ value }), [dispatch]);
   return [value, setValue];
 }
 

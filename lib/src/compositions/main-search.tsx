@@ -6,7 +6,7 @@ import { Combobox, Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useCallback } from 'react';
 
 interface ResultProps {
-  type: 'entity/action' | 'entity/issue';
+  type: 'entity.type/action' | 'entity.type/issue';
   text: string;
   id: string;
 }
@@ -20,8 +20,8 @@ const ResultType = ({ type }: { type: string }) => {
 };
 
 const typeTKey = {
-  'entity/action': 'common/action',
-  'entity/issue': 'common/issue',
+  'entity.type/action': 'common/action',
+  'entity.type/issue': 'common/issue',
 };
 const Result = ({ type, id, text }: ResultProps) => {
   const t = useTranslation();
@@ -42,13 +42,15 @@ const Result = ({ type, id, text }: ResultProps) => {
 
 export const MainSearch = suspensify(() => {
   const t = useTranslation();
+
   const visible = useValue<boolean>('main-search/visible');
+
   const results = useValue<any[]>('main-search/results');
 
   const close = useDispatch('main-search/close', { emptyParams: true });
   const onClose = useCallback(() => close(), [close]);
 
-  const [query, setQuery] = useState('main-search/query');
+  const [query, setQuery] = useState('main-search/query', 'main-search.query/set');
 
   const onQueryChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -58,7 +60,7 @@ export const MainSearch = suspensify(() => {
     setQuery('');
   }, []);
 
-  const noResults = query && query.trim() !== '' && results.length === 0;
+  const noResults = query && query.trim() !== '' && results?.length === 0;
 
   return (
     // eslint-disable-next-line react/jsx-handler-names
@@ -104,7 +106,7 @@ export const MainSearch = suspensify(() => {
                   />
                 </div>
 
-                {results.length > 0 && (
+                {results?.length > 0 && (
                   <Combobox.Options
                     className={'max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800'}>
                     {results.map((result) => (

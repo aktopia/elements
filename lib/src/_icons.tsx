@@ -98,6 +98,7 @@ export {
   ExclamationTriangleIcon as ExclamationTriangleOutline,
   ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisOutline,
   TrashIcon as TrashOutline,
+  MagnifyingGlassIcon as MagnifyingGlassOutline,
 } from '@heroicons/react/24/outline';
 
 /*
