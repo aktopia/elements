@@ -2,6 +2,7 @@ import {
   ChatBubbleLeftEllipsisOutline,
   ChevronDownMiniSolid,
   ChevronUpMiniSolid,
+  TrashOutline,
   UserCircleSolid,
 } from '@elements/_icons';
 import { Button } from '@elements/components/button';
@@ -20,6 +21,17 @@ export const User = ({ name }: { name: string }) => {
     <div className={'flex items-center gap-3'}>
       <UserCircleSolid className={'h-8 w-8 object-cover text-gray-500'} />
       <p className={'text-sm font-medium text-gray-700'}>{name}</p>
+    </div>
+  );
+};
+
+const DeletedComment = () => {
+  const t = useTranslation();
+
+  return (
+    <div className={'flex gap-2'}>
+      <TrashOutline className={'h-4 w-4 text-gray-500'} />
+      <p className={'text-sm font-medium text-gray-500'}>{t('comment/deleted')}</p>
     </div>
   );
 };
@@ -50,16 +62,30 @@ const DeleteConfirmationModal = suspensify(() => {
   );
 });
 
+const ExpandCollapseButton = ({
+  expanded,
+  onClick,
+}: {
+  expanded: boolean;
+  onClick: () => void;
+}) => {
+  return expanded ? (
+    <ChevronUpMiniSolid className={'h-4 w-4 cursor-pointer text-gray-700'} onClick={onClick} />
+  ) : (
+    <ChevronDownMiniSolid className={'h-4 w-4 cursor-pointer text-gray-700'} onClick={onClick} />
+  );
+};
+
 export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
-  const reference = useMemo(() => ({ 'ref/id': id, 'ref/attribute': 'comment/id' }), [id]);
+  const reference = useMemo(() => ({ 'ref/id': id, 'ref/attribute': 'entity.type/comment' }), [id]);
 
   const currentUserId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
   const creatorName = useValue<string>('comment/creator-name', { 'comment/id': id });
   const status = useValue<string>('comment/status', { 'comment/id': id });
   const text = useValue<string>('comment/text', { 'comment/id': id });
-  const responseIds = useValue<string[]>('comments/ids-by-reference', reference);
+  const responseIds = useValue<string[]>('comment/ids-by-reference', reference);
   const deleted = status === 'deleted';
 
   const updateNewComment = useDispatch('new.comment/update');
@@ -101,24 +127,15 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   const showResponses = expanded && responseIds && !isEmpty(responseIds);
 
   return (
-    <div className={'flex flex-col gap-4 rounded-lg border-b border-l border-gray-300 p-4'}>
+    <div
+      className={'flex flex-col gap-4 rounded-lg border-b border-l border-gray-300 bg-white p-4'}>
       {deleted ? (
-        <div>{'deleted'}</div>
+        <DeletedComment />
       ) : (
         <div className={'flex flex-col gap-3'}>
           <div className={'flex items-center justify-between'}>
             <User name={creatorName} />
-            {expanded ? (
-              <ChevronUpMiniSolid
-                className={'h-4 w-4 cursor-pointer text-gray-700'}
-                onClick={onExpandCollapse}
-              />
-            ) : (
-              <ChevronDownMiniSolid
-                className={'h-4 w-4 cursor-pointer text-gray-700'}
-                onClick={onExpandCollapse}
-              />
-            )}
+            <ExpandCollapseButton expanded={expanded} onClick={onExpandCollapse} />
           </div>
           {expanded && (
             <>
@@ -160,12 +177,12 @@ export const Comment = suspensify(({ id }: { id: string }) => {
 
 export const Comments = suspensify(({ ids }: { ids: string[] }) => {
   return (
-    <>
+    <div className={'flex flex-col gap-7'}>
       {ids.map((id) => {
         return <Comment key={id} id={id} suspense={{ lines: 2 }} />;
       })}
       <DeleteConfirmationModal suspense={{ lines: 2 }} />
-    </>
+    </div>
   );
 });
 /*

@@ -7,7 +7,7 @@ export default {
   component: Component,
 };
 
-export const Modal: StoryObj<typeof Component> = {
+export const ConfirmationModal: StoryObj<typeof Component> = {
   args: {
     visible: true,
     onClose: action('onClose'),

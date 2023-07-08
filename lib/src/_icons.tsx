@@ -97,6 +97,7 @@ export {
   BoltIcon as BoltOutline,
   ExclamationTriangleIcon as ExclamationTriangleOutline,
   ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisOutline,
+  TrashIcon as TrashOutline,
 } from '@heroicons/react/24/outline';
 
 /*
