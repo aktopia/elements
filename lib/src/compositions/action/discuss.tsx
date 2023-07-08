@@ -12,10 +12,10 @@ export const Discuss = suspensify(() => {
   const currentUserName = useValue<string>('user/name', { 'user/id': userId });
   const actionId = useValue<string>('current.action/id');
   const reference = useMemo(
-    () => ({ 'ref/id': actionId, 'ref/attribute': 'action/id' }),
+    () => ({ 'ref/id': actionId, 'ref/attribute': 'entity.type/action' }),
     [actionId]
   );
-  const commentIds = useValue<string[]>('comments/ids-by-reference', reference);
+  const commentIds = useValue<string[]>('comment/ids-by-reference', reference);
 
   const updateNewComment = useDispatch('new.comment/update');
   const postNewComment = useDispatch('new.comment/post');
