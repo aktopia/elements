@@ -42,5 +42,5 @@ export default {
   'comment.delete.modal/title': 'Delete Comment',
   'comment.delete.modal/body':
     'Are you sure you want to delete the Comment? This cannot be undone.',
-  'comment/deleted': 'Comment deleted.',
+  'comment/deleted': 'Comment was deleted.',
 };

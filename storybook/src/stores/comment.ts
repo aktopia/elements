@@ -43,7 +43,7 @@ export const store = {
       }
     },
     'comment/text': lorem.generateSentences(4),
-    'comment/status': null,
+    'comment/status': 'deleted',
     'comment/ids-by-reference': commentsByParentId,
     'current.user/id': '1',
     'user/name': 'Sunil KS',

@@ -29,9 +29,9 @@ const DeletedComment = () => {
   const t = useTranslation();
 
   return (
-    <div className={'flex gap-2'}>
+    <div className={'flex items-center gap-3'}>
       <TrashOutline className={'h-4 w-4 text-gray-500'} />
-      <p className={'text-sm font-medium text-gray-500'}>{t('comment/deleted')}</p>
+      <p className={'text-sm text-gray-500'}>{t('comment/deleted')}</p>
     </div>
   );
 };
