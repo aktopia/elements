@@ -19,7 +19,7 @@ const User = ({ name }: { name: string }) => {
 
 const DeleteConfirmationModal = suspensify(() => {
   const t = useTranslation();
-  const { id, inProgress } = useValue<{ id: string; inProgress: boolean }>(
+  const { id, 'in-progress': inProgress } = useValue<{ id: string; 'in-progress': boolean }>(
     'update.deletion/in-progress'
   );
 

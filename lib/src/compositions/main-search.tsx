@@ -5,10 +5,14 @@ import { useTranslation } from '@elements/translation';
 import { Combobox, Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useCallback } from 'react';
 
-interface ResultProps {
-  type: 'entity.type/action' | 'entity.type/issue';
-  text: string;
-  id: string;
+type EntityType = 'entity.type/action' | 'entity.type/issue';
+
+interface SearchResult {
+  'entity/type': EntityType;
+  'match/snippet': string;
+  'match/id': string;
+  'match/score': string;
+  'entity/id': string;
 }
 
 const ResultType = ({ type }: { type: string }) => {
@@ -23,19 +27,34 @@ const typeTKey = {
   'entity.type/action': 'common/action',
   'entity.type/issue': 'common/issue',
 };
-const Result = ({ type, id, text }: ResultProps) => {
+
+const nameMap = {
+  'entity.type/action': 'action',
+  'entity.type/issue': 'issue',
+};
+
+function makeLink(type: EntityType, entityId: string) {
+  return `/${nameMap[type]}/${entityId}`;
+}
+
+const Result = ({
+  'entity/type': type,
+  'match/id': id,
+  'entity/id': entityId,
+  'match/snippet': snippet,
+}: SearchResult) => {
   const t = useTranslation();
   return (
     <Combobox.Option
       className={'ui-active:bg-gray-100 cursor-default select-none px-4 py-2'}
       value={id}>
-      <div className={'flex items-center justify-between'}>
+      <a className={'flex items-center justify-between'} href={makeLink(type, entityId)}>
         <div
-          dangerouslySetInnerHTML={{ __html: text }}
+          dangerouslySetInnerHTML={{ __html: snippet }}
           className={'text-sm text-gray-700 [&_mark]:rounded [&_mark]:bg-blue-100 [&_mark]:p-1'}
         />
         <ResultType type={t(typeTKey[type])} />
-      </div>
+      </a>
     </Combobox.Option>
   );
 };
@@ -97,6 +116,7 @@ export const MainSearch = suspensify(() => {
                     className={'pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400'}
                   />
                   <Combobox.Input
+                    autoComplete={'off'}
                     className={
                       'h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm'
                     }

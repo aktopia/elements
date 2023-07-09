@@ -2,7 +2,7 @@ import { lorem } from '@story/utils/string';
 import { memoize } from 'lodash';
 
 const inProgress = {
-  inProgress: false,
+  'in-progress': false,
   id: null,
 };
 
@@ -43,7 +43,7 @@ export const store = {
       }
     },
     'comment/text': lorem.generateSentences(4),
-    'comment/status': 'deleted',
+    'comment/status': null, // or 'deleted'
     'comment/ids-by-reference': commentsByParentId,
     'current.user/id': '1',
     'user/name': 'Sunil KS',

@@ -102,7 +102,7 @@ const SearchBar = () => {
   return (
     <div
       className={
-        'flex cursor-pointer gap-3 rounded-md border border-gray-300 bg-gray-100 px-3 py-2'
+        'flex cursor-pointer gap-5 rounded-xl border border-gray-300 bg-gray-100 py-2 pl-5 pr-7'
       }
       onClick={onSearchClick}>
       <MagnifyingGlassOutline className={'h-4 w-4 text-gray-500'} />
