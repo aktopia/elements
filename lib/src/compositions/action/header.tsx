@@ -7,7 +7,7 @@ import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
 import { TitleEditor } from '@elements/components/title-editor';
-import { WithContextMenu } from '@elements/components/with-context-menu';
+import { ContextMenuItem, WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { memo, useCallback, useMemo } from 'react';
@@ -69,8 +69,12 @@ const Title = suspensify(() => {
   const updateTitle = useDispatch('current.action.title/update');
   const onChange = useCallback((value: string) => updateTitle({ value }), [updateTitle]);
   const showEdit = useValue<boolean>('current.action.title/can-edit');
+
   const menuItems: any = useMemo(
-    () => [showEdit && { id: 'edit', label: t('common/edit'), onClick: onEdit }].filter(Boolean),
+    () =>
+      [
+        showEdit && <ContextMenuItem id={'edit'} label={t('common/edit')} onClick={onEdit} />,
+      ].filter(Boolean),
     [onEdit, showEdit, t]
   );
 
