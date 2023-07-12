@@ -10,6 +10,10 @@ const variant = cva('animate-spin', {
       primary: 'text-blue-500',
       secondary: 'text-gray-400',
     },
+    defaultVariants: {
+      kind: 'primary',
+      size: 'sm',
+    },
   },
 });
 
