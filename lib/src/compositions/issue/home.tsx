@@ -7,26 +7,26 @@ import { useTranslation } from '@elements/translation';
 import { memo, useMemo } from 'react';
 
 const Description = suspensify(() => {
-  const actionId = useValue<string>('current.action/id');
-  const description = useValue<string>('action/description', { 'action/id': actionId });
+  const issueId = useValue<string>('current.issue/id');
+  const description = useValue<string>('issue/description', { 'issue/id': issueId });
 
   return (
     <TextEditor
       className={'text-gray-700'}
       content={description}
-      refAttribute={'action.description/text'}
-      refId={actionId}
+      refAttribute={'issue.description/text'}
+      refId={issueId}
       suspense={{ lines: 3 }}
     />
   );
 });
 
-const OutcomeText = suspensify(() => {
-  const actionId = useValue<string>('current.action/id');
-  const outcome = useValue<string>('action/outcome', { 'action/id': actionId });
+const ResolutionText = suspensify(() => {
+  const issueId = useValue<string>('current.issue/id');
+  const resolution = useValue<string>('issue/resolution', { 'issue/id': issueId });
   const reference = useMemo(
-    () => ({ 'ref/id': actionId, 'ref/attribute': 'action.outcome/text' }),
-    [actionId]
+    () => ({ 'ref/id': issueId, 'ref/attribute': 'issue.resolution/text' }),
+    [issueId]
   );
 
   const isEditing = useValue<boolean>('text-editor/editing', reference) || false;
@@ -34,38 +34,38 @@ const OutcomeText = suspensify(() => {
   return (
     <TextEditor
       className={isEditing ? 'text-gray-700' : 'text-blue-700'}
-      content={outcome}
-      refAttribute={'action.outcome/text'}
-      refId={actionId}
+      content={resolution}
+      refAttribute={'issue.resolution/text'}
+      refId={issueId}
       suspense={{ lines: 3 }}
     />
   );
 });
 
-const Outcome = memo(() => {
+const Resolution = memo(() => {
   const t = useTranslation();
 
   return (
     <div className={'flex w-full flex-col gap-2 rounded-md border border-blue-600 bg-blue-50 p-6'}>
       <div className={'flex items-center gap-3'}>
         <TrophyMiniSolid className={'h-4 w-5 text-blue-700'} />
-        <div className={'font-medium text-blue-700'}>{t('action/promised-outcome')}</div>
+        <div className={'font-medium text-blue-700'}>{t('issue/expected-resolution')}</div>
       </div>
-      <OutcomeText suspense={{ lines: 6, color: 'primary' }} />
+      <ResolutionText suspense={{ lines: 6, color: 'primary' }} />
     </div>
   );
 });
 
 export const Home = suspensify(() => {
-  const actionId = useValue<string>('current.action/id');
+  const issueId = useValue<string>('current.issue/id');
 
   return (
     <div className={'flex w-full gap-8'}>
       <div className={'flex w-full flex-col gap-5'}>
         <Description suspense={{ lines: 6 }} />
-        <Outcome />
+        <Resolution />
       </div>
-      <Relationships refAttribute={'action/id'} refId={actionId} suspense={{ lines: 8 }} />
+      <Relationships refAttribute={'issue/id'} refId={issueId} suspense={{ lines: 8 }} />
     </div>
   );
 });

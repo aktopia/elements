@@ -6,8 +6,7 @@ import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
-import { TitleEditor } from '@elements/components/title-editor';
-import { ContextMenuItem, WithContextMenu } from '@elements/components/with-context-menu';
+import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { memo, useCallback, useMemo } from 'react';
@@ -55,41 +54,17 @@ export const SubscriptionBar = memo(() => {
 });
 
 const Title = suspensify(() => {
-  const t = useTranslation();
-  const actionId = useValue('current.action/id');
+  const actionId = useValue<string>('current.action/id');
   const title = useValue<string>('action/title', { 'action/id': actionId });
-  const isEditing = useValue<boolean>('current.action.title/editing');
-  const onEdit = useDispatch('current.action.title/edit', { emptyParams: true });
-  const onEditCancel = useDispatch('current.action.title.edit/cancel', {
-    emptyParams: true,
-  });
-  const onEditDone = useDispatch('current.action.title.edit/done', {
-    emptyParams: true,
-  });
-  const updateTitle = useDispatch('current.action.title/update');
-  const onChange = useCallback((value: string) => updateTitle({ value }), [updateTitle]);
-  const showEdit = useValue<boolean>('current.action.title/can-edit');
-
-  const menuItems: any = useMemo(
-    () =>
-      [
-        showEdit && <ContextMenuItem id={'edit'} label={t('common/edit')} onClick={onEdit} />,
-      ].filter(Boolean),
-    [onEdit, showEdit, t]
-  );
 
   return (
-    <WithContextMenu disable={isEditing} items={menuItems}>
-      <TitleEditor
-        cancelText={t('common/cancel')}
-        doneText={t('common/done')}
-        editable={isEditing}
-        value={title}
-        onCancel={onEditCancel}
-        onChange={onChange}
-        onDone={onEditDone}
-      />
-    </WithContextMenu>
+    <TextEditor
+      className={'text-2xl font-bold'}
+      content={title}
+      refAttribute={'action.title/text'}
+      refId={actionId}
+      suspense={{ lines: 1 }}
+    />
   );
 });
 
@@ -225,9 +200,7 @@ export const Header = () => {
         </div>
         {/*<ProgressIndicator />*/}
       </div>
-      <div className={'flex justify-center'}>
-        <ActionTabs suspense={{ lines: 1 }} />
-      </div>
+      <ActionTabs suspense={{ lines: 1 }} />
     </div>
   );
 };

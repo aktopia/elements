@@ -1,4 +1,4 @@
-import { Discuss } from '@elements/compositions/action/discuss';
+import { Discuss } from '@elements/compositions/discuss';
 import { Header } from '@elements/compositions/action/header';
 import { Home } from '@elements/compositions/action/home';
 import { Updates } from '@elements/compositions/updates';
@@ -17,17 +17,21 @@ export const Action = wrapPage(() => {
       tab = <Home suspense={{ lines: 12 }} />;
       break;
     case 'updates':
-      tab = <Updates refAttribute={'action/id'} refId={actionId} suspense={{ lines: 12 }} />;
+      tab = (
+        <Updates refAttribute={'entity.type/action'} refId={actionId} suspense={{ lines: 12 }} />
+      );
       break;
     case 'discuss':
-      tab = <Discuss suspense={{ lines: 12 }} />;
+      tab = (
+        <Discuss refAttribute={'entity.type/action'} refId={actionId} suspense={{ lines: 12 }} />
+      );
       break;
     default:
       tab = <Home suspense={{ lines: 12 }} />;
   }
 
   return (
-    <div className={'flex flex-col gap-6'}>
+    <div className={'flex flex-col gap-10'}>
       <Header />
       {tab}
     </div>

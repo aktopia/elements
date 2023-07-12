@@ -9,7 +9,7 @@ export default {
 
 const args = {
   refId: '1',
-  refAttribute: 'action/id',
+  refAttribute: 'entity.type/action',
   suspense: { lines: 5 },
 };
 

@@ -11,7 +11,7 @@ export default {
   'common/save': 'Save',
   'common/cancel': 'Cancel',
   'common/done': 'Done',
-  'common/expected-outcome': 'Expected Outcome',
+  'action/promised-outcome': 'Promised Outcome',
   'common/home': 'Home',
   'common/post': 'Post',
   'common/discuss': 'Discuss',
@@ -20,6 +20,8 @@ export default {
   'common/updates': 'Updates',
   'common/you': 'You',
   'common/delete': 'Delete',
+  'common/media': 'Media',
+  'common/locations': 'Locations',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',
@@ -43,4 +45,5 @@ export default {
   'comment.delete.modal/body':
     'Are you sure you want to delete the Comment? This cannot be undone.',
   'comment/deleted': 'Comment was deleted.',
+  'issue/expected-resolution': 'Expected Resolution',
 };

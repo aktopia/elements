@@ -5,15 +5,19 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 
-export const Discuss = suspensify(() => {
+interface DiscussProps {
+  refId: string;
+  refAttribute: string;
+}
+
+export const Discuss = suspensify(({ refId, refAttribute }: DiscussProps) => {
   const t = useTranslation();
 
   const userId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': userId });
-  const actionId = useValue<string>('current.action/id');
   const reference = useMemo(
-    () => ({ 'ref/id': actionId, 'ref/attribute': 'entity.type/action' }),
-    [actionId]
+    () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
+    [refId, refAttribute]
   );
   const commentIds = useValue<string[]>('comment/ids-by-reference', reference);
 

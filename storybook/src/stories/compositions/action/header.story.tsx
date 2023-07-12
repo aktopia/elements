@@ -2,7 +2,7 @@ import { Header as Component } from '@elements/compositions/action/header';
 import { mockStory } from '@story/utils/mock-story';
 
 export default {
-  title: 'Compositions/Action/ActionHeader',
+  title: 'Compositions/Action/Header',
   component: Component,
 };
 
@@ -46,7 +46,7 @@ const store = {
   ],
 };
 
-export const ActionHeader = mockStory({
+export const Header = mockStory({
   store,
   render: () => {
     return <Component />;
