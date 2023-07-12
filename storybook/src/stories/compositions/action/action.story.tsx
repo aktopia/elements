@@ -1,10 +1,9 @@
 import { Action as Component } from '@elements/compositions/action/action';
-import { store as wrapPageStore } from '@story/stores/wrap-page';
+import { store as homeTabStore } from '@story/stores/action/home';
 import { store as discussionStore } from '@story/stores/comments';
 import { store as updateStore } from '@story/stores/updates';
-import { store as relationshipStore } from '@story/stores/relationships';
+import { store as wrapPageStore } from '@story/stores/wrap-page';
 import { mockStory } from '@story/utils/mock-story';
-import { lorem } from '@story/utils/string';
 
 export default {
   title: 'Compositions/Action/Action',
@@ -16,14 +15,8 @@ const store = {
     ...wrapPageStore.read,
     ...discussionStore.read,
     ...updateStore.read,
-    ...relationshipStore.read,
+    ...homeTabStore.read,
     'current.action/id': 'action-1',
-    'current.action.title/editing': false,
-    'current.action.description/editing': false,
-    'current.action.outcome/editing': false,
-    'current.action.title/can-edit': true,
-    'current.action.outcome/can-edit': true,
-    'current.action.description/can-edit': true,
     'current.user/id': '2',
     'user/name': 'Sunil KS',
     'action.follow/count': 2600,
@@ -41,14 +34,12 @@ const store = {
       { id: 'funding', label: 'Funding' },
     ],
     'action.tabs/active-tab-id': 'updates',
-    'action/outcome': lorem.generateSentences(7),
-    'action/description': lorem.generateSentences(8),
   },
   dispatch: [
     ...wrapPageStore.dispatch,
     ...discussionStore.dispatch,
     ...updateStore.dispatch,
-    ...relationshipStore.dispatch,
+    ...homeTabStore.dispatch,
     'action/follow',
     'action/unfollow',
     'action/save',
@@ -58,18 +49,6 @@ const store = {
     'action/fund',
     'action.progress-bar/update',
     'action.tabs/update',
-    'current.action.description/edit',
-    'current.action.description.edit/cancel',
-    'current.action.description.edit/done',
-    'current.action.description/update',
-    'current.action.outcome/edit',
-    'current.action.outcome.edit/cancel',
-    'current.action.outcome.edit/done',
-    'current.action.outcome/update',
-    'current.action.title/edit',
-    'current.action.title.edit/cancel',
-    'current.action.title.edit/done',
-    'current.action.title/update',
   ],
 };
 
