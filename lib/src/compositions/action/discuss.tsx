@@ -1,6 +1,6 @@
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
-import { Comments } from '@elements/compositions/comment';
+import { Comments } from '@elements/compositions/comments';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';

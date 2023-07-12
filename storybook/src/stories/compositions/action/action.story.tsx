@@ -1,4 +1,7 @@
 import { Action as Component } from '@elements/compositions/action/action';
+import { store as wrapPageStore } from '@story/stores/wrap-page';
+import { store as discussionStore } from '@story/stores/comments';
+import { store as updateStore } from '@story/stores/updates';
 import { mockStory } from '@story/utils/mock-story';
 import { lorem } from '@story/utils/string';
 
@@ -40,54 +43,11 @@ function getRelation(params: any) {
   return relations[params['relation/id']];
 }
 
-const discussionTabStore = {
-  read: {
-    'comment/comments-by-parent-id': ({ 'ref/id': id, 'ref/attribute': identifier }: any) => {
-      if (identifier === 'action/id') {
-        return ['comment-1', 'comment-5'];
-      }
-      if (identifier === 'comment/id') {
-        switch (id) {
-          case 'comment-1':
-            return ['comment-2', 'comment-3'];
-          case 'comment-2':
-            return ['comment-4'];
-          default:
-            return [];
-        }
-      }
-      return [];
-    },
-    'comment/author-name': ({ 'comment/id': id }: { 'comment/id': string }) => {
-      switch (id) {
-        case 'comment-1':
-          return 'Sunil KS';
-        case 'comment-2':
-          return 'Madhumitha Sriram';
-        case 'comment-3':
-          return 'Krishna Sunil';
-        case 'comment-4':
-          return 'Krishna Sunil';
-        case 'comment-5':
-          return 'Meera Sunil';
-        default:
-          return 'Madhumitha Sriram';
-      }
-    },
-    'comment/text': () => lorem.generateSentences(4),
-    'comment/can-edit': true,
-  },
-  dispatch: [
-    'new.comment/post',
-    'new.comment.text/update',
-    'ui.comment.edit/done',
-    'ui.comment.edit/cancel',
-    'inter.comment.text/update',
-  ],
-};
-
 const store = {
   read: {
+    ...wrapPageStore.read,
+    ...discussionStore.read,
+    ...updateStore.read,
     'current.action/id': 'action-1',
     'current.action.title/editing': false,
     'current.action.description/editing': false,
@@ -111,14 +71,16 @@ const store = {
       { id: 'work', label: 'Work' },
       { id: 'funding', label: 'Funding' },
     ],
-    'action.tabs/active-tab-id': 'discuss',
-    'action/outcome': () => lorem.generateSentences(7),
-    'action/description': () => lorem.generateSentences(8),
+    'action.tabs/active-tab-id': 'updates',
+    'action/outcome': lorem.generateSentences(7),
+    'action/description': lorem.generateSentences(8),
     'action.relation/ids': ['1', '2', '3'],
     'action/relation': getRelation,
-    ...discussionTabStore.read,
   },
   dispatch: [
+    ...wrapPageStore.dispatch,
+    ...discussionStore.dispatch,
+    ...updateStore.dispatch,
     'action/follow',
     'action/unfollow',
     'action/save',
@@ -140,13 +102,13 @@ const store = {
     'current.action.title.edit/cancel',
     'current.action.title.edit/done',
     'current.action.title/update',
-    ...discussionTabStore.dispatch,
   ],
 };
 
 export const Action = mockStory({
   store,
-  render: () => {
-    return <Component />;
+  args: { suspense: { lines: 8 } },
+  render: (args) => {
+    return <Component {...args} />;
   },
 });

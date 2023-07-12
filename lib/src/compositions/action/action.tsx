@@ -1,7 +1,7 @@
 import { Discuss } from '@elements/compositions/action/discuss';
 import { Header } from '@elements/compositions/action/header';
 import { Home } from '@elements/compositions/action/home';
-import { Updates } from '@elements/compositions/action/updates';
+import { Updates } from '@elements/compositions/updates';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 
