@@ -48,4 +48,5 @@ export default {
   'issue/expected-resolution': 'Expected Resolution',
   'common/relationships': 'Relationships',
   'relationships/empty': 'No relationships yet.',
+  'locations/confirm': 'Confirm Location',
 };

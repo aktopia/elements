@@ -102,11 +102,11 @@ const SearchBar = () => {
   return (
     <div
       className={
-        'flex cursor-pointer gap-5 rounded-xl border border-gray-300 bg-gray-100 py-2 pl-5 pr-7'
+        'flex cursor-pointer gap-5 rounded-2xl border border-gray-200 bg-gray-100 py-2 pl-3 pr-7'
       }
       onClick={onSearchClick}>
       <MagnifyingGlassOutline className={'h-4 w-4 text-gray-500'} />
-      <div className={'text-xs text-gray-400'}>{t('main-search/placeholder')}</div>
+      <div className={'text-xs text-gray-500'}>{t('main-search/placeholder')}</div>
     </div>
   );
 };
@@ -114,11 +114,11 @@ const SearchBar = () => {
 export const NavBar = () => {
   return (
     <>
-      <div className={'flex h-full'}>
+      <div className={'flex h-full drop-shadow'}>
         <Logo />
         <div
           className={
-            'flex w-full items-center justify-between border-b border-gray-200 bg-white py-2.5 pl-2 pr-6 shadow-sm md:pl-10 md:pr-14'
+            'flex w-full items-center justify-between bg-white py-2.5 pl-2 pr-6 md:pl-10 md:pr-14'
           }>
           <CreateDropdown />
           <SearchBar />

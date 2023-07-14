@@ -82,6 +82,7 @@ export {
   TrophyIcon as TrophyMiniSolid,
   ChevronDownIcon as ChevronDownMiniSolid,
   ChevronUpIcon as ChevronUpMiniSolid,
+  MapPinIcon as MapPinMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
@@ -92,6 +93,7 @@ export {
   CheckIcon as CheckSolid,
   PlusIcon as PlusSolid,
   CheckBadgeIcon as CheckBadgeSolid,
+  MapPinIcon as MapPinSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -102,6 +104,8 @@ export {
   MagnifyingGlassIcon as MagnifyingGlassOutline,
   WrenchIcon as WrenchOutline,
   ArrowsRightLeftIcon as ArrowsRightLeftOutline,
+  MapPinIcon as MapPinOutline,
+  ArrowPathIcon as ArrowPathOutline,
 } from '@heroicons/react/24/outline';
 
 /*

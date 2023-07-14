@@ -1,6 +1,6 @@
 import { Action as Component } from '@elements/compositions/action/action';
 import { store as homeTabStore } from '@story/stores/action/home';
-import { store as discussionStore } from '@story/stores/comments';
+import { store as discussStore } from '@story/stores/discuss';
 import { store as updateStore } from '@story/stores/updates';
 import { store as wrapPageStore } from '@story/stores/wrap-page';
 import { mockStory } from '@story/utils/mock-story';
@@ -13,7 +13,7 @@ export default {
 const store = {
   read: {
     ...wrapPageStore.read,
-    ...discussionStore.read,
+    ...discussStore.read,
     ...updateStore.read,
     ...homeTabStore.read,
     'current.action/id': 'action-1',
@@ -37,7 +37,7 @@ const store = {
   },
   dispatch: [
     ...wrapPageStore.dispatch,
-    ...discussionStore.dispatch,
+    ...discussStore.dispatch,
     ...updateStore.dispatch,
     ...homeTabStore.dispatch,
     'action/follow',

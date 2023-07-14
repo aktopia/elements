@@ -1,8 +1,7 @@
 import { Issue as Component } from '@elements/compositions/issue/issue';
+import { store as discussStore } from '@story/stores/discuss';
 import { store as headerStore } from '@story/stores/issue/header';
 import { store as homeTabStore } from '@story/stores/issue/home';
-import { store as discussStore } from '@story/stores/discuss';
-import { store as updateStore } from '@story/stores/updates';
 import { store as wrapPageStore } from '@story/stores/wrap-page';
 import { mockStory } from '@story/utils/mock-story';
 
@@ -16,7 +15,6 @@ const store = {
     ...wrapPageStore.read,
     ...headerStore.read,
     ...discussStore.read,
-    ...updateStore.read,
     ...homeTabStore.read,
     'current.issue/id': 'issue-1',
     'current.user/id': '2',
@@ -26,7 +24,6 @@ const store = {
     ...wrapPageStore.dispatch,
     ...headerStore.dispatch,
     ...discussStore.dispatch,
-    ...updateStore.dispatch,
     ...homeTabStore.dispatch,
   ],
 };
