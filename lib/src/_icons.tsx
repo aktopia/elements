@@ -106,6 +106,8 @@ export {
   ArrowsRightLeftIcon as ArrowsRightLeftOutline,
   MapPinIcon as MapPinOutline,
   ArrowPathIcon as ArrowPathOutline,
+  PhotoIcon as PhotoOutline,
+  PlusIcon as PlusOutline,
 } from '@heroicons/react/24/outline';
 
 /*

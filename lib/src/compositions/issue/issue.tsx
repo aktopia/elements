@@ -1,3 +1,4 @@
+import { Map } from '@elements/components/map';
 import { Header } from '@elements/compositions/issue/header';
 import { Home } from '@elements/compositions/issue/home';
 import { Discuss } from '@elements/compositions/discuss';
@@ -17,6 +18,12 @@ export const Issue = wrapPage(() => {
       break;
     case 'discuss':
       tab = <Discuss refAttribute={'entity.type/issue'} refId={issueId} suspense={{ lines: 12 }} />;
+      break;
+    case 'media':
+      tab = <Home suspense={{ lines: 12 }} />;
+      break;
+    case 'locations':
+      tab = <Map addLocation={console.log} updateCenter={console.log} />;
       break;
     default:
       tab = <Home suspense={{ lines: 12 }} />;

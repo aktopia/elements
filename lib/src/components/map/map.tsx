@@ -25,14 +25,6 @@ import PlacesService = google.maps.places.PlacesService;
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-interface Map_Props {
-  center?: LatLngLiteral;
-  locations?: LatLngLiteral[];
-  zoom?: number;
-  addLocation: (center: LatLngLiteral) => void;
-  updateCenter: (center: LatLngLiteral) => void;
-}
-
 interface MapProps {
   center?: LatLngLiteral;
   locations?: LatLngLiteral[];
@@ -147,7 +139,7 @@ const AddLocationPin = ({ dragging, show }: { dragging: boolean; show: boolean }
   ) : null;
 };
 
-const Map_ = ({ center, zoom, locations, updateCenter, addLocation }: Map_Props) => {
+const Map_ = ({ center, zoom, locations, updateCenter, addLocation }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const currentLocations = useRef<LatLngLiteral[]>(locations || []);
   const autoCompleteService = useRef<AutocompleteService>();
