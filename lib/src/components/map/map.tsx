@@ -23,6 +23,8 @@ import LatLngLiteral = google.maps.LatLngLiteral;
 import AutocompleteService = google.maps.places.AutocompleteService;
 import PlacesService = google.maps.places.PlacesService;
 
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
 interface Map_Props {
   center?: LatLngLiteral;
   locations?: LatLngLiteral[];
@@ -280,7 +282,7 @@ const Map_ = ({ center, zoom, locations, updateCenter, addLocation }: Map_Props)
 
 export const Map = ({ center, zoom, locations, addLocation, updateCenter }: MapProps) => {
   return (
-    <Wrapper apiKey={} libraries={['places']} render={render}>
+    <Wrapper apiKey={GOOGLE_MAPS_API_KEY} libraries={['places']} render={render}>
       <Map_
         addLocation={addLocation}
         center={center}

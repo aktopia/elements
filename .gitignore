@@ -9,3 +9,4 @@ storybook/node_modules
 /lib/vite.config.d.ts
 /lib/vite.config.js
 build-storybook.log
+*.local
