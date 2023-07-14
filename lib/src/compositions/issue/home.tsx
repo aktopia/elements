@@ -1,4 +1,4 @@
-import { TrophyMiniSolid } from '@elements/_icons';
+import { CheckBadgeSolid } from '@elements/_icons';
 import { suspensify } from '@elements/components/suspensify';
 import { Relationships } from '@elements/compositions/relationships';
 import { TextEditor } from '@elements/compositions/text-editor';
@@ -48,7 +48,7 @@ const Resolution = memo(() => {
   return (
     <div className={'flex w-full flex-col gap-2 rounded-md border border-blue-600 bg-blue-50 p-6'}>
       <div className={'flex items-center gap-3'}>
-        <TrophyMiniSolid className={'h-4 w-5 text-blue-700'} />
+        <CheckBadgeSolid className={'h-5 w-5 text-blue-700'} />
         <div className={'font-medium text-blue-700'}>{t('issue/expected-resolution')}</div>
       </div>
       <ResolutionText suspense={{ lines: 6, color: 'primary' }} />

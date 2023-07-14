@@ -46,4 +46,6 @@ export default {
     'Are you sure you want to delete the Comment? This cannot be undone.',
   'comment/deleted': 'Comment was deleted.',
   'issue/expected-resolution': 'Expected Resolution',
+  'common/relationships': 'Relationships',
+  'relationships/empty': 'No relationships yet.',
 };

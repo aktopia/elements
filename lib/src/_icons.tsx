@@ -91,6 +91,7 @@ export {
   MagnifyingGlassIcon as MagnifyingGlassSolid,
   CheckIcon as CheckSolid,
   PlusIcon as PlusSolid,
+  CheckBadgeIcon as CheckBadgeSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -99,6 +100,8 @@ export {
   ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisOutline,
   TrashIcon as TrashOutline,
   MagnifyingGlassIcon as MagnifyingGlassOutline,
+  WrenchIcon as WrenchOutline,
+  ArrowsRightLeftIcon as ArrowsRightLeftOutline,
 } from '@heroicons/react/24/outline';
 
 /*
