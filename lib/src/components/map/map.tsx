@@ -29,7 +29,7 @@ interface Map_Props {
   center?: LatLngLiteral;
   locations?: LatLngLiteral[];
   zoom?: number;
-  addLocation: () => void;
+  addLocation: (center: LatLngLiteral) => void;
   updateCenter: (center: LatLngLiteral) => void;
 }
 
@@ -37,7 +37,7 @@ interface MapProps {
   center?: LatLngLiteral;
   locations?: LatLngLiteral[];
   zoom?: number;
-  addLocation: () => void;
+  addLocation: (center: LatLngLiteral) => void;
   updateCenter: (center: LatLngLiteral) => void;
 }
 
@@ -250,8 +250,8 @@ const Map_ = ({ center, zoom, locations, updateCenter, addLocation }: Map_Props)
   const onConfirmLocation = useCallback(() => {
     setAddingLocation(false);
     setAutoCompleteOptions([]);
-    addLocation();
-  }, [addLocation]);
+    addLocation(getCenter(map));
+  }, [addLocation, map]);
 
   return (
     <div
