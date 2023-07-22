@@ -1,4 +1,5 @@
 import { lorem } from '@story/utils/string';
+import { randomTimestamp } from '@story/utils/time';
 import { memoize } from 'lodash';
 
 const inProgress = {
@@ -47,6 +48,7 @@ export const store = {
     'comment/ids-by-reference': commentsByParentId,
     'current.user/id': '1',
     'user/name': 'Sunil KS',
+    'comment/created-at': randomTimestamp(),
   },
   dispatch: [
     'new.comment/post',

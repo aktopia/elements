@@ -9,6 +9,7 @@ import { Button } from '@elements/components/button';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
+import { Timestamp } from '@elements/components/timestamp';
 import { ContextMenuItem } from '@elements/components/with-context-menu';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
@@ -85,6 +86,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   const creatorName = useValue<string>('comment/creator-name', { 'comment/id': id });
   const status = useValue<string>('comment/status', { 'comment/id': id });
   const text = useValue<string>('comment/text', { 'comment/id': id });
+  const createdAt = useValue<number>('comment/created-at', { 'comment/id': id });
   const responseIds = useValue<string[]>('comment/ids-by-reference', reference);
   const deleted = status === 'deleted';
 
@@ -128,13 +130,18 @@ export const Comment = suspensify(({ id }: { id: string }) => {
 
   return (
     <div
-      className={'flex flex-col gap-4 rounded-lg border-b border-l border-gray-300 bg-white p-4'}>
+      className={
+        'flex flex-col gap-4 rounded-lg border-b border-l border-gray-300 bg-white p-4 hover:border-gray-400'
+      }>
       {deleted ? (
         <DeletedComment />
       ) : (
         <div className={'flex flex-col gap-3'}>
           <div className={'flex items-center justify-between'}>
-            <User name={creatorName} />
+            <div className={'flex items-center gap-5'}>
+              <User name={creatorName} />
+              <Timestamp className={'text-xs text-gray-400'} timestamp={createdAt} />
+            </div>
             <ExpandCollapseButton expanded={expanded} onClick={onExpandCollapse} />
           </div>
           {expanded && (

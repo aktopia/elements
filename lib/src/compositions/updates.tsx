@@ -2,6 +2,7 @@ import { UserCircleSolid } from '@elements/_icons';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
+import { Timestamp } from '@elements/components/timestamp';
 import { ContextMenuItem } from '@elements/components/with-context-menu';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
@@ -48,6 +49,7 @@ const Update = suspensify(({ id }: { id: string }) => {
 
   const creatorName = useValue<string>('update/creator-name', { 'update/id': id });
   const text = useValue<string>('update/text', { 'update/id': id });
+  const createdAt = useValue<number>('update/created-at', { 'update/id': id });
 
   const startDeletion = useDispatch('update.deletion/start');
 
@@ -65,9 +67,9 @@ const Update = suspensify(({ id }: { id: string }) => {
       className={
         'flex w-full flex-col items-start justify-center gap-4 rounded-lg border border-gray-300 bg-white p-5 shadow-sm'
       }>
-      <div className={'flex w-full items-center justify-between'}>
+      <div className={'flex w-full items-center gap-5'}>
         <User name={creatorName} />
-        {/*<p className={'text-sm text-gray-500'}>{'2 days ago'}</p>*/}
+        <Timestamp className={'text-xs text-gray-400'} timestamp={createdAt} />
       </div>
       <TextEditor
         className={'text-gray-700'}

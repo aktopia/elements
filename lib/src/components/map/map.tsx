@@ -51,7 +51,7 @@ const ResetLocation = ({ onClick }: { onClick: any }) => {
   return (
     <RawButton
       className={
-        'group absolute bottom-32 right-2 flex cursor-pointer items-center justify-center rounded-sm border border-stone-50 bg-white p-1.5 text-stone-600 shadow-xl hover:bg-stone-50'
+        'group absolute bottom-32 right-2 flex cursor-pointer items-center justify-center rounded-full border border-stone-200 bg-white p-1.5 text-stone-600 shadow-xl hover:bg-stone-50'
       }
       type={'button'}
       onPress={onClick}>
@@ -92,19 +92,19 @@ const AddLocation = ({
       <div className={'flex gap-2'}>
         <RawButton
           className={
-            'flex items-center justify-center rounded-md bg-green-600 px-3 text-white shadow-xl hover:bg-green-700'
+            'flex items-center justify-center rounded-md bg-green-600 px-3 shadow-xl hover:bg-green-700'
           }
           type={'button'}
           onPress={onAdd}>
-          <p>{confirmText}</p>
+          <p className={'font-medium text-white'}>{confirmText}</p>
         </RawButton>
         <RawButton
           className={
-            'flex items-center justify-center rounded-md border border-stone-50 bg-white px-3 text-stone-500 shadow-xl hover:bg-stone-50 hover:text-stone-800'
+            'flex items-center justify-center rounded-md border border-stone-200 bg-white px-3 text-stone-500 shadow-xl hover:bg-stone-50 hover:text-stone-800'
           }
           type={'button'}
           onPress={onCancel}>
-          <p>{cancelText}</p>
+          <p className={'font-medium'}>{cancelText}</p>
         </RawButton>
       </div>
     </div>
@@ -147,13 +147,13 @@ const StartAddLocation = ({ show, onClick }: { onClick: () => void; show: boolea
   return show ? (
     <RawButton
       className={
-        'ahover:hover:bg-stone-50 group absolute top-3 right-3 flex cursor-pointer items-center justify-center rounded-lg border border-stone-50 bg-white shadow-xl'
+        'ahover:hover:bg-stone-50 group absolute top-3 right-3 flex cursor-pointer items-center justify-center rounded-lg border border-stone-200 bg-white shadow-xl'
       }
       type={'button'}
       onPress={onClick}>
       <div className={'flex items-center gap-2 py-1 pr-2 pl-1'}>
         <AddLocationIcon />
-        <p className={'text-stone-500 group-hover:text-stone-700'}>{text}</p>
+        <p className={'font-medium text-stone-500 group-hover:text-stone-700'}>{text}</p>
       </div>
     </RawButton>
   ) : null;
@@ -182,12 +182,12 @@ const ViewList = ({ onClick }: { onClick: () => void }) => {
   return (
     <RawButton
       className={
-        'group absolute bottom-7 flex cursor-pointer items-center justify-center gap-2 rounded-full border border-stone-50 bg-white py-1 pl-3 pr-5 text-stone-600 shadow-xl hover:bg-stone-50'
+        'group absolute bottom-7 flex cursor-pointer items-center justify-center gap-2 rounded-full border border-stone-200 bg-white py-1 pl-3 pr-5 text-stone-600 shadow-xl hover:bg-stone-50'
       }
       type={'button'}
       onPress={onClick}>
       <ListBulletOutline className={'h-7 w-7 text-stone-500 group-hover:text-stone-800'} />
-      <p className={'text-stone-500 group-hover:text-stone-800'}>{text}</p>
+      <p className={'font-medium text-stone-500 group-hover:text-stone-800'}>{text}</p>
     </RawButton>
   );
 };
