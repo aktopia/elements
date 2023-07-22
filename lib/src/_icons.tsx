@@ -94,6 +94,7 @@ export {
   PlusIcon as PlusSolid,
   CheckBadgeIcon as CheckBadgeSolid,
   MapPinIcon as MapPinSolid,
+  ChevronRightIcon as ChevronRightSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -108,6 +109,7 @@ export {
   ArrowPathIcon as ArrowPathOutline,
   PhotoIcon as PhotoOutline,
   PlusIcon as PlusOutline,
+  ListBulletIcon as ListBulletOutline,
 } from '@heroicons/react/24/outline';
 
 /*
