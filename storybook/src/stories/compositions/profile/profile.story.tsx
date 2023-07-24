@@ -1,4 +1,5 @@
 import { Profile as Component } from '@elements/compositions/profile/profile';
+import { store as wrapPageStore } from '@story/stores/wrap-page';
 import { mockStory } from '@story/utils/mock-story';
 import { lorem } from '@story/utils/string';
 
@@ -9,12 +10,16 @@ export default {
 
 const store = {
   read: {
+    ...wrapPageStore.read,
     'profile.user/id': '2',
     'user/name': 'Sunil KS',
     'profile/actions': ['1', '2', '3'],
-    'action/title': (_params: any) => lorem.generateSentences(1),
+    'profile/issues': ['1', '2', '3'],
+    'action/title': lorem.generateSentences(1),
+    'issue/title': lorem.generateSentences(1),
+    'profile.tabs/active-tab-id': 'actions',
   },
-  dispatch: ['navigate.profile/actions', 'navigate.create/action', 'auth.sign-in/initiate'],
+  dispatch: [...wrapPageStore.dispatch, 'auth.sign-in/initiate', 'profile.tabs/update'],
 };
 
 const args = {

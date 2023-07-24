@@ -15,13 +15,7 @@ const store = {
     ...mainSearchStore.read,
     'main-search/visible': false,
   },
-  dispatch: [
-    'navigate.profile/actions',
-    'navigate.create/action',
-    'auth.sign-in/initiate',
-    'main-search/open',
-    ...mainSearchStore.dispatch,
-  ],
+  dispatch: ['auth.sign-in/initiate', 'main-search/open', ...mainSearchStore.dispatch],
 };
 
 export const NavBar = mockStory({

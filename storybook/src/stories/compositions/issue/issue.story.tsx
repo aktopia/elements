@@ -18,7 +18,7 @@ const store = {
     ...homeTabStore.read,
     'current.issue/id': 'issue-1',
     'current.user/id': '2',
-    'issue.tabs/active-tab-id': 'home',
+    'issue.tabs/active-tab-id': 'locations',
   },
   dispatch: [
     ...wrapPageStore.dispatch,

@@ -32,6 +32,11 @@ const CreateDropdown = () => {
         href: '/action/create',
         openNewTab: true,
       },
+      {
+        text: 'Issues',
+        href: '/issue/create',
+        openNewTab: true,
+      },
     ],
     []
   );
@@ -69,6 +74,10 @@ const UserDropdown = suspensify(() => {
       {
         text: 'My actions',
         href: `/profile/${userId}/actions`,
+      },
+      {
+        text: 'My issues',
+        href: `/profile/${userId}/issues`,
       },
       {
         text: 'Sign out',

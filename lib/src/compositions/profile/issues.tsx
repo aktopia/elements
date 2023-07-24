@@ -1,8 +1,8 @@
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store';
 
-const ActionCard = suspensify(({ id }: any) => {
-  const title = useValue<string>('action/title', { 'action/id': id });
+const IssueCard = suspensify(({ id }: any) => {
+  const title = useValue<string>('issue/title', { 'issue/id': id });
 
   return (
     <div
@@ -11,21 +11,21 @@ const ActionCard = suspensify(({ id }: any) => {
       }>
       <a
         className={'w-full cursor-pointer text-left text-base text-gray-700'}
-        href={`/action/${id}`}>
+        href={`/issue/${id}`}>
         {title}
       </a>
     </div>
   );
 });
 
-export const Actions = suspensify(() => {
+export const Issues = suspensify(() => {
   const userId = useValue<string>('profile.user/id');
-  const actionIds = useValue<string[]>('profile/actions', { 'user/id': userId });
+  const issueIds = useValue<string[]>('profile/issues', { 'user/id': userId });
 
   return (
     <div className={'flex flex-col gap-4'}>
-      {actionIds.map((id) => (
-        <ActionCard key={id} id={id} suspense={{ lines: 2 }} />
+      {issueIds.map((id) => (
+        <IssueCard key={id} id={id} suspense={{ lines: 2 }} />
       ))}
     </div>
   );
