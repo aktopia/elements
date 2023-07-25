@@ -1,5 +1,7 @@
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
+import { Timestamp } from '@elements/components/timestamp';
+import { EntityType } from '@elements/compositions/entity-type';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -20,11 +22,18 @@ const Title = suspensify(() => {
   );
 });
 
-export const TimeAgo = suspensify(() => {
-  const issueId = useValue('current.issue/id');
-  const lastActive = useValue<number>('issue/last-active', { 'issue/id': issueId });
-  // TODO Format lastActive
-  return <div className={'text-xs text-gray-500'}>{lastActive}</div>;
+export const LastActive = suspensify(() => {
+  const actionId = useValue('current.issue/id');
+  const lastActive = useValue<number>('issue/last-active-at', { 'issue/id': actionId });
+  return (
+    <Timestamp
+      className={'text-xs text-gray-400'}
+      // TODO i18n
+      prefix={'Active'}
+      relative={true}
+      timestamp={lastActive}
+    />
+  );
 });
 
 export const IssueTabs = suspensify(() => {
@@ -54,8 +63,14 @@ export const IssueTabs = suspensify(() => {
 export const Header = () => {
   return (
     <div className={'flex flex-col gap-10'}>
-      <div className={'mr-5 h-full w-full'}>
-        <Title suspense={{ lines: 1, lineHeight: '36' }} />
+      <div className={'flex flex-col items-start gap-4'}>
+        <div className={'mr-5 h-full w-full'}>
+          <Title suspense={{ lines: 1, lineHeight: '36' }} />
+        </div>
+        <div className={'flex items-center gap-5'}>
+          <EntityType type={'issue'} />
+          <LastActive suspense={{ lines: 1 }} />
+        </div>
       </div>
       <IssueTabs suspense={{ lines: 1 }} />
     </div>

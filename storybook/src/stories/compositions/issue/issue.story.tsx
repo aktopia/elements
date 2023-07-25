@@ -4,6 +4,7 @@ import { store as headerStore } from '@story/stores/issue/header';
 import { store as homeTabStore } from '@story/stores/issue/home';
 import { store as wrapPageStore } from '@story/stores/wrap-page';
 import { mockStory } from '@story/utils/mock-story';
+import { randomTimestamp } from '@story/utils/time';
 
 export default {
   title: 'Compositions/Issue/Issue',
@@ -19,6 +20,7 @@ const store = {
     'current.issue/id': 'issue-1',
     'current.user/id': '2',
     'issue.tabs/active-tab-id': 'locations',
+    'issue/last-active-at': randomTimestamp(),
   },
   dispatch: [
     ...wrapPageStore.dispatch,

@@ -6,6 +6,8 @@ import { ProgressBar } from '@elements/components/progress-bar';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
+import { Timestamp } from '@elements/components/timestamp';
+import { EntityType } from '@elements/compositions/entity-type';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -68,11 +70,18 @@ const Title = suspensify(() => {
   );
 });
 
-export const TimeAgo = suspensify(() => {
+export const LastActive = suspensify(() => {
   const actionId = useValue('current.action/id');
-  const lastActive = useValue<number>('action/last-active', { 'action/id': actionId });
-  // TODO Format lastActive
-  return <div className={'text-xs text-gray-500'}>{lastActive}</div>;
+  const lastActive = useValue<number>('action/last-active-at', { 'action/id': actionId });
+  return (
+    <Timestamp
+      className={'text-xs text-gray-400'}
+      // TODO i18n
+      prefix={'Active'}
+      relative={true}
+      timestamp={lastActive}
+    />
+  );
 });
 
 export const ActionBar = suspensify(() => {
@@ -188,14 +197,17 @@ export const Header = () => {
       <div className={'flex flex-col gap-8'}>
         <div className={'flex flex-col gap-4'}>
           {/*<SubscriptionBar />*/}
-          <div>
+          <div className={'flex flex-col items-start gap-4'}>
             <div className={'flex'}>
               <div className={'mr-5 h-full w-full'}>
                 <Title suspense={{ lines: 1, lineHeight: '36' }} />
               </div>
               {/*<ActionBar />*/}
             </div>
-            {/*<TimeAgo />*/}
+            <div className={'flex items-center gap-5'}>
+              <EntityType type={'action'} />
+              <LastActive suspense={{ lines: 1 }} />
+            </div>
           </div>
         </div>
         {/*<ProgressIndicator />*/}

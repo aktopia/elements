@@ -4,6 +4,7 @@ import { store as discussStore } from '@story/stores/discuss';
 import { store as updateStore } from '@story/stores/updates';
 import { store as wrapPageStore } from '@story/stores/wrap-page';
 import { mockStory } from '@story/utils/mock-story';
+import { randomTimestamp } from '@story/utils/time';
 
 export default {
   title: 'Compositions/Action/Action',
@@ -23,7 +24,7 @@ const store = {
     'action/saved': false,
     'action/followed': false,
     'action/title': 'Clear large garbage dump on Vandipalayam road',
-    'action/last-active': 'ADD-ME',
+    'action/last-active-at': randomTimestamp(),
     'action/bumped': false,
     'action.bump/count': 10,
     'action.progress-bar/active-switch-id': 'work',

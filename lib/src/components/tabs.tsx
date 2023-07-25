@@ -19,7 +19,7 @@ const tabVariant = cva('flex cursor-pointer items-center justify-center ease-out
       md: 'px-5 py-2.5 text-base font-medium rounded-md',
     },
     status: {
-      active: 'text-gray-700 shadow-inner bg-gray-100',
+      active: 'text-gray-700 shadow-inner bg-gray-100 border border-gray-300',
       inactive: 'text-gray-500 hover:text-gray-700',
     },
   },

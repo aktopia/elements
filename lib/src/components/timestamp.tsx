@@ -4,23 +4,40 @@ import { useMemo } from 'react';
 
 const dateTimeFormat = 'MMM D, YYYY [at] h:mm A';
 
-export const Timestamp = ({ timestamp, className }: { timestamp: number; className: string }) => {
-  const [time, tooltipTime] = useMemo(() => {
-    const now = tsNow();
+interface TimestampProps {
+  timestamp: number;
+  className: string;
+  relative?: boolean;
+  prefix?: string;
+}
 
+export const Timestamp = ({ timestamp, className, prefix, relative = false }: TimestampProps) => {
+  const [absoluteTime, relativeTime] = useMemo(() => {
     const absoluteTime = tsToStr(timestamp, dateTimeFormat);
     const relativeTime = timeAgoStr(timestamp);
+
+    return [absoluteTime, relativeTime];
+  }, [timestamp]);
+
+  const [time, tooltipTime] = useMemo(() => {
+    if (relative) {
+      return [relativeTime, absoluteTime];
+    }
+
+    const now = tsNow();
 
     return isBefore(timestamp, now, 'month')
       ? [absoluteTime, relativeTime]
       : [relativeTime, absoluteTime];
-  }, [timestamp]);
+  }, [timestamp, relativeTime, absoluteTime, relative]);
+
+  const phrase = prefix ? `${prefix} ${time}` : time;
 
   return (
     <Tooltip.Provider delayDuration={500}>
       <Tooltip.Root>
         <Tooltip.Trigger>
-          <p className={className}>{time}</p>
+          <p className={className}>{phrase}</p>
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Content
