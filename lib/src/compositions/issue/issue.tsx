@@ -1,7 +1,7 @@
-import { Map } from '@elements/components/map';
+import { Discuss } from '@elements/compositions/discuss';
 import { Header } from '@elements/compositions/issue/header';
 import { Home } from '@elements/compositions/issue/home';
-import { Discuss } from '@elements/compositions/discuss';
+import { Locations } from '@elements/compositions/issue/locations';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 
@@ -23,7 +23,9 @@ export const Issue = wrapPage(() => {
       tab = <Home suspense={{ lines: 12 }} />;
       break;
     case 'locations':
-      tab = <Map addLocation={console.log} updateCenter={console.log} />;
+      tab = (
+        <Locations refAttribute={'entity.type/action'} refId={issueId} suspense={{ lines: 5 }} />
+      );
       break;
     default:
       tab = <Home suspense={{ lines: 12 }} />;

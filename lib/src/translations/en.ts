@@ -51,4 +51,5 @@ export default {
   'common/relationships': 'Relationships',
   'relationships/empty': 'No relationships yet.',
   'locations/confirm': 'Confirm Location',
+  'issue.location.slide-over/location-list': 'Locations',
 };

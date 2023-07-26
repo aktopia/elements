@@ -26,13 +26,15 @@ import PlacesService = google.maps.places.PlacesService;
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
+export type LatLng = LatLngLiteral;
+
 interface MapProps {
-  center?: LatLngLiteral;
-  locations?: LatLngLiteral[];
+  center?: LatLng;
+  locations?: LatLng[];
   zoom?: number;
-  addLocation: (center: LatLngLiteral) => void;
-  updateCenter: (center: LatLngLiteral) => void;
-  onCaptionChange: (caption: string) => void;
+  onAddLocation: ({ center }: { center: LatLng }) => void;
+  onUpdateCenter: ({ center }: { center: LatLng }) => void;
+  onCaptionChange: ({ caption }: { caption: string }) => void;
   onViewListClick: () => void;
 }
 
@@ -68,7 +70,7 @@ const AddLocation = ({
 }: {
   onAdd: () => void;
   onCancel: () => void;
-  onCaptionChange: (value: string) => void;
+  onCaptionChange: ({ caption }: { caption: string }) => void;
   show: boolean;
 }) => {
   const confirmText = 'Add Location';
@@ -76,7 +78,7 @@ const AddLocation = ({
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onCaptionChange(e.target.value);
+      onCaptionChange({ caption: e.target.value });
     },
     [onCaptionChange]
   );
@@ -196,13 +198,13 @@ const Map_ = ({
   center,
   zoom,
   locations,
-  updateCenter,
-  addLocation,
+  onUpdateCenter,
+  onAddLocation,
   onCaptionChange,
   onViewListClick,
 }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const currentLocations = useRef<LatLngLiteral[]>(locations || []);
+  const currentLocations = useRef<LatLng[]>(locations || []);
   const autoCompleteService = useRef<AutocompleteService>();
   const placesService = useRef<PlacesService>();
   const [map, setMap] = useState<google.maps.Map>();
@@ -212,6 +214,7 @@ const Map_ = ({
 
   useEffect(() => {
     if (mapRef.current && !map) {
+      // TODO fix center not being set on initial renders
       const newMap = new window.google.maps.Map(mapRef.current, {
         streetViewControl: false,
         mapTypeControl: false,
@@ -224,11 +227,11 @@ const Map_ = ({
       newMap.addListener('dragstart', () => setDragging(true));
       newMap.addListener('dragend', () => {
         setDragging(false);
-        updateCenter && updateCenter(getCenter(newMap));
+        onUpdateCenter && onUpdateCenter({ center: getCenter(newMap) });
       });
 
       window.google.maps.event.addListener(newMap, 'tilesloaded', () => {
-        updateCenter && updateCenter(getCenter(newMap));
+        onUpdateCenter && onUpdateCenter({ center: getCenter(newMap) });
       });
 
       autoCompleteService.current = new window.google.maps.places.AutocompleteService();
@@ -237,7 +240,13 @@ const Map_ = ({
 
       setMap(newMap);
     }
-  }, [map, updateCenter, center, zoom]);
+
+    return () => {
+      autoCompleteService.current = undefined;
+      placesService.current = undefined;
+      // TODO cleanup event listeners
+    };
+  }, [map, onUpdateCenter, center, zoom]);
 
   useEffect(() => {
     if (map) {
@@ -284,15 +293,15 @@ const Map_ = ({
       fetchPlaceDetails(
         place,
         placesService.current,
-        ({ center, bounds }: { center: LatLngLiteral; bounds: any }) => {
-          updateCenter(center);
+        ({ center, bounds }: { center: LatLng; bounds: any }) => {
+          onUpdateCenter({ center });
           map?.setCenter(center);
           map?.fitBounds(bounds);
         }
       );
       setAutoCompleteOptions([]);
     },
-    [map, updateCenter]
+    [map, onUpdateCenter]
   );
 
   const onResetLocation = useCallback(() => {
@@ -303,8 +312,8 @@ const Map_ = ({
   const onConfirmLocation = useCallback(() => {
     setAddingLocation(false);
     setAutoCompleteOptions([]);
-    addLocation(getCenter(map));
-  }, [addLocation, map]);
+    onAddLocation({ center: getCenter(map) });
+  }, [onAddLocation, map]);
 
   return (
     <div
@@ -344,20 +353,20 @@ export const Map = ({
   center,
   zoom,
   locations,
-  addLocation,
-  updateCenter,
+  onAddLocation,
+  onUpdateCenter,
   onCaptionChange,
   onViewListClick,
 }: MapProps) => {
   return (
     <Wrapper apiKey={GOOGLE_MAPS_API_KEY} libraries={['places']} render={render}>
       <Map_
-        addLocation={addLocation}
         center={center}
         locations={locations}
-        updateCenter={updateCenter}
         zoom={zoom}
+        onAddLocation={onAddLocation}
         onCaptionChange={onCaptionChange}
+        onUpdateCenter={onUpdateCenter}
         onViewListClick={onViewListClick}
       />
     </Wrapper>

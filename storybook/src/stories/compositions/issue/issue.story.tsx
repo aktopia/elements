@@ -4,11 +4,30 @@ import { store as headerStore } from '@story/stores/issue/header';
 import { store as homeTabStore } from '@story/stores/issue/home';
 import { store as wrapPageStore } from '@story/stores/wrap-page';
 import { mockStory } from '@story/utils/mock-story';
+import { lorem } from '@story/utils/string';
 import { randomTimestamp } from '@story/utils/time';
 
 export default {
   title: 'Compositions/Issue/Issue',
   component: Component,
+};
+
+const locationsStore = {
+  read: {
+    'location/data': [
+      { lng: 78.9629, lat: 20.5937, caption: lorem.generateSentences(1), id: '1' },
+      { lng: 80.237617, lat: 13.067439, caption: lorem.generateSentences(1), id: '2' },
+    ],
+    'issue.location/center': { lng: 78.9629, lat: 20.5937 },
+    'issue.location.slide-over/visible': true,
+  },
+  dispatch: [
+    'issue.location.slide-over/open',
+    'issue.location.slide-over/close',
+    'issue.location/add',
+    'issue.location.center/update',
+    'issue.location.caption/update',
+  ],
 };
 
 const store = {
@@ -17,6 +36,7 @@ const store = {
     ...headerStore.read,
     ...discussStore.read,
     ...homeTabStore.read,
+    ...locationsStore.read,
     'current.issue/id': 'issue-1',
     'current.user/id': '2',
     'issue.tabs/active-tab-id': 'locations',
@@ -27,6 +47,7 @@ const store = {
     ...headerStore.dispatch,
     ...discussStore.dispatch,
     ...homeTabStore.dispatch,
+    ...locationsStore.dispatch,
   ],
 };
 

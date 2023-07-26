@@ -11,7 +11,7 @@ type Story = StoryObj<typeof Component>;
 
 export const Map: Story = {
   args: {
-    addLocation: action('addLocation'),
-    updateCenter: action('updateCenter'),
+    onAddLocation: action('onAddLocation'),
+    onUpdateCenter: action('onUpdateCenter'),
   },
 };

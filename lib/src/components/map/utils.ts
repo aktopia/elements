@@ -39,7 +39,7 @@ export function calculateBounds(locations: any) {
 
 export function getCenter(map: any) {
   const center = map.getCenter();
-  const lat = center.lat();
-  const lng = center.lng();
+  const lat = center?.lat();
+  const lng = center?.lng();
   return { lat, lng };
 }
