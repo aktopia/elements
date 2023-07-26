@@ -16,13 +16,21 @@ interface Location extends LatLng {
   id: string;
   caption: string;
 }
+
+/* TODO
+- On hover should hover the marker
+- Add locate icon which when clicked will zoom in on the selected location
+
+
+ */
 const LocationCard = suspensify(({ location }: { location: Location }) => {
   return (
-    <div className={'flex items-center gap-3'}>
-      <div className={'flex items-center gap-3'}>
-        <p className={'text-sm font-medium text-gray-700'}>{location.caption}</p>
-      </div>
-    </div>
+    <p
+      className={
+        'rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 shadow'
+      }>
+      {location.caption}
+    </p>
   );
 });
 
@@ -39,9 +47,11 @@ const LocationsListSlideOver = suspensify(({ locations }: { locations: Location[
         <SlideOverCloseButton onClick={onClose} />
       </SlideOverHeader>
       <SlideOverBody>
-        {locations.map((location) => (
-          <LocationCard key={location.id} location={location} suspense={{ lines: 8 }} />
-        ))}
+        <div className={'flex flex-col gap-5'}>
+          {locations.map((location) => (
+            <LocationCard key={location.id} location={location} suspense={{ lines: 8 }} />
+          ))}
+        </div>
       </SlideOverBody>
     </SlideOver>
   );

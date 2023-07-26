@@ -45,7 +45,7 @@ export const SlideOver = ({ children, visible }: { children: ReactNode; visible:
   return (
     <div
       className={
-        'fixed right-0 top-0 z-50 h-full w-full overflow-y-scroll border-l border-l-gray-200 bg-white shadow-2xl sm:w-1/3'
+        'fixed right-0 top-0 z-50 h-screen w-full overflow-y-scroll border-l border-l-gray-200 bg-white shadow-2xl sm:w-1/3'
       }>
       {children}
     </div>
