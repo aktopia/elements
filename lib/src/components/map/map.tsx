@@ -53,7 +53,7 @@ const ResetLocation = ({ onClick }: { onClick: any }) => {
   return (
     <RawButton
       className={
-        'group absolute bottom-32 right-2 flex cursor-pointer items-center justify-center rounded-full border border-stone-200 bg-white p-1.5 text-stone-600 shadow-xl hover:bg-stone-50'
+        'group absolute bottom-32 left-2 flex cursor-pointer items-center justify-center rounded-full border border-stone-300 bg-white p-1.5 text-stone-600 shadow-2xl hover:bg-stone-50'
       }
       type={'button'}
       onPress={onClick}>
@@ -102,7 +102,7 @@ const AddLocation = ({
         </RawButton>
         <RawButton
           className={
-            'flex items-center justify-center rounded-md border border-stone-200 bg-white px-3 text-stone-500 shadow-xl hover:bg-stone-50 hover:text-stone-800'
+            'flex items-center justify-center rounded-md border border-stone-300 bg-white px-3 text-stone-500 shadow-xl hover:bg-stone-50 hover:text-stone-800'
           }
           type={'button'}
           onPress={onCancel}>
@@ -149,7 +149,7 @@ const StartAddLocation = ({ show, onClick }: { onClick: () => void; show: boolea
   return show ? (
     <RawButton
       className={
-        'ahover:hover:bg-stone-50 group absolute top-3 right-3 flex cursor-pointer items-center justify-center rounded-lg border border-stone-200 bg-white shadow-xl'
+        'ahover:hover:bg-stone-50 group absolute top-3 left-3 flex cursor-pointer items-center justify-center rounded-lg border border-stone-300 bg-white shadow-xl'
       }
       type={'button'}
       onPress={onClick}>
@@ -184,7 +184,7 @@ const ViewList = ({ onClick }: { onClick: () => void }) => {
   return (
     <RawButton
       className={
-        'group absolute bottom-7 flex cursor-pointer items-center justify-center gap-2 rounded-full border border-stone-200 bg-white py-1 pl-3 pr-5 text-stone-600 shadow-xl hover:bg-stone-50'
+        'group absolute bottom-7 flex cursor-pointer items-center justify-center gap-2 rounded-full border border-stone-300 bg-white py-1 pl-3 pr-5 text-stone-600 shadow-xl hover:bg-stone-50'
       }
       type={'button'}
       onPress={onClick}>
@@ -220,6 +220,10 @@ const Map_ = ({
         mapTypeControl: false,
         fullscreenControl: false,
         keyboardShortcuts: false,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_BOTTOM,
+        },
         ...(center && { center }),
         ...(zoom && { zoom }),
       });
