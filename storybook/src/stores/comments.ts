@@ -1,6 +1,7 @@
 import { lorem } from '@story/utils/string';
 import { randomTimestamp } from '@story/utils/time';
 import { memoize } from 'lodash';
+import { store as votingStore } from '@story/stores/voting';
 
 const inProgress = {
   'in-progress': false,
@@ -26,6 +27,7 @@ const commentsByParentId = memoize(({ 'ref/id': id, 'ref/attribute': identifier 
 
 export const store = {
   read: {
+    ...votingStore.read,
     'comment.deletion/in-progress': inProgress,
     'comment/creator-name': ({ 'comment/id': id }: { 'comment/id': string }) => {
       switch (id) {
@@ -51,6 +53,7 @@ export const store = {
     'comment/created-at': randomTimestamp(),
   },
   dispatch: [
+    ...votingStore.dispatch,
     'new.comment/post',
     'new.comment/update',
     'comment.deletion/cancel',

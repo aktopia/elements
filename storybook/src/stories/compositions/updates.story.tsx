@@ -17,6 +17,10 @@ export const Updates = mockStory({
   store,
   args,
   render: (args) => {
-    return <Component {...args} />;
+    return (
+      <div className={'bg-white p-5'}>
+        <Component {...args} />{' '}
+      </div>
+    );
   },
 });

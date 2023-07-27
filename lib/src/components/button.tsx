@@ -85,6 +85,7 @@ export interface ButtonProps {
   count?: number;
   clicked?: boolean;
   Icon?: React.ComponentType<any>;
+  iconClassName?: string;
   type?: 'button' | 'submit';
   kind: Kind;
   disabled?: boolean;
@@ -97,6 +98,7 @@ export const Button = memo(
     count,
     type = 'button',
     Icon,
+    iconClassName,
     size,
     kind,
     disabled,
@@ -123,7 +125,7 @@ export const Button = memo(
         })}
         type={type === 'submit' ? 'submit' : 'button'}
         onClick={onClickMemo}>
-        {!!Icon && <Icon className={iconVariant({ size, kind })} />}
+        {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
         <span>{value}</span>
         {!!count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
       </button>

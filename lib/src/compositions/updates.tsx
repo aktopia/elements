@@ -3,6 +3,7 @@ import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
 import { Timestamp } from '@elements/components/timestamp';
+import { Voting } from '@elements/compositions/voting';
 import { ContextMenuItem } from '@elements/components/with-context-menu';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
@@ -79,6 +80,14 @@ const Update = suspensify(({ id }: { id: string }) => {
         refId={id}
         suspense={{ lines: 4 }}
       />
+      <div>
+        <Voting
+          refAttribute={'entity.type/update'}
+          refId={id}
+          size={'xs'}
+          suspense={{ lines: 2 }}
+        />
+      </div>
     </div>
   );
 });

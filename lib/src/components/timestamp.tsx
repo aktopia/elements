@@ -41,9 +41,10 @@ export const Timestamp = ({ timestamp, className, prefix, relative = false }: Ti
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Content
-            className={'rounded-md bg-gray-600 py-1 px-2 text-xs text-white shadow-md'}>
+            className={'rounded-md bg-gray-700 py-2 px-2.5 text-xs text-white shadow-lg'}
+            sideOffset={3}>
             <p>{tooltipTime}</p>
-            <Tooltip.Arrow className={'fill-gray-600'} />
+            <Tooltip.Arrow className={'fill-gray-700'} />
           </Tooltip.Content>
         </Tooltip.Portal>
       </Tooltip.Root>

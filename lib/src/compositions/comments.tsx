@@ -12,6 +12,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { Timestamp } from '@elements/components/timestamp';
 import { ContextMenuItem } from '@elements/components/with-context-menu';
 import { TextEditor } from '@elements/compositions/text-editor';
+import { Voting } from '@elements/compositions/voting';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { isEmpty } from 'lodash';
@@ -154,14 +155,22 @@ export const Comment = suspensify(({ id }: { id: string }) => {
                 refId={id}
                 suspense={{ lines: 2 }}
               />
-              <Button
-                Icon={ChatBubbleLeftEllipsisOutline}
-                clicked={isReplying}
-                kind={'tertiary'}
-                size={'xxs'}
-                value={t('common/reply')}
-                onClick={onToggleReply}
-              />
+              <div className={'flex gap-5'}>
+                <Voting
+                  refAttribute={'entity.type/comment'}
+                  refId={id}
+                  size={'xs'}
+                  suspense={{ lines: 1 }}
+                />
+                <Button
+                  Icon={ChatBubbleLeftEllipsisOutline}
+                  clicked={isReplying}
+                  kind={'tertiary'}
+                  size={'xxs'}
+                  value={t('common/reply')}
+                  onClick={onToggleReply}
+                />
+              </div>
             </>
           )}
         </div>

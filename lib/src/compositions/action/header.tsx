@@ -1,5 +1,5 @@
-import { BoltOutline, Giving } from '@elements/_icons';
-import { Button } from '@elements/components/button';
+import { Crowd, Giving, ShareOutline } from '@elements/_icons';
+import { Button, ButtonProps } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
 import { ISwitch, NamedSwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';
@@ -9,13 +9,19 @@ import { Tabs } from '@elements/components/tabs';
 import { Timestamp } from '@elements/components/timestamp';
 import { EntityType } from '@elements/compositions/entity-type';
 import { TextEditor } from '@elements/compositions/text-editor';
+import { Voting } from '@elements/compositions/voting';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { memo, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
-export const SubscriptionBar = memo(() => {
-  const actionId = useValue('current.action/id');
-  const userId = useValue('current.user/id');
+type ShareButtonProps = Omit<ButtonProps, 'value' | 'Icon'>;
+export const ShareButton = ({ clicked, ...props }: ShareButtonProps) => {
+  return <Button {...props} Icon={ShareOutline} clicked={clicked} value={'Share'} />;
+};
+
+export const SubscriptionBar = suspensify(() => {
+  const actionId = useValue<string>('current.action/id');
+  const userId = useValue<string>('current.user/id');
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
   const followCount = useValue<number>('action.follow/count', { 'action/id': actionId });
   const saved = useValue<boolean>('action/saved', ident);
@@ -85,8 +91,8 @@ export const LastActive = suspensify(() => {
 });
 
 export const ActionBar = suspensify(() => {
-  const actionId = useValue('current.action/id');
-  const userId = useValue('current.user/id');
+  const actionId = useValue<string>('current.action/id');
+  const userId = useValue<string>('current.user/id');
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
   const bumped = useValue<boolean>('action/bumped', ident);
   const bumpCount = useValue<number>('action.bump/count', { 'action/id': actionId });
@@ -108,13 +114,19 @@ export const ActionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
+      <Voting
+        refAttribute={'entity.type/action'}
+        refId={actionId}
+        size={'sm'}
+        suspense={{ lines: 1 }}
+      />
       <Button
-        Icon={BoltOutline}
+        Icon={Crowd}
         clicked={bumped}
         count={bumpCount}
         kind={'secondary'}
         size={'md'}
-        value={'Bump'}
+        value={'Volunteer'}
         onClick={onBumpButtonClick}
       />
       <Button
@@ -196,13 +208,13 @@ export const Header = () => {
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>
         <div className={'flex flex-col gap-4'}>
-          {/*<SubscriptionBar />*/}
+          <div className={'flex justify-between'}>
+            <SubscriptionBar suspense={{ lines: 2 }} />
+            <ActionBar suspense={{ lines: 2 }} />
+          </div>
           <div className={'flex flex-col items-start gap-4'}>
-            <div className={'flex'}>
-              <div className={'mr-5 h-full w-full'}>
-                <Title suspense={{ lines: 1, lineHeight: '36' }} />
-              </div>
-              {/*<ActionBar />*/}
+            <div className={'mr-5 h-full w-full'}>
+              <Title suspense={{ lines: 1, lineHeight: '36' }} />
             </div>
             <div className={'flex items-center gap-5'}>
               <EntityType type={'action'} />

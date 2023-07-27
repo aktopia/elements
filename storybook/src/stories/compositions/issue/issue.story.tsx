@@ -5,7 +5,6 @@ import { store as homeTabStore } from '@story/stores/issue/home';
 import { store as wrapPageStore } from '@story/stores/wrap-page';
 import { mockStory } from '@story/utils/mock-story';
 import { lorem } from '@story/utils/string';
-import { randomTimestamp } from '@story/utils/time';
 
 export default {
   title: 'Compositions/Issue/Issue',
@@ -19,7 +18,7 @@ const locationsStore = {
       { lng: 80.237617, lat: 13.067439, caption: lorem.generateSentences(1), id: '2' },
     ],
     'issue.location/center': { lng: 78.9629, lat: 20.5937 },
-    'issue.location.slide-over/visible': true,
+    'issue.location.slide-over/visible': false,
   },
   dispatch: [
     'issue.location.slide-over/open',
@@ -39,8 +38,6 @@ const store = {
     ...locationsStore.read,
     'current.issue/id': 'issue-1',
     'current.user/id': '2',
-    'issue.tabs/active-tab-id': 'locations',
-    'issue/last-active-at': randomTimestamp(),
   },
   dispatch: [
     ...wrapPageStore.dispatch,

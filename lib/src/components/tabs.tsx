@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'cva';
 import React, { useCallback } from 'react';
 
-const containerVariant = cva('flex overflow-scroll', {
+const containerVariant = cva('flex', {
   variants: {
     size: {
       xs: 'gap-0.5',

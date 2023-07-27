@@ -71,6 +71,76 @@ export const Giving = ({ className }: { className: string }) => {
   );
 };
 
+export const Crowd = ({ className }: { className: string }) => {
+  return (
+    <svg className={`${className} relative bottom-0.5`} fill={'none'} viewBox={'0 0 20 20'}>
+      <circle
+        cx={'7'}
+        cy={'14'}
+        r={'1.3'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+      <circle
+        cx={'12'}
+        cy={'14'}
+        r={'1.3'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+      <circle
+        cx={'9'}
+        cy={'10'}
+        r={'1.3'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+      <circle
+        cx={'15'}
+        cy={'10'}
+        r={'1.3'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+      <circle
+        cx={'12'}
+        cy={'6'}
+        r={'1.3'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+      <circle
+        cx={'17'}
+        cy={'14'}
+        r={'1.3'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+      <path
+        d={
+          'M9.5 19.3s-.2-2.6-2.5-2.6-2.3 2.6-2.3 2.6M14.5 19.3s-.3-2.6-2.5-2.6c-2.3 0-2.5 2.6-2.5 2.6M19.3 19.3s0-2.6-2.3-2.6-2.5 2.6-2.5 2.6'
+        }
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+    </svg>
+  );
+};
+
 export {
   CheckCircleIcon as CheckCircleMiniSolid,
   XMarkIcon as XMarkMiniSolid,
@@ -83,6 +153,8 @@ export {
   ChevronDownIcon as ChevronDownMiniSolid,
   ChevronUpIcon as ChevronUpMiniSolid,
   MapPinIcon as MapPinMiniSolid,
+  ArrowUpIcon as ArrowUpMiniSolid,
+  BookmarkIcon as BookmarkMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
@@ -95,6 +167,11 @@ export {
   CheckBadgeIcon as CheckBadgeSolid,
   MapPinIcon as MapPinSolid,
   ChevronRightIcon as ChevronRightSolid,
+  ArrowUpIcon as ArrowUpSolid,
+  ArrowDownIcon as ArrowDownSolid,
+  ArrowSmallUpIcon as ArrowSmallUpSolid,
+  ArrowSmallDownIcon as ArrowSmallDownSolid,
+  BookmarkIcon as BookmarkSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -110,6 +187,8 @@ export {
   PhotoIcon as PhotoOutline,
   PlusIcon as PlusOutline,
   ListBulletIcon as ListBulletOutline,
+  ShareIcon as ShareOutline,
+  BookmarkIcon as BookmarkOutline,
 } from '@heroicons/react/24/outline';
 
 /*
