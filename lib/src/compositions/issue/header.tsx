@@ -1,4 +1,6 @@
 import { FollowButton } from '@elements/components/follow-button';
+import { QRCodeButton } from '@elements/components/qr-code-button';
+import { RaiseHand } from '@elements/components/raise-hand';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
@@ -48,6 +50,7 @@ export const SubscriptionBar = suspensify(() => {
         onClick={onFollowButtonClick}
       />
       <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
+      <QRCodeButton kind={'tertiary'} size={'xs'} />
     </div>
   );
 });
@@ -117,6 +120,15 @@ const Voting = suspensify(() => {
   );
 });
 
+const ActionBar = () => {
+  return (
+    <div className={'flex gap-6'}>
+      <Voting suspense={{ lines: 1 }} />
+      <RaiseHand count={5} raised={false} size={'sm'} onClick={console.log} />
+    </div>
+  );
+};
+
 export const Header = () => {
   return (
     <div className={'flex flex-col gap-10'}>
@@ -124,7 +136,7 @@ export const Header = () => {
         <div className={'flex flex-col gap-4'}>
           <div className={'flex justify-between'}>
             <SubscriptionBar suspense={{ lines: 1 }} />
-            <Voting suspense={{ lines: 1 }} />
+            <ActionBar />
           </div>
           <div className={'flex flex-col items-start gap-4'}>
             <div className={'mr-5 h-full w-full'}>

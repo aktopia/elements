@@ -52,4 +52,5 @@ export default {
   'relationships/empty': 'No relationships yet.',
   'locations/confirm': 'Confirm Location',
   'issue.location.slide-over/location-list': 'Locations',
+  'percentage/complete': 'Complete',
 };

@@ -3,6 +3,7 @@ import { Button, ButtonProps } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
 import { ISwitch, NamedSwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';
+import { QRCodeButton } from '@elements/components/qr-code-button';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
@@ -57,6 +58,7 @@ export const SubscriptionBar = suspensify(() => {
         onClick={onFollowButtonClick}
       />
       <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
+      <QRCodeButton kind={'tertiary'} size={'xs'} />
     </div>
   );
 });
@@ -95,7 +97,6 @@ export const ActionBar = suspensify(() => {
   const userId = useValue<string>('current.user/id');
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
   const bumped = useValue<boolean>('action/bumped', ident);
-  const bumpCount = useValue<number>('action.bump/count', { 'action/id': actionId });
   const bump = useDispatch('action/bump');
   const unBump = useDispatch('action/unbump');
   const navigateToFunding = useDispatch('action/fund');
@@ -113,7 +114,7 @@ export const ActionBar = suspensify(() => {
   }, [navigateToFunding, ident]);
 
   return (
-    <div className={'flex gap-4'}>
+    <div className={'flex gap-6'}>
       <Voting
         refAttribute={'entity.type/action'}
         refId={actionId}
@@ -123,7 +124,6 @@ export const ActionBar = suspensify(() => {
       <Button
         Icon={Crowd}
         clicked={bumped}
-        count={bumpCount}
         kind={'secondary'}
         size={'md'}
         value={'Volunteer'}
@@ -222,7 +222,7 @@ export const Header = () => {
             </div>
           </div>
         </div>
-        {/*<ProgressIndicator />*/}
+        <ProgressIndicator suspense={{ lines: 1 }} />
       </div>
       <ActionTabs suspense={{ lines: 1 }} />
     </div>

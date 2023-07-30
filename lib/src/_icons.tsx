@@ -172,6 +172,7 @@ export {
   ArrowSmallUpIcon as ArrowSmallUpSolid,
   ArrowSmallDownIcon as ArrowSmallDownSolid,
   BookmarkIcon as BookmarkSolid,
+  HandRaisedIcon as HandRaisedSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -189,6 +190,8 @@ export {
   ListBulletIcon as ListBulletOutline,
   ShareIcon as ShareOutline,
   BookmarkIcon as BookmarkOutline,
+  QrCodeIcon as QrCodeOutline,
+  HandRaisedIcon as HandRaisedOutline,
 } from '@heroicons/react/24/outline';
 
 /*

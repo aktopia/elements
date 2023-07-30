@@ -54,4 +54,5 @@ export const Issue = mockStory({
   render: (args) => {
     return <Component {...args} />;
   },
+  parameters: { layout: 'fullscreen' },
 });

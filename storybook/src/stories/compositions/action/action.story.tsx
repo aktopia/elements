@@ -34,4 +34,5 @@ export const Action = mockStory({
   render: (args) => {
     return <Component {...args} />;
   },
+  parameters: { layout: 'fullscreen' },
 });
