@@ -6,6 +6,7 @@ import { toEDNString } from 'edn-data';
 import { isEqual } from 'lodash';
 import { memo, ReactNode, useCallback, useEffect, useRef } from 'react';
 import { proxy, subscribe as listen } from 'valtio';
+import { Parameters } from '@storybook/react';
 
 export type ReadMock = Record<string, any>;
 export type DispatchMock = string[];
@@ -21,6 +22,7 @@ interface IConnectedStory {
   args?: any;
   store: { read: ReadMock; dispatch: DispatchMock };
   render: (args?: any) => JSX.Element;
+  parameters?: Parameters;
 }
 
 function copyToClipboard(s: string) {
@@ -129,7 +131,7 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
   );
 });
 
-export const mockStory = ({ store, args, render }: IConnectedStory) => {
+export const mockStory = ({ store, args, render, parameters }: IConnectedStory) => {
   return {
     args: store.read,
     render: (args_: Record<string, any>) => {
@@ -141,5 +143,6 @@ export const mockStory = ({ store, args, render }: IConnectedStory) => {
         </MockStore>
       );
     },
+    parameters,
   };
 };
