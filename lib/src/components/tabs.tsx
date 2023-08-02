@@ -7,6 +7,7 @@ const containerVariant = cva('flex', {
       xs: 'gap-0.5',
       sm: 'gap-1',
       md: 'gap-6',
+      lg: 'gap-10',
     },
   },
 });
@@ -17,9 +18,10 @@ const tabVariant = cva('flex cursor-pointer items-center justify-center ease-out
       xs: 'px-1.5 py-1 rounded-md',
       sm: 'px-2 py-1 font-medium rounded-md',
       md: 'px-5 py-2.5 text-base font-medium rounded-md',
+      lg: 'px-5 py-2.5 text-lg font-medium rounded-md',
     },
     status: {
-      active: 'text-gray-700 shadow-inner bg-gray-100 border border-gray-300',
+      active: 'text-gray-800 shadow-inner bg-gray-100 border border-gray-300',
       inactive: 'text-gray-500 hover:text-gray-700',
     },
   },

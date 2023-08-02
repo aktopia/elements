@@ -2,7 +2,7 @@ import { formatCount } from '@elements/_utils';
 import { cva } from 'cva';
 import React, { memo, MouseEventHandler, useCallback } from 'react';
 
-const variant = cva('relative flex items-center justify-center w-max rounded-md', {
+const containerVariant = cva('relative flex items-center justify-center w-max rounded-md', {
   variants: {
     kind: {
       primary: 'bg-blue-600 text-white shadow-md',
@@ -13,9 +13,9 @@ const variant = cva('relative flex items-center justify-center w-max rounded-md'
     },
     size: {
       xxs: 'text-xs gap-1.5 px-1.5 h-[28px] font-normal shadow-sm',
-      xs: 'text-xs gap-1.5 px-2.5 h-[30px] font-medium',
-      sm: 'text-sm gap-1.5 px-3 h-[32px] font-medium',
-      md: 'text-sm gap-2 px-4 h-[38px] font-medium',
+      xs: 'text-xs gap-1.5 px-2.5 h-[32px] font-medium',
+      sm: 'text-sm gap-2.5 px-3 h-[36px] font-medium',
+      md: 'text-sm gap-2 px-4 h-[40px] font-medium',
     },
     disabled: {
       false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
@@ -30,6 +30,7 @@ const variant = cva('relative flex items-center justify-center w-max rounded-md'
   },
   compoundVariants: [
     { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5 shadow-sm' },
+    { size: 'sm', hasIcon: true, class: 'pl-2.5 pr-3 shadow-sm' },
     { size: 'md', hasIcon: true, class: 'pl-3 pr-4' },
     {
       kind: 'tertiary',
@@ -86,6 +87,7 @@ export interface ButtonProps {
   clicked?: boolean;
   Icon?: React.ComponentType<any>;
   iconClassName?: string;
+  containerClassName?: string;
   type?: 'button' | 'submit';
   kind: Kind;
   disabled?: boolean;
@@ -99,6 +101,7 @@ export const Button = memo(
     type = 'button',
     Icon,
     iconClassName,
+    containerClassName,
     size,
     kind,
     disabled,
@@ -116,12 +119,13 @@ export const Button = memo(
     return (
       <button
         {...props}
-        className={variant({
+        className={containerVariant({
           size,
           kind,
           disabled: !!disabled,
           hasIcon: !!Icon,
           clicked: !!clicked,
+          className: containerClassName,
         })}
         type={type === 'submit' ? 'submit' : 'button'}
         onClick={onClickMemo}>

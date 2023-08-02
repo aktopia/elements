@@ -141,7 +141,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
           <div className={'flex items-center justify-between'}>
             <div className={'flex items-center gap-5'}>
               <User name={creatorName} />
-              <Timestamp className={'text-xs text-gray-400'} timestamp={createdAt} />
+              <Timestamp className={'text-xs text-gray-500'} timestamp={createdAt} />
             </div>
             <ExpandCollapseButton expanded={expanded} onClick={onExpandCollapse} />
           </div>

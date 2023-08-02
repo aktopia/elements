@@ -24,7 +24,7 @@ const countVariant = cva('', {
     size: {
       xs: 'text-xs font-semibold',
       sm: 'text-sm font-medium',
-      md: 'text-md',
+      md: 'text-md font-medium',
     },
     active: {
       true: 'text-rose-600',

@@ -141,6 +141,34 @@ export const Crowd = ({ className }: { className: string }) => {
   );
 };
 
+export const CaratUpSolid = ({ className }: { className: string }) => {
+  return (
+    <svg className={`${className} relative bottom-0.5`} fill={'currentColor'} viewBox={'0 0 24 24'}>
+      <path
+        d={'M12 9.75L16.25 15.25H7.75L12 9.75Z'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+    </svg>
+  );
+};
+
+export const CaratUp = ({ className }: { className: string }) => {
+  return (
+    <svg className={`${className} relative bottom-0.5`} fill={'none'} viewBox={'0 0 20 20'}>
+      <path
+        d={'M12 9.75L16.25 15.25H7.75L12 9.75Z'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+    </svg>
+  );
+};
+
 export {
   CheckCircleIcon as CheckCircleMiniSolid,
   XMarkIcon as XMarkMiniSolid,
@@ -155,6 +183,9 @@ export {
   MapPinIcon as MapPinMiniSolid,
   ArrowUpIcon as ArrowUpMiniSolid,
   BookmarkIcon as BookmarkMiniSolid,
+  ChartBarIcon as ChartBarMiniSolid,
+  ArrowPathIcon as ArrowPathMiniSolid,
+  GlobeAmericasIcon as GlobeAmericasMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
@@ -173,6 +204,7 @@ export {
   ArrowSmallDownIcon as ArrowSmallDownSolid,
   BookmarkIcon as BookmarkSolid,
   HandRaisedIcon as HandRaisedSolid,
+  ArrowPathIcon as ArrowPathSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -192,6 +224,7 @@ export {
   BookmarkIcon as BookmarkOutline,
   QrCodeIcon as QrCodeOutline,
   HandRaisedIcon as HandRaisedOutline,
+  ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareOutline,
 } from '@heroicons/react/24/outline';
 
 /*

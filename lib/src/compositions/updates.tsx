@@ -70,7 +70,7 @@ const Update = suspensify(({ id }: { id: string }) => {
       }>
       <div className={'flex w-full items-center gap-5'}>
         <User name={creatorName} />
-        <Timestamp className={'text-xs text-gray-400'} timestamp={createdAt} />
+        <Timestamp className={'text-xs text-gray-500'} timestamp={createdAt} />
       </div>
       <TextEditor
         className={'text-gray-700'}

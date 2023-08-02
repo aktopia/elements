@@ -7,7 +7,7 @@ export const wrapPage = (Component: ComponentType) =>
     return (
       <div className={'h-full w-full bg-white'}>
         <NavBar />
-        <div className={'p-6 md:p-14'}>
+        <div className={'p-4 md:px-40 md:py-16'}>
           <Component {...props} />
         </div>
       </div>

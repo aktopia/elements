@@ -127,7 +127,7 @@ export const NavBar = () => {
         <Logo />
         <div
           className={
-            'flex w-full items-center justify-between bg-white py-2.5 pl-2 pr-6 md:pl-10 md:pr-14'
+            'flex w-full items-center justify-between bg-white py-2.5 pl-2 pr-6 md:pl-12 md:pr-14'
           }>
           <CreateDropdown />
           <SearchBar />

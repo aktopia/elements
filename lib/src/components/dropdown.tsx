@@ -1,3 +1,4 @@
+import { ArrowTopRightOnSquareOutline } from '@elements/_icons';
 import { Menu, Transition } from '@headlessui/react';
 import React, { Fragment } from 'react';
 
@@ -9,7 +10,7 @@ interface ItemProps {
   onClick?: () => void;
 }
 
-export const Item = ({ text, href, Icon, onClick, openNewTab }: ItemProps) => {
+export const Item = ({ text, href, Icon, onClick }: ItemProps) => {
   const body = (
     <>
       {Icon && <Icon className={'mr-3 h-5 w-5 text-gray-700'} />}
@@ -18,15 +19,20 @@ export const Item = ({ text, href, Icon, onClick, openNewTab }: ItemProps) => {
   );
 
   return (
-    <Menu.Item as={Fragment}>
+    <Menu.Item
+      as={'div'}
+      className={'ui-active:bg-gray-100 my-1 flex w-full cursor-default items-center bg-white'}>
       {href ? (
-        <a
-          className={'ui-active:bg-gray-100 my-1 flex w-full items-center bg-white'}
-          href={href}
-          rel={'noreferrer'}
-          target={openNewTab ? '_blank' : '_self'}>
-          {body}
-        </a>
+        <div className={'flex items-center'}>
+          <a className={' hover:underline'} href={href} rel={'noreferrer'}>
+            {body}
+          </a>
+          <a className={'pr-2'} href={href} rel={'noreferrer'} target={'_blank'}>
+            <ArrowTopRightOnSquareOutline
+              className={'h-3.5 w-3.5 stroke-2 text-gray-400 hover:text-gray-700'}
+            />
+          </a>
+        </div>
       ) : (
         <button
           className={'ui-active:bg-gray-100 my-1 flex w-full items-center bg-white'}

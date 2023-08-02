@@ -6,11 +6,11 @@ const entityTypeTranslation = {
   action: 'common/action',
 };
 
-const containerVariant = cva('w-max rounded border px-2 py-1 shadow-inner', {
+const containerVariant = cva('w-max rounded border px-2 py-1', {
   variants: {
     type: {
-      issue: 'border-rose-200 bg-rose-50',
-      action: 'border-blue-200 bg-blue-50',
+      issue: 'border-rose-300 bg-rose-50',
+      action: 'border-blue-300 bg-blue-50',
     },
   },
 });

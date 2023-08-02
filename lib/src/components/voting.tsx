@@ -24,7 +24,7 @@ const countVariant = cva('', {
     size: {
       xs: 'text-xs font-semibold',
       sm: 'text-sm font-medium',
-      md: 'text-md',
+      md: 'text-md font-medium',
     },
     active: {
       true: 'text-blue-600',
@@ -36,7 +36,7 @@ const countVariant = cva('', {
 const containerVariant = cva('flex items-center', {
   variants: {
     size: {
-      xs: 'gap-2',
+      xs: 'gap-1.5',
       sm: 'gap-2',
       md: 'gap-2.5',
     },

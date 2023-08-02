@@ -5,12 +5,28 @@ import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
 import { Timestamp } from '@elements/components/timestamp';
+import { SeveritySlider } from '@elements/compositions/issue/severity-slider';
 import { Voting as RawVoting } from '@elements/compositions/voting';
 import { EntityType } from '@elements/compositions/entity-type';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
+
+const Title = suspensify(() => {
+  const issueId = useValue<string>('current.issue/id');
+  const title = useValue<string>('issue/title', { 'issue/id': issueId });
+
+  return (
+    <TextEditor
+      className={'text-3xl font-semibold text-gray-800'}
+      content={title}
+      refAttribute={'issue.title/text'}
+      refId={issueId}
+      suspense={{ lines: 1 }}
+    />
+  );
+});
 
 export const SubscriptionBar = suspensify(() => {
   const issueId = useValue<string>('current.issue/id');
@@ -42,6 +58,7 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
+      <QRCodeButton kind={'tertiary'} size={'xs'} />
       <FollowButton
         clicked={followed}
         count={followCount}
@@ -50,23 +67,7 @@ export const SubscriptionBar = suspensify(() => {
         onClick={onFollowButtonClick}
       />
       <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
-      <QRCodeButton kind={'tertiary'} size={'xs'} />
     </div>
-  );
-});
-
-const Title = suspensify(() => {
-  const issueId = useValue<string>('current.issue/id');
-  const title = useValue<string>('issue/title', { 'issue/id': issueId });
-
-  return (
-    <TextEditor
-      className={'text-2xl font-bold text-gray-800'}
-      content={title}
-      refAttribute={'issue.title/text'}
-      refId={issueId}
-      suspense={{ lines: 1 }}
-    />
   );
 });
 
@@ -75,7 +76,7 @@ export const LastActive = suspensify(() => {
   const lastActive = useValue<number>('issue/last-active-at', { 'issue/id': issueId });
   return (
     <Timestamp
-      className={'text-xs text-gray-400'}
+      className={'text-xs text-gray-500'}
       // TODO i18n
       prefix={'Active'}
       relative={true}
@@ -105,7 +106,7 @@ export const IssueTabs = suspensify(() => {
     [updateTab]
   );
 
-  return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
+  return <Tabs activeTabId={activeTabId} size={'lg'} tabs={tabs} onTabClick={onTabClick} />;
 });
 
 const Voting = suspensify(() => {
@@ -114,7 +115,7 @@ const Voting = suspensify(() => {
     <RawVoting
       refAttribute={'entity.type/issue'}
       refId={issueId}
-      size={'sm'}
+      size={'md'}
       suspense={{ lines: 2 }}
     />
   );
@@ -122,32 +123,33 @@ const Voting = suspensify(() => {
 
 const ActionBar = () => {
   return (
-    <div className={'flex gap-6'}>
+    <div className={'flex gap-12'}>
       <Voting suspense={{ lines: 1 }} />
-      <RaiseHand count={5} raised={false} size={'sm'} onClick={console.log} />
+      <RaiseHand count={5} raised={false} size={'md'} onClick={console.log} />
     </div>
   );
 };
 
 export const Header = () => {
   return (
-    <div className={'flex flex-col gap-10'}>
-      <div className={'flex flex-col gap-8'}>
-        <div className={'flex flex-col gap-4'}>
-          <div className={'flex justify-between'}>
-            <SubscriptionBar suspense={{ lines: 1 }} />
-            <ActionBar />
-          </div>
-          <div className={'flex flex-col items-start gap-4'}>
-            <div className={'mr-5 h-full w-full'}>
-              <Title suspense={{ lines: 1, lineHeight: '36' }} />
-            </div>
-            <div className={'flex items-center gap-5'}>
+    <div className={'flex flex-col gap-16'}>
+      <div className={'flex flex-col gap-10'}>
+        <div className={'flex flex-col gap-8'}>
+          <div className={'flex items-baseline justify-between'}>
+            <div className={'flex items-center gap-7'}>
               <EntityType type={'issue'} />
               <LastActive suspense={{ lines: 1 }} />
             </div>
+            <SubscriptionBar suspense={{ lines: 1 }} />
+          </div>
+          <div className={'flex flex-col items-start gap-10'}>
+            <div className={'mr-5 h-full w-full'}>
+              <Title suspense={{ lines: 1, lineHeight: '36' }} />
+            </div>
+            <ActionBar />
           </div>
         </div>
+        <SeveritySlider />
       </div>
       <IssueTabs suspense={{ lines: 1 }} />
     </div>

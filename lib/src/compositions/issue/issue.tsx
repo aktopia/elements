@@ -2,6 +2,7 @@ import { Discuss } from '@elements/compositions/discuss';
 import { Header } from '@elements/compositions/issue/header';
 import { Home } from '@elements/compositions/issue/home';
 import { Locations } from '@elements/compositions/issue/locations';
+import { Media } from '@elements/compositions/issue/media';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 
@@ -20,7 +21,7 @@ export const Issue = wrapPage(() => {
       tab = <Discuss refAttribute={'entity.type/issue'} refId={issueId} suspense={{ lines: 12 }} />;
       break;
     case 'media':
-      tab = <Home suspense={{ lines: 12 }} />;
+      tab = <Media suspense={{ lines: 8 }} />;
       break;
     case 'locations':
       tab = (
@@ -32,7 +33,7 @@ export const Issue = wrapPage(() => {
   }
 
   return (
-    <div className={'flex flex-col gap-10'}>
+    <div className={'flex flex-col gap-16'}>
       <Header />
       {tab}
     </div>

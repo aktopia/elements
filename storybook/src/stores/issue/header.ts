@@ -11,7 +11,7 @@ export const store = {
     'issue/followed': false,
     'issue.follow/count': 2600,
     'issue/title': lorem.generateSentences(1),
-    'issue.tabs/active-tab-id': 'home',
+    'issue.tabs/active-tab-id': 'media',
     'issue/last-active-at': randomTimestamp(),
   },
 

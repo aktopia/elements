@@ -50,6 +50,7 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
+      <QRCodeButton kind={'tertiary'} size={'xs'} />
       <FollowButton
         clicked={followed}
         count={followCount}
@@ -58,7 +59,6 @@ export const SubscriptionBar = suspensify(() => {
         onClick={onFollowButtonClick}
       />
       <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
-      <QRCodeButton kind={'tertiary'} size={'xs'} />
     </div>
   );
 });
@@ -83,7 +83,7 @@ export const LastActive = suspensify(() => {
   const lastActive = useValue<number>('action/last-active-at', { 'action/id': actionId });
   return (
     <Timestamp
-      className={'text-xs text-gray-400'}
+      className={'text-xs text-gray-500'}
       // TODO i18n
       prefix={'Active'}
       relative={true}
@@ -122,19 +122,20 @@ export const ActionBar = suspensify(() => {
         suspense={{ lines: 1 }}
       />
       <Button
+        Icon={Giving}
+        containerClassName={'w-28'}
+        kind={'primary'}
+        size={'sm'}
+        value={'Fund'}
+        onClick={onFundButtonClick}
+      />
+      <Button
         Icon={Crowd}
         clicked={bumped}
         kind={'secondary'}
-        size={'md'}
+        size={'sm'}
         value={'Volunteer'}
         onClick={onBumpButtonClick}
-      />
-      <Button
-        Icon={Giving}
-        kind={'primary'}
-        size={'md'}
-        value={'Fund'}
-        onClick={onFundButtonClick}
       />
     </div>
   );
@@ -208,18 +209,18 @@ export const Header = () => {
     <div className={'flex flex-col gap-10'}>
       <div className={'flex flex-col gap-8'}>
         <div className={'flex flex-col gap-4'}>
-          <div className={'flex justify-between'}>
-            <SubscriptionBar suspense={{ lines: 2 }} />
-            <ActionBar suspense={{ lines: 2 }} />
-          </div>
-          <div className={'flex flex-col items-start gap-4'}>
-            <div className={'mr-5 h-full w-full'}>
-              <Title suspense={{ lines: 1, lineHeight: '36' }} />
-            </div>
-            <div className={'flex items-center gap-5'}>
+          <div className={'flex items-baseline justify-between'}>
+            <div className={'flex gap-5'}>
               <EntityType type={'action'} />
               <LastActive suspense={{ lines: 1 }} />
             </div>
+            <SubscriptionBar suspense={{ lines: 2 }} />
+          </div>
+          <div className={'flex flex-col items-start gap-6'}>
+            <div className={'mr-5 h-full w-full'}>
+              <Title suspense={{ lines: 1, lineHeight: '36' }} />
+            </div>
+            <ActionBar suspense={{ lines: 2 }} />
           </div>
         </div>
         <ProgressIndicator suspense={{ lines: 1 }} />

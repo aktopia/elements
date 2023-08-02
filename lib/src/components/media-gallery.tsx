@@ -30,10 +30,8 @@ const AddMedia = () => {
 };
 
 export const MediaGallery = ({ images }: any) => {
-  const text = 'Drag and drop your media here';
   return (
     <div className={'space-y-6'}>
-      <p className={'w-full text-center text-gray-400'}>{text}</p>
       <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'}>
         <AddMedia />
         {images.map(({ url }: any) => {
