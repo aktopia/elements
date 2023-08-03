@@ -69,7 +69,7 @@ const Title = suspensify(() => {
 
   return (
     <TextEditor
-      className={'text-2xl font-bold'}
+      className={'text-3xl font-semibold text-gray-800'}
       content={title}
       refAttribute={'action.title/text'}
       refId={actionId}
@@ -114,18 +114,18 @@ export const ActionBar = suspensify(() => {
   }, [navigateToFunding, ident]);
 
   return (
-    <div className={'flex gap-6'}>
+    <div className={'flex gap-12'}>
       <Voting
         refAttribute={'entity.type/action'}
         refId={actionId}
-        size={'sm'}
+        size={'md'}
         suspense={{ lines: 1 }}
       />
       <Button
         Icon={Giving}
-        containerClassName={'w-28'}
+        containerClassName={'w-32'}
         kind={'primary'}
-        size={'sm'}
+        size={'md'}
         value={'Fund'}
         onClick={onFundButtonClick}
       />
@@ -133,7 +133,7 @@ export const ActionBar = suspensify(() => {
         Icon={Crowd}
         clicked={bumped}
         kind={'secondary'}
-        size={'sm'}
+        size={'md'}
         value={'Volunteer'}
         onClick={onBumpButtonClick}
       />
@@ -201,22 +201,22 @@ export const ActionTabs = suspensify(() => {
     [updateTab]
   );
 
-  return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
+  return <Tabs activeTabId={activeTabId} size={'lg'} tabs={tabs} onTabClick={onTabClick} />;
 });
 
 export const Header = () => {
   return (
-    <div className={'flex flex-col gap-10'}>
-      <div className={'flex flex-col gap-8'}>
-        <div className={'flex flex-col gap-4'}>
+    <div className={'flex flex-col gap-16'}>
+      <div className={'flex flex-col gap-10'}>
+        <div className={'flex flex-col gap-8'}>
           <div className={'flex items-baseline justify-between'}>
-            <div className={'flex gap-5'}>
+            <div className={'flex gap-7'}>
               <EntityType type={'action'} />
               <LastActive suspense={{ lines: 1 }} />
             </div>
             <SubscriptionBar suspense={{ lines: 2 }} />
           </div>
-          <div className={'flex flex-col items-start gap-6'}>
+          <div className={'flex flex-col items-start gap-10'}>
             <div className={'mr-5 h-full w-full'}>
               <Title suspense={{ lines: 1, lineHeight: '36' }} />
             </div>

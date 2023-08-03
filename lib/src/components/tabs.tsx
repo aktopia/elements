@@ -22,7 +22,7 @@ const tabVariant = cva('flex cursor-pointer items-center justify-center ease-out
     },
     status: {
       active: 'text-gray-800 shadow-inner bg-gray-100 border border-gray-300',
-      inactive: 'text-gray-500 hover:text-gray-700',
+      inactive: 'text-gray-500 hover:text-gray-800',
     },
   },
 });

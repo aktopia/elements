@@ -40,7 +40,7 @@ export const MediaGallery = ({ images }: any) => {
               key={url}
               alt={'media'}
               className={
-                'h-56 w-full cursor-pointer rounded-lg border-t bg-gray-200 object-cover shadow sm:h-52'
+                'h-56 w-full cursor-pointer rounded-lg border-t bg-gray-200 object-cover shadow-lg sm:h-52'
               }
               src={url}
             />
