@@ -1,5 +1,5 @@
 const path = require('path');
-const { mergeConfig } = require('vite');
+const { mergeConfig, searchForWorkspaceRoot } = require('vite');
 module.exports = {
   stories: ['../src/**/*.story.@(js|jsx|ts|tsx|mdx)'],
   addons: [
@@ -30,6 +30,11 @@ module.exports = {
       }, // Add dependencies to pre-optimization
       optimizeDeps: {
         include: ['storybook-dark-mode'],
+      },
+      server: {
+        fs: {
+          allow: [searchForWorkspaceRoot(process.cwd()), '../../lib'],
+        },
       },
     });
   },

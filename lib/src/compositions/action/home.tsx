@@ -46,7 +46,7 @@ const Outcome = memo(() => {
   const t = useTranslation();
 
   return (
-    <div className={'flex w-full flex-col gap-4 rounded-md border border-blue-600 bg-blue-50 p-6'}>
+    <div className={'flex w-full flex-col gap-4 rounded-lg border border-blue-600 bg-blue-50 p-6'}>
       <div className={'flex items-center gap-3'}>
         <TrophyMiniSolid className={'h-4 w-4 text-blue-700'} />
         <div className={'font-medium text-blue-700'}>{t('action/promised-outcome')}</div>

@@ -10,6 +10,7 @@ const containerVariant = cva('relative flex items-center justify-center w-max ro
       tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
       success: 'bg-green-600 text-white shadow-md',
       danger: 'bg-red-600 text-white shadow-md',
+      warning: 'bg-amber-50 text-amber-700 border border-amber-400 shadow',
     },
     size: {
       xxs: 'text-xs gap-1.5 px-1.5 h-[28px] font-normal shadow-sm',
@@ -46,6 +47,7 @@ const iconVariant = cva('', {
       primary: 'text-white',
       secondary: 'text-blue-600',
       tertiary: 'text-gray-500',
+      warning: 'text-amber-700',
       success: 'text-white',
       danger: 'text-white',
     },
@@ -64,6 +66,7 @@ const countVariant = cva('font-medium', {
       primary: 'text-white',
       secondary: 'text-blue-600',
       tertiary: 'text-gray-400',
+      warning: 'text-amber-600',
       success: 'text-white',
       danger: 'text-white',
     },
@@ -78,7 +81,7 @@ const countVariant = cva('font-medium', {
 
 type Size = 'xxs' | 'xs' | 'sm' | 'md';
 
-type Kind = 'primary' | 'secondary' | 'tertiary' | 'success' | 'danger';
+type Kind = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger';
 
 export interface ButtonProps {
   size: Size;

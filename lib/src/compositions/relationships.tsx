@@ -37,7 +37,7 @@ const Relationship = suspensify(({ id }: any) => {
   const Icon = icon[relationship.relation];
 
   return (
-    <div className={'flex flex-col gap-3 rounded-md border border-gray-300 p-4 shadow-sm'}>
+    <div className={'flex flex-col gap-2 rounded-lg border border-gray-300 p-4 shadow-sm'}>
       <div className={'flex items-center justify-between'}>
         <div className={'flex items-center gap-2'}>
           <Icon className={'h-5 w-5 text-gray-500'} />

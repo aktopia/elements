@@ -114,7 +114,7 @@ export const ActionBar = suspensify(() => {
   }, [navigateToFunding, ident]);
 
   return (
-    <div className={'flex gap-12'}>
+    <div className={'flex gap-10'}>
       <Voting
         refAttribute={'entity.type/action'}
         refId={actionId}

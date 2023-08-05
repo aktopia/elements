@@ -169,6 +169,50 @@ export const CaratUp = ({ className }: { className: string }) => {
   );
 };
 
+export const LocationArrow = ({ className }: { className: string }) => {
+  return (
+    <svg className={className} fill={'none'} viewBox={'0 0 24 24'}>
+      <path
+        d={'m10 14 2.8 5.3 6.4-14.6-14.4 7L10 14Z'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+    </svg>
+  );
+};
+
+export const LocationArrowSolid = ({ className }: { className: string }) => {
+  return (
+    <svg className={className} fill={'currentColor'} viewBox={'0 0 24 24'}>
+      <path
+        d={'m10 14 2.8 5.3 6.4-14.6-14.4 7L10 14Z'}
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+    </svg>
+  );
+};
+
+export const Crosshair = ({ className }: { className: string }) => {
+  return (
+    <svg className={`${className} relative bottom-0.5`} fill={'none'} viewBox={'0 0 20 20'}>
+      <path
+        d={
+          'M18.3 12a6.2 6.2 0 1 1-12.5 0 6.2 6.2 0 0 1 12.4 0ZM12 4.8v4.5M19.3 12h-4.6M12 14.8v4.4M9.3 12H4.7'
+        }
+        stroke={'currentColor'}
+        strokeLinecap={'round'}
+        strokeLinejoin={'round'}
+        strokeWidth={'1.5'}
+      />
+    </svg>
+  );
+};
+
 export {
   CheckCircleIcon as CheckCircleMiniSolid,
   XMarkIcon as XMarkMiniSolid,
