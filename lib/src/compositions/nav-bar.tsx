@@ -1,4 +1,10 @@
-import { ChevronDownMiniSolid, MagnifyingGlassOutline, UserCircleSolid } from '@elements/_icons';
+import {
+  ChevronDownMiniSolid,
+  MagnifyingGlassOutline,
+  MapPinOutline,
+  UserCircleSolid,
+} from '@elements/_icons';
+import { Button } from '@elements/components/button';
 import { Dropdown } from '@elements/components/dropdown';
 import { suspensify } from '@elements/components/suspensify';
 import { SocialSignIn } from '@elements/compositions/auth/social-sign-in';
@@ -97,7 +103,7 @@ const Logo = () => {
   return (
     <div
       className={
-        'font-logo flex items-center self-stretch bg-gradient-to-br from-blue-800 to-blue-600 px-3 text-xl text-white'
+        'font-logo flex h-full w-max items-center bg-gradient-to-br from-blue-800 to-blue-600 px-3 text-xl text-white'
       }>
       <a href={'/home'}>{aktopia}</a>
     </div>
@@ -120,17 +126,38 @@ const SearchBar = () => {
   );
 };
 
+const UserLocation = () => {
+  return (
+    <Button
+      Icon={MapPinOutline}
+      iconClassName={'stroke-2 relative bottom-[1px]'}
+      kind={'warning'}
+      size={'xs'}
+      value={'Set Location'}
+    />
+  );
+};
+
 export const NavBar = () => {
   return (
     <>
-      <div className={'flex h-full drop-shadow'}>
-        <Logo />
+      <div className={'grid h-max grid-cols-7 border-b border-b-gray-300 shadow-sm'}>
+        <div className={'col-start-1 col-end-2'}>
+          <Logo />
+        </div>
+        <div className={'col-start-2 col-end-2 flex items-center justify-start'}>
+          <CreateDropdown />
+        </div>
+        <div className={'col-start-3 col-end-3 flex items-center justify-start'}>
+          <UserLocation />
+        </div>
+        <div className={'col-start-4 col-end-4 my-3 flex items-center justify-center'}>
+          <SearchBar />
+        </div>
         <div
           className={
-            'flex w-full items-center justify-between bg-white py-2.5 pl-2 pr-6 md:pl-12 md:pr-14'
+            'col-start-7 col-end-7 flex w-full items-center justify-center bg-white py-2.5 pl-2 pr-6 md:pl-12 md:pr-14'
           }>
-          <CreateDropdown />
-          <SearchBar />
           <UserDropdown suspense={{ lines: 5 }} />
         </div>
       </div>
