@@ -32,39 +32,31 @@ const AddMedia = () => {
 };
 
 export const Lightbox = ({ image, onClose, visible }: any) => {
-  return (
-    <Dialog.Root open={visible}>
-      <Dialog.Portal>
-        <Dialog.Overlay className={'fixed inset-0 bg-black opacity-90'} />
-        <Dialog.Content asChild onEscapeKeyDown={onClose}>
-          <div className={'fixed inset-0 flex h-full flex-col items-center justify-between'}>
-            <div className={'flex w-full items-center justify-end px-3 py-4'}>
-              <Dialog.Close asChild>
-                <button
-                  className={
-                    'flex h-max w-full items-center justify-end text-end focus:outline-none'
-                  }
-                  type={'button'}
-                  onClick={onClose}>
-                  <XMarkSolid className={'h-5 w-5 text-white'} />
-                </button>
-              </Dialog.Close>
-            </div>
-            <img key={image.url} alt={'media'} className={'object-fit min-h-0'} src={image.url} />
-            <div className={'flex h-max w-full items-center justify-center px-3 py-4'}>
-              <p className={'text-white'}>{image.caption || 'whatever'}</p>
-            </div>
-          </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
-  );
+  return visible ? (
+    <>
+      <div className={'fixed inset-0 z-40 bg-black opacity-95'}> </div>
+      <div className={'fixed inset-0 z-50 flex h-full flex-col items-center justify-between'}>
+        <div className={'flex w-full items-center justify-end px-3 py-4'}>
+          <button
+            className={'flex h-max w-full items-center justify-end text-end focus:outline-none'}
+            type={'button'}
+            onClick={onClose}>
+            <XMarkSolid className={'h-5 w-5 text-white'} />
+          </button>
+        </div>
+        <img key={image.url} alt={'media'} className={'object-fit min-h-0'} src={image.url} />
+        <div className={'flex h-max w-full items-center justify-center px-3 py-4'}>
+          <p className={'text-white'}>{image.caption || 'whatever'}</p>
+        </div>
+      </div>
+    </>
+  ) : null;
 };
 
 export const MediaGallery = ({ images }: any) => {
   const [image, setImage] = useState<any>(null);
   return (
-    <div className={'space-y-6'}>
+    <div>
       {image && <Lightbox image={image} visible={!!image} onClose={() => setImage(null)} />}
       <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4'}>
         <AddMedia />
