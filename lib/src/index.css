@@ -2,10 +2,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import 'lightgallery/css/lg-thumbnail.css';
-@import 'lightgallery/css/lg-zoom.css';
-@import 'lightgallery/css/lightgallery.css';
-
 @layer utilities {
     /* Chrome, Safari and Opera */
     .hide-scrollbar::-webkit-scrollbar {

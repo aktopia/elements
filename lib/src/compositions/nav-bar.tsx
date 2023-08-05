@@ -130,7 +130,7 @@ const UserLocation = () => {
   return (
     <Button
       Icon={MapPinOutline}
-      iconClassName={'stroke-2 relative bottom-[1px]'}
+      iconClassName={'stroke-2 relative bottom-px'}
       kind={'warning'}
       size={'xs'}
       value={'Set Location'}

@@ -2,7 +2,7 @@ import { formatCount } from '@elements/_utils';
 import { cva } from 'cva';
 import React, { memo, MouseEventHandler, useCallback } from 'react';
 
-const containerVariant = cva('relative flex items-center justify-center w-max rounded-md', {
+const containerVariant = cva('relative flex items-center justify-center rounded-md', {
   variants: {
     kind: {
       primary: 'bg-blue-600 text-white shadow-md',

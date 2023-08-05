@@ -1,11 +1,13 @@
-import { PhotoOutline, PlusOutline } from '@elements/_icons';
+import { PhotoOutline, PlusOutline, XMarkSolid } from '@elements/_icons';
+import * as Dialog from '@radix-ui/react-dialog';
+import { useState } from 'react';
 
 const AddMedia = () => {
   const text = 'Add Media';
   return (
     <div
       className={
-        'duration-250 group flex h-56 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 transition ease-in-out sm:h-52 sm:hover:border-gray-400'
+        'duration-250 group flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 transition ease-in-out  sm:hover:border-gray-400'
       }>
       <div className={'relative inline-block'}>
         <PhotoOutline
@@ -29,21 +31,57 @@ const AddMedia = () => {
   );
 };
 
+export const Lightbox = ({ image, onClose, visible }: any) => {
+  return (
+    <Dialog.Root open={visible}>
+      <Dialog.Portal>
+        <Dialog.Overlay className={'fixed inset-0 bg-black opacity-90'} />
+        <Dialog.Content asChild onEscapeKeyDown={onClose}>
+          <div className={'fixed inset-0 flex h-full flex-col items-center justify-between'}>
+            <div className={'flex w-full items-center justify-end px-3 py-4'}>
+              <Dialog.Close asChild>
+                <button
+                  className={
+                    'flex h-max w-full items-center justify-end text-end focus:outline-none'
+                  }
+                  type={'button'}
+                  onClick={onClose}>
+                  <XMarkSolid className={'h-5 w-5 text-white'} />
+                </button>
+              </Dialog.Close>
+            </div>
+            <img key={image.url} alt={'media'} className={'object-fit min-h-0'} src={image.url} />
+            <div className={'flex h-max w-full items-center justify-center px-3 py-4'}>
+              <p className={'text-white'}>{image.caption || 'whatever'}</p>
+            </div>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+};
+
 export const MediaGallery = ({ images }: any) => {
+  const [image, setImage] = useState<any>(null);
   return (
     <div className={'space-y-6'}>
-      <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'}>
+      {image && <Lightbox image={image} visible={!!image} onClose={() => setImage(null)} />}
+      <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4'}>
         <AddMedia />
-        {images.map(({ url }: any) => {
+        {images.map((image: any) => {
+          const { id, url } = image;
           return (
-            <img
-              key={url}
-              alt={'media'}
-              className={
-                'h-56 w-full cursor-pointer rounded-lg border-t bg-gray-200 object-cover shadow-lg sm:h-52'
-              }
-              src={url}
-            />
+            <div key={id} className={'flex flex-col gap-3'}>
+              <img
+                key={url}
+                alt={'media'}
+                className={
+                  'h-40 w-full rounded-lg border-t bg-gray-200 object-cover shadow-lg hover:object-contain'
+                }
+                src={url}
+                onClick={() => setImage(image)}
+              />
+            </div>
           );
         })}
       </div>
