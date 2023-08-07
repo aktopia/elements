@@ -10,7 +10,7 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
       tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
       success: 'bg-green-600 text-white shadow-md',
       danger: 'bg-red-600 text-white shadow-md',
-      warning: 'bg-amber-50 text-amber-700 border border-amber-400 shadow',
+      warning: 'text-amber-700 border border-amber-500 bg-amber-50 shadow',
     },
     size: {
       xxs: 'text-xs gap-1.5 px-1.5 h-[28px] font-normal shadow-sm',

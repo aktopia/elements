@@ -6,7 +6,6 @@ import {
   MapPinSolid,
   PlusSolid,
 } from '@elements/_icons';
-import { RawButton, RawInput } from '@elements/components/_raw';
 import { Select } from '@elements/components/map/select';
 import {
   calculateBounds,
@@ -51,14 +50,14 @@ const render = (status: Status) => {
 
 const ResetLocation = ({ onClick }: { onClick: any }) => {
   return (
-    <RawButton
+    <button
       className={
         'group absolute bottom-32 left-2 flex cursor-pointer items-center justify-center rounded-full border border-stone-300 bg-white p-1.5 text-stone-600 shadow-2xl hover:bg-stone-50'
       }
       type={'button'}
-      onPress={onClick}>
+      onClick={onClick}>
       <ArrowPathOutline className={'h-7 w-7 text-stone-500 group-hover:text-stone-800'} />
-    </RawButton>
+    </button>
   );
 };
 
@@ -83,31 +82,32 @@ const AddLocation = ({
     [onCaptionChange]
   );
   return show ? (
-    <div className={'absolute bottom-24 flex gap-3'}>
-      <RawInput
+    <div className={'absolute bottom-24 flex w-2/3 gap-3'}>
+      <input
         className={
           'grow rounded-md border border-stone-100 text-stone-600 placeholder-stone-400 shadow-xl'
         }
         placeholder={'A caption to identify the location'}
+        type={'text'}
         onChange={onChange}
       />
       <div className={'flex gap-2'}>
-        <RawButton
+        <button
           className={
             'flex items-center justify-center rounded-md bg-green-600 px-3 shadow-xl hover:bg-green-700'
           }
           type={'button'}
-          onPress={onAdd}>
+          onClick={onAdd}>
           <p className={'font-medium text-white'}>{confirmText}</p>
-        </RawButton>
-        <RawButton
+        </button>
+        <button
           className={
             'flex items-center justify-center rounded-md border border-stone-300 bg-white px-3 text-stone-500 shadow-xl hover:bg-stone-50 hover:text-stone-800'
           }
           type={'button'}
-          onPress={onCancel}>
+          onClick={onCancel}>
           <p className={'font-medium'}>{cancelText}</p>
-        </RawButton>
+        </button>
       </div>
     </div>
   ) : null;
@@ -147,17 +147,17 @@ const AddLocationIcon = () => {
 const StartAddLocation = ({ show, onClick }: { onClick: () => void; show: boolean }) => {
   const text = 'Add Location';
   return show ? (
-    <RawButton
+    <button
       className={
         'ahover:hover:bg-stone-50 group absolute top-3 left-3 flex cursor-pointer items-center justify-center rounded-lg border border-stone-300 bg-white shadow-xl'
       }
       type={'button'}
-      onPress={onClick}>
+      onClick={onClick}>
       <div className={'flex items-center gap-2 py-1 pr-2 pl-1'}>
         <AddLocationIcon />
         <p className={'font-medium text-stone-500 group-hover:text-stone-700'}>{text}</p>
       </div>
-    </RawButton>
+    </button>
   ) : null;
 };
 
@@ -166,13 +166,13 @@ const AddLocationPin = ({ dragging, show }: { dragging: boolean; show: boolean }
     <div className={'absolute flex items-center justify-center'}>
       <MapPinSolid
         className={cx(
-          'absolute inline-block h-16 w-16 stroke-white stroke-[0.5px] text-rose-700 transition-all duration-150 ease-in-out ',
+          'absolute inline-block h-16 w-16 stroke-blue-700 stroke-[0.5px] text-blue-600 transition-all duration-150 ease-in-out ',
           dragging ? 'bottom-9' : 'bottom-2'
         )}
       />
       <div
         className={
-          'absolute h-1.5 w-1.5 cursor-pointer rounded-full bg-rose-700 shadow-lg ring-1 ring-white'
+          'absolute h-1.5 w-1.5 cursor-pointer rounded-full bg-blue-600 shadow-lg ring-1 ring-blue-700'
         }
       />
     </div>
@@ -182,15 +182,15 @@ const AddLocationPin = ({ dragging, show }: { dragging: boolean; show: boolean }
 const ViewList = ({ onClick }: { onClick: () => void }) => {
   const text = 'Locations List';
   return (
-    <RawButton
+    <button
       className={
         'group absolute bottom-7 flex cursor-pointer items-center justify-center gap-2 rounded-full border border-stone-300 bg-white py-1 pl-3 pr-5 text-stone-600 shadow-xl hover:bg-stone-50'
       }
       type={'button'}
-      onPress={onClick}>
+      onClick={onClick}>
       <ListBulletOutline className={'h-7 w-7 text-stone-500 group-hover:text-stone-800'} />
       <p className={'font-medium text-stone-500 group-hover:text-stone-800'}>{text}</p>
-    </RawButton>
+    </button>
   );
 };
 

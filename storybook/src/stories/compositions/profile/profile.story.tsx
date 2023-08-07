@@ -28,6 +28,7 @@ const args = {
 export const Profile = mockStory({
   store,
   args,
+  parameters: { layout: 'fullscreen' },
   render: (args) => {
     return <Component {...args} />;
   },

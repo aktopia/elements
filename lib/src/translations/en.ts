@@ -53,4 +53,5 @@ export default {
   'locations/confirm': 'Confirm Location',
   'issue.location.slide-over/location-list': 'Locations',
   'percentage/complete': 'Complete',
+  'common/severity': 'Severity',
 };

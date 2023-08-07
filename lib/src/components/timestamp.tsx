@@ -1,8 +1,15 @@
 import { isBefore, timeAgoStr, tsNow, tsToStr } from '@elements/_utils';
-import * as Tooltip from '@radix-ui/react-tooltip';
+import {
+  Arrow as TooltipArrow,
+  Content as TooltipContent,
+  Portal as TooltipPortal,
+  Provider as TooltipProvider,
+  Root as TooltipRoot,
+  Trigger as TooltipTrigger,
+} from '@radix-ui/react-tooltip';
 import { useMemo } from 'react';
 
-const dateTimeFormat = 'MMM D, YYYY [at] h:mm A';
+const DATETIME_FORMAT = 'MMM D, YYYY [at] h:mm A';
 
 interface TimestampProps {
   timestamp: number;
@@ -13,7 +20,7 @@ interface TimestampProps {
 
 export const Timestamp = ({ timestamp, className, prefix, relative = false }: TimestampProps) => {
   const [absoluteTime, relativeTime] = useMemo(() => {
-    const absoluteTime = tsToStr(timestamp, dateTimeFormat);
+    const absoluteTime = tsToStr(timestamp, DATETIME_FORMAT);
     const relativeTime = timeAgoStr(timestamp);
 
     return [absoluteTime, relativeTime];
@@ -34,20 +41,20 @@ export const Timestamp = ({ timestamp, className, prefix, relative = false }: Ti
   const phrase = prefix ? `${prefix} ${time}` : time;
 
   return (
-    <Tooltip.Provider delayDuration={500}>
-      <Tooltip.Root>
-        <Tooltip.Trigger>
+    <TooltipProvider delayDuration={500}>
+      <TooltipRoot>
+        <TooltipTrigger>
           <p className={className}>{phrase}</p>
-        </Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Content
+        </TooltipTrigger>
+        <TooltipPortal>
+          <TooltipContent
             className={'rounded-md bg-gray-700 py-2 px-2.5 text-xs text-white shadow-lg'}
             sideOffset={3}>
             <p>{tooltipTime}</p>
-            <Tooltip.Arrow className={'fill-gray-700'} />
-          </Tooltip.Content>
-        </Tooltip.Portal>
-      </Tooltip.Root>
-    </Tooltip.Provider>
+            <TooltipArrow className={'fill-gray-700'} />
+          </TooltipContent>
+        </TooltipPortal>
+      </TooltipRoot>
+    </TooltipProvider>
   );
 };

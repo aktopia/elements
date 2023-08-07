@@ -1,5 +1,4 @@
 import { PhotoOutline, PlusOutline, XMarkSolid } from '@elements/_icons';
-import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 
 const AddMedia = () => {
@@ -34,7 +33,7 @@ const AddMedia = () => {
 export const Lightbox = ({ image, onClose, visible }: any) => {
   return visible ? (
     <>
-      <div className={'fixed inset-0 z-40 bg-black opacity-95'}> </div>
+      <div className={'fixed inset-0 z-40 bg-black opacity-95'} />
       <div className={'fixed inset-0 z-50 flex h-full flex-col items-center justify-between'}>
         <div className={'flex w-full items-center justify-end px-3 py-4'}>
           <button
@@ -56,27 +55,30 @@ export const Lightbox = ({ image, onClose, visible }: any) => {
 export const MediaGallery = ({ images }: any) => {
   const [image, setImage] = useState<any>(null);
   return (
-    <div>
+    <>
       {image && <Lightbox image={image} visible={!!image} onClose={() => setImage(null)} />}
-      <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4'}>
-        <AddMedia />
-        {images.map((image: any) => {
-          const { id, url } = image;
-          return (
-            <div key={id} className={'flex flex-col gap-3'}>
-              <img
-                key={url}
-                alt={'media'}
-                className={
-                  'h-40 w-full rounded-lg border-t bg-gray-200 object-cover shadow-lg hover:object-contain'
-                }
-                src={url}
-                onClick={() => setImage(image)}
-              />
-            </div>
-          );
-        })}
+      <div className={'flex flex-col items-center space-y-4'}>
+        <p className={'text-xs text-gray-400'}>{'You can drag and drop your media here to add.'}</p>
+        <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4'}>
+          <AddMedia />
+          {images.map((image: any) => {
+            const { id, url } = image;
+            return (
+              <div key={id} className={'flex flex-col gap-3'}>
+                <img
+                  key={url}
+                  alt={'media'}
+                  className={
+                    'h-40 w-full cursor-pointer rounded-lg border border-gray-300 bg-black object-cover shadow-lg'
+                  }
+                  src={url}
+                  onClick={() => setImage(image)}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
