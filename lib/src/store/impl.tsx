@@ -13,7 +13,7 @@ const useStore = create(() => ({
 type Read = (state: any, params?: Record<string, any>) => any;
 type AsyncRead = (params?: Record<string, any>) => any;
 
-export function queryFn({ queryKey }: any) {
+function queryFn({ queryKey }: any) {
   const [id, params] = queryKey;
   const sub = subscriptions[id].fn;
   return sub(params);
@@ -29,6 +29,29 @@ const useLocal = (id: string, params?: Record<string, any>) => {
   return useStore((state) => read(state, params));
 };
 
+function useValueImpl<T>(id: string, params?: Record<string, any>): T {
+  const useVal = subscriptions[id].async ? useRemote : useLocal;
+  return useVal(id, params) as T;
+}
+
+function useDispatchImpl(id: string, options?: any): any {
+  const { emptyParams = false }: any = options || {};
+  const { fn } = events[id];
+  return useCallback(
+    (params?: Record<string, any>) => fn(useStore.setState, emptyParams ? {} : params || {}),
+    [fn, emptyParams]
+  );
+}
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      queryFn: queryFn,
+      suspense: true,
+    },
+  },
+});
+
 export function sub(id: string, fn: Read) {
   subscriptions[id] = { fn, async: false };
 }
@@ -40,29 +63,6 @@ export function asyncSub(id: string, fn: AsyncRead) {
 export function event(id: string, fn: any) {
   events[id] = { fn };
 }
-
-export function useValueImpl<T>(id: string, params?: Record<string, any>): T {
-  const useVal = subscriptions[id].async ? useRemote : useLocal;
-  return useVal(id, params) as T;
-}
-
-export function useDispatchImpl(id: string, options?: any): any {
-  const { emptyParams = false }: any = options || {};
-  const { fn } = events[id];
-  return useCallback(
-    (params?: Record<string, any>) => fn(useStore.setState, emptyParams ? {} : params || {}),
-    [fn, emptyParams]
-  );
-}
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      queryFn: queryFn,
-      suspense: true,
-    },
-  },
-});
 
 export const Store = ({ children }: { children: ReactNode }) => {
   return (

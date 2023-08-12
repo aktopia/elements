@@ -1,4 +1,4 @@
-import { formatCount } from '@elements/_utils';
+import { formatCount } from '@elements/utils';
 import { cva } from 'cva';
 import React, { memo, MouseEventHandler, useCallback } from 'react';
 

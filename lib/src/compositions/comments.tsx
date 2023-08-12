@@ -4,7 +4,7 @@ import {
   ChevronUpMiniSolid,
   TrashOutline,
   UserCircleSolid,
-} from '@elements/_icons';
+} from '@elements/icons';
 import { Button } from '@elements/components/button';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';

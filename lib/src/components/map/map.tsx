@@ -5,7 +5,7 @@ import {
   MapPinOutline,
   MapPinSolid,
   PlusSolid,
-} from '@elements/_icons';
+} from '@elements/icons';
 import { Select } from '@elements/components/map/select';
 import {
   calculateBounds,

@@ -1,4 +1,4 @@
-import { XMark } from '@elements/_icons';
+import { XMark } from '@elements/icons';
 import { Dialog, Transition } from '@headlessui/react';
 import { identity } from 'lodash';
 import React, { Fragment } from 'react';

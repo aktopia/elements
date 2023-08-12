@@ -3,7 +3,7 @@ import {
   MagnifyingGlassOutline,
   MapPinOutline,
   UserCircleSolid,
-} from '@elements/_icons';
+} from '@elements/icons';
 import { Button } from '@elements/components/button';
 import { Dropdown } from '@elements/components/dropdown';
 import { suspensify } from '@elements/components/suspensify';

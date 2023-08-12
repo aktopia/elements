@@ -1,4 +1,4 @@
-import { useOutsideClick } from '@elements/_utils';
+import { useOutsideClick } from '@elements/utils';
 import { isEmpty } from 'lodash';
 import React, { useCallback, useRef, useState } from 'react';
 

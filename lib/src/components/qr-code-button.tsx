@@ -1,4 +1,4 @@
-import { QrCodeOutline } from '@elements/_icons';
+import { QrCodeOutline } from '@elements/icons';
 import { Button, ButtonProps } from '@elements/components/button';
 import { memo } from 'react';
 

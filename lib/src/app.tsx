@@ -3,13 +3,15 @@ import { suspensify } from '@elements/components/suspensify';
 import { Alert } from '@elements/compositions/alert';
 import '@elements/index.css';
 import { Router } from '@elements/router';
-import { useValue } from '@elements/store';
+import { sub, useValue } from '@elements/store';
+
+sub('app/loading', (_state) => true);
 
 const Main = suspensify(() => {
   const loading = useValue<boolean>('app/loading');
 
   return loading ? (
-    <Spinner visible={loading} />
+    <Spinner size={'xs'} visible={loading} />
   ) : (
     <>
       <Router suspense={{ lines: 20 }} />

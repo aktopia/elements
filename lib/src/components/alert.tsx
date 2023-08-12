@@ -4,7 +4,7 @@ import {
   InformationCircleMiniSolid,
   XCircleMiniSolid,
   XMarkMiniSolid,
-} from '@elements/_icons';
+} from '@elements/icons';
 import { cva, VariantProps } from 'cva';
 import React from 'react';
 

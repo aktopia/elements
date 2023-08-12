@@ -1,4 +1,4 @@
-import { createContext, memo, ReactNode, useContext, useMemo } from 'react';
+import { createContext, memo, ReactNode, useCallback, useContext, useMemo } from 'react';
 
 type ValueHook = <T>(id: string, params?: Record<string, any>) => T;
 type DispatchHook = (id: string, params?: Record<string, any>) => void;
@@ -27,6 +27,13 @@ export function useValue<T>(id: string, params?: Record<string, any>): T {
 export function useDispatch(id: string, options?: any): any {
   const { useDispatchImpl } = useContext(StoreContext);
   return useDispatchImpl(id, options);
+}
+
+export function useState(valueId: string, dispatchId: string): [any, (value: any) => void] {
+  const value = useValue(valueId);
+  const dispatch = useDispatch(dispatchId);
+  const setValue = useCallback((value: any) => dispatch({ value }), [dispatch]);
+  return [value, setValue];
 }
 
 interface StoreProps {

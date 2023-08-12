@@ -1,4 +1,4 @@
-import { ArrowsRightLeftOutline, WrenchOutline } from '@elements/_icons';
+import { ArrowsRightLeftOutline, WrenchOutline } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { EntityType } from '@elements/compositions/entity-type';
 import { useValue } from '@elements/store';

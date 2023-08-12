@@ -1,4 +1,4 @@
-import { ArrowPathMiniSolid, ChartBarMiniSolid, GlobeAmericasMiniSolid } from '@elements/_icons';
+import { ArrowPathMiniSolid, ChartBarMiniSolid, GlobeAmericasMiniSolid } from '@elements/icons';
 import { useDispatch } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { Reference } from '@elements/types';

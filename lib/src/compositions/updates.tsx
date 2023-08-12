@@ -1,4 +1,4 @@
-import { UserCircleSolid } from '@elements/_icons';
+import { UserCircleSolid } from '@elements/icons';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';

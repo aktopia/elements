@@ -1,4 +1,4 @@
-import { ChevronDownMiniSolid, ChevronUpMiniSolid, UserCircleSolid } from '@elements/_icons';
+import { ChevronDownMiniSolid, ChevronUpMiniSolid, UserCircleSolid } from '@elements/icons';
 import { TextAreaEditor } from '@elements/components/text-area-editor';
 import { WithContextMenu } from '@elements/components/with-context-menu';
 import { isEmpty } from 'lodash';

@@ -1,4 +1,4 @@
-import { ArrowTopRightOnSquareOutline } from '@elements/_icons';
+import { ArrowTopRightOnSquareOutline } from '@elements/icons';
 import { Menu, Transition } from '@headlessui/react';
 import React, { Fragment } from 'react';
 

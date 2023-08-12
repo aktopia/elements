@@ -1,4 +1,4 @@
-import { CheckSolid, ExclamationTriangleOutline } from '@elements/_icons';
+import { CheckSolid, ExclamationTriangleOutline } from '@elements/icons';
 import { Button } from '@elements/components/button';
 import { Modal, ModalTitle } from '@elements/components/modal';
 import { memo } from 'react';
