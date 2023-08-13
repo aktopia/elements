@@ -51,6 +51,7 @@
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/parser": "^6.3.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
+    "agadoo": "^3.0.0",
     "autoprefixer": "^10.4.14",
     "chokidar-cli": "^3.0.0",
     "postcss": "^8.4.27",

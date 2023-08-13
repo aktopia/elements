@@ -6,6 +6,7 @@ export const store = {
     ...signInStore.read,
     ...navBarStore.read,
     'auth.sign-in/visible': false,
+    'current/locale': 'en',
   },
-  dispatch: [...navBarStore.dispatch, ...signInStore.dispatch],
+  dispatch: [...navBarStore.dispatch, ...signInStore.dispatch, 'current.locale/set'],
 };

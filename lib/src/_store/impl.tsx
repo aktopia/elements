@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider, useQuery as useReactQuery } from 'react-query';
 import { create } from 'zustand';
 import { ReactNode, useCallback } from 'react';
-import { Store as StoreInterface } from '@elements/store/interface';
+import { Store as StoreInterface } from '@elements/_store/interface';
 
 const subscriptions: any = {};
 const events: any = {};

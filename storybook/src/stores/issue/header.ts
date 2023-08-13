@@ -15,5 +15,13 @@ export const store = {
     'issue/last-active-at': randomTimestamp(),
   },
 
-  dispatch: [...votingStore.dispatch],
+  dispatch: [
+    ...votingStore.dispatch,
+    'issue/follow',
+    'issue/unfollow',
+    'issue/save',
+    'issue/unsave',
+    'issue.severity/reset',
+    'issue.tabs/update',
+  ],
 };

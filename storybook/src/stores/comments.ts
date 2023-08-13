@@ -2,6 +2,7 @@ import { lorem } from '@story/utils/string';
 import { randomTimestamp } from '@story/utils/time';
 import { memoize } from 'lodash';
 import { store as votingStore } from '@story/stores/voting';
+import { store as textEditorStore } from '@story/stores/text-editor';
 
 const inProgress = {
   'in-progress': false,
@@ -54,6 +55,7 @@ export const store = {
   },
   dispatch: [
     ...votingStore.dispatch,
+    ...textEditorStore.dispatch,
     'new.comment/post',
     'new.comment/update',
     'comment.deletion/cancel',
