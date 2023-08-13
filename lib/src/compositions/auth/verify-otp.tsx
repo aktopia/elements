@@ -1,4 +1,4 @@
-import { BackIconButton } from '@elements/components';
+import { BackIconButton } from '@elements/components/back-icon-button';
 import { Button } from '@elements/components/button';
 import { Modal } from '@elements/components/modal';
 import { Spinner } from '@elements/components/spinner';

@@ -52,7 +52,10 @@ export const Modal = ({ children, onClose, visible }: ModalProps) => {
           <div className={'fixed inset-0 bg-opacity-25 transition-opacity'} />
         </Transition.Child>
 
-        <div className={'fixed inset-0 overflow-y-auto p-4 sm:p-6 md:p-20'}>
+        <div
+          className={
+            'fixed inset-0 flex items-start justify-center overflow-y-auto p-4 sm:p-6 md:p-20'
+          }>
           <Transition.Child
             as={Fragment}
             enter={'ease-out duration-300'}
@@ -63,7 +66,7 @@ export const Modal = ({ children, onClose, visible }: ModalProps) => {
             leaveTo={'opacity-0 scale-95'}>
             <Dialog.Panel
               className={
-                'mx-auto flex w-full max-w-md scale-100 transform overflow-hidden rounded-2xl bg-white p-6 opacity-100 shadow-xl ring-1 ring-black ring-opacity-5 transition-all'
+                'w-max scale-100 transform overflow-hidden rounded-2xl bg-white p-6 opacity-100 shadow-xl ring-1 ring-black ring-opacity-5 transition-all'
               }>
               {children}
             </Dialog.Panel>
