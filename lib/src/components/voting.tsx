@@ -1,4 +1,4 @@
-import { ArrowSmallDownSolid, ArrowSmallUpSolid } from '@elements/_icons';
+import { ArrowSmallDownSolid, ArrowSmallUpSolid } from '@elements/icons';
 import { cva } from 'cva';
 
 const voteVariant = cva('hover:text-blue-600', {

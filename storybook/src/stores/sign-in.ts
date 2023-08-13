@@ -7,6 +7,8 @@ export const store = {
     'auth.sign-in/active-switch-id': 'phone',
   },
   dispatch: [
+    'auth.sign-in.google/initiate',
+    'auth/sign-out',
     'auth.sign-in/send-otp',
     'auth.sign-in/close',
     'auth.sign-in/update-switch',

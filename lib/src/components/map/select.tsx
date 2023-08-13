@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { MagnifyingGlassSolid, XMarkSolid } from '@elements/_icons';
+import { MagnifyingGlassSolid, XMarkSolid } from '@elements/icons';
 import { isEmpty } from 'lodash';
 
 function formatOptionText({ description, matched_substrings }: any) {

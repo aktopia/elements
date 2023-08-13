@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npx vite",
+    "dev": "npx vite --host",
     "build": "npx tsc && npx vite build && cp package.json ./dist/package.json",
     "build-watch": "npx tsc && npx vite build --watch",
     "preview": "npx vite preview",
@@ -26,7 +26,6 @@
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-slider": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.0.6",
-    "@tanstack/query-core": "^4.32.6",
     "@tiptap/extension-placeholder": "^2.0.4",
     "@tiptap/pm": "2.0.4",
     "@tiptap/react": "2.0.4",
@@ -37,7 +36,11 @@
     "react": "^18.2.0",
     "react-aria-components": "^1.0.0-alpha.6",
     "react-dom": "^18.2.0",
-    "react-loading-skeleton": "^3.3.1"
+    "react-loading-skeleton": "^3.3.1",
+    "react-query": "3.39.3",
+    "supertokens-web-js": "^0.7.2",
+    "wouter": "^2.11.0",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
@@ -49,14 +52,14 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/parser": "^6.3.0",
-    "@vitejs/plugin-react": "4.0.4",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "agadoo": "^3.0.0",
     "autoprefixer": "^10.4.14",
     "chokidar-cli": "^3.0.0",
     "postcss": "^8.4.27",
     "tailwindcss": "3.3.3",
     "typescript": "^5.1.6",
     "vite": "4.4.9",
-    "vite-plugin-dts": "3.5.2",
     "zx": "^7.2.3"
   }
 }

@@ -1,4 +1,4 @@
-import { ChevronLeftMini } from '@elements/_icons';
+import { ChevronLeftMini } from '@elements/icons';
 import { cva } from 'cva';
 import React from 'react';
 

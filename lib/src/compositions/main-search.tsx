@@ -1,4 +1,4 @@
-import { MagnifyingGlassSolid } from '@elements/_icons';
+import { MagnifyingGlassSolid } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useState, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';

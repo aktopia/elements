@@ -1,4 +1,4 @@
-import { isBefore, timeAgoStr, tsNow, tsToStr } from '@elements/_utils';
+import { isBefore, timeAgoStr, tsNow, tsToStr } from '@elements/utils';
 import {
   Arrow as TooltipArrow,
   Content as TooltipContent,

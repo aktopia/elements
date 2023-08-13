@@ -1,4 +1,4 @@
-import { RssMiniSolid } from '@elements/_icons';
+import { RssMiniSolid } from '@elements/icons';
 import { Button, ButtonProps } from '@elements/components/button';
 import { memo } from 'react';
 

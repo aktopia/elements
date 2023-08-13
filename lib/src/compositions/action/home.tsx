@@ -1,4 +1,4 @@
-import { TrophyMiniSolid } from '@elements/_icons';
+import { TrophyMiniSolid } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { Relationships } from '@elements/compositions/relationships';
 import { TextEditor } from '@elements/compositions/text-editor';

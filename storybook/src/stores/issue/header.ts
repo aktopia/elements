@@ -11,9 +11,17 @@ export const store = {
     'issue/followed': false,
     'issue.follow/count': 2600,
     'issue/title': lorem.generateSentences(1),
-    'issue.tabs/active-tab-id': 'media',
+    'issue.tabs/active-tab-id': 'locations',
     'issue/last-active-at': randomTimestamp(),
   },
 
-  dispatch: [...votingStore.dispatch],
+  dispatch: [
+    ...votingStore.dispatch,
+    'issue/follow',
+    'issue/unfollow',
+    'issue/save',
+    'issue/unsave',
+    'issue.severity/reset',
+    'issue.tabs/update',
+  ],
 };

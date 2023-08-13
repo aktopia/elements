@@ -56,7 +56,7 @@ export function useLocale() {
 
 export const Translation = suspensify(({ defaultLocale, locales, children }: TranslationProps) => {
   const currentLocale = useValue<string>('current/locale');
-  const setCurrentLocale = useDispatch('current/locale');
+  const setCurrentLocale = useDispatch('current.locale/set');
   const locale = currentLocale || defaultLocale;
   const translations = locales[locale];
 

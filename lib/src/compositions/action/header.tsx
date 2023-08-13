@@ -1,4 +1,4 @@
-import { Crowd, Giving, ShareOutline } from '@elements/_icons';
+import { Crowd, Giving, ShareOutline } from '@elements/icons';
 import { Button, ButtonProps } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
 import { ISwitch, NamedSwitch } from '@elements/components/named-switch';

@@ -1,4 +1,4 @@
-import { PhotoOutline, PlusOutline, XMarkSolid } from '@elements/_icons';
+import { PhotoOutline, PlusOutline, XMarkSolid } from '@elements/icons';
 import { useState } from 'react';
 
 const AddMedia = () => {

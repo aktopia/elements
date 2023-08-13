@@ -1,4 +1,4 @@
-import { HandRaisedOutline, HandRaisedSolid } from '@elements/_icons';
+import { HandRaisedOutline, HandRaisedSolid } from '@elements/icons';
 import { cva } from 'cva';
 
 const iconVariant = cva('', {

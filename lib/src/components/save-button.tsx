@@ -1,4 +1,4 @@
-import { BookmarkOutline } from '@elements/_icons';
+import { BookmarkOutline } from '@elements/icons';
 import { Button, ButtonProps } from '@elements/components/button';
 import { memo } from 'react';
 
