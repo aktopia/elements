@@ -25,7 +25,7 @@ export const Issues = suspensify(() => {
   return (
     <div className={'flex flex-col gap-4'}>
       {issueIds.map((id) => (
-        <IssueCard key={id} id={id} suspense={{ lines: 2 }} />
+        <IssueCard key={id} id={id} suspenseLines={2} />
       ))}
     </div>
   );

@@ -15,21 +15,19 @@ export const Issue = wrapPage(() => {
 
   switch (activeTabId) {
     case 'home':
-      tab = <Home suspense={{ lines: 12 }} />;
+      tab = <Home suspenseLines={12} />;
       break;
     case 'discuss':
-      tab = <Discuss refAttribute={'entity.type/issue'} refId={issueId} suspense={{ lines: 12 }} />;
+      tab = <Discuss refAttribute={'entity.type/issue'} refId={issueId} suspenseLines={12} />;
       break;
     case 'media':
-      tab = <Media suspense={{ lines: 8 }} />;
+      tab = <Media suspenseLines={8} />;
       break;
     case 'locations':
-      tab = (
-        <Locations refAttribute={'entity.type/action'} refId={issueId} suspense={{ lines: 5 }} />
-      );
+      tab = <Locations refAttribute={'entity.type/action'} refId={issueId} suspenseLines={5} />;
       break;
     default:
-      tab = <Home suspense={{ lines: 12 }} />;
+      tab = <Home suspenseLines={12} />;
   }
 
   return (

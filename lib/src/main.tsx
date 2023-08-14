@@ -8,7 +8,7 @@ import { locales, Translation } from '@elements/translation';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Store>
-      <Translation defaultLocale={'en'} locales={locales} suspense={{ lines: 10 }}>
+      <Translation defaultLocale={'en'} locales={locales} suspenseLines={10}>
         <App />
       </Translation>
     </Store>

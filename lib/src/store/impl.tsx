@@ -33,23 +33,12 @@ const useLocal = (id: string, params?: Record<string, any>) => {
 };
 
 function useValueImpl<T>(id: string, params?: Record<string, any>): T {
-  let useVal;
-  try {
-    useVal = subscriptions[id].async ? useRemote : useLocal;
-  } catch (e) {
-    console.log(id);
-    useVal = useLocal;
-  }
+  const useVal = subscriptions[id].async ? useRemote : useLocal;
   return useVal(id, params) as T;
 }
 
 function useDispatchImpl(id: string, options?: any): Dispatch {
   const { emptyParams = false }: any = options || {};
-  try {
-    events[id].fn;
-  } catch (e) {
-    console.log(id);
-  }
   const { fn } = events[id];
   return useCallback(
     (params?: Record<string, any>) => fn(setState, emptyParams ? {} : params || {}),

@@ -25,7 +25,7 @@ export const Actions = suspensify(() => {
   return (
     <div className={'flex flex-col gap-4'}>
       {actionIds.map((id) => (
-        <ActionCard key={id} id={id} suspense={{ lines: 2 }} />
+        <ActionCard key={id} id={id} suspenseLines={2} />
       ))}
     </div>
   );

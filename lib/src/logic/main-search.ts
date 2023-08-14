@@ -1,18 +1,31 @@
 import { evt, sub } from '@elements/store/register';
 
 export const mainSearchSlice = () => ({
-  'main-search/state': {
-    'main-search/visible': false,
-    'main-search/query': '',
+  mainSearchState: {
+    visible: false,
+    query: '',
   },
 });
 
-sub('main-search/visible', (state) => state['main-search/state']['main-search/visible']);
-sub('main-search/query', (state) => state['main-search/state']['main-search/query']);
+sub('main-search/visible', (state) => state.mainSearchState.visible);
+sub('main-search/query', (state) => state.mainSearchState.query);
 sub('main-search/results', (_state) => []);
 
-evt('main-search/open', (_setState, _params) => null);
+evt('main-search/open', (setState) => {
+  setState((state: any) => {
+    state.mainSearchState.visible = true;
+  });
+});
 
-evt('main-search.query/set', (_setState, _params) => null);
+evt('main-search.query/set', (setState, params) => {
+  setState((state: any) => {
+    state.mainSearchState.query = params.value;
+  });
+});
 
-evt('main-search/close', (_setState, _params) => null);
+evt('main-search/close', (setState) => {
+  setState((state: any) => {
+    state.mainSearchState.visible = false;
+    state.mainSearchState.query = '';
+  });
+});

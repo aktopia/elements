@@ -81,6 +81,8 @@ export const MainSearch = suspensify(() => {
 
   const noResults = query && query.trim() !== '' && results?.length === 0;
 
+  console.log('rendering');
+
   return (
     // eslint-disable-next-line react/jsx-handler-names
     <Transition.Root appear afterLeave={onAfterLeave} as={Fragment} show={visible}>

@@ -63,7 +63,7 @@ export const Relationships = suspensify(({ refId, refAttribute }: RelationsProps
       <div className={'flex flex-col gap-5'}>
         {relationIds.length > 0 ? (
           relationIds.map((relationId) => (
-            <Relationship key={relationId} id={relationId} suspense={{ lines: 3 }} />
+            <Relationship key={relationId} id={relationId} suspenseLines={3} />
           ))
         ) : (
           <div className={'text-sm text-gray-500'}>{t('relationships/empty')}</div>

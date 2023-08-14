@@ -16,7 +16,7 @@ const Description = suspensify(() => {
       content={description}
       refAttribute={'issue.description/text'}
       refId={issueId}
-      suspense={{ lines: 3 }}
+      suspenseLines={3}
     />
   );
 });
@@ -37,7 +37,7 @@ const ResolutionText = suspensify(() => {
       content={resolution}
       refAttribute={'issue.resolution/text'}
       refId={issueId}
-      suspense={{ lines: 3 }}
+      suspenseLines={3}
     />
   );
 });
@@ -51,7 +51,7 @@ const Resolution = memo(() => {
         <CheckBadgeSolid className={'h-5 w-5 text-blue-700'} />
         <div className={'font-medium text-blue-700'}>{t('issue/expected-resolution')}</div>
       </div>
-      <ResolutionText suspense={{ lines: 6, color: 'primary' }} />
+      <ResolutionText suspenseColor={'primary'} suspenseLines={6} />
     </div>
   );
 });
@@ -62,10 +62,10 @@ export const Home = suspensify(() => {
   return (
     <div className={'flex w-full gap-8'}>
       <div className={'flex w-full flex-col gap-5'}>
-        <Description suspense={{ lines: 6 }} />
+        <Description suspenseLines={6} />
         <Resolution />
       </div>
-      <Relationships refAttribute={'issue/id'} refId={issueId} suspense={{ lines: 8 }} />
+      <Relationships refAttribute={'issue/id'} refId={issueId} suspenseLines={8} />
     </div>
   );
 });

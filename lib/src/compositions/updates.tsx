@@ -78,15 +78,10 @@ const Update = suspensify(({ id }: { id: string }) => {
         moreMenuItems={menuItems}
         refAttribute={'update/text'}
         refId={id}
-        suspense={{ lines: 4 }}
+        suspenseLines={4}
       />
       <div>
-        <Voting
-          refAttribute={'entity.type/update'}
-          refId={id}
-          size={'xs'}
-          suspense={{ lines: 2 }}
-        />
+        <Voting refAttribute={'entity.type/update'} refId={id} size={'xs'} suspenseLines={2} />
       </div>
     </div>
   );
@@ -134,11 +129,11 @@ export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
         {updateIds.map((id, idx) => (
           <div key={id} className={'w-full'}>
             {idx !== 0 && <div className={'my-2.5 ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
-            <Update id={id} suspense={{ lines: 5 }} />
+            <Update id={id} suspenseLines={5} />
           </div>
         ))}
       </div>
-      <DeleteConfirmationModal suspense={{ lines: 3 }} />
+      <DeleteConfirmationModal suspenseLines={3} />
     </div>
   );
 });

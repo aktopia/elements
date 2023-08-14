@@ -1,26 +1,21 @@
 import { evt, sub } from '@elements/store';
 
 export const actionSlice = () => ({
-  'action/state': {
-    'action.tabs/active-tab-id': 'home',
-    'action.progress-bar/active-switch-id': 'work',
+  actionState: {
+    activeTab: 'home',
+    activeProgressBarSwitch: 'work',
   },
 });
 
-sub('action.progress-bar/switches', (state) => [
-  { id: 'work', label: 'Work' },
-  { id: 'funding', label: 'Funding' },
-]);
+sub('action.tabs/active-tab-id', (state) => state.actionState.activeTab);
+sub('action.progress-bar/active-switch-id', (state) => state.actionState.activeProgressBarSwitch);
 
 sub('action/title', (state) => 'Clear large garbage dump on Vandipalayam road');
 sub('action.funding/percentage', (state) => 24);
 sub('action/saved', (state) => false);
 sub('action/followed', (state) => false);
-sub('action/last-active', (state) => 'ADD-ME');
 sub('action.bump/count', (state) => '10');
 sub('action.follow/count', (state) => '2600');
-sub('action.tabs/active-tab-id', (state) => state['action/state']['action.tabs/active-tab-id']);
-sub('action.progress-bar/active-switch-id', (state) => 'work');
 sub('action.work/percentage', (state) => '23');
 sub('action/last-active-at', (state) => '');
 
@@ -50,6 +45,6 @@ evt('action.progress-bar/update', (_setState, _params) => null);
 
 evt('action.tabs/update', (setState, params) => {
   setState((state: any) => {
-    state['action/state']['action.tabs/active-tab-id'] = params['tab/id'];
+    state.actionState.activeTab = params['tab/id'];
   });
 });

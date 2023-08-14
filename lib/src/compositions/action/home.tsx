@@ -16,7 +16,7 @@ const Description = suspensify(() => {
       content={description}
       refAttribute={'action.description/text'}
       refId={actionId}
-      suspense={{ lines: 3 }}
+      suspenseLines={3}
     />
   );
 });
@@ -37,7 +37,7 @@ const OutcomeText = suspensify(() => {
       content={outcome}
       refAttribute={'action.outcome/text'}
       refId={actionId}
-      suspense={{ lines: 3 }}
+      suspenseLines={3}
     />
   );
 });
@@ -51,7 +51,7 @@ const Outcome = memo(() => {
         <TrophyMiniSolid className={'h-4 w-4 text-blue-700'} />
         <div className={'font-medium text-blue-700'}>{t('action/promised-outcome')}</div>
       </div>
-      <OutcomeText suspense={{ lines: 6, color: 'primary' }} />
+      <OutcomeText suspenseColor={'primary'} suspenseLines={6} />
     </div>
   );
 });
@@ -62,10 +62,10 @@ export const Home = suspensify(() => {
   return (
     <div className={'flex w-full gap-8'}>
       <div className={'flex w-full flex-col gap-8'}>
-        <Description suspense={{ lines: 6 }} />
+        <Description suspenseLines={6} />
         <Outcome />
       </div>
-      <Relationships refAttribute={'action/id'} refId={actionId} suspense={{ lines: 8 }} />
+      <Relationships refAttribute={'action/id'} refId={actionId} suspenseLines={8} />
     </div>
   );
 });

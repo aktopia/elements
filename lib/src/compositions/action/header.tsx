@@ -1,7 +1,7 @@
 import { Crowd, Giving, ShareOutline } from '@elements/icons';
 import { Button, ButtonProps } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
-import { ISwitch, NamedSwitch } from '@elements/components/named-switch';
+import { NamedSwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';
 import { QRCodeButton } from '@elements/components/qr-code-button';
 import { SaveButton } from '@elements/components/save-button';
@@ -73,7 +73,7 @@ const Title = suspensify(() => {
       content={title}
       refAttribute={'action.title/text'}
       refId={actionId}
-      suspense={{ lines: 1 }}
+      suspenseLines={1}
     />
   );
 });
@@ -109,12 +109,7 @@ export const ActionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-10'}>
-      <Voting
-        refAttribute={'entity.type/action'}
-        refId={actionId}
-        size={'md'}
-        suspense={{ lines: 1 }}
-      />
+      <Voting refAttribute={'entity.type/action'} refId={actionId} size={'md'} suspenseLines={1} />
       <Button
         Icon={Giving}
         containerClassName={'w-32'}
@@ -140,9 +135,16 @@ export const ProgressIndicator = suspensify(() => {
   const activeSwitchId = useValue<string>('action.progress-bar/active-switch-id');
   const workPercentage = useValue<number>('action.work/percentage', { 'action/id': actionId });
   const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
-  const switches = useValue<ISwitch[]>('action.progress-bar/switches');
   const updateSwitch = useDispatch('action.progress-bar/update');
   const workPercentageText = `${workPercentage}%`;
+
+  const switches = useMemo(
+    () => [
+      { id: 'work', label: 'Work' },
+      { id: 'funding', label: 'Funding' },
+    ],
+    []
+  );
 
   const onSwitchClick = useCallback(
     (switchId: string) => {
@@ -205,20 +207,20 @@ export const Header = () => {
           <div className={'flex items-baseline justify-between'}>
             <div className={'flex gap-7'}>
               <EntityType type={'action'} />
-              <LastActive suspense={{ lines: 1 }} />
+              <LastActive suspenseLines={1} />
             </div>
-            <SubscriptionBar suspense={{ lines: 2 }} />
+            <SubscriptionBar suspenseLines={2} />
           </div>
           <div className={'flex flex-col items-start gap-10'}>
             <div className={'mr-5 h-full w-full'}>
-              <Title suspense={{ lines: 1, lineHeight: '36' }} />
+              <Title suspenseLineHeight={'36'} suspenseLines={1} />
             </div>
-            <ActionBar suspense={{ lines: 2 }} />
+            <ActionBar suspenseLines={2} />
           </div>
         </div>
-        <ProgressIndicator suspense={{ lines: 1 }} />
+        <ProgressIndicator suspenseLines={1} />
       </div>
-      <ActionTabs suspense={{ lines: 1 }} />
+      <ActionTabs suspenseLines={1} />
     </div>
   );
 };

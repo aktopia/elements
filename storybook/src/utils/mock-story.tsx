@@ -56,7 +56,7 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
 
   return (
     <StoreInterface useDispatch={useDispatchImpl} useValue={useValueImpl}>
-      <Translation defaultLocale={'en'} locales={locales || translations} suspense={{ lines: 8 }}>
+      <Translation defaultLocale={'en'} locales={locales || translations} suspenseLines={8}>
         {children}
       </Translation>
     </StoreInterface>

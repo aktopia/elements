@@ -14,20 +14,16 @@ export const Action = wrapPage(() => {
 
   switch (activeTabId) {
     case 'home':
-      tab = <Home suspense={{ lines: 12 }} />;
+      tab = <Home suspenseLines={12} />;
       break;
     case 'updates':
-      tab = (
-        <Updates refAttribute={'entity.type/action'} refId={actionId} suspense={{ lines: 12 }} />
-      );
+      tab = <Updates refAttribute={'entity.type/action'} refId={actionId} suspenseLines={12} />;
       break;
     case 'discuss':
-      tab = (
-        <Discuss refAttribute={'entity.type/action'} refId={actionId} suspense={{ lines: 12 }} />
-      );
+      tab = <Discuss refAttribute={'entity.type/action'} refId={actionId} suspenseLines={12} />;
       break;
     default:
-      tab = <Home suspense={{ lines: 12 }} />;
+      tab = <Home suspenseLines={12} />;
   }
 
   return (

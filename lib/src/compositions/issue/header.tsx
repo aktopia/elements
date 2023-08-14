@@ -23,7 +23,7 @@ const Title = suspensify(() => {
       content={title}
       refAttribute={'issue.title/text'}
       refId={issueId}
-      suspense={{ lines: 1 }}
+      suspenseLines={1}
     />
   );
 });
@@ -112,19 +112,14 @@ export const IssueTabs = suspensify(() => {
 const Voting = suspensify(() => {
   const issueId = useValue<string>('current.issue/id');
   return (
-    <RawVoting
-      refAttribute={'entity.type/issue'}
-      refId={issueId}
-      size={'md'}
-      suspense={{ lines: 2 }}
-    />
+    <RawVoting refAttribute={'entity.type/issue'} refId={issueId} size={'md'} suspenseLines={2} />
   );
 });
 
 const ActionBar = () => {
   return (
     <div className={'flex gap-12'}>
-      <Voting suspense={{ lines: 1 }} />
+      <Voting suspenseLines={1} />
       <RaiseHand count={5} raised={false} size={'md'} onClick={console.log} />
     </div>
   );
@@ -138,20 +133,20 @@ export const Header = () => {
           <div className={'flex items-baseline justify-between'}>
             <div className={'flex items-center gap-7'}>
               <EntityType type={'issue'} />
-              <LastActive suspense={{ lines: 1 }} />
+              <LastActive suspenseLines={1} />
             </div>
-            <SubscriptionBar suspense={{ lines: 1 }} />
+            <SubscriptionBar suspenseLines={1} />
           </div>
           <div className={'flex flex-col items-start gap-10'}>
             <div className={'mr-5 h-full w-full'}>
-              <Title suspense={{ lines: 1, lineHeight: '36' }} />
+              <Title suspenseLineHeight={'36'} suspenseLines={1} />
             </div>
             <ActionBar />
           </div>
         </div>
         <SeveritySlider />
       </div>
-      <IssueTabs suspense={{ lines: 1 }} />
+      <IssueTabs suspenseLines={1} />
     </div>
   );
 };

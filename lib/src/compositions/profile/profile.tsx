@@ -46,8 +46,8 @@ const ProfileTabs = suspensify(() => {
 const Header = () => {
   return (
     <div className={'flex flex-col gap-10'}>
-      <Name suspense={{ lines: 1 }} />
-      <ProfileTabs suspense={{ lines: 1 }} />
+      <Name suspenseLines={1} />
+      <ProfileTabs suspenseLines={1} />
     </div>
   );
 };
@@ -58,13 +58,13 @@ export const Profile = wrapPage(() => {
 
   switch (activeTabId) {
     case 'actions':
-      tab = <Actions suspense={{ lines: 10 }} />;
+      tab = <Actions suspenseLines={10} />;
       break;
     case 'issues':
-      tab = <Issues suspense={{ lines: 10 }} />;
+      tab = <Issues suspenseLines={10} />;
       break;
     default:
-      tab = <Actions suspense={{ lines: 10 }} />;
+      tab = <Actions suspenseLines={10} />;
   }
 
   return (

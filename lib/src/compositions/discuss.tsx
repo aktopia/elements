@@ -46,7 +46,7 @@ export const Discuss = suspensify(({ refId, refAttribute }: DiscussProps) => {
         onChange={onNewCommentChange}
         onPost={onNewCommentPost}
       />
-      <Comments ids={commentIds} suspense={{ lines: 8 }} />
+      <Comments ids={commentIds} suspenseLines={8} />
     </div>
   );
 });

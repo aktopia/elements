@@ -49,7 +49,7 @@ const LocationsListSlideOver = suspensify(({ locations }: { locations: Location[
       <SlideOverBody>
         <div className={'flex flex-col gap-5'}>
           {locations.map((location) => (
-            <LocationCard key={location.id} location={location} suspense={{ lines: 8 }} />
+            <LocationCard key={location.id} location={location} suspenseLines={8} />
           ))}
         </div>
       </SlideOverBody>
@@ -87,7 +87,7 @@ export const Locations = suspensify(({ refId, refAttribute }: Reference) => {
         onUpdateCenter={onUpdateCenter}
         onViewListClick={onViewListClick}
       />
-      <LocationsListSlideOver locations={locations} suspense={{ lines: 8 }} />
+      <LocationsListSlideOver locations={locations} suspenseLines={8} />
     </div>
   );
 });

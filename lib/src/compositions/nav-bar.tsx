@@ -158,11 +158,11 @@ export const NavBar = () => {
           className={
             'col-start-7 col-end-7 flex w-full items-center justify-center bg-white py-2.5 pl-2 pr-6 md:pl-12 md:pr-14'
           }>
-          <UserDropdown suspense={{ lines: 5 }} />
+          <UserDropdown suspenseLines={5} />
         </div>
       </div>
-      <SocialSignIn suspense={{ lines: 5 }} />
-      <MainSearch suspense={{ lines: 5 }} />
+      <SocialSignIn suspenseLines={5} />
+      <MainSearch suspenseLines={5} />
     </>
   );
 };

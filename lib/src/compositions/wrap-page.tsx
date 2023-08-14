@@ -8,7 +8,7 @@ export const wrapPage = (Component: ComponentType) =>
     return (
       <div className={'h-full w-full bg-white'}>
         <NavBar />
-        <Alert suspense={{ lines: 5 }} />
+        <Alert suspenseLines={5} />
         <div className={'p-4 md:px-40 md:py-16'}>
           <Component {...props} />
         </div>

@@ -45,7 +45,7 @@ export const Router = suspensify(() => {
     return null;
   }
 
-  return <Component suspense={{ lines: 8 }} />;
+  return <Component suspenseLines={8} />;
 });
 
 /*

@@ -153,14 +153,14 @@ export const Comment = suspensify(({ id }: { id: string }) => {
                 moreMenuItems={menuItems}
                 refAttribute={'comment/text'}
                 refId={id}
-                suspense={{ lines: 2 }}
+                suspenseLines={2}
               />
               <div className={'flex gap-5'}>
                 <Voting
                   refAttribute={'entity.type/comment'}
                   refId={id}
                   size={'xs'}
-                  suspense={{ lines: 1 }}
+                  suspenseLines={1}
                 />
                 <Button
                   Icon={ChatBubbleLeftEllipsisOutline}
@@ -186,7 +186,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
           onPost={onNewCommentPost}
         />
       )}
-      {showResponses && <Comments ids={responseIds} suspense={{ lines: 8 }} />}
+      {showResponses && <Comments ids={responseIds} suspenseLines={8} />}
     </div>
   );
 });
@@ -195,9 +195,9 @@ export const Comments = suspensify(({ ids }: { ids: string[] }) => {
   return (
     <div className={'flex flex-col gap-7'}>
       {ids.map((id) => {
-        return <Comment key={id} id={id} suspense={{ lines: 2 }} />;
+        return <Comment key={id} id={id} suspenseLines={2} />;
       })}
-      <DeleteConfirmationModal suspense={{ lines: 2 }} />
+      <DeleteConfirmationModal suspenseLines={2} />
     </div>
   );
 });
