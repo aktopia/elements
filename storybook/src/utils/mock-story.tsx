@@ -3,7 +3,7 @@ import translations from '@elements/translations';
 import { action } from '@storybook/addon-actions';
 import { memo, ReactNode, useCallback } from 'react';
 import { Parameters } from '@storybook/react';
-import { Store as StoreInterface } from '@elements/_store/interface';
+import { Store as StoreInterface } from '@elements/store/interface';
 
 export type ReadMock = Record<string, any>;
 export type DispatchMock = string[];

@@ -1,2 +1,3 @@
-export { useValue, useDispatch, useState, Store } from '@elements/_store/interface';
-export { sub, asyncSub, event } from '@elements/_store/impl';
+export { useValue, useDispatch, useState, Store } from '@elements/store/interface';
+export { sub, asyncSub, evt } from '@elements/store/register';
+export { setState } from '@elements/store/impl';

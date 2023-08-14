@@ -1,17 +1,15 @@
 import { QueryClient, QueryClientProvider, useQuery as useReactQuery } from 'react-query';
 import { create } from 'zustand';
 import { ReactNode, useCallback } from 'react';
-import { Store as StoreInterface } from '@elements/_store/interface';
+import { Store as StoreInterface } from '@elements/store/interface';
+import { Dispatch, events, subscriptions } from '@elements/store/register';
+import { slices } from '@elements/store/slices';
 
-const subscriptions: any = {};
-const events: any = {};
-
-const useStore = create(() => ({
-  bears: 0,
-}));
-
-type Read = (state: any, params?: Record<string, any>) => any;
-type AsyncRead = (params?: Record<string, any>) => any;
+const useStore = create(() => {
+  return slices.reduce((acc, slice) => {
+    return { ...acc, ...slice() };
+  }, {});
+});
 
 function queryFn({ queryKey }: any) {
   const [id, params] = queryKey;
@@ -19,11 +17,12 @@ function queryFn({ queryKey }: any) {
   return sub(params);
 }
 
+export const setState = useStore.setState;
+
 const useRemote = (id: string, params?: Record<string, any>) => {
   const { data } = useReactQuery([id, params]);
   return data;
 };
-
 const useLocal = (id: string, params?: Record<string, any>) => {
   const read = subscriptions[id].fn;
   return useStore((state) => read(state, params));
@@ -34,11 +33,11 @@ function useValueImpl<T>(id: string, params?: Record<string, any>): T {
   return useVal(id, params) as T;
 }
 
-function useDispatchImpl(id: string, options?: any): any {
+function useDispatchImpl(id: string, options?: any): Dispatch {
   const { emptyParams = false }: any = options || {};
   const { fn } = events[id];
   return useCallback(
-    (params?: Record<string, any>) => fn(useStore.setState, emptyParams ? {} : params || {}),
+    (params?: Record<string, any>) => fn(setState, emptyParams ? {} : params || {}),
     [fn, emptyParams]
   );
 }
@@ -51,18 +50,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
-export function sub(id: string, fn: Read) {
-  subscriptions[id] = { fn, async: false };
-}
-
-export function asyncSub(id: string, fn: AsyncRead) {
-  subscriptions[id] = { fn, async: true };
-}
-
-export function event(id: string, fn: any) {
-  events[id] = { fn };
-}
 
 export const Store = ({ children }: { children: ReactNode }) => {
   return (

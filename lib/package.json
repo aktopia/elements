@@ -38,8 +38,9 @@
     "react-dom": "^18.2.0",
     "react-loading-skeleton": "^3.3.1",
     "react-query": "3.39.3",
+    "router5": "^8.0.1",
+    "router5-plugin-browser": "^8.0.1",
     "supertokens-web-js": "^0.7.2",
-    "wouter": "^2.11.0",
     "zustand": "^4.4.1"
   },
   "devDependencies": {
