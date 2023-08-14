@@ -8,11 +8,5 @@ export const store = {
     'auth.sign-in/visible': false,
     'main-search/visible': false,
   },
-  dispatch: [
-    'navigate.profile/actions',
-    'navigate.create/action',
-    'auth.sign-in/initiate',
-    'main-search/open',
-    ...mainSearchStore.dispatch,
-  ],
+  dispatch: ['auth.sign-in/initiate', 'main-search/open', ...mainSearchStore.dispatch],
 };

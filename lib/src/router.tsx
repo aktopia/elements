@@ -31,7 +31,7 @@ const router = createRouter(routes2, { queryParamsMode: 'loose', allowNotFound: 
 router.usePlugin(browserPlugin());
 
 router.subscribe(({ route }) => {
-  setState({ 'route/state': { 'current.route/id': route.name } });
+  setState({ 'router/state': { 'current.route/id': route.name } });
 });
 
 router.start();

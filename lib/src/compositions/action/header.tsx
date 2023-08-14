@@ -96,18 +96,12 @@ export const ActionBar = suspensify(() => {
   const actionId = useValue<string>('current.action/id');
   const userId = useValue<string>('current.user/id');
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
-  const bumped = useValue<boolean>('action/bumped', ident);
-  const bump = useDispatch('action/bump');
-  const unBump = useDispatch('action/unbump');
+  const volunteer = useDispatch('action/volunteer');
   const navigateToFunding = useDispatch('action/fund');
 
-  const onBumpButtonClick = useCallback(() => {
-    if (bumped) {
-      unBump(ident);
-    } else {
-      bump(ident);
-    }
-  }, [bumped, bump, unBump, ident]);
+  const onVolunteerButtonClick = useCallback(() => {
+    volunteer(ident);
+  }, [volunteer, ident]);
 
   const onFundButtonClick = useCallback(() => {
     navigateToFunding(ident);
@@ -131,11 +125,10 @@ export const ActionBar = suspensify(() => {
       />
       <Button
         Icon={Crowd}
-        clicked={bumped}
         kind={'secondary'}
         size={'md'}
         value={'Volunteer'}
-        onClick={onBumpButtonClick}
+        onClick={onVolunteerButtonClick}
       />
     </div>
   );

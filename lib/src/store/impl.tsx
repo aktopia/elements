@@ -4,12 +4,15 @@ import { ReactNode, useCallback } from 'react';
 import { Store as StoreInterface } from '@elements/store/interface';
 import { Dispatch, events, subscriptions } from '@elements/store/register';
 import { slices } from '@elements/store/slices';
+import { immer } from 'zustand/middleware/immer';
 
-const useStore = create(() => {
-  return slices.reduce((acc, slice) => {
-    return { ...acc, ...slice() };
-  }, {});
-});
+const useStore = create(
+  immer(() => {
+    return slices.reduce((acc, slice) => {
+      return { ...acc, ...slice() };
+    }, {});
+  })
+);
 
 function queryFn({ queryKey }: any) {
   const [id, params] = queryKey;
@@ -23,18 +26,30 @@ const useRemote = (id: string, params?: Record<string, any>) => {
   const { data } = useReactQuery([id, params]);
   return data;
 };
+
 const useLocal = (id: string, params?: Record<string, any>) => {
   const read = subscriptions[id].fn;
   return useStore((state) => read(state, params));
 };
 
 function useValueImpl<T>(id: string, params?: Record<string, any>): T {
-  const useVal = subscriptions[id].async ? useRemote : useLocal;
+  let useVal;
+  try {
+    useVal = subscriptions[id].async ? useRemote : useLocal;
+  } catch (e) {
+    console.log(id);
+    useVal = useLocal;
+  }
   return useVal(id, params) as T;
 }
 
 function useDispatchImpl(id: string, options?: any): Dispatch {
   const { emptyParams = false }: any = options || {};
+  try {
+    events[id].fn;
+  } catch (e) {
+    console.log(id);
+  }
   const { fn } = events[id];
   return useCallback(
     (params?: Record<string, any>) => fn(setState, emptyParams ? {} : params || {}),

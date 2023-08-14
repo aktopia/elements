@@ -16,13 +16,6 @@ export const store = {
       { id: 'work', label: 'Work' },
       { id: 'funding', label: 'Funding' },
     ],
-    'action/tabs': [
-      { id: 'home', label: 'Home' },
-      { id: 'funding', label: 'Funding' },
-      { id: 'updates', label: 'Updates' },
-      { id: 'discuss', label: 'Discuss' },
-      { id: 'team', label: 'Team' },
-    ],
     'action.tabs/active-tab-id': 'home',
   },
   dispatch: [
