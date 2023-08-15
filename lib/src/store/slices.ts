@@ -10,6 +10,7 @@ import { updateSlice } from '@elements/logic/update';
 import { votingSlice } from '@elements/logic/voting';
 import { alertSlice } from '@elements/logic/alert';
 import { actionSlice } from '@elements/logic/action';
+import { profileSlice } from '@elements/logic/profile';
 
 export const slices = [
   localeSlice,
@@ -24,4 +25,5 @@ export const slices = [
   votingSlice,
   alertSlice,
   actionSlice,
+  profileSlice,
 ];

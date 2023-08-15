@@ -1,46 +1,26 @@
 import { suspensify } from '@elements/components/suspensify';
-import { routes } from '@elements/routes';
-import { ComponentType } from 'react';
+import { routeData, routes } from '@elements/routes';
 import createRouter from 'router5';
 import browserPlugin from 'router5-plugin-browser';
 import { setState, useValue } from '@elements/store';
 
-const _routes: Record<string, ComponentType<any>> = {};
-
-function registerRoutes(routeMap: Record<string, ComponentType<any>>) {
-  for (const routeId in routeMap) {
-    if (_routes[routeId]) {
-      throw Error(`route ${routeId} already registered.`);
-    }
-
-    _routes[routeId] = routeMap[routeId];
-  }
-}
-
-for (const routeMap of routes) {
-  registerRoutes(routeMap);
-}
-
-const routes2 = [
-  { name: 'action/view', path: '/action/:id' },
-  { name: 'profile/view', path: '/profile/:id/actions' },
-];
-
-const router = createRouter(routes2, { queryParamsMode: 'loose', allowNotFound: true });
+const router = createRouter(routes, { queryParamsMode: 'loose', allowNotFound: true });
 
 router.usePlugin(browserPlugin());
 
 router.subscribe(({ route }) => {
+  const routeId = route.name as keyof typeof routeData;
   setState((state: any) => {
-    state.routerState.routeId = route.name;
+    state.routerState.routeId = routeId;
   });
+  routeData[routeId].onNavigate({ params: route.params, path: route.path, id: routeId });
 });
 
 router.start();
 
 export const Router = suspensify(() => {
-  const routeId = useValue<string>('current.route/id');
-  const Component = _routes[routeId];
+  const routeId = useValue<keyof typeof routeData>('current.route/id');
+  const Component = routeData[routeId].component;
 
   if (!Component) {
     console.error('No route found for route name: ', routeId);
@@ -49,8 +29,3 @@ export const Router = suspensify(() => {
 
   return <Component suspenseLines={8} />;
 });
-
-/*
-TODO
-Types for suspense components
- */
