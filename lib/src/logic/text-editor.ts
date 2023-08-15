@@ -4,9 +4,9 @@ export const textEditorSlice = () => ({
   'text-editor/state': {},
 });
 
-sub('text-editor/can-edit', (_state) => true);
-sub('text-editor/editing', (_state) => false);
-evt('text-editor/edit', (_setState, _params) => null);
-evt('text-editor.edit/done', (_setState, _params) => null);
-evt('text-editor.edit/cancel', (_setState, _params) => null);
-evt('text-editor.text/update', (_setState, _params) => null);
+sub('text-editor/can-edit', ({ state }) => true);
+sub('text-editor/editing', ({ state }) => false);
+evt('text-editor/edit', ({ setState, params }) => null);
+evt('text-editor.edit/done', ({ setState, params }) => null);
+evt('text-editor.edit/cancel', ({ setState, params }) => null);
+evt('text-editor.text/update', ({ setState, params }) => null);

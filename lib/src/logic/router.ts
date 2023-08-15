@@ -1,9 +1,15 @@
 import { evt, sub } from '@elements/store';
 
-export const routerSlice = () => ({ 'router/state': {} });
+export const routerSlice = () => ({ routerState: {} });
 
-sub('current.route/id', (state) => state['router/state']['current.route/id']);
+export function setRouteId(state: any, routeId: string) {
+  state.routerState.routeId = routeId;
+}
 
-evt('current.route.id/set', (setState, { id }) => {
-  setState({ 'router/state': { 'current.route/id': id } });
+sub('current.route/id', ({ state }) => state.routerState.routeId);
+
+evt('current.route.id/set', ({ setState, params }) => {
+  setState((state: any) => {
+    setRouteId(state, params.id);
+  });
 });

@@ -1,9 +1,11 @@
 import { evt, sub } from '@elements/store';
 
-export const localeSlice = () => ({ 'locale/state': { 'current/locale': 'en' } });
+export const localeSlice = () => ({ localeState: { locale: 'en' } });
 
-sub('current/locale', (state) => state['locale/state']['current/locale']);
+sub('current/locale', ({ state }) => state.localeState.locale);
 
-evt('current.locale/set', (setState, { locale }: any) =>
-  setState({ 'locale/state': { 'current/locale': locale } })
-);
+evt('current.locale/set', ({ setState, params }) => {
+  setState((state: any) => {
+    state.localeState.locale = params.locale;
+  });
+});

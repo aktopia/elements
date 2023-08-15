@@ -1,6 +1,11 @@
-type Read = (state: any, params?: Record<string, any>) => any;
-type AsyncRead = (params?: Record<string, any>) => any;
-export type Dispatch = (set: Function, params?: any) => void;
+type Read = (args: { state: any; params?: any }) => any;
+type AsyncRead = (args: { params?: Record<string, any> }) => any;
+export type Dispatch = (args: {
+  setState: Function;
+  getState: Function;
+  params?: any;
+  state: any;
+}) => void;
 
 export const subscriptions: any = {};
 export const events: any = {};

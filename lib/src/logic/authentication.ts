@@ -14,37 +14,32 @@ export const authenticationSlice = () => ({
   },
 });
 
-sub('user/name', (state) => state.authenticationState['user/name']);
+sub('user/name', ({ state }) => state.authenticationState['user/name']);
 
-sub('auth.sign-in/visible', (state) => state.authenticationState.signInVisible);
+sub('auth.sign-in/visible', ({ state }) => state.authenticationState.signInVisible);
 
-sub('auth.session/exists', (state) => state.authenticationState.sessionExists);
+sub('auth.session/exists', ({ state }) => state.authenticationState.sessionExists);
 
-sub('auth.sign-in/email', (state) => state.authenticationState.signInEmailInput);
+sub('auth.sign-in/email', ({ state }) => state.authenticationState.signInEmailInput);
 
-sub('current.user/id', (state) => state.authenticationState['current.user/id']);
+sub('current.user/id', ({ state }) => state.authenticationState['current.user/id']);
 
-sub('auth.sign-in/phone', (state) => state.authenticationState['auth.sign-in/phone']);
+sub('auth.sign-in/sending-otp', ({ state }) => state.authenticationState.signInSendingOTP);
 
-sub(
-  'auth.sign-in/active-switch-id',
-  (state) => state.authenticationState['auth.sign-in/active-switch-id']
-);
+evt('auth.sign-in/initiate', ({ setState }) => {
+  setState((state: any) => {
+    state.authenticationState.signInVisible = true;
+  });
+});
 
-sub('auth.sign-in/sending-otp', (state) => state.authenticationState.signInSendingOTP);
+evt('auth/sign-out', ({ setState, params }) => null);
 
-evt('auth.sign-in/initiate', (_setState, _params) => null);
+evt('auth.sign-in/send-otp', ({ setState, params }) => null);
 
-evt('auth.sign-in.google/initiate', (_setState, _params) => null);
+evt('auth.sign-in/close', ({ setState }) => {
+  setState((state: any) => {
+    state.authenticationState.signInVisible = false;
+  });
+});
 
-evt('auth/sign-out', (_setState, _params) => null);
-
-evt('auth.sign-in/send-otp', (_setState, _params) => null);
-
-evt('auth.sign-in/close', (_setState, _params) => null);
-
-evt('auth.sign-in/update-switch', (_setState, _params) => null);
-
-evt('auth.sign-in/update-phone', (_setState, _params) => null);
-
-evt('auth.sign-in/update-email', (_setState, _params) => null);
+evt('auth.sign-in/update-email', ({ setState, params }) => null);

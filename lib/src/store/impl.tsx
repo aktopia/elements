@@ -21,6 +21,7 @@ function queryFn({ queryKey }: any) {
 }
 
 export const setState = useStore.setState;
+export const getState = useStore.getState;
 
 const useRemote = (id: string, params?: Record<string, any>) => {
   const { data } = useReactQuery([id, params]);
@@ -29,7 +30,7 @@ const useRemote = (id: string, params?: Record<string, any>) => {
 
 const useLocal = (id: string, params?: Record<string, any>) => {
   const read = subscriptions[id].fn;
-  return useStore((state) => read(state, params));
+  return useStore((state) => read({ state, params }));
 };
 
 function useValueImpl<T>(id: string, params?: Record<string, any>): T {
@@ -40,8 +41,10 @@ function useValueImpl<T>(id: string, params?: Record<string, any>): T {
 function useDispatchImpl(id: string, options?: any): Dispatch {
   const { emptyParams = false }: any = options || {};
   const { fn } = events[id];
+
   return useCallback(
-    (params?: Record<string, any>) => fn(setState, emptyParams ? {} : params || {}),
+    (params?: Record<string, any>) =>
+      fn({ setState, getState, params: emptyParams ? {} : params || {} }),
     [fn, emptyParams]
   );
 }

@@ -4,7 +4,7 @@ export const votingSlice = () => ({
   'vote/state': {},
 });
 
-sub('vote/count', (_state) => '108');
-sub('vote/kind', (_state) => 'upvote');
-evt('vote/upvote', (_setState, _params) => null);
-evt('vote/downvote', (_setState, _params) => null);
+sub('vote/count', ({ state }) => '108');
+sub('vote/kind', ({ state }) => 'upvote');
+evt('vote/upvote', ({ setState, params }) => null);
+evt('vote/downvote', ({ setState, params }) => null);

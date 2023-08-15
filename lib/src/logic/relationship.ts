@@ -4,5 +4,5 @@ export const relationshipSlice = () => ({
   'relationship/state': {},
 });
 
-sub('relationship/ids', (_state) => []);
-sub('relationship/data', (_state) => {});
+sub('relationship/ids', ({ state }) => []);
+sub('relationship/data', ({ state }) => {});
