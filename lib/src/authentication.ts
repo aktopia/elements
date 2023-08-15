@@ -20,10 +20,9 @@ export const init = (authConfig: AppInfoUserInput) => {
   });
 };
 
-export async function sendOTP({ email }: { email: string }) {
+export async function sendOtp({ email }: { email: string }) {
   try {
     await createCode({ email });
-    window.alert('Please check your email for an OTP');
   } catch (err: any) {
     if (err.isSuperTokensGeneralError === true) {
       // this may be a custom error message sent from the API by you,
@@ -35,7 +34,7 @@ export async function sendOTP({ email }: { email: string }) {
   }
 }
 
-export async function resendOTP() {
+export async function resendOtp() {
   try {
     let response = await resendCode();
 
@@ -58,44 +57,37 @@ export async function resendOTP() {
   }
 }
 
-export async function hasOTPBeenSent() {
+export async function hasOtpBeenSent() {
   return (await getLoginAttemptInfo()) !== undefined;
 }
 
-export async function consumeOTP(otp: string) {
+export async function consumeOtp({ otp }: { otp: string }): Promise<any> {
   try {
-    let response = await consumeCode({
-      userInputCode: otp,
-    });
+    const response = await consumeCode({ userInputCode: otp });
 
     if (response.status === 'OK') {
       if (response.createdNewUser) {
-        // user sign up success
+        return { newUser: true, user: response.user };
       } else {
-        // user sign in success
+        return { newUser: false, user: response.user };
       }
-      window.location.assign('/home');
     } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
-      // the user entered an invalid OTP
-      window.alert(
-        'Wrong OTP! Please try again. Number of attempts left: ' +
-          (response.maximumCodeInputAttempts - response.failedCodeInputAttemptCount)
-      );
+      throw {
+        maxOtpAttempts: response.maximumCodeInputAttempts,
+        failedOtpAttempts: response.failedCodeInputAttemptCount,
+      };
     } else if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
-      // it can come here if the entered OTP was correct, but has expired because
-      // it was generated too long ago.
-      window.alert('Old OTP entered. Please regenerate a new one and try again');
+      throw { expiredOtp: true };
     } else {
-      // this can happen if the user tried an incorrect OTP too many times.
-      window.alert('Login failed. Please try again');
-      window.location.assign('/auth');
+      throw { unknownError: true };
     }
   } catch (err: any) {
+    // TODO Handle this properly
     if (err.isSuperTokensGeneralError === true) {
       // this may be a custom error message sent from the API by you.
       window.alert(err.message);
     } else {
-      window.alert('Oops! Something went wrong.');
+      throw err;
     }
   }
 }

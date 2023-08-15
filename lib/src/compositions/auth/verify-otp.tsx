@@ -6,6 +6,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { cva } from 'cva';
 import React, { useCallback } from 'react';
+import { MAX_OTP_DIGITS, ResendOtpState } from '@elements/logic/authentication';
 
 const inputVariant = cva(
   'h-max rounded-md border bg-gray-50 py-2 px-3 text-center text-2xl font-medium tracking-[1rem] text-gray-600 shadow-inner',
@@ -21,34 +22,26 @@ const inputVariant = cva(
 
 export const VerifyOtp = () => {
   const t = useTranslation();
+
   const otp = useValue<string>('auth.verify-otp/otp');
   const visible = useValue<boolean>('auth.verify-otp/visible');
   const verifyingOtp = useValue<boolean>('auth.verify-otp/verifying');
-  const maxDigits = useValue<number>('auth.verify-otp/max-otp-digits');
-  const resendOtpState = useValue<string>('auth.verify-otp/resend-otp-state');
+  const resendOtpState = useValue<ResendOtpState>('auth.verify-otp/resend-otp-state');
   const otpError = useValue<string>('auth.verify-otp/error');
   const waitSeconds = useValue<string>('auth.verify-otp/wait-seconds');
+
   const onResendOtp = useDispatch('auth.verify-otp/resend-otp');
   const onBack = useDispatch('auth.verify-otp/go-back');
   const onClose = useDispatch('auth.verify-otp/close');
   const onOtpChange = useDispatch('auth.verify-otp/update-otp');
-  const verifyOtp = useDispatch('auth.verify-otp/verify-otp');
   const onOtpFocus = useDispatch('auth.verify-otp/focus-input');
-  const alert = useDispatch('alert/display');
 
   const onOtpChangeMemo = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const otp = e.target.value.trim();
-      const onSuccess = () => alert({ message: t('auth.verify-otp/success'), kind: 'success' });
-      onOtpChange({ otp });
-      if (otp.length === maxDigits) {
-        verifyOtp({
-          otp,
-          'on-success': onSuccess,
-        });
-      }
+      onOtpChange({ value: otp });
     },
-    [onOtpChange, alert, t, verifyOtp, maxDigits]
+    [onOtpChange]
   );
 
   let resendOtpView;
@@ -86,7 +79,7 @@ export const VerifyOtp = () => {
               <input
                 className={inputVariant({ error: Boolean(otpError) })}
                 disabled={resendOtpState == 'resending'}
-                maxLength={maxDigits}
+                maxLength={MAX_OTP_DIGITS}
                 type={'text'}
                 value={otp}
                 onChange={onOtpChangeMemo}

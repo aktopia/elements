@@ -70,13 +70,13 @@ const Icon = ({ kind }: VariantProps<typeof iconVariant>) => {
 export type Kind = 'info' | 'success' | 'warning' | 'error';
 
 export interface AlertProps {
-  messageText: string;
+  message: string;
   visible: boolean;
   onDismiss: (event: React.MouseEvent) => void;
   kind: Kind;
 }
 
-export const Alert = ({ messageText, visible, kind, onDismiss }: AlertProps) => {
+export const Alert = ({ message, visible, kind, onDismiss }: AlertProps) => {
   return visible ? (
     <div className={containerVariant({ kind })}>
       <div className={'flex items-center'}>
@@ -84,7 +84,7 @@ export const Alert = ({ messageText, visible, kind, onDismiss }: AlertProps) => 
           <Icon aria-hidden={'true'} kind={kind} />
         </div>
         <div className={'ml-3'}>
-          <p className={messageVariant({ kind })}>{messageText}</p>
+          <p className={messageVariant({ kind })}>{message}</p>
         </div>
         <div className={'ml-auto pl-3'}>
           <div className={'-mx-1.5 -my-1.5'}>

@@ -13,7 +13,7 @@ export const Alert: Story = {
   args: {
     kind: 'success',
     visible: true,
-    messageText: 'Successfully sent OTP to random@email.com.',
+    message: 'Successfully sent OTP to random@email.com.',
     onDismiss: action('onDismiss'),
   },
 };

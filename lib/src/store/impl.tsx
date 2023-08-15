@@ -23,6 +23,16 @@ function queryFn({ queryKey }: any) {
 export const setState = useStore.setState;
 export const getState = useStore.getState;
 
+export function dispatch(id: string, params?: Record<string, any>) {
+  const { fn } = events[id];
+  return fn({ setState, getState, params: params || {} });
+}
+
+export function read(id: string, params?: Record<string, any>) {
+  const { fn } = subscriptions[id];
+  return fn({ state: getState(), params: params || {} });
+}
+
 const useRemote = (id: string, params?: Record<string, any>) => {
   const { data } = useReactQuery([id, params]);
   return data;
