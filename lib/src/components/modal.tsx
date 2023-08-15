@@ -66,7 +66,7 @@ export const Modal = ({ children, onClose, visible }: ModalProps) => {
             leaveTo={'opacity-0 scale-95'}>
             <Dialog.Panel
               className={
-                'w-max scale-100 transform overflow-hidden rounded-2xl bg-white p-6 opacity-100 shadow-xl ring-1 ring-black ring-opacity-5 transition-all'
+                'w-max scale-100 transform overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 opacity-100 shadow-xl transition-all'
               }>
               {children}
             </Dialog.Panel>

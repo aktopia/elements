@@ -1,30 +1,27 @@
 import { ArrowPathMiniSolid, ChartBarMiniSolid, GlobeAmericasMiniSolid } from '@elements/icons';
-import { useDispatch } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { Reference } from '@elements/types';
 import {
   Root as SliderRoot,
   Thumb as SliderThumb,
   Track as SliderTrack,
 } from '@radix-ui/react-slider';
 import { useCallback } from 'react';
+import { suspensify } from '@elements/components/suspensify';
 
 const SEVERITY_MIN = 0;
 const SEVERITY_MAX = 10;
 const SEVERITY_STEP = 1;
 
-interface SeveritySliderProps {
-  reference: Reference;
-}
-
-export const SeveritySlider = ({ reference }: SeveritySliderProps) => {
+export const SeveritySlider = suspensify(() => {
   const t = useTranslation();
+  const issueId = useValue<string>('current.issue/id');
 
   const reset = useDispatch('issue.severity/reset');
 
   const onReset = useCallback(() => {
-    reset(reference);
-  }, [reference, reset]);
+    reset({ 'ref/id': issueId, 'ref/attribute': 'entity.type/issue' });
+  }, [issueId, reset]);
 
   return (
     <div className={'flex w-full flex-col items-center justify-center gap-2.5'}>
@@ -69,4 +66,4 @@ export const SeveritySlider = ({ reference }: SeveritySliderProps) => {
       </div>
     </div>
   );
-};
+});

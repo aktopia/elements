@@ -144,7 +144,7 @@ export const Header = () => {
             <ActionBar />
           </div>
         </div>
-        <SeveritySlider />
+        <SeveritySlider suspenseLines={1} />
       </div>
       <IssueTabs suspenseLines={1} />
     </div>

@@ -1,45 +1,37 @@
 import { evt, sub } from '@elements/store';
 
 export const authenticationSlice = () => ({
-  'authentication/state': {
+  authenticationState: {
     'user/name': 'Krishna Sunil',
-    'auth.sign-in/visible': false,
-    'auth.session/exists': false,
-    'auth.sign-in/email': '',
+    signInVisible: false,
+    sessionExists: false,
+    signInEmailInput: '',
     'current.user/id': '2',
     'auth.sign-in/phone': '',
     'auth.sign-in/active-switch-id': 'phone',
-    'auth.sign-in/sending-otp': false,
-    'auth.sign-in/disallow-close': false,
+    signInSendingOTP: false,
+    signInDisallowClose: false,
   },
 });
 
-sub('user/name', (state) => state['authentication/state']['user/name']);
+sub('user/name', (state) => state.authenticationState['user/name']);
 
-sub('auth.sign-in/visible', (state) => state['authentication/state']['auth.sign-in/visible']);
+sub('auth.sign-in/visible', (state) => state.authenticationState.signInVisible);
 
-sub('auth.session/exists', (state) => state['authentication/state']['auth.session/exists']);
+sub('auth.session/exists', (state) => state.authenticationState.sessionExists);
 
-sub('auth.sign-in/email', (state) => state['authentication/state']['auth.sign-in/email']);
+sub('auth.sign-in/email', (state) => state.authenticationState.signInEmailInput);
 
-sub('current.user/id', (state) => state['authentication/state']['current.user/id']);
+sub('current.user/id', (state) => state.authenticationState['current.user/id']);
 
-sub('auth.sign-in/phone', (state) => state['authentication/state']['auth.sign-in/phone']);
+sub('auth.sign-in/phone', (state) => state.authenticationState['auth.sign-in/phone']);
 
 sub(
   'auth.sign-in/active-switch-id',
-  (state) => state['authentication/state']['auth.sign-in/active-switch-id']
+  (state) => state.authenticationState['auth.sign-in/active-switch-id']
 );
 
-sub(
-  'auth.sign-in/sending-otp',
-  (state) => state['authentication/state']['auth.sign-in/sending-otp']
-);
-
-sub(
-  'auth.sign-in/disallow-close',
-  (state) => state['authentication/state']['auth.sign-in/disallow-close']
-);
+sub('auth.sign-in/sending-otp', (state) => state.authenticationState.signInSendingOTP);
 
 evt('auth.sign-in/initiate', (_setState, _params) => null);
 

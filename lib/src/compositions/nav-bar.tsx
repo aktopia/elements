@@ -7,11 +7,11 @@ import {
 import { Button } from '@elements/components/button';
 import { Dropdown } from '@elements/components/dropdown';
 import { suspensify } from '@elements/components/suspensify';
-import { SocialSignIn } from '@elements/compositions/auth/social-sign-in';
 import { MainSearch } from '@elements/compositions/main-search';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useMemo } from 'react';
+import { Auth } from '@elements/compositions/auth/auth';
 
 const aktopia = 'Aktopia';
 
@@ -161,7 +161,7 @@ export const NavBar = () => {
           <UserDropdown suspenseLines={5} />
         </div>
       </div>
-      <SocialSignIn suspenseLines={5} />
+      <Auth suspenseLines={5} />
       <MainSearch suspenseLines={5} />
     </>
   );

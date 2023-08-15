@@ -1,5 +1,5 @@
 import { Button } from '@elements/components/button';
-import { Modal } from '@elements/components/modal';
+import { Modal, ModalHeader } from '@elements/components/modal';
 import { Spinner } from '@elements/components/spinner';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -17,7 +17,7 @@ export const SignIn = () => {
 
   const onEmailChangeMemo = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onEmailChange({ email: e.target.value });
+      onEmailChange({ value: e.target.value });
     },
     [onEmailChange]
   );
@@ -25,31 +25,41 @@ export const SignIn = () => {
   const onFormSubmitMemo = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      onSendOtp();
+      onSendOtp({ email });
     },
-    [onSendOtp]
+    [onSendOtp, email]
   );
 
   return (
     <Modal visible={visible} onClose={onClose}>
-      <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
-        <input
-          className={
-            'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner'
-          }
-          disabled={sendingOtp}
-          type={'text'}
-          value={email}
-          onChange={onEmailChangeMemo}
-        />
-        <div className={'flex w-full justify-center'}>
-          {sendingOtp ? (
-            <Spinner kind={'primary'} size={'sm'} visible={true} />
-          ) : (
-            <Button kind={'primary'} size={'md'} type={'submit'} value={t('auth/send-otp')} />
-          )}
-        </div>
-      </form>
+      <div className={'flex flex-col gap-9'}>
+        <ModalHeader title={'Sign In'} onClose={onClose} />
+        <form className={'flex flex-col gap-11'} onSubmit={onFormSubmitMemo}>
+          <div className={'flex flex-col gap-3'}>
+            <label className={'text-sm font-medium text-gray-600'} htmlFor={'signin-email'}>
+              {t('common/email')}
+            </label>
+            <input
+              className={
+                'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner placeholder:font-light placeholder:text-gray-400'
+              }
+              disabled={sendingOtp}
+              id={'signin-email'}
+              placeholder={'email@address.com'}
+              type={'email'}
+              value={email}
+              onChange={onEmailChangeMemo}
+            />
+          </div>
+          <div className={'flex w-full justify-center'}>
+            {sendingOtp ? (
+              <Spinner kind={'primary'} size={'sm'} visible={true} />
+            ) : (
+              <Button kind={'primary'} size={'md'} type={'submit'} value={t('auth/send-otp')} />
+            )}
+          </div>
+        </form>
+      </div>
     </Modal>
   );
 };
