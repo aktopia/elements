@@ -1,5 +1,5 @@
 import { dispatch, evt, sub } from '@elements/store';
-import { consumeOtp, sendOtp } from '@elements/authentication';
+import { consumeOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
 
 export type ResendOtpState = 'idle' | 'waiting' | 'resending';
 
@@ -56,7 +56,10 @@ evt('auth.sign-in/initiate', ({ setState }) => {
   });
 });
 
-evt('auth/sign-out', ({}) => null);
+evt('auth/sign-out', async ({}) => {
+  await signOut();
+  dispatch('auth.session/sync');
+});
 
 evt('auth.sign-in/send-otp', async ({ setState, params }) => {
   const { email } = params;
@@ -91,6 +94,13 @@ evt('auth.sign-in/update-email', ({ setState, params }) => {
   });
 });
 
+evt('auth.session/sync', async ({ setState }) => {
+  const exists = await sessionExists();
+  setState((state: any) => {
+    state.authenticationState.sessionExists = exists;
+  });
+});
+
 evt('auth.verify-otp/resend-otp', ({ setState, params }) => {
   setState((state: any) => {
     state.authenticationState.verifyOtpResendOtpState = 'resending';
@@ -113,7 +123,6 @@ evt('auth.verify-otp/close', ({ setState }) => {
 });
 
 evt('auth.verify-otp/update-otp', ({ setState, params }) => {
-  console.log('params', params);
   const otp = params.value;
   setState((state: any) => {
     state.authenticationState.verifyOtpInput = otp;

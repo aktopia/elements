@@ -2,6 +2,9 @@ import '@elements/index.css';
 import { Router } from '@elements/router';
 import { useEffect } from 'react';
 import { init as initAuth } from '@elements/authentication';
+import { dispatch, useValue } from '@elements/store';
+import { suspensify } from '@elements/components/suspensify';
+import { Spinner } from '@elements/components/spinner';
 
 const authConfig = {
   apiDomain: 'http://dev.aktopia.com',
@@ -9,14 +12,21 @@ const authConfig = {
   appName: 'aktopia',
 };
 
+initAuth(authConfig);
+
 function init() {
-  initAuth(authConfig);
+  dispatch('app/load');
 }
 
-export const App = () => {
+export const App = suspensify(() => {
+  const loading = useValue<boolean>('app/loading');
   useEffect(() => {
     init();
   }, []);
 
-  return <Router suspenseLines={20} />;
-};
+  return loading ? (
+    <Spinner kind={'primary'} size={'sm'} visible={true} />
+  ) : (
+    <Router suspenseLines={20} />
+  );
+});

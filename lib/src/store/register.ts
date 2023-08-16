@@ -1,7 +1,9 @@
+import { StoreApi } from 'zustand';
+
 type Read = (args: { state: any; params?: any }) => any;
 type AsyncRead = (args: { params?: Record<string, any> }) => any;
 export type Dispatch = (args: {
-  setState: Function;
+  setState: StoreApi<any>['setState'];
   getState: Function;
   params?: any;
   state: any;

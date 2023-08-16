@@ -24,6 +24,7 @@ export const Router = suspensify(() => {
 
   if (!Component) {
     console.error('No route found for route name: ', routeId);
+    // TODO - Show Not found page
     return null;
   }
 

@@ -1,5 +1,5 @@
 import SuperTokens from 'supertokens-web-js';
-import Session from 'supertokens-web-js/recipe/session';
+import Session, { doesSessionExist } from 'supertokens-web-js/recipe/session';
 import Passwordless, {
   consumeCode,
   createCode,
@@ -94,4 +94,8 @@ export async function consumeOtp({ otp }: { otp: string }): Promise<any> {
 
 export async function signOut() {
   await Session.signOut();
+}
+
+export async function sessionExists() {
+  return await doesSessionExist();
 }
