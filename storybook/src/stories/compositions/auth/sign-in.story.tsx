@@ -1,5 +1,5 @@
 import { SignIn as Component } from '@elements/compositions/auth/sign-in';
-import { store } from '@story/stores/sign-in';
+import { store } from '@story/stores/auth/sign-in';
 import { mockStory } from '@story/utils/mock-story';
 
 export default {
