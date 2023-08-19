@@ -1,5 +1,5 @@
 import { Button } from '@elements/components/button';
-import { Modal, ModalHeader } from '@elements/components/modal';
+import { Modal, ModalHeader, ModalPanel } from '@elements/components/modal';
 import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -13,20 +13,22 @@ export const SocialSignIn = suspensify(() => {
 
   return (
     <Modal visible={visible}>
-      <div className={'flex-col gap-2'}>
-        <ModalHeader
-          title={t('common/sign-in')}
-          {...(!disallowClose && { onClose: onModalClose })}
-        />
-        <div className={'m-6 flex w-40 flex-col items-center'}>
-          <Button
-            kind={'primary'}
-            size={'sm'}
-            value={t('auth/sign-in-with-google')}
-            onClick={onGoogleClick}
+      <ModalPanel>
+        <div className={'flex-col gap-2 p-6'}>
+          <ModalHeader
+            title={t('common/sign-in')}
+            {...(!disallowClose && { onClose: onModalClose })}
           />
+          <div className={'m-6 flex w-40 flex-col items-center'}>
+            <Button
+              kind={'primary'}
+              size={'sm'}
+              value={t('auth/sign-in-with-google')}
+              onClick={onGoogleClick}
+            />
+          </div>
         </div>
-      </div>
+      </ModalPanel>
     </Modal>
   );
 });

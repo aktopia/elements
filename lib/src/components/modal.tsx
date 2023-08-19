@@ -37,6 +37,26 @@ export const ModalHeader = ({ title, onClose }: any) => {
     </div>
   );
 };
+
+export const ModalPanel = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Transition.Child
+      as={Fragment}
+      enter={'ease-out duration-300'}
+      enterFrom={'opacity-0 scale-95'}
+      enterTo={'opacity-100 scale-100'}
+      leave={'ease-in duration-200'}
+      leaveFrom={'opacity-100 scale-100'}
+      leaveTo={'opacity-0 scale-95'}>
+      <div
+        className={
+          'w-max scale-100 transform overflow-hidden rounded-2xl border border-gray-200 bg-white opacity-100 shadow-xl transition-all'
+        }>
+        {children}
+      </div>
+    </Transition.Child>
+  );
+};
 export const Modal = ({ children, onClose, visible }: ModalProps) => {
   return (
     <Transition.Root appear afterLeave={console.log} as={Fragment} show={visible}>
@@ -51,26 +71,11 @@ export const Modal = ({ children, onClose, visible }: ModalProps) => {
           leaveTo={'opacity-0'}>
           <div className={'fixed inset-0 bg-opacity-25 transition-opacity'} />
         </Transition.Child>
-
         <div
           className={
             'fixed inset-0 flex items-start justify-center overflow-y-auto p-4 sm:p-6 md:p-20'
           }>
-          <Transition.Child
-            as={Fragment}
-            enter={'ease-out duration-300'}
-            enterFrom={'opacity-0 scale-95'}
-            enterTo={'opacity-100 scale-100'}
-            leave={'ease-in duration-200'}
-            leaveFrom={'opacity-100 scale-100'}
-            leaveTo={'opacity-0 scale-95'}>
-            <Dialog.Panel
-              className={
-                'w-max scale-100 transform overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 opacity-100 shadow-xl transition-all'
-              }>
-              {children}
-            </Dialog.Panel>
-          </Transition.Child>
+          {children}
         </div>
       </Dialog>
     </Transition.Root>

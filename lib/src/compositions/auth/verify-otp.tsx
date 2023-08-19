@@ -1,6 +1,6 @@
 import { BackIconButton } from '@elements/components/back-icon-button';
 import { Button } from '@elements/components/button';
-import { Modal } from '@elements/components/modal';
+import { Modal, ModalHeader, ModalPanel } from '@elements/components/modal';
 import { Spinner } from '@elements/components/spinner';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -70,37 +70,40 @@ export const VerifyOtp = () => {
 
   return (
     <Modal visible={visible} onClose={onClose}>
-      <div className={'flex w-[280px] flex-col items-center justify-center gap-5'}>
-        {verifyingOtp ? (
-          <Spinner kind={'primary'} size={'sm'} visible={true} />
-        ) : (
-          <div className={'h-20'}>
-            <div className={'mt-2'}>
-              <input
-                className={inputVariant({ error: Boolean(otpError) })}
-                disabled={resendOtpState == 'resending'}
-                maxLength={MAX_OTP_DIGITS}
-                type={'text'}
-                value={otp}
-                onChange={onOtpChangeMemo}
-                onFocus={onOtpFocus}
-              />
-            </div>
-            {/*TODO handle different otp error cases*/}
-            {!!otpError && (
-              <div className={'pt-1 text-xs font-medium text-rose-500'}>
-                {t('auth/invalid-otp')}
+      <ModalPanel>
+        <div className={'flex flex-col gap-7 p-6'}>
+          <ModalHeader title={t('auth/verify-otp')} onClose={onClose} />
+          {verifyingOtp ? (
+            <Spinner kind={'primary'} size={'sm'} visible={true} />
+          ) : (
+            <div className={'h-20'}>
+              <div className={'mt-2'}>
+                <input
+                  className={inputVariant({ error: Boolean(otpError) })}
+                  disabled={resendOtpState == 'resending'}
+                  maxLength={MAX_OTP_DIGITS}
+                  type={'text'}
+                  value={otp}
+                  onChange={onOtpChangeMemo}
+                  onFocus={onOtpFocus}
+                />
               </div>
-            )}
+              {/*TODO handle different otp error cases*/}
+              {!!otpError && (
+                <div className={'pt-1 text-xs font-medium text-rose-500'}>
+                  {t('auth/invalid-otp')}
+                </div>
+              )}
+            </div>
+          )}
+          <div className={'relative flex w-full items-center justify-center'}>
+            <div className={'absolute left-0'}>
+              <BackIconButton size={'xs'} onClick={onBack} />
+            </div>
+            <div className={'flex items-center justify-center'}>{resendOtpView}</div>
           </div>
-        )}
-        <div className={'relative flex w-full items-center justify-center'}>
-          <div className={'absolute left-0'}>
-            <BackIconButton size={'xs'} onClick={onBack} />
-          </div>
-          <div className={'flex items-center justify-center'}>{resendOtpView}</div>
         </div>
-      </div>
+      </ModalPanel>
     </Modal>
   );
 };
