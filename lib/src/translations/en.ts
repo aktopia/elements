@@ -14,6 +14,7 @@ export default {
   'common/cancel': 'Cancel',
   'common/done': 'Done',
   'action/promised-outcome': 'Promised Outcome',
+  'action/description': 'Description',
   'common/home': 'Home',
   'common/post': 'Post',
   'common/discuss': 'Discuss',
@@ -33,6 +34,7 @@ export default {
     const secondsText = waitSeconds === 1 ? 'second' : 'seconds';
     return `You can resend OTP in ${waitSeconds} ${secondsText}.`;
   },
+  'auth/verify-otp': 'Verify OTP',
   'auth/resend-otp': 'Resend OTP',
   'auth/enter-otp': 'Enter OTP',
   'auth/invalid-otp': 'Incorrect OTP, please try again.',
@@ -54,4 +56,6 @@ export default {
   'issue.location.slide-over/location-list': 'Locations',
   'percentage/complete': 'Complete',
   'common/severity': 'Severity',
+  'action.title/placeholder': 'Give the Action a title',
+  'text.draft/create': 'Create Draft',
 };

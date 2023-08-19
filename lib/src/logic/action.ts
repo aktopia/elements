@@ -1,19 +1,26 @@
-import { evt, sub } from '@elements/store';
+import { dispatch, evt, sub } from '@elements/store';
+import { remoteSub } from '@elements/store/register';
 
 export const actionSlice = () => ({
   actionState: {
     activeTab: 'home',
     activeProgressBarSwitch: 'work',
+    'action.create.modal/visible': false,
+    'action.create.modal/title': '',
   },
 });
 
 sub('action.tabs/active-tab-id', ({ state }) => state.actionState.activeTab);
+
 sub(
   'action.progress-bar/active-switch-id',
   ({ state }) => state.actionState.activeProgressBarSwitch
 );
 
-sub('action/title', ({ state }) => 'Clear large garbage dump on Vandipalayam road');
+remoteSub<{ 'action/id': string }, string>('action/title');
+remoteSub<{ 'action/id': string }, string>('action/description');
+remoteSub<{ 'action/id': string }, string>('action/outcome');
+
 sub('action.funding/percentage', ({ state }) => 24);
 sub('action/saved', ({ state }) => false);
 sub('action/followed', ({ state }) => false);
@@ -21,20 +28,17 @@ sub('action.bump/count', ({ state }) => '10');
 sub('action.follow/count', ({ state }) => '2600');
 sub('action.work/percentage', ({ state }) => '23');
 sub('action/last-active-at', ({ state }) => '');
+sub('current.action/id', ({ state }) => state.actionState.currentActionId);
 
-sub(
-  'action/outcome',
-  (_state) =>
-    'Adipisicing proident esse est ad laboris. Nulla cupidatat commodo ea consequat. Exercitation cupidatat tempor cillum anim sunt tempor laboris ex est anim eu. Duis excepteur do irure sint laborum et commodo veniam ullamco veniam. Ipsum labore magna id commodo exercitation cupidatat deserunt officia.'
-);
+sub('action.create.modal/title', ({ state }) => state.actionState['action.create.modal/title']);
 
-sub(
-  'action/description',
-  (_state) =>
-    'Mollit minim enim irure eu. Nostrud laboris proident aliqua aliqua officia exercitation sunt magna amet voluptate dolore commodo proident velit excepteur. Proident aute esse pariatur ad labore voluptate in exercitation. Ex cillum magna eu Lorem fugiat ut quis eiusmod veniam consectetur ad tempor anim. Deserunt sint velit anim esse est ullamco magna labore laboris ullamco laborum sunt aliqua ea reprehenderit. Culpa sit irure voluptate elit occaecat.'
-);
+sub('action.create.modal/visible', ({ state }) => state.actionState['action.create.modal/visible']);
 
-sub('current.action/id', ({ state }) => '1');
+evt('current.action.id/set', ({ setState, params }) => {
+  setState((state: any) => {
+    state.actionState.currentActionId = params['action/id'];
+  });
+});
 
 evt('action/volunteer', ({ setState, params }) => null);
 evt('action/follow', ({ setState, params }) => null);
@@ -51,3 +55,37 @@ evt('action.tabs/update', ({ setState, params }) => {
     state.actionState.activeTab = params['tab/id'];
   });
 });
+
+evt('action.create.modal/open', ({ setState }) => {
+  setState((state: any) => {
+    state.actionState['action.create.modal/visible'] = true;
+  });
+});
+
+evt('action.create.modal/close', ({ setState }) => {
+  setState((state: any) => {
+    state.actionState['action.create.modal/visible'] = false;
+  });
+});
+
+evt('action.create.modal/create', async ({ setState }) => {
+  setState((state: any) => {
+    state.actionState['action.create.modal/title'] = '';
+    state.actionState['action.create.modal/visible'] = false;
+  });
+});
+
+evt('action.create.modal.title/update', ({ setState, params }) => {
+  setState((state: any) => {
+    state.actionState['action.create.modal/title'] = params.value;
+  });
+});
+
+export const onActionViewNavigate = (route: any) => {
+  const id = route.params.id;
+  dispatch('current.action.id/set', { 'action/id': id });
+};
+
+export const onActionNewNavigate = (route: any) => {
+  console.log('onActionNewNavigate', route);
+};

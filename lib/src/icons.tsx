@@ -230,6 +230,7 @@ export {
   ChartBarIcon as ChartBarMiniSolid,
   ArrowPathIcon as ArrowPathMiniSolid,
   GlobeAmericasIcon as GlobeAmericasMiniSolid,
+  ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {

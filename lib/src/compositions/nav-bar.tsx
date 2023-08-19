@@ -12,11 +12,13 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useMemo } from 'react';
 import { Auth } from '@elements/compositions/auth/auth';
+import { CreateModal as ActionCreateModal } from '@elements/compositions/action/create-modal';
 
 const aktopia = 'Aktopia';
 
 const CreateButton = () => {
   const t = useTranslation();
+
   return (
     <div className={'flex cursor-pointer items-start gap-4'}>
       <div
@@ -31,20 +33,23 @@ const CreateButton = () => {
 };
 
 const CreateDropdown = () => {
+  const t = useTranslation();
+
+  const onCreateAction = useDispatch('action.create.modal/open', { emptyParams: true });
+  // const onCreateIssue = useDispatch('issue.create.modal/open', { emptyParams: true });
+
   const items = useMemo(
     () => [
       {
-        text: 'Action',
-        href: '/action/create',
-        openNewTab: true,
+        text: t('common/action'),
+        onClick: onCreateAction,
       },
       {
-        text: 'Issues',
-        href: '/issue/create',
-        openNewTab: true,
+        text: t('common/issue'),
+        onClick: console.log,
       },
     ],
-    []
+    [onCreateAction, t]
   );
   return <Dropdown Button={CreateButton} items={items} />;
 };
@@ -78,11 +83,11 @@ const UserDropdown = suspensify(() => {
   const items = useMemo(
     () => [
       {
-        text: 'My actions',
+        text: 'My Actions',
         href: `/profile/${userId}/actions`,
       },
       {
-        text: 'My issues',
+        text: 'My Issues',
         href: `/profile/${userId}/issues`,
       },
       {
@@ -163,6 +168,7 @@ export const NavBar = () => {
       </div>
       <Auth suspenseLines={5} />
       <MainSearch suspenseLines={5} />
+      <ActionCreateModal suspenseLines={1} />
     </>
   );
 };

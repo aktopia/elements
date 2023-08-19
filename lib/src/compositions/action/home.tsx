@@ -6,7 +6,7 @@ import { useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { memo, useMemo } from 'react';
 
-const Description = suspensify(() => {
+const DescriptionText = suspensify(() => {
   const actionId = useValue<string>('current.action/id');
   const description = useValue<string>('action/description', { 'action/id': actionId });
 
@@ -18,6 +18,19 @@ const Description = suspensify(() => {
       refId={actionId}
       suspenseLines={3}
     />
+  );
+});
+
+const Description = memo(() => {
+  const t = useTranslation();
+
+  return (
+    <div className={'flex w-full flex-col gap-4'}>
+      <div className={'flex items-center gap-3'}>
+        <div className={'text-sm font-medium text-gray-500'}>{t('action/description')}</div>
+      </div>
+      <DescriptionText suspenseLines={6} />
+    </div>
   );
 });
 
@@ -49,7 +62,7 @@ const Outcome = memo(() => {
     <div className={'flex w-full flex-col gap-4 rounded-lg border border-blue-600 bg-blue-50 p-6'}>
       <div className={'flex items-center gap-3'}>
         <TrophyMiniSolid className={'h-4 w-4 text-blue-700'} />
-        <div className={'font-medium text-blue-700'}>{t('action/promised-outcome')}</div>
+        <div className={'text-sm font-medium text-blue-700'}>{t('action/promised-outcome')}</div>
       </div>
       <OutcomeText suspenseColor={'primary'} suspenseLines={6} />
     </div>
@@ -61,8 +74,8 @@ export const Home = suspensify(() => {
 
   return (
     <div className={'flex w-full gap-8'}>
-      <div className={'flex w-full flex-col gap-8'}>
-        <Description suspenseLines={6} />
+      <div className={'flex w-full flex-col gap-12'}>
+        <Description />
         <Outcome />
       </div>
       <Relationships refAttribute={'action/id'} refId={actionId} suspenseLines={8} />
