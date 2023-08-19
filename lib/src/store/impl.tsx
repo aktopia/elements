@@ -5,13 +5,16 @@ import { Store as StoreInterface } from '@elements/store/interface';
 import { Dispatch, events, subscriptions } from '@elements/store/register';
 import { slices } from '@elements/store/slices';
 import { immer } from 'zustand/middleware/immer';
+import { devtools } from 'zustand/middleware';
 
 const useStore = create(
-  immer(() => {
-    return slices.reduce((acc, slice) => {
-      return { ...acc, ...slice() };
-    }, {});
-  })
+  immer(
+    devtools(() => {
+      return slices.reduce((acc, slice) => {
+        return { ...acc, ...slice() };
+      }, {});
+    })
+  )
 );
 
 function queryFn({ queryKey }: any) {
@@ -34,7 +37,7 @@ export function read(id: string, params?: Record<string, any>) {
 }
 
 const useRemote = (id: string, params?: Record<string, any>) => {
-  const { data } = useReactQuery([id, params]);
+  const { data } = useReactQuery([id, { params }]);
   return data;
 };
 
