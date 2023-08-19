@@ -24,6 +24,7 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
     },
     clicked: { true: '' },
     hasIcon: { true: '' },
+    hasSecondaryIcon: { true: '' },
   },
   defaultVariants: {
     kind: 'primary',
@@ -33,6 +34,9 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
     { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5 shadow-sm' },
     { size: 'sm', hasIcon: true, class: 'pl-2.5 pr-3 shadow-sm' },
     { size: 'md', hasIcon: true, class: 'pl-3 pr-4' },
+    { size: 'xs', hasSecondaryIcon: true, class: 'pr-2 pl-2.5 shadow-sm' },
+    { size: 'sm', hasSecondaryIcon: true, class: 'pr-2.5 pl-3 shadow-sm' },
+    { size: 'md', hasSecondaryIcon: true, class: 'pr-3 pl-4' },
     {
       kind: 'tertiary',
       clicked: true,
@@ -42,6 +46,25 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
 });
 
 const iconVariant = cva('', {
+  variants: {
+    kind: {
+      primary: 'text-white',
+      secondary: 'text-blue-600',
+      tertiary: 'text-gray-500',
+      warning: 'text-amber-700',
+      success: 'text-white',
+      danger: 'text-white',
+    },
+    size: {
+      xxs: 'h-4 w-4',
+      xs: 'h-4 w-4',
+      sm: 'h-5 w-5',
+      md: 'h-5 w-5',
+    },
+  },
+});
+
+const secondaryIconVariant = cva('', {
   variants: {
     kind: {
       primary: 'text-white',
@@ -89,7 +112,9 @@ export interface ButtonProps {
   count?: number;
   clicked?: boolean;
   Icon?: React.ComponentType<any>;
+  SecondaryIcon?: React.ComponentType<any>;
   iconClassName?: string;
+  secondaryIconClassName?: string;
   containerClassName?: string;
   type?: 'button' | 'submit';
   kind: Kind;
@@ -103,7 +128,9 @@ export const Button = memo(
     count,
     type = 'button',
     Icon,
+    SecondaryIcon,
     iconClassName,
+    secondaryIconClassName,
     containerClassName,
     size,
     kind,
@@ -134,6 +161,11 @@ export const Button = memo(
         onClick={onClickMemo}>
         {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
         <span>{value}</span>
+        {!!SecondaryIcon && (
+          <SecondaryIcon
+            className={secondaryIconVariant({ size, kind, className: secondaryIconClassName })}
+          />
+        )}
         {!!count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
       </button>
     );
