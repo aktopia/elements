@@ -9,11 +9,15 @@ const router = createRouter(routes, { queryParamsMode: 'loose', allowNotFound: t
 router.usePlugin(browserPlugin());
 
 router.subscribe(({ route }) => {
-  const routeId = route.name as keyof typeof routeData;
+  const { name, path, params } = route;
   setState((state: any) => {
-    state.routerState.routeId = routeId;
+    state['router/state'] = {
+      'route/id': name,
+      'route/params': params,
+      'route/path': path,
+    };
   });
-  routeData[routeId].onNavigate({ params: route.params, path: route.path, id: routeId });
+  routeData[name as keyof typeof routeData].onNavigate({ params: params, path: path, id: name });
 });
 
 router.start();
