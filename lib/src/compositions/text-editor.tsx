@@ -3,7 +3,8 @@ import { TextAreaEditor } from '@elements/components/text-area-editor';
 import { ContextMenuItem, WithContextMenu } from '@elements/components/with-context-menu';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { useCallback, useMemo } from 'react';
+import { ReactElement, useCallback, useMemo } from 'react';
+import { isEmpty } from 'lodash';
 
 interface TextEditorProps {
   refId: string;
@@ -12,10 +13,19 @@ interface TextEditorProps {
   className: string;
   moreMenuItems?: any;
   placeholder?: string;
+  noContent?: ReactElement;
 }
 
 export const TextEditor = suspensify(
-  ({ refId, refAttribute, content, className, moreMenuItems, placeholder }: TextEditorProps) => {
+  ({
+    refId,
+    refAttribute,
+    content,
+    className,
+    moreMenuItems,
+    placeholder,
+    noContent,
+  }: TextEditorProps) => {
     const t = useTranslation();
     const reference = useMemo(
       () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
@@ -61,7 +71,11 @@ export const TextEditor = suspensify(
       [onEdit, canEdit, t, moreMenuItems]
     );
 
-    return (
+    const showNoContent = isEmpty(content) && noContent && !isEditing;
+
+    return showNoContent ? (
+      noContent
+    ) : (
       <WithContextMenu disable={isEditing} items={menuItems}>
         <TextAreaEditor
           cancelText={t('common/cancel')}

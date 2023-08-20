@@ -42,6 +42,28 @@ sub('action.create.modal/title', ({ state }) => state.actionState['action.create
 
 sub('action.create.modal/visible', ({ state }) => state.actionState['action.create.modal/visible']);
 
+sub('action.description/can-edit', ({ state }) => true);
+
+sub('action.outcome/can-edit', ({ state }) => true);
+
+evt('action.description/edit', ({ setState, getState }) => {
+  const currenActionId = getState().actionState.currentActionId;
+
+  startEditing({
+    setState,
+    params: { 'ref/id': currenActionId, 'ref/attribute': 'action.description/text' },
+  });
+});
+
+evt('action.outcome/edit', ({ setState, getState }) => {
+  const currenActionId = getState().actionState.currentActionId;
+
+  startEditing({
+    setState,
+    params: { 'ref/id': currenActionId, 'ref/attribute': 'action.outcome/text' },
+  });
+});
+
 evt('current.action.id/set', ({ setState, params }) => {
   setState((state: any) => {
     state.actionState.currentActionId = params['action/id'];

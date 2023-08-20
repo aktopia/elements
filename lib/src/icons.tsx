@@ -250,6 +250,7 @@ export {
   BookmarkIcon as BookmarkSolid,
   HandRaisedIcon as HandRaisedSolid,
   ArrowPathIcon as ArrowPathSolid,
+  PencilIcon as PencilSolid,
 } from '@heroicons/react/24/solid';
 
 export {
