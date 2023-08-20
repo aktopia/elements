@@ -1,7 +1,7 @@
 import { dispatch, evt, sub } from '@elements/store';
 import { remoteSub } from '@elements/store/register';
 import { rpcPost } from '@elements/rpc';
-import { navigateTo } from '@elements/utils';
+import { navigate } from '@elements/logic/router';
 import {
   endEditing,
   registerTextEditor,
@@ -41,11 +41,6 @@ sub('current.action/id', ({ state }) => state.actionState.currentActionId);
 sub('action.create.modal/title', ({ state }) => state.actionState['action.create.modal/title']);
 
 sub('action.create.modal/visible', ({ state }) => state.actionState['action.create.modal/visible']);
-
-sub('action.create.modal/new-action-link', ({ state }) => {
-  const title = state.actionState['action.create.modal/title'];
-  return `/action/${title}`;
-});
 
 evt('current.action.id/set', ({ setState, params }) => {
   setState((state: any) => {
@@ -102,7 +97,7 @@ export const onActionViewNavigate = (route: any) => {
 export const onActionNewNavigate = async (route: any) => {
   const { title } = route.params;
   const { id } = await rpcPost('action.draft/create', { 'action/title': title });
-  navigateTo({ to: `/action/${id}`, replace: true });
+  navigate({ id: 'action/view', replace: true, params: { id } });
 };
 
 registerTextEditor('action.title/text', {

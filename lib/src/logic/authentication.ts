@@ -153,7 +153,6 @@ evt('auth.verify-otp/submit-otp', async ({ setState, params }) => {
       message: 'Welcome! You have successfully signed in.',
       kind: 'success',
     });
-    console.log('user', user);
   } catch (error) {
     setState((state: any) => {
       state.authenticationState.verifyOtpVerifying = false;

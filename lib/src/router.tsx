@@ -1,29 +1,16 @@
 import { suspensify } from '@elements/components/suspensify';
 import { routeData, routes } from '@elements/routes';
-import createRouter from 'router5';
-import browserPlugin from 'router5-plugin-browser';
-import { setState, useValue } from '@elements/store';
+import { useValue } from '@elements/store';
+import { initRouter } from '@elements/logic/router';
+import { Spinner } from '@elements/components/spinner';
 
-const router = createRouter(routes, { queryParamsMode: 'loose', allowNotFound: true });
-
-router.usePlugin(browserPlugin());
-
-router.subscribe(({ route }) => {
-  const { name, path, params } = route;
-  setState((state: any) => {
-    state['router/state'] = {
-      'route/id': name,
-      'route/params': params,
-      'route/path': path,
-    };
-  });
-  routeData[name as keyof typeof routeData].onNavigate({ params: params, path: path, id: name });
-});
-
-router.start();
+// TODO Redesign router
+initRouter({ routes });
 
 export const Router = suspensify(() => {
   const routeId = useValue<keyof typeof routeData>('current.route/id');
+  const loading = useValue<boolean>('current.route/loading');
+
   const Component = routeData[routeId].component;
 
   if (!Component) {
@@ -32,5 +19,11 @@ export const Router = suspensify(() => {
     return null;
   }
 
-  return <Component suspenseLines={8} />;
+  return loading ? (
+    <div className={'fixed flex h-full w-full items-center justify-center'}>
+      <Spinner kind={'primary'} size={'sm'} visible={true} />
+    </div>
+  ) : (
+    <Component suspenseLines={8} />
+  );
 });
