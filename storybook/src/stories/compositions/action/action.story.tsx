@@ -28,8 +28,6 @@ const store = {
   ],
 };
 
-console.log(JSON.stringify(store));
-
 export const Action = mockStory({
   store,
   args: { suspense: { lines: 8 } },

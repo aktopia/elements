@@ -10,6 +10,7 @@ export const CreateModal = suspensify(({}) => {
   const t = useTranslation();
 
   const visible = useValue<boolean>('action.create.modal/visible');
+
   const onClose = useDispatch('action.create.modal/close', { emptyParams: true });
   const onSave = useDispatch('action.create.modal/create', { emptyParams: true });
   const [title, updateTitle] = useState(
@@ -40,15 +41,19 @@ export const CreateModal = suspensify(({}) => {
             />
             <div className={'flex items-center justify-end gap-5'}>
               <Button kind={'tertiary'} size={'sm'} value={'Cancel'} onClick={onClose} />
-              <Button
-                SecondaryIcon={ArrowTopRightOnSquareMiniSolid}
-                kind={'success'}
-                secondaryIconClassName={'relative bottom-px stroke-2'}
-                size={'sm'}
-                type={'submit'}
-                value={t('text.draft/create')}
-                onClick={onSave}
-              />
+              <a
+                href={`/action/new?title=${title}`}
+                rel={'noreferrer'}
+                target={'_blank'}
+                onClick={onSave}>
+                <Button
+                  SecondaryIcon={ArrowTopRightOnSquareMiniSolid}
+                  kind={'success'}
+                  secondaryIconClassName={'relative bottom-px stroke-2'}
+                  size={'sm'}
+                  value={t('text.draft/create')}
+                />
+              </a>
             </div>
           </form>
         </div>
