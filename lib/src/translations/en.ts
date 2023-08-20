@@ -56,6 +56,13 @@ export default {
   'issue.location.slide-over/location-list': 'Locations',
   'percentage/complete': 'Complete',
   'common/severity': 'Severity',
-  'action.title/placeholder': 'Give the Action a title',
+  'action.title/placeholder': 'Give the action a title',
+  'action.description/placeholder': 'Describe the action',
+  'action.outcome/placeholder': 'Describe the outcome',
+  'action.description/empty':
+    "You haven't added a description yet. Describe what the action is all about.",
+  'action.outcome/empty':
+    "You haven't added an outcome yet. Describe what the outcome of the action is that you promise to fulfill.",
+
   'text.draft/create': 'Create Draft',
 };

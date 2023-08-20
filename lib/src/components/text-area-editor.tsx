@@ -7,6 +7,7 @@ interface TextAreaEditorProps {
   cancelText: string;
   editable: boolean;
   className?: string;
+  placeholder?: string;
   onDone: () => void;
   onCancel: () => void;
   onChange: (value: string) => void;
@@ -21,6 +22,7 @@ export const TextAreaEditor = ({
   onChange,
   editable,
   className,
+  placeholder,
 }: TextAreaEditorProps) => {
   return (
     <div
@@ -33,6 +35,7 @@ export const TextAreaEditor = ({
         className={className}
         editable={editable}
         initialContent={content}
+        placeholder={placeholder}
         onChange={onChange}
       />
       {editable && (

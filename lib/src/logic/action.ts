@@ -2,6 +2,12 @@ import { dispatch, evt, sub } from '@elements/store';
 import { remoteSub } from '@elements/store/register';
 import { rpcPost } from '@elements/rpc';
 import { navigateTo } from '@elements/utils';
+import {
+  endEditing,
+  registerTextEditor,
+  startEditing,
+  updateText,
+} from '@elements/logic/text-editor';
 
 export const actionSlice = () => ({
   actionState: {
@@ -98,3 +104,24 @@ export const onActionNewNavigate = async (route: any) => {
   const { id } = await rpcPost('action.draft/create', { 'action/title': title });
   navigateTo({ to: `/action/${id}`, replace: true });
 };
+
+registerTextEditor('action.title/text', {
+  onTextUpdate: updateText,
+  onEditStart: startEditing,
+  onEditDone: endEditing,
+  onEditCancel: endEditing,
+});
+
+registerTextEditor('action.description/text', {
+  onTextUpdate: updateText,
+  onEditStart: startEditing,
+  onEditDone: endEditing,
+  onEditCancel: endEditing,
+});
+
+registerTextEditor('action.outcome/text', {
+  onTextUpdate: updateText,
+  onEditStart: startEditing,
+  onEditDone: endEditing,
+  onEditCancel: endEditing,
+});

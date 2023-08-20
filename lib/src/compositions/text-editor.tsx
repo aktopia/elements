@@ -11,10 +11,11 @@ interface TextEditorProps {
   content: string;
   className: string;
   moreMenuItems?: any;
+  placeholder?: string;
 }
 
 export const TextEditor = suspensify(
-  ({ refId, refAttribute, content, className, moreMenuItems }: TextEditorProps) => {
+  ({ refId, refAttribute, content, className, moreMenuItems, placeholder }: TextEditorProps) => {
     const t = useTranslation();
     const reference = useMemo(
       () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
@@ -68,6 +69,7 @@ export const TextEditor = suspensify(
           content={content}
           doneText={t('common/done')}
           editable={isEditing}
+          placeholder={placeholder}
           onCancel={onCancel}
           onChange={onChange}
           onDone={onDone}

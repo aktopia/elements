@@ -7,17 +7,22 @@ import { useTranslation } from '@elements/translation';
 import { memo, useMemo } from 'react';
 
 const DescriptionText = suspensify(() => {
+  const t = useTranslation();
+
   const actionId = useValue<string>('current.action/id');
   const description = useValue<string>('action/description', { 'action/id': actionId });
 
-  return (
+  return description ? (
     <TextEditor
       className={'text-gray-700'}
       content={description}
+      placeholder={t('action.description/placeholder')}
       refAttribute={'action.description/text'}
       refId={actionId}
       suspenseLines={3}
     />
+  ) : (
+    <p className={'text-gray-400'}>{t('action.description/empty')}</p>
   );
 });
 
@@ -35,6 +40,8 @@ const Description = memo(() => {
 });
 
 const OutcomeText = suspensify(() => {
+  const t = useTranslation();
+
   const actionId = useValue<string>('current.action/id');
   const outcome = useValue<string>('action/outcome', { 'action/id': actionId });
   const reference = useMemo(
@@ -44,14 +51,17 @@ const OutcomeText = suspensify(() => {
 
   const isEditing = useValue<boolean>('text-editor/editing', reference) || false;
 
-  return (
+  return outcome ? (
     <TextEditor
       className={isEditing ? 'text-gray-700' : 'text-blue-700'}
       content={outcome}
+      placeholder={t('action.outcome/placeholder')}
       refAttribute={'action.outcome/text'}
       refId={actionId}
       suspenseLines={3}
     />
+  ) : (
+    <p className={'text-gray-400'}>{t('action.outcome/empty')}</p>
   );
 });
 
