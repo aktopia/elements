@@ -1,5 +1,5 @@
 import { StoreApi } from 'zustand';
-import isEmpty from 'lodash/isEmpty';
+import { rpcGet } from '@elements/rpc';
 
 type Read = (args: { state: any; params?: any }) => any;
 
@@ -25,15 +25,7 @@ export function asyncSub<Params, Result>(id: string, fn: AsyncRead<Params, Resul
 
 export function remoteSub<Params, Result>(id: string) {
   asyncSub<Params, Result>(id, async ({ params }) => {
-    const key = encodeURIComponent(id);
-    const action = 'subscribe';
-    const urlJson = isEmpty(params) ? null : encodeURIComponent(JSON.stringify(params));
-    const url = `/api/rpc/${key}?action=${action}&json=${urlJson}`;
-
-    const res = await fetch(url);
-    const json = await res.json();
-
-    return json.data;
+    return rpcGet(id, params);
   });
 }
 

@@ -57,3 +57,11 @@ export function isBefore(ts1: number, ts2: number, unit: ManipulateType) {
   const date = dayjs(ts1);
   return date.isBefore(ts2, unit);
 }
+
+export function openInNewTab(url: string) {
+  window.open(url, '_blank')?.focus();
+}
+
+export function navigateTo({ replace = false, to }: { replace?: boolean; to: string }) {
+  history[replace ? 'replaceState' : 'pushState'](null, '', to);
+}
