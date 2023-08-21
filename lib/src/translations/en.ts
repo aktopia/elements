@@ -62,7 +62,6 @@ export default {
   'action.description/empty':
     "You haven't added a description yet. Describe what the action is all about.",
   'action.outcome/empty':
-    "You haven't added an outcome yet. Describe what the outcome of the action is that you promise to fulfill.",
-
+    "You haven't added an outcome yet. Describe what promise to fulfill with this action.",
   'text.draft/create': 'Create Draft',
 };

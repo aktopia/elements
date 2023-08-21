@@ -1,4 +1,4 @@
-import { dispatch, evt, sub } from '@elements/store';
+import { dispatch, evt, invalidateAsyncSubs, sub } from '@elements/store';
 import { remoteSub } from '@elements/store/register';
 import { rpcPost } from '@elements/rpc';
 import { navigate } from '@elements/logic/router';
@@ -6,23 +6,24 @@ import {
   endEditing,
   registerTextEditor,
   startEditing,
+  text,
   updateText,
 } from '@elements/logic/text-editor';
 
 export const actionSlice = () => ({
-  actionState: {
-    activeTab: 'home',
-    activeProgressBarSwitch: 'work',
+  'action/state': {
+    'action.tabs/active-tab': 'home',
+    'action.progress-bar/active-switch': 'work',
     'action.create.modal/visible': false,
     'action.create.modal/title': '',
   },
 });
 
-sub('action.tabs/active-tab-id', ({ state }) => state.actionState.activeTab);
+sub('action.tabs/active-tab-id', ({ state }) => state['action/state']['action.tabs/active-tab']);
 
 sub(
   'action.progress-bar/active-switch-id',
-  ({ state }) => state.actionState.activeProgressBarSwitch
+  ({ state }) => state['action/state']['action.progress-bar/active-switch']
 );
 
 remoteSub<{ 'action/id': string }, string>('action/title');
@@ -36,18 +37,32 @@ sub('action.bump/count', ({ state }) => '10');
 sub('action.follow/count', ({ state }) => '2600');
 sub('action.work/percentage', ({ state }) => '23');
 sub('action/last-active-at', ({ state }) => '');
-sub('current.action/id', ({ state }) => state.actionState.currentActionId);
+sub('current.action/id', ({ state }) => state['action/state']['current.action/id']);
 
-sub('action.create.modal/title', ({ state }) => state.actionState['action.create.modal/title']);
+sub('action.create.modal/title', ({ state }) => state['action/state']['action.create.modal/title']);
 
-sub('action.create.modal/visible', ({ state }) => state.actionState['action.create.modal/visible']);
+sub(
+  'action.create.modal/visible',
+  ({ state }) => state['action/state']['action.create.modal/visible']
+);
+
+sub('action.title/can-edit', ({ state }) => true);
 
 sub('action.description/can-edit', ({ state }) => true);
 
 sub('action.outcome/can-edit', ({ state }) => true);
 
+evt('action.title/edit', ({ setState, getState }) => {
+  const currenActionId = getState()['action/state']['current.action/id'];
+
+  startEditing({
+    setState,
+    params: { 'ref/id': currenActionId, 'ref/attribute': 'action.title/text' },
+  });
+});
+
 evt('action.description/edit', ({ setState, getState }) => {
-  const currenActionId = getState().actionState.currentActionId;
+  const currenActionId = getState()['action/state']['current.action/id'];
 
   startEditing({
     setState,
@@ -56,7 +71,7 @@ evt('action.description/edit', ({ setState, getState }) => {
 });
 
 evt('action.outcome/edit', ({ setState, getState }) => {
-  const currenActionId = getState().actionState.currentActionId;
+  const currenActionId = getState()['action/state']['current.action/id'];
 
   startEditing({
     setState,
@@ -66,7 +81,7 @@ evt('action.outcome/edit', ({ setState, getState }) => {
 
 evt('current.action.id/set', ({ setState, params }) => {
   setState((state: any) => {
-    state.actionState.currentActionId = params['action/id'];
+    state['action/state']['current.action/id'] = params['action/id'];
   });
 });
 
@@ -82,33 +97,78 @@ evt('action.progress-bar/update', ({ setState, params }) => null);
 
 evt('action.tabs/update', ({ setState, params }) => {
   setState((state: any) => {
-    state.actionState.activeTab = params['tab/id'];
+    state['action/state']['action.tabs/active-tab'] = params['tab/id'];
   });
 });
 
 evt('action.create.modal/open', ({ setState }) => {
   setState((state: any) => {
-    state.actionState['action.create.modal/visible'] = true;
+    state['action/state']['action.create.modal/visible'] = true;
   });
 });
 
 evt('action.create.modal/close', ({ setState }) => {
   setState((state: any) => {
-    state.actionState['action.create.modal/visible'] = false;
+    state['action/state']['action.create.modal/visible'] = false;
   });
 });
 
 evt('action.create.modal/create', ({ setState }) => {
   setState((state: any) => {
-    state.actionState['action.create.modal/title'] = '';
-    state.actionState['action.create.modal/visible'] = false;
+    state['action/state']['action.create.modal/title'] = '';
+    state['action/state']['action.create.modal/visible'] = false;
   });
 });
 
 evt('action.create.modal.title/update', ({ setState, params }) => {
   setState((state: any) => {
-    state.actionState['action.create.modal/title'] = params.value;
+    state['action/state']['action.create.modal/title'] = params.value;
   });
+});
+
+registerTextEditor('action.title/text', {
+  onTextUpdate: updateText,
+  onEditStart: startEditing,
+  onEditDone: async ({ setState, getState, params }) => {
+    const title = text({ state: getState(), params });
+    await rpcPost('action.title/update', {
+      'action/id': params['ref/id'],
+      value: title,
+    });
+    await invalidateAsyncSubs('action/title', { 'action/id': params['ref/id'] });
+    endEditing({ setState, getState, params });
+  },
+  onEditCancel: endEditing,
+});
+
+registerTextEditor('action.description/text', {
+  onTextUpdate: updateText,
+  onEditStart: startEditing,
+  onEditDone: async ({ setState, getState, params }) => {
+    const description = text({ state: getState(), params });
+    await rpcPost('action.description/update', {
+      'action/id': params['ref/id'],
+      value: description,
+    });
+    await invalidateAsyncSubs('action/description', { 'action/id': params['ref/id'] });
+    endEditing({ setState, getState, params });
+  },
+  onEditCancel: endEditing,
+});
+
+registerTextEditor('action.outcome/text', {
+  onTextUpdate: updateText,
+  onEditStart: startEditing,
+  onEditDone: async ({ setState, getState, params }) => {
+    const outcome = text({ state: getState(), params });
+    await rpcPost('action.outcome/update', {
+      'action/id': params['ref/id'],
+      value: outcome,
+    });
+    await invalidateAsyncSubs('action/outcome', { 'action/id': params['ref/id'] });
+    endEditing({ setState, getState, params });
+  },
+  onEditCancel: endEditing,
 });
 
 export const onActionViewNavigate = (route: any) => {
@@ -121,24 +181,3 @@ export const onActionNewNavigate = async (route: any) => {
   const { id } = await rpcPost('action.draft/create', { 'action/title': title });
   navigate({ id: 'action/view', replace: true, params: { id } });
 };
-
-registerTextEditor('action.title/text', {
-  onTextUpdate: updateText,
-  onEditStart: startEditing,
-  onEditDone: endEditing,
-  onEditCancel: endEditing,
-});
-
-registerTextEditor('action.description/text', {
-  onTextUpdate: updateText,
-  onEditStart: startEditing,
-  onEditDone: endEditing,
-  onEditCancel: endEditing,
-});
-
-registerTextEditor('action.outcome/text', {
-  onTextUpdate: updateText,
-  onEditStart: startEditing,
-  onEditDone: endEditing,
-  onEditCancel: endEditing,
-});

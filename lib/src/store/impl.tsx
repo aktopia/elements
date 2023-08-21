@@ -71,6 +71,10 @@ const queryClient = new QueryClient({
   },
 });
 
+export const invalidateAsyncSubs = async (id: string, params: any) => {
+  await queryClient.invalidateQueries({ queryKey: [id, { params }] });
+};
+
 export const Store = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>

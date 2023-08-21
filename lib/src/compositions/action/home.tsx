@@ -1,10 +1,11 @@
-import { PencilSolid, TrophyMiniSolid } from '@elements/icons';
+import { TrophyMiniSolid } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { Relationships } from '@elements/compositions/relationships';
 import { TextEditor } from '@elements/compositions/text-editor';
-import { useDispatch, useValue } from '@elements/store';
+import { useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { memo, useMemo } from 'react';
+import { EditButton } from '@elements/compositions/action/edit-button';
 
 const DescriptionText = suspensify(() => {
   const t = useTranslation();
@@ -27,15 +28,6 @@ const DescriptionText = suspensify(() => {
   );
 });
 
-const EditButton = suspensify(({ canEditKey, editKey }: any) => {
-  const canEdit = useValue<boolean>(canEditKey);
-  const onEdit = useDispatch(editKey);
-
-  return canEdit ? (
-    <PencilSolid className={'h-4 w-4 cursor-pointer text-gray-500'} onClick={onEdit} />
-  ) : null;
-});
-
 const Description = memo(() => {
   const t = useTranslation();
 
@@ -45,6 +37,7 @@ const Description = memo(() => {
         <div className={'text-sm font-medium text-gray-500'}>{t('action/description')}</div>
         <EditButton
           canEditKey={'action.description/can-edit'}
+          className={'h-4 w-4 text-gray-500'}
           editKey={'action.description/edit'}
           suspenseLines={1}
         />
@@ -93,6 +86,7 @@ const Outcome = memo(() => {
         </div>
         <EditButton
           canEditKey={'action.outcome/can-edit'}
+          className={'h-4 w-4 text-gray-500'}
           editKey={'action.outcome/edit'}
           suspenseLines={1}
         />

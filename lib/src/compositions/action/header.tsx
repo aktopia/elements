@@ -14,6 +14,7 @@ import { Voting } from '@elements/compositions/voting';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
+import { EditButton } from '@elements/compositions/action/edit-button';
 
 type ShareButtonProps = Omit<ButtonProps, 'value' | 'Icon'>;
 export const ShareButton = ({ clicked, ...props }: ShareButtonProps) => {
@@ -68,13 +69,21 @@ const Title = suspensify(() => {
   const title = useValue<string>('action/title', { 'action/id': actionId });
 
   return (
-    <TextEditor
-      className={'text-3xl font-semibold text-gray-800'}
-      content={title}
-      refAttribute={'action.title/text'}
-      refId={actionId}
-      suspenseLines={1}
-    />
+    <div className={'flex items-start justify-between gap-3'}>
+      <TextEditor
+        className={'text-3xl font-semibold text-gray-800'}
+        content={title}
+        refAttribute={'action.title/text'}
+        refId={actionId}
+        suspenseLines={1}
+      />
+      <EditButton
+        canEditKey={'action.title/can-edit'}
+        className={'mt-2 h-5 w-5 text-gray-500'}
+        editKey={'action.title/edit'}
+        suspenseLines={1}
+      />
+    </div>
   );
 });
 
