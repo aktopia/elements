@@ -9,7 +9,6 @@ export type Dispatch = (args: {
   setState: StoreApi<any>['setState'];
   getState: Function;
   params?: any;
-  state: any;
 }) => void;
 
 export const subscriptions: any = {};

@@ -21,9 +21,7 @@ const User = ({ name }: { name: string }) => {
 
 const DeleteConfirmationModal = suspensify(() => {
   const t = useTranslation();
-  const { id, 'in-progress': inProgress } = useValue<{ id: string; 'in-progress': boolean }>(
-    'update.deletion/in-progress'
-  );
+  const id = useValue<string>('update.deletion/id');
 
   const cancelDeletion = useDispatch('update.deletion/cancel');
   const deleteUpdate = useDispatch('update/delete');
@@ -38,7 +36,7 @@ const DeleteConfirmationModal = suspensify(() => {
       confirmText={t('common/delete')}
       kind={'danger'}
       titleText={t('update.delete.modal/title')}
-      visible={inProgress}
+      visible={!!id}
       onClose={onClose}
       onConfirm={onDelete}
     />
@@ -100,10 +98,10 @@ export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
   );
   const currentUserId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
-  const updateIds = useValue<string[]>('update/ids-by-reference', reference);
+  const updateIds = useValue<string[]>('update/ids', reference);
 
   const updateContent = useDispatch('new.update/update');
-  const postContent = useDispatch('new.update/post');
+  const createContent = useDispatch('new.update/create');
 
   const onChange = useCallback(
     (value: string) => {
@@ -113,8 +111,8 @@ export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
   );
 
   const onPost = useCallback(() => {
-    postContent(reference);
-  }, [postContent, reference]);
+    createContent(reference);
+  }, [createContent, reference]);
 
   return (
     <div className={'flex flex-col gap-7'}>

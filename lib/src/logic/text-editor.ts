@@ -1,14 +1,11 @@
 import { evt, sub } from '@elements/store/register';
+import { ref } from '@elements/utils';
 
 export const textEditorSlice = () => ({
   'text-editor/state': {},
 });
 
 const textEditors: any = {};
-
-function ref(...keys: string[]) {
-  return keys.join('|');
-}
 
 interface Actions {
   onEditStart: ({ setState, params, getState }: any) => void;

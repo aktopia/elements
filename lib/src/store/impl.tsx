@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider, useQuery as useReactQuery } from 'rea
 import { create } from 'zustand';
 import { ReactNode, useCallback } from 'react';
 import { Store as StoreInterface } from '@elements/store/interface';
-import { Dispatch, events, subscriptions } from '@elements/store/register';
+import { events, subscriptions } from '@elements/store/register';
 import { slices } from '@elements/store/slices';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
@@ -51,7 +51,7 @@ function useValueImpl<T>(id: string, params?: Record<string, any>): T {
   return useVal(id, params) as T;
 }
 
-function useDispatchImpl(id: string, options?: any): Dispatch {
+function useDispatchImpl(id: string, options?: any): any {
   const { emptyParams = false }: any = options || {};
   const { fn } = events[id];
 
@@ -71,8 +71,12 @@ const queryClient = new QueryClient({
   },
 });
 
-export const invalidateAsyncSubs = async (id: string, params: any) => {
+export const invalidateAsyncSub = async (id: string, params: any) => {
   await queryClient.invalidateQueries({ queryKey: [id, { params }] });
+};
+
+export const invalidateAsyncSubs = async (subs: Array<[id: string, params: any]>) => {
+  await Promise.all(subs.map(([id, params]) => invalidateAsyncSub(id, params)));
 };
 
 export const Store = ({ children }: { children: ReactNode }) => {

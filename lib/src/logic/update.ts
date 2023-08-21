@@ -1,23 +1,40 @@
-import { evt, sub } from '@elements/store/register';
+import { evt, remoteSub, sub } from '@elements/store/register';
+import { rpcPost } from '@elements/rpc';
+import { invalidateAsyncSub } from '@elements/store/impl';
+import pick from 'lodash/pick';
 
 export const updateSlice = () => ({
-  'update/state': {},
+  'update/state': {
+    'update.deletion/id': null,
+    'new/update': {},
+  },
 });
 
-sub('update.deletion/in-progress', ({ state }) => ({ 'in-progress': false, id: null }));
+sub('update.deletion/id', ({ state }) => state['update/state']['update.deletion/id']);
 
-sub('update/created-at', ({ state }) => '1321999371968');
-sub('update/creator-name', ({ state }) => 'Sunil KS');
-sub('update/ids-by-reference', ({ state }) => ['1', '2', '3']);
+remoteSub('update/ids');
+remoteSub('update/created-at');
+remoteSub('update/creator-name');
+remoteSub('update/text');
 
-sub(
-  'update/text',
-  (_state) =>
-    'Amet commodo voluptate est et consequat commodo occaecat ex id sit proident nostrud in. Veniam aliquip veniam sint ad. Ut Lorem duis elit. In laborum sunt elit mollit. Sunt dolor sunt et excepteur laborum aute ea nulla. Ut nisi eiusmod do dolore in consequat ipsum. Et velit cupidatat laborum pariatur. Ipsum veniam fugiat adipisicing deserunt occaecat non id Lorem magna laboris sunt culpa dolor.'
-);
+evt('new.update/create', async ({ getState }) => {
+  const newUpdate = getState()['update/state']['new/update'];
+  const reference = pick(newUpdate, ['ref/id', 'ref/attribute']);
+  await rpcPost('update/create', {
+    ...reference,
+    value: newUpdate.text,
+  });
+  await invalidateAsyncSub('update/ids', reference);
+});
 
-evt('new.update/post', ({ setState, params }) => null);
-evt('new.update/update', ({ setState, params }) => null);
+evt('new.update/update', ({ setState, params }) => {
+  setState((state: any) => {
+    state['update/state']['new/update']['ref/id'] = params['ref/id'];
+    state['update/state']['new/update']['ref/attribute'] = params['ref/attribute'];
+    state['update/state']['new/update'].text = params.value;
+  });
+});
+
 evt('update.deletion/cancel', ({ setState, params }) => null);
 evt('update.deletion/start', ({ setState, params }) => null);
 evt('update/delete', ({ setState, params }) => null);

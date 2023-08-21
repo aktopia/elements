@@ -65,3 +65,7 @@ export function openInNewTab(url: string) {
 export function navigateTo({ replace = false, to }: { replace?: boolean; to: string }) {
   history[replace ? 'replaceState' : 'pushState'](null, '', to);
 }
+
+export function ref(...keys: string[]) {
+  return keys.join('|');
+}

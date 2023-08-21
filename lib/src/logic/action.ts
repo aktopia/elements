@@ -1,4 +1,4 @@
-import { dispatch, evt, invalidateAsyncSubs, sub } from '@elements/store';
+import { dispatch, evt, invalidateAsyncSub, sub } from '@elements/store';
 import { remoteSub } from '@elements/store/register';
 import { rpcPost } from '@elements/rpc';
 import { navigate } from '@elements/logic/router';
@@ -135,7 +135,7 @@ registerTextEditor('action.title/text', {
       'action/id': params['ref/id'],
       value: title,
     });
-    await invalidateAsyncSubs('action/title', { 'action/id': params['ref/id'] });
+    await invalidateAsyncSub('action/title', { 'action/id': params['ref/id'] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
@@ -150,7 +150,7 @@ registerTextEditor('action.description/text', {
       'action/id': params['ref/id'],
       value: description,
     });
-    await invalidateAsyncSubs('action/description', { 'action/id': params['ref/id'] });
+    await invalidateAsyncSub('action/description', { 'action/id': params['ref/id'] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
@@ -165,7 +165,7 @@ registerTextEditor('action.outcome/text', {
       'action/id': params['ref/id'],
       value: outcome,
     });
-    await invalidateAsyncSubs('action/outcome', { 'action/id': params['ref/id'] });
+    await invalidateAsyncSub('action/outcome', { 'action/id': params['ref/id'] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
