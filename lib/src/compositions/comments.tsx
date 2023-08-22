@@ -6,7 +6,6 @@ import {
   UserCircleSolid,
 } from '@elements/icons';
 import { Button } from '@elements/components/button';
-import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
 import { Timestamp } from '@elements/components/timestamp';
@@ -37,30 +36,6 @@ const DeletedComment = () => {
     </div>
   );
 };
-
-const DeleteConfirmationModal = suspensify(() => {
-  const t = useTranslation();
-  const id = useValue('comment.deletion/id');
-
-  const cancelDeletion = useDispatch('comment.deletion/cancel');
-  const deleteUpdate = useDispatch('comment/delete');
-
-  const onClose = useCallback(() => cancelDeletion({ 'comment/id': id }), [cancelDeletion, id]);
-  const onDelete = useCallback(() => deleteUpdate({ 'comment/id': id }), [deleteUpdate, id]);
-
-  return (
-    <ConfirmationModal
-      bodyText={t('comment.delete.modal/body')}
-      cancelText={t('common/cancel')}
-      confirmText={t('common/delete')}
-      kind={'danger'}
-      titleText={t('comment.delete.modal/title')}
-      visible={!!id}
-      onClose={onClose}
-      onConfirm={onDelete}
-    />
-  );
-});
 
 const ExpandCollapseButton = ({
   expanded,
@@ -197,7 +172,6 @@ export const Comments = suspensify(({ ids }: { ids: string[] }) => {
       {ids.map((id) => {
         return <Comment key={id} id={id} suspenseLines={2} />;
       })}
-      <DeleteConfirmationModal suspenseLines={2} />
     </div>
   );
 });

@@ -12,7 +12,7 @@ export const SocialSignIn = suspensify(() => {
   const onModalClose = useDispatch('auth.sign-in/close');
 
   return (
-    <Modal visible={visible}>
+    <Modal visible={visible} onClose={onModalClose}>
       <ModalPanel>
         <div className={'flex-col gap-2 p-6'}>
           <ModalHeader

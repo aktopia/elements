@@ -39,7 +39,10 @@ export function useDispatch<T extends keyof Events>(
   return useDispatchImpl(id, options);
 }
 
-export function useState(valueId: string, dispatchId: string): [any, (value: any) => void] {
+export function useState(
+  valueId: keyof Subs,
+  dispatchId: keyof Events
+): [any, (value: any) => void] {
   const value = useValue(valueId);
   const dispatch = useDispatch(dispatchId);
   const setValue = useCallback((value: any) => dispatch({ value }), [dispatch]);

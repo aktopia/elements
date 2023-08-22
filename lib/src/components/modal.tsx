@@ -1,11 +1,10 @@
 import { XMark } from '@elements/icons';
 import { Dialog, Transition } from '@headlessui/react';
-import { identity } from 'lodash';
 import React, { Fragment } from 'react';
 
 interface ModalProps {
   children: React.ReactNode;
-  onClose?: () => void;
+  onClose: () => void;
   visible: boolean;
 }
 
@@ -60,7 +59,7 @@ export const ModalPanel = ({ children }: { children: React.ReactNode }) => {
 export const Modal = ({ children, onClose, visible }: ModalProps) => {
   return (
     <Transition.Root appear afterLeave={console.log} as={Fragment} show={visible}>
-      <Dialog className={'relative z-30'} open={visible} onClose={onClose || identity}>
+      <Dialog className={'relative z-30'} open={visible} onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter={'ease-out duration-300'}

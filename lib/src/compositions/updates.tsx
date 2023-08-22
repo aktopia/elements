@@ -19,36 +19,50 @@ const User = ({ name }: { name: string }) => {
   );
 };
 
-const DeleteConfirmationModal = suspensify(() => {
-  const t = useTranslation();
-  const id = useValue<string>('update.deletion/id');
+interface DeleteConfirmationModalProps {
+  refId: string;
+  refAttribute: string;
+}
 
-  const cancelDeletion = useDispatch('update.deletion/cancel');
-  const deleteUpdate = useDispatch('update/delete');
+const DeleteConfirmationModal = suspensify(
+  ({ refId, refAttribute }: DeleteConfirmationModalProps) => {
+    const t = useTranslation();
+    const reference = useMemo(
+      () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
+      [refId, refAttribute]
+    );
+    const id = useValue('update.deletion/id');
 
-  const onClose = useCallback(() => cancelDeletion({ 'update/id': id }), [cancelDeletion, id]);
-  const onDelete = useCallback(() => deleteUpdate({ 'update/id': id }), [deleteUpdate, id]);
+    const cancelDeletion = useDispatch('update.deletion/cancel');
+    const deleteUpdate = useDispatch('update/delete');
 
-  return (
-    <ConfirmationModal
-      bodyText={t('update.delete.modal/body')}
-      cancelText={t('common/cancel')}
-      confirmText={t('common/delete')}
-      kind={'danger'}
-      titleText={t('update.delete.modal/title')}
-      visible={!!id}
-      onClose={onClose}
-      onConfirm={onDelete}
-    />
-  );
-});
+    const onClose = useCallback(() => cancelDeletion({ 'update/id': id }), [cancelDeletion, id]);
+    const onDelete = useCallback(
+      () => deleteUpdate({ 'update/id': id, ...reference }),
+      [deleteUpdate, id, reference]
+    );
+
+    return (
+      <ConfirmationModal
+        bodyText={t('update.delete.modal/body')}
+        cancelText={t('common/cancel')}
+        confirmText={t('common/delete')}
+        kind={'danger'}
+        titleText={t('update.delete.modal/title')}
+        visible={!!id}
+        onClose={onClose}
+        onConfirm={onDelete}
+      />
+    );
+  }
+);
 
 const Update = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
 
-  const creatorName = useValue<string>('update/creator-name', { 'update/id': id });
-  const text = useValue<string>('update/text', { 'update/id': id });
-  const createdAt = useValue<number>('update/created-at', { 'update/id': id });
+  const creatorName = useValue('update/creator-name', { 'update/id': id });
+  const text = useValue('update/text', { 'update/id': id });
+  const createdAt = useValue('update/created-at', { 'update/id': id });
 
   const startDeletion = useDispatch('update.deletion/start');
 
@@ -96,9 +110,9 @@ export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
     () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
     [refId, refAttribute]
   );
-  const currentUserId = useValue<string>('current.user/id');
-  const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
-  const updateIds = useValue<string[]>('update/ids', reference);
+  const currentUserId = useValue('current.user/id');
+  const currentUserName = useValue('user/name', { 'user/id': currentUserId });
+  const updateIds = useValue('update/ids', reference);
 
   const updateContent = useDispatch('new.update/update');
   const createContent = useDispatch('new.update/create');
@@ -131,7 +145,7 @@ export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
           </div>
         ))}
       </div>
-      <DeleteConfirmationModal suspenseLines={3} />
+      <DeleteConfirmationModal refAttribute={refAttribute} refId={refId} suspenseLines={3} />
     </div>
   );
 });

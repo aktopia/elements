@@ -120,4 +120,14 @@ evt('comment.deletion/start', ({ setState, params }) => {
   });
 });
 
-evt('comment/delete', ({ setState, params }) => null);
+evt('comment/delete', async ({ setState, params }) => {
+  await rpcPost('comment/delete', {
+    'comment/id': params['comment/id'],
+  });
+
+  setState((state: any) => {
+    state['comment/state']['comment.deletion/id'] = null;
+  });
+
+  await invalidateAsyncSub('comment/status', { 'comment/id': params['comment/id'] });
+});

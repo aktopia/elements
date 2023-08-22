@@ -4,11 +4,36 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { Comments } from '@elements/compositions/comments';
+import { ConfirmationModal } from '@elements/components/confirmation-modal';
 
 interface DiscussProps {
   refId: string;
   refAttribute: string;
 }
+
+const DeleteConfirmationModal = suspensify(() => {
+  const t = useTranslation();
+  const id = useValue('comment.deletion/id');
+
+  const cancelDeletion = useDispatch('comment.deletion/cancel');
+  const deleteComment = useDispatch('comment/delete');
+
+  const onClose = useCallback(() => cancelDeletion({ 'comment/id': id }), [cancelDeletion, id]);
+  const onDelete = useCallback(() => deleteComment({ 'comment/id': id }), [deleteComment, id]);
+
+  return (
+    <ConfirmationModal
+      bodyText={t('comment.delete.modal/body')}
+      cancelText={t('common/cancel')}
+      confirmText={t('common/delete')}
+      kind={'danger'}
+      titleText={t('comment.delete.modal/title')}
+      visible={!!id}
+      onClose={onClose}
+      onConfirm={onDelete}
+    />
+  );
+});
 
 export const Discuss = suspensify(({ refId, refAttribute }: DiscussProps) => {
   const t = useTranslation();
@@ -38,16 +63,19 @@ export const Discuss = suspensify(({ refId, refAttribute }: DiscussProps) => {
   const authorName = currentUserName || t('common/you');
 
   return (
-    <div className={'flex flex-col gap-7'}>
-      <NewContent
-        creatorName={authorName}
-        placeholderText={t('comment/placeholder')}
-        postText={t('common/post')}
-        onChange={onNewCommentChange}
-        onPost={onNewCommentPost}
-      />
-      <Comments ids={commentIds} suspenseLines={8} />
-    </div>
+    <>
+      <div className={'flex flex-col gap-7'}>
+        <NewContent
+          creatorName={authorName}
+          placeholderText={t('comment/placeholder')}
+          postText={t('common/post')}
+          onChange={onNewCommentChange}
+          onPost={onNewCommentPost}
+        />
+        <Comments ids={commentIds} suspenseLines={8} />
+      </div>
+      <DeleteConfirmationModal suspenseLines={2} />
+    </>
   );
 });
 

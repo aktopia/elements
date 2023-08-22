@@ -106,7 +106,7 @@ type Size = 'xxs' | 'xs' | 'sm' | 'md';
 
 type Kind = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger';
 
-export interface ButtonProps {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size: Size;
   value: string;
   count?: number;
