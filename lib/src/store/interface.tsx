@@ -1,6 +1,7 @@
 import { createContext, memo, ReactNode, useCallback, useContext, useMemo } from 'react';
+import { Subs } from '@elements/store/types';
 
-type ValueHook = <T>(id: string, params?: Record<string, any>) => T;
+type ValueHook = <T extends keyof Subs>(id: T, params?: Subs[T]['params']) => Subs[T]['result'];
 type DispatchHook = (id: string, options?: Record<string, any>) => void;
 
 interface StoreContextType {
@@ -19,7 +20,10 @@ const placeholderContext: StoreContextType = {
 
 export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
-export function useValue<T>(id: string, params?: Record<string, any>): T {
+export function useValue<T extends keyof Subs>(
+  id: T,
+  params?: Subs[T]['params']
+): Subs[T]['result'] {
   const { useValueImpl } = useContext(StoreContext);
   return useValueImpl<T>(id, params);
 }
