@@ -1,6 +1,5 @@
-import { evt, remoteSub, sub } from '@elements/store/register';
+import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
-import { invalidateAsyncSub } from '@elements/store/impl';
 import pick from 'lodash/pick';
 
 export const updateSlice = () => ({

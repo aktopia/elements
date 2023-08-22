@@ -40,9 +40,7 @@ const DeletedComment = () => {
 
 const DeleteConfirmationModal = suspensify(() => {
   const t = useTranslation();
-  const { id, 'in-progress': inProgress } = useValue<{ id: string; 'in-progress': boolean }>(
-    'comment.deletion/in-progress'
-  );
+  const id = useValue<string>('comment.deletion/id');
 
   const cancelDeletion = useDispatch('comment.deletion/cancel');
   const deleteUpdate = useDispatch('comment/delete');
@@ -57,7 +55,7 @@ const DeleteConfirmationModal = suspensify(() => {
       confirmText={t('common/delete')}
       kind={'danger'}
       titleText={t('comment.delete.modal/title')}
-      visible={inProgress}
+      visible={!!id}
       onClose={onClose}
       onConfirm={onDelete}
     />
@@ -84,11 +82,13 @@ export const Comment = suspensify(({ id }: { id: string }) => {
 
   const currentUserId = useValue<string>('current.user/id');
   const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
-  const creatorName = useValue<string>('comment/creator-name', { 'comment/id': id });
-  const status = useValue<string>('comment/status', { 'comment/id': id });
-  const text = useValue<string>('comment/text', { 'comment/id': id });
-  const createdAt = useValue<number>('comment/created-at', { 'comment/id': id });
-  const responseIds = useValue<string[]>('comment/ids-by-reference', reference);
+  const creatorName = useValue('comment/creator-name', { 'comment/id': id });
+  const status = useValue('comment/status', {
+    'comment/id': id,
+  });
+  const text = useValue('comment/text', { 'comment/id': id });
+  const createdAt = useValue('comment/created-at', { 'comment/id': id });
+  const responseIds = useValue('comment/ids', reference);
   const deleted = status === 'deleted';
 
   const updateNewComment = useDispatch('new.comment/update');

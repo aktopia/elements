@@ -4,11 +4,6 @@ import { memoize } from 'lodash';
 import { store as votingStore } from '@story/stores/voting';
 import { store as textEditorStore } from '@story/stores/text-editor';
 
-const inProgress = {
-  'in-progress': false,
-  id: null,
-};
-
 const commentsByParentId = memoize(({ 'ref/id': id, 'ref/attribute': identifier }: any) => {
   if (identifier === 'entity.type/action') {
     return ['comment-1', 'comment-5'];
@@ -29,7 +24,7 @@ const commentsByParentId = memoize(({ 'ref/id': id, 'ref/attribute': identifier 
 export const store = {
   read: {
     ...votingStore.read,
-    'comment.deletion/in-progress': inProgress,
+    'comment.deletion/id': null,
     'comment/creator-name': ({ 'comment/id': id }: { 'comment/id': string }) => {
       switch (id) {
         case 'comment-1':
@@ -48,7 +43,7 @@ export const store = {
     },
     'comment/text': lorem.generateSentences(4),
     'comment/status': null, // or 'deleted'
-    'comment/ids-by-reference': commentsByParentId,
+    'comment/ids': commentsByParentId,
     'current.user/id': '1',
     'user/name': 'Sunil KS',
     'comment/created-at': randomTimestamp(),

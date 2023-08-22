@@ -19,7 +19,7 @@ export const Discuss = suspensify(({ refId, refAttribute }: DiscussProps) => {
     () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
     [refId, refAttribute]
   );
-  const commentIds = useValue<string[]>('comment/ids-by-reference', reference);
+  const commentIds = useValue('comment/ids', reference);
 
   const updateNewComment = useDispatch('new.comment/update');
   const postNewComment = useDispatch('new.comment/post');

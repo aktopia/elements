@@ -1,5 +1,4 @@
-import { dispatch, evt, invalidateAsyncSub, sub } from '@elements/store';
-import { remoteSub } from '@elements/store/register';
+import { dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import { navigate } from '@elements/logic/router';
 import {

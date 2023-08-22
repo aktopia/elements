@@ -7,8 +7,6 @@ export const MAX_OTP_DIGITS = 6;
 
 export const authenticationSlice = () => ({
   authenticationState: {
-    'current.user/id': '2',
-    'user/name': 'Krishna Sunil',
     sessionExists: false,
     signInVisible: false,
     signInEmailInput: '',
@@ -23,15 +21,11 @@ export const authenticationSlice = () => ({
   },
 });
 
-sub('user/name', ({ state }) => state.authenticationState['user/name']);
-
 sub('auth.sign-in/visible', ({ state }) => state.authenticationState.signInVisible);
 
 sub('auth.session/exists', ({ state }) => state.authenticationState.sessionExists);
 
 sub('auth.sign-in/email', ({ state }) => state.authenticationState.signInEmailInput);
-
-sub('current.user/id', ({ state }) => state.authenticationState['current.user/id']);
 
 sub('auth.sign-in/sending-otp', ({ state }) => state.authenticationState.signInSendingOtp);
 
