@@ -1,6 +1,6 @@
 import { StoreApi } from 'zustand';
 import { rpcGet } from '@elements/rpc';
-import { Subs } from '@elements/store/types';
+import { Events, Subs } from '@elements/store/types';
 
 type Read<T extends keyof Subs> = (args: {
   state: any;
@@ -11,10 +11,10 @@ type AsyncRead<T extends keyof Subs> = (args: {
   params: Subs[T]['params'];
 }) => Promise<Subs[T]['params']>;
 
-export type Dispatch = (args: {
+export type Dispatch<T extends keyof Events> = (args: {
   setState: StoreApi<any>['setState'];
-  getState: Function;
-  params: any;
+  getState: StoreApi<any>['getState'];
+  params: Events[T]['params'];
 }) => void;
 
 export const subscriptions: any = {};
@@ -34,6 +34,6 @@ export function remoteSub<T extends keyof Subs>(id: T) {
   });
 }
 
-export function evt(id: string, fn: Dispatch) {
+export function evt<T extends keyof Events>(id: T, fn: Dispatch<T>) {
   events[id] = { fn };
 }

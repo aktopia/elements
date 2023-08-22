@@ -40,7 +40,7 @@ const DeletedComment = () => {
 
 const DeleteConfirmationModal = suspensify(() => {
   const t = useTranslation();
-  const id = useValue<string>('comment.deletion/id');
+  const id = useValue('comment.deletion/id');
 
   const cancelDeletion = useDispatch('comment.deletion/cancel');
   const deleteUpdate = useDispatch('comment/delete');
@@ -92,7 +92,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   const deleted = status === 'deleted';
 
   const updateNewComment = useDispatch('new.comment/update');
-  const postNewComment = useDispatch('new.comment/post');
+  const postNewComment = useDispatch('new.comment/create');
   const startDeletion = useDispatch('comment.deletion/start');
 
   const [expanded, setExpanded] = useState(true);

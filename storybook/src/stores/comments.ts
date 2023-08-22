@@ -51,7 +51,7 @@ export const store = {
   dispatch: [
     ...votingStore.dispatch,
     ...textEditorStore.dispatch,
-    'new.comment/post',
+    'new.comment/create',
     'new.comment/update',
     'comment.deletion/cancel',
     'comment.deletion/start',

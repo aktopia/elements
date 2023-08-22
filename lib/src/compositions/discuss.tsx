@@ -1,9 +1,9 @@
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
-import { Comments } from '@elements/compositions/comments';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
+import { Comments } from '@elements/compositions/comments';
 
 interface DiscussProps {
   refId: string;
@@ -22,7 +22,7 @@ export const Discuss = suspensify(({ refId, refAttribute }: DiscussProps) => {
   const commentIds = useValue('comment/ids', reference);
 
   const updateNewComment = useDispatch('new.comment/update');
-  const postNewComment = useDispatch('new.comment/post');
+  const postNewComment = useDispatch('new.comment/create');
 
   const onNewCommentChange = useCallback(
     (value: string) => {

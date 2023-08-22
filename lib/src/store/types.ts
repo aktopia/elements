@@ -1,4 +1,4 @@
-import { Subs as CommentSubs } from '@elements/logic/comment';
+import { Events as CommentEvents, Subs as CommentSubs } from '@elements/logic/comment';
 
 export type Sub = {
   params: Record<string, any>;
@@ -6,3 +6,5 @@ export type Sub = {
 };
 
 export type Subs = CommentSubs;
+
+export type Events = CommentEvents;

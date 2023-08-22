@@ -1,8 +1,11 @@
 import { createContext, memo, ReactNode, useCallback, useContext, useMemo } from 'react';
-import { Subs } from '@elements/store/types';
+import { Events, Subs } from '@elements/store/types';
 
 type ValueHook = <T extends keyof Subs>(id: T, params?: Subs[T]['params']) => Subs[T]['result'];
-type DispatchHook = (id: string, options?: Record<string, any>) => void;
+type DispatchHook = <T extends keyof Events>(
+  id: T,
+  options?: Record<string, any>
+) => (params: Events[T]['params']) => void;
 
 interface StoreContextType {
   useValueImpl: ValueHook;
@@ -13,7 +16,7 @@ const placeholderContext: StoreContextType = {
   useValueImpl: (_id, _params) => {
     throw new Error('"useValueImpl" not set for StoreContext');
   },
-  useDispatchImpl: (_id, _params) => {
+  useDispatchImpl: (_id, _options) => {
     throw new Error('"useDispatchImpl" not set for StoreContext');
   },
 };
@@ -28,7 +31,10 @@ export function useValue<T extends keyof Subs>(
   return useValueImpl<T>(id, params);
 }
 
-export function useDispatch(id: string, options?: Record<string, any>): any {
+export function useDispatch<T extends keyof Events>(
+  id: T,
+  options?: Record<string, any>
+): (params: Events[T]['params']) => void {
   const { useDispatchImpl } = useContext(StoreContext);
   return useDispatchImpl(id, options);
 }
