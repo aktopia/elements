@@ -25,9 +25,9 @@ sub(
   ({ state }) => state['action/state']['action.progress-bar/active-switch']
 );
 
-remoteSub<{ 'action/id': string }, string>('action/title');
-remoteSub<{ 'action/id': string }, string>('action/description');
-remoteSub<{ 'action/id': string }, string>('action/outcome');
+remoteSub('action/title');
+remoteSub('action/description');
+remoteSub('action/outcome');
 
 sub('action.funding/percentage', ({ state }) => 24);
 sub('action/saved', ({ state }) => false);
@@ -127,7 +127,6 @@ evt('action.create.modal.title/update', ({ setState, params }) => {
 
 registerTextEditor('action.title/text', {
   onTextUpdate: updateText,
-  onEditStart: startEditing,
   onEditDone: async ({ setState, getState, params }) => {
     const title = text({ state: getState(), params });
     await rpcPost('action.title/update', {
@@ -142,7 +141,6 @@ registerTextEditor('action.title/text', {
 
 registerTextEditor('action.description/text', {
   onTextUpdate: updateText,
-  onEditStart: startEditing,
   onEditDone: async ({ setState, getState, params }) => {
     const description = text({ state: getState(), params });
     await rpcPost('action.description/update', {
@@ -157,7 +155,6 @@ registerTextEditor('action.description/text', {
 
 registerTextEditor('action.outcome/text', {
   onTextUpdate: updateText,
-  onEditStart: startEditing,
   onEditDone: async ({ setState, getState, params }) => {
     const outcome = text({ state: getState(), params });
     await rpcPost('action.outcome/update', {

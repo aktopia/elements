@@ -1,6 +1,12 @@
 import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import pick from 'lodash/pick';
+import {
+  endEditing,
+  registerTextEditor,
+  startEditing,
+  updateText,
+} from '@elements/logic/text-editor';
 
 export const updateSlice = () => ({
   'update/state': {
@@ -59,6 +65,11 @@ export type Events = {
     params: {};
   };
   'update.deletion/start': {
+    params: {
+      'update/id': string;
+    };
+  };
+  'update.text/edit': {
     params: {
       'update/id': string;
     };
@@ -122,4 +133,17 @@ evt('update/delete', async ({ setState, params }) => {
     'ref/id': params['ref/id'],
     'ref/attribute': params['ref/attribute'],
   });
+});
+
+evt('update.text/edit', ({ setState, params }) => {
+  startEditing({
+    setState,
+    params: { 'ref/id': params['update/id'], 'ref/attribute': 'update/text' },
+  });
+});
+
+registerTextEditor('update/text', {
+  onTextUpdate: updateText,
+  onEditDone: endEditing,
+  onEditCancel: endEditing,
 });

@@ -2,6 +2,7 @@ import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import pick from 'lodash/pick';
 import { rpcPost } from '@elements/rpc';
 import { ref } from '@elements/utils';
+import { endEditing, registerTextEditor, updateText } from '@elements/logic/text-editor';
 
 export const commentSlice = () => ({
   'comment/state': {
@@ -130,4 +131,10 @@ evt('comment/delete', async ({ setState, params }) => {
   });
 
   await invalidateAsyncSub('comment/status', { 'comment/id': params['comment/id'] });
+});
+
+registerTextEditor('comment/text', {
+  onTextUpdate: updateText,
+  onEditDone: endEditing,
+  onEditCancel: endEditing,
 });

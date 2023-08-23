@@ -13,12 +13,7 @@ const store = {
     'text-editor/editing': false,
     'text-editor/can-edit': true,
   },
-  dispatch: [
-    'text-editor.content/update',
-    'text-editor.edit/cancel',
-    'text-editor.edit/done',
-    'text-editor/edit',
-  ],
+  dispatch: ['text-editor.content/update', 'text-editor.edit/cancel', 'text-editor.edit/done'],
 };
 
 const args = {

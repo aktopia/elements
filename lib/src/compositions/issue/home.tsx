@@ -7,8 +7,8 @@ import { useTranslation } from '@elements/translation';
 import { memo, useMemo } from 'react';
 
 const Description = suspensify(() => {
-  const issueId = useValue<string>('current.issue/id');
-  const description = useValue<string>('issue/description', { 'issue/id': issueId });
+  const issueId = useValue('current.issue/id');
+  const description = useValue('issue/description', { 'issue/id': issueId });
 
   return (
     <TextEditor
@@ -22,14 +22,14 @@ const Description = suspensify(() => {
 });
 
 const ResolutionText = suspensify(() => {
-  const issueId = useValue<string>('current.issue/id');
-  const resolution = useValue<string>('issue/resolution', { 'issue/id': issueId });
+  const issueId = useValue('current.issue/id');
+  const resolution = useValue('issue/resolution', { 'issue/id': issueId });
   const reference = useMemo(
     () => ({ 'ref/id': issueId, 'ref/attribute': 'issue.resolution/text' }),
     [issueId]
   );
 
-  const isEditing = useValue<boolean>('text-editor/editing', reference) || false;
+  const isEditing = useValue('text-editor/editing', reference) || false;
 
   return (
     <TextEditor
@@ -57,7 +57,7 @@ const Resolution = memo(() => {
 });
 
 export const Home = suspensify(() => {
-  const issueId = useValue<string>('current.issue/id');
+  const issueId = useValue('current.issue/id');
 
   return (
     <div className={'flex w-full gap-8'}>

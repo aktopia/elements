@@ -1,15 +1,15 @@
-import { ArrowTopRightOnSquareOutline } from '@elements/icons';
 import React from 'react';
 import {
   RawDropdown,
-  RawDropdownArrow,
   RawDropdownItem,
   RawDropdownPanel,
   RawDropdownTrigger,
 } from '@elements/components/raw-dropdown';
+import { cx } from 'cva';
 
 interface ItemProps {
   text: string;
+  kind: 'normal' | 'danger';
   href?: string;
   openNewTab?: boolean;
   Icon?: React.ComponentType<{
@@ -18,11 +18,21 @@ interface ItemProps {
   onClick?: () => void;
 }
 
-export const Item = ({ text, href, Icon, onClick }: ItemProps) => {
+export const Item = ({ text, href, Icon, onClick, kind = 'normal' }: ItemProps) => {
   const body = (
     <>
-      {Icon && <Icon className={'mr-3 h-5 w-5 text-gray-700'} />}
-      <div className={'rounded px-3 py-2 text-xs font-medium text-gray-700'}>{text}</div>
+      {Icon && (
+        <Icon
+          className={cx('-ml-1 h-4 w-4', kind === 'danger' ? 'text-rose-700' : 'text-gray-700')}
+        />
+      )}
+      <div
+        className={cx(
+          'text-xs font-medium',
+          kind === 'danger' ? 'text-rose-700' : 'text-gray-700'
+        )}>
+        {text}
+      </div>
     </>
   );
 
@@ -33,19 +43,16 @@ export const Item = ({ text, href, Icon, onClick }: ItemProps) => {
           'group my-1 flex w-full cursor-default items-center bg-white hover:bg-gray-100 focus:outline-none'
         }>
         {href ? (
-          <div className={'flex items-center'}>
+          <div className={'flex items-center gap-2 px-4 py-2'}>
             <a className={'hover:underline'} href={href} rel={'noreferrer'}>
               {body}
-            </a>
-            <a className={'pr-2'} href={href} rel={'noreferrer'} target={'_blank'}>
-              <ArrowTopRightOnSquareOutline
-                className={'h-3.5 w-3.5 stroke-2 text-gray-400 hover:text-gray-700'}
-              />
             </a>
           </div>
         ) : (
           <button
-            className={'flex w-full items-center bg-white group-hover:bg-gray-100'}
+            className={
+              'flex w-full items-center justify-items-start gap-2 bg-white px-4 py-2 group-hover:bg-gray-100'
+            }
             type={'button'}
             onClick={onClick}>
             {body}
@@ -65,7 +72,6 @@ export const Dropdown = ({ Button, items }: any) => {
         </div>
       </RawDropdownTrigger>
       <RawDropdownPanel gap={5}>
-        <RawDropdownArrow className={'fill-white'} />
         <div
           className={
             'w-max overflow-hidden rounded-md bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none'

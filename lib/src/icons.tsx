@@ -231,6 +231,7 @@ export {
   ArrowPathIcon as ArrowPathMiniSolid,
   GlobeAmericasIcon as GlobeAmericasMiniSolid,
   ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareMiniSolid,
+  TrashIcon as TrashMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {

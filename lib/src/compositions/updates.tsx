@@ -1,4 +1,9 @@
-import { UserCircleSolid } from '@elements/icons';
+import {
+  EllipsisHorizontalOutline,
+  PencilOutline,
+  TrashOutline,
+  UserCircleSolid,
+} from '@elements/icons';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
@@ -8,6 +13,7 @@ import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
+import { Dropdown } from '@elements/components/dropdown';
 
 const User = ({ name }: { name: string }) => {
   return (
@@ -56,16 +62,34 @@ const DeleteConfirmationModal = suspensify(
   }
 );
 
-const Update = suspensify(({ id }: { id: string }) => {
+const ContextMenuButton = ({}) => {
+  return <EllipsisHorizontalOutline className={'h-6 w-6 cursor-pointer text-gray-700'} />;
+};
+
+const ContextMenu = ({ id }: { id: string }) => {
   const t = useTranslation();
 
+  const startDeletion = useDispatch('update.deletion/start');
+  const edit = useDispatch('update.text/edit');
+
+  const onDeleteClick = useCallback(() => startDeletion({ 'update/id': id }), [id, startDeletion]);
+  const onEditClick = useCallback(() => edit({ 'update/id': id }), [id, edit]);
+
+  return (
+    <Dropdown
+      Button={ContextMenuButton}
+      items={[
+        { text: t('common/edit'), onClick: onEditClick, Icon: PencilOutline },
+        { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
+      ]}
+    />
+  );
+};
+
+const Update = suspensify(({ id }: { id: string }) => {
   const creatorName = useValue('update/creator-name', { 'update/id': id });
   const text = useValue('update/text', { 'update/id': id });
   const createdAt = useValue('update/created-at', { 'update/id': id });
-
-  // const startDeletion = useDispatch('update.deletion/start');
-
-  // const onDeleteClick = useCallback(() => startDeletion({ 'update/id': id }), [id, startDeletion]);
 
   return (
     <div
@@ -83,8 +107,9 @@ const Update = suspensify(({ id }: { id: string }) => {
         refId={id}
         suspenseLines={4}
       />
-      <div>
+      <div className={'flex items-center gap-7'}>
         <Voting refAttribute={'entity.type/update'} refId={id} size={'xs'} suspenseLines={2} />
+        <ContextMenu id={id} />
       </div>
     </div>
   );
