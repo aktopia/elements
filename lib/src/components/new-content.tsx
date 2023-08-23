@@ -39,6 +39,7 @@ export const NewContent = ({
         <RichTextArea
           ref={editorRef}
           className={'text-gray-700'}
+          editable={true}
           placeholder={placeholderText}
           onChange={onChange}
         />

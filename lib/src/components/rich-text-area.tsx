@@ -16,7 +16,7 @@ interface RichTextAreaProps {
   className?: string;
   onChange: (value: string) => void;
   initialContent?: string;
-  editable?: boolean;
+  editable: boolean;
   output?: 'html' | 'text';
   placeholder?: string;
   clearValue?: () => void;
@@ -40,9 +40,8 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
   ref
 ) => {
   const content = isNil(initialContent) ? '' : initialContent;
-  console.log(content);
   const editor = useEditor({
-    editable: isNil(editable) ? true : editable,
+    editable: editable,
     extensions: [
       StarterKit.configure({
         bulletList: {
@@ -93,6 +92,10 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
   useEffect(() => {
     editor?.commands.setContent(content);
   }, [editor, content]);
+
+  useEffect(() => {
+    editor?.setEditable(editable);
+  }, [editor, editable]);
 
   return <EditorContent className={'h-full w-full'} editor={editor} />;
 };
