@@ -9,7 +9,6 @@ import { Button } from '@elements/components/button';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
 import { Timestamp } from '@elements/components/timestamp';
-import { ContextMenuItem } from '@elements/components/with-context-menu';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { Voting } from '@elements/compositions/voting';
 import { useDispatch, useValue } from '@elements/store';
@@ -55,8 +54,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
   const reference = useMemo(() => ({ 'ref/id': id, 'ref/attribute': 'entity.type/comment' }), [id]);
 
-  const currentUserId = useValue<string>('current.user/id');
-  const currentUserName = useValue<string>('user/name', { 'user/id': currentUserId });
+  const currentUserName = useValue('current.user/name');
   const creatorName = useValue('comment/creator-name', { 'comment/id': id });
   const status = useValue('comment/status', {
     'comment/id': id,
@@ -68,7 +66,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
 
   const updateNewComment = useDispatch('new.comment/update');
   const postNewComment = useDispatch('new.comment/create');
-  const startDeletion = useDispatch('comment.deletion/start');
+  // const startDeletion = useDispatch('comment.deletion/start');
 
   const [expanded, setExpanded] = useState(true);
   const [isReplying, setIsReplying] = useState(false);
@@ -93,14 +91,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
     setIsReplying(false);
   }, [reference, postNewComment]);
 
-  const onDeleteClick = useCallback(() => startDeletion({ 'comment/id': id }), [id, startDeletion]);
-
-  const menuItems = useMemo(
-    () => [
-      <ContextMenuItem key={id} id={'delete'} label={t('common/delete')} onClick={onDeleteClick} />,
-    ],
-    [id, onDeleteClick, t]
-  );
+  // const onDeleteClick = useCallback(() => startDeletion({ 'comment/id': id }), [id, startDeletion]);
 
   const showResponses = expanded && responseIds && !isEmpty(responseIds);
 
@@ -125,7 +116,6 @@ export const Comment = suspensify(({ id }: { id: string }) => {
               <TextEditor
                 className={'text-base text-gray-700'}
                 content={text}
-                moreMenuItems={menuItems}
                 refAttribute={'comment/text'}
                 refId={id}
                 suspenseLines={2}

@@ -78,7 +78,7 @@ export const SignInButton = () => {
 
 const UserDropdown = suspensify(() => {
   const userId = useValue('current.user/id');
-  const authenticated = useValue<boolean>('auth.session/exists');
+  const authenticated = useValue('auth.session/exists');
   const onSignOutClick = useDispatch('auth/sign-out');
   const items = useMemo(
     () => [

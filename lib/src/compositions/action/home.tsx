@@ -10,8 +10,8 @@ import { EditButton } from '@elements/compositions/action/edit-button';
 const DescriptionText = suspensify(() => {
   const t = useTranslation();
 
-  const actionId = useValue<string>('current.action/id');
-  const description = useValue<string>('action/description', { 'action/id': actionId });
+  const actionId = useValue('current.action/id');
+  const description = useValue('action/description', { 'action/id': actionId });
 
   const noContent = <p className={'text-gray-400'}>{t('action.description/empty')}</p>;
 
@@ -50,14 +50,14 @@ const Description = memo(() => {
 const OutcomeText = suspensify(() => {
   const t = useTranslation();
 
-  const actionId = useValue<string>('current.action/id');
-  const outcome = useValue<string>('action/outcome', { 'action/id': actionId });
+  const actionId = useValue('current.action/id');
+  const outcome = useValue('action/outcome', { 'action/id': actionId });
   const reference = useMemo(
     () => ({ 'ref/id': actionId, 'ref/attribute': 'action.outcome/text' }),
     [actionId]
   );
 
-  const isEditing = useValue<boolean>('text-editor/editing', reference) || false;
+  const isEditing = useValue('text-editor/editing', reference) || false;
 
   const noContent = <p className={'text-gray-400'}>{t('action.outcome/empty')}</p>;
 
@@ -97,7 +97,7 @@ const Outcome = memo(() => {
 });
 
 export const Home = suspensify(() => {
-  const actionId = useValue<string>('current.action/id');
+  const actionId = useValue('current.action/id');
 
   return (
     <div className={'flex w-full gap-8'}>

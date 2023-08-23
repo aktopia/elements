@@ -1,12 +1,9 @@
 import { useOutsideClick } from '@elements/utils';
 import { isEmpty } from 'lodash';
 import React, { useCallback, useRef, useState } from 'react';
+import { RawDropdown } from '@elements/components/raw-dropdown';
 
-interface Item {
-  id: string;
-  label: string;
-  onClick: () => void;
-}
+interface Item {}
 
 interface WithContextMenuProps {
   items: Item[];
@@ -25,18 +22,6 @@ export function getPosition(e: any) {
 
   return pos;
 }
-
-export const ContextMenuItem = ({ id, label, onClick }: Item) => {
-  return (
-    <div key={id} className={'my-1 cursor-pointer'} onClick={onClick}>
-      <p className={'py-2 px-3 text-xs font-medium text-gray-700 hover:bg-gray-100'}>{label}</p>
-    </div>
-  );
-};
-
-const ContextMenu = ({ items }: any) => {
-  return <div className={'rounded-md border bg-white shadow-md'}>{...items}</div>;
-};
 
 export const _WithContextMenu = ({ items, children }: Omit<WithContextMenuProps, 'disable'>) => {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -61,7 +46,7 @@ export const _WithContextMenu = ({ items, children }: Omit<WithContextMenuProps,
 
   const menuUI = (
     <div className={'fixed z-10'} style={{ top: pos.y, left: pos.x }}>
-      <ContextMenu items={items} />
+      <RawDropdown items={items} />
     </div>
   );
 

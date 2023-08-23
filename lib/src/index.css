@@ -21,3 +21,7 @@
     height: 0;
     pointer-events: none;
 }
+
+.ring-none {
+    @apply focus:ring-0 focus:ring-offset-0;
+}

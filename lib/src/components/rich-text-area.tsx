@@ -5,6 +5,7 @@ import { isNil } from 'lodash';
 import {
   forwardRef,
   ForwardRefRenderFunction,
+  memo,
   MutableRefObject,
   useEffect,
   useImperativeHandle,
@@ -39,6 +40,7 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
   ref
 ) => {
   const content = isNil(initialContent) ? '' : initialContent;
+  console.log(content);
   const editor = useEditor({
     editable: isNil(editable) ? true : editable,
     extensions: [
@@ -95,5 +97,5 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
   return <EditorContent className={'h-full w-full'} editor={editor} />;
 };
 
-export const RichTextArea = forwardRef(RichTextArea_);
+export const RichTextArea = memo(forwardRef(RichTextArea_));
 export default RichTextArea;

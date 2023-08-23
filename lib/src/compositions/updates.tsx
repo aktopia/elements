@@ -4,7 +4,6 @@ import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
 import { Timestamp } from '@elements/components/timestamp';
 import { Voting } from '@elements/compositions/voting';
-import { ContextMenuItem } from '@elements/components/with-context-menu';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -64,16 +63,9 @@ const Update = suspensify(({ id }: { id: string }) => {
   const text = useValue('update/text', { 'update/id': id });
   const createdAt = useValue('update/created-at', { 'update/id': id });
 
-  const startDeletion = useDispatch('update.deletion/start');
+  // const startDeletion = useDispatch('update.deletion/start');
 
-  const onDeleteClick = useCallback(() => startDeletion({ 'update/id': id }), [id, startDeletion]);
-
-  const menuItems = useMemo(
-    () => [
-      <ContextMenuItem key={id} id={'delete'} label={t('common/delete')} onClick={onDeleteClick} />,
-    ],
-    [id, onDeleteClick, t]
-  );
+  // const onDeleteClick = useCallback(() => startDeletion({ 'update/id': id }), [id, startDeletion]);
 
   return (
     <div
@@ -87,7 +79,6 @@ const Update = suspensify(({ id }: { id: string }) => {
       <TextEditor
         className={'text-gray-700'}
         content={text}
-        moreMenuItems={menuItems}
         refAttribute={'update/text'}
         refId={id}
         suspenseLines={4}

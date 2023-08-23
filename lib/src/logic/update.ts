@@ -97,7 +97,7 @@ evt('new.update/update', ({ setState, params }) => {
   });
 });
 
-evt('update.deletion/cancel', ({ setState, params }) => {
+evt('update.deletion/cancel', ({ setState }) => {
   setState((state: any) => {
     state['update/state']['update.deletion/id'] = null;
   });

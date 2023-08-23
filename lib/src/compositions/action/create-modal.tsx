@@ -9,7 +9,7 @@ import { ArrowTopRightOnSquareMiniSolid } from '@elements/icons';
 export const CreateModal = suspensify(({}) => {
   const t = useTranslation();
 
-  const visible = useValue<boolean>('action.create.modal/visible');
+  const visible = useValue('action.create.modal/visible');
 
   const onClose = useDispatch('action.create.modal/close', { emptyParams: true });
   const onSave = useDispatch('action.create.modal/create', { emptyParams: true });

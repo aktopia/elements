@@ -271,6 +271,8 @@ export {
   QrCodeIcon as QrCodeOutline,
   HandRaisedIcon as HandRaisedOutline,
   ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareOutline,
+  EllipsisHorizontalIcon as EllipsisHorizontalOutline,
+  PencilIcon as PencilOutline,
 } from '@heroicons/react/24/outline';
 
 /*
