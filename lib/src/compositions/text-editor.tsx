@@ -22,7 +22,7 @@ export const TextEditor = suspensify(
       [refAttribute, refId]
     );
 
-    const isEditing = useValue('text-editor/editing', reference) || false;
+    const isEditing = useValue('text-editor/editing', reference);
 
     const editDone = useDispatch('text-editor.edit/done');
     const editCancel = useDispatch('text-editor.edit/cancel');

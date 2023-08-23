@@ -2,7 +2,12 @@ import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import pick from 'lodash/pick';
 import { rpcPost } from '@elements/rpc';
 import { ref } from '@elements/utils';
-import { endEditing, registerTextEditor, updateText } from '@elements/logic/text-editor';
+import {
+  endEditing,
+  registerTextEditor,
+  startEditing,
+  updateText,
+} from '@elements/logic/text-editor';
 
 export const commentSlice = () => ({
   'comment/state': {
@@ -50,6 +55,11 @@ export type Subs = {
 };
 
 export type Events = {
+  'comment.text/edit': {
+    params: {
+      'comment/id': string;
+    };
+  };
   'new.comment/create': {
     params: {
       'ref/id': string;
@@ -131,6 +141,13 @@ evt('comment/delete', async ({ setState, params }) => {
   });
 
   await invalidateAsyncSub('comment/status', { 'comment/id': params['comment/id'] });
+});
+
+evt('comment.text/edit', ({ setState, params }) => {
+  startEditing({
+    setState,
+    params: { 'ref/id': params['comment/id'], 'ref/attribute': 'comment/text' },
+  });
 });
 
 registerTextEditor('comment/text', {

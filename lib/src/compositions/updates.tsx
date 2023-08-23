@@ -62,7 +62,7 @@ const DeleteConfirmationModal = suspensify(
   }
 );
 
-const ContextMenuButton = ({}) => {
+const ContextMenuButton = () => {
   return <EllipsisHorizontalOutline className={'h-6 w-6 cursor-pointer text-gray-700'} />;
 };
 
@@ -75,15 +75,15 @@ const ContextMenu = ({ id }: { id: string }) => {
   const onDeleteClick = useCallback(() => startDeletion({ 'update/id': id }), [id, startDeletion]);
   const onEditClick = useCallback(() => edit({ 'update/id': id }), [id, edit]);
 
-  return (
-    <Dropdown
-      Button={ContextMenuButton}
-      items={[
-        { text: t('common/edit'), onClick: onEditClick, Icon: PencilOutline },
-        { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
-      ]}
-    />
+  const items = useMemo(
+    () => [
+      { text: t('common/edit'), onClick: onEditClick, Icon: PencilOutline },
+      { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
+    ],
+    [t, onEditClick, onDeleteClick]
   );
+
+  return <Dropdown Button={ContextMenuButton} items={items} />;
 };
 
 const Update = suspensify(({ id }: { id: string }) => {
@@ -107,7 +107,7 @@ const Update = suspensify(({ id }: { id: string }) => {
         refId={id}
         suspenseLines={4}
       />
-      <div className={'flex items-center gap-7'}>
+      <div className={'flex items-center gap-5'}>
         <Voting refAttribute={'entity.type/update'} refId={id} size={'xs'} suspenseLines={2} />
         <ContextMenu id={id} />
       </div>

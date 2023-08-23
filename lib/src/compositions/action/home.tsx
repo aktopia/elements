@@ -57,7 +57,7 @@ const OutcomeText = suspensify(() => {
     [actionId]
   );
 
-  const isEditing = useValue('text-editor/editing', reference) || false;
+  const isEditing = useValue('text-editor/editing', reference);
 
   const noContent = <p className={'text-gray-400'}>{t('action.outcome/empty')}</p>;
 

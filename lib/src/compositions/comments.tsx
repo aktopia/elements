@@ -2,6 +2,8 @@ import {
   ChatBubbleLeftEllipsisOutline,
   ChevronDownMiniSolid,
   ChevronUpMiniSolid,
+  EllipsisHorizontalOutline,
+  PencilOutline,
   TrashOutline,
   UserCircleSolid,
 } from '@elements/icons';
@@ -15,6 +17,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { isEmpty } from 'lodash';
 import { useCallback, useMemo, useState } from 'react';
+import { Dropdown } from '@elements/components/dropdown';
 
 export const User = ({ name }: { name: string }) => {
   return (
@@ -50,6 +53,30 @@ const ExpandCollapseButton = ({
   );
 };
 
+const ContextMenuButton = () => {
+  return <EllipsisHorizontalOutline className={'h-6 w-6 cursor-pointer text-gray-700'} />;
+};
+
+const ContextMenu = ({ id }: { id: string }) => {
+  const t = useTranslation();
+
+  const startDeletion = useDispatch('comment.deletion/start');
+  const edit = useDispatch('comment.text/edit');
+
+  const onDeleteClick = useCallback(() => startDeletion({ 'comment/id': id }), [id, startDeletion]);
+  const onEditClick = useCallback(() => edit({ 'comment/id': id }), [id, edit]);
+
+  const items = useMemo(
+    () => [
+      { text: t('common/edit'), onClick: onEditClick, Icon: PencilOutline },
+      { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
+    ],
+    [t, onEditClick, onDeleteClick]
+  );
+
+  return <Dropdown Button={ContextMenuButton} items={items} />;
+};
+
 export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
   const reference = useMemo(() => ({ 'ref/id': id, 'ref/attribute': 'entity.type/comment' }), [id]);
@@ -66,7 +93,6 @@ export const Comment = suspensify(({ id }: { id: string }) => {
 
   const updateNewComment = useDispatch('new.comment/update');
   const postNewComment = useDispatch('new.comment/create');
-  // const startDeletion = useDispatch('comment.deletion/start');
 
   const [expanded, setExpanded] = useState(true);
   const [isReplying, setIsReplying] = useState(false);
@@ -90,8 +116,6 @@ export const Comment = suspensify(({ id }: { id: string }) => {
     postNewComment(reference);
     setIsReplying(false);
   }, [reference, postNewComment]);
-
-  // const onDeleteClick = useCallback(() => startDeletion({ 'comment/id': id }), [id, startDeletion]);
 
   const showResponses = expanded && responseIds && !isEmpty(responseIds);
 
@@ -135,6 +159,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
                   value={t('common/reply')}
                   onClick={onToggleReply}
                 />
+                <ContextMenu id={id} />
               </div>
             </>
           )}

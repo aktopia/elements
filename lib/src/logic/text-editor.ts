@@ -63,7 +63,7 @@ sub('text-editor/can-edit', ({}) => true);
 
 sub('text-editor/editing', ({ state, params }) => {
   const key = ref(params['ref/attribute'], params['ref/id']);
-  return !!state['text-editor/state'][key]?.['text-editor/editing'] as boolean;
+  return !!state['text-editor/state'][key]?.['text-editor/editing'];
 });
 
 export type Reference = {
