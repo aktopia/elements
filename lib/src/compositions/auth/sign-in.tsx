@@ -7,9 +7,9 @@ import React, { useCallback } from 'react';
 
 export const SignIn = () => {
   const t = useTranslation();
-  const visible = useValue<boolean>('auth.sign-in/visible');
-  const sendingOtp = useValue<boolean>('auth.sign-in/sending-otp');
-  const email = useValue<string>('auth.sign-in/email');
+  const visible = useValue('auth.sign-in/visible');
+  const sendingOtp = useValue('auth.sign-in/sending-otp');
+  const email = useValue('auth.sign-in/email');
 
   const onSendOtp = useDispatch('auth.sign-in/send-otp');
   const onClose = useDispatch('auth.sign-in/close');

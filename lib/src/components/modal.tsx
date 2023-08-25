@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 
 interface ModalProps {
   children: React.ReactNode;
-  onClose: () => void;
+  onClose: (..._: any) => void;
   visible: boolean;
 }
 

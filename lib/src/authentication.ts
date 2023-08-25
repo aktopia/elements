@@ -61,7 +61,16 @@ export async function hasOtpBeenSent() {
   return (await getLoginAttemptInfo()) !== undefined;
 }
 
-export async function consumeOtp({ otp }: { otp: string }): Promise<any> {
+interface Response {
+  newUser: boolean;
+  user: {
+    id: string;
+    email?: string;
+    timeJoined: number;
+  };
+}
+
+export async function consumeOtp({ otp }: { otp: string }): Promise<Response> {
   try {
     const response = await consumeCode({ userInputCode: otp });
 
@@ -86,6 +95,7 @@ export async function consumeOtp({ otp }: { otp: string }): Promise<any> {
     if (err.isSuperTokensGeneralError === true) {
       // this may be a custom error message sent from the API by you.
       window.alert(err.message);
+      throw err;
     } else {
       throw err;
     }

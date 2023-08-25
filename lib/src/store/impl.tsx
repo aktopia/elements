@@ -6,6 +6,7 @@ import { events, subscriptions } from '@elements/store/register';
 import { slices } from '@elements/store/slices';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
+import { Subs } from '@elements/store/types';
 
 const useStore = create(
   immer(
@@ -71,11 +72,16 @@ const queryClient = new QueryClient({
   },
 });
 
-export const invalidateAsyncSub = async (id: string, params: any) => {
+export const invalidateAsyncSub = async <T extends keyof Subs>(
+  id: T,
+  params: Subs[T]['params'] = {}
+) => {
   await queryClient.invalidateQueries({ queryKey: [id, { params }] });
 };
 
-export const invalidateAsyncSubs = async (subs: Array<[id: string, params: any]>) => {
+export const invalidateAsyncSubs = async <T extends keyof Subs>(
+  subs: Array<[id: T, params: Subs[T]['params']]>
+) => {
   await Promise.all(subs.map(([id, params]) => invalidateAsyncSub(id, params)));
 };
 

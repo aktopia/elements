@@ -1,52 +1,155 @@
-import { dispatch, evt, sub } from '@elements/store';
+import { dispatch, evt, invalidateAsyncSub, sub } from '@elements/store';
 import { consumeOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
+import { rpcPost } from '@elements/rpc';
 
 export type ResendOtpState = 'idle' | 'waiting' | 'resending';
 
 export const MAX_OTP_DIGITS = 6;
 
 export const authenticationSlice = () => ({
-  authenticationState: {
-    sessionExists: false,
-    signInVisible: false,
-    signInEmailInput: '',
-    signInSendingOtp: false,
-    signInDisallowClose: false,
-    verifyOtpInput: '',
-    verifyOtpVisible: false,
-    verifyOtpVerifying: false,
-    verifyOtpResendOtpState: 'idle',
-    verifyOtpError: null,
-    verifyOtpWaitSeconds: 10,
+  'authentication/state': {
+    'auth.session/exists': false,
+    'auth.sign-in/visible': false,
+    'auth.sign-in.email/input': '',
+    'auth.sign-in.sending/otp': false,
+    'auth.sign-in/disallow-close': false,
+    'auth.verify-otp/input': '',
+    'auth.verify-otp/visible': false,
+    'auth.verify-otp/verifying': false,
+    'auth.verify-otp.resend-otp/state': 'idle',
+    'auth.verify-otp/error': null,
+    'auth.verify-otp/otp-wait-seconds': 10,
   },
 });
 
-sub('auth.sign-in/visible', ({ state }) => state.authenticationState.signInVisible);
+export type Subs = {
+  'auth.sign-in/visible': {
+    params: {};
+    result: boolean;
+  };
+  'auth.session/exists': {
+    params: {};
+    result: boolean;
+  };
+  'auth.sign-in/email': {
+    params: {};
+    result: string;
+  };
+  'auth.sign-in/sending-otp': {
+    params: {};
+    result: boolean;
+  };
+  'auth.verify-otp/otp': {
+    params: {};
+    result: string;
+  };
+  'auth.verify-otp/visible': {
+    params: {};
+    result: boolean;
+  };
+  'auth.verify-otp/verifying': {
+    params: {};
+    result: boolean;
+  };
+  'auth.verify-otp/resend-otp-state': {
+    params: {};
+    result: ResendOtpState;
+  };
+  'auth.verify-otp/error': {
+    params: {};
+    result: any;
+  };
+  'auth.verify-otp/wait-seconds': {
+    params: {};
+    result: number;
+  };
+};
 
-sub('auth.session/exists', ({ state }) => state.authenticationState.sessionExists);
+export type Events = {
+  'auth.sign-in/initiate': {
+    params: {};
+  };
+  'auth/sign-out': {
+    params: {};
+  };
+  'auth.sign-in/send-otp': {
+    params: {
+      email: string;
+    };
+  };
+  'auth.sign-in/close': {
+    params: {};
+  };
+  'auth.sign-in/update-email': {
+    params: {
+      value: string;
+    };
+  };
+  'auth.session/sync': {
+    params: {};
+  };
+  'auth.verify-otp/resend-otp': {
+    params: {};
+  };
+  'auth.verify-otp/go-back': {
+    params: {};
+  };
+  'auth.verify-otp/close': {
+    params: {};
+  };
+  'auth.verify-otp/update-otp': {
+    params: {
+      value: string;
+    };
+  };
+  'auth.verify-otp/submit-otp': {
+    params: {
+      otp: string;
+    };
+  };
+  'auth.verify-otp/focus-input': {
+    params: {};
+  };
+};
 
-sub('auth.sign-in/email', ({ state }) => state.authenticationState.signInEmailInput);
+sub('auth.sign-in/visible', ({ state }) => state['authentication/state']['auth.sign-in/visible']);
 
-sub('auth.sign-in/sending-otp', ({ state }) => state.authenticationState.signInSendingOtp);
+sub('auth.session/exists', ({ state }) => state['authentication/state']['auth.session/exists']);
 
-sub('auth.verify-otp/otp', ({ state }) => state.authenticationState.verifyOtpInput);
+sub('auth.sign-in/email', ({ state }) => state['authentication/state']['auth.sign-in.email/input']);
 
-sub('auth.verify-otp/visible', ({ state }) => state.authenticationState.verifyOtpVisible);
+sub(
+  'auth.sign-in/sending-otp',
+  ({ state }) => state['authentication/state']['auth.sign-in.sending/otp']
+);
 
-sub('auth.verify-otp/verifying', ({ state }) => state.authenticationState.verifyOtpVerifying);
+sub('auth.verify-otp/otp', ({ state }) => state['authentication/state']['auth.verify-otp/input']);
+
+sub(
+  'auth.verify-otp/visible',
+  ({ state }) => state['authentication/state']['auth.verify-otp/visible']
+);
+
+sub(
+  'auth.verify-otp/verifying',
+  ({ state }) => state['authentication/state']['auth.verify-otp/verifying']
+);
 
 sub(
   'auth.verify-otp/resend-otp-state',
-  ({ state }) => state.authenticationState.verifyOtpResendOtpState
+  ({ state }) => state['authentication/state']['auth.verify-otp.resend-otp/state']
 );
 
-sub('auth.verify-otp/error', ({ state }) => state.authenticationState.verifyOtpError);
+sub('auth.verify-otp/error', ({ state }) => state['authentication/state']['auth.verify-otp/error']);
 
-sub('auth.verify-otp/wait-seconds', ({ state }) => state.authenticationState.verifyOtpWaitSeconds);
+sub(
+  'auth.verify-otp/wait-seconds',
+  ({ state }) => state['authentication/state']['auth.verify-otp/otp-wait-seconds']
+);
 
 evt('auth.sign-in/initiate', ({ setState }) => {
   setState((state: any) => {
-    state.authenticationState.signInVisible = true;
+    state['authentication/state'].signInVisible = true;
   });
 });
 
@@ -59,7 +162,7 @@ evt('auth.sign-in/send-otp', async ({ setState, params }) => {
   const { email } = params;
 
   setState((state: any) => {
-    state.authenticationState.signInSendingOtp = true;
+    state['authentication/state']['auth.sign-in.sending/otp'] = true;
   });
 
   await sendOtp({ email });
@@ -70,56 +173,56 @@ evt('auth.sign-in/send-otp', async ({ setState, params }) => {
   });
 
   setState((state: any) => {
-    state.authenticationState.signInSendingOtp = false;
-    state.authenticationState.signInVisible = false;
-    state.authenticationState.verifyOtpVisible = true;
+    state['authentication/state']['auth.sign-in.sending/otp'] = false;
+    state['authentication/state'].signInVisible = false;
+    state['authentication/state']['auth.verify-otp/visible'] = true;
   });
 });
 
 evt('auth.sign-in/close', ({ setState }) => {
   setState((state: any) => {
-    state.authenticationState.signInVisible = false;
+    state['authentication/state'].signInVisible = false;
   });
 });
 
 evt('auth.sign-in/update-email', ({ setState, params }) => {
   setState((state: any) => {
-    state.authenticationState.signInEmailInput = params.value;
+    state['authentication/state']['auth.sign-in.email/input'] = params.value;
   });
 });
 
 evt('auth.session/sync', async ({ setState }) => {
   const exists = await sessionExists();
   setState((state: any) => {
-    state.authenticationState.sessionExists = exists;
+    state['authentication/state']['auth.session/exists'] = exists;
   });
 });
 
-evt('auth.verify-otp/resend-otp', ({ setState, params }) => {
+evt('auth.verify-otp/resend-otp', ({ setState }) => {
   setState((state: any) => {
-    state.authenticationState.verifyOtpResendOtpState = 'resending';
+    state['authentication/state']['auth.verify-otp.resend-otp/state'] = 'resending';
   });
 });
 
 evt('auth.verify-otp/go-back', ({ setState }) => {
   setState((state: any) => {
-    state.authenticationState.verifyOtpVisible = false;
-    state.authenticationState.signInVisible = true;
-    state.authenticationState.verifyOtpInput = '';
+    state['authentication/state']['auth.verify-otp/visible'] = false;
+    state['authentication/state'].signInVisible = true;
+    state['authentication/state']['auth.verify-otp/input'] = '';
   });
 });
 
 evt('auth.verify-otp/close', ({ setState }) => {
   setState((state: any) => {
-    state.authenticationState.verifyOtpVisible = false;
-    state.authenticationState.verifyOtpInput = '';
+    state['authentication/state']['auth.verify-otp/visible'] = false;
+    state['authentication/state']['auth.verify-otp/input'] = '';
   });
 });
 
 evt('auth.verify-otp/update-otp', ({ setState, params }) => {
   const otp = params.value;
   setState((state: any) => {
-    state.authenticationState.verifyOtpInput = otp;
+    state['authentication/state']['auth.verify-otp/input'] = otp;
   });
 
   if (otp.length === MAX_OTP_DIGITS) {
@@ -131,16 +234,24 @@ evt('auth.verify-otp/submit-otp', async ({ setState, params }) => {
   const { otp } = params;
   try {
     setState((state: any) => {
-      state.authenticationState.verifyOtpVerifying = true;
+      state['authentication/state']['auth.verify-otp/verifying'] = true;
     });
 
-    const { user } = await consumeOtp({ otp });
+    const { user: authUser, newUser } = await consumeOtp({ otp });
+
+    if (newUser) {
+      await rpcPost('user/create', {
+        'user/email': authUser.email,
+        'auth.user/id': authUser.id,
+      });
+    }
+
+    await invalidateAsyncSub('current.user/id');
 
     setState((state: any) => {
-      state.authenticationState.verifyOtpVerifying = false;
-      state.authenticationState.verifyOtpVisible = false;
-      state.authenticationState['current.user/id'] = user.id;
-      state.authenticationState.sessionExists = true;
+      state['authentication/state']['auth.verify-otp/verifying'] = false;
+      state['authentication/state']['auth.verify-otp/visible'] = false;
+      state['authentication/state']['auth.session/exists'] = true;
     });
 
     dispatch('alert/flash', {
@@ -149,10 +260,10 @@ evt('auth.verify-otp/submit-otp', async ({ setState, params }) => {
     });
   } catch (error) {
     setState((state: any) => {
-      state.authenticationState.verifyOtpVerifying = false;
-      state.authenticationState.verifyOtpError = error;
+      state['authentication/state']['auth.verify-otp/verifying'] = false;
+      state['authentication/state']['auth.verify-otp/error'] = error;
     });
   }
 });
 
-evt('auth.verify-otp/focus-input', ({ setState, params }) => {});
+evt('auth.verify-otp/focus-input', ({}) => {});
