@@ -1,6 +1,9 @@
 import isEmpty from 'lodash/isEmpty';
 
-export const rpcGet = async <T>(id: string, params: T) => {
+export const rpcGet = async <Params, Result>(
+  id: string,
+  params: Params | {} = {}
+): Promise<Result> => {
   const key = encodeURIComponent(id);
   const urlJson = isEmpty(params) ? null : encodeURIComponent(JSON.stringify(params));
   const url = `/api/rpc/${key}?json=${urlJson}`;
@@ -11,7 +14,7 @@ export const rpcGet = async <T>(id: string, params: T) => {
   return json.data;
 };
 
-export const rpcPost = async (id: string, params: Record<string, any>) => {
+export const rpcPost = async (id: string, params: Record<string, any> = {}) => {
   const key = encodeURIComponent(id);
   const url = `/api/rpc/${key}`;
 

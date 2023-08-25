@@ -62,9 +62,9 @@ const Result = ({
 export const MainSearch = suspensify(() => {
   const t = useTranslation();
 
-  const visible = useValue<boolean>('main-search/visible');
+  const visible = useValue('main-search/visible');
 
-  const results = useValue<any[]>('main-search/results');
+  const results = useValue('main-search/results');
 
   const close = useDispatch('main-search/close', { emptyParams: true });
   const onClose = useCallback(() => close(), [close]);
@@ -107,7 +107,7 @@ export const MainSearch = suspensify(() => {
             leaveTo={'opacity-0 scale-95'}>
             <Dialog.Panel
               className={
-                'mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all'
+                'mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-2xl transition-all'
               }>
               <Combobox>
                 <div className={'relative'}>

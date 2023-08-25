@@ -1,5 +1,6 @@
 import { ArrowSmallDownSolid, ArrowSmallUpSolid } from '@elements/icons';
 import { cva } from 'cva';
+import { Kind } from '@elements/logic/voting';
 
 const voteVariant = cva('hover:text-blue-600', {
   variants: {
@@ -42,8 +43,6 @@ const containerVariant = cva('flex items-center', {
     },
   },
 });
-
-export type Kind = 'upvote' | 'downvote' | null;
 
 export type Size = 'xs' | 'sm' | 'md';
 

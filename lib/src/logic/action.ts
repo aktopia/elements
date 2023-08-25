@@ -129,7 +129,7 @@ registerTextEditor('action.title/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
     const title = text({ state: getState(), params });
-    await rpcPost('action.title/update', {
+    await rpcPost('action.title.text/update', {
       'action/id': params['ref/id'],
       value: title,
     });
@@ -143,7 +143,7 @@ registerTextEditor('action.description/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
     const description = text({ state: getState(), params });
-    await rpcPost('action.description/update', {
+    await rpcPost('action.description.text/update', {
       'action/id': params['ref/id'],
       value: description,
     });
@@ -157,7 +157,7 @@ registerTextEditor('action.outcome/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
     const outcome = text({ state: getState(), params });
-    await rpcPost('action.outcome/update', {
+    await rpcPost('action.outcome.text/update', {
       'action/id': params['ref/id'],
       value: outcome,
     });

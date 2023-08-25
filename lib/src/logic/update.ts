@@ -5,6 +5,7 @@ import {
   endEditing,
   registerTextEditor,
   startEditing,
+  text,
   updateText,
 } from '@elements/logic/text-editor';
 
@@ -144,6 +145,14 @@ evt('update.text/edit', ({ setState, params }) => {
 
 registerTextEditor('update/text', {
   onTextUpdate: updateText,
-  onEditDone: endEditing,
+  onEditDone: async ({ setState, getState, params }) => {
+    const value = text({ state: getState(), params });
+    await rpcPost('update.text/update', {
+      'update/id': params['ref/id'],
+      value,
+    });
+    await invalidateAsyncSub('update/text', { 'update/id': params['ref/id'] });
+    endEditing({ setState, getState, params });
+  },
   onEditCancel: endEditing,
 });

@@ -5,11 +5,11 @@ import { Events, Subs } from '@elements/store/types';
 type Read<T extends keyof Subs> = (args: {
   state: any;
   params: Subs[T]['params'];
-}) => Subs[T]['params'];
+}) => Subs[T]['result'];
 
 type AsyncRead<T extends keyof Subs> = (args: {
   params: Subs[T]['params'];
-}) => Promise<Subs[T]['params']>;
+}) => Promise<Subs[T]['result']>;
 
 export type Dispatch<T extends keyof Events> = (args: {
   setState: StoreApi<any>['setState'];

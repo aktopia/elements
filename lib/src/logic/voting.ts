@@ -1,10 +1,60 @@
-import { evt, sub } from '@elements/store/register';
+import { evt, remoteSub } from '@elements/store/register';
+import { rpcPost } from '@elements/rpc';
+import { invalidateAsyncSubs } from '@elements/store/impl';
+
+export type Kind = 'upvote' | 'downvote' | null;
 
 export const votingSlice = () => ({
-  'vote/state': {},
+  'voting/state': {},
 });
 
-sub('vote/count', ({ state }) => '108');
-sub('vote/kind', ({ state }) => 'upvote');
-evt('vote/upvote', ({ setState, params }) => null);
-evt('vote/downvote', ({ setState, params }) => null);
+export type Subs = {
+  'voting.vote/count': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+    result: number;
+  };
+  'voting.current.user.vote/kind': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+    result: Kind;
+  };
+};
+
+export type Events = {
+  'voting.current.user/upvote': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+  };
+  'voting.current.user/downvote': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+  };
+};
+
+remoteSub('voting.vote/count');
+remoteSub('voting.current.user.vote/kind');
+
+evt('voting.current.user/upvote', async ({ params }) => {
+  await rpcPost('voting.current.user/upvote', params);
+  await invalidateAsyncSubs([
+    ['voting.vote/count', params],
+    ['voting.current.user.vote/kind', params],
+  ]);
+});
+
+evt('voting.current.user/downvote', async ({ params }) => {
+  await rpcPost('voting.current.user/downvote', params);
+  await invalidateAsyncSubs([
+    ['voting.vote/count', params],
+    ['voting.current.user.vote/kind', params],
+  ]);
+});
