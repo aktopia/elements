@@ -9,7 +9,7 @@ export const store = {
     'action/last-active': 'ADD-ME',
     'action/bumped': false,
     'action.bump/count': 10,
-    'action.progress-bar/active-switch-id': 'work',
+    'action.progress-bar/active-switch': 'work',
     'action.work/percentage': 23,
     'action.funding/percentage': 24,
     'action.progress-bar/switches': [

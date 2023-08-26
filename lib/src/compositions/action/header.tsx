@@ -22,12 +22,12 @@ export const ShareButton = ({ clicked, ...props }: ShareButtonProps) => {
 };
 
 export const SubscriptionBar = suspensify(() => {
-  const actionId = useValue<string>('current.action/id');
-  const userId = useValue<string>('current.user/id');
+  const actionId = useValue('current.action/id');
+  const userId = useValue('current.user/id');
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
-  const followCount = useValue<number>('action.follow/count', { 'action/id': actionId });
-  const saved = useValue<boolean>('action/saved', ident);
-  const followed = useValue<boolean>('action/followed', ident);
+  const followCount = useValue('action.follow/count', { 'action/id': actionId });
+  const saved = useValue('action/saved', ident);
+  const followed = useValue('action/followed', ident);
   const follow = useDispatch('action/follow');
   const unFollow = useDispatch('action/unfollow');
   const save = useDispatch('action/save');
@@ -65,8 +65,8 @@ export const SubscriptionBar = suspensify(() => {
 });
 
 const Title = suspensify(() => {
-  const actionId = useValue<string>('current.action/id');
-  const title = useValue<string>('action/title', { 'action/id': actionId });
+  const actionId = useValue('current.action/id');
+  const title = useValue('action/title', { 'action/id': actionId });
 
   return (
     <div className={'flex items-start justify-between gap-3'}>
@@ -89,7 +89,7 @@ const Title = suspensify(() => {
 
 export const LastActive = suspensify(() => {
   const actionId = useValue('current.action/id');
-  const lastActive = useValue<number>('action/last-active-at', { 'action/id': actionId });
+  const lastActive = useValue('action/last-active-at', { 'action/id': actionId });
   return (
     <Timestamp
       className={'text-xs text-gray-500'}
@@ -102,8 +102,8 @@ export const LastActive = suspensify(() => {
 });
 
 export const ActionBar = suspensify(() => {
-  const actionId = useValue<string>('current.action/id');
-  const userId = useValue<string>('current.user/id');
+  const actionId = useValue('current.action/id');
+  const userId = useValue('current.user/id');
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
   const volunteer = useDispatch('action/volunteer');
   const navigateToFunding = useDispatch('action/fund');
@@ -141,8 +141,8 @@ export const ActionBar = suspensify(() => {
 export const ProgressIndicator = suspensify(() => {
   const t = useTranslation();
   const actionId = useValue('current.action/id');
-  const activeSwitchId = useValue<string>('action.progress-bar/active-switch-id');
-  const workPercentage = useValue<number>('action.work/percentage', { 'action/id': actionId });
+  const activeSwitchId = useValue('action.progress-bar/active-switch');
+  const workPercentage = useValue('action.work/percentage', { 'action/id': actionId });
   const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
   const updateSwitch = useDispatch('action.progress-bar/update');
   const workPercentageText = `${workPercentage}%`;
@@ -185,7 +185,7 @@ export const ProgressIndicator = suspensify(() => {
 
 export const ActionTabs = suspensify(() => {
   const t = useTranslation();
-  const activeTabId = useValue<string>('action.tabs/active-tab-id');
+  const activeTabId = useValue('action.tabs/active-tab-id');
   const updateTab = useDispatch('action.tabs/update');
   const tabs = useMemo(
     () => [

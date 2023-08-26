@@ -8,6 +8,8 @@ import {
   Subs as AuthenticationSubs,
 } from '@elements/logic/authentication';
 import { Events as ProfileEvents, Subs as ProfileSubs } from '@elements/logic/profile';
+import { Events as RouterEvents, Subs as RouterSubs } from '@elements/logic/router';
+import { Events as ActionEvents, Subs as ActionSubs } from '@elements/logic/action';
 
 export type Subs = CommentSubs &
   UpdateSubs &
@@ -15,11 +17,15 @@ export type Subs = CommentSubs &
   UserSubs &
   VotingSubs &
   AuthenticationSubs &
-  ProfileSubs;
+  ProfileSubs &
+  RouterSubs &
+  ActionSubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
   TextEditorEvents &
   VotingEvents &
   AuthenticationEvents &
-  ProfileEvents;
+  ProfileEvents &
+  RouterEvents &
+  ActionEvents;

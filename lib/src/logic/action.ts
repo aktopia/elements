@@ -1,6 +1,5 @@
 import { dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
-import { navigate } from '@elements/logic/router';
 import {
   endEditing,
   registerTextEditor,
@@ -8,6 +7,170 @@ import {
   text,
   updateText,
 } from '@elements/logic/text-editor';
+import { navigate, Route } from '@elements/logic/router';
+
+export type Subs = {
+  'action.tabs/active-tab-id': {
+    params: {};
+    result: string;
+  };
+  'action.progress-bar/active-switch': {
+    params: {};
+    result: string;
+  };
+  'action/title': {
+    params: {
+      'action/id': string;
+    };
+    result: string;
+  };
+  'action/description': {
+    params: {
+      'action/id': string;
+    };
+    result: string;
+  };
+  'action/outcome': {
+    params: {
+      'action/id': string;
+    };
+    result: string;
+  };
+  'action.funding/percentage': {
+    params: {};
+    result: number;
+  };
+  'action/saved': {
+    params: {};
+    result: boolean;
+  };
+  'action/followed': {
+    params: {};
+    result: boolean;
+  };
+  'action.bump/count': {
+    params: {};
+    result: number;
+  };
+  'action.follow/count': {
+    params: {};
+    result: number;
+  };
+  'action.work/percentage': {
+    params: {};
+    result: number;
+  };
+  'action/last-active-at': {
+    params: {};
+    result: number;
+  };
+  'current.action/id': {
+    params: {};
+    result: string;
+  };
+  'action.create.modal/title': {
+    params: {};
+    result: string;
+  };
+  'action.create.modal/visible': {
+    params: {};
+    result: boolean;
+  };
+  'action.title/can-edit': {
+    params: {};
+    result: boolean;
+  };
+  'action.description/can-edit': {
+    params: {};
+    result: boolean;
+  };
+  'action.outcome/can-edit': {
+    params: {};
+    result: boolean;
+  };
+};
+
+export type Events = {
+  'action.title/edit': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+  };
+  'action.description/edit': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+  };
+  'action.outcome/edit': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+  };
+  'current.action.id/set': {
+    params: {
+      'action/id': string;
+    };
+  };
+  'action/volunteer': {
+    params: {};
+  };
+  'action/follow': {
+    params: {};
+  };
+  'action/unfollow': {
+    params: {};
+  };
+  'action/save': {
+    params: {};
+  };
+  'action/unsave': {
+    params: {};
+  };
+  'action/bump': {
+    params: {};
+  };
+  'action/unbump': {
+    params: {};
+  };
+  'action/fund': {
+    params: {};
+  };
+  'action.progress-bar/update': {
+    params: {};
+  };
+  'action.tabs/update': {
+    params: {
+      'tab/id': string;
+    };
+  };
+  'action.create.modal/open': {
+    params: {};
+  };
+  'action.create.modal/close': {
+    params: {};
+  };
+  'action.create.modal/create': {
+    params: {};
+  };
+  'action.create.modal.title/update': {
+    params: {
+      value: string;
+    };
+  };
+  'navigated.action/view': {
+    params: {
+      route: Route;
+    };
+  };
+  'navigated.action/new': {
+    params: {
+      route: Route;
+    };
+  };
+};
 
 export const actionSlice = () => ({
   'action/state': {
@@ -21,7 +184,7 @@ export const actionSlice = () => ({
 sub('action.tabs/active-tab-id', ({ state }) => state['action/state']['action.tabs/active-tab']);
 
 sub(
-  'action.progress-bar/active-switch-id',
+  'action.progress-bar/active-switch',
   ({ state }) => state['action/state']['action.progress-bar/active-switch']
 );
 
@@ -32,10 +195,10 @@ remoteSub('action/outcome');
 sub('action.funding/percentage', ({ state }) => 24);
 sub('action/saved', ({ state }) => false);
 sub('action/followed', ({ state }) => false);
-sub('action.bump/count', ({ state }) => '10');
-sub('action.follow/count', ({ state }) => '2600');
-sub('action.work/percentage', ({ state }) => '23');
-sub('action/last-active-at', ({ state }) => '');
+sub('action.bump/count', ({ state }) => 10);
+sub('action.follow/count', ({ state }) => 2600);
+sub('action.work/percentage', ({ state }) => 23);
+sub('action/last-active-at', ({ state }) => 1693073650);
 sub('current.action/id', ({ state }) => state['action/state']['current.action/id']);
 
 sub('action.create.modal/title', ({ state }) => state['action/state']['action.create.modal/title']);
