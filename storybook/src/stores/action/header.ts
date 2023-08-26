@@ -16,7 +16,7 @@ export const store = {
       { id: 'work', label: 'Work' },
       { id: 'funding', label: 'Funding' },
     ],
-    'action.tabs/active-tab-id': 'home',
+    'action.tabs/active-tab': 'home',
   },
   dispatch: [
     'action/follow',

@@ -25,7 +25,7 @@ export function getPosition(e: any) {
 
 export const _WithContextMenu = ({ items, children }: Omit<WithContextMenuProps, 'disable'>) => {
   const menuRef = useRef<HTMLDivElement>(null);
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
   useOutsideClick(menuRef, () => {

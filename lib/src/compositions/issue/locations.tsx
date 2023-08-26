@@ -37,7 +37,7 @@ const LocationCard = suspensify(({ location }: { location: Location }) => {
 const LocationsListSlideOver = suspensify(({ locations }: { locations: Location[] }) => {
   const t = useTranslation();
 
-  const visible = useValue<boolean>('issue.location.slide-over/visible');
+  const visible = useValue('issue.location.slide-over/visible');
   const onClose = useDispatch('issue.location.slide-over/close', { emptyParams: true });
 
   return (
@@ -69,7 +69,7 @@ export const Locations = suspensify(({ refId, refAttribute }: Reference) => {
   );
   const locations = useValue<Location[]>('location/data', reference);
   const center = useValue<LatLng>('issue.location/center', reference);
-  const zoom = useValue<number>('issue.location/zoom', reference);
+  const zoom = useValue('issue.location/zoom', reference);
 
   const onViewListClick = useDispatch('issue.location.slide-over/open', { emptyParams: true });
   const onAddLocationClick = useDispatch('issue.location/add');

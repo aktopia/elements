@@ -15,7 +15,7 @@ const SEVERITY_STEP = 1;
 
 export const SeveritySlider = suspensify(() => {
   const t = useTranslation();
-  const issueId = useValue<string>('current.issue/id');
+  const issueId = useValue('current.issue/id');
 
   const reset = useDispatch('issue.severity/reset');
 

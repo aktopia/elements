@@ -19,7 +19,7 @@ function init() {
 }
 
 export const App = suspensify(() => {
-  const loading = useValue<boolean>('app/loading');
+  const loading = useValue('app/loading');
   useEffect(() => {
     init();
   }, []);

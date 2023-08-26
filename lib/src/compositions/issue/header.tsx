@@ -14,8 +14,8 @@ import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 
 const Title = suspensify(() => {
-  const issueId = useValue<string>('current.issue/id');
-  const title = useValue<string>('issue/title', { 'issue/id': issueId });
+  const issueId = useValue('current.issue/id');
+  const title = useValue('issue/title', { 'issue/id': issueId });
 
   return (
     <TextEditor
@@ -29,12 +29,12 @@ const Title = suspensify(() => {
 });
 
 export const SubscriptionBar = suspensify(() => {
-  const issueId = useValue<string>('current.issue/id');
-  const userId = useValue<string>('current.user/id');
+  const issueId = useValue('current.issue/id');
+  const userId = useValue('current.user/id');
   const ident = useMemo(() => ({ 'user/id': userId, 'issue/id': issueId }), [userId, issueId]);
-  const followCount = useValue<number>('issue.follow/count', { 'issue/id': issueId });
-  const saved = useValue<boolean>('issue/saved', ident);
-  const followed = useValue<boolean>('issue/followed', ident);
+  const followCount = useValue('issue.follow/count', { 'issue/id': issueId });
+  const saved = useValue('issue/saved', ident);
+  const followed = useValue('issue/followed', ident);
   const follow = useDispatch('issue/follow');
   const unFollow = useDispatch('issue/unfollow');
   const save = useDispatch('issue/save');
@@ -73,7 +73,7 @@ export const SubscriptionBar = suspensify(() => {
 
 export const LastActive = suspensify(() => {
   const issueId = useValue('current.issue/id');
-  const lastActive = useValue<number>('issue/last-active-at', { 'issue/id': issueId });
+  const lastActive = useValue('issue/last-active-at', { 'issue/id': issueId });
   return (
     <Timestamp
       className={'text-xs text-gray-500'}
@@ -87,7 +87,7 @@ export const LastActive = suspensify(() => {
 
 export const IssueTabs = suspensify(() => {
   const t = useTranslation();
-  const activeTabId = useValue<string>('issue.tabs/active-tab-id');
+  const activeTabId = useValue('issue.tabs/active-tab-id');
   const updateTab = useDispatch('issue.tabs/update');
   const tabs = useMemo(
     () => [
@@ -110,7 +110,7 @@ export const IssueTabs = suspensify(() => {
 });
 
 const Voting = suspensify(() => {
-  const issueId = useValue<string>('current.issue/id');
+  const issueId = useValue('current.issue/id');
   return (
     <RawVoting refAttribute={'entity.type/issue'} refId={issueId} size={'md'} suspenseLines={2} />
   );

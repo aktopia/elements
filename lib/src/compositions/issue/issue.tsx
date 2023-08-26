@@ -10,7 +10,7 @@ type TabId = 'home' | 'discuss' | 'media' | 'locations';
 
 export const Issue = wrapPage(() => {
   const activeTabId = useValue<TabId>('issue.tabs/active-tab-id');
-  const issueId = useValue<string>('current.issue/id');
+  const issueId = useValue('current.issue/id');
   let tab;
 
   switch (activeTabId) {

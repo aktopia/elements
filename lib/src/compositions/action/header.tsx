@@ -104,7 +104,9 @@ export const LastActive = suspensify(() => {
 export const ActionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
   const userId = useValue('current.user/id');
+
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
+
   const volunteer = useDispatch('action/volunteer');
   const navigateToFunding = useDispatch('action/fund');
 
