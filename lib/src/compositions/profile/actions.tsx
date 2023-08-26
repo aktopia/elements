@@ -2,7 +2,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store';
 
 const ActionCard = suspensify(({ id }: any) => {
-  const title = useValue<string>('action/title', { 'action/id': id });
+  const title = useValue('action/title', { 'action/id': id });
 
   return (
     <div
@@ -19,8 +19,8 @@ const ActionCard = suspensify(({ id }: any) => {
 });
 
 export const Actions = suspensify(() => {
-  const userId = useValue<string>('profile.user/id');
-  const actionIds = useValue<string[]>('profile/actions', { 'user/id': userId });
+  const userId = useValue('profile.user/id');
+  const actionIds = useValue('profile.action/ids', { 'user/id': userId });
 
   return (
     <div className={'flex flex-col gap-4'}>

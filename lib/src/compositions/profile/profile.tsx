@@ -6,18 +6,17 @@ import { wrapPage } from '@elements/compositions/wrap-page';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
+import { TabId } from '@elements/logic/profile';
 
 const Name = suspensify(() => {
-  const userId = useValue<string>('profile.user/id');
-  const name = useValue<string>('user/name', { 'user/id': userId });
+  const userId = useValue('profile.user/id');
+  const name = useValue('user/name', { 'user/id': userId });
   return <div className={'w-full text-2xl font-bold text-gray-900'}>{name}</div>;
 });
 
-type TabId = 'actions' | 'issues';
-
 const ProfileTabs = suspensify(() => {
   const t = useTranslation();
-  const activeTabId = useValue<TabId>('profile.tabs/active-tab-id');
+  const activeTabId = useValue('profile.tabs/active-tab');
   const updateTab = useDispatch('profile.tabs/update');
   const tabs = useMemo(
     () => [
@@ -34,7 +33,7 @@ const ProfileTabs = suspensify(() => {
   );
 
   const onTabClick = useCallback(
-    (tabId: string) => {
+    (tabId: TabId) => {
       updateTab({ 'tab/id': tabId });
     },
     [updateTab]
@@ -53,7 +52,7 @@ const Header = () => {
 };
 
 export const Profile = wrapPage(() => {
-  const activeTabId = useValue<TabId>('profile.tabs/active-tab-id');
+  const activeTabId = useValue('profile.tabs/active-tab');
   let tab;
 
   switch (activeTabId) {

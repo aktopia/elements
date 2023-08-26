@@ -149,7 +149,7 @@ sub(
 
 evt('auth.sign-in/initiate', ({ setState }) => {
   setState((state: any) => {
-    state['authentication/state'].signInVisible = true;
+    state['authentication/state']['auth.sign-in/visible'] = true;
   });
 });
 
@@ -174,14 +174,14 @@ evt('auth.sign-in/send-otp', async ({ setState, params }) => {
 
   setState((state: any) => {
     state['authentication/state']['auth.sign-in.sending/otp'] = false;
-    state['authentication/state'].signInVisible = false;
+    state['authentication/state']['auth.sign-in/visible'] = false;
     state['authentication/state']['auth.verify-otp/visible'] = true;
   });
 });
 
 evt('auth.sign-in/close', ({ setState }) => {
   setState((state: any) => {
-    state['authentication/state'].signInVisible = false;
+    state['authentication/state']['auth.sign-in/visible'] = false;
   });
 });
 
@@ -207,7 +207,7 @@ evt('auth.verify-otp/resend-otp', ({ setState }) => {
 evt('auth.verify-otp/go-back', ({ setState }) => {
   setState((state: any) => {
     state['authentication/state']['auth.verify-otp/visible'] = false;
-    state['authentication/state'].signInVisible = true;
+    state['authentication/state']['auth.sign-in/visible'] = true;
     state['authentication/state']['auth.verify-otp/input'] = '';
   });
 });

@@ -17,7 +17,7 @@ const store = {
     'profile/issues': ['1', '2', '3'],
     'action/title': lorem.generateSentences(1),
     'issue/title': lorem.generateSentences(1),
-    'profile.tabs/active-tab-id': 'actions',
+    'profile.tabs/active-tab': 'actions',
   },
   dispatch: [...wrapPageStore.dispatch, 'auth.sign-in/initiate', 'profile.tabs/update'],
 };

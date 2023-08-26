@@ -7,21 +7,19 @@ import {
   Events as AuthenticationEvents,
   Subs as AuthenticationSubs,
 } from '@elements/logic/authentication';
-
-export type Sub = {
-  params: Record<string, any>;
-  result: any;
-};
+import { Events as ProfileEvents, Subs as ProfileSubs } from '@elements/logic/profile';
 
 export type Subs = CommentSubs &
   UpdateSubs &
   TextEditorSubs &
   UserSubs &
   VotingSubs &
-  AuthenticationSubs;
+  AuthenticationSubs &
+  ProfileSubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
   TextEditorEvents &
   VotingEvents &
-  AuthenticationEvents;
+  AuthenticationEvents &
+  ProfileEvents;

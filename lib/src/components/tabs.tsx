@@ -37,7 +37,7 @@ export interface Tab {
 
 interface TabsProps extends ContainerVariant {
   tabs: Tab[];
-  activeTabId: string;
+  activeTabId: Tab['id'];
   onTabClick: Function;
 }
 

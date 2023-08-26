@@ -56,7 +56,7 @@ const CreateDropdown = () => {
 
 const Avatar = () => {
   return (
-    <div className={'flex items-center gap-1'}>
+    <div className={'flex cursor-pointer items-center gap-1'}>
       <UserCircleSolid className={'h-8 w-8 text-gray-600'} />
       <ChevronDownMiniSolid className={'h-4 w-4 text-gray-600'} />
     </div>
