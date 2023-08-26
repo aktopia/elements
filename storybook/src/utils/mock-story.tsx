@@ -15,9 +15,12 @@ interface MockStoreProps {
   locales?: Record<string, any>;
 }
 
-interface IConnectedStory {
+interface MockStoryProps {
   args?: any;
-  store: { read: ReadMock; dispatch: DispatchMock };
+  store: {
+    read: ReadMock;
+    dispatch: DispatchMock;
+  };
   render: (args?: any) => JSX.Element;
   parameters?: Parameters;
 }
@@ -63,7 +66,7 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
   );
 });
 
-export const mockStory = ({ store, args, render, parameters }: IConnectedStory) => {
+export const mockStory = ({ store, args, render, parameters }: MockStoryProps) => {
   return {
     args: store.read,
     render: (args_: Record<string, any>) => {

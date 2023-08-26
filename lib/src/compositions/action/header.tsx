@@ -89,7 +89,7 @@ const Title = suspensify(() => {
 
 export const LastActive = suspensify(() => {
   const actionId = useValue('current.action/id');
-  const lastActive = useValue('action/last-active-at', { 'action/id': actionId });
+  const lastActive = useValue('action/updated-at', { 'action/id': actionId });
   return (
     <Timestamp
       className={'text-xs text-gray-500'}

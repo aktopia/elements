@@ -60,7 +60,7 @@ export type Subs = {
     params: {};
     result: number;
   };
-  'action/last-active-at': {
+  'action/updated-at': {
     params: {};
     result: number;
   };
@@ -191,14 +191,15 @@ sub(
 remoteSub('action/title');
 remoteSub('action/description');
 remoteSub('action/outcome');
+remoteSub('action/updated-at');
 
-sub('action.funding/percentage', ({ state }) => 24);
-sub('action/saved', ({ state }) => false);
-sub('action/followed', ({ state }) => false);
-sub('action.bump/count', ({ state }) => 10);
-sub('action.follow/count', ({ state }) => 2600);
-sub('action.work/percentage', ({ state }) => 23);
-sub('action/last-active-at', ({ state }) => 1693073650);
+sub('action.funding/percentage', () => 24);
+sub('action/saved', () => false);
+sub('action/followed', () => false);
+sub('action.bump/count', () => 10);
+sub('action.follow/count', () => 2600);
+sub('action.work/percentage', () => 23);
+
 sub('current.action/id', ({ state }) => state['action/state']['current.action/id']);
 
 sub('action.create.modal/title', ({ state }) => state['action/state']['action.create.modal/title']);
@@ -208,11 +209,11 @@ sub(
   ({ state }) => state['action/state']['action.create.modal/visible']
 );
 
-sub('action.title/can-edit', ({ state }) => true);
+sub('action.title/can-edit', () => true);
 
-sub('action.description/can-edit', ({ state }) => true);
+sub('action.description/can-edit', () => true);
 
-sub('action.outcome/can-edit', ({ state }) => true);
+sub('action.outcome/can-edit', () => true);
 
 evt('action.title/edit', ({ setState, getState }) => {
   const currenActionId = getState()['action/state']['current.action/id'];
@@ -247,15 +248,15 @@ evt('current.action.id/set', ({ setState, params }) => {
   });
 });
 
-evt('action/volunteer', ({ setState, params }) => null);
-evt('action/follow', ({ setState, params }) => null);
-evt('action/unfollow', ({ setState, params }) => null);
-evt('action/save', ({ setState, params }) => null);
-evt('action/unsave', ({ setState, params }) => null);
-evt('action/bump', ({ setState, params }) => null);
-evt('action/unbump', ({ setState, params }) => null);
-evt('action/fund', ({ setState, params }) => null);
-evt('action.progress-bar/update', ({ setState, params }) => null);
+evt('action/volunteer', () => null);
+evt('action/follow', () => null);
+evt('action/unfollow', () => null);
+evt('action/save', () => null);
+evt('action/unsave', () => null);
+evt('action/bump', () => null);
+evt('action/unbump', () => null);
+evt('action/fund', () => null);
+evt('action.progress-bar/update', () => null);
 
 evt('action.tabs/update', ({ setState, params }) => {
   setState((state: any) => {
