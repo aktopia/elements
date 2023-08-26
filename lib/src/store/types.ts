@@ -10,6 +10,7 @@ import {
 import { Events as ProfileEvents, Subs as ProfileSubs } from '@elements/logic/profile';
 import { Events as RouterEvents, Subs as RouterSubs } from '@elements/logic/router';
 import { Events as ActionEvents, Subs as ActionSubs } from '@elements/logic/action';
+import { Events as AlertEvents, Subs as AlertSubs } from '@elements/logic/alert';
 
 export type Subs = CommentSubs &
   UpdateSubs &
@@ -19,7 +20,8 @@ export type Subs = CommentSubs &
   AuthenticationSubs &
   ProfileSubs &
   RouterSubs &
-  ActionSubs;
+  ActionSubs &
+  AlertSubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
@@ -28,4 +30,5 @@ export type Events = CommentEvents &
   AuthenticationEvents &
   ProfileEvents &
   RouterEvents &
-  ActionEvents;
+  ActionEvents &
+  AlertEvents;
