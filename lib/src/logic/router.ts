@@ -1,9 +1,28 @@
-import { evt, setState, sub } from '@elements/store';
-import createRouter, { Router } from 'router5';
+import { dispatch, evt, setState, sub } from '@elements/store';
+import createRouter, { Router, State } from 'router5';
 import browserPlugin from 'router5-plugin-browser';
 import { routeData } from '@elements/routes';
 
 let router: Router<Record<string, any>>;
+
+export type Subs = {
+  'current.route/id': {
+    params: {};
+    result: string;
+  };
+  'current.route/loading': {
+    params: {};
+    result: boolean;
+  };
+};
+
+export type Events = {
+  'current.route.id/set': {
+    params: {
+      id: string;
+    };
+  };
+};
 
 export const routerSlice = () => ({ 'router/state': {} });
 
@@ -17,7 +36,13 @@ evt('current.route.id/set', ({ setState, params }) => {
   });
 });
 
-const listener = async ({ route }: any) => {
+export interface Route {
+  id: string;
+  params: Record<string, any>;
+  path: string;
+}
+
+const listener = async ({ route }: { route: State }) => {
   // TODO This listener is bad, redesign it
   const { name, path, params } = route;
 
@@ -30,11 +55,9 @@ const listener = async ({ route }: any) => {
     };
   });
 
-  await routeData[name as keyof typeof routeData].onNavigate({
-    params: params,
-    path: path,
-    id: name,
-  });
+  const navigateEvent = routeData[name].onNavigateEvent;
+
+  await dispatch(navigateEvent, { route });
 
   setState((state: any) => {
     state['router/state']['route/loading'] = false;

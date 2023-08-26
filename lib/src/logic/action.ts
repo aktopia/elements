@@ -125,6 +125,17 @@ evt('action.create.modal.title/update', ({ setState, params }) => {
   });
 });
 
+evt('navigated.action/view', ({ params }) => {
+  const id = params.route.params.id;
+  dispatch('current.action.id/set', { 'action/id': id });
+});
+
+evt('navigated.action/new', async ({ params }) => {
+  const { title } = params.route.params;
+  const { id } = await rpcPost('action.draft/create', { 'action/title': title });
+  navigate({ id: 'action/view', replace: true, params: { id } });
+});
+
 registerTextEditor('action.title/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
@@ -166,14 +177,3 @@ registerTextEditor('action.outcome/text', {
   },
   onEditCancel: endEditing,
 });
-
-export const onActionViewNavigate = (route: any) => {
-  const id = route.params.id;
-  dispatch('current.action.id/set', { 'action/id': id });
-};
-
-export const onActionNewNavigate = async (route: any) => {
-  const { title } = route.params;
-  const { id } = await rpcPost('action.draft/create', { 'action/title': title });
-  navigate({ id: 'action/view', replace: true, params: { id } });
-};

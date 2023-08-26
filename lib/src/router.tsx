@@ -8,8 +8,8 @@ import { Spinner } from '@elements/components/spinner';
 initRouter({ routes });
 
 export const Router = suspensify(() => {
-  const routeId = useValue<keyof typeof routeData>('current.route/id');
-  const loading = useValue<boolean>('current.route/loading');
+  const routeId = useValue('current.route/id');
+  const loading = useValue('current.route/loading');
 
   const Component = routeData[routeId].component;
 

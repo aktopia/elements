@@ -1,18 +1,28 @@
 import { Action } from '@elements/compositions/action/action';
 import { Profile } from '@elements/compositions/profile/profile';
-import { onProfileViewNavigate } from '@elements/logic/profile';
-import { onActionNewNavigate, onActionViewNavigate } from '@elements/logic/action';
+import { ComponentType } from 'react';
+import { Events } from '@elements/store/types';
 
-export const routeData = {
+export interface RouteData {
+  [key: string]: {
+    component: ComponentType;
+    onNavigateEvent: keyof Events;
+  };
+}
+
+export const routeData: RouteData = {
   'action/view': {
     component: Action,
-    onNavigate: onActionViewNavigate,
+    onNavigateEvent: 'navigated.action/view',
   },
   'action/new': {
     component: Action,
-    onNavigate: onActionNewNavigate,
+    onNavigateEvent: 'navigated.action/new',
   },
-  'profile/view': { component: Profile, onNavigate: onProfileViewNavigate },
+  'profile/view': {
+    component: Profile,
+    onNavigateEvent: 'navigated.profile/view',
+  },
 };
 
 export const routes = [

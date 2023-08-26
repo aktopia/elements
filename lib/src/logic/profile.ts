@@ -1,4 +1,5 @@
 import { dispatch, evt, remoteSub, sub } from '@elements/store';
+import { Route } from '@elements/logic/router';
 
 export type TabId = 'actions' | 'issues';
 
@@ -42,6 +43,11 @@ export type Events = {
       id: string;
     };
   };
+  'navigated.profile/view': {
+    params: {
+      route: Route;
+    };
+  };
 };
 
 sub('profile.user/id', ({ state }) => state['profile/state']['profile.user/id']);
@@ -62,7 +68,7 @@ evt('profile.user.id/set', ({ setState, params }) => {
   });
 });
 
-export const onProfileViewNavigate = ({ params }) => {
-  const { id } = params;
+evt('navigated.profile/view', ({ params }) => {
+  const { id } = params.route.params;
   dispatch('profile.user.id/set', { id });
-};
+});
