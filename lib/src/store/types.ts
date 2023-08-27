@@ -11,6 +11,7 @@ import { Events as ProfileEvents, Subs as ProfileSubs } from '@elements/logic/pr
 import { Events as RouterEvents, Subs as RouterSubs } from '@elements/logic/router';
 import { Events as ActionEvents, Subs as ActionSubs } from '@elements/logic/action';
 import { Events as AlertEvents, Subs as AlertSubs } from '@elements/logic/alert';
+import { Events as AppEvents, Subs as AppSubs } from '@elements/logic/app';
 
 export type Subs = CommentSubs &
   UpdateSubs &
@@ -21,7 +22,8 @@ export type Subs = CommentSubs &
   ProfileSubs &
   RouterSubs &
   ActionSubs &
-  AlertSubs;
+  AlertSubs &
+  AppSubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
@@ -31,4 +33,5 @@ export type Events = CommentEvents &
   ProfileEvents &
   RouterEvents &
   ActionEvents &
-  AlertEvents;
+  AlertEvents &
+  AppEvents;

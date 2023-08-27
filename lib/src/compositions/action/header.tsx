@@ -187,7 +187,7 @@ export const ProgressIndicator = suspensify(() => {
 
 export const ActionTabs = suspensify(() => {
   const t = useTranslation();
-  const activeTabId = useValue('action.tabs/active-tab-id');
+  const activeTabId = useValue('action.tabs/active-tab');
   const updateTab = useDispatch('action.tabs/update');
   const tabs = useMemo(
     () => [

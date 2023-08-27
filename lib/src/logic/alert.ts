@@ -1,6 +1,8 @@
 import { evt, sub } from '@elements/store/register';
 import { dispatch } from '@elements/store';
 
+export type Kind = 'info' | 'success' | 'warning' | 'error';
+
 export type Subs = {
   'alert/visible': {
     params: {};
@@ -12,7 +14,7 @@ export type Subs = {
   };
   'alert/kind': {
     params: {};
-    result: string;
+    result: Kind;
   };
 };
 

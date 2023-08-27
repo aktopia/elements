@@ -5,10 +5,8 @@ import { Updates } from '@elements/compositions/updates';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 
-type TabId = 'home' | 'discuss' | 'updates';
-
 export const Action = wrapPage(() => {
-  const activeTabId = useValue<TabId>('action.tabs/active-tab-id');
+  const activeTabId = useValue('action.tabs/active-tab');
   const actionId = useValue('current.action/id');
   let tab;
 

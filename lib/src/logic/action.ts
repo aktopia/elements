@@ -9,10 +9,12 @@ import {
 } from '@elements/logic/text-editor';
 import { navigate, Route } from '@elements/logic/router';
 
+export type TabId = 'home' | 'discuss' | 'updates';
+
 export type Subs = {
-  'action.tabs/active-tab-id': {
+  'action.tabs/active-tab': {
     params: {};
-    result: string;
+    result: TabId;
   };
   'action.progress-bar/active-switch': {
     params: {};
@@ -181,7 +183,7 @@ export const actionSlice = () => ({
   },
 });
 
-sub('action.tabs/active-tab-id', ({ state }) => state['action/state']['action.tabs/active-tab']);
+sub('action.tabs/active-tab', ({ state }) => state['action/state']['action.tabs/active-tab']);
 
 sub(
   'action.progress-bar/active-switch',

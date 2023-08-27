@@ -7,6 +7,7 @@ import {
 } from '@elements/icons';
 import { cva, VariantProps } from 'cva';
 import React from 'react';
+import { Kind } from '@elements/logic/alert';
 
 const containerVariant = cva(
   'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform transition-all ease-out z-40 shadow border',
@@ -66,8 +67,6 @@ const Icon = ({ kind }: VariantProps<typeof iconVariant>) => {
   const Component = icon[kind || 'info'];
   return <Component aria-hidden={'true'} className={iconVariant({ kind })} />;
 };
-
-export type Kind = 'info' | 'success' | 'warning' | 'error';
 
 export interface AlertProps {
   message: string;
