@@ -1,7 +1,7 @@
 import { Translation } from '@elements/translation';
 import translations from '@elements/translations';
 import { action } from '@storybook/addon-actions';
-import { memo, ReactNode, useCallback } from 'react';
+import { ComponentProps, ComponentType, memo, ReactNode, useCallback } from 'react';
 import { Parameters } from '@storybook/react';
 import { Store as StoreInterface } from '@elements/store/interface';
 
@@ -15,8 +15,8 @@ interface MockStoreProps {
   locales?: Record<string, any>;
 }
 
-interface MockStoryProps {
-  args?: any;
+interface MockStoryProps<T extends ComponentType> {
+  args?: ComponentProps<T>;
   store: {
     sub: SubMock;
     evt: EvtMock;
@@ -66,7 +66,12 @@ export const MockStore = memo(({ sub, evt, children, locales }: MockStoreProps) 
   );
 });
 
-export const mockStory = ({ store, args, render, parameters }: MockStoryProps) => {
+export function mockStory<T extends ComponentType>({
+  store,
+  args,
+  render,
+  parameters,
+}: MockStoryProps<T>) {
   return {
     args: store.sub,
     render: (args_: Record<string, any>) => {
@@ -78,4 +83,4 @@ export const mockStory = ({ store, args, render, parameters }: MockStoryProps) =
     },
     parameters,
   };
-};
+}

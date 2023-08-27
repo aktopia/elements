@@ -28,9 +28,9 @@ const store = {
   ],
 };
 
-export const Action = mockStory({
+export const Action = mockStory<typeof Component>({
   store,
-  args: { suspense: { lines: 8 } },
+  args: { suspenseLines: 8 },
   render: (args) => {
     return <Component {...args} />;
   },
