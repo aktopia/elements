@@ -3,7 +3,7 @@ import translations from '@elements/translations';
 import { action } from '@storybook/addon-actions';
 import { ComponentProps, ComponentType, ReactNode, useCallback } from 'react';
 import { Parameters } from '@storybook/react';
-import { Store as StoreInterface } from '@elements/store/interface';
+import { Store as StoreInterface, ValueHook } from '@elements/store/interface';
 import { Subs } from '@elements/store/types';
 
 export type SubMock = keyof Subs;
@@ -16,13 +16,15 @@ interface MockStoreProps<T extends keyof Subs> {
   locales?: Record<string, any>;
 }
 
-interface MockStoryProps<T extends ComponentType> {
-  args?: ComponentProps<T>;
-  store: {
-    sub: SubMock;
-    evt: EvtMock;
-  };
-  render: (args?: any) => JSX.Element;
+export interface MockStore {
+  sub: Partial<Record<keyof Subs, any>>; // Extra property checks don't work on Object spread unfortunately
+  evt: EvtMock;
+}
+
+interface MockStoryProps<T extends ComponentType<ComponentProps<T>>> {
+  args: ComponentProps<T>;
+  store: MockStore;
+  render: (args: ComponentProps<T>) => JSX.Element;
   parameters?: Parameters;
 }
 
@@ -50,7 +52,7 @@ export const MockStore = <T extends keyof Subs>({
       return fnOrValue as Subs[T]['result'];
     },
     [sub]
-  );
+  ) as ValueHook;
 
   const useDispatchImpl = useCallback(
     (id: string, _options?: Record<string, any>) => {
@@ -72,7 +74,7 @@ export const MockStore = <T extends keyof Subs>({
   );
 };
 
-export function mockStory<T extends ComponentType>({
+export function mockStory<T extends ComponentType<ComponentProps<T>>>({
   store,
   args,
   render,
@@ -80,7 +82,7 @@ export function mockStory<T extends ComponentType>({
 }: MockStoryProps<T>) {
   return {
     args: store.sub,
-    render: (args_: Record<string, any>) => {
+    render: (args_: Record<keyof Subs, any>) => {
       return (
         <MockStore evt={store.evt} sub={args_}>
           {render(args)}

@@ -66,7 +66,7 @@ export const MainSearch = suspensify(() => {
 
   const results = useValue('main-search/results');
 
-  const close = useDispatch('main-search/close', { emptyParams: true });
+  const close = useDispatch('main-search/close');
   const onClose = useCallback(() => close(), [close]);
 
   const [query, setQuery] = useState('main-search/query', 'main-search.query/set');

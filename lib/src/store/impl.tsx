@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider, useQuery as useReactQuery } from 'react-query';
 import { create } from 'zustand';
 import { ReactNode, useCallback } from 'react';
-import { Store as StoreInterface } from '@elements/store/interface';
+import { Store as StoreInterface, useDispatch } from '@elements/store/interface';
 import { events, subscriptions } from '@elements/store/register';
 import { slices } from '@elements/store/slices';
 import { immer } from 'zustand/middleware/immer';
@@ -52,7 +52,7 @@ function useValueImpl<T>(id: string, params?: Record<string, any>): T {
   return useVal(id, params) as T;
 }
 
-function useDispatchImpl(id: string, options?: any): any {
+const useDispatchImpl: typeof useDispatch = (id, options?) => {
   const { emptyParams = false }: any = options || {};
   const { fn } = events[id];
 
@@ -61,7 +61,7 @@ function useDispatchImpl(id: string, options?: any): any {
       fn({ setState, getState, params: emptyParams ? {} : params || {} }),
     [fn, emptyParams]
   );
-}
+};
 
 const queryClient = new QueryClient({
   defaultOptions: {

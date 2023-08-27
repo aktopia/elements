@@ -9,6 +9,7 @@ export default {
 
 export const CreateModal = mockStory({
   store,
+  args: { suspenseLines: 8 },
   render: () => {
     return <Component />;
   },

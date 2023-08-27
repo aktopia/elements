@@ -31,7 +31,3 @@ export const Action = wrapPage(() => {
     </div>
   );
 });
-
-export const routes = {
-  'action/view': Action,
-};

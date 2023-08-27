@@ -1,5 +1,8 @@
+import { store as textEditorStore } from '@story/stores/text-editor';
+
 export const store = {
   sub: {
+    ...textEditorStore.sub,
     'current.action/id': '1',
     'current.user/id': '2',
     'action.follow/count': 2600,
@@ -19,6 +22,7 @@ export const store = {
     'action.tabs/active-tab': 'home',
   },
   evt: [
+    ...textEditorStore.evt,
     'action/follow',
     'action/unfollow',
     'action/save',

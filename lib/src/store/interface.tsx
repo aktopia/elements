@@ -1,8 +1,12 @@
 import { createContext, memo, ReactNode, useCallback, useContext, useMemo } from 'react';
 import { Events, Subs } from '@elements/store/types';
 
-type ValueHook = <T extends keyof Subs>(id: T, params?: Subs[T]['params']) => Subs[T]['result'];
-type DispatchHook = <T extends keyof Events>(
+export type ValueHook = <T extends keyof Subs>(
+  id: T,
+  params?: Subs[T]['params']
+) => Subs[T]['result'];
+
+export type DispatchHook = <T extends keyof Events>(
   id: T,
   options?: Record<string, any>
 ) => (params: Events[T]['params']) => void;
