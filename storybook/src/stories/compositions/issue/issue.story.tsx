@@ -12,7 +12,7 @@ export default {
 };
 
 const locationsStore = {
-  read: {
+  sub: {
     'location/data': [
       { lng: 78.9629, lat: 20.5937, caption: lorem.generateSentences(1), id: '1' },
       { lng: 80.237617, lat: 13.067439, caption: lorem.generateSentences(1), id: '2' },
@@ -20,7 +20,7 @@ const locationsStore = {
     'issue.location/center': { lng: 78.9629, lat: 20.5937 },
     'issue.location.slide-over/visible': false,
   },
-  dispatch: [
+  evt: [
     'issue.location.slide-over/open',
     'issue.location.slide-over/close',
     'issue.location/add',
@@ -30,7 +30,7 @@ const locationsStore = {
 };
 
 const store = {
-  read: {
+  sub: {
     ...wrapPageStore.read,
     ...headerStore.read,
     ...discussStore.read,
@@ -39,7 +39,7 @@ const store = {
     'current.issue/id': 'issue-1',
     'current.user/id': '2',
   },
-  dispatch: [
+  evt: [
     ...wrapPageStore.dispatch,
     ...headerStore.dispatch,
     ...discussStore.dispatch,

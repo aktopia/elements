@@ -8,12 +8,12 @@ export default {
 };
 
 const store = {
-  read: {
+  sub: {
     'current.user/id': '',
     'text-editor/editing': false,
     'text-editor/can-edit': true,
   },
-  dispatch: ['text-editor.content/update', 'text-editor.edit/cancel', 'text-editor.edit/done'],
+  evt: ['text-editor.content/update', 'text-editor.edit/cancel', 'text-editor.edit/done'],
 };
 
 const args = {

@@ -1,7 +1,7 @@
 export const store = {
-  read: {
+  sub: {
     'auth.session/exists': false,
     'current.user/name': '',
   },
-  dispatch: ['auth.sign-in/initiate'],
+  evt: ['auth.sign-in/initiate'],
 };

@@ -8,14 +8,14 @@ export default {
 };
 
 const store = {
-  read: {
+  sub: {
     'current.user/id': '2',
     'auth.session/exists': false,
     'auth.sign-in/visible': false,
     ...mainSearchStore.read,
     'main-search/visible': false,
   },
-  dispatch: ['auth.sign-in/initiate', 'main-search/open', ...mainSearchStore.dispatch],
+  evt: ['auth.sign-in/initiate', 'main-search/open', ...mainSearchStore.dispatch],
 };
 
 export const NavBar = mockStory({

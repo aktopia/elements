@@ -12,14 +12,14 @@ export default {
 };
 
 const store = {
-  read: {
+  sub: {
     ...wrapPageStore.read,
     ...discussStore.read,
     ...updateStore.read,
     ...homeTabStore.read,
     ...headerStore.read,
   },
-  dispatch: [
+  evt: [
     ...wrapPageStore.dispatch,
     ...discussStore.dispatch,
     ...updateStore.dispatch,

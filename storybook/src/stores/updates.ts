@@ -3,7 +3,7 @@ import { lorem } from '@story/utils/string';
 import { randomTimestamp } from '@story/utils/time';
 
 export const store = {
-  read: {
+  sub: {
     ...votingStore.read,
     'update.deletion/id': null,
     'current.user/id': '1',
@@ -13,7 +13,7 @@ export const store = {
     'update/text': lorem.generateSentences(8),
     'user/name': 'Krishna Sunil',
   },
-  dispatch: [
+  evt: [
     ...votingStore.dispatch,
     'new.update/create',
     'new.update/update',

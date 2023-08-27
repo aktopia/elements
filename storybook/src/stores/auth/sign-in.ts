@@ -1,10 +1,10 @@
 export const store = {
-  read: {
+  sub: {
     'auth.sign-in/visible': true,
     'auth.sign-in/sending-otp': false,
     'auth.sign-in/email': '',
   },
-  dispatch: [
+  evt: [
     'auth/sign-out',
     'auth.sign-in/send-otp',
     'auth.sign-in/close',

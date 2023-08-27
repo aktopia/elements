@@ -2,11 +2,11 @@ import { SignInPage as Component } from '@elements/compositions/auth/sign-in-pag
 import { mockStory } from '@story/utils/mock-story';
 
 const store = {
-  read: {
+  sub: {
     'auth.sign-in/visible': true,
     'auth.sign-in/disallow-close': true,
   },
-  dispatch: ['auth.sign-in.google/initiate'],
+  evt: ['auth.sign-in.google/initiate'],
 };
 
 export default {

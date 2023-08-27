@@ -1,5 +1,5 @@
 export const store = {
-  read: {
+  sub: {
     'auth.verify-otp/otp': '',
     'auth.verify-otp/visible': true,
     'auth.verify-otp/verifying': false,
@@ -7,7 +7,7 @@ export const store = {
     'auth.verify-otp/error': null,
     'auth.verify-otp/wait-seconds': 10,
   },
-  dispatch: [
+  evt: [
     'auth.verify-otp/resend-otp',
     'auth.verify-otp/go-back',
     'auth.verify-otp/close',

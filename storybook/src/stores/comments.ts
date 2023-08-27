@@ -22,7 +22,7 @@ const commentsByParentId = memoize(({ 'ref/id': id, 'ref/attribute': identifier 
 });
 
 export const store = {
-  read: {
+  sub: {
     ...votingStore.read,
     'comment.deletion/id': null,
     'comment/creator-name': ({ 'comment/id': id }: { 'comment/id': string }) => {
@@ -48,7 +48,7 @@ export const store = {
     'user/name': 'Sunil KS',
     'comment/created-at': randomTimestamp(),
   },
-  dispatch: [
+  evt: [
     ...votingStore.dispatch,
     ...textEditorStore.dispatch,
     'new.comment/create',

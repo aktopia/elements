@@ -1,5 +1,5 @@
 export const store = {
-  read: {
+  sub: {
     'current.action/id': '1',
     'current.user/id': '2',
     'action.follow/count': 2600,
@@ -18,7 +18,7 @@ export const store = {
     ],
     'action.tabs/active-tab': 'home',
   },
-  dispatch: [
+  evt: [
     'action/follow',
     'action/unfollow',
     'action/save',

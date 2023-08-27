@@ -32,9 +32,9 @@ function getRelation(params: any) {
 }
 
 export const store = {
-  read: {
+  sub: {
     'relationship/ids': ['1', '2', '3'],
     'relationship/data': getRelation,
   },
-  dispatch: [],
+  evt: [],
 };

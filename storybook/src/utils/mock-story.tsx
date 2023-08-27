@@ -5,12 +5,12 @@ import { memo, ReactNode, useCallback } from 'react';
 import { Parameters } from '@storybook/react';
 import { Store as StoreInterface } from '@elements/store/interface';
 
-export type ReadMock = Record<string, any>;
-export type DispatchMock = string[];
+export type SubMock = Record<string, any>;
+export type EvtMock = string[];
 
 interface MockStoreProps {
-  read: ReadMock;
-  dispatch: DispatchMock;
+  sub: SubMock;
+  evt: EvtMock;
   children: ReactNode;
   locales?: Record<string, any>;
 }
@@ -18,8 +18,8 @@ interface MockStoreProps {
 interface MockStoryProps {
   args?: any;
   store: {
-    read: ReadMock;
-    dispatch: DispatchMock;
+    sub: SubMock;
+    evt: EvtMock;
   };
   render: (args?: any) => JSX.Element;
   parameters?: Parameters;
@@ -34,27 +34,27 @@ function createActions(actions: string[]) {
   }, {});
 }
 
-export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreProps) => {
+export const MockStore = memo(({ sub, evt, children, locales }: MockStoreProps) => {
   const useValueImpl = useCallback(
     function <T>(id: string, params?: Record<string, any>) {
-      const fnOrValue = read[id];
+      const fnOrValue = sub[id];
       if (typeof fnOrValue === 'function') {
         return fnOrValue(params);
       }
       return fnOrValue as T;
     },
-    [read]
+    [sub]
   );
 
   const useDispatchImpl = useCallback(
     (id: string, _options?: Record<string, any>) => {
-      if (!dispatch) {
+      if (!evt) {
         return {};
       }
-      const actionsObj = createActions(dispatch);
+      const actionsObj = createActions(evt);
       return actionsObj[id];
     },
-    [dispatch]
+    [evt]
   );
 
   return (
@@ -68,10 +68,10 @@ export const MockStore = memo(({ read, dispatch, children, locales }: MockStoreP
 
 export const mockStory = ({ store, args, render, parameters }: MockStoryProps) => {
   return {
-    args: store.read,
+    args: store.sub,
     render: (args_: Record<string, any>) => {
       return (
-        <MockStore dispatch={store.dispatch} read={args_}>
+        <MockStore evt={store.evt} sub={args_}>
           {render(args)}
         </MockStore>
       );

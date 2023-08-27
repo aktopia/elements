@@ -4,7 +4,7 @@ import { store as verifyOtpStore } from '@story/stores/auth/verify-otp';
 import { store as actionCreateModalStore } from '@story/stores/action/create-modal';
 
 export const store = {
-  read: {
+  sub: {
     ...mainSearchStore.read,
     ...signInStore.read,
     ...verifyOtpStore.read,
@@ -15,7 +15,7 @@ export const store = {
     'main-search/visible': false,
     'action.create.modal/visible': false,
   },
-  dispatch: [
+  evt: [
     'main-search/open',
     ...actionCreateModalStore.dispatch,
     ...mainSearchStore.dispatch,

@@ -1,5 +1,5 @@
 export const store = {
-  read: {
+  sub: {
     'main-search/visible': true,
     'main-search/results': [
       {
@@ -16,5 +16,5 @@ export const store = {
       },
     ],
   },
-  dispatch: ['main-search.query/set', 'main-search/close'],
+  evt: ['main-search.query/set', 'main-search/close'],
 };

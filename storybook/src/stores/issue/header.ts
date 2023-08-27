@@ -3,7 +3,7 @@ import { lorem } from '@story/utils/string';
 import { randomTimestamp } from '@story/utils/time';
 
 export const store = {
-  read: {
+  sub: {
     ...votingStore.read,
     'current.issue/id': '1',
     'current.user/id': '2',
@@ -15,7 +15,7 @@ export const store = {
     'issue/last-active-at': randomTimestamp(),
   },
 
-  dispatch: [
+  evt: [
     ...votingStore.dispatch,
     'issue/follow',
     'issue/unfollow',

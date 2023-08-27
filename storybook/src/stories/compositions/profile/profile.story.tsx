@@ -9,7 +9,7 @@ export default {
 };
 
 const store = {
-  read: {
+  sub: {
     ...wrapPageStore.read,
     'profile.user/id': '2',
     'user/name': 'Sunil KS',
@@ -19,7 +19,7 @@ const store = {
     'issue/title': lorem.generateSentences(1),
     'profile.tabs/active-tab': 'actions',
   },
-  dispatch: [...wrapPageStore.dispatch, 'auth.sign-in/initiate', 'profile.tabs/update'],
+  evt: [...wrapPageStore.dispatch, 'auth.sign-in/initiate', 'profile.tabs/update'],
 };
 
 const args = {

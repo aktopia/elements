@@ -1,9 +1,9 @@
 export const store = {
-  read: {
+  sub: {
     'action.create.modal/visible': true,
     'action.create.modal/title': '',
   },
-  dispatch: [
+  evt: [
     'action.create.modal/close',
     'action.create.modal/update-title',
     'action.create.modal/save',

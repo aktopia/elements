@@ -7,6 +7,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { Spinner } from '@elements/components/spinner';
 
 const authConfig = {
+  // TODO - Move to env
   apiDomain: 'http://dev.aktopia.com',
   apiBasePath: '/api/auth',
   appName: 'aktopia',
