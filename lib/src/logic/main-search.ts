@@ -1,31 +1,62 @@
 import { evt, sub } from '@elements/store/register';
 
+export type Subs = {
+  'main-search/visible': {
+    params: {};
+    result: boolean;
+  };
+  'main-search/query': {
+    params: {};
+    result: string;
+  };
+  'main-search/results': {
+    params: {};
+    result: any[];
+  };
+};
+
+export type Events = {
+  'main-search/open': {
+    params: {};
+  };
+  'main-search.query/set': {
+    params: {
+      value: string;
+    };
+  };
+  'main-search/close': {
+    params: {};
+  };
+};
+
 export const mainSearchSlice = () => ({
   mainSearchState: {
-    visible: false,
-    query: '',
+    'main-search/visible': false,
+    'main-search/query': '',
   },
 });
 
-sub('main-search/visible', ({ state }) => state.mainSearchState.visible);
-sub('main-search/query', ({ state }) => state.mainSearchState.query);
-sub('main-search/results', ({ state }) => []);
+const results: any[] = [];
+
+sub('main-search/visible', ({ state }) => state['main-search/state']['main-search/visible']);
+sub('main-search/query', ({ state }) => state['main-search/state']['main-search/query']);
+sub('main-search/results', () => results);
 
 evt('main-search/open', ({ setState }) => {
   setState((state: any) => {
-    state.mainSearchState.visible = true;
+    state['main-search/state']['main-search/visible'] = true;
   });
 });
 
 evt('main-search.query/set', ({ setState, params }) => {
   setState((state: any) => {
-    state.mainSearchState.query = params.value;
+    state['main-search/state']['main-search/query'] = params.value;
   });
 });
 
 evt('main-search/close', ({ setState }) => {
   setState((state: any) => {
-    state.mainSearchState.visible = false;
-    state.mainSearchState.query = '';
+    state['main-search/state']['main-search/visible'] = false;
+    state['main-search/state']['main-search/query'] = '';
   });
 });

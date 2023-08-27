@@ -13,18 +13,18 @@ export default {
 
 const store = {
   sub: {
-    ...wrapPageStore.read,
-    ...discussStore.read,
-    ...updateStore.read,
-    ...homeTabStore.read,
-    ...headerStore.read,
+    ...wrapPageStore.sub,
+    ...discussStore.sub,
+    ...updateStore.sub,
+    ...homeTabStore.sub,
+    ...headerStore.sub,
   },
   evt: [
-    ...wrapPageStore.dispatch,
-    ...discussStore.dispatch,
-    ...updateStore.dispatch,
-    ...homeTabStore.dispatch,
-    ...headerStore.dispatch,
+    ...wrapPageStore.evt,
+    ...discussStore.evt,
+    ...updateStore.evt,
+    ...homeTabStore.evt,
+    ...headerStore.evt,
   ],
 };
 

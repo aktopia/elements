@@ -31,20 +31,20 @@ const locationsStore = {
 
 const store = {
   sub: {
-    ...wrapPageStore.read,
-    ...headerStore.read,
-    ...discussStore.read,
-    ...homeTabStore.read,
-    ...locationsStore.read,
+    ...wrapPageStore.sub,
+    ...headerStore.sub,
+    ...discussStore.sub,
+    ...homeTabStore.sub,
+    ...locationsStore.sub,
     'current.issue/id': 'issue-1',
     'current.user/id': '2',
   },
   evt: [
-    ...wrapPageStore.dispatch,
-    ...headerStore.dispatch,
-    ...discussStore.dispatch,
-    ...homeTabStore.dispatch,
-    ...locationsStore.dispatch,
+    ...wrapPageStore.evt,
+    ...headerStore.evt,
+    ...discussStore.evt,
+    ...homeTabStore.evt,
+    ...locationsStore.evt,
   ],
 };
 

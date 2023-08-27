@@ -4,7 +4,7 @@ import { randomTimestamp } from '@story/utils/time';
 
 export const store = {
   sub: {
-    ...votingStore.read,
+    ...votingStore.sub,
     'current.issue/id': '1',
     'current.user/id': '2',
     'issue/saved': false,
@@ -16,7 +16,7 @@ export const store = {
   },
 
   evt: [
-    ...votingStore.dispatch,
+    ...votingStore.evt,
     'issue/follow',
     'issue/unfollow',
     'issue/save',

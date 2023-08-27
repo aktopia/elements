@@ -1,15 +1,16 @@
 import { Translation } from '@elements/translation';
 import translations from '@elements/translations';
 import { action } from '@storybook/addon-actions';
-import { ComponentProps, ComponentType, memo, ReactNode, useCallback } from 'react';
+import { ComponentProps, ComponentType, ReactNode, useCallback } from 'react';
 import { Parameters } from '@storybook/react';
 import { Store as StoreInterface } from '@elements/store/interface';
+import { Subs } from '@elements/store/types';
 
-export type SubMock = Record<string, any>;
+export type SubMock = keyof Subs;
 export type EvtMock = string[];
 
-interface MockStoreProps {
-  sub: SubMock;
+interface MockStoreProps<T extends keyof Subs> {
+  sub: Record<T, any>;
   evt: EvtMock;
   children: ReactNode;
   locales?: Record<string, any>;
@@ -34,14 +35,19 @@ function createActions(actions: string[]) {
   }, {});
 }
 
-export const MockStore = memo(({ sub, evt, children, locales }: MockStoreProps) => {
+export const MockStore = <T extends keyof Subs>({
+  sub,
+  evt,
+  children,
+  locales,
+}: MockStoreProps<T>) => {
   const useValueImpl = useCallback(
-    function <T>(id: string, params?: Record<string, any>) {
+    function (id: T, params?: Subs[T]['params']) {
       const fnOrValue = sub[id];
       if (typeof fnOrValue === 'function') {
         return fnOrValue(params);
       }
-      return fnOrValue as T;
+      return fnOrValue as Subs[T]['result'];
     },
     [sub]
   );
@@ -64,7 +70,7 @@ export const MockStore = memo(({ sub, evt, children, locales }: MockStoreProps) 
       </Translation>
     </StoreInterface>
   );
-});
+};
 
 export function mockStory<T extends ComponentType>({
   store,

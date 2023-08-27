@@ -12,10 +12,10 @@ const store = {
     'current.user/id': '2',
     'auth.session/exists': false,
     'auth.sign-in/visible': false,
-    ...mainSearchStore.read,
+    ...mainSearchStore.sub,
     'main-search/visible': false,
   },
-  evt: ['auth.sign-in/initiate', 'main-search/open', ...mainSearchStore.dispatch],
+  evt: ['auth.sign-in/initiate', 'main-search/open', ...mainSearchStore.evt],
 };
 
 export const NavBar = mockStory({

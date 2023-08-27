@@ -5,10 +5,10 @@ import { store as actionCreateModalStore } from '@story/stores/action/create-mod
 
 export const store = {
   sub: {
-    ...mainSearchStore.read,
-    ...signInStore.read,
-    ...verifyOtpStore.read,
-    ...actionCreateModalStore.read,
+    ...mainSearchStore.sub,
+    ...signInStore.sub,
+    ...verifyOtpStore.sub,
+    ...actionCreateModalStore.sub,
     'current.user/id': '2',
     'auth.session/exists': false,
     'auth.sign-in/visible': false,
@@ -17,9 +17,9 @@ export const store = {
   },
   evt: [
     'main-search/open',
-    ...actionCreateModalStore.dispatch,
-    ...mainSearchStore.dispatch,
-    ...signInStore.dispatch,
-    ...verifyOtpStore.dispatch,
+    ...actionCreateModalStore.evt,
+    ...mainSearchStore.evt,
+    ...signInStore.evt,
+    ...verifyOtpStore.evt,
   ],
 };

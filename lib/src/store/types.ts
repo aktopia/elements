@@ -12,6 +12,8 @@ import { Events as RouterEvents, Subs as RouterSubs } from '@elements/logic/rout
 import { Events as ActionEvents, Subs as ActionSubs } from '@elements/logic/action';
 import { Events as AlertEvents, Subs as AlertSubs } from '@elements/logic/alert';
 import { Events as AppEvents, Subs as AppSubs } from '@elements/logic/app';
+import { Events as LocaleEvents, Subs as LocaleSubs } from '@elements/logic/locale';
+import { Events as MainSearchEvents, Subs as MainSearchSubs } from '@elements/logic/main-search';
 
 export type Subs = CommentSubs &
   UpdateSubs &
@@ -23,7 +25,9 @@ export type Subs = CommentSubs &
   RouterSubs &
   ActionSubs &
   AlertSubs &
-  AppSubs;
+  AppSubs &
+  LocaleSubs &
+  MainSearchSubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
@@ -34,4 +38,6 @@ export type Events = CommentEvents &
   RouterEvents &
   ActionEvents &
   AlertEvents &
-  AppEvents;
+  AppEvents &
+  LocaleEvents &
+  MainSearchEvents;

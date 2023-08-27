@@ -10,12 +10,12 @@ export default {
 
 const store = {
   sub: {
-    ...relationshipsStore.read,
+    ...relationshipsStore.sub,
     'current.action/id': '2',
     'action/outcome': lorem.generateSentences(5),
     'action/description': lorem.generateSentences(6),
   },
-  evt: [...relationshipsStore.dispatch],
+  evt: [...relationshipsStore.evt],
 };
 
 export const Home = mockStory({
