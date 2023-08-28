@@ -11,9 +11,10 @@ export const store = {
     ...actionCreateModalStore.sub,
     'current.user/id': '2',
     'auth.session/exists': false,
-    'auth.sign-in/visible': false,
     'main-search/visible': false,
     'action.create.modal/visible': false,
+    'auth.verify-otp/visible': false,
+    'auth.sign-in/visible': false,
   },
   evt: [
     'main-search/open',

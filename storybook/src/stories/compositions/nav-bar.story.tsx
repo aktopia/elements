@@ -1,5 +1,5 @@
 import { NavBar as Component } from '@elements/compositions/nav-bar';
-import { store as mainSearchStore } from '@story/stores/main-search';
+import { store } from '@story/stores/nav-bar';
 import { mockStory } from '@story/utils/mock-story';
 
 export default {
@@ -7,18 +7,8 @@ export default {
   component: Component,
 };
 
-const store = {
-  sub: {
-    'current.user/id': '2',
-    'auth.session/exists': false,
-    'auth.sign-in/visible': false,
-    ...mainSearchStore.sub,
-    'main-search/visible': false,
-  },
-  evt: ['auth.sign-in/initiate', 'main-search/open', ...mainSearchStore.evt],
-};
-
 export const NavBar = mockStory({
+  args: { suspenseLines: 8 },
   store,
   render: () => {
     return <Component />;
