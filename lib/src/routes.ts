@@ -24,6 +24,10 @@ export const routeData: RouteData = {
     component: Issue,
     onNavigateEvent: 'navigated.issue/view',
   },
+  'issue/new': {
+    component: Issue,
+    onNavigateEvent: 'navigated.issue/new',
+  },
   'profile/view': {
     component: Profile,
     onNavigateEvent: 'navigated.profile/view',
@@ -31,8 +35,9 @@ export const routeData: RouteData = {
 };
 
 export const routes = [
-  { name: 'action/new', path: '/action/new' },
   { name: 'action/view', path: '/action/:id' },
+  { name: 'action/new', path: '/action/new' },
   { name: 'issue/view', path: '/issue/:id' },
+  { name: 'issue/new', path: '/issue/new' },
   { name: 'profile/view', path: '/profile/:id/actions' },
 ];

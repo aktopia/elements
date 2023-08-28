@@ -1,7 +1,8 @@
 import { dispatch, evt, invalidateAsyncSub, sub } from '@elements/store';
 import { endEditing, registerTextEditor, text, updateText } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
-import { navigate, Route } from '@elements/logic/router';
+import type { Route } from '@elements/logic/router';
+import { navigate } from '@elements/logic/router';
 
 export type Subs = {
   'current.issue/id': {
@@ -52,6 +53,14 @@ export type Subs = {
     params: {};
     result: boolean;
   };
+  'issue.create.modal/title': {
+    params: {};
+    result: string;
+  };
+  'issue.create.modal/visible': {
+    params: {};
+    result: boolean;
+  };
 };
 
 export type Events = {
@@ -95,6 +104,20 @@ export type Events = {
       'issue/id': string;
     };
   };
+  'issue.create.modal/open': {
+    params: {};
+  };
+  'issue.create.modal/close': {
+    params: {};
+  };
+  'issue.create.modal/create': {
+    params: {};
+  };
+  'issue.create.modal.title/update': {
+    params: {
+      value: string;
+    };
+  };
   'navigated.issue/view': {
     params: {
       route: Route;
@@ -110,6 +133,8 @@ export type Events = {
 export const issueSlice = () => ({
   'issue/state': {
     'issue.tabs/active-tab': 'home',
+    'issue.create.modal/visible': false,
+    'issue.create.modal/title': '',
   },
 });
 
@@ -126,6 +151,13 @@ sub('issue.description/text', () => 'arst');
 sub('location/data', () => []);
 sub('issue.location/center', () => ({}));
 sub('issue.location.slide-over/visible', () => false);
+
+sub('issue.create.modal/title', ({ state }) => state['issue/state']['issue.create.modal/title']);
+
+sub(
+  'issue.create.modal/visible',
+  ({ state }) => state['issue/state']['issue.create.modal/visible']
+);
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
@@ -147,6 +179,31 @@ evt('issue.tabs/update', ({ setState, params }) => {
 evt('current.issue.id/set', ({ setState, params }) => {
   setState((state: any) => {
     state['issue/state']['current.issue/id'] = params['issue/id'];
+  });
+});
+
+evt('issue.create.modal/open', ({ setState }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.create.modal/visible'] = true;
+  });
+});
+
+evt('issue.create.modal/close', ({ setState }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.create.modal/visible'] = false;
+  });
+});
+
+evt('issue.create.modal/create', ({ setState }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.create.modal/title'] = '';
+    state['issue/state']['issue.create.modal/visible'] = false;
+  });
+});
+
+evt('issue.create.modal.title/update', ({ setState, params }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.create.modal/title'] = params.value;
   });
 });
 

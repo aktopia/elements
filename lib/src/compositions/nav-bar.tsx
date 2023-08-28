@@ -13,6 +13,7 @@ import { useTranslation } from '@elements/translation';
 import { useMemo } from 'react';
 import { Auth } from '@elements/compositions/auth/auth';
 import { CreateModal as ActionCreateModal } from '@elements/compositions/action/create-modal';
+import { CreateModal as IssueCreateModal } from '@elements/compositions/issue/create-modal';
 
 const aktopia = 'Aktopia';
 
@@ -36,7 +37,7 @@ const CreateDropdown = () => {
   const t = useTranslation();
 
   const onCreateAction = useDispatch('action.create.modal/open', { emptyParams: true });
-  // const onCreateIssue = useDispatch('issue.create.modal/open', { emptyParams: true });
+  const onCreateIssue = useDispatch('issue.create.modal/open', { emptyParams: true });
 
   const items = useMemo(
     () => [
@@ -46,7 +47,7 @@ const CreateDropdown = () => {
       },
       {
         text: t('common/issue'),
-        onClick: console.log,
+        onClick: onCreateIssue,
       },
     ],
     [onCreateAction, t]
@@ -169,6 +170,7 @@ export const NavBar = () => {
       <Auth suspenseLines={5} />
       <MainSearch suspenseLines={5} />
       <ActionCreateModal suspenseLines={1} />
+      <IssueCreateModal suspenseLines={1} />
     </>
   );
 };

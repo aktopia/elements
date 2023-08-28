@@ -64,4 +64,11 @@ export default {
   'action.outcome/empty':
     "You haven't added an outcome yet. Describe what promise to fulfill with this action.",
   'text.draft/create': 'Create Draft',
+  'issue.title/placeholder': 'Give the issue a title',
+  'issue.description/placeholder': 'Describe the issue',
+  'issue.resolution/placeholder': 'Describe the resolution',
+  'issue.description/empty':
+    "You haven't added a description yet. Describe what the issue is all about.",
+  'issue.resolution/empty':
+    "You haven't added a resolution yet. Describe what an ideal resolution for this issue should be.",
 };
