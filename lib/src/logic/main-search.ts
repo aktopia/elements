@@ -1,4 +1,4 @@
-import { evt, sub } from '@elements/store/register';
+import { evt, sub } from '@elements/store';
 
 export type Subs = {
   'main-search/visible': {
@@ -30,7 +30,7 @@ export type Events = {
 };
 
 export const mainSearchSlice = () => ({
-  mainSearchState: {
+  'main-search/state': {
     'main-search/visible': false,
     'main-search/query': '',
   },

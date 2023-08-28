@@ -1,6 +1,6 @@
-import { evt, remoteSub } from '@elements/store/register';
+import { evt, invalidateAsyncSubs, remoteSub } from '@elements/store';
+
 import { rpcPost } from '@elements/rpc';
-import { invalidateAsyncSubs } from '@elements/store/impl';
 
 export type Kind = 'upvote' | 'downvote' | null;
 

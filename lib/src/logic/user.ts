@@ -1,4 +1,4 @@
-import { remoteSub, sub } from '@elements/store/register';
+import { remoteSub, sub } from '@elements/store';
 
 export const userSlice = () => ({
   'user/state': {

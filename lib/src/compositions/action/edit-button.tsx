@@ -1,5 +1,6 @@
 import { suspensify } from '@elements/components/suspensify';
-import { useDispatch, useValue } from '@elements/store/interface';
+import { useDispatch, useValue } from '@elements/store';
+
 import { cx } from 'cva';
 import { PencilOutline } from '@elements/icons';
 

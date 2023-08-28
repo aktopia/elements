@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { ReactNode, useCallback } from 'react';
 import { Store as StoreInterface, useDispatch } from '@elements/store/interface';
 import { events, subscriptions } from '@elements/store/register';
+
 import { slices } from '@elements/store/slices';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';

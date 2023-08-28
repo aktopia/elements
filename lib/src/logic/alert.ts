@@ -1,5 +1,4 @@
-import { evt, sub } from '@elements/store/register';
-import { dispatch } from '@elements/store';
+import { dispatch, evt, sub } from '@elements/store';
 
 export type Kind = 'info' | 'success' | 'warning' | 'error';
 

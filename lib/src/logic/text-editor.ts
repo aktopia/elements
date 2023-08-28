@@ -1,4 +1,5 @@
-import { evt, sub } from '@elements/store/register';
+import { evt, sub } from '@elements/store';
+
 import { ref } from '@elements/utils';
 
 export const textEditorSlice = () => ({

@@ -1,8 +1,11 @@
-import { sub } from '@elements/store/register';
+import { sub } from '@elements/store';
 
 export const relationshipSlice = () => ({
   'relationship/state': {},
 });
 
-sub('relationship/ids', ({ state }) => []);
-sub('relationship/data', ({ state }) => {});
+const relations = [];
+const data = {};
+
+sub('relationship/ids', ({ state }) => relations);
+sub('relationship/data', ({ state }) => data);
