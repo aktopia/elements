@@ -14,7 +14,7 @@ export default {
   'common/cancel': 'Cancel',
   'common/done': 'Done',
   'action/promised-outcome': 'Promised Outcome',
-  'action/description': 'Description',
+  'common/description': 'Description',
   'common/home': 'Home',
   'common/post': 'Post',
   'common/discuss': 'Discuss',

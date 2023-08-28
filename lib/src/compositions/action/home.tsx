@@ -2,10 +2,10 @@ import { TrophyMiniSolid } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { Relationships } from '@elements/compositions/relationships';
 import { TextEditor } from '@elements/compositions/text-editor';
-import { useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { memo, useMemo } from 'react';
-import { EditButton } from '@elements/compositions/action/edit-button';
+import { useMemo } from 'react';
+import { EditButton } from '@elements/components/edit-button';
 
 const DescriptionText = suspensify(() => {
   const t = useTranslation();
@@ -28,18 +28,20 @@ const DescriptionText = suspensify(() => {
   );
 });
 
-const Description = memo(() => {
+const Description = suspensify(() => {
   const t = useTranslation();
+  const canEdit = useValue('action.description/can-edit');
+  const onEdit = useDispatch('action.description/edit');
 
   return (
     <div className={'flex w-full flex-col gap-4'}>
       <div className={'flex items-center justify-between'}>
-        <div className={'text-sm font-medium text-gray-500'}>{t('action/description')}</div>
+        <div className={'text-sm font-medium text-gray-500'}>{t('common/description')}</div>
         <EditButton
-          canEditKey={'action.description/can-edit'}
+          canEdit={canEdit}
           className={'h-4 w-4 text-gray-500'}
-          editKey={'action.description/edit'}
           suspenseLines={1}
+          onEdit={onEdit}
         />
       </div>
       <DescriptionText suspenseLines={6} />
@@ -74,8 +76,10 @@ const OutcomeText = suspensify(() => {
   );
 });
 
-const Outcome = memo(() => {
+const Outcome = suspensify(() => {
   const t = useTranslation();
+  const canEdit = useValue('action.outcome/can-edit');
+  const onEdit = useDispatch('action.outcome/edit');
 
   return (
     <div className={'flex w-full flex-col gap-4 rounded-lg border border-blue-600 bg-blue-50 p-6'}>
@@ -84,12 +88,7 @@ const Outcome = memo(() => {
           <TrophyMiniSolid className={'h-4 w-4 text-blue-700'} />
           <div className={'text-sm font-medium text-blue-700'}>{t('action/promised-outcome')}</div>
         </div>
-        <EditButton
-          canEditKey={'action.outcome/can-edit'}
-          className={'h-4 w-4 text-gray-500'}
-          editKey={'action.outcome/edit'}
-          suspenseLines={1}
-        />
+        <EditButton canEdit={canEdit} className={'h-4 w-4 text-gray-500'} onEdit={onEdit} />
       </div>
       <OutcomeText suspenseColor={'primary'} suspenseLines={6} />
     </div>

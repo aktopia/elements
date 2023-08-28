@@ -12,19 +12,31 @@ import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
+import { EditButton } from '@elements/components/edit-button';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
   const title = useValue('issue.title/text', { 'issue/id': issueId });
+  const canEdit = useValue('issue.title/can-edit');
+
+  const onEdit = useDispatch('issue.title/edit');
 
   return (
-    <TextEditor
-      className={'text-3xl font-semibold text-gray-800'}
-      content={title}
-      refAttribute={'issue.title/text'}
-      refId={issueId}
-      suspenseLines={1}
-    />
+    <div className={'flex items-start justify-between gap-2'}>
+      <TextEditor
+        className={'text-3xl font-semibold text-gray-800'}
+        content={title}
+        refAttribute={'issue.title/text'}
+        refId={issueId}
+        suspenseLines={1}
+      />
+      <EditButton
+        canEdit={canEdit}
+        className={'mt-2 h-5 w-5 text-gray-500'}
+        suspenseLines={1}
+        onEdit={onEdit}
+      />
+    </div>
   );
 });
 

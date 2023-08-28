@@ -1,5 +1,11 @@
-import { dispatch, evt, invalidateAsyncSub, sub } from '@elements/store';
-import { endEditing, registerTextEditor, text, updateText } from '@elements/logic/text-editor';
+import { dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
+import {
+  endEditing,
+  registerTextEditor,
+  startEditing,
+  text,
+  updateText,
+} from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
 import type { Route } from '@elements/logic/router';
 import { navigate } from '@elements/logic/router';
@@ -61,9 +67,39 @@ export type Subs = {
     params: {};
     result: boolean;
   };
+  'issue.title/can-edit': {
+    params: {};
+    result: boolean;
+  };
+  'issue.description/can-edit': {
+    params: {};
+    result: boolean;
+  };
+  'issue.resolution/can-edit': {
+    params: {};
+    result: boolean;
+  };
 };
 
 export type Events = {
+  'issue.title/edit': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+  };
+  'issue.description/edit': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+  };
+  'issue.resolution/edit': {
+    params: {
+      'ref/id': string;
+      'ref/attribute': string;
+    };
+  };
   'issue/follow': {
     params: {};
   };
@@ -139,18 +175,8 @@ export const issueSlice = () => ({
 });
 
 sub('current.issue/id', ({ state }) => state['issue/state']['current.issue/id']);
-sub('issue.tabs/active-tab', ({ state }) => state['issue/state']['issue.tabs/active-tab']);
 
-sub('issue/saved', () => false);
-sub('issue/followed', () => false);
-sub('issue.follow/count', () => 2600);
-sub('issue.title/text', () => 'Nostrud adipisicing id laboris.');
-sub('issue/updated-at', () => 1212185440124);
-sub('issue.resolution/text', () => 'what');
-sub('issue.description/text', () => 'arst');
-sub('location/data', () => []);
-sub('issue.location/center', () => ({}));
-sub('issue.location.slide-over/visible', () => false);
+sub('issue.tabs/active-tab', ({ state }) => state['issue/state']['issue.tabs/active-tab']);
 
 sub('issue.create.modal/title', ({ state }) => state['issue/state']['issue.create.modal/title']);
 
@@ -158,6 +184,25 @@ sub(
   'issue.create.modal/visible',
   ({ state }) => state['issue/state']['issue.create.modal/visible']
 );
+
+sub('issue/saved', () => false);
+sub('issue/followed', () => false);
+sub('issue.follow/count', () => 2600);
+
+remoteSub('issue.title/text');
+remoteSub('issue/updated-at');
+remoteSub('issue.resolution/text');
+remoteSub('issue.description/text');
+
+sub('issue.title/can-edit', () => true);
+
+sub('issue.description/can-edit', () => true);
+
+sub('issue.resolution/can-edit', () => true);
+
+sub('location/data', () => []);
+sub('issue.location/center', () => ({}));
+sub('issue.location.slide-over/visible', () => false);
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
@@ -169,6 +214,33 @@ evt('issue.location.slide-over/close', () => null);
 evt('issue.location/add', () => null);
 evt('issue.location.center/update', () => null);
 evt('issue.location.caption/update', () => null);
+
+evt('issue.title/edit', ({ setState, getState }) => {
+  const currenActionId = getState()['issue/state']['current.issue/id'];
+
+  startEditing({
+    setState,
+    params: { 'ref/id': currenActionId, 'ref/attribute': 'issue.title/text' },
+  });
+});
+
+evt('issue.description/edit', ({ setState, getState }) => {
+  const currenActionId = getState()['issue/state']['current.issue/id'];
+
+  startEditing({
+    setState,
+    params: { 'ref/id': currenActionId, 'ref/attribute': 'issue.description/text' },
+  });
+});
+
+evt('issue.resolution/edit', ({ setState, getState }) => {
+  const currenActionId = getState()['issue/state']['current.issue/id'];
+
+  startEditing({
+    setState,
+    params: { 'ref/id': currenActionId, 'ref/attribute': 'issue.resolution/text' },
+  });
+});
 
 evt('issue.tabs/update', ({ setState, params }) => {
   setState((state: any) => {
