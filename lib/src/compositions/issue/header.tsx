@@ -15,7 +15,7 @@ import { useCallback, useMemo } from 'react';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
-  const title = useValue('issue/title', { 'issue/id': issueId });
+  const title = useValue('issue.title/text', { 'issue/id': issueId });
 
   return (
     <TextEditor

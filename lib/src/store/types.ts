@@ -20,6 +20,7 @@ import type {
   Events as MainSearchEvents,
   Subs as MainSearchSubs,
 } from '@elements/logic/main-search';
+import type { Events as IssueEvents, Subs as IssueSubs } from '@elements/logic/issue';
 
 export type Subs = CommentSubs &
   UpdateSubs &
@@ -33,7 +34,8 @@ export type Subs = CommentSubs &
   AlertSubs &
   AppSubs &
   LocaleSubs &
-  MainSearchSubs;
+  MainSearchSubs &
+  IssueSubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
@@ -46,4 +48,5 @@ export type Events = CommentEvents &
   AlertEvents &
   AppEvents &
   LocaleEvents &
-  MainSearchEvents;
+  MainSearchEvents &
+  IssueEvents;

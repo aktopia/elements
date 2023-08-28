@@ -12,6 +12,7 @@ import { alertSlice } from '@elements/logic/alert';
 import { actionSlice } from '@elements/logic/action';
 import { profileSlice } from '@elements/logic/profile';
 import { userSlice } from '@elements/logic/user';
+import { issueSlice } from '@elements/logic/issue';
 
 export const slices = [
   localeSlice,
@@ -28,4 +29,5 @@ export const slices = [
   actionSlice,
   profileSlice,
   userSlice,
+  issueSlice,
 ];

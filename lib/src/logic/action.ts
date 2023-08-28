@@ -298,7 +298,7 @@ evt('navigated.action/view', ({ params }) => {
 
 evt('navigated.action/new', async ({ params }) => {
   const { title } = params.route.params;
-  const { id } = await rpcPost('action.draft/create', { 'action/title': title });
+  const { id } = await rpcPost('action.draft/create', { 'action.title/text': title });
   navigate({ id: 'action/view', replace: true, params: { id } });
 });
 

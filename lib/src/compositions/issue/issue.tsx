@@ -9,7 +9,7 @@ import { useValue } from '@elements/store';
 type TabId = 'home' | 'discuss' | 'media' | 'locations';
 
 export const Issue = wrapPage(() => {
-  const activeTabId = useValue<TabId>('issue.tabs/active-tab-id');
+  const activeTabId = useValue<TabId>('issue.tabs/active-tab');
   const issueId = useValue('current.issue/id');
   let tab;
 

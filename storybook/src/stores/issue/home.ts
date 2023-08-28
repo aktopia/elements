@@ -6,8 +6,8 @@ export const store = {
   sub: {
     ...relationshipsStore.sub,
     'current.issue/id': '2',
-    'issue/resolution': lorem.generateSentences(5),
-    'issue/description': lorem.generateSentences(6),
+    'issue.resolution/text': lorem.generateSentences(5),
+    'issue.description/text': lorem.generateSentences(6),
   },
   evt: [...relationshipsStore.evt, ...textEditorStore.evt],
 };

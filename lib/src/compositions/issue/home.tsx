@@ -8,7 +8,7 @@ import { memo, useMemo } from 'react';
 
 const Description = suspensify(() => {
   const issueId = useValue('current.issue/id');
-  const description = useValue('issue/description', { 'issue/id': issueId });
+  const description = useValue('issue.description/text', { 'issue/id': issueId });
 
   return (
     <TextEditor
@@ -23,7 +23,8 @@ const Description = suspensify(() => {
 
 const ResolutionText = suspensify(() => {
   const issueId = useValue('current.issue/id');
-  const resolution = useValue('issue/resolution', { 'issue/id': issueId });
+  const resolution = useValue('issue.resolution/text', { 'issue/id': issueId });
+
   const reference = useMemo(
     () => ({ 'ref/id': issueId, 'ref/attribute': 'issue.resolution/text' }),
     [issueId]
