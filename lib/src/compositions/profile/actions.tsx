@@ -2,7 +2,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store';
 
 const ActionCard = suspensify(({ id }: any) => {
-  const title = useValue('action/title', { 'action/id': id });
+  const title = useValue('action.title/text', { 'action/id': id });
 
   return (
     <div

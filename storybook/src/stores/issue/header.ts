@@ -13,7 +13,7 @@ export const store = {
     'issue.follow/count': 2600,
     'issue/title': lorem.generateSentences(1),
     'issue.tabs/active-tab-id': 'locations',
-    'issue/last-active-at': randomTimestamp(),
+    'issue/updated-at': randomTimestamp(),
   },
 
   evt: [

@@ -11,7 +11,7 @@ const DescriptionText = suspensify(() => {
   const t = useTranslation();
 
   const actionId = useValue('current.action/id');
-  const description = useValue('action/description', { 'action/id': actionId });
+  const description = useValue('action.description/text', { 'action/id': actionId });
 
   const noContent = <p className={'text-gray-400'}>{t('action.description/empty')}</p>;
 
@@ -51,7 +51,7 @@ const OutcomeText = suspensify(() => {
   const t = useTranslation();
 
   const actionId = useValue('current.action/id');
-  const outcome = useValue('action/outcome', { 'action/id': actionId });
+  const outcome = useValue('action.outcome/text', { 'action/id': actionId });
   const reference = useMemo(
     () => ({ 'ref/id': actionId, 'ref/attribute': 'action.outcome/text' }),
     [actionId]

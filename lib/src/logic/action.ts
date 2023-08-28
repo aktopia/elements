@@ -20,19 +20,19 @@ export type Subs = {
     params: {};
     result: string;
   };
-  'action/title': {
+  'action.title/text': {
     params: {
       'action/id': string;
     };
     result: string;
   };
-  'action/description': {
+  'action.description/text': {
     params: {
       'action/id': string;
     };
     result: string;
   };
-  'action/outcome': {
+  'action.outcome/text': {
     params: {
       'action/id': string;
     };
@@ -190,9 +190,9 @@ sub(
   ({ state }) => state['action/state']['action.progress-bar/active-switch']
 );
 
-remoteSub('action/title');
-remoteSub('action/description');
-remoteSub('action/outcome');
+remoteSub('action.title/text');
+remoteSub('action.description/text');
+remoteSub('action.outcome/text');
 remoteSub('action/updated-at');
 
 sub('action.funding/percentage', () => 24);
@@ -310,7 +310,7 @@ registerTextEditor('action.title/text', {
       'action/id': params['ref/id'],
       value: title,
     });
-    await invalidateAsyncSub('action/title', { 'action/id': params['ref/id'] });
+    await invalidateAsyncSub('action.title/text', { 'action/id': params['ref/id'] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
@@ -324,7 +324,7 @@ registerTextEditor('action.description/text', {
       'action/id': params['ref/id'],
       value: description,
     });
-    await invalidateAsyncSub('action/description', { 'action/id': params['ref/id'] });
+    await invalidateAsyncSub('action.description/text', { 'action/id': params['ref/id'] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
@@ -338,7 +338,7 @@ registerTextEditor('action.outcome/text', {
       'action/id': params['ref/id'],
       value: outcome,
     });
-    await invalidateAsyncSub('action/outcome', { 'action/id': params['ref/id'] });
+    await invalidateAsyncSub('action.outcome/text', { 'action/id': params['ref/id'] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,

@@ -66,7 +66,7 @@ export const SubscriptionBar = suspensify(() => {
 
 const Title = suspensify(() => {
   const actionId = useValue('current.action/id');
-  const title = useValue('action/title', { 'action/id': actionId });
+  const title = useValue('action.title/text', { 'action/id': actionId });
 
   return (
     <div className={'flex items-start justify-between gap-3'}>

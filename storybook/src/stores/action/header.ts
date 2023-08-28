@@ -8,7 +8,7 @@ export const store = {
     'action.follow/count': 2600,
     'action/saved': false,
     'action/followed': false,
-    'action/title': 'Clear large garbage dump on Vandipalayam road',
+    'action.title/text': 'Clear large garbage dump on Vandipalayam road',
     'action/last-active': 'ADD-ME',
     'action/bumped': false,
     'action.bump/count': 10,

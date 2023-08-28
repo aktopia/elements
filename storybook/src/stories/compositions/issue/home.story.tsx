@@ -7,7 +7,7 @@ export default {
   component: Component,
 };
 
-export const Home = mockStory({
+export const Home = mockStory<typeof Component>({
   store,
   args: { suspenseLines: 8 },
   render: (args) => {

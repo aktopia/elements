@@ -73,7 +73,7 @@ export const SubscriptionBar = suspensify(() => {
 
 export const LastActive = suspensify(() => {
   const issueId = useValue('current.issue/id');
-  const lastActive = useValue('issue/last-active-at', { 'issue/id': issueId });
+  const lastActive = useValue('issue/updated-at', { 'issue/id': issueId });
   return (
     <Timestamp
       className={'text-xs text-gray-500'}
@@ -87,7 +87,7 @@ export const LastActive = suspensify(() => {
 
 export const IssueTabs = suspensify(() => {
   const t = useTranslation();
-  const activeTabId = useValue('issue.tabs/active-tab-id');
+  const activeTabId = useValue('issue.tabs/active-tab');
   const updateTab = useDispatch('issue.tabs/update');
   const tabs = useMemo(
     () => [
