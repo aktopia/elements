@@ -7,10 +7,15 @@ export default {
   component: Component,
 };
 
-const args = { suspense: { lines: 5 }, ids: ['comment-1', 'comment-5'] };
-export const Comments = mockStory({
+const args = {
+  suspenseLines: 5,
+  ids: ['comment-1', 'comment-5'],
+};
+
+export const Comments = mockStory<typeof Component>({
   store,
-  render: () => {
+  args,
+  render: (args) => {
     return <Component {...args} />;
   },
 });

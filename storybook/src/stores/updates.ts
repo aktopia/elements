@@ -1,6 +1,7 @@
 import { store as votingStore } from '@story/stores/voting';
 import { lorem } from '@story/utils/string';
 import { randomTimestamp } from '@story/utils/time';
+import { store as textEditorStore } from '@story/stores/text-editor';
 
 export const store = {
   sub: {
@@ -15,6 +16,7 @@ export const store = {
   },
   evt: [
     ...votingStore.evt,
+    ...textEditorStore.evt,
     'new.update/create',
     'new.update/update',
     'update.deletion/cancel',

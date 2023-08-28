@@ -1,4 +1,5 @@
 import { store as relationshipsStore } from '@story/stores/relationships';
+import { store as textEditorStore } from '@story/stores/text-editor';
 import { lorem } from '@story/utils/string';
 
 export const store = {
@@ -8,5 +9,5 @@ export const store = {
     'issue/resolution': lorem.generateSentences(5),
     'issue/description': lorem.generateSentences(6),
   },
-  evt: [...relationshipsStore.evt],
+  evt: [...relationshipsStore.evt, ...textEditorStore.evt],
 };
