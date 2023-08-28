@@ -1,9 +1,9 @@
 import { Action } from '@elements/compositions/action/action';
 import { Profile } from '@elements/compositions/profile/profile';
-import { ComponentType } from 'react';
-import { Events } from '@elements/store/types';
+import type { ComponentType } from 'react';
+import type { Events } from '@elements/store/types';
 
-export interface RouteData {
+interface RouteData {
   [key: string]: {
     component: ComponentType;
     onNavigateEvent: keyof Events;

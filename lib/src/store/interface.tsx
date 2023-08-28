@@ -1,5 +1,5 @@
 import { createContext, memo, ReactNode, useCallback, useContext, useMemo } from 'react';
-import { Events, Subs } from '@elements/store/types';
+import type { Events, Subs } from '@elements/store/types';
 
 export type ValueHook = <T extends keyof Subs>(
   id: T,
