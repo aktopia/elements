@@ -39,5 +39,5 @@ export const routes = [
   { name: 'action/new', path: '/action/new' },
   { name: 'issue/view', path: '/issue/:id' },
   { name: 'issue/new', path: '/issue/new' },
-  { name: 'profile/view', path: '/profile/:id/actions' },
+  { name: 'profile/view', path: '/profile/:id/:tab' },
 ];

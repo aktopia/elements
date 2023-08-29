@@ -6,7 +6,7 @@ import { wrapPage } from '@elements/compositions/wrap-page';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
-import { TabId } from '@elements/logic/profile';
+import type { TabId } from '@elements/logic/profile';
 
 const Name = suspensify(() => {
   const userId = useValue('profile.user/id');
