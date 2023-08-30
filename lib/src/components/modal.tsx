@@ -1,10 +1,9 @@
 import { XMark } from '@elements/icons';
-import * as Dialog from '@radix-ui/react-dialog';
-import type { ReactNode } from 'react';
-import { useCallback } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import React, { Fragment } from 'react';
 
 interface ModalProps {
-  children: ReactNode;
+  children: React.ReactNode;
   onClose: (..._: any) => void;
   visible: boolean;
 }
@@ -13,13 +12,13 @@ export const ModalTitle = Dialog.Title;
 
 const Close = ({ onClose }: any) => {
   return onClose ? (
-    <Dialog.Close
+    <div
       className={
         'cursor-pointer p-1 text-gray-500 transition-all ease-out hover:rounded-full hover:bg-gray-100 hover:text-gray-700'
       }
       onClick={onClose}>
       <XMark className={'h-4 w-4'} />
-    </Dialog.Close>
+    </div>
   ) : null;
 };
 
@@ -38,37 +37,47 @@ export const ModalHeader = ({ title, onClose }: any) => {
   );
 };
 
-export const ModalPanel = ({ children }: { children: ReactNode }) => {
+export const ModalPanel = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div
-      className={
-        'w-max scale-100 transform overflow-hidden rounded-2xl border border-gray-200 bg-white opacity-100 shadow-xl transition-all'
-      }>
-      {children}
-    </div>
+    <Transition.Child
+      as={Fragment}
+      enter={'ease-out duration-300'}
+      enterFrom={'opacity-0 scale-95'}
+      enterTo={'opacity-100 scale-100'}
+      leave={'ease-in duration-200'}
+      leaveFrom={'opacity-100 scale-100'}
+      leaveTo={'opacity-0 scale-95'}>
+      <div
+        className={
+          'w-max scale-100 transform overflow-hidden rounded-2xl border border-gray-200 bg-white opacity-100 shadow-xl transition-all'
+        }>
+        {children}
+      </div>
+    </Transition.Child>
   );
 };
-
 export const Modal = ({ children, onClose, visible }: ModalProps) => {
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      !open && onClose();
-    },
-    [onClose]
-  );
-
   return (
-    <Dialog.Root open={visible} onOpenChange={onOpenChange}>
-      <Dialog.Overlay />
-      <Dialog.Portal>
-        <Dialog.Content
+    <Transition.Root appear afterLeave={console.log} as={Fragment} show={visible}>
+      <Dialog className={'relative z-30'} open={visible} onClose={onClose}>
+        <Transition.Child
+          as={Fragment}
+          enter={'ease-out duration-300'}
+          enterFrom={'opacity-0'}
+          enterTo={'opacity-100'}
+          leave={'ease-in duration-200'}
+          leaveFrom={'opacity-100'}
+          leaveTo={'opacity-0'}>
+          <div className={'fixed inset-0 bg-opacity-25 transition-opacity'} />
+        </Transition.Child>
+        <div
           className={
             'fixed inset-0 flex items-start justify-center overflow-y-auto p-4 sm:p-6 md:p-20'
           }>
           {children}
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </div>
+      </Dialog>
+    </Transition.Root>
   );
 };
 
