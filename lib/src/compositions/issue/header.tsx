@@ -13,6 +13,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
+import { EntityType as Type } from '@elements/types';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
@@ -144,7 +145,7 @@ export const Header = () => {
         <div className={'flex flex-col gap-8'}>
           <div className={'flex items-baseline justify-between'}>
             <div className={'flex items-center gap-7'}>
-              <EntityType type={'issue'} />
+              <EntityType type={Type.issue} />
               <LastActive suspenseLines={1} />
             </div>
             <SubscriptionBar suspenseLines={1} />

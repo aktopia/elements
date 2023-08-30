@@ -1,16 +1,17 @@
 import { useTranslation } from '@elements/translation';
 import { cva } from 'cva';
+import { EntityType as Type } from '@elements/types';
 
 const entityTypeTranslation = {
-  issue: 'common/issue',
-  action: 'common/action',
+  [Type.issue]: 'common/issue',
+  [Type.action]: 'common/action',
 };
 
 const containerVariant = cva('w-max rounded px-3 py-1', {
   variants: {
     type: {
-      issue: 'bg-rose-50',
-      action: 'bg-blue-50',
+      [Type.issue]: 'bg-rose-50 border border-rose-200',
+      [Type.action]: 'bg-blue-50 border border-blue-200',
     },
   },
 });
@@ -18,14 +19,14 @@ const containerVariant = cva('w-max rounded px-3 py-1', {
 const textVariant = cva('text-xs font-medium', {
   variants: {
     type: {
-      issue: 'text-rose-600',
-      action: 'text-blue-600',
+      [Type.issue]: 'text-rose-600',
+      [Type.action]: 'text-blue-600',
     },
   },
 });
 
 interface EntityTypeProps {
-  type: 'issue' | 'action';
+  type: Type;
 }
 
 export const EntityType = ({ type }: EntityTypeProps) => {

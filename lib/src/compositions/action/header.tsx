@@ -15,6 +15,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
+import { EntityType as Type } from '@elements/types';
 
 type ShareButtonProps = Omit<ButtonProps, 'value' | 'Icon'>;
 export const ShareButton = ({ clicked, ...props }: ShareButtonProps) => {
@@ -220,7 +221,7 @@ export const Header = () => {
         <div className={'flex flex-col gap-8'}>
           <div className={'flex items-baseline justify-between'}>
             <div className={'flex gap-7'}>
-              <EntityType type={'action'} />
+              <EntityType type={Type.action} />
               <LastActive suspenseLines={1} />
             </div>
             <SubscriptionBar suspenseLines={2} />
