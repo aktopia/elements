@@ -1,5 +1,6 @@
 import { Crowd, Giving, ShareOutline } from '@elements/icons';
-import { Button, ButtonProps } from '@elements/components/button';
+import type { ButtonProps } from '@elements/components/button';
+import { Button } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
 import { NamedSwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';

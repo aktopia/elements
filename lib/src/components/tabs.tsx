@@ -1,5 +1,6 @@
-import { cva, VariantProps } from 'cva';
-import React, { useCallback } from 'react';
+import type { VariantProps } from 'cva';
+import { cva } from 'cva';
+import { memo, useCallback } from 'react';
 
 const containerVariant = cva('flex', {
   variants: {
@@ -58,7 +59,7 @@ const Tab = ({ id, label, status, size, onTabClick }: TabProps) => {
   );
 };
 
-export const Tabs = React.memo(({ activeTabId, tabs, size, onTabClick }: TabsProps) => {
+export const Tabs = memo(({ activeTabId, tabs, size, onTabClick }: TabsProps) => {
   return (
     <div className={containerVariant({ size })}>
       {tabs.map(({ id, label }: any) => {

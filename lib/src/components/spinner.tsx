@@ -1,4 +1,5 @@
-import { cva, VariantProps } from 'cva';
+import type { VariantProps } from 'cva';
+import { cva } from 'cva';
 
 const variant = cva('animate-spin', {
   variants: {

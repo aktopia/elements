@@ -1,6 +1,8 @@
-import dayjs, { ManipulateType } from 'dayjs';
+import type { ManipulateType } from 'dayjs';
+import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import React, { useCallback, useEffect } from 'react';
+import type { RefObject } from 'react';
+import { useCallback, useEffect } from 'react';
 import { cx as clsx } from 'cva';
 import { twMerge } from 'tailwind-merge';
 import type { ClassValue } from 'cva/dist/types';
@@ -11,7 +13,7 @@ export function formatCount(count: number) {
   return formatter.format(count);
 }
 
-export const useOutsideClick = (ref: React.RefObject<any>, callback: () => void) => {
+export const useOutsideClick = (ref: RefObject<any>, callback: () => void) => {
   const handleClick = useCallback(
     (e: MouseEvent | TouchEvent) => {
       if (ref.current && !ref.current.contains(e.target)) {

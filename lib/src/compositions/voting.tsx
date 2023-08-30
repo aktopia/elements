@@ -1,5 +1,6 @@
 import { suspensify } from '@elements/components/suspensify';
-import { Size, Voting as PureVoting } from '@elements/components/voting';
+import type { Size } from '@elements/components/voting';
+import { Voting as PureVoting } from '@elements/components/voting';
 import { useDispatch, useValue } from '@elements/store';
 import { useCallback, useMemo } from 'react';
 

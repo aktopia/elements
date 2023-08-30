@@ -6,7 +6,7 @@ import Passwordless, {
   getLoginAttemptInfo,
   resendCode,
 } from 'supertokens-web-js/recipe/passwordless';
-import { AppInfoUserInput } from 'supertokens-web-js/types';
+import type { AppInfoUserInput } from 'supertokens-web-js/types';
 
 export const init = (authConfig: AppInfoUserInput) => {
   const { apiDomain, apiBasePath, appName } = authConfig;

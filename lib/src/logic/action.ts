@@ -7,7 +7,8 @@ import {
   text,
   updateText,
 } from '@elements/logic/text-editor';
-import { navigate, Route } from '@elements/logic/router';
+import type { Route } from '@elements/logic/router';
+import { navigate } from '@elements/logic/router';
 
 export type TabId = 'home' | 'discuss' | 'updates';
 

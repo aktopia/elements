@@ -2,7 +2,8 @@ import { suspensify } from '@elements/components/suspensify';
 import { TextAreaEditor } from '@elements/components/text-area-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { ReactElement, useCallback, useMemo } from 'react';
+import type { ReactElement } from 'react';
+import { useCallback, useMemo } from 'react';
 import { isEmpty } from 'lodash';
 
 interface TextEditorProps {

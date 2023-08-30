@@ -1,6 +1,6 @@
 import { suspensify } from '@elements/components/suspensify';
 import { NavBar } from '@elements/compositions/nav-bar';
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 import { Alert } from '@elements/compositions/alert';
 
 export const wrapPage = (Component: ComponentType) =>

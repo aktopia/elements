@@ -1,5 +1,6 @@
 import { BookmarkOutline } from '@elements/icons';
-import { Button, ButtonProps } from '@elements/components/button';
+import type { ButtonProps } from '@elements/components/button';
+import { Button } from '@elements/components/button';
 import { memo } from 'react';
 
 type SaveButtonProps = Omit<ButtonProps, 'value' | 'Icon'>;

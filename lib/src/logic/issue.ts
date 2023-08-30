@@ -10,6 +10,8 @@ import { rpcPost } from '@elements/rpc';
 import type { Route } from '@elements/logic/router';
 import { navigate } from '@elements/logic/router';
 
+type TabId = 'home' | 'discuss' | 'media' | 'locations';
+
 export type Subs = {
   'current.issue/id': {
     params: {};
@@ -33,7 +35,7 @@ export type Subs = {
   };
   'issue.tabs/active-tab': {
     params: {};
-    result: string;
+    result: TabId;
   };
   'issue/updated-at': {
     params: {};

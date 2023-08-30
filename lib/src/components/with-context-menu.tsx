@@ -1,6 +1,7 @@
 import { useOutsideClick } from '@elements/utils';
 import { isEmpty } from 'lodash';
-import React, { useCallback, useRef, useState } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { RawDropdown } from '@elements/components/raw-dropdown';
 
 interface Item {}
@@ -8,7 +9,7 @@ interface Item {}
 interface WithContextMenuProps {
   items: Item[];
   disable?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export function getPosition(e: any) {
@@ -33,7 +34,7 @@ export const _WithContextMenu = ({ items, children }: Omit<WithContextMenuProps,
   });
 
   const onClick = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent) => {
       const selection = window.getSelection();
       if (selection && selection.type === 'Range') {
         return;

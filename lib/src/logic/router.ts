@@ -1,5 +1,6 @@
 import { dispatch, evt, setState, sub } from '@elements/store';
-import createRouter, { Router, State } from 'router5';
+import type { Router, State } from 'router5';
+import createRouter from 'router5';
 import browserPlugin from 'router5-plugin-browser';
 import { routeData } from '@elements/routes';
 

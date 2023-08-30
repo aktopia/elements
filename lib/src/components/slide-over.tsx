@@ -1,4 +1,5 @@
-import { memo, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { memo } from 'react';
 
 export const SlideOverTitle = memo(({ title }: { title: string }) => {
   return <h2 className={'font-medium leading-6 text-gray-600'}>{title}</h2>;

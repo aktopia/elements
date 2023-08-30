@@ -1,6 +1,7 @@
 import { Button } from '@elements/components/button';
 import { User } from '@elements/components/comment';
-import RichTextArea, { RichTextAreaHandle } from '@elements/components/rich-text-area';
+import type { RichTextAreaHandle } from '@elements/components/rich-text-area';
+import RichTextArea from '@elements/components/rich-text-area';
 import { useCallback, useRef } from 'react';
 
 interface NewCommentProps {

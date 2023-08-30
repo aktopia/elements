@@ -2,15 +2,8 @@ import Placeholder from '@tiptap/extension-placeholder';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { isNil } from 'lodash';
-import {
-  forwardRef,
-  ForwardRefRenderFunction,
-  memo,
-  MutableRefObject,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-} from 'react';
+import type { ForwardRefRenderFunction, MutableRefObject } from 'react';
+import { forwardRef, memo, useEffect, useImperativeHandle, useRef } from 'react';
 
 interface RichTextAreaProps {
   className?: string;

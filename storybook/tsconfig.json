@@ -21,13 +21,16 @@
       "@elements/*": [
         "../lib/src/*"
       ],
-      "@story/*": ["./src/*"]
+      "@story/*": [
+        "./src/*"
+      ]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "verbatimModuleSyntax": true
   },
   "include": [
     "src"

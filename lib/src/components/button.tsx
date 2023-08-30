@@ -1,6 +1,7 @@
 import { formatCount } from '@elements/utils';
 import { cva } from 'cva';
-import React, { memo, MouseEventHandler, useCallback } from 'react';
+import type { ButtonHTMLAttributes, ComponentType, MouseEvent, MouseEventHandler } from 'react';
+import { memo, useCallback } from 'react';
 
 const containerVariant = cva('relative flex items-center justify-center rounded-md', {
   variants: {
@@ -106,13 +107,13 @@ type Size = 'xxs' | 'xs' | 'sm' | 'md';
 
 type Kind = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size: Size;
   value: string;
   count?: number;
   clicked?: boolean;
-  Icon?: React.ComponentType<any>;
-  SecondaryIcon?: React.ComponentType<any>;
+  Icon?: ComponentType<any>;
+  SecondaryIcon?: ComponentType<any>;
   iconClassName?: string;
   secondaryIconClassName?: string;
   containerClassName?: string;
@@ -140,7 +141,7 @@ export const Button = memo(
     ...props
   }: ButtonProps) => {
     const onClickMemo = useCallback(
-      (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
         onClick && !disabled && onClick(e);
       },
       [onClick, disabled]

@@ -1,6 +1,6 @@
-import { StoreApi } from 'zustand';
+import type { StoreApi } from 'zustand';
 import { rpcGet } from '@elements/rpc';
-import { Events, Subs } from '@elements/store/types';
+import type { Events, Subs } from '@elements/store/types';
 
 type Read<T extends keyof Subs> = (args: {
   state: any;

@@ -5,9 +5,10 @@ import {
   XCircleMiniSolid,
   XMarkMiniSolid,
 } from '@elements/icons';
-import { cva, VariantProps } from 'cva';
-import React from 'react';
-import { Kind } from '@elements/logic/alert';
+import type { VariantProps } from 'cva';
+import { cva } from 'cva';
+import type { MouseEvent } from 'react';
+import type { Kind } from '@elements/logic/alert';
 
 const containerVariant = cva(
   'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform transition-all ease-out z-40 shadow border',
@@ -71,7 +72,7 @@ const Icon = ({ kind }: VariantProps<typeof iconVariant>) => {
 export interface AlertProps {
   message: string;
   visible: boolean;
-  onDismiss: (event: React.MouseEvent) => void;
+  onDismiss: (event: MouseEvent) => void;
   kind: Kind;
 }
 

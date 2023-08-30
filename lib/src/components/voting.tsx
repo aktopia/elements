@@ -1,6 +1,6 @@
 import { ArrowSmallDownSolid, ArrowSmallUpSolid } from '@elements/icons';
 import { cva } from 'cva';
-import { Kind } from '@elements/logic/voting';
+import type { Kind } from '@elements/logic/voting';
 
 const voteVariant = cva('hover:text-blue-600', {
   variants: {
