@@ -16,7 +16,7 @@ import {
 import { Spinner } from '@elements/components/spinner';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { Status, Wrapper } from '@googlemaps/react-wrapper';
-import { cx } from 'cva';
+import { cx } from '@elements/utils';
 import { differenceWith, isEmpty, isEqual } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import LatLngLiteral = google.maps.LatLngLiteral;

@@ -1,4 +1,4 @@
-import { cx } from 'cva';
+import { cx } from '@elements/utils';
 import { PencilOutline } from '@elements/icons';
 
 export const EditButton = ({ canEdit, onEdit, className }: any) => {

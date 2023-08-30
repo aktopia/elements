@@ -1,6 +1,9 @@
 import dayjs, { ManipulateType } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import React, { useCallback, useEffect } from 'react';
+import { cx as clsx } from 'cva';
+import { twMerge } from 'tailwind-merge';
+import type { ClassValue } from 'cva/dist/types';
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' });
 
@@ -68,4 +71,8 @@ export function navigateTo({ replace = false, to }: { replace?: boolean; to: str
 
 export function ref(...keys: string[]) {
   return keys.join('|');
+}
+
+export function cx(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }

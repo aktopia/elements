@@ -4,7 +4,7 @@ import {
   RawDropdownPanel,
   RawDropdownTrigger,
 } from '@elements/components/raw-dropdown';
-import { cx } from 'cva';
+import { cx } from '@elements/utils';
 
 interface ItemProps {
   text: string;
