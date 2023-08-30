@@ -56,6 +56,7 @@ export const ModalPanel = ({ children }: { children: React.ReactNode }) => {
     </Transition.Child>
   );
 };
+
 export const Modal = ({ children, onClose, visible }: ModalProps) => {
   return (
     <Transition.Root appear afterLeave={console.log} as={Fragment} show={visible}>
