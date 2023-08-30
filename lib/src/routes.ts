@@ -35,9 +35,9 @@ export const routeData: RouteData = {
 };
 
 export const routes = [
-  { name: 'action/view', path: '/action/:id' },
   { name: 'action/new', path: '/action/new' },
-  { name: 'issue/view', path: '/issue/:id' },
+  { name: 'action/view', path: '/action/:id' },
   { name: 'issue/new', path: '/issue/new' },
+  { name: 'issue/view', path: '/issue/:id' },
   { name: 'profile/view', path: '/profile/:id/:tab' },
 ];

@@ -6,6 +6,8 @@ import React, { useCallback } from 'react';
 import { useTranslation } from '@elements/translation';
 import { ArrowTopRightOnSquareMiniSolid } from '@elements/icons';
 
+// TODO Don't render modal if it is not visible
+
 export const CreateModal = suspensify(({}) => {
   const t = useTranslation();
 
@@ -13,6 +15,7 @@ export const CreateModal = suspensify(({}) => {
 
   const onClose = useDispatch('action.create.modal/close', { emptyParams: true });
   const onSave = useDispatch('action.create.modal/create', { emptyParams: true });
+
   const [title, updateTitle] = useState(
     'action.create.modal/title',
     'action.create.modal.title/update'
