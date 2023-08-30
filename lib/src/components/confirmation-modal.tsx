@@ -57,7 +57,7 @@ export const ConfirmationModal = memo(
             <div>
               <IconBadge kind={kind} />
               <div className={'mt-3 text-center sm:mt-5'}>
-                <ModalTitle as={'h3'} className={'text-base font-semibold leading-6 text-gray-900'}>
+                <ModalTitle className={'text-base font-semibold leading-6 text-gray-900'}>
                   {titleText}
                 </ModalTitle>
                 <div className={'mt-2'}>

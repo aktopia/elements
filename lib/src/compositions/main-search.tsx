@@ -2,11 +2,11 @@ import { MagnifyingGlassSolid } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useState, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { Combobox } from '@headlessui/react';
 import React, { useCallback } from 'react';
 import type { EntityType } from '@elements/types';
 import { EntityType as ResultType } from '@elements/compositions/entity-type';
 import { Modal, ModalPanel } from '@elements/components/modal';
+import { Combobox } from '@headlessui/react';
 
 const nameMap = {
   'entity.type/action': 'action',
@@ -24,11 +24,9 @@ interface ResultProps {
   snippet: string;
 }
 
-const Result = ({ type, id, entityId, snippet }: ResultProps) => {
+const Result = ({ type, entityId, snippet }: ResultProps) => {
   return (
-    <Combobox.Option
-      className={'ui-active:bg-gray-100 cursor-default select-none px-4 py-2'}
-      value={id}>
+    <div className={'cursor-default select-none px-4 py-2 hover:bg-gray-100'}>
       <a className={'flex items-center justify-between'} href={makeLink(type, entityId)}>
         <div
           dangerouslySetInnerHTML={{ __html: snippet }}
@@ -36,9 +34,39 @@ const Result = ({ type, id, entityId, snippet }: ResultProps) => {
         />
         <ResultType type={type} />
       </a>
-    </Combobox.Option>
+    </div>
   );
 };
+
+const Results = suspensify(({ query }: { query: string }) => {
+  const t = useTranslation();
+
+  const results = useValue('main-search/results', { query });
+  const noResults = query && query.trim() !== '' && results?.length === 0;
+
+  return (
+    <>
+      {results?.length > 0 && (
+        <Combobox.Options
+          className={'max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800'}>
+          {results.map((result) => (
+            <Result
+              key={result['match/id']}
+              entityId={result['entity/id']}
+              id={result['match/id']}
+              snippet={result['match/snippet']}
+              type={result['entity/type']}
+            />
+          ))}
+        </Combobox.Options>
+      )}
+
+      {noResults && (
+        <p className={'p-4 text-sm text-gray-500'}>{t('common.phrase/empty-results')}</p>
+      )}
+    </>
+  );
+});
 
 export const MainSearch = suspensify(() => {
   const t = useTranslation();
@@ -46,8 +74,6 @@ export const MainSearch = suspensify(() => {
   const visible = useValue('main-search/visible');
 
   const [query, setQuery] = useState('main-search/query', 'main-search.query/set');
-
-  const results = useValue('main-search/results', { query });
 
   const close = useDispatch('main-search/close');
 
@@ -57,13 +83,11 @@ export const MainSearch = suspensify(() => {
     setQuery(e.target.value);
   }, []);
 
-  const noResults = query && query.trim() !== '' && results?.length === 0;
-
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <Combobox>
-          <div className={'relative'}>
+          <div className={'relative w-full'}>
             <MagnifyingGlassSolid
               aria-hidden={'true'}
               className={'pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400'}
@@ -71,32 +95,14 @@ export const MainSearch = suspensify(() => {
             <Combobox.Input
               autoComplete={'off'}
               className={
-                'h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0'
+                'h-12 w-[500px] border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0'
               }
               placeholder={t('main-search/placeholder')}
               value={query}
               onChange={onQueryChange}
             />
           </div>
-
-          {results?.length > 0 && (
-            <Combobox.Options
-              className={'max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800'}>
-              {results.map((result) => (
-                <Result
-                  key={result['match/id']}
-                  entityId={result['entity/id']}
-                  id={result['match/id']}
-                  snippet={result['match/snippet']}
-                  type={result['entity/type']}
-                />
-              ))}
-            </Combobox.Options>
-          )}
-
-          {noResults && (
-            <p className={'p-4 text-sm text-gray-500'}>{t('common.phrase/empty-results')}</p>
-          )}
+          <Results query={query} suspenseLines={6} />
         </Combobox>
       </ModalPanel>
     </Modal>

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   RawDropdown,
   RawDropdownItem,
@@ -71,7 +70,7 @@ export const Dropdown = ({ Button, items }: any) => {
           <Button />
         </div>
       </RawDropdownTrigger>
-      <RawDropdownPanel gap={5}>
+      <RawDropdownPanel sideOffset={5}>
         <div
           className={
             'w-max overflow-hidden rounded-md bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none'

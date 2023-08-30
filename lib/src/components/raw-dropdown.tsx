@@ -1,5 +1,5 @@
 import * as RadixDropdownMenu from '@radix-ui/react-dropdown-menu';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export const RawDropdown = RadixDropdownMenu.Root;
 
@@ -7,10 +7,16 @@ export const RawDropdownTrigger = ({ children }: { children: ReactNode }) => {
   return <RadixDropdownMenu.Trigger asChild={true}>{children}</RadixDropdownMenu.Trigger>;
 };
 
-export const RawDropdownPanel = ({ children, gap }: { children: ReactNode; gap?: number }) => {
+export const RawDropdownPanel = ({
+  children,
+  sideOffset,
+}: {
+  children: ReactNode;
+  sideOffset?: number;
+}) => {
   return (
     <RadixDropdownMenu.Portal>
-      <RadixDropdownMenu.Content sideOffset={gap}>{children}</RadixDropdownMenu.Content>
+      <RadixDropdownMenu.Content sideOffset={sideOffset}>{children}</RadixDropdownMenu.Content>
     </RadixDropdownMenu.Portal>
   );
 };

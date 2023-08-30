@@ -60,12 +60,14 @@ export const Modal = ({ children, onClose, visible }: ModalProps) => {
   return (
     <Dialog.Root open={visible} onOpenChange={onOpenChange}>
       <Dialog.Overlay />
-      <Dialog.Content
-        className={
-          'fixed inset-0 flex items-start justify-center overflow-y-auto p-4 sm:p-6 md:p-20'
-        }>
-        <div>{children}</div>
-      </Dialog.Content>
+      <Dialog.Portal>
+        <Dialog.Content
+          className={
+            'fixed inset-0 flex items-start justify-center overflow-y-auto p-4 sm:p-6 md:p-20'
+          }>
+          {children}
+        </Dialog.Content>
+      </Dialog.Portal>
     </Dialog.Root>
   );
 };
