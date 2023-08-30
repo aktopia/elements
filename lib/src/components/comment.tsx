@@ -1,8 +1,7 @@
 import { ChevronDownMiniSolid, ChevronUpMiniSolid, UserCircleSolid } from '@elements/icons';
 import { TextAreaEditor } from '@elements/components/text-area-editor';
-import { WithContextMenu } from '@elements/components/with-context-menu';
 import { isEmpty } from 'lodash';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 export interface CommentProps {
   id: string;
@@ -37,8 +36,6 @@ export const Comment = memo(
     authorName,
     value,
     responses,
-    canEdit,
-    editText,
     editCancelText,
     editDoneText,
     onEditDone,
@@ -51,26 +48,22 @@ export const Comment = memo(
     const onExpandCollapse = useCallback(() => {
       setExpanded(!expanded);
     }, [expanded]);
-    const onEdit = useCallback(() => {
-      setIsEditing(true);
-    }, []);
+
     const onCancel = useCallback(() => {
       onEditCancel(id);
       setIsEditing(false);
     }, [id, onEditCancel]);
+
     const onDone = useCallback(() => {
       onEditDone(id);
       setIsEditing(false);
     }, [id, onEditDone]);
+
     const onChange = useCallback(
       (value: string) => {
         onUpdate(id, value);
       },
       [id, onUpdate]
-    );
-    const menuItems: any = useMemo(
-      () => [canEdit && { id: 'edit', label: editText, onClick: onEdit }].filter(Boolean),
-      [onEdit, canEdit, editText]
     );
 
     const showResponses = expanded && responses && !isEmpty(responses);
@@ -96,18 +89,16 @@ export const Comment = memo(
             )}
           </div>
           {expanded && (
-            <WithContextMenu disable={isEditing} items={menuItems}>
-              <TextAreaEditor
-                cancelText={editCancelText}
-                className={'text-base text-gray-700'}
-                content={value}
-                doneText={editDoneText}
-                editable={isEditing}
-                onCancel={onCancel}
-                onChange={onChange}
-                onDone={onDone}
-              />
-            </WithContextMenu>
+            <TextAreaEditor
+              cancelText={editCancelText}
+              className={'text-base text-gray-700'}
+              content={value}
+              doneText={editDoneText}
+              editable={isEditing}
+              onCancel={onCancel}
+              onChange={onChange}
+              onDone={onDone}
+            />
           )}
         </div>
         {showResponses && <Comments comments={responses} />}
