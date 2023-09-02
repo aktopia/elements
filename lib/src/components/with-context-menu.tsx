@@ -2,7 +2,7 @@ import { useOutsideClick } from '@elements/utils';
 import { isEmpty } from 'lodash';
 import type { MouseEvent, ReactNode } from 'react';
 import { useCallback, useRef, useState } from 'react';
-import { RawDropdown } from '@elements/components/raw-dropdown';
+import { Dropdown } from '@elements/components/dropdown';
 
 interface Item {}
 
@@ -47,7 +47,7 @@ export const _WithContextMenu = ({ items, children }: Omit<WithContextMenuProps,
 
   const menuUI = (
     <div className={'fixed z-10'} style={{ top: pos.y, left: pos.x }}>
-      <RawDropdown items={items} />
+      <Dropdown items={items} />
     </div>
   );
 

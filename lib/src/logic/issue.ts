@@ -1,4 +1,11 @@
-import { dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
+import {
+  dispatch,
+  evt,
+  invalidateAsyncSub,
+  invalidateAsyncSubs,
+  remoteSub,
+  sub,
+} from '@elements/store';
 import {
   endEditing,
   registerTextEditor,
@@ -30,7 +37,7 @@ export type Subs = {
     result: number;
   };
   'issue.title/text': {
-    params: {};
+    params: { 'issue/id': string };
     result: string;
   };
   'issue.tabs/active-tab': {
@@ -38,15 +45,15 @@ export type Subs = {
     result: TabId;
   };
   'issue/updated-at': {
-    params: {};
+    params: { 'issue/id': string };
     result: number;
   };
   'issue.resolution/text': {
-    params: {};
+    params: { 'issue/id': string };
     result: string;
   };
   'issue.description/text': {
-    params: {};
+    params: { 'issue/id': string };
     result: string;
   };
   'location/data': {
@@ -79,6 +86,14 @@ export type Subs = {
   };
   'issue.resolution/can-edit': {
     params: {};
+    result: boolean;
+  };
+  'issue.users.facing/count': {
+    params: { 'issue/id': string };
+    result: number;
+  };
+  'issue.current.user/facing': {
+    params: { 'issue/id': string };
     result: boolean;
   };
 };
@@ -142,6 +157,9 @@ export type Events = {
       'issue/id': string;
     };
   };
+  'issue.current.user/face': {
+    params: {};
+  };
   'issue.create.modal/open': {
     params: {};
   };
@@ -191,6 +209,8 @@ sub('issue/saved', () => false);
 sub('issue/followed', () => false);
 sub('issue.follow/count', () => 2600);
 
+remoteSub('issue.users.facing/count');
+remoteSub('issue.current.user/facing');
 remoteSub('issue.title/text');
 remoteSub('issue/updated-at');
 remoteSub('issue.resolution/text');
@@ -216,6 +236,16 @@ evt('issue.location.slide-over/close', () => null);
 evt('issue.location/add', () => null);
 evt('issue.location.center/update', () => null);
 evt('issue.location.caption/update', () => null);
+
+evt('issue.current.user/face', async ({ getState }) => {
+  const currentIssueId = getState()['issue/state']['current.issue/id'];
+  await rpcPost('issue.current.user/face', { 'issue/id': currentIssueId });
+
+  await invalidateAsyncSubs([
+    ['issue.current.user/facing', { 'issue/id': currentIssueId }],
+    ['issue.users.facing/count', { 'issue/id': currentIssueId }],
+  ]);
+});
 
 evt('issue.title/edit', ({ setState, getState }) => {
   const currenActionId = getState()['issue/state']['current.issue/id'];

@@ -1,6 +1,6 @@
 import { FollowButton } from '@elements/components/follow-button';
 import { QRCodeButton } from '@elements/components/qr-code-button';
-import { RaiseHand } from '@elements/components/raise-hand';
+import { RaiseHand as RawRaiseHand } from '@elements/components/raise-hand';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
@@ -124,16 +124,27 @@ export const IssueTabs = suspensify(() => {
 
 const Voting = suspensify(() => {
   const issueId = useValue('current.issue/id');
+
   return (
     <RawVoting refAttribute={'entity.type/issue'} refId={issueId} size={'md'} suspenseLines={2} />
   );
+});
+
+const RaiseHand = suspensify(() => {
+  const issueId = useValue('current.issue/id');
+  const count = useValue('issue.users.facing/count', { 'issue/id': issueId });
+  const raised = useValue('issue.current.user/facing', { 'issue/id': issueId });
+
+  const onClick = useDispatch('issue.current.user/face') as () => void;
+
+  return <RawRaiseHand count={count} raised={raised} size={'md'} onClick={onClick} />;
 });
 
 const ActionBar = () => {
   return (
     <div className={'flex gap-12'}>
       <Voting suspenseLines={1} />
-      <RaiseHand count={5} raised={false} size={'md'} onClick={console.log} />
+      <RaiseHand suspenseLines={1} />
     </div>
   );
 };
@@ -145,7 +156,7 @@ export const Header = () => {
         <div className={'flex flex-col gap-8'}>
           <div className={'flex items-baseline justify-between'}>
             <div className={'flex items-center gap-7'}>
-              <EntityType type={Type.issue} />
+              <EntityType type={Type.Issue} />
               <LastActive suspenseLines={1} />
             </div>
             <SubscriptionBar suspenseLines={1} />

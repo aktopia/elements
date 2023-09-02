@@ -3,15 +3,15 @@ import { cva } from 'cva';
 import { EntityType as Type } from '@elements/types';
 
 const entityTypeTranslation = {
-  [Type.issue]: 'common/issue',
-  [Type.action]: 'common/action',
+  [Type.Issue]: 'common/issue',
+  [Type.Action]: 'common/action',
 };
 
 const containerVariant = cva('w-max rounded px-3 py-1', {
   variants: {
     type: {
-      [Type.issue]: 'bg-rose-50 border border-rose-200',
-      [Type.action]: 'bg-blue-50 border border-blue-200',
+      [Type.Issue]: 'bg-rose-50 border border-rose-200',
+      [Type.Action]: 'bg-blue-50 border border-blue-200',
     },
   },
 });
@@ -19,8 +19,8 @@ const containerVariant = cva('w-max rounded px-3 py-1', {
 const textVariant = cva('text-xs font-medium', {
   variants: {
     type: {
-      [Type.issue]: 'text-rose-600',
-      [Type.action]: 'text-blue-600',
+      [Type.Issue]: 'text-rose-600',
+      [Type.Action]: 'text-blue-600',
     },
   },
 });

@@ -1,5 +1,6 @@
 import { HandRaisedOutline, HandRaisedSolid } from '@elements/icons';
 import { cva } from 'cva';
+import { formatCount } from '@elements/utils';
 
 const iconVariant = cva('', {
   variants: {
@@ -55,11 +56,9 @@ interface RaiseHandProps {
 export const RaiseHand = ({ count, onClick, size, raised }: RaiseHandProps) => {
   const Icon = raised ? HandRaisedSolid : HandRaisedOutline;
   return (
-    <div className={containerVariant({ size })}>
-      <button type={'button'} onClick={onClick}>
-        <Icon className={iconVariant({ size, active: raised })} />
-      </button>
-      <p className={countVariant({ size, active: raised })}>{count}</p>
-    </div>
+    <button className={containerVariant({ size })} type={'button'} onClick={onClick}>
+      <Icon className={iconVariant({ size, active: raised })} />
+      <p className={countVariant({ size, active: raised })}>{formatCount(count)}</p>
+    </button>
   );
 };
