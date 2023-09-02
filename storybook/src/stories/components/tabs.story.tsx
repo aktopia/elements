@@ -1,6 +1,6 @@
 import { Tabs as Component } from '@elements/components/tabs';
 import { action } from '@storybook/addon-actions';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Tabs',

@@ -1,5 +1,5 @@
 import { Spinner as Component } from '@elements/components/spinner';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Spinner',

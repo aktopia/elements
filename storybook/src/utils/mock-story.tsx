@@ -1,10 +1,12 @@
 import { Translation } from '@elements/translation';
 import translations from '@elements/translations';
 import { action } from '@storybook/addon-actions';
-import { ComponentProps, ComponentType, ReactNode, useCallback } from 'react';
-import { Parameters } from '@storybook/react';
-import { Store as StoreInterface, ValueHook } from '@elements/store/interface';
-import { Subs } from '@elements/store/types';
+import type { ComponentProps, ComponentType, ReactNode } from 'react';
+import { useCallback } from 'react';
+import type { Parameters } from '@storybook/react';
+import type { ValueHook } from '@elements/store/interface';
+import { Store as StoreInterface } from '@elements/store/interface';
+import type { Subs } from '@elements/store/types';
 
 export type SubMock = keyof Subs;
 export type EvtMock = string[];

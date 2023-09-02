@@ -1,6 +1,6 @@
 import { MediaGallery as Component } from '@elements/components/media-gallery';
 import { images } from '@story/stores/images';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/MediaGallery',

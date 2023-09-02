@@ -1,5 +1,5 @@
 import { FollowButton as Component } from '@elements/components/follow-button';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/FollowButton',

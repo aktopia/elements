@@ -1,13 +1,13 @@
 import {
   SlideOver as Component,
-  SlideOverHeader,
   SlideOverBody,
   SlideOverCloseButton,
+  SlideOverHeader,
   SlideOverTitle,
 } from '@elements/components/slide-over';
 import { lorem } from '@story/utils/string';
 import { action } from '@storybook/addon-actions';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/SlideOver',

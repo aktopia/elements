@@ -1,5 +1,5 @@
 import { ProgressBar as Component } from '@elements/components/progress-bar';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/ProgressBar',

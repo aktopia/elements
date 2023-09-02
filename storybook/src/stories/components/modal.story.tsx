@@ -1,7 +1,7 @@
 import { Modal as Component, ModalHeader, ModalPanel } from '@elements/components/modal';
 import { lorem } from '@story/utils/string';
 import { action } from '@storybook/addon-actions';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Modal',

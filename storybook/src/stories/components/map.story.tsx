@@ -1,6 +1,6 @@
 import { Map as Component } from '@elements/components/map/map';
 import { action } from '@storybook/addon-actions';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Map',

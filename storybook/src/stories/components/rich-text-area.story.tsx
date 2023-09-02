@@ -1,6 +1,6 @@
 import { RichTextArea as Component } from '@elements/components/rich-text-area';
 import { action } from '@storybook/addon-actions';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/RichTextArea',

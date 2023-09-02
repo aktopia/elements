@@ -1,6 +1,6 @@
 import { Voting as Component } from '@elements/components/voting';
 import { action } from '@storybook/addon-actions';
-import { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 
 export default {
   title: 'Components/Vote',
