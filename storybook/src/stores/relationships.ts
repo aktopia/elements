@@ -1,3 +1,6 @@
+import { EntityType } from '@elements/types';
+import { Relation } from '@elements/logic/relationship';
+
 const relations = {
   '1': {
     id: '1',
@@ -26,15 +29,12 @@ const relations = {
   },
 };
 
-function getRelation(params: any) {
-  // @ts-ignore
-  return relations[params['relation/id']];
-}
-
 export const store = {
   sub: {
     'relationship/ids': ['1', '2', '3'],
-    'relationship/data': getRelation,
+    'relationship.entity/title': 'Some title',
+    'relationship.entity/type': EntityType.Action,
+    'relationship/relation': Relation.Relates,
   },
   evt: [],
 };
