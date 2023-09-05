@@ -1,6 +1,6 @@
 import { MagnifyingGlassSolid } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
-import { useDispatch, useState, useValue } from '@elements/store';
+import { useDispatch, useStateLike, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import React, { Fragment, useCallback } from 'react';
 import type { EntityType } from '@elements/types';
@@ -75,15 +75,18 @@ export const MainSearch = suspensify(() => {
 
   const visible = useValue('main-search/visible');
 
-  const [query, setQuery] = useState('main-search/query', 'main-search.query/set');
+  const [query, setQuery] = useStateLike('main-search/query', 'main-search.query/set');
 
   const close = useDispatch('main-search/close');
 
   const onClose = useCallback(() => close({}), [close]);
 
-  const onQueryChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  }, []);
+  const onQueryChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setQuery(e.target.value);
+    },
+    [setQuery]
+  );
 
   return (
     <Modal visible={visible} onClose={onClose}>

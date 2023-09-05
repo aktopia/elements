@@ -50,7 +50,7 @@ const CreateDropdown = () => {
         onClick: onCreateIssue,
       },
     ],
-    [onCreateAction, t]
+    [onCreateAction, onCreateIssue, t]
   );
   return <Dropdown Button={CreateButton} items={items} />;
 };

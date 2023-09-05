@@ -5,6 +5,7 @@ import { rpcGet } from '@elements/rpc';
 export interface SearchResult {
   'entity/type': EntityType;
   'match/snippet': string;
+  'match/text': string;
   'match/id': string;
   'match/score': string;
   'entity/id': string;

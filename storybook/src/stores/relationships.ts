@@ -35,6 +35,7 @@ export const store = {
     'relationship.entity/title': 'Some title',
     'relationship.entity/type': EntityType.Action,
     'relationship/relation': Relation.Relates,
+    'relationship/adding': true,
   },
-  evt: [],
+  evt: ['relationship.adding/set'],
 };

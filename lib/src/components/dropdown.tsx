@@ -37,27 +37,25 @@ export const Item = ({ text, href, Icon, onClick, kind = 'normal' }: ItemProps) 
 
   return (
     <RawDropdownItem>
-      <div
-        className={
-          'group my-1 flex w-full cursor-default items-center bg-white hover:bg-gray-100 focus:outline-none'
-        }>
-        {href ? (
-          <div className={'flex items-center gap-2 px-4 py-2'}>
-            <a className={'hover:underline'} href={href} rel={'noreferrer'}>
-              {body}
-            </a>
-          </div>
-        ) : (
-          <button
-            className={
-              'flex w-full items-center justify-items-start gap-2 bg-white px-4 py-2 group-hover:bg-gray-100'
-            }
-            type={'button'}
-            onClick={onClick}>
+      {href ? (
+        <div
+          className={
+            'flex items-center gap-2 rounded-md px-4 py-2 hover:bg-gray-100 focus:outline-none'
+          }>
+          <a className={'hover:underline'} href={href} rel={'noreferrer'}>
             {body}
-          </button>
-        )}
-      </div>
+          </a>
+        </div>
+      ) : (
+        <button
+          className={
+            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none'
+          }
+          type={'button'}
+          onClick={onClick}>
+          {body}
+        </button>
+      )}
     </RawDropdownItem>
   );
 };
@@ -73,7 +71,7 @@ export const Dropdown = ({ Button, items }: any) => {
       <RawDropdownPanel sideOffset={5}>
         <div
           className={
-            'w-max overflow-hidden rounded-md bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none'
+            'w-max overflow-hidden rounded-md bg-white p-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none'
           }>
           {items.map((item: ItemProps) => (
             <Item key={item.text} {...item} />

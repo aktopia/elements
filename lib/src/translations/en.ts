@@ -13,6 +13,7 @@ export default {
   'common/save': 'Save',
   'common/cancel': 'Cancel',
   'common/done': 'Done',
+  'common/add': 'Add',
   'action/promised-outcome': 'Promised Outcome',
   'common/description': 'Description',
   'common/home': 'Home',

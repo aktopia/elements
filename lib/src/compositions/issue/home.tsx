@@ -102,12 +102,14 @@ export const Home = suspensify(() => {
   const issueId = useValue('current.issue/id');
 
   return (
-    <div className={'flex w-full gap-8'}>
+    <div className={'flex w-full flex-col gap-8 md:flex-row'}>
       <div className={'flex w-full flex-col gap-5'}>
         <Description suspenseLines={6} />
         <Resolution />
       </div>
-      <Relationships refAttribute={'issue/id'} refId={issueId} suspenseLines={8} />
+      <div className={'w-full md:w-5/12'}>
+        <Relationships refAttribute={'issue/id'} refId={issueId} suspenseLines={8} />
+      </div>
     </div>
   );
 });

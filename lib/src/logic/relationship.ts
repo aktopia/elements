@@ -1,5 +1,6 @@
-import { sub } from '@elements/store';
+import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { EntityType } from '@elements/types';
+import { rpcPost } from '@elements/rpc';
 
 export enum Relation {
   Resolves = 'resolves',
@@ -11,7 +12,6 @@ export type Subs = {
   'relationship/ids': {
     params: {
       'ref/id': string;
-      'ref/attribute': string;
     };
     result: string[];
   };
@@ -27,17 +27,50 @@ export type Subs = {
     params: { 'relation/id': string };
     result: Relation;
   };
+  'relationship/adding': {
+    params: {};
+    result: boolean;
+  };
 };
 
-export type Events = {};
+export type Events = {
+  'relationship.adding/set': {
+    params: { value: boolean };
+  };
+  'relationship/add': {
+    params: {
+      'relationship/relation': string;
+      'relationship.from.entity/id': string;
+      'relationship.to.entity/id': string;
+    };
+  };
+};
+
 export const relationshipSlice = () => ({
-  'relationship/state': {},
+  'relationship/state': {
+    'relationship/adding': false,
+  },
 });
 
-const relations: string[] = ['1'];
+sub('relationship/adding', ({ state }) => state['relationship/state']['relationship/adding']);
 
-sub('relationship/ids', ({}) => relations);
+remoteSub('relationship/ids');
+remoteSub('relationship.entity/title');
+remoteSub('relationship.entity/type');
+remoteSub('relationship/relation');
 
-sub('relationship.entity/title', ({}) => 'Some title');
-sub('relationship.entity/type', ({}) => EntityType.Action);
-sub('relationship/relation', ({}) => Relation.Resolves);
+evt('relationship.adding/set', ({ setState, params }) => {
+  setState((state: any) => {
+    state['relationship/state']['relationship/adding'] = params.value;
+  });
+});
+
+evt('relationship/add', async ({ setState, params }) => {
+  await rpcPost('relationship/add', params);
+
+  setState((state: any) => {
+    state['relationship/state']['relationship/adding'] = false;
+  });
+
+  await invalidateAsyncSub('relationship/ids', { 'ref/id': params['relationship.from.entity/id'] });
+});

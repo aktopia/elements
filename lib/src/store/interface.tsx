@@ -44,10 +44,11 @@ export function useDispatch<T extends keyof Events>(
   return useDispatchImpl(id, options);
 }
 
-export function useState(
+export function useStateLike(
   valueId: keyof Subs,
   dispatchId: keyof Events
 ): [any, (value: any) => void] {
+  // TODO Deprecate
   const value = useValue(valueId);
   const dispatch = useDispatch(dispatchId);
   const setValue = useCallback((value: any) => dispatch({ value }), [dispatch]);

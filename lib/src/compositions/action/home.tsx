@@ -104,7 +104,9 @@ export const Home = suspensify(() => {
         <Description />
         <Outcome />
       </div>
-      <Relationships refAttribute={'action/id'} refId={actionId} suspenseLines={8} />
+      <div className={'w-1/2'}>
+        <Relationships refAttribute={'action/id'} refId={actionId} suspenseLines={8} />
+      </div>
     </div>
   );
 });

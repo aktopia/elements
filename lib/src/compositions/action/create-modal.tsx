@@ -1,6 +1,6 @@
 import { suspensify } from '@elements/components/suspensify';
 import { Modal, ModalPanel } from '@elements/components/modal';
-import { useDispatch, useState, useValue } from '@elements/store';
+import { useDispatch, useStateLike, useValue } from '@elements/store';
 import { Button } from '@elements/components/button';
 import React, { useCallback } from 'react';
 import { useTranslation } from '@elements/translation';
@@ -16,7 +16,7 @@ export const CreateModal = suspensify(({}) => {
   const onClose = useDispatch('action.create.modal/close', { emptyParams: true });
   const onSave = useDispatch('action.create.modal/create', { emptyParams: true });
 
-  const [title, updateTitle] = useState(
+  const [title, updateTitle] = useStateLike(
     'action.create.modal/title',
     'action.create.modal.title/update'
   );
