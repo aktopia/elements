@@ -24,5 +24,6 @@ export type Subs = {
 };
 
 remoteSub('current.user/id');
+
 sub('current.user/name', ({ state }) => state['user/state']['current.user/name']);
 sub('user/name', ({ state }) => state['user/state']['current.user/name']);

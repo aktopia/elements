@@ -74,9 +74,11 @@ export const VerifyOtp = () => {
         <div className={'flex flex-col gap-7 p-6'}>
           <ModalHeader title={t('auth/verify-otp')} onClose={onClose} />
           {verifyingOtp ? (
-            <Spinner kind={'primary'} size={'sm'} visible={true} />
+            <div className={'flex h-20 w-[300px] items-center justify-center'}>
+              <Spinner kind={'primary'} size={'sm'} visible={true} />
+            </div>
           ) : (
-            <div className={'h-20'}>
+            <div className={'h-20 w-[300px]'}>
               <div className={'mt-2'}>
                 <input
                   className={inputVariant({ error: Boolean(otpError) })}
