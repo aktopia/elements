@@ -1,5 +1,4 @@
 import { Map } from '@elements/components/map';
-import { LatLng } from '@elements/components/map/map';
 import {
   SlideOver,
   SlideOverBody,
@@ -10,12 +9,7 @@ import {
 import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { useMemo } from 'react';
-
-interface Location extends LatLng {
-  id: string;
-  caption: string;
-}
+import type { Location } from '@elements/logic/issue';
 
 /* TODO
 - On hover should hover the marker
@@ -38,7 +32,7 @@ const LocationsListSlideOver = suspensify(({ locations }: { locations: Location[
   const t = useTranslation();
 
   const visible = useValue('issue.location.slide-over/visible');
-  const onClose = useDispatch('issue.location.slide-over/close', { emptyParams: true });
+  const onClose = useDispatch('issue.location.slide-over/close') as () => void;
 
   return (
     <SlideOver visible={visible}>
@@ -62,25 +56,23 @@ interface Reference {
   refAttribute: string;
 }
 
-export const Locations = suspensify(({ refId, refAttribute }: Reference) => {
-  const reference = useMemo(
-    () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
-    [refId, refAttribute]
-  );
-  const locations = useValue<Location[]>('location/data', reference);
-  const center = useValue<LatLng>('issue.location/center', reference);
-  const zoom = useValue('issue.location/zoom', reference);
+export const Locations = suspensify(({ refId }: Reference) => {
+  const locations = useValue('issue/locations', { 'issue/id': refId });
+  const center = useValue('issue.location.default/center', { 'issue/id': refId });
+  const zoom = useValue('issue.location.default/zoom', { 'issue/id': refId });
+  const newLocationCaption = useValue('issue.new.location/caption');
 
-  const onViewListClick = useDispatch('issue.location.slide-over/open', { emptyParams: true });
+  const onViewListClick = useDispatch('issue.location.slide-over/open') as () => void;
   const onAddLocationClick = useDispatch('issue.location/add');
-  const onUpdateCenter = useDispatch('issue.location.center/update');
-  const onCaptionChange = useDispatch('issue.location.caption/update');
+  const onUpdateCenter = useDispatch('issue.new.location.center/update');
+  const onCaptionChange = useDispatch('issue.new.location.caption/update');
 
   return (
     <div>
       <Map
         center={center}
         locations={locations}
+        newLocationCaption={newLocationCaption}
         zoom={zoom}
         onAddLocation={onAddLocationClick}
         onCaptionChange={onCaptionChange}

@@ -8,6 +8,8 @@ export const store = {
     ...votingStore.sub,
     'current.issue/id': '1',
     'current.user/id': '2',
+    'issue.users.facing/count': 3700,
+    'issue.current.user/facing': true,
     'issue/saved': false,
     'issue/followed': false,
     'issue.follow/count': 2600,
@@ -19,6 +21,7 @@ export const store = {
   evt: [
     ...votingStore.evt,
     ...textEditorStore.evt,
+    'issue.current.user/face',
     'issue/follow',
     'issue/unfollow',
     'issue/save',

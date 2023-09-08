@@ -16,8 +16,14 @@ import {
 import { rpcPost } from '@elements/rpc';
 import type { Route } from '@elements/logic/router';
 import { navigate } from '@elements/logic/router';
+import { LatLng } from '@elements/components/map/map';
 
 type TabId = 'home' | 'discuss' | 'media' | 'locations';
+
+export interface Location extends LatLng {
+  id: string;
+  caption: string;
+}
 
 export type Subs = {
   'current.issue/id': {
@@ -56,13 +62,13 @@ export type Subs = {
     params: { 'issue/id': string };
     result: string;
   };
-  'location/data': {
-    params: {};
-    result: any[]; // This is an array but without further context, it's marked as any[].
+  'issue.location.default/center': {
+    params: { 'issue/id': string };
+    result: LatLng;
   };
-  'issue.location/center': {
-    params: {};
-    result: {}; // This is an object, but exact type details are unknown.
+  'issue.location.default/zoom': {
+    params: { 'issue/id': string };
+    result: number;
   };
   'issue.location.slide-over/visible': {
     params: {};
@@ -95,6 +101,14 @@ export type Subs = {
   'issue.current.user/facing': {
     params: { 'issue/id': string };
     result: boolean;
+  };
+  'issue/locations': {
+    params: { 'issue/id': string };
+    result: Location[];
+  };
+  'issue.new.location/caption': {
+    params: {};
+    result: string;
   };
 };
 
@@ -146,11 +160,11 @@ export type Events = {
   'issue.location/add': {
     params: {};
   };
-  'issue.location.center/update': {
-    params: {};
+  'issue.new.location.center/update': {
+    params: { center: LatLng };
   };
-  'issue.location.caption/update': {
-    params: {};
+  'issue.new.location.caption/update': {
+    params: { caption: string };
   };
   'current.issue.id/set': {
     params: {
@@ -205,6 +219,11 @@ sub(
   ({ state }) => state['issue/state']['issue.create.modal/visible']
 );
 
+sub(
+  'issue.new.location/caption',
+  ({ state }) => state['issue/state']['issue.new.location/caption']
+);
+
 sub('issue/saved', () => false);
 sub('issue/followed', () => false);
 sub('issue.follow/count', () => 2600);
@@ -216,26 +235,61 @@ remoteSub('issue/updated-at');
 remoteSub('issue.resolution/text');
 remoteSub('issue.description/text');
 
+remoteSub('issue/locations');
+remoteSub('issue.location.default/center');
+remoteSub('issue.location.default/zoom');
+
 sub('issue.title/can-edit', () => true);
 
 sub('issue.description/can-edit', () => true);
 
 sub('issue.resolution/can-edit', () => true);
 
-sub('location/data', () => []);
-sub('issue.location/center', () => ({}));
-sub('issue.location.slide-over/visible', () => false);
+sub(
+  'issue.location.slide-over/visible',
+  ({ state }) => state['issue/state']['issue.location.slide-over/visible']
+);
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
 evt('issue/save', () => null);
 evt('issue/unsave', () => null);
 evt('issue.severity/reset', () => null);
-evt('issue.location.slide-over/open', () => null);
-evt('issue.location.slide-over/close', () => null);
-evt('issue.location/add', () => null);
-evt('issue.location.center/update', () => null);
-evt('issue.location.caption/update', () => null);
+
+evt('issue.location.slide-over/open', ({ setState }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.location.slide-over/visible'] = true;
+  });
+});
+
+evt('issue.location.slide-over/close', ({ setState }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.location.slide-over/visible'] = false;
+  });
+});
+
+evt('issue.location/add', async ({ getState }) => {
+  const {
+    'current.issue/id': currentIssueId,
+    'issue.new.location/center': latLng,
+    'issue.new.location/caption': caption,
+  } = getState()['issue/state'];
+
+  await rpcPost('issue.location/add', { 'issue/id': currentIssueId, ...latLng, caption });
+  await invalidateAsyncSub('issue/locations', { 'issue/id': currentIssueId });
+});
+
+evt('issue.new.location.center/update', ({ setState, params }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.new.location/center'] = params.center;
+  });
+});
+
+evt('issue.new.location.caption/update', ({ setState, params }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.new.location/caption'] = params.caption;
+  });
+});
 
 evt('issue.current.user/face', async ({ getState }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];

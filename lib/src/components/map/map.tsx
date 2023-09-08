@@ -31,10 +31,11 @@ interface MapProps {
   center?: LatLng;
   locations?: LatLng[];
   zoom?: number;
-  onAddLocation: ({ center }: { center: LatLng }) => void;
+  onAddLocation: ({ location }: { location: LatLng }) => void;
   onUpdateCenter: ({ center }: { center: LatLng }) => void;
   onCaptionChange: ({ caption }: { caption: string }) => void;
   onViewListClick: () => void;
+  newLocationCaption?: string;
 }
 
 const render = (status: Status) => {
@@ -65,11 +66,13 @@ const AddLocation = ({
   onAdd,
   onCancel,
   onCaptionChange,
+  caption,
   show,
 }: {
   onAdd: () => void;
   onCancel: () => void;
   onCaptionChange: ({ caption }: { caption: string }) => void;
+  caption: string;
   show: boolean;
 }) => {
   const confirmText = 'Add Location';
@@ -81,6 +84,7 @@ const AddLocation = ({
     },
     [onCaptionChange]
   );
+
   return show ? (
     <div className={'absolute bottom-24 flex w-2/3 gap-3'}>
       <input
@@ -89,6 +93,7 @@ const AddLocation = ({
         }
         placeholder={'A caption to identify the location'}
         type={'text'}
+        value={caption}
         onChange={onChange}
       />
       <div className={'flex gap-2'}>
@@ -196,6 +201,7 @@ const ViewList = ({ onClick }: { onClick: () => void }) => {
 
 const Map_ = ({
   center,
+  newLocationCaption,
   zoom,
   locations,
   onUpdateCenter,
@@ -342,6 +348,7 @@ const Map_ = ({
       <AddLocationPin dragging={dragging} show={addingLocation} />
 
       <AddLocation
+        caption={newLocationCaption}
         show={addingLocation}
         onAdd={onConfirmLocation}
         onCancel={onCancelAddingLocation}
@@ -353,6 +360,8 @@ const Map_ = ({
   );
 };
 
+const LIBRARIES: any = ['places'];
+
 export const Map = ({
   center,
   zoom,
@@ -361,12 +370,14 @@ export const Map = ({
   onUpdateCenter,
   onCaptionChange,
   onViewListClick,
+  newLocationCaption,
 }: MapProps) => {
   return (
-    <Wrapper apiKey={GOOGLE_MAPS_API_KEY} libraries={['places']} render={render}>
+    <Wrapper apiKey={GOOGLE_MAPS_API_KEY} libraries={LIBRARIES} render={render}>
       <Map_
         center={center}
         locations={locations}
+        newLocationCaption={newLocationCaption}
         zoom={zoom}
         onAddLocation={onAddLocation}
         onCaptionChange={onCaptionChange}

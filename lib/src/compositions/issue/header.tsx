@@ -156,7 +156,7 @@ export const Header = () => {
         <div className={'flex flex-col gap-8'}>
           <div className={'flex items-baseline justify-between'}>
             <div className={'flex items-center gap-7'}>
-              <EntityType type={Type.Issue} />
+              <EntityType size={'sm'} type={Type.Issue} />
               <LastActive suspenseLines={1} />
             </div>
             <SubscriptionBar suspenseLines={1} />
