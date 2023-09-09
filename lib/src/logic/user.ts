@@ -1,9 +1,7 @@
-import { remoteSub, sub } from '@elements/store';
+import { remoteSub } from '@elements/store';
 
 export const userSlice = () => ({
-  'user/state': {
-    'current.user/name': 'John Doe',
-  },
+  'user/state': {},
 });
 
 export type Subs = {
@@ -24,6 +22,5 @@ export type Subs = {
 };
 
 remoteSub('current.user/id');
-
-sub('current.user/name', ({ state }) => state['user/state']['current.user/name']);
-sub('user/name', ({ state }) => state['user/state']['current.user/name']);
+remoteSub('current.user/name');
+remoteSub('user/name');

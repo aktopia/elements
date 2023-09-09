@@ -1,9 +1,10 @@
 import { XMark } from '@elements/icons';
 import { Dialog, Transition } from '@headlessui/react';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
+import type { ReactNode } from 'react';
 
 interface ModalProps {
-  children: React.ReactNode;
+  children: ReactNode;
   onClose: (..._: any) => void;
   visible: boolean;
 }
@@ -37,7 +38,7 @@ export const ModalHeader = ({ title, onClose }: any) => {
   );
 };
 
-export const ModalPanel = ({ children }: { children: React.ReactNode }) => {
+export const ModalPanel = ({ children }: { children: ReactNode }) => {
   return (
     <Transition.Child
       as={Fragment}

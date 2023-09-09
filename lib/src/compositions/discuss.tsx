@@ -38,8 +38,7 @@ const DeleteConfirmationModal = suspensify(() => {
 export const Discuss = suspensify(({ refId, refAttribute }: DiscussProps) => {
   const t = useTranslation();
 
-  const userId = useValue('current.user/id');
-  const currentUserName = useValue('user/name', { 'user/id': userId });
+  const currentUserName = useValue('current.user/name');
   const reference = useMemo(
     () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
     [refId, refAttribute]

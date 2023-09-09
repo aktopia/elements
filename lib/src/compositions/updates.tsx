@@ -127,8 +127,7 @@ export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
     () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
     [refId, refAttribute]
   );
-  const currentUserId = useValue('current.user/id');
-  const currentUserName = useValue('user/name', { 'user/id': currentUserId });
+  const currentUserName = useValue('current.user/name');
   const updateIds = useValue('update/ids', reference);
 
   const updateContent = useDispatch('new.update/update');
