@@ -23,6 +23,7 @@ const DescriptionText = suspensify(() => {
       placeholder={t('action.description/placeholder')}
       refAttribute={'action.description/text'}
       refId={actionId}
+      richText={false}
       suspenseLines={3}
     />
   );
@@ -71,6 +72,7 @@ const OutcomeText = suspensify(() => {
       placeholder={t('action.outcome/placeholder')}
       refAttribute={'action.outcome/text'}
       refId={actionId}
+      richText={false}
       suspenseLines={3}
     />
   );

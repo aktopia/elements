@@ -142,6 +142,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
                 content={text}
                 refAttribute={'comment/text'}
                 refId={id}
+                richText={false}
                 suspenseLines={2}
               />
               <div className={'flex gap-5'}>

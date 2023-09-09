@@ -23,6 +23,7 @@ const DescriptionText = suspensify(() => {
       placeholder={t('issue.description/placeholder')}
       refAttribute={'issue.description/text'}
       refId={issueId}
+      richText={false}
       suspenseLines={3}
     />
   );
@@ -72,6 +73,7 @@ const ResolutionText = suspensify(() => {
       noContent={noContent}
       refAttribute={'issue.resolution/text'}
       refId={issueId}
+      richText={false}
       suspenseLines={3}
     />
   );

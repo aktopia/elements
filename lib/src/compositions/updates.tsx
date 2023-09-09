@@ -105,6 +105,7 @@ const Update = suspensify(({ id }: { id: string }) => {
         content={text}
         refAttribute={'update/text'}
         refId={id}
+        richText={false}
         suspenseLines={4}
       />
       <div className={'flex items-center gap-5'}>
