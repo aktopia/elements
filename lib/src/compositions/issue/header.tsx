@@ -27,6 +27,7 @@ const Title = suspensify(() => {
       <TextEditor
         className={'text-3xl font-semibold text-gray-800'}
         content={title}
+        output={'text'}
         refAttribute={'issue.title/text'}
         refId={issueId}
         suspenseLines={1}

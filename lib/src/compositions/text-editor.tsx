@@ -13,10 +13,19 @@ interface TextEditorProps {
   className: string;
   placeholder?: string;
   noContent?: ReactElement;
+  output?: 'html' | 'text';
 }
 
 export const TextEditor = suspensify(
-  ({ refId, refAttribute, content, className, placeholder, noContent }: TextEditorProps) => {
+  ({
+    refId,
+    refAttribute,
+    content,
+    className,
+    placeholder,
+    noContent,
+    output,
+  }: TextEditorProps) => {
     const t = useTranslation();
     const reference = useMemo(
       () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
@@ -55,6 +64,7 @@ export const TextEditor = suspensify(
         content={content}
         doneText={t('common/done')}
         editable={isEditing}
+        output={output}
         placeholder={placeholder}
         onCancel={onCancel}
         onChange={onChange}

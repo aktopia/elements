@@ -78,6 +78,7 @@ const Title = suspensify(() => {
       <TextEditor
         className={'text-3xl font-semibold text-gray-800'}
         content={title}
+        output={'text'}
         refAttribute={'action.title/text'}
         refId={actionId}
         suspenseLines={1}
@@ -222,7 +223,7 @@ export const Header = () => {
         <div className={'flex flex-col gap-8'}>
           <div className={'flex items-baseline justify-between'}>
             <div className={'flex gap-7'}>
-              <EntityType type={Type.Action} />
+              <EntityType size={'sm'} type={Type.Action} />
               <LastActive suspenseLines={1} />
             </div>
             <SubscriptionBar suspenseLines={2} />
