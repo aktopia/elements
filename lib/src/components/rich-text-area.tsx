@@ -1,9 +1,38 @@
-import Placeholder from '@tiptap/extension-placeholder';
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { isNil } from 'lodash';
 import type { ForwardRefRenderFunction, MutableRefObject } from 'react';
 import { forwardRef, memo, useEffect, useImperativeHandle, useRef } from 'react';
+import Placeholder from '@tiptap/extension-placeholder';
+import Strike from '@tiptap/extension-strike';
+import Italic from '@tiptap/extension-italic';
+import Bold from '@tiptap/extension-bold';
+import Paragraph from '@tiptap/extension-paragraph';
+import Document from '@tiptap/extension-document';
+import Text from '@tiptap/extension-text';
+import Heading from '@tiptap/extension-heading';
+import History from '@tiptap/extension-history';
+import OrderedList from '@tiptap/extension-ordered-list';
+import BulletList from '@tiptap/extension-bullet-list';
+import ListItem from '@tiptap/extension-list-item';
+
+export const plainTextExtensions = [Document, Text, Paragraph, History];
+
+export const richTextExtensions = [
+  ...plainTextExtensions,
+  Bold,
+  Italic,
+  Strike,
+  ListItem,
+  BulletList.configure({
+    keepMarks: true,
+    keepAttributes: false,
+  }),
+  Heading,
+  OrderedList.configure({
+    keepMarks: true,
+    keepAttributes: false,
+  }),
+];
 
 interface RichTextAreaProps {
   className?: string;
@@ -14,6 +43,7 @@ interface RichTextAreaProps {
   placeholder?: string;
   clearValue?: () => void;
   setValue?: (value: string) => void;
+  extensions?: any[];
 }
 
 export interface RichTextAreaHandle {
@@ -29,6 +59,7 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
     output = 'html',
     editable,
     placeholder,
+    extensions = richTextExtensions,
   }: RichTextAreaProps,
   ref
 ) => {
@@ -36,16 +67,7 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
   const editor = useEditor({
     editable: editable,
     extensions: [
-      StarterKit.configure({
-        bulletList: {
-          keepMarks: true,
-          keepAttributes: false,
-        },
-        orderedList: {
-          keepMarks: true,
-          keepAttributes: false,
-        },
-      }),
+      ...extensions,
       Placeholder.configure({
         placeholder: placeholder,
       }),

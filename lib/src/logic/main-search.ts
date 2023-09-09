@@ -75,8 +75,6 @@ evt('main-search.query/set', async ({ setState, params }) => {
 });
 
 evt('main-search/close', ({ setState }) => {
-  console.trace('main-search/close');
-
   setState((state: any) => {
     state['main-search/state']['main-search/visible'] = false;
     state['main-search/state']['main-search/query'] = '';

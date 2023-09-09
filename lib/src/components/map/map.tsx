@@ -252,9 +252,9 @@ const Map_ = ({
     }
 
     return () => {
-      autoCompleteService.current = undefined;
-      placesService.current = undefined;
-      // TODO cleanup event listeners
+      // TODO cleanup properly
+      // autoCompleteService.current = undefined;
+      // placesService.current = undefined;
     };
   }, [map, onUpdateCenter, center, zoom]);
 

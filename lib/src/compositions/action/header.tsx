@@ -1,5 +1,4 @@
-import { Crowd, Giving, ShareOutline } from '@elements/icons';
-import type { ButtonProps } from '@elements/components/button';
+import { Crowd, Giving } from '@elements/icons';
 import { Button } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
 import { NamedSwitch } from '@elements/components/named-switch';
@@ -17,11 +16,6 @@ import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
 import { EntityType as Type } from '@elements/types';
-
-type ShareButtonProps = Omit<ButtonProps, 'value' | 'Icon'>;
-export const ShareButton = ({ clicked, ...props }: ShareButtonProps) => {
-  return <Button {...props} Icon={ShareOutline} clicked={clicked} value={'Share'} />;
-};
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -81,6 +75,7 @@ const Title = suspensify(() => {
         output={'text'}
         refAttribute={'action.title/text'}
         refId={actionId}
+        richText={false}
         suspenseLines={1}
       />
       <EditButton

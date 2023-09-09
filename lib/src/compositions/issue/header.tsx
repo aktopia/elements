@@ -30,6 +30,7 @@ const Title = suspensify(() => {
         output={'text'}
         refAttribute={'issue.title/text'}
         refId={issueId}
+        richText={false}
         suspenseLines={1}
       />
       <EditButton
