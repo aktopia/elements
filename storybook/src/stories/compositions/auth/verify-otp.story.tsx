@@ -9,6 +9,7 @@ export default {
 
 export const VerifyOtp = mockStory({
   store,
+  args: { suspenseLines: 10 },
   render: () => {
     return <Component />;
   },

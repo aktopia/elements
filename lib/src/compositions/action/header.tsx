@@ -65,7 +65,7 @@ const Title = suspensify(() => {
   const title = useValue('action.title/text', { 'action/id': actionId });
 
   const canEdit = useValue('action.title/can-edit', { 'action/id': actionId });
-  const onEdit = useDispatch('action.title/edit', { emptyParams: true });
+  const onEdit = useDispatch('action.title/edit');
 
   return (
     <div className={'flex items-start justify-between gap-3'}>

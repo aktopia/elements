@@ -14,6 +14,7 @@ export default {
   'common/cancel': 'Cancel',
   'common/done': 'Done',
   'common/add': 'Add',
+  'common/okay': 'Okay',
   'action/promised-outcome': 'Promised Outcome',
   'common/description': 'Description',
   'common/home': 'Home',
@@ -26,6 +27,7 @@ export default {
   'common/delete': 'Delete',
   'common/media': 'Media',
   'common/locations': 'Locations',
+  'common/full-name': 'Full Name',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',
@@ -57,19 +59,20 @@ export default {
   'issue.location.slide-over/location-list': 'Locations',
   'percentage/complete': 'Complete',
   'common/severity': 'Severity',
-  'action.title/placeholder': 'Give the action a title',
-  'action.description/placeholder': 'Describe the action',
-  'action.outcome/placeholder': 'Describe the outcome',
+  'action.title/placeholder': 'Give the action a title.',
+  'action.description/placeholder': 'Describe the action.',
+  'action.outcome/placeholder': 'Describe the outcome.',
   'action.description/empty':
     "You haven't added a description yet. Describe what the action is all about.",
   'action.outcome/empty':
     "You haven't added an outcome yet. Describe what promise to fulfill with this action.",
   'text.draft/create': 'Create Draft',
-  'issue.title/placeholder': 'Give the issue a title',
-  'issue.description/placeholder': 'Describe the issue',
-  'issue.resolution/placeholder': 'Describe the resolution',
+  'issue.title/placeholder': 'Give the issue a title.',
+  'issue.description/placeholder': 'Describe the issue.',
+  'issue.resolution/placeholder': 'Describe the resolution.',
   'issue.description/empty':
     "You haven't added a description yet. Describe what the issue is all about.",
   'issue.resolution/empty':
     "You haven't added a resolution yet. Describe what an ideal resolution for this issue should be.",
+  'registration.full-name/placeholder': 'Please enter your full name.',
 };

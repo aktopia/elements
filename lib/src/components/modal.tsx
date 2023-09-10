@@ -1,11 +1,11 @@
 import { XMark } from '@elements/icons';
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import type { ReactNode } from 'react';
 
 interface ModalProps {
   children: ReactNode;
-  onClose: (..._: any) => void;
+  onClose?: (..._: any) => void;
   visible: boolean;
 }
 
@@ -59,9 +59,13 @@ export const ModalPanel = ({ children }: { children: ReactNode }) => {
 };
 
 export const Modal = ({ children, onClose, visible }: ModalProps) => {
+  const onDialogClose = useMemo(() => {
+    return onClose || (() => {});
+  }, [onClose]);
+
   return (
     <Transition.Root appear afterLeave={console.log} as={Fragment} show={visible}>
-      <Dialog className={'relative z-30'} open={visible} onClose={onClose}>
+      <Dialog className={'relative z-30'} open={visible} onClose={onDialogClose}>
         <Transition.Child
           as={Fragment}
           enter={'ease-out duration-300'}

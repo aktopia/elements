@@ -11,8 +11,8 @@ export const CreateModal = suspensify(({}) => {
 
   const visible = useValue('issue.create.modal/visible');
 
-  const onClose = useDispatch('issue.create.modal/close', { emptyParams: true });
-  const onSave = useDispatch('issue.create.modal/create', { emptyParams: true });
+  const onClose = useDispatch('issue.create.modal/close');
+  const onSave = useDispatch('issue.create.modal/create');
   const [title, updateTitle] = useStateLike(
     'issue.create.modal/title',
     'issue.create.modal.title/update'

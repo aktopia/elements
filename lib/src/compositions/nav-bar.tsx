@@ -36,8 +36,8 @@ const CreateButton = () => {
 const CreateDropdown = () => {
   const t = useTranslation();
 
-  const onCreateAction = useDispatch('action.create.modal/open', { emptyParams: true });
-  const onCreateIssue = useDispatch('issue.create.modal/open', { emptyParams: true });
+  const onCreateAction = useDispatch('action.create.modal/open');
+  const onCreateIssue = useDispatch('issue.create.modal/open');
 
   const items = useMemo(
     () => [
@@ -118,7 +118,7 @@ const Logo = () => {
 
 const SearchBar = () => {
   const t = useTranslation();
-  const onSearchClick = useDispatch('main-search/open', { emptyParams: true });
+  const onSearchClick = useDispatch('main-search/open');
 
   return (
     <div

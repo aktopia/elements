@@ -7,6 +7,7 @@ import { useTranslation } from '@elements/translation';
 import { cva } from 'cva';
 import React, { useCallback } from 'react';
 import { MAX_OTP_DIGITS } from '@elements/logic/authentication';
+import { suspensify } from '@elements/components/suspensify';
 
 const inputVariant = cva(
   'h-max rounded-md border bg-gray-50 py-2 px-3 text-center text-2xl font-medium tracking-[1rem] text-gray-600 shadow-inner',
@@ -20,7 +21,7 @@ const inputVariant = cva(
   }
 );
 
-export const VerifyOtp = () => {
+export const VerifyOtp = suspensify(() => {
   const t = useTranslation();
 
   const otp = useValue('auth.verify-otp/otp');
@@ -108,7 +109,7 @@ export const VerifyOtp = () => {
       </ModalPanel>
     </Modal>
   );
-};
+});
 
 /*
 TODO

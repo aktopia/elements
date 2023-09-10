@@ -19,6 +19,7 @@ export const authenticationSlice = () => ({
     'auth.verify-otp.resend-otp/state': 'idle',
     'auth.verify-otp/error': null,
     'auth.verify-otp/otp-wait-seconds': 10,
+    'user.registration.input/name': '',
   },
 });
 
@@ -62,6 +63,10 @@ export type Subs = {
   'auth.verify-otp/wait-seconds': {
     params: {};
     result: number;
+  };
+  'user.registration.input/name': {
+    params: {};
+    result: string;
   };
 };
 
@@ -110,6 +115,12 @@ export type Events = {
   'auth.verify-otp/focus-input': {
     params: {};
   };
+  'user.registration.modal/done': {
+    params: {};
+  };
+  'user.registration.input.name/update': {
+    params: { value: string };
+  };
 };
 
 sub('auth.sign-in/visible', ({ state }) => state['authentication/state']['auth.sign-in/visible']);
@@ -145,6 +156,11 @@ sub('auth.verify-otp/error', ({ state }) => state['authentication/state']['auth.
 sub(
   'auth.verify-otp/wait-seconds',
   ({ state }) => state['authentication/state']['auth.verify-otp/otp-wait-seconds']
+);
+
+sub(
+  'user.registration.input/name',
+  ({ state }) => state['authentication/state']['user.registration.input/name']
 );
 
 evt('auth.sign-in/initiate', ({ setState }) => {
@@ -267,3 +283,21 @@ evt('auth.verify-otp/submit-otp', async ({ setState, params }) => {
 });
 
 evt('auth.verify-otp/focus-input', ({}) => {});
+
+evt('user.registration.input.name/update', ({ setState, params }) => {
+  setState((state: any) => {
+    state['authentication/state']['user.registration.input/name'] = params.value;
+  });
+});
+
+evt('user.registration.modal/done', async ({ setState, getState }) => {
+  const name = getState()['authentication/state']['user.registration.input/name'];
+
+  await rpcPost('current.user.name/update', { 'user/name': name });
+
+  setState((state: any) => {
+    state['authentication/state']['user.registration.modal/visible'] = false;
+  });
+
+  await invalidateAsyncSub('current.user/name');
+});
