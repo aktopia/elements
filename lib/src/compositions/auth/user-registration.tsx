@@ -13,7 +13,8 @@ export const UserRegistration = suspensify(({}) => {
    directly sent from the backend.
    */
   const currentUserName = useValue('current.user/name');
-  const visible = !currentUserName;
+  const isSignedIn = useValue('auth.session/exists');
+  const visible = !currentUserName && isSignedIn;
   const name = useValue('user.registration.input/name');
 
   const onComplete = useDispatch('user.registration.modal/done');

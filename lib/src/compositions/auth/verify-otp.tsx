@@ -10,7 +10,7 @@ import { MAX_OTP_DIGITS } from '@elements/logic/authentication';
 import { suspensify } from '@elements/components/suspensify';
 
 const inputVariant = cva(
-  'h-max rounded-md border bg-gray-50 py-2 px-3 text-center text-2xl font-medium tracking-[1rem] text-gray-600 shadow-inner',
+  'h-max w-full rounded-md border bg-gray-50 py-2 px-3 text-center text-2xl font-medium tracking-[1rem] text-gray-600 shadow-inner',
   {
     variants: {
       error: {

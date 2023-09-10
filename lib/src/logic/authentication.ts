@@ -1,4 +1,4 @@
-import { dispatch, evt, invalidateAsyncSub, sub } from '@elements/store';
+import { dispatch, evt, invalidateAsyncSub, invalidateAsyncSubs, sub } from '@elements/store';
 import { consumeOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
 import { rpcPost } from '@elements/rpc';
 
@@ -262,7 +262,7 @@ evt('auth.verify-otp/submit-otp', async ({ setState, params }) => {
       });
     }
 
-    await invalidateAsyncSub('current.user/id');
+    await invalidateAsyncSubs([['current.user/id'], ['current.user/name']]);
 
     setState((state: any) => {
       state['authentication/state']['auth.verify-otp/verifying'] = false;

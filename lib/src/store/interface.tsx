@@ -36,12 +36,9 @@ export function useValue<T extends keyof Subs>(
   return useValueImpl<T>(id, params);
 }
 
-export function useDispatch<T extends keyof Events>(
-  id: T,
-  options?: Record<string, any>
-): (params: Events[T]['params']) => void {
+export function useDispatch<T extends keyof Events>(id: T): (params: Events[T]['params']) => void {
   const { useDispatchImpl } = useContext(StoreContext);
-  return useDispatchImpl(id, options);
+  return useDispatchImpl(id);
 }
 
 export function useStateLike(

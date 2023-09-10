@@ -73,7 +73,3 @@ export const Profile = wrapPage(() => {
     </div>
   );
 });
-
-export const routes = {
-  'profile/view': Profile,
-};

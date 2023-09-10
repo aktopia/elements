@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider, useQuery as useReactQuery } from 'rea
 import { create } from 'zustand';
 import type { ReactNode } from 'react';
 import { useCallback } from 'react';
-import { Store as StoreInterface, useDispatch } from '@elements/store/interface';
+import { Store as StoreInterface, useDispatch, useValue } from '@elements/store/interface';
 import { events, subscriptions } from '@elements/store/register';
 import { slices } from '@elements/store/slices';
 import { immer } from 'zustand/middleware/immer';
@@ -30,38 +30,32 @@ export const getState = useStore.getState;
 
 export function dispatch(id: string, params?: Record<string, any>) {
   const { fn } = events[id];
-  return fn({ setState, getState, params: params || {} });
+  return fn({ setState, getState, params });
 }
 
 export function read(id: string, params?: Record<string, any>) {
   const { fn } = subscriptions[id];
-  return fn({ state: getState(), params: params || {} });
+  return fn({ state: getState(), params });
 }
 
-const useRemote = (id: string, params?: Record<string, any>) => {
+const useRemote: typeof useValue = (id, params) => {
   const { data } = useReactQuery([id, { params }]);
   return data;
 };
 
-const useLocal = (id: string, params?: Record<string, any>) => {
+const useLocal: typeof useValue = (id, params) => {
   const read = subscriptions[id].fn;
   return useStore((state) => read({ state, params }));
 };
 
-function useValueImpl<T>(id: string, params?: Record<string, any>): T {
+const useValueImpl: typeof useValue = (id, params) => {
   const useVal = subscriptions[id].async ? useRemote : useLocal;
-  return useVal(id, params) as T;
-}
+  return useVal(id, params);
+};
 
-const useDispatchImpl: typeof useDispatch = (id, options?) => {
-  const { emptyParams = false }: any = options || {};
+const useDispatchImpl: typeof useDispatch = (id) => {
   const { fn } = events[id];
-
-  return useCallback(
-    (params?: Record<string, any>) =>
-      fn({ setState, getState, params: emptyParams ? {} : params || {} }),
-    [fn, emptyParams]
-  );
+  return useCallback((params) => fn({ setState, getState, params }), [fn]);
 };
 
 const queryClient = new QueryClient({
@@ -75,13 +69,13 @@ const queryClient = new QueryClient({
 
 export const invalidateAsyncSub = async <T extends keyof Subs>(
   id: T,
-  params: Subs[T]['params'] = {}
+  params?: Subs[T]['params']
 ) => {
   await queryClient.invalidateQueries({ queryKey: [id, { params }] });
 };
 
 export const invalidateAsyncSubs = async <T extends keyof Subs>(
-  subs: Array<[id: T, params: Subs[T]['params']]>
+  subs: Array<[id: T, params?: Subs[T]['params']]>
 ) => {
   await Promise.all(subs.map(([id, params]) => invalidateAsyncSub(id, params)));
 };
