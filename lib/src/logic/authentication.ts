@@ -68,6 +68,10 @@ export type Subs = {
     params: {};
     result: string;
   };
+  'user.registration/pending': {
+    params: {};
+    result: boolean;
+  };
 };
 
 export type Events = {
@@ -115,7 +119,7 @@ export type Events = {
   'auth.verify-otp/focus-input': {
     params: {};
   };
-  'user.registration.modal/done': {
+  'user.registration/done': {
     params: {};
   };
   'user.registration.input.name/update': {
@@ -290,14 +294,10 @@ evt('user.registration.input.name/update', ({ setState, params }) => {
   });
 });
 
-evt('user.registration.modal/done', async ({ setState, getState }) => {
+evt('user.registration/done', async ({ getState }) => {
   const name = getState()['authentication/state']['user.registration.input/name'];
 
   await rpcPost('current.user.name/update', { 'user/name': name });
 
-  setState((state: any) => {
-    state['authentication/state']['user.registration.modal/visible'] = false;
-  });
-
-  await invalidateAsyncSub('current.user/name');
+  await invalidateAsyncSub('user.registration/pending');
 });

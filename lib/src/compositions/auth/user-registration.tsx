@@ -8,17 +8,11 @@ import { Button } from '@elements/components/button';
 export const UserRegistration = suspensify(({}) => {
   const t = useTranslation();
 
-  /* TODO This is very imperative, view should not know of the name being null,
-   instead it should be all the registrations fields that are incomplete
-   directly sent from the backend.
-   */
-  const currentUserName = useValue('current.user/name');
-  const isSignedIn = useValue('auth.session/exists');
-  const visible = !currentUserName && isSignedIn;
+  const visible = useValue('user.registration/pending');
   const name = useValue('user.registration.input/name');
 
-  const onComplete = useDispatch('user.registration.modal/done');
   const updateName = useDispatch('user.registration.input.name/update');
+  const onComplete = useDispatch('user.registration/done');
 
   const onNameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

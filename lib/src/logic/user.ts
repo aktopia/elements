@@ -24,3 +24,4 @@ export type Subs = {
 remoteSub('current.user/id');
 remoteSub('current.user/name');
 remoteSub('user/name');
+remoteSub('user.registration/pending');
