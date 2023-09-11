@@ -1,5 +1,6 @@
-import { Fragment, useState } from 'react';
-import { Transition } from '@headlessui/react';
+import { Fragment, useCallback, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { Combobox, Transition } from '@headlessui/react';
 import { MagnifyingGlassSolid, XMarkSolid } from '@elements/icons';
 import { isEmpty } from 'lodash';
 
@@ -27,34 +28,58 @@ export const Select = ({ onChange, options, onChoose }: any) => {
   const showOptionsDropdown = !isEmpty(options) && isInputFocussed;
   const isInputTextEmpty = isEmpty(inputText);
 
+  const onBlur = useCallback(() => {
+    setIsInputFocussed(false);
+  }, []);
+
+  const onInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      onChange(value);
+      setInputText(value);
+    },
+    [onChange]
+  );
+
+  const onFocus = useCallback(() => {
+    setIsInputFocussed(true);
+  }, []);
+
+  const onInputClear = useCallback(() => {
+    onChange('');
+    setInputText('');
+  }, [onChange]);
+
+  const onOptionChoose = useCallback(
+    (option: any) => {
+      onChoose(option);
+      setInputText(option.description);
+    },
+    [onChoose]
+  );
+
   return (
-    <div className={''}>
+    <Combobox onChange={onOptionChoose}>
       <div className={'relative z-0'}>
         <div className={'pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'}>
           <MagnifyingGlassSolid className={'h-5 w-5 text-gray-400'} />
         </div>
-        <input
+        <Combobox.Input
           className={
             'block h-10 w-full overflow-hidden rounded-lg border border-stone-50 bg-white py-4 pl-10 pr-10 text-stone-600 shadow-lg ring-0 placeholder:text-stone-400 focus:border-stone-50 focus:outline-none focus:ring-0'
           }
           placeholder={'Search'}
           type={'text'}
           value={inputText}
-          onBlur={() => setIsInputFocussed(false)}
-          onChange={(e) => {
-            const value = e.target.value;
-            onChange(value);
-            setInputText(value);
-          }}
-          onFocus={() => setIsInputFocussed(true)}
+          onBlur={onBlur}
+          onChange={onInputChange}
+          onFocus={onFocus}
         />
         {!isInputTextEmpty && (
           <button
             className={'absolute inset-y-0 right-0 flex items-center pr-3'}
-            onClick={() => {
-              onChange('');
-              setInputText('');
-            }}>
+            type={'button'}
+            onClick={onInputClear}>
             <XMarkSolid className={'h-5 w-5 text-gray-400 hover:text-gray-600'} />
           </button>
         )}
@@ -65,25 +90,22 @@ export const Select = ({ onChange, options, onChoose }: any) => {
         enterFrom={'opacity-0 -translate-y-10'}
         enterTo={'opacity-100 translate-y-0'}
         show={showOptionsDropdown}>
-        <ul
+        <Combobox.Options
           className={
             'z-1 relative mt-1 w-full rounded-lg border border-stone-50 bg-white py-1 shadow-lg empty:hidden focus:outline-none sm:text-sm'
           }>
           {options.map((option: any) => (
-            <li
+            <Combobox.Option
               key={option.place_id}
               className={
                 'relative inline-flex w-full cursor-pointer py-2 pl-3 pr-4 hover:bg-stone-100'
               }
-              onClick={() => {
-                onChoose(option);
-                setInputText(option.description);
-              }}>
+              value={option}>
               {formatOptionText(option)}
-            </li>
+            </Combobox.Option>
           ))}
-        </ul>
+        </Combobox.Options>
       </Transition>
-    </div>
+    </Combobox>
   );
 };
