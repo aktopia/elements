@@ -1,8 +1,8 @@
-import { Alert as Component } from '@elements/components/alert';
+import { Snackbar as Component } from '@elements/components/snackbar';
 import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useValue } from '@elements/store';
 
-export const Alert = suspensify(() => {
+export const Snackbar = suspensify(() => {
   const visible = useValue('alert/visible');
   const message = useValue('alert/message');
   const kind = useValue('alert/kind');

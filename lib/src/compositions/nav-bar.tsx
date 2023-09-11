@@ -147,7 +147,10 @@ const UserLocation = () => {
 export const NavBar = () => {
   return (
     <>
-      <div className={'grid h-max grid-cols-7 border-b border-b-gray-300 shadow-sm'}>
+      <div
+        className={
+          'fixed z-20 grid h-max w-full grid-cols-7 border-b border-b-gray-300 bg-white shadow-sm'
+        }>
         <div className={'col-start-1 col-end-2'}>
           <Logo />
         </div>
