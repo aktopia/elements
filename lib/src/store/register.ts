@@ -8,6 +8,7 @@ type Read<T extends keyof Subs> = (args: {
 }) => Subs[T]['result'];
 
 type AsyncRead<T extends keyof Subs> = (args: {
+  state: any;
   params: Subs[T]['params'];
 }) => Promise<Subs[T]['result']>;
 
@@ -24,7 +25,7 @@ export function sub<T extends keyof Subs>(id: T, fn: Read<T>) {
   subscriptions[id] = { fn, async: false };
 }
 
-export function asyncSub<T extends keyof Subs>(id: string, fn: AsyncRead<T>) {
+export function asyncSub<T extends keyof Subs>(id: T, fn: AsyncRead<T>) {
   subscriptions[id] = { fn, async: true };
 }
 

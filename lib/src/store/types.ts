@@ -25,6 +25,7 @@ import type {
   Events as RelationshipEvents,
   Subs as RelationshipSubs,
 } from '@elements/logic/relationship';
+import type { Events as LocalityEvents, Subs as LocalitySubs } from '@elements/logic/locality';
 
 export type Subs = CommentSubs &
   UpdateSubs &
@@ -40,7 +41,8 @@ export type Subs = CommentSubs &
   LocaleSubs &
   MainSearchSubs &
   IssueSubs &
-  RelationshipSubs;
+  RelationshipSubs &
+  LocalitySubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
@@ -55,4 +57,5 @@ export type Events = CommentEvents &
   LocaleEvents &
   MainSearchEvents &
   IssueEvents &
-  RelationshipEvents;
+  RelationshipEvents &
+  LocalityEvents;

@@ -12,7 +12,7 @@ import {
   fetchPlaceDetails,
   fetchPredictions,
   getCenter,
-} from '@elements/components/map/utils';
+} from '@elements/utils/location';
 import { Spinner } from '@elements/components/spinner';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { Status, Wrapper } from '@googlemaps/react-wrapper';
@@ -20,7 +20,6 @@ import { cx } from '@elements/utils';
 import { differenceWith, isEmpty, isEqual } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import LatLngLiteral = google.maps.LatLngLiteral;
-import AutocompleteService = google.maps.places.AutocompleteService;
 import PlacesService = google.maps.places.PlacesService;
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -211,12 +210,11 @@ const Map_ = ({
 }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const currentLocations = useRef<LatLng[]>(locations || []);
-  const autoCompleteService = useRef<AutocompleteService>();
   const placesService = useRef<PlacesService>();
   const [map, setMap] = useState<google.maps.Map>();
   const [dragging, setDragging] = useState(false);
   const [addingLocation, setAddingLocation] = useState(false);
-  const [autoCompleteOptions, setAutoCompleteOptions] = useState([]);
+  const [autoCompleteOptions, setAutoCompleteOptions] = useState<any[]>([]);
 
   useEffect(() => {
     if (mapRef.current && !map) {
@@ -243,8 +241,6 @@ const Map_ = ({
       window.google.maps.event.addListener(newMap, 'tilesloaded', () => {
         onUpdateCenter && onUpdateCenter({ center: getCenter(newMap) });
       });
-
-      autoCompleteService.current = new window.google.maps.places.AutocompleteService();
 
       placesService.current = new window.google.maps.places.PlacesService(newMap);
 
@@ -294,7 +290,7 @@ const Map_ = ({
   }, []);
 
   const onSearch = useCallback(async (q: string) => {
-    const predictions = await fetchPredictions(q, autoCompleteService.current);
+    const predictions = await fetchPredictions(q);
     setAutoCompleteOptions(predictions);
   }, []);
 

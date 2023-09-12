@@ -1,10 +1,9 @@
 import {
   ChevronDownMiniSolid,
   MagnifyingGlassOutline,
-  MapPinOutline,
+  MapPinSolid,
   UserCircleSolid,
 } from '@elements/icons';
-import { Button } from '@elements/components/button';
 import { Dropdown } from '@elements/components/dropdown';
 import { suspensify } from '@elements/components/suspensify';
 import { MainSearch } from '@elements/compositions/main-search';
@@ -14,10 +13,12 @@ import { useMemo } from 'react';
 import { Auth } from '@elements/compositions/auth/auth';
 import { CreateModal as ActionCreateModal } from '@elements/compositions/action/create-modal';
 import { CreateModal as IssueCreateModal } from '@elements/compositions/issue/create-modal';
+import { ChooseLocalitySlideOver } from '@elements/compositions/choose-locality';
+import { Button } from '@elements/components/button';
 
 const aktopia = 'Aktopia';
 
-const CreateButton = () => {
+const CreateButton = suspensify(() => {
   const t = useTranslation();
 
   return (
@@ -31,9 +32,9 @@ const CreateButton = () => {
       </div>
     </div>
   );
-};
+});
 
-const CreateDropdown = () => {
+const CreateDropdown = suspensify(() => {
   const t = useTranslation();
 
   const onCreateAction = useDispatch('action.create.modal/open');
@@ -53,7 +54,7 @@ const CreateDropdown = () => {
     [onCreateAction, onCreateIssue, t]
   );
   return <Dropdown Button={CreateButton} items={items} />;
-};
+});
 
 const Avatar = () => {
   return (
@@ -64,7 +65,7 @@ const Avatar = () => {
   );
 };
 
-export const SignInButton = () => {
+export const SignInButton = suspensify(() => {
   const t = useTranslation();
   const onSignInClick = useDispatch('auth.sign-in/initiate');
 
@@ -75,7 +76,7 @@ export const SignInButton = () => {
       </div>
     </div>
   );
-};
+});
 
 const UserDropdown = suspensify(() => {
   const userId = useValue('current.user/id');
@@ -116,7 +117,7 @@ const Logo = () => {
   );
 };
 
-const SearchBar = () => {
+const SearchBar = suspensify(() => {
   const t = useTranslation();
   const onSearchClick = useDispatch('main-search/open');
 
@@ -130,27 +131,27 @@ const SearchBar = () => {
       <div className={'text-xs text-gray-500'}>{t('main-search/placeholder')}</div>
     </div>
   );
-};
+});
 
-const UserLocation = () => {
+const ChooseLocalityButton = suspensify(() => {
+  const onOpen = useDispatch('choose-locality.slide-over/open') as () => void;
+
   return (
     <Button
-      Icon={MapPinOutline}
-      iconClassName={'stroke-2 relative bottom-px'}
+      Icon={MapPinSolid}
+      iconClassName={'stroke-2 relative top-px animate-bounce'}
       kind={'warning'}
       size={'xs'}
-      value={'Set Location'}
+      value={'Choose Locality'}
+      onClick={onOpen}
     />
   );
-};
+});
 
 export const NavBar = () => {
   return (
     <>
-      <div
-        className={
-          'fixed z-20 grid h-max w-full grid-cols-7 border-b border-b-gray-300 bg-white shadow-sm'
-        }>
+      <div className={'grid h-max grid-cols-7 border-b border-b-gray-300 bg-white shadow-sm'}>
         <div className={'col-start-1 col-end-2'}>
           <Logo />
         </div>
@@ -158,7 +159,7 @@ export const NavBar = () => {
           <CreateDropdown />
         </div>
         <div className={'col-start-3 col-end-3 flex items-center justify-start'}>
-          <UserLocation />
+          <ChooseLocalityButton />
         </div>
         <div className={'col-start-4 col-end-4 my-3 flex items-center justify-center'}>
           <SearchBar />
@@ -167,13 +168,14 @@ export const NavBar = () => {
           className={
             'col-start-7 col-end-7 flex w-full items-center justify-center bg-white py-2.5 pl-2 pr-6 md:pl-12 md:pr-14'
           }>
-          <UserDropdown suspenseLines={5} />
+          <UserDropdown />
         </div>
       </div>
       <Auth suspenseLines={5} />
       <MainSearch suspenseLines={5} />
       <ActionCreateModal suspenseLines={1} />
       <IssueCreateModal suspenseLines={1} />
+      <ChooseLocalitySlideOver suspenseLines={1} />
     </>
   );
 };

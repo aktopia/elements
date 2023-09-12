@@ -1,17 +1,23 @@
 import { isEmpty } from 'lodash';
 
+const { AutocompleteService } = (await google.maps.importLibrary(
+  'places'
+)) as google.maps.PlacesLibrary;
+
 const emptyPredictions: any[] = [];
 
-async function _fetchPredictions(q: string, autoCompleteService: any) {
+const autoCompleteService = new AutocompleteService();
+
+async function _fetchPredictions(q: string) {
   const results = await autoCompleteService.getPlacePredictions({ input: q });
   return isEmpty(results) ? emptyPredictions : results.predictions;
 }
 
-export const fetchPredictions = async (q: string, autoCompleteService: any) => {
+export const fetchPredictions = async (q: string) => {
   if (isEmpty(q)) {
     return emptyPredictions;
   } else {
-    return _fetchPredictions(q, autoCompleteService);
+    return _fetchPredictions(q);
   }
 };
 

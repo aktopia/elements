@@ -48,12 +48,12 @@ export const ModalPanel = ({ children }: { children: ReactNode }) => {
       leave={'ease-in duration-200'}
       leaveFrom={'opacity-100 scale-100'}
       leaveTo={'opacity-0 scale-95'}>
-      <div
+      <Dialog.Panel
         className={
           'w-max scale-100 transform rounded-2xl border border-gray-200 bg-white opacity-100 shadow-xl transition-all'
         }>
         {children}
-      </div>
+      </Dialog.Panel>
     </Transition.Child>
   );
 };
