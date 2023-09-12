@@ -205,6 +205,7 @@ export const issueSlice = () => ({
     'issue.tabs/active-tab': 'home',
     'issue.create.modal/visible': false,
     'issue.create.modal/title': '',
+    'issue.location.slide-over/visible': false,
   },
 });
 

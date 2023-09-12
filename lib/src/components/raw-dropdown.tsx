@@ -16,7 +16,9 @@ export const RawDropdownPanel = ({
 }) => {
   return (
     <RadixDropdownMenu.Portal>
-      <RadixDropdownMenu.Content sideOffset={sideOffset}>{children}</RadixDropdownMenu.Content>
+      <RadixDropdownMenu.Content asChild sideOffset={sideOffset}>
+        {children}
+      </RadixDropdownMenu.Content>
     </RadixDropdownMenu.Portal>
   );
 };

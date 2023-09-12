@@ -50,7 +50,7 @@ export const ModalPanel = ({ children }: { children: ReactNode }) => {
       leaveTo={'opacity-0 scale-95'}>
       <div
         className={
-          'w-max scale-100 transform overflow-hidden rounded-2xl border border-gray-200 bg-white opacity-100 shadow-xl transition-all'
+          'w-max scale-100 transform rounded-2xl border border-gray-200 bg-white opacity-100 shadow-xl transition-all'
         }>
         {children}
       </div>

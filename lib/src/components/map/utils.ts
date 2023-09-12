@@ -1,18 +1,17 @@
-import { debounce, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 
-function _fetchPredictions(q: any, autoCompleteService: any, callback: any) {
-  autoCompleteService
-    .getPlacePredictions({ input: q })
-    .then((results: any) => (isEmpty(results) ? callback([]) : callback(results.predictions)));
+const emptyPredictions: any[] = [];
+
+async function _fetchPredictions(q: string, autoCompleteService: any) {
+  const results = await autoCompleteService.getPlacePredictions({ input: q });
+  return isEmpty(results) ? emptyPredictions : results.predictions;
 }
 
-const fetchPredictionsDebounced = debounce(_fetchPredictions, 1000);
-
-export const fetchPredictions = (q: any, autoCompleteService: any, callback: any) => {
+export const fetchPredictions = async (q: string, autoCompleteService: any) => {
   if (isEmpty(q)) {
-    callback([]);
+    return emptyPredictions;
   } else {
-    fetchPredictionsDebounced(q, autoCompleteService, callback);
+    return _fetchPredictions(q, autoCompleteService);
   }
 };
 

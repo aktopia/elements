@@ -4,9 +4,11 @@ import { Combobox, Transition } from '@headlessui/react';
 import { MagnifyingGlassSolid, XMarkSolid } from '@elements/icons';
 import { isEmpty } from 'lodash';
 
-function formatOptionText({ description, matched_substrings }: any) {
+function formatOptionText(option: any) {
+  const { description, matched_substrings } = option;
   // TODO handle multiple matched_substrings, truncate on the correct span
   const { offset, length } = matched_substrings[0];
+
   return (
     <span className={'truncate'}>
       <span className={'whitespace-pre text-sm font-normal text-stone-600'}>
@@ -45,12 +47,12 @@ export const Select = ({ onChange, options, onChoose }: any) => {
     setIsInputFocussed(true);
   }, []);
 
-  const onInputClear = useCallback(() => {
+  const onClearInput = useCallback(() => {
     onChange('');
     setInputText('');
   }, [onChange]);
 
-  const onOptionChoose = useCallback(
+  const onChooseOption = useCallback(
     (option: any) => {
       onChoose(option);
       setInputText(option.description);
@@ -59,7 +61,7 @@ export const Select = ({ onChange, options, onChoose }: any) => {
   );
 
   return (
-    <Combobox onChange={onOptionChoose}>
+    <Combobox onChange={onChooseOption}>
       <div className={'relative z-0'}>
         <div className={'pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'}>
           <MagnifyingGlassSolid className={'h-5 w-5 text-gray-400'} />
@@ -79,7 +81,7 @@ export const Select = ({ onChange, options, onChoose }: any) => {
           <button
             className={'absolute inset-y-0 right-0 flex items-center pr-3'}
             type={'button'}
-            onClick={onInputClear}>
+            onClick={onClearInput}>
             <XMarkSolid className={'h-5 w-5 text-gray-400 hover:text-gray-600'} />
           </button>
         )}

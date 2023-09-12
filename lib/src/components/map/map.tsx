@@ -293,10 +293,10 @@ const Map_ = ({
     setAutoCompleteOptions([]);
   }, []);
 
-  const onSearch = useCallback(
-    (q: string) => fetchPredictions(q, autoCompleteService.current, setAutoCompleteOptions),
-    []
-  );
+  const onSearch = useCallback(async (q: string) => {
+    const predictions = await fetchPredictions(q, autoCompleteService.current);
+    setAutoCompleteOptions(predictions);
+  }, []);
 
   const onPlaceSelect = useCallback(
     (place: any) => {
@@ -322,7 +322,7 @@ const Map_ = ({
   const onConfirmLocation = useCallback(() => {
     setAddingLocation(false);
     setAutoCompleteOptions([]);
-    onAddLocation({ center: getCenter(map) });
+    onAddLocation({ location: getCenter(map) });
   }, [onAddLocation, map]);
 
   return (

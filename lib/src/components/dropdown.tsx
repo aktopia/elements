@@ -71,7 +71,7 @@ export const Dropdown = ({ Button, items }: any) => {
       <RawDropdownPanel sideOffset={5}>
         <div
           className={
-            'w-max overflow-hidden rounded-md bg-white p-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none'
+            'z-30 w-max overflow-hidden rounded-md bg-white p-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none'
           }>
           {items.map((item: ItemProps) => (
             <Item key={item.text} {...item} />

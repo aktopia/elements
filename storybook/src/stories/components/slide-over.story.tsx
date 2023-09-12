@@ -25,7 +25,7 @@ export const SlideOver: Story = {
   },
   render: ({ visible }) => {
     return (
-      <Component visible={visible}>
+      <Component visible={visible} onClose={onClick}>
         <SlideOverHeader>
           <SlideOverTitle title={'Title'} />
           <SlideOverCloseButton onClick={onClick} />

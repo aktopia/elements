@@ -35,7 +35,7 @@ const LocationsListSlideOver = suspensify(({ locations }: { locations: Location[
   const onClose = useDispatch('issue.location.slide-over/close') as () => void;
 
   return (
-    <SlideOver visible={visible}>
+    <SlideOver visible={visible} onClose={onClose}>
       <SlideOverHeader>
         <SlideOverTitle title={t('issue.location.slide-over/location-list')} />
         <SlideOverCloseButton onClick={onClose} />

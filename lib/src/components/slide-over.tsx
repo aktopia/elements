@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react';
-import { memo } from 'react';
+import { Fragment, memo } from 'react';
+import { Button } from '@elements/components/button';
+import { Dialog } from '@headlessui/react';
 
 export const SlideOverTitle = memo(({ title }: { title: string }) => {
-  return <h2 className={'font-medium leading-6 text-gray-600'}>{title}</h2>;
+  return <Dialog.Title className={'font-medium leading-6 text-gray-600'}>{title}</Dialog.Title>;
 });
 
 export const SlideOverHeader = memo(({ children }: { children: ReactNode }) => {
@@ -21,9 +23,7 @@ export const SlideOverCloseButton = memo(({ onClick }: { onClick: () => void }) 
   return (
     <div className={'ml-3 flex h-7 items-center'}>
       <button
-        className={
-          'rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-        }
+        className={'rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none'}
         type={'button'}
         onClick={onClick}>
         <svg
@@ -40,15 +40,33 @@ export const SlideOverCloseButton = memo(({ onClick }: { onClick: () => void }) 
   );
 });
 
-export const SlideOver = ({ children, visible }: { children: ReactNode; visible: boolean }) => {
-  if (!visible) return null;
-
+export const SlideOverFooter = ({ onCancel, onAction, actionText, cancelText }: any) => {
   return (
-    <div
-      className={
-        'fixed right-0 top-0 z-50 h-screen w-full overflow-y-scroll border-l border-l-gray-200 bg-white shadow-2xl sm:w-1/3'
-      }>
-      {children}
+    <div className={'flex justify-end gap-5 border-t border-t-gray-300 px-6 py-6'}>
+      {onCancel && <Button kind={'tertiary'} size={'sm'} value={cancelText} onClick={onCancel} />}
+      <Button kind={'success'} size={'sm'} value={actionText} onClick={onAction} />
     </div>
+  );
+};
+
+export const SlideOver = ({
+  children,
+  visible,
+  onClose,
+}: {
+  children: ReactNode;
+  visible: boolean;
+  onClose: () => void;
+}) => {
+  return (
+    <Dialog as={Fragment} open={visible} onClose={onClose}>
+      <Dialog.Panel
+        as={'div'}
+        className={
+          'fixed right-0 top-0 z-50 h-screen w-full overflow-y-scroll border-l border-l-gray-300 bg-white shadow-2xl sm:w-1/3'
+        }>
+        {children}
+      </Dialog.Panel>
+    </Dialog>
   );
 };

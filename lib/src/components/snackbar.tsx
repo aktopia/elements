@@ -10,7 +10,7 @@ import type { MouseEvent } from 'react';
 import type { Kind } from '@elements/logic/alert';
 
 const containerVariant = cva(
-  'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform transition-all ease-out z-40 shadow-lg',
+  'fixed bottom-10 w-11/12 rounded-lg p-4 -translate-x-1/2 left-1/2 transform transition-all ease-out z-40 shadow-xl',
   {
     variants: {
       kind: {
