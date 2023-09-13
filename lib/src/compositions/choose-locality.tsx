@@ -84,6 +84,7 @@ const Search = suspensify(({}) => {
             <MapPinOutline className={'h-5 w-5 text-gray-400'} />
           </div>
           <Combobox.Input
+            autoComplete={'off'}
             className={
               'block h-10 w-full overflow-hidden overflow-ellipsis rounded-lg border border-gray-300 bg-white pl-8 pr-4 text-gray-700 shadow-sm ring-0 placeholder:text-gray-400 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-600 focus:shadow-none focus:outline-none focus:ring-0'
             }

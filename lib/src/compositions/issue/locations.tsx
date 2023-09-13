@@ -10,22 +10,23 @@ import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import type { Location } from '@elements/logic/issue';
-import { ListBulletOutline, MapPinOutline, MapPinSolid, PlusSolid } from '@elements/icons';
-import React, { useCallback, useState } from 'react';
-import { AddLocationPin, SearchLocation } from '@elements/components/map/map';
-import { fetchPredictions } from '@elements/utils/location';
+import { ListBulletOutline, MapPinSolid } from '@elements/icons';
+import React, { useCallback, useRef, useState } from 'react';
+import { AddLocationPin, MapHandle } from '@elements/components/map/map';
 import { Button } from '@elements/components/button';
+import { Place, SearchLocation } from '@elements/compositions/map';
 
 interface Reference {
   refId: string;
   refAttribute: string;
 }
 
+/*
+TODO
+  - On hover should hover the marker
+  - Add locate icon which when clicked will zoom in on the selected location
+*/
 const LocationCard = suspensify(({ location }: { location: Location }) => {
-  /* TODO
-                                                                                                                            - On hover should hover the marker
-                                                                                                                            - Add locate icon which when clicked will zoom in on the selected location
-                                                                                                                             */
   return (
     <p
       className={
@@ -79,18 +80,18 @@ const StartAddLocation = ({ show, onClick }: { onClick: () => void; show: boolea
   ) : null;
 };
 
-const AddLocationIcon = () => {
-  return (
-    <div className={'relative'}>
-      <MapPinOutline className={'h-5 w-5 text-gray-500 group-hover:text-gray-700'} />
-      <PlusSolid
-        className={
-          'ring-px absolute -bottom-1 right-1 block h-2.5 w-2.5 -translate-y-1/2 translate-x-1/2 transform rounded-full bg-white text-gray-500 ring-white group-hover:bg-gray-50 group-hover:text-gray-700 group-hover:ring-gray-50'
-        }
-      />
-    </div>
-  );
-};
+// const AddLocationIcon = () => {
+//   return (
+//     <div className={'relative'}>
+//       <MapPinOutline className={'h-5 w-5 text-gray-500 group-hover:text-gray-700'} />
+//       <PlusSolid
+//         className={
+//           'ring-px absolute -bottom-1 right-1 block h-2.5 w-2.5 -translate-y-1/2 translate-x-1/2 transform rounded-full bg-white text-gray-500 ring-white group-hover:bg-gray-50 group-hover:text-gray-700 group-hover:ring-gray-50'
+//         }
+//       />
+//     </div>
+//   );
+// };
 
 const AddLocation = ({
   onAdd,
@@ -105,6 +106,7 @@ const AddLocation = ({
   caption: string;
   show: boolean;
 }) => {
+  // TODO Validate caption required and length
   const confirmText = 'Add';
   const cancelText = 'Cancel';
 
@@ -134,9 +136,8 @@ const AddLocation = ({
   ) : null;
 };
 
-const autoCompleteOptions = [];
-
 export const Locations = suspensify(({ refId }: Reference) => {
+  const mapRef = useRef<MapHandle>(null);
   const [addingLocation, setAddingLocation] = useState(false);
 
   const locations = useValue('issue/locations', { 'issue/id': refId });
@@ -161,7 +162,6 @@ export const Locations = suspensify(({ refId }: Reference) => {
 
   const onDragEnd = useCallback(
     ({ center }: any) => {
-      console.log(center);
       setDragging(false);
       onUpdateCenter && onUpdateCenter({ center });
     },
@@ -170,12 +170,10 @@ export const Locations = suspensify(({ refId }: Reference) => {
 
   const onCancelAddingLocation = useCallback(() => {
     setAddingLocation(false);
-    // setAutoCompleteOptions([]);
   }, []);
 
   const onConfirmLocation = useCallback(() => {
     setAddingLocation(false);
-    // setAutoCompleteOptions([]);
     onAddLocation({});
   }, [onAddLocation]);
 
@@ -186,26 +184,12 @@ export const Locations = suspensify(({ refId }: Reference) => {
     [onUpdateCenter]
   );
 
-  const onSearch = useCallback(async (q: string) => {
-    const predictions = await fetchPredictions(q);
-    // setAutoCompleteOptions(predictions);
+  const onSelect = useCallback((place: Place) => {
+    mapRef.current?.updateCenter({
+      center: place.location,
+      bounds: place.bounds,
+    });
   }, []);
-
-  const onPlaceSelect = useCallback(
-    (place: any) => {
-      // fetchPlaceDetails(
-      //   place,
-      //   placesService.current,
-      //   ({ center, bounds }: { center: LatLng; bounds: any }) => {
-      //     onUpdateCenter({ center });
-      //     map?.setCenter(center);
-      //     map?.fitBounds(bounds);
-      //   }
-      // );
-      // setAutoCompleteOptions([]);
-    },
-    [onUpdateCenter]
-  );
 
   return (
     <div className={'flex flex-col gap-5'}>
@@ -222,6 +206,7 @@ export const Locations = suspensify(({ refId }: Reference) => {
       </div>
       <div className={'relative h-[40rem] w-full overflow-hidden rounded-lg shadow'}>
         <Map
+          ref={mapRef}
           center={center}
           locations={locations}
           zoom={zoom}
@@ -229,13 +214,7 @@ export const Locations = suspensify(({ refId }: Reference) => {
           onDragStart={onDragStart}
           onTilesLoaded={onTilesLoaded}
         />
-
-        <SearchLocation
-          options={autoCompleteOptions}
-          show={addingLocation}
-          onChange={onSearch}
-          onSelect={onPlaceSelect}
-        />
+        <SearchLocation show={addingLocation} onSelect={onSelect} />
         <AddLocationPin dragging={dragging} show={addingLocation} />
       </div>
       <LocationsListSlideOver locations={locations} suspenseLines={8} />

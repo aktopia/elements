@@ -1,15 +1,18 @@
 import { ArrowPathOutline, CheckSolid, MapPinSolid } from '@elements/icons';
-import { Select } from '@elements/components/map/select';
 import { calculateBounds, getCenter } from '@elements/utils/location';
 import { Spinner } from '@elements/components/spinner';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { Status, Wrapper } from '@googlemaps/react-wrapper';
 import { cx } from '@elements/utils';
 import { differenceWith, isEmpty, isEqual } from 'lodash';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import LatLngLiteral = google.maps.LatLngLiteral;
+import type { ForwardRefRenderFunction } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import type { Libraries } from '@googlemaps/js-api-loader/src';
+import LatLngLiteral = google.maps.LatLngLiteral; //TODO import type only
+import LatLngBounds = google.maps.LatLngBounds; //TODO import type only
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+const LIBRARIES: Libraries = ['places'];
 
 export type LatLng = LatLngLiteral;
 
@@ -20,6 +23,10 @@ interface MapProps {
   onDragStart?: ({ center }: { center: LatLng }) => void;
   onDragEnd?: ({ center }: { center: LatLng }) => void;
   onTilesLoaded?: ({ center }: { center: LatLng }) => void;
+}
+
+export interface MapHandle {
+  updateCenter: ({ center, bounds }: { center: LatLng; bounds: LatLngBounds }) => void;
 }
 
 const render = (status: Status) => {
@@ -67,10 +74,21 @@ export const AddLocationPin = ({ dragging, show }: { dragging: boolean; show: bo
   ) : null;
 };
 
-const Map_ = ({ center, onTilesLoaded, zoom, locations, onDragEnd, onDragStart }: MapProps) => {
+// DO NOT MAKE THIS A CONTROLLED COMPONENT
+const MapRefRender_: ForwardRefRenderFunction<MapHandle, MapProps> = (
+  { center, onTilesLoaded, zoom, locations, onDragEnd, onDragStart },
+  ref
+) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const currentLocations = useRef<LatLng[]>(locations || []);
   const [map, setMap] = useState<google.maps.Map>();
+
+  useImperativeHandle(ref, () => ({
+    updateCenter: ({ center, bounds }) => {
+      map?.setCenter(center);
+      bounds && map?.fitBounds(bounds);
+    },
+  }));
 
   useEffect(() => {
     if (mapRef.current && !map) {
@@ -89,7 +107,6 @@ const Map_ = ({ center, onTilesLoaded, zoom, locations, onDragEnd, onDragStart }
       });
 
       newMap.addListener('dragstart', () => {
-        console.log('dragstart');
         onDragStart && onDragStart({ center: getCenter(newMap) });
       });
 
@@ -144,19 +161,16 @@ const Map_ = ({ center, onTilesLoaded, zoom, locations, onDragEnd, onDragStart }
   );
 };
 
-const LIBRARIES: any = ['places'];
+const Map_ = forwardRef(MapRefRender_);
 
-export const Map = ({
-  center,
-  zoom,
-  locations,
-  onDragStart,
-  onDragEnd,
-  onTilesLoaded,
-}: MapProps) => {
+export const MapRenderRef: ForwardRefRenderFunction<MapHandle, MapProps> = (
+  { center, zoom, locations, onDragStart, onDragEnd, onTilesLoaded }: MapProps,
+  ref
+) => {
   return (
     <Wrapper apiKey={GOOGLE_MAPS_API_KEY} libraries={LIBRARIES} render={render}>
       <Map_
+        ref={ref}
         center={center}
         locations={locations}
         zoom={zoom}
@@ -168,6 +182,8 @@ export const Map = ({
   );
 };
 
+export const Map = forwardRef(MapRenderRef);
+
 Map_.defaultProps = {
   locations: [],
 };
@@ -178,6 +194,4 @@ Search debounce
 Default center and zoom if no location based on country
 Not confident of the useEffect hooks, check if there are memory leaks
 Add tooltips
-Make center and zoom controlled
-Add validation for caption length and caption required
  */

@@ -1,37 +1,58 @@
 import { isEmpty } from 'lodash';
+import LatLngBounds = google.maps.LatLngBounds;
 
 const { AutocompleteService } = (await google.maps.importLibrary(
   'places'
 )) as google.maps.PlacesLibrary;
 
+const { Geocoder } = (await google.maps.importLibrary('geocoding')) as google.maps.GeocodingLibrary;
+
 const emptyPredictions: any[] = [];
 
 const autoCompleteService = new AutocompleteService();
+const geocoderService = new Geocoder();
 
-async function _fetchPredictions(q: string) {
-  const results = await autoCompleteService.getPlacePredictions({ input: q });
-  return isEmpty(results) ? emptyPredictions : results.predictions;
+export interface Prediction {
+  placeId: string;
+  match: string;
+  matchedSubstrings: any[];
 }
 
-export const fetchPredictions = async (q: string) => {
+export interface PlaceDetails {
+  location: {
+    lat: number;
+    lng: number;
+  };
+  bounds: LatLngBounds;
+}
+
+export const fetchPredictions = async (q: string): Promise<Prediction[]> => {
   if (isEmpty(q)) {
     return emptyPredictions;
   } else {
-    return _fetchPredictions(q);
+    const results = await autoCompleteService.getPlacePredictions({ input: q });
+    return isEmpty(results)
+      ? emptyPredictions
+      : results.predictions.map((prediction: any) => ({
+          placeId: prediction.place_id,
+          match: prediction.description,
+          matchedSubstrings: prediction.matched_substrings,
+        }));
   }
 };
 
-export function fetchPlaceDetails({ place_id }: any, placesService: any, callback: any) {
-  placesService.getDetails({ placeId: place_id }, (result: any) => {
-    const { location, viewport } = result.geometry;
-    callback({
-      center: {
-        lat: location.lat(),
-        lng: location.lng(),
-      },
-      bounds: viewport,
-    });
-  });
+export async function fetchPlaceDetails({ placeId }: { placeId: string }): Promise<PlaceDetails> {
+  const { results } = await geocoderService.geocode({ placeId });
+
+  const { location, viewport } = results[0].geometry;
+
+  return {
+    location: {
+      lat: location.lat(),
+      lng: location.lng(),
+    },
+    bounds: viewport,
+  };
 }
 
 export function calculateBounds(locations: any) {

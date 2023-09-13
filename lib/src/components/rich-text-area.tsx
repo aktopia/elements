@@ -60,7 +60,7 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
     editable,
     placeholder,
     extensions = richTextExtensions,
-  }: RichTextAreaProps,
+  },
   ref
 ) => {
   const content = isNil(initialContent) ? '' : initialContent;
