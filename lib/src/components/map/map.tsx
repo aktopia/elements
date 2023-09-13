@@ -1,26 +1,13 @@
-import {
-  ArrowPathOutline,
-  CheckSolid,
-  ListBulletOutline,
-  MapPinOutline,
-  MapPinSolid,
-  PlusSolid,
-} from '@elements/icons';
+import { ArrowPathOutline, CheckSolid, MapPinSolid } from '@elements/icons';
 import { Select } from '@elements/components/map/select';
-import {
-  calculateBounds,
-  fetchPlaceDetails,
-  fetchPredictions,
-  getCenter,
-} from '@elements/utils/location';
+import { calculateBounds, getCenter } from '@elements/utils/location';
 import { Spinner } from '@elements/components/spinner';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { Status, Wrapper } from '@googlemaps/react-wrapper';
 import { cx } from '@elements/utils';
 import { differenceWith, isEmpty, isEqual } from 'lodash';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import LatLngLiteral = google.maps.LatLngLiteral;
-import PlacesService = google.maps.places.PlacesService;
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -30,11 +17,9 @@ interface MapProps {
   center?: LatLng;
   locations?: LatLng[];
   zoom?: number;
-  onAddLocation: ({ location }: { location: LatLng }) => void;
-  onUpdateCenter: ({ center }: { center: LatLng }) => void;
-  onCaptionChange: ({ caption }: { caption: string }) => void;
-  onViewListClick: () => void;
-  newLocationCaption?: string;
+  onDragStart?: ({ center }: { center: LatLng }) => void;
+  onDragEnd?: ({ center }: { center: LatLng }) => void;
+  onTilesLoaded?: ({ center }: { center: LatLng }) => void;
 }
 
 const render = (status: Status) => {
@@ -61,160 +46,31 @@ const ResetLocation = ({ onClick }: { onClick: any }) => {
   );
 };
 
-const AddLocation = ({
-  onAdd,
-  onCancel,
-  onCaptionChange,
-  caption,
-  show,
-}: {
-  onAdd: () => void;
-  onCancel: () => void;
-  onCaptionChange: ({ caption }: { caption: string }) => void;
-  caption: string;
-  show: boolean;
-}) => {
-  const confirmText = 'Add Location';
-  const cancelText = 'Cancel';
-
-  const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      onCaptionChange({ caption: e.target.value });
-    },
-    [onCaptionChange]
-  );
-
+export const AddLocationPin = ({ dragging, show }: { dragging: boolean; show: boolean }) => {
   return show ? (
-    <div className={'absolute bottom-24 flex w-2/3 gap-3'}>
-      <input
-        className={
-          'grow rounded-md border border-stone-100 text-stone-600 placeholder-stone-400 shadow-xl'
-        }
-        placeholder={'A caption to identify the location'}
-        type={'text'}
-        value={caption}
-        onChange={onChange}
-      />
-      <div className={'flex gap-2'}>
-        <button
+    <div className={'absolute top-1/2 right-1/2 flex items-center justify-center'}>
+      <div className={'relative'}>
+        <MapPinSolid
+          className={cx(
+            'absolute -left-10 inline-block h-20 w-20 stroke-red-700 text-red-600 transition-all duration-150 ease-in-out ',
+            dragging ? 'bottom-9' : 'bottom-2'
+          )}
+        />
+
+        <div
           className={
-            'flex items-center justify-center rounded-md bg-green-600 px-3 shadow-xl hover:bg-green-700'
+            'absolute -top-1 -left-1 h-2 w-2 cursor-pointer rounded-full bg-red-600 shadow-lg ring-1 ring-red-700'
           }
-          type={'button'}
-          onClick={onAdd}>
-          <p className={'font-medium text-white'}>{confirmText}</p>
-        </button>
-        <button
-          className={
-            'flex items-center justify-center rounded-md border border-stone-300 bg-white px-3 text-stone-500 shadow-xl hover:bg-stone-50 hover:text-stone-800'
-          }
-          type={'button'}
-          onClick={onCancel}>
-          <p className={'font-medium'}>{cancelText}</p>
-        </button>
+        />
       </div>
     </div>
   ) : null;
 };
 
-const SearchLocation = ({
-  options,
-  onChange,
-  show,
-  onSelect,
-}: {
-  options: any[];
-  onChange: (q: string) => void;
-  show: boolean;
-  onSelect: (place: any) => void;
-}) => {
-  return show ? (
-    <div className={'absolute top-3 w-1/2'}>
-      <Select options={options} onChange={onChange} onChoose={onSelect} />
-    </div>
-  ) : null;
-};
-
-const AddLocationIcon = () => {
-  return (
-    <div className={'relative'}>
-      <MapPinOutline className={'h-7 w-7 text-stone-500 group-hover:text-stone-700'} />
-      <PlusSolid
-        className={
-          'absolute -bottom-0.5 right-2 block h-2.5 w-2.5 -translate-y-1/2 translate-x-1/2 transform rounded-full bg-white text-stone-500 ring-1 ring-white group-hover:bg-gray-50 group-hover:text-stone-700 group-hover:ring-stone-50'
-        }
-      />
-    </div>
-  );
-};
-
-const StartAddLocation = ({ show, onClick }: { onClick: () => void; show: boolean }) => {
-  const text = 'Add Location';
-  return show ? (
-    <button
-      className={
-        'ahover:hover:bg-stone-50 group absolute top-3 left-3 flex cursor-pointer items-center justify-center rounded-lg border border-stone-300 bg-white shadow-xl'
-      }
-      type={'button'}
-      onClick={onClick}>
-      <div className={'flex items-center gap-2 py-1 pr-2 pl-1'}>
-        <AddLocationIcon />
-        <p className={'font-medium text-stone-500 group-hover:text-stone-700'}>{text}</p>
-      </div>
-    </button>
-  ) : null;
-};
-
-const AddLocationPin = ({ dragging, show }: { dragging: boolean; show: boolean }) => {
-  return show ? (
-    <div className={'absolute flex items-center justify-center'}>
-      <MapPinSolid
-        className={cx(
-          'absolute inline-block h-16 w-16 stroke-blue-700 stroke-[0.5px] text-blue-600 transition-all duration-150 ease-in-out ',
-          dragging ? 'bottom-9' : 'bottom-2'
-        )}
-      />
-      <div
-        className={
-          'absolute h-1.5 w-1.5 cursor-pointer rounded-full bg-blue-600 shadow-lg ring-1 ring-blue-700'
-        }
-      />
-    </div>
-  ) : null;
-};
-
-const ViewList = ({ onClick }: { onClick: () => void }) => {
-  const text = 'Locations List';
-  return (
-    <button
-      className={
-        'group absolute bottom-7 flex cursor-pointer items-center justify-center gap-2 rounded-full border border-stone-300 bg-white py-1 pl-3 pr-5 text-stone-600 shadow-xl hover:bg-stone-50'
-      }
-      type={'button'}
-      onClick={onClick}>
-      <ListBulletOutline className={'h-7 w-7 text-stone-500 group-hover:text-stone-800'} />
-      <p className={'font-medium text-stone-500 group-hover:text-stone-800'}>{text}</p>
-    </button>
-  );
-};
-
-const Map_ = ({
-  center,
-  newLocationCaption,
-  zoom,
-  locations,
-  onUpdateCenter,
-  onAddLocation,
-  onCaptionChange,
-  onViewListClick,
-}: MapProps) => {
+const Map_ = ({ center, onTilesLoaded, zoom, locations, onDragEnd, onDragStart }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const currentLocations = useRef<LatLng[]>(locations || []);
-  const placesService = useRef<PlacesService>();
   const [map, setMap] = useState<google.maps.Map>();
-  const [dragging, setDragging] = useState(false);
-  const [addingLocation, setAddingLocation] = useState(false);
-  const [autoCompleteOptions, setAutoCompleteOptions] = useState<any[]>([]);
 
   useEffect(() => {
     if (mapRef.current && !map) {
@@ -232,27 +88,22 @@ const Map_ = ({
         ...(zoom && { zoom }),
       });
 
-      newMap.addListener('dragstart', () => setDragging(true));
+      newMap.addListener('dragstart', () => {
+        console.log('dragstart');
+        onDragStart && onDragStart({ center: getCenter(newMap) });
+      });
+
       newMap.addListener('dragend', () => {
-        setDragging(false);
-        onUpdateCenter && onUpdateCenter({ center: getCenter(newMap) });
+        onDragEnd && onDragEnd({ center: getCenter(newMap) });
       });
 
       window.google.maps.event.addListener(newMap, 'tilesloaded', () => {
-        onUpdateCenter && onUpdateCenter({ center: getCenter(newMap) });
+        onTilesLoaded && onTilesLoaded({ center: getCenter(newMap) });
       });
-
-      placesService.current = new window.google.maps.places.PlacesService(newMap);
 
       setMap(newMap);
     }
-
-    return () => {
-      // TODO cleanup properly
-      // autoCompleteService.current = undefined;
-      // placesService.current = undefined;
-    };
-  }, [map, onUpdateCenter, center, zoom]);
+  }, [map, onDragEnd, onDragStart, onTilesLoaded, center, zoom]);
 
   useEffect(() => {
     if (map) {
@@ -280,79 +131,16 @@ const Map_ = ({
     }
   }, [map, locations]);
 
-  const onStartAddingLocation = useCallback(() => {
-    setAddingLocation(true);
-  }, []);
-
-  const onCancelAddingLocation = useCallback(() => {
-    setAddingLocation(false);
-    setAutoCompleteOptions([]);
-  }, []);
-
-  const onSearch = useCallback(async (q: string) => {
-    const predictions = await fetchPredictions(q);
-    setAutoCompleteOptions(predictions);
-  }, []);
-
-  const onPlaceSelect = useCallback(
-    (place: any) => {
-      fetchPlaceDetails(
-        place,
-        placesService.current,
-        ({ center, bounds }: { center: LatLng; bounds: any }) => {
-          onUpdateCenter({ center });
-          map?.setCenter(center);
-          map?.fitBounds(bounds);
-        }
-      );
-      setAutoCompleteOptions([]);
-    },
-    [map, onUpdateCenter]
-  );
-
   const onResetLocation = useCallback(() => {
     const bounds = calculateBounds(locations);
     map?.fitBounds(bounds);
   }, [map, locations]);
 
-  const onConfirmLocation = useCallback(() => {
-    setAddingLocation(false);
-    setAutoCompleteOptions([]);
-    onAddLocation({ location: getCenter(map) });
-  }, [onAddLocation, map]);
-
   return (
-    <div
-      className={
-        'relative flex h-[40rem] w-full items-center justify-center overflow-hidden rounded-lg shadow'
-      }>
+    <>
       <div ref={mapRef} className={'h-full w-full'} id={'map'} />
-
-      <ViewList onClick={onViewListClick} />
-
-      <StartAddLocation show={!addingLocation} onClick={onStartAddingLocation} />
-
-      {/*<CancelAddLocation show={addingLocation} onClick={onCancelAddingLocation} />*/}
-
-      <SearchLocation
-        options={autoCompleteOptions}
-        show={addingLocation}
-        onChange={onSearch}
-        onSelect={onPlaceSelect}
-      />
-
-      <AddLocationPin dragging={dragging} show={addingLocation} />
-
-      <AddLocation
-        caption={newLocationCaption}
-        show={addingLocation}
-        onAdd={onConfirmLocation}
-        onCancel={onCancelAddingLocation}
-        onCaptionChange={onCaptionChange}
-      />
-
       <ResetLocation onClick={onResetLocation} />
-    </div>
+    </>
   );
 };
 
@@ -362,23 +150,19 @@ export const Map = ({
   center,
   zoom,
   locations,
-  onAddLocation,
-  onUpdateCenter,
-  onCaptionChange,
-  onViewListClick,
-  newLocationCaption,
+  onDragStart,
+  onDragEnd,
+  onTilesLoaded,
 }: MapProps) => {
   return (
     <Wrapper apiKey={GOOGLE_MAPS_API_KEY} libraries={LIBRARIES} render={render}>
       <Map_
         center={center}
         locations={locations}
-        newLocationCaption={newLocationCaption}
         zoom={zoom}
-        onAddLocation={onAddLocation}
-        onCaptionChange={onCaptionChange}
-        onUpdateCenter={onUpdateCenter}
-        onViewListClick={onViewListClick}
+        onDragEnd={onDragEnd}
+        onDragStart={onDragStart}
+        onTilesLoaded={onTilesLoaded}
       />
     </Wrapper>
   );
