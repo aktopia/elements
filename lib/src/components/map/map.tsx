@@ -1,25 +1,29 @@
-import { ArrowPathOutline, CheckSolid, MapPinSolid } from '@elements/icons';
+import { ArrowPathOutline, MapPinSolid } from '@elements/icons';
 import { calculateBounds, getCenter } from '@elements/utils/location';
-import { Spinner } from '@elements/components/spinner';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import { Status, Wrapper } from '@googlemaps/react-wrapper';
 import { cx } from '@elements/utils';
 import { differenceWith, isEmpty, isEqual } from 'lodash';
 import type { ForwardRefRenderFunction } from 'react';
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import type { Libraries } from '@googlemaps/js-api-loader/src';
+import {
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import LatLngLiteral = google.maps.LatLngLiteral; //TODO import type only
-import LatLngBounds = google.maps.LatLngBounds; //TODO import type only
+import LatLngBounds = google.maps.LatLngBounds;
 
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-const LIBRARIES: Libraries = ['places'];
+const { Map: GoogleMap } = (await google.maps.importLibrary('maps')) as google.maps.MapsLibrary;
 
 export type LatLng = LatLngLiteral;
 
 interface MapProps {
-  center?: LatLng;
+  initialCenter?: LatLng;
   locations?: LatLng[];
-  zoom?: number;
+  initialZoom?: number;
   onDragStart?: ({ center }: { center: LatLng }) => void;
   onDragEnd?: ({ center }: { center: LatLng }) => void;
   onTilesLoaded?: ({ center }: { center: LatLng }) => void;
@@ -28,17 +32,6 @@ interface MapProps {
 export interface MapHandle {
   updateCenter: ({ center, bounds }: { center: LatLng; bounds: LatLngBounds }) => void;
 }
-
-const render = (status: Status) => {
-  switch (status) {
-    case Status.LOADING:
-      return <Spinner size={'sm'} visible={true} />;
-    case Status.FAILURE:
-      return <h3>{status}</h3>;
-    case Status.SUCCESS:
-      return <CheckSolid className={'h-5 w-5 text-green-500'} />;
-  }
-};
 
 const ResetLocation = ({ onClick }: { onClick: any }) => {
   return (
@@ -53,8 +46,8 @@ const ResetLocation = ({ onClick }: { onClick: any }) => {
   );
 };
 
-export const AddLocationPin = ({ dragging, show }: { dragging: boolean; show: boolean }) => {
-  return show ? (
+export const AddLocationPin = ({ dragging }: { dragging: boolean }) => {
+  return (
     <div className={'absolute top-1/2 right-1/2 flex items-center justify-center'}>
       <div className={'relative'}>
         <MapPinSolid
@@ -71,12 +64,14 @@ export const AddLocationPin = ({ dragging, show }: { dragging: boolean; show: bo
         />
       </div>
     </div>
-  ) : null;
+  );
 };
 
+const emptyLocations: LatLng[] = [];
+
 // DO NOT MAKE THIS A CONTROLLED COMPONENT
-const MapRefRender_: ForwardRefRenderFunction<MapHandle, MapProps> = (
-  { center, onTilesLoaded, zoom, locations, onDragEnd, onDragStart },
+const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
+  { initialCenter, onTilesLoaded, initialZoom, locations = emptyLocations, onDragEnd, onDragStart },
   ref
 ) => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -93,7 +88,7 @@ const MapRefRender_: ForwardRefRenderFunction<MapHandle, MapProps> = (
   useEffect(() => {
     if (mapRef.current && !map) {
       // TODO fix center not being set on initial renders
-      const newMap = new window.google.maps.Map(mapRef.current, {
+      const newMap = new GoogleMap(mapRef.current, {
         streetViewControl: false,
         mapTypeControl: false,
         fullscreenControl: false,
@@ -102,8 +97,8 @@ const MapRefRender_: ForwardRefRenderFunction<MapHandle, MapProps> = (
         zoomControlOptions: {
           position: google.maps.ControlPosition.LEFT_BOTTOM,
         },
-        ...(center && { center }),
-        ...(zoom && { zoom }),
+        ...(initialCenter && { center: initialCenter }),
+        ...(initialZoom && { zoom: initialZoom }),
       });
 
       newMap.addListener('dragstart', () => {
@@ -120,7 +115,7 @@ const MapRefRender_: ForwardRefRenderFunction<MapHandle, MapProps> = (
 
       setMap(newMap);
     }
-  }, [map, onDragEnd, onDragStart, onTilesLoaded, center, zoom]);
+  }, [map, onDragEnd, onDragStart, onTilesLoaded, initialCenter, initialZoom]);
 
   useEffect(() => {
     if (map) {
@@ -146,12 +141,12 @@ const MapRefRender_: ForwardRefRenderFunction<MapHandle, MapProps> = (
       new MarkerClusterer({ map, markers });
       currentLocations.current = locations || [];
     }
-  }, [map, locations]);
+  }, [locations, map]);
 
   const onResetLocation = useCallback(() => {
     const bounds = calculateBounds(locations);
     map?.fitBounds(bounds);
-  }, [map, locations]);
+  }, [locations, map]);
 
   return (
     <>
@@ -161,32 +156,7 @@ const MapRefRender_: ForwardRefRenderFunction<MapHandle, MapProps> = (
   );
 };
 
-const Map_ = forwardRef(MapRefRender_);
-
-export const MapRenderRef: ForwardRefRenderFunction<MapHandle, MapProps> = (
-  { center, zoom, locations, onDragStart, onDragEnd, onTilesLoaded }: MapProps,
-  ref
-) => {
-  return (
-    <Wrapper apiKey={GOOGLE_MAPS_API_KEY} libraries={LIBRARIES} render={render}>
-      <Map_
-        ref={ref}
-        center={center}
-        locations={locations}
-        zoom={zoom}
-        onDragEnd={onDragEnd}
-        onDragStart={onDragStart}
-        onTilesLoaded={onTilesLoaded}
-      />
-    </Wrapper>
-  );
-};
-
-export const Map = forwardRef(MapRenderRef);
-
-Map_.defaultProps = {
-  locations: [],
-};
+export const Map = memo(forwardRef(MapRefRender));
 
 /*
 TODO

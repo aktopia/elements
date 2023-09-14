@@ -31,5 +31,6 @@ evt('app.loading/set', ({ setState, params }) => {
 evt('app/load', async () => {
   dispatch('app.loading/set', { 'app/loading': true });
   await dispatch('auth.session/sync');
+  dispatch('user.chosen.locality/sync');
   dispatch('app.loading/set', { 'app/loading': false });
 });

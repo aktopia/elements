@@ -1,10 +1,9 @@
-import { suspensify } from '@elements/components/suspensify';
 import { ChangeEvent, Fragment, useCallback, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { Combobox, Transition } from '@headlessui/react';
 import { MagnifyingGlassSolid, XMarkSolid } from '@elements/icons';
-import { fetchPlaceDetails, fetchPredictions, PlaceDetails } from '@elements/utils/location';
 import type { Prediction } from '@elements/utils/location';
+import { fetchPredictions, LocationDetails, resolvePlaceId } from '@elements/utils/location';
 
 function formatPrediction(prediction: Prediction) {
   const { match, matchedSubstrings } = prediction;
@@ -26,14 +25,13 @@ function formatPrediction(prediction: Prediction) {
   );
 }
 
-export type Place = PlaceDetails;
+export type Place = LocationDetails;
 
 interface SearchLocationProps {
-  show: boolean;
   onSelect: (place: Place) => void;
 }
 
-export const SearchLocation_ = ({ onSelect }: Omit<SearchLocationProps, 'show'>) => {
+export const SearchLocation = ({ onSelect }: SearchLocationProps) => {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [inputText, setInputText] = useState('');
   const isInputTextEmpty = isEmpty(inputText);
@@ -59,7 +57,7 @@ export const SearchLocation_ = ({ onSelect }: Omit<SearchLocationProps, 'show'>)
   const onSelectOption = useCallback(
     (prediction: Prediction) => {
       setInputText(prediction.match);
-      fetchPlaceDetails({ placeId: prediction.placeId }).then((place) => {
+      resolvePlaceId(prediction.placeId).then((place) => {
         onSelect(place);
       });
     },
@@ -73,6 +71,7 @@ export const SearchLocation_ = ({ onSelect }: Omit<SearchLocationProps, 'show'>)
           <MagnifyingGlassSolid className={'h-5 w-5 text-gray-400'} />
         </div>
         <Combobox.Input
+          autoComplete={'off'}
           className={
             'block h-10 w-full overflow-hidden rounded-lg border border-stone-50 bg-white py-4 pl-10 pr-10 text-stone-600 shadow-lg ring-0 placeholder:text-stone-400 focus:border-stone-50 focus:outline-none focus:ring-0'
           }
@@ -114,15 +113,6 @@ export const SearchLocation_ = ({ onSelect }: Omit<SearchLocationProps, 'show'>)
     </Combobox>
   );
 };
-
-export const SearchLocation = suspensify(({ show, onSelect }: SearchLocationProps) => {
-  return show ? (
-    <div className={'absolute top-3 left-0 right-0 mx-auto w-2/5'}>
-      <SearchLocation_ onSelect={onSelect} />
-    </div>
-  ) : null;
-});
-
 /* TODO
 
 Format fetchPredictions results and not let the component do it

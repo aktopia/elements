@@ -139,13 +139,12 @@ const AddLocation = ({
 export const Locations = suspensify(({ refId }: Reference) => {
   const mapRef = useRef<MapHandle>(null);
   const [addingLocation, setAddingLocation] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
   const locations = useValue('issue/locations', { 'issue/id': refId });
   const center = useValue('issue.location.default/center', { 'issue/id': refId });
   const zoom = useValue('issue.location.default/zoom', { 'issue/id': refId });
   const newLocationCaption = useValue('issue.new.location/caption');
-
-  const [dragging, setDragging] = useState(false);
 
   const onViewListClick = useDispatch('issue.location.slide-over/open') as () => void;
   const onAddLocation = useDispatch('issue.location/add');
@@ -163,7 +162,14 @@ export const Locations = suspensify(({ refId }: Reference) => {
   const onDragEnd = useCallback(
     ({ center }: any) => {
       setDragging(false);
-      onUpdateCenter && onUpdateCenter({ center });
+      onUpdateCenter({ center });
+    },
+    [onUpdateCenter]
+  );
+
+  const onTilesLoaded = useCallback(
+    ({ center }: any) => {
+      onUpdateCenter({ center });
     },
     [onUpdateCenter]
   );
@@ -177,22 +183,19 @@ export const Locations = suspensify(({ refId }: Reference) => {
     onAddLocation({});
   }, [onAddLocation]);
 
-  const onTilesLoaded = useCallback(
-    ({ center }: any) => {
-      onUpdateCenter && onUpdateCenter({ center });
+  const onSelect = useCallback(
+    (place: Place) => {
+      mapRef.current?.updateCenter({
+        center: place.location,
+        bounds: place.bounds,
+      });
+      onUpdateCenter({ center: place.location });
     },
     [onUpdateCenter]
   );
 
-  const onSelect = useCallback((place: Place) => {
-    mapRef.current?.updateCenter({
-      center: place.location,
-      bounds: place.bounds,
-    });
-  }, []);
-
   return (
-    <div className={'flex flex-col gap-5'}>
+    <div className={'flex flex-col gap-8'}>
       <div className={'flex justify-between'}>
         <ViewList onClick={onViewListClick} />
         <StartAddLocation show={!addingLocation} onClick={onStartAddingLocation} />
@@ -204,18 +207,24 @@ export const Locations = suspensify(({ refId }: Reference) => {
           onCaptionChange={onCaptionChange}
         />
       </div>
-      <div className={'relative h-[40rem] w-full overflow-hidden rounded-lg shadow'}>
+      <div className={'relative h-screen w-full overflow-hidden rounded-lg shadow'}>
         <Map
           ref={mapRef}
-          center={center}
+          initialCenter={center}
+          initialZoom={zoom}
           locations={locations}
-          zoom={zoom}
           onDragEnd={onDragEnd}
           onDragStart={onDragStart}
           onTilesLoaded={onTilesLoaded}
         />
-        <SearchLocation show={addingLocation} onSelect={onSelect} />
-        <AddLocationPin dragging={dragging} show={addingLocation} />
+        {addingLocation && (
+          <>
+            <div className={'absolute top-3 left-0 right-0 mx-auto w-2/5'}>
+              <SearchLocation onSelect={onSelect} />
+            </div>
+            <AddLocationPin dragging={dragging} />
+          </>
+        )}
       </div>
       <LocationsListSlideOver locations={locations} suspenseLines={8} />
     </div>

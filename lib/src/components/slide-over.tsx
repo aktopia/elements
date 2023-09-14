@@ -42,7 +42,7 @@ export const SlideOverCloseButton = memo(({ onClick }: { onClick: () => void }) 
 
 export const SlideOverFooter = ({ onCancel, onAction, actionText, cancelText }: any) => {
   return (
-    <div className={'flex justify-end gap-5 border-t border-t-gray-300 px-6 py-6'}>
+    <div className={'flex justify-end gap-5 border-t border-t-gray-300 bg-white px-6 py-6'}>
       {onCancel && <Button kind={'tertiary'} size={'sm'} value={cancelText} onClick={onCancel} />}
       <Button kind={'success'} size={'sm'} value={actionText} onClick={onAction} />
     </div>

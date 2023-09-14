@@ -85,14 +85,13 @@ const InputTranslation = ({ id, params, currentLocales, setLocales, currentLocal
 
 export function useInputTranslation() {
   /* TODO This can be updated and use when a feature is built around this to take
-      translations from user, currently just a prototype to see if it works
-      and the idea does work
-  */
+          translations from user, currently just a prototype to see if it works
+          and the idea does work
+      */
   const { locales } = useContext(TranslationContext);
   const locale = useValue('current/locale');
+  // @ts-ignore
   const [tempLocales, setTempLocales] = useState(locales);
-
-  console.log(tempLocales);
 
   return useCallback(
     (id: string, params?: any) => {
