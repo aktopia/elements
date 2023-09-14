@@ -9,51 +9,40 @@ import {
   SlideOverTitle,
 } from '@elements/components/slide-over';
 import { useDispatch, useValue } from '@elements/store';
+import type { MapHandle } from '@elements/components/map/map';
 import { AddLocationPin, Map } from '@elements/components/map/map';
-import type { LatLng, MapHandle } from '@elements/components/map/map';
-import { SearchLocation } from '@elements/compositions/map';
 import type { Place } from '@elements/compositions/map';
+import { SearchLocation } from '@elements/compositions/map';
 
 export const ChooseLocalitySlideOver = suspensify(() => {
   const mapRef = useRef<MapHandle>(null);
   const [dragging, setDragging] = useState(false);
   const visible = useValue('choose-locality.slide-over/visible');
   const chosenLocation = useValue('user.chosen.locality/location');
+  const chosenZoom = useValue('user.chosen.locality/zoom');
   const onClose = useDispatch('choose-locality.slide-over/close') as () => void;
-  const updateLocation = useDispatch('choose-locality.location/update');
-  const onDone = useDispatch('choose-locality.location/done');
+  const finishChoosing = useDispatch('choose-locality.location/done');
 
   const onDragStart = useCallback(() => {
     setDragging(true);
   }, []);
 
-  const onDragEnd = useCallback(
-    ({ center }: { center: LatLng }) => {
-      setDragging(false);
-      updateLocation({ location: center });
-    },
-    [updateLocation]
-  );
+  const onDragEnd = useCallback(() => {
+    setDragging(false);
+  }, []);
 
-  const onTilesLoaded = useCallback(
-    ({ center }: { center: LatLng }) => {
-      updateLocation({ location: center });
-    },
-    [updateLocation]
-  );
+  const onSelect = useCallback((place: Place) => {
+    mapRef.current?.setCenter({
+      center: place.location,
+      bounds: place.bounds,
+    });
+  }, []);
 
-  const onSelect = useCallback(
-    (place: Place) => {
-      mapRef.current?.updateCenter({
-        center: place.location,
-        bounds: place.bounds,
-      });
-      updateLocation({ location: place.location });
-    },
-    [updateLocation]
-  );
-
-  console.log(visible);
+  const onDone = useCallback(() => {
+    const center = mapRef.current?.getCenter();
+    const zoom = mapRef.current?.getZoom();
+    finishChoosing({ location: center, zoom });
+  }, [finishChoosing]);
 
   if (!visible) {
     return null;
@@ -73,9 +62,9 @@ export const ChooseLocalitySlideOver = suspensify(() => {
                 <Map
                   ref={mapRef}
                   initialCenter={chosenLocation}
+                  initialZoom={chosenZoom}
                   onDragEnd={onDragEnd}
                   onDragStart={onDragStart}
-                  onTilesLoaded={onTilesLoaded}
                 />
                 <div className={'absolute top-3 left-0 right-0 mx-auto w-4/5'}>
                   <SearchLocation onSelect={onSelect} />

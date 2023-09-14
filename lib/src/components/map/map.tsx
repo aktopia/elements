@@ -30,7 +30,9 @@ interface MapProps {
 }
 
 export interface MapHandle {
-  updateCenter: ({ center, bounds }: { center: LatLng; bounds: LatLngBounds }) => void;
+  setCenter: ({ center, bounds }: { center: LatLng; bounds: LatLngBounds }) => void;
+  getCenter: () => LatLng | undefined;
+  getZoom: () => number | undefined;
 }
 
 const ResetLocation = ({ onClick }: { onClick: any }) => {
@@ -69,9 +71,52 @@ export const AddLocationPin = ({ dragging }: { dragging: boolean }) => {
 
 const emptyLocations: LatLng[] = [];
 
+const initMap = ({
+  initialCenter,
+  initialZoom,
+  ref,
+  onDragStart,
+  onDragEnd,
+  onTilesLoaded,
+}: any) => {
+  const map = new GoogleMap(ref, {
+    streetViewControl: false,
+    mapTypeControl: false,
+    fullscreenControl: false,
+    keyboardShortcuts: false,
+    zoomControl: true,
+    zoomControlOptions: {
+      position: google.maps.ControlPosition.LEFT_BOTTOM,
+    },
+    zoom: initialZoom || 4,
+    center: initialCenter,
+  });
+
+  map.addListener('dragstart', () => {
+    onDragStart && onDragStart({ center: getCenter(map) });
+  });
+
+  map.addListener('dragend', () => {
+    onDragEnd && onDragEnd({ center: getCenter(map) });
+  });
+
+  map.addListener('tilesloaded', () => {
+    onTilesLoaded && onTilesLoaded({ center: getCenter(map) });
+  });
+
+  return map;
+};
+
 // DO NOT MAKE THIS A CONTROLLED COMPONENT
 const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
-  { initialCenter, onTilesLoaded, initialZoom, locations = emptyLocations, onDragEnd, onDragStart },
+  {
+    initialCenter,
+    onTilesLoaded,
+    initialZoom = 4,
+    locations = emptyLocations,
+    onDragEnd,
+    onDragStart,
+  },
   ref
 ) => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -79,38 +124,29 @@ const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
   const [map, setMap] = useState<google.maps.Map>();
 
   useImperativeHandle(ref, () => ({
-    updateCenter: ({ center, bounds }) => {
+    setCenter: ({ center, bounds }) => {
       map?.setCenter(center);
       bounds && map?.fitBounds(bounds);
+    },
+    getCenter: () => {
+      const center = map?.getCenter();
+      return center && { lat: center.lat(), lng: center.lng() };
+    },
+    getZoom: () => {
+      return map?.getZoom();
     },
   }));
 
   useEffect(() => {
     if (mapRef.current && !map) {
       // TODO fix center not being set on initial renders
-      const newMap = new GoogleMap(mapRef.current, {
-        streetViewControl: false,
-        mapTypeControl: false,
-        fullscreenControl: false,
-        keyboardShortcuts: false,
-        zoomControl: true,
-        zoomControlOptions: {
-          position: google.maps.ControlPosition.LEFT_BOTTOM,
-        },
-        ...(initialCenter && { center: initialCenter }),
-        ...(initialZoom && { zoom: initialZoom }),
-      });
-
-      newMap.addListener('dragstart', () => {
-        onDragStart && onDragStart({ center: getCenter(newMap) });
-      });
-
-      newMap.addListener('dragend', () => {
-        onDragEnd && onDragEnd({ center: getCenter(newMap) });
-      });
-
-      window.google.maps.event.addListener(newMap, 'tilesloaded', () => {
-        onTilesLoaded && onTilesLoaded({ center: getCenter(newMap) });
+      const newMap = initMap({
+        initialCenter,
+        initialZoom,
+        ref: mapRef.current,
+        onDragStart,
+        onDragEnd,
+        onTilesLoaded,
       });
 
       setMap(newMap);
@@ -132,7 +168,7 @@ const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
         });
       });
 
-      if (isEmpty(locationsDiff)) {
+      if (isEmpty(locationsDiff) && !isEmpty(locations)) {
         const bounds = calculateBounds(locations);
         map.fitBounds(bounds);
       }

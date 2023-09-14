@@ -185,7 +185,7 @@ export const Locations = suspensify(({ refId }: Reference) => {
 
   const onSelect = useCallback(
     (place: Place) => {
-      mapRef.current?.updateCenter({
+      mapRef.current?.setCenter({
         center: place.location,
         bounds: place.bounds,
       });
