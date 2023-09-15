@@ -48,12 +48,14 @@ export const ChooseLocalitySlideOver = suspensify(() => {
     return null;
   }
 
+  const title = location ? 'Update Locality' : 'Choose Locality';
+
   return (
     <SlideOver visible={visible} onClose={onClose}>
       <div className={'relative flex h-full flex-col justify-between'}>
         <div>
           <SlideOverHeader>
-            <SlideOverTitle title={'Choose Locality'} />
+            <SlideOverTitle title={title} />
             <SlideOverCloseButton onClick={onClose} />
           </SlideOverHeader>
           <SlideOverBody>

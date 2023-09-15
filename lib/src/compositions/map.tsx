@@ -73,7 +73,7 @@ export const SearchLocation = ({ onSelect }: SearchLocationProps) => {
         <Combobox.Input
           autoComplete={'off'}
           className={
-            'block h-10 w-full overflow-hidden rounded-lg border border-stone-50 bg-white py-4 pl-10 pr-10 text-stone-600 shadow-lg ring-0 placeholder:text-stone-400 focus:border-stone-50 focus:outline-none focus:ring-0'
+            'block h-10 w-full overflow-hidden rounded-lg border border-stone-300 bg-white py-4 pl-10 pr-10 text-stone-600 shadow-lg ring-0 placeholder:text-stone-400 focus:border-stone-300 focus:outline-none focus:ring-0'
           }
           placeholder={'Search'}
           type={'text'}

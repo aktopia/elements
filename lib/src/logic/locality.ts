@@ -13,6 +13,10 @@ export type Subs = {
     params: {};
     result: boolean;
   };
+  'user.chosen.locality/exists': {
+    params: {};
+    result: boolean;
+  };
   'user.chosen.locality/location': {
     params: {};
     result: LatLng | undefined;
@@ -82,6 +86,14 @@ sub(
   ({ state }: any) => state['locality/state']['user.chosen.locality/zoom']
 );
 
+sub(
+  'user.chosen.locality/exists',
+  ({ state }: any) =>
+    state['locality/state']['user.chosen.locality/location'] &&
+    state['locality/state']['user.chosen.locality/name'] &&
+    state['locality/state']['user.chosen.locality/zoom']
+);
+
 evt('user.chosen.locality/sync', ({ setState }) => {
   const chosenLocality = getChosenLocality();
 
@@ -123,3 +135,9 @@ evt('choose-locality.location/done', async ({ setState, params }) => {
 
   dispatch('user.chosen.locality/sync');
 });
+
+/*
+TODO
+- Handle undefined locality values
+
+ */
