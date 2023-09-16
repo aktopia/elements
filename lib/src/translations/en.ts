@@ -28,6 +28,7 @@ export default {
   'common/media': 'Media',
   'common/locations': 'Locations',
   'common/full-name': 'Full Name',
+  'common/user': 'User',
   'relation/resolves': 'Resolves',
   'relation/partially-resolves': 'Partially Resolves',
   'relation/relates': 'Relates To',

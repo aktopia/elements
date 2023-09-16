@@ -6,4 +6,5 @@ export interface Reference {
 export enum EntityType {
   Action = 'entity.type/action',
   Issue = 'entity.type/issue',
+  User = 'entity.type/user',
 }

@@ -8,13 +8,15 @@ import { EntityType as ResultType } from '@elements/compositions/entity-type';
 import { Modal, ModalPanel } from '@elements/components/modal';
 import { Combobox } from '@headlessui/react';
 
-const nameMap = {
-  'entity.type/action': 'action',
-  'entity.type/issue': 'issue',
-};
-
 function makeLink(type: EntityType, entityId: string) {
-  return `/${nameMap[type]}/${entityId}`;
+  switch (type) {
+    case 'entity.type/action':
+      return `/action/${entityId}`;
+    case 'entity.type/issue':
+      return `/issue/${entityId}`;
+    case 'entity.type/user':
+      return `/profile/${entityId}/actions`;
+  }
 }
 
 interface ResultProps {
