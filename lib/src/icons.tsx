@@ -252,6 +252,7 @@ export {
   HandRaisedIcon as HandRaisedSolid,
   ArrowPathIcon as ArrowPathSolid,
   PencilIcon as PencilSolid,
+  ExclamationTriangleIcon as ExclamationTriangleSolid,
 } from '@heroicons/react/24/solid';
 
 export {

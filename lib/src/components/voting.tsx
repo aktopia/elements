@@ -29,7 +29,7 @@ const countVariant = cva('', {
     },
     active: {
       true: 'text-blue-600',
-      false: 'text-gray-400',
+      false: 'text-gray-600',
     },
   },
 });
