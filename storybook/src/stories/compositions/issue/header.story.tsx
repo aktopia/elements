@@ -9,6 +9,7 @@ export default {
 
 export const Header = mockStory({
   store,
+  args: { suspenseLines: 8 },
   render: () => {
     return <Component />;
   },
