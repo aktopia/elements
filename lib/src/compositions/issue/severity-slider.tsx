@@ -62,21 +62,27 @@ const SeverityScore = suspensify(() => {
   const onClick = useDispatch('issue.severity.vote/initiate') as () => void;
 
   return (
-    <button className={'group flex items-center gap-2.5'} type={'button'} onClick={onClick}>
+    <button className={'group flex items-center gap-2'} type={'button'} onClick={onClick}>
       {voted ? (
-        <ExclamationTriangleSolid className={'h-7 w-7 text-orange-500'} />
+        <ExclamationTriangleOutline className={'h-7 w-7 text-gray-400'} />
       ) : (
         <ExclamationTriangleOutline
           className={'h-7 w-7 text-gray-400 group-hover:text-orange-500'}
         />
       )}
+      <span className={'text-sm text-gray-500'}>{'Severity'}</span>
       <p
         className={cx(
           'text font-medium',
-          voted ? 'text-orange-700' : 'text-gray-600 group-hover:text-orange-700'
+          voted ? 'text-gray-700' : 'text-gray-600 group-hover:text-orange-700'
         )}>
         {score}
       </p>
+      <span className={'group flex items-center gap-1'}>
+        <span className={'text-sm text-gray-500'}>{'from'}</span>
+        <span className={'text-sm font-medium text-gray-600'}>{'300'}</span>
+        <span className={'text-sm text-gray-500'}>{'votes'}</span>
+      </span>
     </button>
   );
 });
@@ -130,7 +136,7 @@ export const SeveritySlider = suspensify(() => {
         {/*  </div>*/}
         {/*</div>*/}
       </div>
-      <div className={'flex w-full flex-col items-center justify-center gap-2'}>
+      <div className={'flex w-full flex-col items-start justify-center gap-2'}>
         <SeverityScore />
         <Slider
           aria-label={'severity'}
