@@ -1,6 +1,7 @@
 import { isEmpty } from 'lodash';
-import LatLngBounds = google.maps.LatLngBounds;
 import type { LatLng } from '@elements/components/map/map';
+import { googleMapsApiKey } from '@elements/config';
+import LatLngBounds = google.maps.LatLngBounds;
 import GeocoderAddressComponent = google.maps.GeocoderAddressComponent;
 
 const { AutocompleteService, PlacesService } = (await google.maps.importLibrary(
@@ -74,6 +75,15 @@ export async function resolveLatLng(latLng: LatLng): Promise<PlaceDetails> {
     placeId: place_id,
     addressComponents: address_components,
   };
+}
+
+export async function geolocate() {
+  const url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${googleMapsApiKey}`;
+  const res = await fetch(url, {
+    method: 'POST',
+  });
+
+  return await res.json();
 }
 
 export function calculateBounds(locations: any) {

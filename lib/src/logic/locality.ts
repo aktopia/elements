@@ -1,6 +1,6 @@
 import { dispatch, evt, sub } from '@elements/store';
 import type { LatLng } from '@elements/components/map/map';
-import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
+import { geolocate, parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 
 interface Locality {
   location: LatLng;
@@ -17,6 +17,10 @@ export type Subs = {
     params: {};
     result: boolean;
   };
+  'user.apparent.locality/location': {
+    params: {};
+    result: LatLng | undefined;
+  };
   'user.chosen.locality/location': {
     params: {};
     result: LatLng | undefined;
@@ -28,6 +32,14 @@ export type Subs = {
   'user.chosen.locality/zoom': {
     params: {};
     result: number | undefined;
+  };
+  'user.locality/location': {
+    params: {};
+    result: LatLng;
+  };
+  'user.locality/zoom': {
+    params: {};
+    result: number;
   };
 };
 
@@ -45,6 +57,9 @@ export type Events = {
     };
   };
   'user.chosen.locality/sync': {
+    params: {};
+  };
+  'user.apparent.locality/sync': {
     params: {};
   };
 };
@@ -94,6 +109,18 @@ sub(
     state['locality/state']['user.chosen.locality/zoom']
 );
 
+sub(
+  'user.locality/location',
+  ({ state }: any) =>
+    state['locality/state']['user.chosen.locality/location'] ||
+    state['locality/state']['user.apparent.locality/location']
+);
+
+sub(
+  'user.locality/zoom',
+  ({ state }: any) => state['locality/state']['user.chosen.locality/zoom'] || 13
+);
+
 evt('user.chosen.locality/sync', ({ setState }) => {
   const chosenLocality = getChosenLocality();
 
@@ -101,6 +128,14 @@ evt('user.chosen.locality/sync', ({ setState }) => {
     state['locality/state']['user.chosen.locality/location'] = chosenLocality?.location;
     state['locality/state']['user.chosen.locality/name'] = chosenLocality?.name;
     state['locality/state']['user.chosen.locality/zoom'] = chosenLocality?.zoom;
+  });
+});
+
+evt('user.apparent.locality/sync', async ({ setState }) => {
+  const result = await geolocate();
+
+  setState((state: any) => {
+    state['locality/state']['user.apparent.locality/location'] = result?.location;
   });
 });
 
