@@ -84,4 +84,6 @@ export default {
       ? 'No one has voted yet.'
       : `Severity <span class="avg-score">${avgScore}</span> from <span class="votes">${votes}</span> votes. ${userScoreText}.`;
   },
+  'choose-locality/add': 'Choose your locality',
+  'choose-locality/update': 'Update your locality',
 };
