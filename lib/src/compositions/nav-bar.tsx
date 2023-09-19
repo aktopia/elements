@@ -2,6 +2,7 @@ import {
   ChevronDownMiniSolid,
   MagnifyingGlassOutline,
   MapPinSolid,
+  PinOnMap,
   UserCircleSolid,
 } from '@elements/icons';
 import { Dropdown } from '@elements/components/dropdown';
@@ -140,10 +141,10 @@ const ChooseLocalityButton = suspensify(() => {
 
   return isLocalityChosen ? (
     <button
-      className={'group flex max-w-5xl items-center justify-center gap-1.5 overflow-hidden'}
+      className={'group flex max-w-5xl items-center justify-center gap-2 overflow-hidden'}
       type={'button'}
       onClick={onOpen}>
-      <MapPinSolid className={'h-4 w-4 flex-shrink-0 text-gray-500 group-hover:text-gray-600'} />
+      <PinOnMap className={'h-5 w-5 text-gray-500 group-hover:text-gray-600'} />
       <span
         className={
           'overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-500 group-hover:text-gray-600 group-hover:underline'

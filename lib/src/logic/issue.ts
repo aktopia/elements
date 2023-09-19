@@ -17,6 +17,7 @@ import { rpcPost } from '@elements/rpc';
 import type { Route } from '@elements/logic/router';
 import { navigate } from '@elements/logic/router';
 import type { LatLng } from '@elements/components/map';
+import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 
 type TabId = 'home' | 'discuss' | 'media' | 'locations';
 
@@ -122,6 +123,26 @@ export type Subs = {
     params: { 'issue/id': string };
     result: number;
   };
+  'issue.locality/exists': {
+    params: { 'issue/id': string };
+    result: boolean;
+  };
+  'issue.locality/name': {
+    params: { 'issue/id': string };
+    result: string;
+  };
+  'issue.locality.slide-over/visible': {
+    params: {};
+    result: boolean;
+  };
+  'issue.locality/location': {
+    params: { 'issue/id': string };
+    result: LatLng;
+  };
+  'issue.locality/zoom': {
+    params: { 'issue/id': string };
+    result: number;
+  };
 };
 
 export type Events = {
@@ -205,6 +226,15 @@ export type Events = {
       score: number;
     };
   };
+  'issue.locality.slide-over/open': {
+    params: {};
+  };
+  'issue.locality.slide-over/close': {
+    params: {};
+  };
+  'issue.locality/choose': {
+    params: { location: LatLng; zoom: number };
+  };
   'navigated.issue/view': {
     params: {
       route: Route;
@@ -223,6 +253,7 @@ export const issueSlice = () => ({
     'issue.create.modal/visible': false,
     'issue.create.modal/title': '',
     'issue.location.slide-over/visible': false,
+    'issue.locality.slide-over/visible': false,
   },
 });
 
@@ -243,19 +274,10 @@ sub(
 );
 
 sub('issue/saved', () => false);
+
 sub('issue/followed', () => false);
+
 sub('issue.follow/count', () => 2600);
-
-remoteSub('issue.users.facing/count');
-remoteSub('issue.current.user/facing');
-remoteSub('issue.title/text');
-remoteSub('issue/updated-at');
-remoteSub('issue.resolution/text');
-remoteSub('issue.description/text');
-
-remoteSub('issue/locations');
-remoteSub('issue.location.default/center');
-remoteSub('issue.location.default/zoom');
 
 sub('issue.title/can-edit', () => true);
 
@@ -268,9 +290,27 @@ sub(
   ({ state }) => state['issue/state']['issue.location.slide-over/visible']
 );
 
+sub(
+  'issue.locality.slide-over/visible',
+  ({ state }) => state['issue/state']['issue.locality.slide-over/visible']
+);
+
+remoteSub('issue.users.facing/count');
+remoteSub('issue.current.user/facing');
+remoteSub('issue.title/text');
+remoteSub('issue/updated-at');
+remoteSub('issue.resolution/text');
+remoteSub('issue.description/text');
+remoteSub('issue/locations');
+remoteSub('issue.location.default/center');
+remoteSub('issue.location.default/zoom');
 remoteSub('issue.severity/score');
 remoteSub('issue.severity.score/votes');
 remoteSub('issue.current.user.severity/score');
+remoteSub('issue.locality/exists');
+remoteSub('issue.locality/name');
+remoteSub('issue.locality/location');
+remoteSub('issue.locality/zoom');
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
@@ -409,6 +449,41 @@ evt('issue.current.user.severity/vote', async ({ getState, params }) => {
     ['issue.current.user.severity/score', { 'issue/id': currentIssueId }],
     ['issue.severity.score/votes', { 'issue/id': currentIssueId }],
   ]);
+});
+
+evt('issue.locality.slide-over/open', ({ setState }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.locality.slide-over/visible'] = true;
+  });
+});
+
+evt('issue.locality.slide-over/close', ({ setState }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.locality.slide-over/visible'] = false;
+  });
+});
+
+evt('issue.locality/choose', async ({ getState, params }) => {
+  const currentIssueId = getState()['issue/state']['current.issue/id'];
+  const { location, zoom } = params;
+  const placeDetails = await resolveLatLng(location);
+  const name = parseClosestLocality(placeDetails.addressComponents);
+
+  await rpcPost('issue.locality/upsert', {
+    'issue/id': currentIssueId,
+    location,
+    zoom,
+    name,
+  });
+
+  await invalidateAsyncSubs([
+    ['issue.locality/location', { 'issue/id': currentIssueId }],
+    ['issue.locality/zoom', { 'issue/id': currentIssueId }],
+    ['issue.locality/name', { 'issue/id': currentIssueId }],
+    ['issue.locality/exists', { 'issue/id': currentIssueId }],
+  ]);
+
+  dispatch('issue.locality.slide-over/close', {});
 });
 
 registerTextEditor('issue.title/text', {
