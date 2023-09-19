@@ -75,4 +75,10 @@ export default {
   'issue.resolution/empty':
     "You haven't added a resolution yet. Describe what an ideal resolution for this issue should be.",
   'registration.full-name/placeholder': 'Please enter your full name.',
+  'issue.severity/label': ({ avgScore, userScore, votes }: any) => {
+    const userScoreText = userScore
+      ? `You voted <span class="user-score">${userScore}</span>`
+      : "You haven't voted yet";
+    return `Severity <span class="avg-score">${avgScore}</span> from <span class="votes">${votes}</span> votes. ${userScoreText}.`;
+  },
 };

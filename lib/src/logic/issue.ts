@@ -114,9 +114,13 @@ export type Subs = {
     params: { 'issue/id': string };
     result: number;
   };
-  'issue.current.user.severity/voted': {
+  'issue.severity.score/votes': {
     params: { 'issue/id': string };
-    result: boolean;
+    result: number;
+  };
+  'issue.current.user.severity/score': {
+    params: { 'issue/id': string };
+    result: number;
   };
 };
 
@@ -199,9 +203,6 @@ export type Events = {
   'issue.current.user.severity/vote': {
     params: {};
   };
-  'issue.severity.vote/initiate': {
-    params: {};
-  };
   'navigated.issue/view': {
     params: {
       route: Route;
@@ -266,8 +267,8 @@ sub(
 );
 
 sub('issue.severity/score', () => 6.4);
-
-sub('issue.current.user.severity/voted', () => true);
+sub('issue.severity.score/votes', () => 100);
+sub('issue.current.user.severity/score', () => 5);
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
@@ -394,8 +395,6 @@ evt('navigated.issue/new', async ({ params }) => {
   const { id } = await rpcPost('issue.draft/create', { 'issue.title/text': title });
   navigate({ id: 'issue/view', replace: true, params: { id } });
 });
-
-evt('issue.severity.vote/initiate', async ({ getState }) => {});
 
 evt('issue.current.user.severity/vote', async ({ getState }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];
