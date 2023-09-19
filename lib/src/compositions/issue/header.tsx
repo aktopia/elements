@@ -162,7 +162,7 @@ const ChooseLocalityButton = suspensify(() => {
 
   return isLocalityChosen ? (
     <button
-      className={'group flex max-w-5xl items-center justify-center gap-2 overflow-hidden'}
+      className={'group flex max-w-5xl items-center justify-center gap-1.5 overflow-hidden'}
       type={'button'}
       onClick={onOpen}>
       <MapPinSolid className={'h-4 w-4 text-gray-500 group-hover:text-gray-600'} />

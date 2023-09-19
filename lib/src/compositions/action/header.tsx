@@ -1,4 +1,4 @@
-import { Crowd, Giving } from '@elements/icons';
+import { Crowd, Giving, MapPinOutline, MapPinSolid } from '@elements/icons';
 import { Button } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
 import { NamedSwitch } from '@elements/components/named-switch';
@@ -16,6 +16,7 @@ import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
 import { EntityType as Type } from '@elements/types';
+import { ChooseLocalitySlideOver as RawChooseLocalitySlideOver } from '@elements/components/choose-locality-slider-over';
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -211,28 +212,89 @@ export const ActionTabs = suspensify(() => {
   return <Tabs activeTabId={activeTabId} size={'lg'} tabs={tabs} onTabClick={onTabClick} />;
 });
 
+const ChooseLocalityButton = suspensify(() => {
+  const t = useTranslation();
+  const actionId = useValue('current.action/id');
+  const isLocalityChosen = useValue('action.locality/exists', { 'action/id': actionId });
+  const localityName = useValue('action.locality/name', { 'action/id': actionId });
+  const onOpen = useDispatch('action.locality.slide-over/open') as () => void;
+
+  return isLocalityChosen ? (
+    <button
+      className={'group flex max-w-5xl items-center justify-center gap-1.5 overflow-hidden'}
+      type={'button'}
+      onClick={onOpen}>
+      <MapPinSolid className={'h-4 w-4 text-gray-500 group-hover:text-gray-600'} />
+      <span
+        className={
+          'overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-500 group-hover:text-gray-600 group-hover:underline'
+        }>
+        {localityName}
+      </span>
+    </button>
+  ) : (
+    <button className={'group flex items-center gap-1.5'} type={'button'} onClick={onOpen}>
+      <MapPinOutline className={'h-4 w-4 stroke-2 text-gray-500 group-hover:text-gray-600'} />
+      <div className={'text-xs text-gray-500 hover:underline group-hover:text-gray-600'}>
+        {t('action.locality/add')}
+      </div>
+    </button>
+  );
+});
+
+export const ChooseLocalitySlideOver = suspensify(() => {
+  const t = useTranslation();
+  const actionId = useValue('current.action/id');
+  const visible = useValue('action.locality.slide-over/visible');
+  const location = useValue('action.locality/location', { 'action/id': actionId });
+  const zoom = useValue('action.locality/zoom', { 'action/id': actionId });
+  const onClose = useDispatch('action.locality.slide-over/close') as () => void;
+  const onDone = useDispatch('action.locality/choose');
+
+  if (!visible) {
+    return null;
+  }
+
+  const title = location ? t('action.locality/update') : t('action.locality/add');
+
+  return (
+    <RawChooseLocalitySlideOver
+      initialCenter={location}
+      initialZoom={zoom}
+      title={title}
+      visible={visible}
+      onClose={onClose}
+      onDone={onDone}
+    />
+  );
+});
+
 export const Header = () => {
   return (
-    <div className={'flex flex-col gap-16'}>
-      <div className={'flex flex-col gap-10'}>
-        <div className={'flex flex-col gap-8'}>
-          <div className={'flex items-baseline justify-between'}>
-            <div className={'flex gap-7'}>
-              <EntityType size={'sm'} type={Type.Action} />
-              <LastActive suspenseLines={1} />
+    <>
+      <div className={'flex flex-col gap-16'}>
+        <div className={'flex flex-col gap-10'}>
+          <div className={'flex flex-col gap-8'}>
+            <div className={'flex items-baseline justify-between'}>
+              <div className={'flex gap-7'}>
+                <EntityType size={'sm'} type={Type.Action} />
+                <LastActive suspenseLines={1} />
+                <ChooseLocalityButton />
+              </div>
+              <SubscriptionBar suspenseLines={2} />
             </div>
-            <SubscriptionBar suspenseLines={2} />
-          </div>
-          <div className={'flex flex-col items-start gap-10'}>
-            <div className={'mr-5 h-full w-full'}>
-              <Title suspenseLineHeight={'36'} suspenseLines={1} />
+            <div className={'flex flex-col items-start gap-10'}>
+              <div className={'mr-5 h-full w-full'}>
+                <Title suspenseLineHeight={'36'} suspenseLines={1} />
+              </div>
+              <ActionBar suspenseLines={2} />
             </div>
-            <ActionBar suspenseLines={2} />
           </div>
+          <ProgressIndicator suspenseLines={1} />
         </div>
-        <ProgressIndicator suspenseLines={1} />
+        <ActionTabs suspenseLines={1} />
       </div>
-      <ActionTabs suspenseLines={1} />
-    </div>
+      <ChooseLocalitySlideOver />
+    </>
   );
 };

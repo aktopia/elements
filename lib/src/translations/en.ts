@@ -86,6 +86,8 @@ export default {
   },
   'choose-locality/add': 'Choose your Locality',
   'choose-locality/update': 'Update your Locality',
+  'action.locality/add': 'Choose Action Locality',
+  'action.locality/update': 'Update Action Locality',
   'issue.locality/add': 'Choose Issue Locality',
   'issue.locality/update': 'Update Issue Locality',
 };

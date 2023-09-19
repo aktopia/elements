@@ -1,4 +1,11 @@
-import { dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
+import {
+  dispatch,
+  evt,
+  invalidateAsyncSub,
+  invalidateAsyncSubs,
+  remoteSub,
+  sub,
+} from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import {
   endEditing,
@@ -9,6 +16,8 @@ import {
 } from '@elements/logic/text-editor';
 import type { Route } from '@elements/logic/router';
 import { navigate } from '@elements/logic/router';
+import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
+import { LatLng } from '@elements/components/map';
 
 export type TabId = 'home' | 'discuss' | 'updates';
 
@@ -91,6 +100,26 @@ export type Subs = {
     params: {};
     result: boolean;
   };
+  'action.locality/exists': {
+    params: { 'action/id': string };
+    result: boolean;
+  };
+  'action.locality/name': {
+    params: { 'action/id': string };
+    result: string;
+  };
+  'action.locality.slide-over/visible': {
+    params: {};
+    result: boolean;
+  };
+  'action.locality/location': {
+    params: { 'action/id': string };
+    result: LatLng;
+  };
+  'action.locality/zoom': {
+    params: { 'action/id': string };
+    result: number;
+  };
 };
 
 export type Events = {
@@ -163,6 +192,15 @@ export type Events = {
       value: string;
     };
   };
+  'action.locality.slide-over/open': {
+    params: {};
+  };
+  'action.locality.slide-over/close': {
+    params: {};
+  };
+  'action.locality/choose': {
+    params: { location: LatLng; zoom: number };
+  };
   'navigated.action/view': {
     params: {
       route: Route;
@@ -181,6 +219,7 @@ export const actionSlice = () => ({
     'action.progress-bar/active-switch': 'work',
     'action.create.modal/visible': false,
     'action.create.modal/title': '',
+    'action.locality.slide-over/visible': false,
   },
 });
 
@@ -190,11 +229,6 @@ sub(
   'action.progress-bar/active-switch',
   ({ state }) => state['action/state']['action.progress-bar/active-switch']
 );
-
-remoteSub('action.title/text');
-remoteSub('action.description/text');
-remoteSub('action.outcome/text');
-remoteSub('action/updated-at');
 
 sub('action.funding/percentage', () => 24);
 sub('action/saved', () => false);
@@ -217,6 +251,20 @@ sub('action.title/can-edit', () => true);
 sub('action.description/can-edit', () => true);
 
 sub('action.outcome/can-edit', () => true);
+
+sub(
+  'action.locality.slide-over/visible',
+  ({ state }) => state['action/state']['action.locality.slide-over/visible']
+);
+
+remoteSub('action.title/text');
+remoteSub('action.description/text');
+remoteSub('action.outcome/text');
+remoteSub('action/updated-at');
+remoteSub('action.locality/exists');
+remoteSub('action.locality/name');
+remoteSub('action.locality/location');
+remoteSub('action.locality/zoom');
 
 evt('action.title/edit', ({ setState, getState }) => {
   const currenActionId = getState()['action/state']['current.action/id'];
@@ -301,6 +349,41 @@ evt('navigated.action/new', async ({ params }) => {
   const { title } = params.route.params;
   const { id } = await rpcPost('action.draft/create', { 'action.title/text': title });
   navigate({ id: 'action/view', replace: true, params: { id } });
+});
+
+evt('action.locality.slide-over/open', ({ setState }) => {
+  setState((state: any) => {
+    state['action/state']['action.locality.slide-over/visible'] = true;
+  });
+});
+
+evt('action.locality.slide-over/close', ({ setState }) => {
+  setState((state: any) => {
+    state['action/state']['action.locality.slide-over/visible'] = false;
+  });
+});
+
+evt('action.locality/choose', async ({ getState, params }) => {
+  const currentActionId = getState()['action/state']['current.action/id'];
+  const { location, zoom } = params;
+  const placeDetails = await resolveLatLng(location);
+  const name = parseClosestLocality(placeDetails.addressComponents);
+
+  await rpcPost('action.locality/upsert', {
+    'action/id': currentActionId,
+    location,
+    zoom,
+    name,
+  });
+
+  await invalidateAsyncSubs([
+    ['action.locality/location', { 'action/id': currentActionId }],
+    ['action.locality/zoom', { 'action/id': currentActionId }],
+    ['action.locality/name', { 'action/id': currentActionId }],
+    ['action.locality/exists', { 'action/id': currentActionId }],
+  ]);
+
+  dispatch('action.locality.slide-over/close', {});
 });
 
 registerTextEditor('action.title/text', {
