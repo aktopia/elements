@@ -1,11 +1,4 @@
-import {
-  ArrowPathMiniSolid,
-  ChartBarMiniSolid,
-  ExclamationTriangleMiniSolid,
-  ExclamationTriangleOutline,
-  ExclamationTriangleSolid,
-  GlobeAmericasMiniSolid,
-} from '@elements/icons';
+import { ArrowPathMiniSolid, ExclamationTriangleOutline } from '@elements/icons';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { Slider, SliderThumb, SliderTrack } from 'react-aria-components';
@@ -54,7 +47,7 @@ const AverageScoreThumb = ({ score }: any) => {
   return <div className={'absolute -top-1.5 h-5 w-0.5 rounded bg-gray-600'} style={{ left: p }} />;
 };
 
-const SeverityScore = suspensify(() => {
+const SeverityScoreLabel = suspensify(() => {
   const t = useTranslation();
   const issueId = useValue('current.issue/id');
   const avgScore = useValue('issue.severity/score', { 'issue/id': issueId });
@@ -76,7 +69,7 @@ const SeverityScore = suspensify(() => {
   );
 });
 
-const ResetButton = ({ onClick }: any) => {
+export const ResetButton = ({ onClick }: any) => {
   return (
     <button
       className={'rounded-full border border-gray-300 p-0.5 shadow-sm'}
@@ -88,7 +81,6 @@ const ResetButton = ({ onClick }: any) => {
 };
 
 export const SeveritySlider = suspensify(() => {
-  const t = useTranslation();
   const issueId = useValue('current.issue/id');
   const userScore = useValue('issue.current.user.severity/score', { 'issue/id': issueId });
   const avgScore = useValue('issue.severity/score', { 'issue/id': issueId });
@@ -102,21 +94,21 @@ export const SeveritySlider = suspensify(() => {
 
   const onChangeEnd = useCallback(
     (value: number[]) => {
-      commitScore({ 'issue/id': issueId, score: value[0] });
+      commitScore({ score: value[0] });
     },
-    [commitScore, issueId]
+    [commitScore]
   );
 
-  const reset = useDispatch('issue.severity/reset');
+  // const reset = useDispatch('issue.severity/reset');
 
-  const onReset = useCallback(() => {
-    reset({ 'ref/id': issueId, 'ref/attribute': 'entity.type/issue' });
-  }, [issueId, reset]);
+  // const onReset = useCallback(() => {
+  //   reset({ 'ref/id': issueId, 'ref/attribute': 'entity.type/issue' });
+  // }, [issueId, reset]);
 
   return (
     <div className={'flex w-full flex-col items-center justify-center gap-2.5'}>
       <div className={'flex w-full flex-col items-start justify-center gap-2'}>
-        <SeverityScore />
+        <SeverityScoreLabel />
         <Slider
           aria-label={'severity'}
           className={'relative w-full'}
@@ -133,7 +125,7 @@ export const SeveritySlider = suspensify(() => {
             }
           />
           <AverageScoreThumb score={avgScore} />
-          <UserScoreThumb chosen={false} />
+          <UserScoreThumb chosen={!!userScore} />
         </Slider>
       </div>
     </div>

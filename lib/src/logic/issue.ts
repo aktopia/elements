@@ -201,7 +201,9 @@ export type Events = {
     };
   };
   'issue.current.user.severity/vote': {
-    params: {};
+    params: {
+      score: number;
+    };
   };
   'navigated.issue/view': {
     params: {
@@ -266,9 +268,9 @@ sub(
   ({ state }) => state['issue/state']['issue.location.slide-over/visible']
 );
 
-sub('issue.severity/score', () => 6.4);
-sub('issue.severity.score/votes', () => 100);
-sub('issue.current.user.severity/score', () => 5);
+remoteSub('issue.severity/score');
+remoteSub('issue.severity.score/votes');
+remoteSub('issue.current.user.severity/score');
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
@@ -396,12 +398,16 @@ evt('navigated.issue/new', async ({ params }) => {
   navigate({ id: 'issue/view', replace: true, params: { id } });
 });
 
-evt('issue.current.user.severity/vote', async ({ getState }) => {
+evt('issue.current.user.severity/vote', async ({ getState, params }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];
-  await rpcPost('issue.current.user.severity/vote', { 'issue/id': currentIssueId });
+  await rpcPost('issue.current.user.severity/vote', {
+    'issue/id': currentIssueId,
+    score: params.score,
+  });
   await invalidateAsyncSubs([
     ['issue.severity/score', { 'issue/id': currentIssueId }],
-    ['issue.current.user.severity/voted', { 'issue/id': currentIssueId }],
+    ['issue.current.user.severity/score', { 'issue/id': currentIssueId }],
+    ['issue.severity.score/votes', { 'issue/id': currentIssueId }],
   ]);
 });
 

@@ -79,6 +79,8 @@ export default {
     const userScoreText = userScore
       ? `You voted <span class="user-score">${userScore}</span>`
       : "You haven't voted yet";
-    return `Severity <span class="avg-score">${avgScore}</span> from <span class="votes">${votes}</span> votes. ${userScoreText}.`;
+    return votes === 0
+      ? 'No one has voted yet.'
+      : `Severity <span class="avg-score">${avgScore}</span> from <span class="votes">${votes}</span> votes. ${userScoreText}.`;
   },
 };
