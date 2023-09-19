@@ -14,6 +14,8 @@ import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
 import { EntityType as Type } from '@elements/types';
+import { ExclamationTriangleOutline, ExclamationTriangleSolid } from '@elements/icons';
+import { cx } from '@elements/utils';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
@@ -142,11 +144,39 @@ const RaiseHand = suspensify(() => {
   return <RawRaiseHand count={count} raised={raised} size={'md'} onClick={onClick} />;
 });
 
+export const SeverityScore = suspensify(() => {
+  const issueId = useValue('current.issue/id');
+  const score = useValue('issue.severity/score', { 'issue/id': issueId });
+  const voted = useValue('issue.current.user.severity/voted', { 'issue/id': issueId });
+
+  const onClick = useDispatch('issue.severity.vote/initiate') as () => void;
+
+  return (
+    <button className={'group flex items-center gap-2.5'} type={'button'} onClick={onClick}>
+      {voted ? (
+        <ExclamationTriangleSolid className={'h-7 w-7 text-orange-500'} />
+      ) : (
+        <ExclamationTriangleOutline
+          className={'h-7 w-7 text-gray-400 group-hover:text-orange-500'}
+        />
+      )}
+      <p
+        className={cx(
+          'text font-medium',
+          voted ? 'text-orange-700' : 'text-gray-600 group-hover:text-orange-700'
+        )}>
+        {score}
+      </p>
+    </button>
+  );
+});
+
 const ActionBar = () => {
   return (
     <div className={'flex gap-12'}>
       <Voting suspenseLines={1} />
       <RaiseHand suspenseLines={1} />
+      {/*<SeverityScore suspenseLines={1} />*/}
     </div>
   );
 };

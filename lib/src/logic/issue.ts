@@ -110,6 +110,18 @@ export type Subs = {
     params: {};
     result: string;
   };
+  'issue.severity/score': {
+    params: { 'issue/id': string };
+    result: number;
+  };
+  'issue.severity.score/votes': {
+    params: { 'issue/id': string };
+    result: number;
+  };
+  'issue.current.user.severity/score': {
+    params: { 'issue/id': string };
+    result: number;
+  };
 };
 
 export type Events = {
@@ -188,6 +200,11 @@ export type Events = {
       value: string;
     };
   };
+  'issue.current.user.severity/vote': {
+    params: {
+      score: number;
+    };
+  };
   'navigated.issue/view': {
     params: {
       route: Route;
@@ -250,6 +267,10 @@ sub(
   'issue.location.slide-over/visible',
   ({ state }) => state['issue/state']['issue.location.slide-over/visible']
 );
+
+remoteSub('issue.severity/score');
+remoteSub('issue.severity.score/votes');
+remoteSub('issue.current.user.severity/score');
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
@@ -375,6 +396,19 @@ evt('navigated.issue/new', async ({ params }) => {
   const { title } = params.route.params;
   const { id } = await rpcPost('issue.draft/create', { 'issue.title/text': title });
   navigate({ id: 'issue/view', replace: true, params: { id } });
+});
+
+evt('issue.current.user.severity/vote', async ({ getState, params }) => {
+  const currentIssueId = getState()['issue/state']['current.issue/id'];
+  await rpcPost('issue.current.user.severity/vote', {
+    'issue/id': currentIssueId,
+    score: params.score,
+  });
+  await invalidateAsyncSubs([
+    ['issue.severity/score', { 'issue/id': currentIssueId }],
+    ['issue.current.user.severity/score', { 'issue/id': currentIssueId }],
+    ['issue.severity.score/votes', { 'issue/id': currentIssueId }],
+  ]);
 });
 
 registerTextEditor('issue.title/text', {
