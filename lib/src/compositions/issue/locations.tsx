@@ -12,7 +12,8 @@ import { useTranslation } from '@elements/translation';
 import type { Location } from '@elements/logic/issue';
 import { ListBulletOutline, MapPinSolid } from '@elements/icons';
 import React, { useCallback, useRef, useState } from 'react';
-import { AddLocationPin, MapHandle } from '@elements/components/map/map';
+import { AddLocationPin } from '@elements/components/map';
+import type { MapHandle } from '@elements/components/map';
 import { Button } from '@elements/components/button';
 import { Place, SearchLocation } from '@elements/compositions/map';
 

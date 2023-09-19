@@ -9,8 +9,8 @@ import {
   SlideOverTitle,
 } from '@elements/components/slide-over';
 import { useDispatch, useValue } from '@elements/store';
-import type { MapHandle } from '@elements/components/map/map';
-import { AddLocationPin, Map } from '@elements/components/map/map';
+import type { MapHandle } from '@elements/components/map';
+import { AddLocationPin, Map } from '@elements/components/map';
 import type { Place } from '@elements/compositions/map';
 import { SearchLocation } from '@elements/compositions/map';
 
@@ -48,7 +48,7 @@ export const ChooseLocalitySlideOver = suspensify(() => {
     return null;
   }
 
-  const title = location ? 'Update Locality' : 'Choose Locality';
+  const title = chosenLocation ? 'Update Locality' : 'Choose Locality';
 
   return (
     <SlideOver visible={visible} onClose={onClose}>

@@ -16,7 +16,7 @@ import {
 import { rpcPost } from '@elements/rpc';
 import type { Route } from '@elements/logic/router';
 import { navigate } from '@elements/logic/router';
-import { LatLng } from '@elements/components/map/map';
+import type { LatLng } from '@elements/components/map';
 
 type TabId = 'home' | 'discuss' | 'media' | 'locations';
 

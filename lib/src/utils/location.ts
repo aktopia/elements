@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import type { LatLng } from '@elements/components/map/map';
+import type { LatLng } from '@elements/components/map';
 import { googleMapsApiKey } from '@elements/config';
 import LatLngBounds = google.maps.LatLngBounds;
 import GeocoderAddressComponent = google.maps.GeocoderAddressComponent;

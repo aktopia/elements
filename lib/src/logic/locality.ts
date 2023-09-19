@@ -1,5 +1,5 @@
 import { dispatch, evt, sub } from '@elements/store';
-import type { LatLng } from '@elements/components/map/map';
+import type { LatLng } from '@elements/components/map';
 import { geolocate, parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 
 interface Locality {
