@@ -41,6 +41,7 @@ export const fetchPredictions = async (q: string): Promise<Prediction[]> => {
     return emptyPredictions;
   } else {
     const results = await autoCompleteService.getPlacePredictions({ input: q });
+
     return isEmpty(results)
       ? emptyPredictions
       : results.predictions.map((prediction: any) => ({

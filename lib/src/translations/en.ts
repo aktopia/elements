@@ -1,3 +1,5 @@
+import { isNil } from 'lodash';
+
 export default {
   'common/outcome': 'Outcome',
   'common/email': 'Email',
@@ -80,7 +82,7 @@ export default {
     const userScoreText = userScore
       ? `You voted <span class="user-score">${userScore}</span>`
       : "You haven't voted yet";
-    return votes === 0
+    return isNil(avgScore)
       ? 'No one has voted yet.'
       : `Severity <span class="avg-score">${avgScore}</span> from <span class="votes">${votes}</span> votes. ${userScoreText}.`;
   },
