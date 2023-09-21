@@ -1,12 +1,13 @@
 import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useValue } from '@elements/store';
 import { createContext, type ReactNode, useCallback, useContext, useMemo } from 'react';
+import type { Translations } from '@elements/translations';
 
 type T = (id: string, params?: Record<string, any>) => string;
 
 type TValue = string | ((params?: any) => string);
 
-type SetLocale = (locale: string) => void;
+type SetLocale = (locale: keyof Translations) => void;
 
 type TranslationContextType = {
   locale: string;
@@ -18,10 +19,10 @@ type TranslationContextType = {
 const placeholderContext: TranslationContextType = {
   locale: 'en',
   locales: {},
-  t: () => {
+  setLocale: (_) => {
     throw new Error('TranslationContext not initialized');
   },
-  setLocale: (_) => {
+  t: () => {
     throw new Error('TranslationContext not initialized');
   },
 };
@@ -30,7 +31,7 @@ export const TranslationContext = createContext<TranslationContextType>(placehol
 
 export interface TranslationProps {
   defaultLocale: string;
-  locales: any;
+  locales: Translations;
   children: ReactNode;
 }
 

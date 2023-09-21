@@ -1,5 +1,9 @@
 import en from '@elements/translations/en';
 
-export default {
+const translations = {
   en: en,
 };
+
+export type Translations = typeof translations;
+
+export default translations;

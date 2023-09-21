@@ -1,9 +1,10 @@
 import { evt, sub } from '@elements/store';
+import type { Translations } from '@elements/translations';
 
 export type Subs = {
   'current/locale': {
     params: {};
-    result: string;
+    result: keyof Translations;
   };
 };
 
