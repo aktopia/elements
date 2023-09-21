@@ -2,7 +2,9 @@ import { ArrowPathOutline, MapPinSolid } from '@elements/icons';
 import { calculateBounds, getCenter } from '@elements/utils/location';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { cx } from '@elements/utils';
-import { differenceWith, isEmpty, isEqual } from 'lodash';
+import differenceWith from 'lodash/differenceWith';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import type { ForwardRefRenderFunction } from 'react';
 import {
   forwardRef,

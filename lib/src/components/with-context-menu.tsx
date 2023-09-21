@@ -1,5 +1,5 @@
 import { useOutsideClick } from '@elements/utils';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import type { MouseEvent, ReactNode } from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { Dropdown } from '@elements/components/dropdown';

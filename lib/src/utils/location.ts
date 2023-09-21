@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import type { LatLng } from '@elements/components/map';
 import { googleMapsApiKey } from '@elements/config';
 

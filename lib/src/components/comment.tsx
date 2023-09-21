@@ -1,6 +1,6 @@
 import { ChevronDownMiniSolid, ChevronUpMiniSolid, UserCircleSolid } from '@elements/icons';
 import { TextAreaEditor } from '@elements/components/text-area-editor';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { memo, useCallback, useState } from 'react';
 
 export interface CommentProps {

@@ -4,7 +4,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import type { ReactElement } from 'react';
 import { useCallback, useMemo } from 'react';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 interface TextEditorProps {
   refId: string;

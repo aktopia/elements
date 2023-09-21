@@ -1,6 +1,6 @@
 import { lorem } from '@story/utils/string';
 import { randomTimestamp } from '@story/utils/time';
-import { memoize } from 'lodash';
+import memoize from 'lodash/memoize';
 import { store as votingStore } from '@story/stores/voting';
 import { store as textEditorStore } from '@story/stores/text-editor';
 

@@ -1,5 +1,5 @@
 import { Editor, EditorContent, useEditor } from '@tiptap/react';
-import { isNil } from 'lodash';
+import isNil from 'lodash/isNil';
 import type { ForwardRefRenderFunction, MutableRefObject } from 'react';
 import { forwardRef, memo, useEffect, useImperativeHandle, useRef } from 'react';
 import Placeholder from '@tiptap/extension-placeholder';

@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useState } from 'react';
 import type { ChangeEvent } from 'react';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Combobox, Transition } from '@headlessui/react';
 import { MagnifyingGlassSolid, XMarkSolid } from '@elements/icons';
 import type { Prediction, LocationDetails } from '@elements/utils/location';
