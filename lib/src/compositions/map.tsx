@@ -1,9 +1,10 @@
-import { ChangeEvent, Fragment, useCallback, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
+import type { ChangeEvent } from 'react';
 import { isEmpty } from 'lodash';
 import { Combobox, Transition } from '@headlessui/react';
 import { MagnifyingGlassSolid, XMarkSolid } from '@elements/icons';
-import type { Prediction } from '@elements/utils/location';
-import { fetchPredictions, LocationDetails, resolvePlaceId } from '@elements/utils/location';
+import type { Prediction, LocationDetails } from '@elements/utils/location';
+import { fetchPredictions, resolvePlaceId } from '@elements/utils/location';
 
 function formatPrediction(prediction: Prediction) {
   const { match, matchedSubstrings } = prediction;
@@ -31,8 +32,10 @@ interface SearchLocationProps {
   onSelect: (place: Place) => void;
 }
 
+const emptyPredictions: Prediction[] = [];
+
 export const SearchLocation = ({ onSelect }: SearchLocationProps) => {
-  const [predictions, setPredictions] = useState<Prediction[]>([]);
+  const [predictions, setPredictions] = useState<Prediction[]>(emptyPredictions);
   const [inputText, setInputText] = useState('');
   const isInputTextEmpty = isEmpty(inputText);
 
@@ -96,13 +99,13 @@ export const SearchLocation = ({ onSelect }: SearchLocationProps) => {
         enterTo={'opacity-100 translate-y-0'}>
         <Combobox.Options
           className={
-            'z-1 relative mt-1 w-full rounded-lg border border-stone-50 bg-white py-1 shadow-lg empty:hidden focus:outline-none sm:text-sm'
+            'relative z-10 mt-1 w-full rounded-lg border border-stone-300 bg-white py-1 shadow-lg empty:hidden focus:outline-none sm:text-sm'
           }>
           {predictions.map((prediction: Prediction) => (
             <Combobox.Option
               key={prediction.placeId}
               className={
-                'relative inline-flex w-full cursor-pointer py-2 pl-3 pr-4 hover:bg-stone-100'
+                'ui-active:bg-stone-100 relative inline-flex w-full cursor-pointer py-2 pl-3 pr-4 hover:bg-stone-100'
               }
               value={prediction}>
               {formatPrediction(prediction)}
@@ -113,7 +116,3 @@ export const SearchLocation = ({ onSelect }: SearchLocationProps) => {
     </Combobox>
   );
 };
-/* TODO
-
-Format fetchPredictions results and not let the component do it
- */

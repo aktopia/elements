@@ -1,8 +1,6 @@
 import { isEmpty } from 'lodash';
 import type { LatLng } from '@elements/components/map';
 import { googleMapsApiKey } from '@elements/config';
-import LatLngBounds = google.maps.LatLngBounds;
-import GeocoderAddressComponent = google.maps.GeocoderAddressComponent;
 
 const { AutocompleteService, PlacesService } = (await google.maps.importLibrary(
   'places'
@@ -27,13 +25,13 @@ export interface LocationDetails {
     lat: number;
     lng: number;
   };
-  bounds: LatLngBounds;
+  bounds: google.maps.LatLngBounds;
 }
 
 export interface PlaceDetails {
   formattedAddress: string;
   placeId: string;
-  addressComponents: GeocoderAddressComponent[];
+  addressComponents: google.maps.GeocoderAddressComponent[];
 }
 
 export const fetchPredictions = async (q: string): Promise<Prediction[]> => {
@@ -128,7 +126,7 @@ const allowedTypes = [
   'administrative_area_level_7',
 ];
 
-export const parseClosestLocality = (addressComponents: GeocoderAddressComponent[]) => {
+export const parseClosestLocality = (addressComponents: google.maps.GeocoderAddressComponent[]) => {
   const locality = addressComponents.find((component) =>
     component.types.some((type) => allowedTypes.includes(type))
   );

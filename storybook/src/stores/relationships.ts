@@ -1,5 +1,5 @@
 import { EntityType } from '@elements/types';
-import { Relation } from '@elements/logic/relationship';
+import { RelationType } from '@elements/logic/relationship';
 
 const relations = {
   '1': {
@@ -34,7 +34,7 @@ export const store = {
     'relationship/ids': ['1', '2', '3'],
     'relationship.entity/title': 'Some title',
     'relationship.entity/type': EntityType.Action,
-    'relationship/relation': Relation.Relates,
+    'relationship/relation': RelationType.Relates,
     'relationship/adding': true,
   },
   evt: ['relationship.adding/set'],

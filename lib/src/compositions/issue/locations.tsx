@@ -15,7 +15,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { AddLocationPin } from '@elements/components/map';
 import type { MapHandle } from '@elements/components/map';
 import { Button } from '@elements/components/button';
-import { Place, SearchLocation } from '@elements/compositions/map';
+import { type Place, SearchLocation } from '@elements/compositions/map';
 
 interface Reference {
   refId: string;

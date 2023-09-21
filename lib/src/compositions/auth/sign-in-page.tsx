@@ -5,6 +5,3 @@ export const SignInPage = wrapPage(() => {
   // TODO suspense should be a loading spinner
   return <SocialSignIn suspenseLines={3} />;
 });
-export const routes = {
-  'auth/sign-in': SignInPage,
-};

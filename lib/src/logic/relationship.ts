@@ -2,10 +2,10 @@ import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { EntityType } from '@elements/types';
 import { rpcPost } from '@elements/rpc';
 
-export enum Relation {
-  Resolves = 'resolves',
-  PartiallyResolves = 'partially-resolves',
-  Relates = 'relates',
+export enum RelationType {
+  Resolves = 'relation.type/resolves',
+  PartiallyResolves = 'relation.type/partially-resolves',
+  Relates = 'relation.type/relates',
 }
 
 export type Subs = {
@@ -25,7 +25,7 @@ export type Subs = {
   };
   'relationship/relation': {
     params: { 'relation/id': string };
-    result: Relation;
+    result: RelationType;
   };
   'relationship/adding': {
     params: {};

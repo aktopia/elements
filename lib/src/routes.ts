@@ -3,10 +3,11 @@ import { Profile } from '@elements/compositions/profile/profile';
 import type { ComponentType } from 'react';
 import type { Events } from '@elements/store/types';
 import { Issue } from '@elements/compositions/issue/issue';
+import type { SuspensifyProps } from '@elements/components/suspensify';
 
 interface RouteData {
   [key: string]: {
-    component: ComponentType;
+    component: ComponentType<SuspensifyProps>;
     onNavigateEvent: keyof Events;
   };
 }

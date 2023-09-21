@@ -141,7 +141,7 @@ export const Button = memo(
     ...props
   }: ButtonProps) => {
     const onClickMemo = useCallback(
-      (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      (e: MouseEvent<HTMLButtonElement>) => {
         onClick && !disabled && onClick(e);
       },
       [onClick, disabled]

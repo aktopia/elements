@@ -17,7 +17,7 @@ import {
 import type { Route } from '@elements/logic/router';
 import { navigate } from '@elements/logic/router';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
-import { LatLng } from '@elements/components/map';
+import { type LatLng } from '@elements/components/map';
 
 export type TabId = 'home' | 'discuss' | 'updates';
 

@@ -13,12 +13,11 @@ import {
   useRef,
   useState,
 } from 'react';
-import LatLngLiteral = google.maps.LatLngLiteral; //TODO import type only
-import LatLngBounds = google.maps.LatLngBounds;
 
 const { Map: GoogleMap } = (await google.maps.importLibrary('maps')) as google.maps.MapsLibrary;
 
-export type LatLng = LatLngLiteral;
+export type LatLng = google.maps.LatLngLiteral;
+export type LatLngBounds = google.maps.LatLngBounds;
 
 interface MapProps {
   initialCenter?: LatLng;

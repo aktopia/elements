@@ -30,7 +30,8 @@
     "useDefineForClassFields": true,
     "verbatimModuleSyntax": true,
     "types": [
-      "vite/client"
+      "vite/client",
+      "google.maps"
     ]
   },
   "include": [

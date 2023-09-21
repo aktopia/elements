@@ -7,7 +7,9 @@ import { useTranslation } from '@elements/translation';
 export const SocialSignIn = suspensify(() => {
   const t = useTranslation();
   const visible = useValue('auth.sign-in/visible');
+  // @ts-ignore
   const disallowClose = useValue('auth.sign-in/disallow-close');
+  // @ts-ignore
   const onGoogleClick = useDispatch('auth.sign-in.google/initiate');
   const onModalClose = useDispatch('auth.sign-in/close');
 

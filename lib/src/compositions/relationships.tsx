@@ -8,17 +8,26 @@ import { suspensify } from '@elements/components/suspensify';
 import { EntityType } from '@elements/compositions/entity-type';
 import { EntityType as ResultType } from '@elements/types';
 import { useDispatch, useStateLike, useValue } from '@elements/store';
-import React, { Fragment, useCallback, useState } from 'react';
+import { type ChangeEvent, type ComponentType, Fragment, useCallback, useState } from 'react';
 import { useTranslation } from '@elements/translation';
 import { Combobox, Listbox } from '@headlessui/react';
 import { Button } from '@elements/components/button';
+import { RelationType } from '@elements/logic/relationship';
 
-export interface Relation {
-  id: string;
-  relation: 'resolves' | 'partially-resolves';
-  type: 'issue' | 'action';
-  title: string;
-}
+const relations: { id: RelationType; label: string }[] = [
+  {
+    id: RelationType.Resolves,
+    label: 'Resolves',
+  },
+  {
+    id: RelationType.PartiallyResolves,
+    label: 'Partially Resolves',
+  },
+  {
+    id: RelationType.Relates,
+    label: 'Relates',
+  },
+];
 
 interface RelationsProps {
   refId: string;
@@ -26,15 +35,15 @@ interface RelationsProps {
 }
 
 const relationTKey = {
-  resolves: 'relation/resolves',
-  'partially-resolves': 'relation/partially-resolves',
-  relates: 'relation/relates',
+  'relation.type/resolves': 'relation/resolves',
+  'relation.type/partially-resolves': 'relation/partially-resolves',
+  'relation.type/relates': 'relation/relates',
 };
 
-const icon = {
-  resolves: WrenchOutline,
-  'partially-resolves': WrenchOutline,
-  relates: ArrowsRightLeftOutline,
+const icon: Record<RelationType, ComponentType<any>> = {
+  'relation.type/resolves': WrenchOutline,
+  'relation.type/partially-resolves': WrenchOutline,
+  'relation.type/relates': ArrowsRightLeftOutline,
 };
 
 const Relationship = suspensify(({ id }: { id: string }) => {
@@ -61,27 +70,12 @@ const Relationship = suspensify(({ id }: { id: string }) => {
           <Icon className={'h-5 w-5 text-gray-500'} />
           <div className={'text-sm text-gray-500'}>{t(relationTKey[relation])}</div>
         </div>
-        <EntityType type={type} />
+        <EntityType size={'sm'} type={type} />
       </div>
       <div className={'text-gray-700'}>{title}</div>
     </div>
   );
 });
-
-const relations = [
-  {
-    id: 'resolves',
-    label: 'Resolves',
-  },
-  {
-    id: 'partially-resolves',
-    label: 'Partially Resolves',
-  },
-  {
-    id: 'relates',
-    label: 'Relates',
-  },
-];
 
 interface Result {
   type: ResultType;
@@ -151,7 +145,7 @@ const NewRelationship = suspensify(({ onAddToggle, refId }: any) => {
   const [selectedResult, onSelectResult] = useState<Result | null>(null);
 
   const onQueryChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       setQuery(e.target.value);
     },
     [setQuery]
