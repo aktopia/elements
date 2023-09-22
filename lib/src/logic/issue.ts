@@ -433,7 +433,7 @@ evt('navigated.issue/view', ({ params }) => {
 });
 
 evt('navigated.issue/new', async ({ params }) => {
-  const { title } = params.route.pathParams;
+  const { title } = params.route.queryParams;
   const { id } = await rpcPost('issue.draft/create', { 'issue.title/text': title });
   navigate('issue/view', { pathParams: { id } }, { replace: true });
 });

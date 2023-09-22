@@ -346,7 +346,7 @@ evt('navigated.action/view', ({ params }) => {
 });
 
 evt('navigated.action/new', async ({ params }) => {
-  const { title } = params.route.pathParams;
+  const { title } = params.route.queryParams;
   const { id } = await rpcPost('action.draft/create', { 'action.title/text': title });
   navigate('action/view', { pathParams: { id } }, { replace: true });
 });

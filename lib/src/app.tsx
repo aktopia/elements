@@ -1,12 +1,11 @@
 import '@elements/index.css';
-import { Router, listener } from '@elements/compositions/router';
+import { listener, Router } from '@elements/compositions/router';
 import { useEffect } from 'react';
 import { init as initAuth } from '@elements/authentication';
 import { dispatch, useValue } from '@elements/store';
 import { suspensify } from '@elements/components/suspensify';
 import { Spinner } from '@elements/components/spinner';
 import { initRouter } from '@elements/router';
-import { routes } from '@elements/routes';
 
 const authConfig = {
   // TODO - Move to env
@@ -17,7 +16,7 @@ const authConfig = {
 
 function init() {
   initAuth(authConfig);
-  initRouter(routes, listener);
+  initRouter(listener);
   dispatch('app/load');
 }
 

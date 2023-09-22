@@ -1,6 +1,7 @@
 import { keep } from '@elements/utils';
 import omit from 'lodash/omit';
 import type { Route, RouteWithMatcher } from '@elements/routes';
+import { routes } from '@elements/routes';
 import isEmpty from 'lodash/isEmpty';
 import { compile } from 'path-to-regexp';
 
@@ -8,7 +9,10 @@ type Params = Record<string, string>;
 
 type RouteMappings = Record<string, RouteWithMatcher>;
 
-let routeMappings: RouteMappings = {};
+const routeMappings: RouteMappings = routes.reduce((acc: RouteMappings, route) => {
+  acc[route.id] = route;
+  return acc;
+}, {});
 
 export interface Match extends Omit<Route, 'matcher'> {
   path: string;
@@ -19,14 +23,31 @@ export interface Match extends Omit<Route, 'matcher'> {
 
 export const events = ['popstate', 'pushState', 'replaceState', 'hashchange'];
 
+if (typeof history !== 'undefined') {
+  for (const type of ['pushState', 'replaceState']) {
+    // @ts-ignore
+    const original = history[type];
+    // @ts-ignore
+    history[type] = function () {
+      const result = original.apply(this, arguments);
+      const event = new Event(type);
+      // @ts-ignore
+      event.arguments = arguments;
+
+      dispatchEvent(event);
+      return result;
+    };
+  }
+}
+
 const subscribe = (callback: EventListener) => {
   for (const event of events) {
-    addEventListener(event, callback);
+    window.addEventListener(event, callback);
   }
 
   return () => {
     for (const event of events) {
-      removeEventListener(event, callback);
+      window.removeEventListener(event, callback);
     }
   };
 };
@@ -54,13 +75,8 @@ const resolveRoute = (routes: RouteWithMatcher[]): Match => {
   };
 };
 
-export const initRouter = (routes: RouteWithMatcher[], callback: (match: Match) => any) => {
+export const initRouter = (callback: (match: Match) => any) => {
   callback(resolveRoute(routes));
-
-  routeMappings = routes.reduce((acc: RouteMappings, route) => {
-    acc[route.id] = route;
-    return acc;
-  }, {});
 
   return subscribe(() => {
     callback(resolveRoute(routes));

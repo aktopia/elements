@@ -13,6 +13,7 @@ export const listener = async (match: Match) => {
       'route/query-params': queryParams,
       'route/component': component,
       'route/path': path,
+      'route/loading': true,
     };
   });
 
