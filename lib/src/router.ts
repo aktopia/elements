@@ -1,4 +1,4 @@
-import { keep } from '@elements/utils';
+import { emptyObject, keep } from '@elements/utils';
 import omit from 'lodash/omit';
 import type { Route, RouteWithMatcher } from '@elements/routes';
 import { routes } from '@elements/routes';
@@ -18,7 +18,7 @@ export interface Match extends Omit<Route, 'matcher'> {
   path: string;
   pathParams: Params;
   queryParams: Params;
-  hash: string;
+  hashParams: Params;
 }
 
 export const events = ['popstate', 'pushState', 'replaceState', 'hashchange'];
@@ -53,12 +53,17 @@ const subscribe = (callback: EventListener) => {
 };
 
 const getLocation = () => {
-  const queryString = window.location.search;
-  const queryParams = Object.fromEntries([...new URLSearchParams(queryString)]);
   const path = window.location.pathname;
+  const search = window.location.search;
   const hash = window.location.hash;
+  const queryParams = isEmpty(search?.trim())
+    ? emptyObject
+    : Object.fromEntries([...new URLSearchParams(search)]);
+  const hashParams = isEmpty(hash?.trim())
+    ? emptyObject
+    : Object.fromEntries([...new URLSearchParams(hash.slice(1))]);
 
-  return { path, hash: isEmpty(hash?.trim()) ? null : hash, queryParams };
+  return { path, hashParams, queryParams };
 };
 
 const resolveRoute = (routes: RouteWithMatcher[]): Match => {

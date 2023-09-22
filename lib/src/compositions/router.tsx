@@ -4,13 +4,14 @@ import { Spinner } from '@elements/components/spinner';
 import { type Match } from '@elements/router';
 
 export const listener = async (match: Match) => {
-  const { id, path, pathParams, queryParams, onNavigateEvent, component } = match;
+  const { id, path, pathParams, queryParams, onNavigateEvent, component, hashParams } = match;
 
   setState((state: any) => {
     state['router/state'] = {
       'route/id': id,
       'route/path-params': pathParams,
       'route/query-params': queryParams,
+      'route/hash-params': hashParams,
       'route/component': component,
       'route/path': path,
       'route/loading': true,

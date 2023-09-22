@@ -88,3 +88,5 @@ export function keep<T>(a: T[], fn: (e: T) => any) {
   }
   return null;
 }
+
+export const emptyObject = {};
