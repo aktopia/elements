@@ -1,44 +1,55 @@
 import { Action } from '@elements/compositions/action/action';
 import { Profile } from '@elements/compositions/profile/profile';
-import type { ComponentType } from 'react';
-import type { Events } from '@elements/store/types';
 import { Issue } from '@elements/compositions/issue/issue';
+import type { ComponentType } from 'react';
 import type { SuspensifyProps } from '@elements/components/suspensify';
+import type { Events } from '@elements/store/types';
+import { match } from 'path-to-regexp';
 
-interface RouteData {
-  [key: string]: {
-    component: ComponentType<SuspensifyProps>;
-    onNavigateEvent: keyof Events;
-  };
+export interface Route {
+  id: string;
+  path: string;
+  component: ComponentType<SuspensifyProps>;
+  onNavigateEvent: keyof Events;
 }
 
-export const routeData: RouteData = {
-  'action/view': {
-    component: Action,
-    onNavigateEvent: 'navigated.action/view',
-  },
-  'action/new': {
+export type RouteWithMatcher = Route & {
+  matcher: any;
+};
+
+const routes_: Route[] = [
+  {
+    id: 'action/new',
+    path: '/action/new',
     component: Action,
     onNavigateEvent: 'navigated.action/new',
   },
-  'issue/view': {
-    component: Issue,
-    onNavigateEvent: 'navigated.issue/view',
+  {
+    id: 'action/view',
+    path: '/action/:id',
+    component: Action,
+    onNavigateEvent: 'navigated.action/view',
   },
-  'issue/new': {
+  {
+    id: 'issue/new',
+    path: '/issue/new',
     component: Issue,
     onNavigateEvent: 'navigated.issue/new',
   },
-  'profile/view': {
+  {
+    id: 'issue/view',
+    path: '/issue/:id',
+    component: Issue,
+    onNavigateEvent: 'navigated.issue/view',
+  },
+  {
+    id: 'profile/view',
+    path: '/profile/:id/:tab',
     component: Profile,
     onNavigateEvent: 'navigated.profile/view',
   },
-};
-
-export const routes = [
-  { name: 'action/new', path: '/action/new' },
-  { name: 'action/view', path: '/action/:id' },
-  { name: 'issue/new', path: '/issue/new' },
-  { name: 'issue/view', path: '/issue/:id' },
-  { name: 'profile/view', path: '/profile/:id/:tab' },
 ];
+
+export const routes: RouteWithMatcher[] = routes_.map((route) => {
+  return { ...route, matcher: match(route.path) };
+});
