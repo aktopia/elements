@@ -1,5 +1,5 @@
 import { dispatch, evt, remoteSub, sub } from '@elements/store';
-import type { Route } from '@elements/logic/router';
+import type { Match } from '@elements/router';
 
 export type TabId = 'actions' | 'issues';
 
@@ -45,7 +45,7 @@ export type Events = {
   };
   'navigated.profile/view': {
     params: {
-      route: Route;
+      route: Match;
     };
   };
 };
@@ -69,7 +69,7 @@ evt('profile.user.id/set', ({ setState, params }) => {
 });
 
 evt('navigated.profile/view', ({ params }) => {
-  const { id, tab } = params.route.params;
+  const { id, tab } = params.route.pathParams;
   dispatch('profile.user.id/set', { id });
   dispatch('profile.tabs/update', { 'tab/id': tab });
 });

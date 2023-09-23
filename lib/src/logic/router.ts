@@ -1,10 +1,7 @@
-import { dispatch, evt, setState, sub } from '@elements/store';
-import type { Router, State } from 'router5';
-import createRouter from 'router5';
-import browserPlugin from 'router5-plugin-browser';
-import { routeData } from '@elements/routes';
-
-let router: Router<Record<string, any>>;
+import { sub } from '@elements/store';
+import type { Events as AllEvents } from '@elements/store/types';
+import type { ComponentType } from 'react';
+import type { SuspensifyProps } from '@elements/components/suspensify';
 
 export type Subs = {
   'current.route/id': {
@@ -15,68 +12,30 @@ export type Subs = {
     params: {};
     result: boolean;
   };
-};
-
-export type Events = {
-  'current.route.id/set': {
-    params: {
-      id: string;
-    };
+  'current.route/on-navigate-event': {
+    params: {};
+    result: keyof AllEvents;
+  };
+  'current.route/component': {
+    params: {};
+    result: ComponentType<SuspensifyProps>;
   };
 };
 
-export const routerSlice = () => ({ 'router/state': {} });
+export type Events = {};
+
+export const routerSlice = () => ({
+  'router/state': {
+    'route/loading': true,
+  },
+});
 
 sub('current.route/id', ({ state }) => state['router/state']['route/id']);
 
+sub(
+  'current.route/on-navigate-event',
+  ({ state }) => state['router/state']['route/on-navigate-event']
+);
+sub('current.route/component', ({ state }) => state['router/state']['route/component']);
+
 sub('current.route/loading', ({ state }) => state['router/state']['route/loading']);
-
-evt('current.route.id/set', ({ setState, params }) => {
-  setState((state: any) => {
-    state['router/state']['route/id'] = params.id;
-  });
-});
-
-export interface Route {
-  id: string;
-  params: Record<string, any>;
-  path: string;
-}
-
-const listener = async ({ route }: { route: State }) => {
-  // TODO This listener is bad, redesign it
-  const { name, path, params } = route;
-
-  setState((state: any) => {
-    state['router/state'] = {
-      'route/id': name,
-      'route/params': params,
-      'route/path': path,
-      'route/loading': true,
-    };
-  });
-
-  const navigateEvent = routeData[name].onNavigateEvent;
-
-  await dispatch(navigateEvent, { route });
-
-  setState((state: any) => {
-    state['router/state']['route/loading'] = false;
-  });
-};
-
-export function initRouter({ routes }: any) {
-  const _router = createRouter(routes, { queryParamsMode: 'loose', allowNotFound: true });
-
-  _router.usePlugin(browserPlugin());
-
-  _router.subscribe(listener);
-
-  _router.start();
-
-  router = _router;
-}
-
-export const navigate = ({ replace, reload, id, params }: any) => {
-  router.navigate(id, params, { replace, reload });
-};

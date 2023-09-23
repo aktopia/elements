@@ -78,3 +78,15 @@ export function ref(...keys: string[]) {
 export function cx(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function keep<T>(a: T[], fn: (e: T) => any) {
+  for (let i = 0; i < a.length; i++) {
+    const result = fn(a[i]);
+    if (result) {
+      return result;
+    }
+  }
+  return null;
+}
+
+export const emptyObject = {};

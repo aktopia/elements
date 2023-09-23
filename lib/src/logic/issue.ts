@@ -14,8 +14,8 @@ import {
   updateText,
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
-import type { Route } from '@elements/logic/router';
-import { navigate } from '@elements/logic/router';
+import type { Match } from '@elements/router';
+import { navigate } from '@elements/router';
 import type { LatLng } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 
@@ -237,12 +237,12 @@ export type Events = {
   };
   'navigated.issue/view': {
     params: {
-      route: Route;
+      route: Match;
     };
   };
   'navigated.issue/new': {
     params: {
-      route: Route;
+      route: Match;
     };
   };
 };
@@ -428,14 +428,14 @@ evt('issue.create.modal.title/update', ({ setState, params }) => {
 });
 
 evt('navigated.issue/view', ({ params }) => {
-  const id = params.route.params.id;
+  const id = params.route.pathParams.id;
   dispatch('current.issue.id/set', { 'issue/id': id });
 });
 
 evt('navigated.issue/new', async ({ params }) => {
-  const { title } = params.route.params;
+  const { title } = params.route.queryParams;
   const { id } = await rpcPost('issue.draft/create', { 'issue.title/text': title });
-  navigate({ id: 'issue/view', replace: true, params: { id } });
+  navigate('issue/view', { pathParams: { id } }, { replace: true });
 });
 
 evt('issue.current.user.severity/vote', async ({ getState, params }) => {

@@ -75,7 +75,7 @@ export async function consumeOtp({ otp }: { otp: string }): Promise<Response> {
     const response = await consumeCode({ userInputCode: otp });
 
     if (response.status === 'OK') {
-      if (response.createdNewUser) {
+      if (response.createdNewRecipeUser) {
         return { newUser: true, user: response.user };
       } else {
         return { newUser: false, user: response.user };

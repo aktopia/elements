@@ -14,8 +14,8 @@ import {
   text,
   updateText,
 } from '@elements/logic/text-editor';
-import type { Route } from '@elements/logic/router';
-import { navigate } from '@elements/logic/router';
+import type { Match } from '@elements/router';
+import { navigate } from '@elements/router';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
 
@@ -203,12 +203,12 @@ export type Events = {
   };
   'navigated.action/view': {
     params: {
-      route: Route;
+      route: Match;
     };
   };
   'navigated.action/new': {
     params: {
-      route: Route;
+      route: Match;
     };
   };
 };
@@ -341,14 +341,14 @@ evt('action.create.modal.title/update', ({ setState, params }) => {
 });
 
 evt('navigated.action/view', ({ params }) => {
-  const id = params.route.params.id;
+  const id = params.route.pathParams.id;
   dispatch('current.action.id/set', { 'action/id': id });
 });
 
 evt('navigated.action/new', async ({ params }) => {
-  const { title } = params.route.params;
+  const { title } = params.route.queryParams;
   const { id } = await rpcPost('action.draft/create', { 'action.title/text': title });
-  navigate({ id: 'action/view', replace: true, params: { id } });
+  navigate('action/view', { pathParams: { id } }, { replace: true });
 });
 
 evt('action.locality.slide-over/open', ({ setState }) => {

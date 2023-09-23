@@ -1,10 +1,11 @@
 import '@elements/index.css';
-import { Router } from '@elements/router';
+import { listener, Router } from '@elements/compositions/router';
 import { useEffect } from 'react';
 import { init as initAuth } from '@elements/authentication';
 import { dispatch, useValue } from '@elements/store';
 import { suspensify } from '@elements/components/suspensify';
 import { Spinner } from '@elements/components/spinner';
+import { initRouter } from '@elements/router';
 
 const authConfig = {
   // TODO - Move to env
@@ -13,17 +14,18 @@ const authConfig = {
   appName: 'aktopia',
 };
 
-initAuth(authConfig);
-
 function init() {
+  initAuth(authConfig);
+  initRouter(listener);
   dispatch('app/load');
 }
 
 export const App = suspensify(() => {
-  const loading = useValue('app/loading');
   useEffect(() => {
     init();
   }, []);
+
+  const loading = useValue('app/loading');
 
   return loading ? (
     <div className={'fixed flex h-full w-full items-center justify-center'}>
