@@ -74,13 +74,26 @@ const issue = {
   },
 };
 
+const update = {
+  'update.delete.modal/title': 'Delete Update',
+  'update.delete.modal/body': 'Are you sure you want to delete the update? This cannot be undone.',
+};
+
+const relationship = {
+  'relation/resolves': 'Resolves',
+  'relation/partially-resolves': 'Partially Resolves',
+  'relation/relates': 'Relates To',
+  'relationship.delete.modal/title': 'Delete Relationship',
+  'relationship.delete.modal/body':
+    'Are you sure you want to delete the relationship? This cannot be undone.',
+};
+
 const translation = {
   ...common,
   ...action,
   ...issue,
-  'relation/resolves': 'Resolves',
-  'relation/partially-resolves': 'Partially Resolves',
-  'relation/relates': 'Relates To',
+  ...update,
+  ...relationship,
   'auth/send-otp': 'Send OTP',
   'auth/sign-in': 'Sign In',
   'auth/wait-to-resend-otp': ({ waitSeconds }: { waitSeconds: number }) => {
@@ -95,8 +108,6 @@ const translation = {
   'auth/sign-in-with-google': 'Sign in with Google',
   'comment/placeholder': 'What do you think?',
   'main-search/placeholder': 'Search',
-  'update.delete.modal/title': 'Delete Update',
-  'update.delete.modal/body': 'Are you sure you want to delete the Update? This cannot be undone.',
   'comment.delete.modal/title': 'Delete Comment',
   'comment.delete.modal/body':
     'Are you sure you want to delete the Comment? This cannot be undone.',

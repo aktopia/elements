@@ -1,19 +1,31 @@
 import {
   ArrowsRightLeftOutline,
   ChevronDownMiniSolid,
+  EllipsisVerticalOutline,
   PlusOutline,
+  TrashOutline,
   WrenchOutline,
 } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { EntityType } from '@elements/compositions/entity-type';
 import { EntityType as ResultType } from '@elements/types';
 import { useDispatch, useStateLike, useValue } from '@elements/store';
-import { type ChangeEvent, type ComponentType, Fragment, useCallback, useState } from 'react';
+import {
+  type ChangeEvent,
+  type ComponentType,
+  Fragment,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import { useTranslation } from '@elements/translation';
 import { Combobox, Listbox } from '@headlessui/react';
 import { Button } from '@elements/components/button';
 import { RelationType } from '@elements/logic/relationship';
+import { Dropdown } from '@elements/components/dropdown';
+import { ConfirmationModal } from '@elements/components/confirmation-modal';
 
+// TODO Translation for labels
 const relations: { id: RelationType; label: string }[] = [
   {
     id: RelationType.Resolves,
@@ -34,16 +46,53 @@ interface RelationsProps {
   refAttribute: string;
 }
 
+interface Result {
+  type: ResultType;
+  id: string;
+  entityId: string;
+  snippet: string;
+  text: string;
+}
+
+interface DeleteConfirmationModalProps {
+  refId: string;
+  refAttribute: string;
+}
+
 const relationTKey = {
-  'relation.type/resolves': 'relation/resolves',
-  'relation.type/partially-resolves': 'relation/partially-resolves',
-  'relation.type/relates': 'relation/relates',
+  [RelationType.Resolves]: 'relation/resolves',
+  [RelationType.PartiallyResolves]: 'relation/partially-resolves',
+  [RelationType.Relates]: 'relation/relates',
 };
 
 const icon: Record<RelationType, ComponentType<any>> = {
-  'relation.type/resolves': WrenchOutline,
-  'relation.type/partially-resolves': WrenchOutline,
-  'relation.type/relates': ArrowsRightLeftOutline,
+  [RelationType.Resolves]: WrenchOutline,
+  [RelationType.PartiallyResolves]: WrenchOutline,
+  [RelationType.Relates]: ArrowsRightLeftOutline,
+};
+
+const ContextMenuButton = () => {
+  return <EllipsisVerticalOutline className={'h-6 w-6 cursor-pointer text-gray-700'} />;
+};
+
+const ContextMenu = ({ id }: { id: string }) => {
+  const t = useTranslation();
+
+  const startDeletion = useDispatch('relationship.deletion/start');
+
+  const onDeleteClick = useCallback(
+    () => startDeletion({ 'relationship/id': id }),
+    [id, startDeletion]
+  );
+
+  const items = useMemo(
+    () => [
+      { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
+    ],
+    [t, onDeleteClick]
+  );
+
+  return <Dropdown Button={ContextMenuButton} items={items} />;
 };
 
 const Relationship = suspensify(({ id }: { id: string }) => {
@@ -70,20 +119,45 @@ const Relationship = suspensify(({ id }: { id: string }) => {
           <Icon className={'h-5 w-5 text-gray-500'} />
           <div className={'text-sm text-gray-500'}>{t(relationTKey[relation])}</div>
         </div>
-        <EntityType size={'sm'} type={type} />
+        <div className={'flex items-center gap-1.5'}>
+          <EntityType size={'sm'} type={type} />
+          <ContextMenu id={id} />
+        </div>
       </div>
       <div className={'text-gray-700'}>{title}</div>
     </div>
   );
 });
 
-interface Result {
-  type: ResultType;
-  id: string;
-  entityId: string;
-  snippet: string;
-  text: string;
-}
+const DeleteConfirmationModal = suspensify(({ refId }: DeleteConfirmationModalProps) => {
+  const t = useTranslation();
+  const id = useValue('relationship.deletion/id');
+
+  const cancelDeletion = useDispatch('relationship.deletion/cancel');
+  const deleteUpdate = useDispatch('relationship/delete');
+
+  const onClose = useCallback(
+    () => cancelDeletion({ 'relationship/id': id }),
+    [cancelDeletion, id]
+  );
+  const onDelete = useCallback(
+    () => deleteUpdate({ 'relationship/id': id, 'ref/id': refId }),
+    [deleteUpdate, id, refId]
+  );
+
+  return (
+    <ConfirmationModal
+      bodyText={t('relationship.delete.modal/body')}
+      cancelText={t('common/cancel')}
+      confirmText={t('common/delete')}
+      kind={'danger'}
+      titleText={t('relationship.delete.modal/title')}
+      visible={!!id}
+      onClose={onClose}
+      onConfirm={onDelete}
+    />
+  );
+});
 
 const Result = (result: Result) => {
   const { type, snippet } = result;
@@ -241,30 +315,34 @@ export const Relationships = suspensify(({ refId, refAttribute }: RelationsProps
   }, [addingNewRelation, setAddingNewRelation]);
 
   return (
-    <div className={'flex flex-col gap-4'}>
-      <div className={'flex items-center justify-between'}>
-        <div className={'text-sm font-medium text-gray-500'}>{t('common/relationships')}</div>
-        <button type={'button'} onClick={onAddToggle}>
-          <PlusOutline className={'h-5 w-5 text-gray-500'} />
-        </button>
+    <>
+      <div className={'flex flex-col gap-4'}>
+        <div className={'flex items-center justify-between'}>
+          <div className={'text-sm font-medium text-gray-500'}>{t('common/relationships')}</div>
+          <button type={'button'} onClick={onAddToggle}>
+            <PlusOutline className={'h-5 w-5 text-gray-500'} />
+          </button>
+        </div>
+        <div className={'flex flex-col gap-5'}>
+          {addingNewRelation && (
+            <NewRelationship
+              refAttribute={refAttribute}
+              refId={refId}
+              suspenseLines={3}
+              onAddToggle={onAddToggle}
+            />
+          )}
+          {relationIds.length > 0 ? (
+            relationIds.map((relationId) => (
+              <Relationship key={relationId} id={relationId} suspenseLines={3} />
+            ))
+          ) : (
+            <div className={'text-sm text-gray-500'}>{t('relationships/empty')}</div>
+          )}
+        </div>
       </div>
-      <div className={'flex flex-col gap-5'}>
-        {addingNewRelation && (
-          <NewRelationship
-            refAttribute={refAttribute}
-            refId={refId}
-            suspenseLines={3}
-            onAddToggle={onAddToggle}
-          />
-        )}
-        {relationIds.length > 0 ? (
-          relationIds.map((relationId) => (
-            <Relationship key={relationId} id={relationId} suspenseLines={3} />
-          ))
-        ) : (
-          <div className={'text-sm text-gray-500'}>{t('relationships/empty')}</div>
-        )}
-      </div>
-    </div>
+
+      <DeleteConfirmationModal refAttribute={refAttribute} refId={refId} suspenseLines={3} />
+    </>
   );
 });

@@ -292,7 +292,9 @@ export const Header = () => {
           </div>
           <ProgressIndicator suspenseLines={1} />
         </div>
-        <ActionTabs suspenseLines={1} />
+        <div className={'sticky'}>
+          <ActionTabs suspenseLines={1} />
+        </div>
       </div>
       <ChooseLocalitySlideOver />
     </>

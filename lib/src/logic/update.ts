@@ -9,13 +9,6 @@ import {
   updateText,
 } from '@elements/logic/text-editor';
 
-export const updateSlice = () => ({
-  'update/state': {
-    'update.deletion/id': null,
-    'new/update': {},
-  },
-});
-
 export type Subs = {
   'update/ids': {
     params: {
@@ -83,6 +76,13 @@ export type Events = {
     };
   };
 };
+
+export const updateSlice = () => ({
+  'update/state': {
+    'update.deletion/id': null,
+    'new/update': {},
+  },
+});
 
 sub('update.deletion/id', ({ state }) => state['update/state']['update.deletion/id']);
 

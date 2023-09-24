@@ -31,6 +31,10 @@ export type Subs = {
     params: {};
     result: boolean;
   };
+  'relationship.deletion/id': {
+    params: {};
+    result: string;
+  };
 };
 
 export type Events = {
@@ -44,15 +48,29 @@ export type Events = {
       'relationship.to.entity/id': string;
     };
   };
+  'relationship.deletion/start': {
+    params: { 'relationship/id': string };
+  };
+  'relationship.deletion/cancel': {
+    params: { 'relationship/id': string };
+  };
+  'relationship/delete': {
+    params: { 'relationship/id': string; 'ref/id': string };
+  };
 };
 
 export const relationshipSlice = () => ({
   'relationship/state': {
     'relationship/adding': false,
+    'relationship.deletion/id': null,
   },
 });
 
 sub('relationship/adding', ({ state }) => state['relationship/state']['relationship/adding']);
+sub(
+  'relationship.deletion/id',
+  ({ state }) => state['relationship/state']['relationship.deletion/id']
+);
 
 remoteSub('relationship/ids');
 remoteSub('relationship.entity/title');
@@ -73,4 +91,26 @@ evt('relationship/add', async ({ setState, params }) => {
   });
 
   await invalidateAsyncSub('relationship/ids', { 'ref/id': params['relationship.from.entity/id'] });
+});
+
+evt('relationship.deletion/start', ({ setState, params }) => {
+  setState((state: any) => {
+    state['relationship/state']['relationship.deletion/id'] = params['relationship/id'];
+  });
+});
+
+evt('relationship.deletion/cancel', ({ setState }) => {
+  setState((state: any) => {
+    state['relationship/state']['relationship.deletion/id'] = null;
+  });
+});
+
+evt('relationship/delete', async ({ params, setState }) => {
+  await rpcPost('relationship/delete', { 'relationship/id': params['relationship/id'] });
+
+  await invalidateAsyncSub('relationship/ids', { 'ref/id': params['ref/id'] });
+
+  setState((state: any) => {
+    state['relationship/state']['relationship.deletion/id'] = null;
+  });
 });
