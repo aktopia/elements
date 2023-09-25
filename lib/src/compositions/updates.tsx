@@ -83,7 +83,7 @@ const ContextMenu = ({ id }: { id: string }) => {
     [t, onEditClick, onDeleteClick]
   );
 
-  return <Dropdown Button={ContextMenuButton} items={items} />;
+  return <Dropdown button={<ContextMenuButton />} items={items} />;
 };
 
 const Update = suspensify(({ id }: { id: string }) => {

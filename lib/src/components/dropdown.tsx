@@ -60,13 +60,11 @@ export const Item = ({ text, href, Icon, onClick, kind = 'normal' }: ItemProps) 
   );
 };
 
-export const Dropdown = ({ Button, items }: any) => {
+export const Dropdown = ({ button, items }: any) => {
   return (
     <RawDropdown>
       <RawDropdownTrigger>
-        <div className={'outline-none'}>
-          <Button />
-        </div>
+        <div className={'outline-none'}>{button}</div>
       </RawDropdownTrigger>
       <RawDropdownPanel sideOffset={5}>
         <div

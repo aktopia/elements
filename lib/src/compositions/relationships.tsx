@@ -92,7 +92,7 @@ const ContextMenu = ({ id }: { id: string }) => {
     [t, onDeleteClick]
   );
 
-  return <Dropdown Button={ContextMenuButton} items={items} />;
+  return <Dropdown button={<ContextMenuButton />} items={items} />;
 };
 
 const Relationship = suspensify(({ id }: { id: string }) => {

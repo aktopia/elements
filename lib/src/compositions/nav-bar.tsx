@@ -3,7 +3,6 @@ import {
   MagnifyingGlassOutline,
   MapPinSolid,
   PinOnMap,
-  UserCircleSolid,
 } from '@elements/icons';
 import { Dropdown } from '@elements/components/dropdown';
 import { suspensify } from '@elements/components/suspensify';
@@ -16,6 +15,7 @@ import { CreateModal as ActionCreateModal } from '@elements/compositions/action/
 import { CreateModal as IssueCreateModal } from '@elements/compositions/issue/create-modal';
 import { ChooseLocalitySlideOver } from '@elements/compositions/choose-locality';
 import { Button } from '@elements/components/button';
+import { Avatar } from '@elements/components/avatar';
 
 const aktopia = 'Aktopia';
 
@@ -54,17 +54,8 @@ const CreateDropdown = suspensify(() => {
     ],
     [onCreateAction, onCreateIssue, t]
   );
-  return <Dropdown Button={CreateButton} items={items} />;
+  return <Dropdown button={<CreateButton />} items={items} />;
 });
-
-const Avatar = () => {
-  return (
-    <div className={'flex cursor-pointer items-center gap-1'}>
-      <UserCircleSolid className={'h-8 w-8 text-gray-600'} />
-      <ChevronDownMiniSolid className={'h-4 w-4 text-gray-600'} />
-    </div>
-  );
-};
 
 export const SignInButton = suspensify(() => {
   const t = useTranslation();
@@ -83,6 +74,13 @@ const UserDropdown = suspensify(() => {
   const userId = useValue('current.user/id');
   const authenticated = useValue('auth.session/exists');
   const onSignOutClick = useDispatch('auth/sign-out');
+
+  const button = (
+    <div className={'flex cursor-pointer items-center gap-1'}>
+      <Avatar size={'sm'} />
+      <ChevronDownMiniSolid className={'h-4 w-4 text-gray-600'} />
+    </div>
+  );
   const items = useMemo(
     () => [
       {
@@ -101,7 +99,7 @@ const UserDropdown = suspensify(() => {
     [userId, onSignOutClick]
   );
   return authenticated ? (
-    <Dropdown Button={Avatar} align={'right'} items={items} />
+    <Dropdown align={'right'} button={button} items={items} />
   ) : (
     <SignInButton />
   );
