@@ -1,4 +1,5 @@
-import { Map } from '@elements/components/map';
+import type { MapHandle } from '@elements/components/map';
+import { AddLocationPin, Map } from '@elements/components/map';
 import {
   SlideOver,
   SlideOverBody,
@@ -12,15 +13,8 @@ import { useTranslation } from '@elements/translation';
 import type { Location } from '@elements/logic/issue';
 import { ListBulletOutline, MapPinSolid } from '@elements/icons';
 import React, { useCallback, useRef, useState } from 'react';
-import { AddLocationPin } from '@elements/components/map';
-import type { MapHandle } from '@elements/components/map';
 import { Button } from '@elements/components/button';
 import { type Place, SearchLocation } from '@elements/compositions/map';
-
-interface Reference {
-  refId: string;
-  refAttribute: string;
-}
 
 /*
 TODO
@@ -62,7 +56,7 @@ const LocationsListSlideOver = suspensify(({ locations }: { locations: Location[
 });
 
 const ViewList = ({ onClick }: { onClick: () => void }) => {
-  const text = 'Locations List';
+  const text = 'List Locations';
   return (
     <Button
       Icon={ListBulletOutline}
@@ -137,7 +131,7 @@ const AddLocation = ({
   ) : null;
 };
 
-export const Locations = suspensify(({ refId }: Reference) => {
+export const Locations = suspensify(({ refId }: { refId: string }) => {
   const mapRef = useRef<MapHandle>(null);
   const [addingLocation, setAddingLocation] = useState(false);
   const [dragging, setDragging] = useState(false);

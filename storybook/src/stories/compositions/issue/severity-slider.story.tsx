@@ -7,7 +7,7 @@ export default {
   component: Component,
 };
 
-export const SeveritySlider = mockStory({
+export const SeveritySlider = mockStory<typeof Component>({
   store,
   args: { suspenseLines: 8 },
   render: () => {
