@@ -14,6 +14,7 @@ import { profileSlice } from '@elements/logic/profile';
 import { userSlice } from '@elements/logic/user';
 import { issueSlice } from '@elements/logic/issue';
 import { localitySlice } from '@elements/logic/locality';
+import { locationSlice } from '@elements/logic/location';
 
 export const slices = [
   localeSlice,
@@ -32,4 +33,5 @@ export const slices = [
   userSlice,
   issueSlice,
   localitySlice,
+  locationSlice,
 ];

@@ -3,12 +3,6 @@ import type { Match } from '@elements/router';
 
 export type TabId = 'actions' | 'issues';
 
-export const profileSlice = () => ({
-  'profile/state': {
-    'profile.tabs/active-tab': 'actions',
-  },
-});
-
 export type Subs = {
   'profile.user/id': {
     params: {};
@@ -49,6 +43,12 @@ export type Events = {
     };
   };
 };
+
+export const profileSlice = () => ({
+  'profile/state': {
+    'profile.tabs/active-tab': 'actions',
+  },
+});
 
 sub('profile.user/id', ({ state }) => state['profile/state']['profile.user/id']);
 sub('profile.tabs/active-tab', ({ state }) => state['profile/state']['profile.tabs/active-tab']);

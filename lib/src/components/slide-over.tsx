@@ -63,7 +63,7 @@ export const SlideOver = ({
       <Dialog.Panel
         as={'div'}
         className={
-          'fixed right-0 top-0 z-50 h-screen w-full overflow-y-scroll border-l border-l-gray-300 bg-white shadow-2xl sm:w-1/3'
+          'fixed right-0 top-0 z-50 h-screen w-max overflow-y-scroll border-l border-l-gray-300 bg-white shadow-2xl'
         }>
         {children}
       </Dialog.Panel>

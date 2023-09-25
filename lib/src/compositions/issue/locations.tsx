@@ -1,4 +1,4 @@
-import type { MapHandle } from '@elements/components/map';
+import type { LatLng, MapHandle } from '@elements/components/map';
 import { AddLocationPin, Map } from '@elements/components/map';
 import {
   SlideOver,
@@ -15,24 +15,57 @@ import { ListBulletOutline, MapPinSolid } from '@elements/icons';
 import React, { useCallback, useRef, useState } from 'react';
 import { Button } from '@elements/components/button';
 import { type Place, SearchLocation } from '@elements/compositions/map';
+import { Avatar } from '@elements/components/avatar';
+import { Timestamp } from '@elements/components/timestamp';
 
 /*
 TODO
   - On hover should hover the marker
   - Add locate icon which when clicked will zoom in on the selected location
 */
-const LocationCard = suspensify(({ location }: { location: Location }) => {
+
+interface LocationCardProps {
+  locationId: string;
+  setMapCenter: (center: LatLng) => void;
+}
+
+const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps) => {
+  const creatorName = useValue('location.created-by/name', { 'location/id': locationId });
+  const createdAt = useValue('location/created-at', { 'location/id': locationId });
+  const address = useValue('location/address', { 'location/id': locationId });
+  const caption = useValue('location/caption', { 'location/id': locationId });
+  const latLng = useValue('location/lat-lng', { 'location/id': locationId });
+
+  const onSetMapCenter = useCallback(() => {
+    setMapCenter(latLng);
+  }, [latLng, setMapCenter]);
+
   return (
-    <p
+    <div
       className={
-        'rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 shadow'
+        'flex w-[400px] flex-col items-start gap-3 rounded-md border border-gray-300 px-3 py-2 shadow-sm'
       }>
-      {location.caption}
-    </p>
+      <div className={'flex justify-between'}>
+        <div className={'flex items-center gap-2'}>
+          <Avatar size={'xs'} />
+          <p className={'text-sm font-medium text-gray-700'}>{creatorName}</p>
+        </div>
+        <Timestamp className={'text-xs text-gray-500'} timestamp={createdAt} />
+      </div>
+      <button className={'text-base text-gray-700'} type={'button'} onClick={onSetMapCenter}>
+        {caption}
+      </button>
+      <p className={'text-sm text-gray-500'}>{address}</p>
+    </div>
   );
 });
 
-const LocationsListSlideOver = suspensify(({ locations }: { locations: Location[] }) => {
+interface SlideOverProps {
+  locations: Location[];
+  setMapCenter: (center: LatLng) => void;
+}
+
+const LocationsListSlideOver = suspensify(({ locations, setMapCenter }: SlideOverProps) => {
   const t = useTranslation();
 
   const visible = useValue('issue.location.slide-over/visible');
@@ -45,9 +78,14 @@ const LocationsListSlideOver = suspensify(({ locations }: { locations: Location[
         <SlideOverCloseButton onClick={onClose} />
       </SlideOverHeader>
       <SlideOverBody>
-        <div className={'flex flex-col gap-5'}>
+        <div className={'flex flex-col gap-7'}>
           {locations.map((location) => (
-            <LocationCard key={location.id} location={location} suspenseLines={8} />
+            <LocationCard
+              key={location.id}
+              locationId={location.id}
+              setMapCenter={setMapCenter}
+              suspenseLines={8}
+            />
           ))}
         </div>
       </SlideOverBody>
@@ -189,6 +227,10 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
     [onUpdateCenter]
   );
 
+  const setMapCenter = useCallback((center: LatLng) => {
+    mapRef.current?.setCenter({ center });
+  }, []);
+
   return (
     <div className={'flex flex-col gap-8'}>
       <div className={'flex justify-between'}>
@@ -221,7 +263,7 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
           </>
         )}
       </div>
-      <LocationsListSlideOver locations={locations} suspenseLines={8} />
+      <LocationsListSlideOver locations={locations} setMapCenter={setMapCenter} suspenseLines={8} />
     </div>
   );
 });
