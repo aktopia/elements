@@ -65,7 +65,7 @@ export const Modal = ({ children, onClose, visible }: ModalProps) => {
 
   return (
     <Transition.Root appear afterLeave={console.log} as={Fragment} show={visible}>
-      <Dialog className={'relative z-30'} open={visible} onClose={onDialogClose}>
+      <Dialog className={'z-modal relative'} open={visible} onClose={onDialogClose}>
         <Transition.Child
           as={Fragment}
           enter={'ease-out duration-300'}

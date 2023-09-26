@@ -1,5 +1,5 @@
 import { CheckSolid, ExclamationTriangleOutline } from '@elements/icons';
-import { Button } from '@elements/components/button';
+import { Button, Kind } from '@elements/components/button';
 import { Modal, ModalPanel, ModalTitle } from '@elements/components/modal';
 import { memo } from 'react';
 
@@ -28,14 +28,14 @@ const IconBadge = ({ kind }: { kind: any }) => {
   return component;
 };
 
-interface ConfirmationModalProps {
+export interface ConfirmationModalProps {
   titleText: string;
   bodyText: string;
   visible: boolean;
   onClose: () => void;
   confirmText: string;
   onConfirm: () => void;
-  kind: 'success' | 'danger';
+  kind: Kind;
   cancelText?: string;
 }
 

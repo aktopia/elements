@@ -105,7 +105,7 @@ const countVariant = cva('font-medium', {
 
 type Size = 'xxs' | 'xs' | 'sm' | 'md';
 
-type Kind = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger';
+export type Kind = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size: Size;

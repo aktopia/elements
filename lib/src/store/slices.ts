@@ -15,6 +15,7 @@ import { userSlice } from '@elements/logic/user';
 import { issueSlice } from '@elements/logic/issue';
 import { localitySlice } from '@elements/logic/locality';
 import { locationSlice } from '@elements/logic/location';
+import { confirmationModalSlice } from '@elements/logic/confirmation-modal';
 
 export const slices = [
   localeSlice,
@@ -34,4 +35,5 @@ export const slices = [
   issueSlice,
   localitySlice,
   locationSlice,
+  confirmationModalSlice,
 ];

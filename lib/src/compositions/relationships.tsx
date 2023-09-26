@@ -1,7 +1,6 @@
 import {
   ArrowsRightLeftOutline,
   ChevronDownMiniSolid,
-  EllipsisVerticalOutline,
   PlusOutline,
   TrashOutline,
   WrenchOutline,
@@ -22,7 +21,7 @@ import { useTranslation } from '@elements/translation';
 import { Combobox, Listbox } from '@headlessui/react';
 import { Button } from '@elements/components/button';
 import { RelationType } from '@elements/logic/relationship';
-import { Dropdown } from '@elements/components/dropdown';
+import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
 
 // TODO Translation for labels
@@ -71,10 +70,6 @@ const icon: Record<RelationType, ComponentType<any>> = {
   [RelationType.Relates]: ArrowsRightLeftOutline,
 };
 
-const ContextMenuButton = () => {
-  return <EllipsisVerticalOutline className={'h-6 w-6 cursor-pointer text-gray-700'} />;
-};
-
 const ContextMenu = ({ id }: { id: string }) => {
   const t = useTranslation();
 
@@ -87,12 +82,18 @@ const ContextMenu = ({ id }: { id: string }) => {
 
   const items = useMemo(
     () => [
-      { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
+      {
+        text: t('common/delete'),
+        onClick: onDeleteClick,
+        Icon: TrashOutline,
+        kind: 'danger',
+      },
     ],
     [t, onDeleteClick]
   );
 
-  return <Dropdown button={<ContextMenuButton />} items={items} />;
+  // @ts-ignore
+  return <RawContextMenu items={items} orientation={'vertical'} />;
 };
 
 const Relationship = suspensify(({ id }: { id: string }) => {
