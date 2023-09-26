@@ -1,10 +1,9 @@
 import type { ReactNode } from 'react';
-import { Fragment, memo } from 'react';
+import { memo } from 'react';
 import { Button } from '@elements/components/button';
-import { Dialog } from '@headlessui/react';
 
 export const SlideOverTitle = memo(({ title }: { title: string }) => {
-  return <Dialog.Title className={'font-medium leading-6 text-gray-600'}>{title}</Dialog.Title>;
+  return <h1 className={'font-medium leading-6 text-gray-600'}>{title}</h1>;
 });
 
 export const SlideOverHeader = memo(({ children }: { children: ReactNode }) => {
@@ -52,21 +51,25 @@ export const SlideOverFooter = ({ onCancel, onAction, actionText, cancelText }: 
 export const SlideOver = ({
   children,
   visible,
-  onClose,
 }: {
   children: ReactNode;
   visible: boolean;
   onClose: () => void;
 }) => {
-  return (
-    <Dialog as={Fragment} open={visible} onClose={onClose}>
-      <Dialog.Panel
-        as={'div'}
+  return visible ? (
+    <div>
+      <div aria-hidden={'true'} className={'z-overlay fixed inset-0 bg-black/20'} />
+      <div
         className={
-          'fixed right-0 top-0 z-50 h-screen w-max overflow-y-scroll border-l border-l-gray-300 bg-white shadow-2xl'
+          'z-slide-over fixed right-0 top-0 h-screen w-max overflow-y-scroll border-l border-l-gray-300 bg-white shadow-2xl'
         }>
         {children}
-      </Dialog.Panel>
-    </Dialog>
-  );
+      </div>
+    </div>
+  ) : null;
 };
+
+/*
+TODO
+- Accessibility
+ */
