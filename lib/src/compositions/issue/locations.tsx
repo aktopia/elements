@@ -1,4 +1,4 @@
-import type { LatLng, MapHandle } from '@elements/components/map';
+import type { LatLng, LatLngBounds, MapHandle } from '@elements/components/map';
 import { AddLocationPin, Map } from '@elements/components/map';
 import {
   SlideOver,
@@ -22,7 +22,7 @@ import type { ItemType } from '@elements/components/dropdown';
 
 interface LocationCardProps {
   locationId: string;
-  setMapCenter: ({ center }: { center: LatLng }) => void;
+  setMapCenter: ({ center, bounds }: { center: LatLng; bounds: LatLngBounds }) => void;
 }
 
 const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps) => {
@@ -32,14 +32,16 @@ const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps
   // const address = useValue('location/address', { 'location/id': locationId });
   const caption = useValue('location/caption', { 'location/id': locationId });
   const latLng = useValue('location/lat-lng', { 'location/id': locationId });
+  const bounds = useValue('location/bounds', { 'location/id': locationId });
+  console.log(bounds);
 
   const deleteLocation = useDispatch('issue.location/delete');
 
   const openModal = useDispatch('confirmation-modal/open');
 
   const onSetMapCenter = useCallback(() => {
-    setMapCenter({ center: latLng });
-  }, [latLng, setMapCenter]);
+    setMapCenter({ center: latLng, bounds });
+  }, [latLng, setMapCenter, bounds]);
 
   const onDeleteClick = useCallback(() => {
     const onConfirm = async () => deleteLocation({ 'location/id': locationId });
@@ -86,7 +88,7 @@ const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps
 
 interface SlideOverProps {
   locations: Location[];
-  setMapCenter: ({ center }: { center: LatLng }) => void;
+  setMapCenter: ({ center, bounds }: { center: LatLng; bounds: LatLngBounds }) => void;
 }
 
 const LocationsListSlideOver = suspensify(({ locations, setMapCenter }: SlideOverProps) => {
@@ -197,7 +199,6 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
 
   const onViewListClick = useDispatch('issue.location.slide-over/open') as () => void;
   const onAddLocation = useDispatch('issue.location/add');
-  const onUpdateCenter = useDispatch('issue.new.location.center/update');
   const onCaptionChange = useDispatch('issue.new.location.caption/update');
 
   const onStartAddingLocation = useCallback(() => {
@@ -208,20 +209,9 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
     setDragging(true);
   }, []);
 
-  const onDragEnd = useCallback(
-    ({ center }: any) => {
-      setDragging(false);
-      onUpdateCenter({ center });
-    },
-    [onUpdateCenter]
-  );
-
-  const onTilesLoaded = useCallback(
-    ({ center }: any) => {
-      onUpdateCenter({ center });
-    },
-    [onUpdateCenter]
-  );
+  const onDragEnd = useCallback(() => {
+    setDragging(false);
+  }, []);
 
   const onCancelAddingLocation = useCallback(() => {
     setAddingLocation(false);
@@ -230,24 +220,23 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
   const onConfirmLocation = useCallback(() => {
     setAddingLocation(false);
     const center = mapRef.current?.getCenter();
-    const zoom = mapRef.current?.getZoom();
-    center && zoom && onAddLocation({ location: center, zoom });
+    const bounds = mapRef.current?.getBounds();
+    center && onAddLocation({ location: center, bounds });
   }, [onAddLocation]);
 
-  const onSelect = useCallback(
-    (place: Place) => {
-      mapRef.current?.setCenter({
-        center: place.location,
-        bounds: place.bounds,
-      });
-      onUpdateCenter({ center: place.location });
-    },
-    [onUpdateCenter]
-  );
-
-  const setMapCenter = useCallback(({ center }: { center: LatLng }) => {
-    mapRef.current?.setCenter({ center });
+  const onSelect = useCallback((place: Place) => {
+    mapRef.current?.setCenter({
+      center: place.location,
+      bounds: place.bounds,
+    });
   }, []);
+
+  const setMapCenter = useCallback(
+    ({ center, bounds }: { center: LatLng; bounds: LatLngBounds }) => {
+      mapRef.current?.setCenter({ center, bounds });
+    },
+    []
+  );
 
   return (
     <div className={'flex flex-col gap-8'}>
@@ -270,7 +259,6 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
           locations={locations}
           onDragEnd={onDragEnd}
           onDragStart={onDragStart}
-          onTilesLoaded={onTilesLoaded}
         />
         {addingLocation && (
           <>

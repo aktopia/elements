@@ -16,7 +16,7 @@ import {
 import { rpcPost } from '@elements/rpc';
 import type { Match } from '@elements/router';
 import { navigate } from '@elements/router';
-import type { LatLng } from '@elements/components/map';
+import type { LatLng, LatLngBounds } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 
 type TabId = 'home' | 'discuss' | 'media' | 'locations';
@@ -191,15 +191,15 @@ export type Events = {
     params: {};
   };
   'issue.location/add': {
-    params: {};
+    params: {
+      location: LatLng;
+      bounds?: LatLngBounds;
+    };
   };
   'issue.location/delete': {
     params: {
       'location/id': string;
     };
-  };
-  'issue.new.location.center/update': {
-    params: { center: LatLng };
   };
   'issue.new.location.caption/update': {
     params: { caption: string };
@@ -335,21 +335,14 @@ evt('issue.location.slide-over/close', ({ setState }) => {
   });
 });
 
-evt('issue.location/add', async ({ getState }) => {
-  const {
-    'current.issue/id': currentIssueId,
-    'issue.new.location/center': latLng,
-    'issue.new.location/caption': caption,
-  } = getState()['issue/state'];
+evt('issue.location/add', async ({ getState, params }) => {
+  const { 'current.issue/id': currentIssueId, 'issue.new.location/caption': caption } =
+    getState()['issue/state'];
 
-  await rpcPost('issue.location/add', { 'issue/id': currentIssueId, ...latLng, caption });
+  const { location, bounds } = params;
+
+  await rpcPost('issue.location/add', { 'issue/id': currentIssueId, location, bounds, caption });
   await invalidateAsyncSub('issue/locations', { 'issue/id': currentIssueId });
-});
-
-evt('issue.new.location.center/update', ({ setState, params }) => {
-  setState((state: any) => {
-    state['issue/state']['issue.new.location/center'] = params.center;
-  });
 });
 
 evt('issue.new.location.caption/update', ({ setState, params }) => {

@@ -1,5 +1,5 @@
 import { remoteSub } from '@elements/store';
-import type { LatLng } from '@elements/components/map';
+import type { LatLng, LatLngBounds } from '@elements/components/map';
 
 export type Subs = {
   'location.created-by/name': {
@@ -32,6 +32,12 @@ export type Subs = {
     };
     result: LatLng;
   };
+  'location/bounds': {
+    params: {
+      'location/id': string;
+    };
+    result: LatLngBounds;
+  };
 };
 
 export type Events = {
@@ -51,3 +57,4 @@ remoteSub('location/created-at');
 remoteSub('location/address');
 remoteSub('location/caption');
 remoteSub('location/lat-lng');
+remoteSub('location/bounds');

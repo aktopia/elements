@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
-import type { LatLng } from '@elements/components/map';
+import type { GoogleMap, LatLng, LatLngBounds } from '@elements/components/map';
 import { googleMapsApiKey } from '@elements/config';
 
 const { AutocompleteService, PlacesService } = (await google.maps.importLibrary(
@@ -25,7 +25,7 @@ export interface LocationDetails {
     lat: number;
     lng: number;
   };
-  bounds: google.maps.LatLngBounds;
+  bounds: LatLngBounds;
 }
 
 export interface PlaceDetails {
@@ -59,7 +59,7 @@ export async function resolvePlaceId(placeId: string): Promise<LocationDetails> 
       lat: location.lat(),
       lng: location.lng(),
     },
-    bounds: viewport,
+    bounds: parseBounds(viewport),
   };
 }
 
@@ -85,19 +85,34 @@ export async function geolocate() {
   return await res.json();
 }
 
-export function calculateBounds(locations: any) {
+export function calculateBounds(locations: LatLng[]) {
   const bounds = new window.google.maps.LatLngBounds();
-  locations.map((location: any) => {
+  locations.map((location) => {
     bounds.extend(location);
   });
   return bounds;
 }
 
-export function getCenter(map: any) {
+export function getCenter(map: GoogleMap) {
   const center = map.getCenter();
-  const lat = center?.lat();
-  const lng = center?.lng();
-  return { lat, lng };
+  return center && { lat: center.lat(), lng: center.lng() };
+}
+
+export function parseBounds(bounds: google.maps.LatLngBounds) {
+  const ne = bounds.getNorthEast();
+  const sw = bounds.getSouthWest();
+
+  return {
+    north: ne.lat(),
+    east: ne.lng(),
+    south: sw.lat(),
+    west: sw.lng(),
+  };
+}
+
+export function getBounds(map: GoogleMap) {
+  const bounds = map.getBounds();
+  return bounds && parseBounds(bounds);
 }
 
 const allowedTypes = [

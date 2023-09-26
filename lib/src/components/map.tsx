@@ -1,5 +1,5 @@
 import { ArrowPathOutline, MapPinSolid } from '@elements/icons';
-import { calculateBounds, getCenter } from '@elements/utils/location';
+import { calculateBounds, getBounds, getCenter } from '@elements/utils/location';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { cx } from '@elements/utils';
 import differenceWith from 'lodash/differenceWith';
@@ -19,7 +19,8 @@ import {
 const { Map: GoogleMap } = (await google.maps.importLibrary('maps')) as google.maps.MapsLibrary;
 
 export type LatLng = google.maps.LatLngLiteral;
-export type LatLngBounds = google.maps.LatLngBounds;
+export type LatLngBounds = { north: number; east: number; south: number; west: number };
+export type GoogleMap = google.maps.Map;
 
 interface MapProps {
   initialCenter?: LatLng;
@@ -34,6 +35,7 @@ export interface MapHandle {
   setCenter: ({ center, bounds }: { center: LatLng; bounds?: LatLngBounds }) => void;
   getCenter: () => LatLng | undefined;
   getZoom: () => number | undefined;
+  getBounds: () => LatLngBounds | undefined;
 }
 
 const ResetLocation = ({ onClick }: { onClick: any }) => {
@@ -130,11 +132,13 @@ const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
       bounds && map?.fitBounds(bounds);
     },
     getCenter: () => {
-      const center = map?.getCenter();
-      return center && { lat: center.lat(), lng: center.lng() };
+      return map && getCenter(map);
     },
     getZoom: () => {
       return map?.getZoom();
+    },
+    getBounds: () => {
+      return map && getBounds(map);
     },
   }));
 
