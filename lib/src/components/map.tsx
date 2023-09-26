@@ -40,11 +40,11 @@ const ResetLocation = ({ onClick }: { onClick: any }) => {
   return (
     <button
       className={
-        'group absolute bottom-32 left-2 flex cursor-pointer items-center justify-center rounded-full border border-stone-300 bg-white p-1.5 text-stone-600 shadow-2xl hover:bg-stone-50'
+        'group absolute bottom-36 left-2 flex cursor-pointer items-center justify-center rounded-full border border-stone-400 bg-white p-1.5 text-stone-600 shadow-2xl hover:bg-stone-50'
       }
       type={'button'}
       onClick={onClick}>
-      <ArrowPathOutline className={'h-7 w-7 text-stone-500 group-hover:text-stone-800'} />
+      <ArrowPathOutline className={'h-7 w-7 stroke-2 text-stone-500 group-hover:text-stone-800'} />
     </button>
   );
 };
