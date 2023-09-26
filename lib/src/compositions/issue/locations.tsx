@@ -29,7 +29,7 @@ const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps
   const t = useTranslation();
   const creatorName = useValue('location.created-by/name', { 'location/id': locationId });
   const createdAt = useValue('location/created-at', { 'location/id': locationId });
-  const address = useValue('location/address', { 'location/id': locationId });
+  // const address = useValue('location/address', { 'location/id': locationId });
   const caption = useValue('location/caption', { 'location/id': locationId });
   const latLng = useValue('location/lat-lng', { 'location/id': locationId });
 
@@ -78,7 +78,7 @@ const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps
         onClick={onSetMapCenter}>
         {caption}
       </button>
-      <p className={'text-sm text-gray-500'}>{address}</p>
+      {/*<p className={'text-sm text-gray-500'}>{address}</p>*/}
       <ContextMenu items={menuItems} orientation={'horizontal'} />
     </div>
   );
@@ -229,7 +229,9 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
 
   const onConfirmLocation = useCallback(() => {
     setAddingLocation(false);
-    onAddLocation({});
+    const center = mapRef.current?.getCenter();
+    const zoom = mapRef.current?.getZoom();
+    center && zoom && onAddLocation({ location: center, zoom });
   }, [onAddLocation]);
 
   const onSelect = useCallback(

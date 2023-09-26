@@ -101,12 +101,12 @@ export const Home = suspensify(() => {
   const actionId = useValue('current.action/id');
 
   return (
-    <div className={'flex w-full gap-8'}>
-      <div className={'flex w-full flex-col gap-12'}>
+    <div className={'flex w-full flex-col gap-8 md:flex-row'}>
+      <div className={'flex w-full flex-col gap-10 md:w-[65%]'}>
         <Description />
         <Outcome />
       </div>
-      <div className={'w-1/2'}>
+      <div className={'w-full md:w-[35%]'}>
         <Relationships refAttribute={'action/id'} refId={actionId} suspenseLines={8} />
       </div>
     </div>

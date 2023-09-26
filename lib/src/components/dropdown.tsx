@@ -71,7 +71,7 @@ export const Dropdown = ({ button, items }: DropdownProps) => {
   return (
     <RawDropdown>
       <RawDropdownTrigger>
-        <div className={'outline-none'}>{button}</div>
+        <div className={'w-min outline-none'}>{button}</div>
       </RawDropdownTrigger>
       <RawDropdownPanel sideOffset={5}>
         <div

@@ -93,7 +93,7 @@ const ContextMenu = ({ id }: { id: string }) => {
   );
 
   // @ts-ignore
-  return <RawContextMenu items={items} orientation={'vertical'} />;
+  return <RawContextMenu items={items} orientation={'horizontal'} />;
 };
 
 const Relationship = suspensify(({ id }: { id: string }) => {
@@ -122,10 +122,10 @@ const Relationship = suspensify(({ id }: { id: string }) => {
         </div>
         <div className={'flex items-center gap-1.5'}>
           <EntityType size={'sm'} type={type} />
-          <ContextMenu id={id} />
         </div>
       </div>
       <div className={'text-gray-700'}>{title}</div>
+      <ContextMenu id={id} />
     </div>
   );
 });

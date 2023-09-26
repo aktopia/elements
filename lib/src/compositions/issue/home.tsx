@@ -87,11 +87,13 @@ const Resolution = suspensify(() => {
   const onEdit = useDispatch('issue.resolution/edit');
 
   return (
-    <div className={'flex w-full flex-col gap-2 rounded-md border border-blue-600 bg-blue-50 p-6'}>
+    <div className={'flex w-full flex-col gap-4 rounded-md border border-blue-600 bg-blue-50 p-6'}>
       <div className={'flex items-center justify-between'}>
         <div className={'flex items-center gap-3'}>
           <CheckBadgeSolid className={'h-5 w-5 text-blue-700'} />
-          <div className={'font-medium text-blue-700'}>{t('issue/expected-resolution')}</div>
+          <div className={'text-sm font-medium text-blue-700'}>
+            {t('issue/expected-resolution')}
+          </div>
         </div>
         <EditButton canEdit={canEdit} className={'h-4 w-4 text-gray-500'} onEdit={onEdit} />
       </div>
@@ -105,11 +107,11 @@ export const Home = suspensify(() => {
 
   return (
     <div className={'flex w-full flex-col gap-8 md:flex-row'}>
-      <div className={'flex w-full flex-col gap-5'}>
+      <div className={'flex w-full flex-col gap-10 md:w-[65%]'}>
         <Description suspenseLines={6} />
         <Resolution />
       </div>
-      <div className={'w-full md:w-5/12'}>
+      <div className={'w-full md:w-[35%]'}>
         <Relationships refAttribute={'issue/id'} refId={issueId} suspenseLines={8} />
       </div>
     </div>

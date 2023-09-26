@@ -31,7 +31,7 @@ interface MapProps {
 }
 
 export interface MapHandle {
-  setCenter: ({ center, bounds }: { center: LatLng; bounds: LatLngBounds }) => void;
+  setCenter: ({ center, bounds }: { center: LatLng; bounds?: LatLngBounds }) => void;
   getCenter: () => LatLng | undefined;
   getZoom: () => number | undefined;
 }
