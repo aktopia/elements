@@ -193,6 +193,11 @@ export type Events = {
   'issue.location/add': {
     params: {};
   };
+  'issue.location/delete': {
+    params: {
+      'location/id': string;
+    };
+  };
   'issue.new.location.center/update': {
     params: { center: LatLng };
   };
@@ -484,6 +489,12 @@ evt('issue.locality/choose', async ({ getState, params }) => {
   ]);
 
   dispatch('issue.locality.slide-over/close', {});
+});
+
+evt('issue.location/delete', async ({ getState, params }) => {
+  const currentIssueId = getState()['issue/state']['current.issue/id'];
+  await rpcPost('location/delete', { 'location/id': params['location/id'] });
+  await invalidateAsyncSub('issue/locations', { 'issue/id': currentIssueId });
 });
 
 registerTextEditor('issue.title/text', {

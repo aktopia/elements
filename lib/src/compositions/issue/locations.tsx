@@ -12,7 +12,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import type { Location } from '@elements/logic/issue';
 import { ListBulletOutline, MapPinSolid, TrashOutline } from '@elements/icons';
-import { useCallback, useMemo, useRef, useState, type ChangeEvent } from 'react';
+import { type ChangeEvent, useCallback, useMemo, useRef, useState } from 'react';
 import { Button } from '@elements/components/button';
 import { type Place, SearchLocation } from '@elements/compositions/map';
 import { Avatar } from '@elements/components/avatar';
@@ -33,15 +33,16 @@ const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps
   const caption = useValue('location/caption', { 'location/id': locationId });
   const latLng = useValue('location/lat-lng', { 'location/id': locationId });
 
+  const deleteLocation = useDispatch('issue.location/delete');
+
   const openModal = useDispatch('confirmation-modal/open');
-  const deleteLocation = useDispatch('location/delete');
 
   const onSetMapCenter = useCallback(() => {
     setMapCenter({ center: latLng });
   }, [latLng, setMapCenter]);
 
   const onDeleteClick = useCallback(() => {
-    const onConfirm = () => deleteLocation({ 'location/id': locationId });
+    const onConfirm = async () => deleteLocation({ 'location/id': locationId });
     openModal({
       kind: 'danger',
       confirmText: t('common/delete'),
@@ -50,7 +51,7 @@ const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps
       cancelText: t('common/cancel'),
       onConfirm,
     });
-  }, [deleteLocation, locationId, openModal, t]);
+  }, [locationId, openModal, t, deleteLocation]);
 
   const menuItems = useMemo(
     () => [
@@ -94,6 +95,8 @@ const LocationsListSlideOver = suspensify(({ locations, setMapCenter }: SlideOve
   const visible = useValue('issue.location.slide-over/visible');
   const onClose = useDispatch('issue.location.slide-over/close') as () => void;
 
+  const emptyLocations = locations.length === 0;
+
   return (
     <SlideOver visible={visible} onClose={onClose}>
       <SlideOverHeader>
@@ -101,16 +104,22 @@ const LocationsListSlideOver = suspensify(({ locations, setMapCenter }: SlideOve
         <SlideOverCloseButton onClick={onClose} />
       </SlideOverHeader>
       <SlideOverBody>
-        <div className={'flex flex-col gap-7'}>
-          {locations.map((location) => (
-            <LocationCard
-              key={location.id}
-              locationId={location.id}
-              setMapCenter={setMapCenter}
-              suspenseLines={8}
-            />
-          ))}
-        </div>
+        {emptyLocations ? (
+          <p className={'w-[400px] text-center text-gray-400'}>
+            {t('issue.location.slide-over/empty')}
+          </p>
+        ) : (
+          <div className={'flex flex-col gap-7'}>
+            {locations.map((location) => (
+              <LocationCard
+                key={location.id}
+                locationId={location.id}
+                setMapCenter={setMapCenter}
+                suspenseLines={8}
+              />
+            ))}
+          </div>
+        )}
       </SlideOverBody>
     </SlideOver>
   );
@@ -149,10 +158,7 @@ const AddLocation = ({
   caption: string;
   show: boolean;
 }) => {
-  // TODO Validate caption required and length
-  const confirmText = 'Add';
-  const cancelText = 'Cancel';
-
+  const t = useTranslation();
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       onCaptionChange({ caption: e.target.value });
@@ -172,8 +178,8 @@ const AddLocation = ({
         onChange={onChange}
       />
       <div className={'flex gap-2'}>
-        <Button kind={'success'} size={'sm'} value={confirmText} onClick={onAdd} />
-        <Button kind={'tertiary'} size={'sm'} value={cancelText} onClick={onCancel} />
+        <Button kind={'success'} size={'sm'} value={t('common/add')} onClick={onAdd} />
+        <Button kind={'tertiary'} size={'sm'} value={t('common/cancel')} onClick={onCancel} />
       </div>
     </div>
   ) : null;

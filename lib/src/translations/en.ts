@@ -57,7 +57,8 @@ const issue = {
   'issue.resolution/empty':
     "You haven't added a resolution yet. Describe what an ideal resolution for this issue should be.",
   'issue/expected-resolution': 'Expected Resolution',
-  'issue.location.slide-over/location-list': 'Locations',
+  'issue.location.slide-over/location-list': 'Issue Locations',
+  'issue.location.slide-over/empty': 'No locations have been added yet.',
   'issue.locality/add': 'Choose Issue Locality',
   'issue.locality/update': 'Update Issue Locality',
   'issue.severity/label': ({ avgScore, userScore, votes }: any) => {

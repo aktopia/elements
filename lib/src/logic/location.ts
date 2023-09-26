@@ -1,4 +1,4 @@
-import { evt, remoteSub } from '@elements/store';
+import { remoteSub } from '@elements/store';
 import type { LatLng } from '@elements/components/map';
 
 export type Subs = {
@@ -51,5 +51,3 @@ remoteSub('location/created-at');
 remoteSub('location/address');
 remoteSub('location/caption');
 remoteSub('location/lat-lng');
-
-evt('location/delete', ({ params }) => {});
