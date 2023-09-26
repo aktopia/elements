@@ -136,19 +136,6 @@ const StartAddLocation = ({ show, onClick }: { onClick: () => void; show: boolea
   ) : null;
 };
 
-// const AddLocationIcon = () => {
-//   return (
-//     <div className={'relative'}>
-//       <MapPinOutline className={'h-5 w-5 text-gray-500 group-hover:text-gray-700'} />
-//       <PlusSolid
-//         className={
-//           'ring-px absolute -bottom-1 right-1 block h-2.5 w-2.5 -translate-y-1/2 translate-x-1/2 transform rounded-full bg-white text-gray-500 ring-white group-hover:bg-gray-50 group-hover:text-gray-700 group-hover:ring-gray-50'
-//         }
-//       />
-//     </div>
-//   );
-// };
-
 const AddLocation = ({
   onAdd,
   onCancel,
