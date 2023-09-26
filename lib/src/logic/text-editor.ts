@@ -1,6 +1,7 @@
 import { evt, sub } from '@elements/store';
 
 import { ref } from '@elements/utils';
+import type { Reference } from '@elements/types';
 
 export const textEditorSlice = () => ({
   'text-editor/state': {},
@@ -66,11 +67,6 @@ sub('text-editor/editing', ({ state, params }) => {
   const key = ref(params['ref/attribute'], params['ref/id']);
   return !!state['text-editor/state'][key]?.['text-editor/editing'];
 });
-
-export type Reference = {
-  'ref/attribute': string;
-  'ref/id': string;
-};
 
 export const startEditing = ({ setState, params }: { setState: any; params: Reference }) => {
   const key = ref(params['ref/attribute'], params['ref/id']);

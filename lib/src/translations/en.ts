@@ -88,12 +88,27 @@ const relationship = {
     'Are you sure you want to delete the relationship? This cannot be undone.',
 };
 
+const location = {
+  'location.delete.modal/title': 'Delete Location',
+  'location.delete.modal/body':
+    'Are you sure you want to delete the location? This cannot be undone.',
+};
+
+const comment = {
+  'comment.delete.modal/title': 'Delete Comment',
+  'comment.delete.modal/body':
+    'Are you sure you want to delete the comment? This cannot be undone.',
+  'comment/deleted': 'Comment was deleted.',
+};
+
 const translation = {
   ...common,
   ...action,
   ...issue,
   ...update,
   ...relationship,
+  ...location,
+  ...comment,
   'auth/send-otp': 'Send OTP',
   'auth/sign-in': 'Sign In',
   'auth/wait-to-resend-otp': ({ waitSeconds }: { waitSeconds: number }) => {
@@ -108,10 +123,6 @@ const translation = {
   'auth/sign-in-with-google': 'Sign in with Google',
   'comment/placeholder': 'What do you think?',
   'main-search/placeholder': 'Search',
-  'comment.delete.modal/title': 'Delete Comment',
-  'comment.delete.modal/body':
-    'Are you sure you want to delete the Comment? This cannot be undone.',
-  'comment/deleted': 'Comment was deleted.',
   'relationships/empty': 'No relationships yet.',
   'locations/confirm': 'Confirm Location',
   'percentage/complete': 'Complete',

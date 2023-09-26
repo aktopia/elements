@@ -26,7 +26,11 @@ import type {
   Subs as RelationshipSubs,
 } from '@elements/logic/relationship';
 import type { Events as LocalityEvents, Subs as LocalitySubs } from '@elements/logic/locality';
-import type { Subs as LocationSubs } from '@elements/logic/location';
+import type {
+  Events as ConfirmationModalEvents,
+  Subs as ConfirmationModalSubs,
+} from '@elements/logic/confirmation-modal';
+import type { Subs as LocationSubs, Events as LocationEvents } from '@elements/logic/location';
 
 export type Subs = CommentSubs &
   UpdateSubs &
@@ -44,7 +48,8 @@ export type Subs = CommentSubs &
   IssueSubs &
   RelationshipSubs &
   LocalitySubs &
-  LocationSubs;
+  LocationSubs &
+  ConfirmationModalSubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
@@ -60,4 +65,6 @@ export type Events = CommentEvents &
   MainSearchEvents &
   IssueEvents &
   RelationshipEvents &
-  LocalityEvents;
+  LocalityEvents &
+  LocationEvents &
+  ConfirmationModalEvents;

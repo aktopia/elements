@@ -11,58 +11,81 @@ import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import type { Location } from '@elements/logic/issue';
-import { ListBulletOutline, MapPinSolid } from '@elements/icons';
-import React, { useCallback, useRef, useState } from 'react';
+import { ListBulletOutline, MapPinSolid, TrashOutline } from '@elements/icons';
+import { useCallback, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { Button } from '@elements/components/button';
 import { type Place, SearchLocation } from '@elements/compositions/map';
 import { Avatar } from '@elements/components/avatar';
 import { Timestamp } from '@elements/components/timestamp';
-
-/*
-TODO
-  - On hover should hover the marker
-  - Add locate icon which when clicked will zoom in on the selected location
-*/
+import { ContextMenu } from '@elements/components/context-menu';
+import type { ItemType } from '@elements/components/dropdown';
 
 interface LocationCardProps {
   locationId: string;
-  setMapCenter: (center: LatLng) => void;
+  setMapCenter: ({ center }: { center: LatLng }) => void;
 }
 
 const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps) => {
+  const t = useTranslation();
   const creatorName = useValue('location.created-by/name', { 'location/id': locationId });
   const createdAt = useValue('location/created-at', { 'location/id': locationId });
   const address = useValue('location/address', { 'location/id': locationId });
   const caption = useValue('location/caption', { 'location/id': locationId });
   const latLng = useValue('location/lat-lng', { 'location/id': locationId });
 
+  const openModal = useDispatch('confirmation-modal/open');
+  const deleteLocation = useDispatch('location/delete');
+
   const onSetMapCenter = useCallback(() => {
-    setMapCenter(latLng);
+    setMapCenter({ center: latLng });
   }, [latLng, setMapCenter]);
+
+  const onDeleteClick = useCallback(() => {
+    const onConfirm = () => deleteLocation({ 'location/id': locationId });
+    openModal({
+      kind: 'danger',
+      confirmText: t('common/delete'),
+      titleText: t('location.delete.modal/title'),
+      bodyText: t('location.delete.modal/body'),
+      cancelText: t('common/cancel'),
+      onConfirm,
+    });
+  }, [deleteLocation, locationId, openModal, t]);
+
+  const menuItems = useMemo(
+    () => [
+      { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
+    ],
+    [t, onDeleteClick]
+  ) as ItemType[];
 
   return (
     <div
       className={
         'flex w-[400px] flex-col items-start gap-3 rounded-md border border-gray-300 px-3 py-2 shadow-sm'
       }>
-      <div className={'flex justify-between'}>
+      <div className={'flex w-full items-center gap-5'}>
         <div className={'flex items-center gap-2'}>
           <Avatar size={'xs'} />
           <p className={'text-sm font-medium text-gray-700'}>{creatorName}</p>
         </div>
         <Timestamp className={'text-xs text-gray-500'} timestamp={createdAt} />
       </div>
-      <button className={'text-base text-gray-700'} type={'button'} onClick={onSetMapCenter}>
+      <button
+        className={'w-full text-left text-base text-gray-700'}
+        type={'button'}
+        onClick={onSetMapCenter}>
         {caption}
       </button>
       <p className={'text-sm text-gray-500'}>{address}</p>
+      <ContextMenu items={menuItems} orientation={'horizontal'} />
     </div>
   );
 });
 
 interface SlideOverProps {
   locations: Location[];
-  setMapCenter: (center: LatLng) => void;
+  setMapCenter: ({ center }: { center: LatLng }) => void;
 }
 
 const LocationsListSlideOver = suspensify(({ locations, setMapCenter }: SlideOverProps) => {
@@ -144,7 +167,7 @@ const AddLocation = ({
   const cancelText = 'Cancel';
 
   const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       onCaptionChange({ caption: e.target.value });
     },
     [onCaptionChange]
@@ -227,7 +250,7 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
     [onUpdateCenter]
   );
 
-  const setMapCenter = useCallback((center: LatLng) => {
+  const setMapCenter = useCallback(({ center }: { center: LatLng }) => {
     mapRef.current?.setCenter({ center });
   }, []);
 
