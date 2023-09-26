@@ -5,19 +5,21 @@ import {
   RawDropdownTrigger,
 } from '@elements/components/raw-dropdown';
 import { cx } from '@elements/utils';
+import type { ComponentType, ReactNode } from 'react';
+import type { Kind } from '@elements/components/button';
 
-interface ItemProps {
+export interface ItemType {
   text: string;
-  kind: 'normal' | 'danger';
+  kind: Kind;
   href?: string;
   openNewTab?: boolean;
-  Icon?: React.ComponentType<{
+  Icon?: ComponentType<{
     className: string;
   }>;
   onClick?: () => void;
 }
 
-export const Item = ({ text, href, Icon, onClick, kind = 'normal' }: ItemProps) => {
+export const Item = ({ text, href, Icon, onClick, kind = 'primary' }: ItemType) => {
   const body = (
     <>
       {Icon && (
@@ -60,7 +62,12 @@ export const Item = ({ text, href, Icon, onClick, kind = 'normal' }: ItemProps) 
   );
 };
 
-export const Dropdown = ({ button, items }: any) => {
+interface DropdownProps {
+  button: ReactNode;
+  items: ItemType[];
+}
+
+export const Dropdown = ({ button, items }: DropdownProps) => {
   return (
     <RawDropdown>
       <RawDropdownTrigger>
@@ -69,9 +76,9 @@ export const Dropdown = ({ button, items }: any) => {
       <RawDropdownPanel sideOffset={5}>
         <div
           className={
-            'z-30 w-max overflow-hidden rounded-md bg-white p-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none'
+            'z-dropdown w-max overflow-hidden rounded-md bg-white p-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none'
           }>
-          {items.map((item: ItemProps) => (
+          {items.map((item: ItemType) => (
             <Item key={item.text} {...item} />
           ))}
         </div>
