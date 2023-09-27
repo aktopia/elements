@@ -9,16 +9,11 @@ export default defineConfig({
     },
   },
   preview: {
-    host: '127.0.0.1',
     port: 8000,
   },
   server: {
-    host: '127.0.0.1',
     port: 8000,
     strictPort: true,
-    hmr: {
-      clientPort: 8000,
-    },
   },
   build: {
     target: 'esnext',
