@@ -18,7 +18,7 @@ export const listener = async (match: Match) => {
     };
   });
 
-  await dispatch(onNavigateEvent, { route: match });
+  onNavigateEvent && (await dispatch(onNavigateEvent, { route: match }));
 
   setState((state: any) => {
     state['router/state']['route/loading'] = false;

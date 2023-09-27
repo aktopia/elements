@@ -4,7 +4,7 @@ import {
   MapPinSolid,
   PinOnMap,
 } from '@elements/icons';
-import { Dropdown } from '@elements/components/dropdown';
+import { Dropdown, type ItemType } from '@elements/components/dropdown';
 import { suspensify } from '@elements/components/suspensify';
 import { MainSearch } from '@elements/compositions/main-search';
 import { useDispatch, useValue } from '@elements/store';
@@ -53,7 +53,8 @@ const CreateDropdown = suspensify(() => {
       },
     ],
     [onCreateAction, onCreateIssue, t]
-  );
+  ) as ItemType[];
+
   return <Dropdown button={<CreateButton />} items={items} />;
 });
 
@@ -97,12 +98,9 @@ const UserDropdown = suspensify(() => {
       },
     ],
     [userId, onSignOutClick]
-  );
-  return authenticated ? (
-    <Dropdown align={'right'} button={button} items={items} />
-  ) : (
-    <SignInButton />
-  );
+  ) as ItemType[];
+
+  return authenticated ? <Dropdown button={button} items={items} /> : <SignInButton />;
 });
 
 const Logo = () => {

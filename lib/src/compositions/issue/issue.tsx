@@ -22,7 +22,7 @@ export const Issue = wrapPage(() => {
       tab = <Media suspenseLines={8} />;
       break;
     case 'locations':
-      tab = <Locations refAttribute={'entity.type/action'} refId={issueId} suspenseLines={5} />;
+      tab = <Locations refId={issueId} suspenseLines={5} />;
       break;
     default:
       tab = <Home suspenseLines={12} />;

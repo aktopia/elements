@@ -32,7 +32,7 @@ export const CreateModal = suspensify(({}) => {
           <form className={'flex w-max flex-col gap-8'}>
             <input
               className={
-                'w-[500px] rounded-md border-none bg-gray-50 p-3 text-xl text-gray-700 placeholder:text-gray-400 focus:ring-0'
+                'w-[500px] rounded-md border-none bg-gray-100 p-3 text-xl text-gray-700 placeholder:text-gray-400 focus:ring-0'
               }
               placeholder={t('issue.title/placeholder')}
               type={'text'}

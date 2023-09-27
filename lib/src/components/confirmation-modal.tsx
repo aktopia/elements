@@ -1,5 +1,5 @@
 import { CheckSolid, ExclamationTriangleOutline } from '@elements/icons';
-import { Button, Kind } from '@elements/components/button';
+import { Button, type Kind } from '@elements/components/button';
 import { Modal, ModalPanel, ModalTitle } from '@elements/components/modal';
 import { memo } from 'react';
 

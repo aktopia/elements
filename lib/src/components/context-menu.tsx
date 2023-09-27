@@ -1,5 +1,5 @@
 import { EllipsisHorizontalOutline, EllipsisVerticalOutline } from '@elements/icons';
-import { Dropdown, ItemType } from '@elements/components/dropdown';
+import { Dropdown, type ItemType } from '@elements/components/dropdown';
 
 type Orientation = 'vertical' | 'horizontal';
 

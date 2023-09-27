@@ -17,7 +17,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import isEmpty from 'lodash/isEmpty';
 import { useCallback, useMemo, useState } from 'react';
-import { Dropdown } from '@elements/components/dropdown';
+import { Dropdown, type ItemType } from '@elements/components/dropdown';
 
 export const User = ({ name }: { name: string }) => {
   return (
@@ -72,7 +72,7 @@ const ContextMenu = ({ id }: { id: string }) => {
       { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
     ],
     [t, onEditClick, onDeleteClick]
-  );
+  ) as ItemType[];
 
   return <Dropdown button={<ContextMenuButton />} items={items} />;
 };

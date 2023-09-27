@@ -13,7 +13,7 @@ import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
-import { Dropdown } from '@elements/components/dropdown';
+import { Dropdown, type ItemType } from '@elements/components/dropdown';
 
 const User = ({ name }: { name: string }) => {
   return (
@@ -81,7 +81,7 @@ const ContextMenu = ({ id }: { id: string }) => {
       { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
     ],
     [t, onEditClick, onDeleteClick]
-  );
+  ) as ItemType[];
 
   return <Dropdown button={<ContextMenuButton />} items={items} />;
 };
