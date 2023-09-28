@@ -8,11 +8,8 @@ export default defineConfig({
       '@elements': resolve(__dirname, 'src'),
     },
   },
-  preview: {
-    port: 8000,
-  },
   server: {
-    port: 8000,
+    port: 3000,
     strictPort: true,
   },
   build: {
