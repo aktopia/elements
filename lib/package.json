@@ -4,9 +4,12 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite --host",
-    "build": "npx tsc && npx vite build && cp package.json ./dist/package.json",
+    "build": "npx tsc && npx vite build --mode production",
     "build-watch": "npx tsc && npx vite build --watch",
-    "preview": "npx vite preview",
+    "build-dev": "npx tsc && npx vite build --mode dev",
+    "build-preview": "npx tsc && npx vite build --mode preview",
+    "serve-dev": "npx vite preview --mode dev",
+    "serve-preview": "npx vite preview --mode preview",
     "extract-store-ids": "npx zx _scripts/extract-store-ids.js",
     "extract-translation-keys": "npx zx _scripts/extract-translation-keys.js"
   },

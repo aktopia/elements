@@ -6,10 +6,10 @@ import { dispatch, useValue } from '@elements/store';
 import { suspensify } from '@elements/components/suspensify';
 import { Spinner } from '@elements/components/spinner';
 import { initRouter } from '@elements/router';
+import { authApiDomain } from '@elements/config';
 
 const authConfig = {
-  // TODO - Move to env
-  apiDomain: 'http://dev.aktopia.com',
+  apiDomain: authApiDomain,
   apiBasePath: '/api/auth',
   appName: 'aktopia',
 };
