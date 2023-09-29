@@ -73,7 +73,6 @@
     "@types/node": "^20.7.0",
     "@types/react": "^18.2.23",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/parser": "^6.7.3",
     "@vitejs/plugin-react-swc": "^3.4.0",
     "agadoo": "^3.0.0",
     "autoprefixer": "^10.4.16",
