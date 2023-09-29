@@ -72,4 +72,5 @@ evt('navigated.profile/view', ({ params }) => {
   const { id, tab } = params.route.pathParams;
   dispatch('profile.user.id/set', { id });
   dispatch('profile.tabs/update', { 'tab/id': tab });
+  dispatch('route.navigation/complete');
 });
