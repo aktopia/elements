@@ -61,24 +61,35 @@ export async function hasOtpBeenSent() {
   return (await getLoginAttemptInfo()) !== undefined;
 }
 
-interface Response {
-  newUser: boolean;
+interface ExistingUserResponse {
+  newUser: false;
   user: {
     id: string;
-    email?: string;
+  };
+}
+
+interface NewUserResponse {
+  newUser: true;
+  user: {
+    id: string;
+    emails: string[];
     timeJoined: number;
   };
 }
 
-export async function consumeOtp({ otp }: { otp: string }): Promise<Response> {
+export async function consumeOtp({
+  otp,
+}: {
+  otp: string;
+}): Promise<ExistingUserResponse | NewUserResponse> {
   try {
     const response = await consumeCode({ userInputCode: otp });
 
     if (response.status === 'OK') {
       if (response.createdNewRecipeUser) {
-        return { newUser: true, user: response.user };
+        return { newUser: true, user: response.user } as NewUserResponse;
       } else {
-        return { newUser: false, user: response.user };
+        return { newUser: false, user: response.user } as ExistingUserResponse;
       }
     } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
       throw {

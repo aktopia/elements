@@ -261,7 +261,7 @@ evt('auth.verify-otp/submit-otp', async ({ setState, params }) => {
 
     if (newUser) {
       await rpcPost('user/create', {
-        'user/email': authUser.email,
+        'user/emails': authUser.emails,
         'auth.user/id': authUser.id,
       });
     }
