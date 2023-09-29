@@ -33,7 +33,7 @@ export function dispatch(id: string, params?: Record<string, any>) {
   return fn({ setState, getState, params });
 }
 
-export function read(id: string, params?: Record<string, any>) {
+export function read<T extends keyof Subs>(id: T, params?: Subs[T]['params']): Subs[T]['result'] {
   const { fn } = subscriptions[id];
   return fn({ state: getState(), params });
 }

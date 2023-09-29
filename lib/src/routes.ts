@@ -5,12 +5,13 @@ import type { ComponentType } from 'react';
 import type { SuspensifyProps } from '@elements/components/suspensify';
 import type { Events } from '@elements/store/types';
 import { match } from 'path-to-regexp';
+import { Home } from '@elements/compositions/home/home';
 
 export interface Route {
   id: string;
   path: string;
   component: ComponentType<SuspensifyProps>;
-  onNavigateEvent: keyof Events;
+  onNavigateEvent?: keyof Events;
 }
 
 export type RouteWithMatcher = Route & {
@@ -18,6 +19,12 @@ export type RouteWithMatcher = Route & {
 };
 
 const routes_: Route[] = [
+  {
+    id: 'home/view',
+    path: '/',
+    component: Home,
+    // onNavigateEvent: 'navigated.action/new',
+  },
   {
     id: 'action/new',
     path: '/action/new',

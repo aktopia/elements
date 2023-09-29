@@ -428,6 +428,7 @@ evt('issue.create.modal.title/update', ({ setState, params }) => {
 evt('navigated.issue/view', ({ params }) => {
   const id = params.route.pathParams.id;
   dispatch('current.issue.id/set', { 'issue/id': id });
+  dispatch('route.navigation/complete');
 });
 
 evt('navigated.issue/new', async ({ params }) => {
