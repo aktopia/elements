@@ -31,8 +31,6 @@ const config: StorybookConfig = {
         },
       },
       server: {
-        host: '127.0.0.1',
-        port: 6007,
         fs: {
           allow: [searchForWorkspaceRoot(process.cwd()), '../../lib'],
         },
