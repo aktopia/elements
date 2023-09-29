@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "storybook dev -p 8006 -h 127.0.0.1",
-    "build": "storybook build",
+    "dev": "npx storybook dev -p 3006",
+    "build": "npx storybook build",
     "chromatic": "npx chromatic --project-token=80175b34de1e"
   },
   "devDependencies": {
