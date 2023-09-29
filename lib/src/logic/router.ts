@@ -1,7 +1,8 @@
-import { evt, sub } from '@elements/store';
+import { dispatch, evt, sub } from '@elements/store';
 import type { Events as AllEvents } from '@elements/store/types';
 import type { ComponentType } from 'react';
 import type { SuspensifyProps } from '@elements/components/suspensify';
+import type { Match } from '@elements/router';
 
 export enum NavigationState {
   Uninitiated = 'route.navigation.state/uninitiated',
@@ -29,6 +30,9 @@ export type Subs = {
 };
 
 export type Events = {
+  'route.navigation/initiate': {
+    params: Match;
+  };
   'route.navigation/complete': {
     params: {};
   };
@@ -50,6 +54,39 @@ sub(
 sub('current.route/component', ({ state }) => state['router/state']['route/component']);
 
 sub('route.navigation/state', ({ state }) => state['router/state']['route.navigation/state']);
+
+evt('route.navigation/initiate', async ({ setState, params, getState }) => {
+  const { id, pathParams, queryParams, hashParams, component, path, onNavigateEvent } = params;
+  const navigationState = getState()['router/state']['route.navigation/state'];
+  const currentRouteId = getState()['router/state']['route/id'];
+  const navigationUninitiated = navigationState === NavigationState.Uninitiated;
+  const navigationInitiated = navigationState === NavigationState.Initiated;
+  const newRoute = currentRouteId !== id;
+  const shouldNavigate = navigationUninitiated || (navigationInitiated && newRoute);
+
+  if (!shouldNavigate) {
+    return;
+  }
+
+  setState((state: any) => {
+    state['router/state'] = {
+      'route/id': id,
+      'route/path-params': pathParams,
+      'route/query-params': queryParams,
+      'route/hash-params': hashParams,
+      'route/component': component,
+      'route/path': path,
+      'route.navigation/state': NavigationState.Initiated,
+    };
+  });
+
+  if (onNavigateEvent) {
+    await dispatch(onNavigateEvent, { route: params });
+    // dispatch 'route.navigation/complete' whenever all the logic is done
+  } else {
+    dispatch('route.navigation/complete');
+  }
+});
 
 evt('route.navigation/complete', ({ setState }) => {
   setState((state: any) => {
