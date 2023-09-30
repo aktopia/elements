@@ -31,6 +31,7 @@ import type {
   Subs as ConfirmationModalSubs,
 } from '@elements/logic/confirmation-modal';
 import type { Subs as LocationSubs, Events as LocationEvents } from '@elements/logic/location';
+import type { Subs as HomeFeedSubs } from '@elements/logic/home-feed';
 
 export type Subs = CommentSubs &
   UpdateSubs &
@@ -49,7 +50,8 @@ export type Subs = CommentSubs &
   RelationshipSubs &
   LocalitySubs &
   LocationSubs &
-  ConfirmationModalSubs;
+  ConfirmationModalSubs &
+  HomeFeedSubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
