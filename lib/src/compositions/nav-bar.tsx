@@ -82,7 +82,9 @@ const UserDropdown = suspensify(() => {
       <ChevronDownMiniSolid className={'h-4 w-4 text-gray-600'} />
     </div>
   );
+
   const items = useMemo(
+    // TODO i18n
     () => [
       {
         text: 'My Actions',
@@ -109,7 +111,7 @@ const Logo = () => {
       className={
         'font-logo flex h-full w-max items-center bg-gradient-to-br from-blue-800 to-blue-600 px-3 text-xl text-white'
       }>
-      <a href={'/home'}>{aktopia}</a>
+      <a href={'/'}>{aktopia}</a>
     </div>
   );
 };

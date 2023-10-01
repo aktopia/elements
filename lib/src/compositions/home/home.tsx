@@ -9,7 +9,7 @@ export const Home = wrapPage(() => {
   const list = useValue('home-feed/list', { 'user.locality/location': userLocation });
 
   return (
-    <div>
+    <div className={'flex flex-col gap-9'}>
       {list.map((e) => {
         let Component;
         switch (e['entity/type']) {

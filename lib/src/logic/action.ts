@@ -15,7 +15,7 @@ import {
   updateText,
 } from '@elements/logic/text-editor';
 import type { Match } from '@elements/router';
-import { navigate } from '@elements/router';
+import { navigateToRoute } from '@elements/router';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
 
@@ -349,7 +349,7 @@ evt('navigated.action/view', ({ params }) => {
 evt('navigated.action/new', async ({ params }) => {
   const { title } = params.route.queryParams;
   const { id } = await rpcPost('action.draft/create', { 'action.title/text': title });
-  navigate('action/view', { pathParams: { id } }, { replace: true });
+  navigateToRoute('action/view', { pathParams: { id } }, { replace: true });
 });
 
 evt('action.locality.slide-over/open', ({ setState }) => {

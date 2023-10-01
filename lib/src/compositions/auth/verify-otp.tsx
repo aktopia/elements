@@ -5,7 +5,7 @@ import { Spinner } from '@elements/components/spinner';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { cva } from 'cva';
-import React, { useCallback } from 'react';
+import { useCallback, type ChangeEvent } from 'react';
 import { MAX_OTP_DIGITS } from '@elements/logic/authentication';
 import { suspensify } from '@elements/components/suspensify';
 
@@ -38,7 +38,7 @@ export const VerifyOtp = suspensify(() => {
   const onOtpFocus = useDispatch('auth.verify-otp/focus-input');
 
   const onOtpChangeMemo = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const otp = e.target.value.trim();
       onOtpChange({ value: otp });
     },

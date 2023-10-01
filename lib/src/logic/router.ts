@@ -55,14 +55,25 @@ sub('current.route/component', ({ state }) => state['router/state']['route/compo
 
 sub('route.navigation/state', ({ state }) => state['router/state']['route.navigation/state']);
 
+const routeChanged = (currentState: any, newMatch: Match) => {
+  return (
+    currentState['route/id'] !== newMatch.id ||
+    currentState['route/path'] !== newMatch.path ||
+    currentState['route/path-params'] !== newMatch.pathParams ||
+    currentState['route/query-params'] !== newMatch.queryParams ||
+    currentState['route/hash-params'] !== newMatch.hashParams
+  );
+};
+
 evt('route.navigation/initiate', async ({ setState, params, getState }) => {
   const { id, pathParams, queryParams, hashParams, component, path, onNavigateEvent } = params;
   const navigationState = getState()['router/state']['route.navigation/state'];
-  const currentRouteId = getState()['router/state']['route/id'];
   const navigationUninitiated = navigationState === NavigationState.Uninitiated;
   const navigationInitiated = navigationState === NavigationState.Initiated;
-  const newRoute = currentRouteId !== id;
-  const shouldNavigate = navigationUninitiated || (navigationInitiated && newRoute);
+  const navigationComplete = navigationState === NavigationState.Complete;
+  const hasRouteChanged = routeChanged(getState()['router/state'], params);
+  const shouldNavigate =
+    navigationUninitiated || ((navigationInitiated || navigationComplete) && hasRouteChanged);
 
   if (!shouldNavigate) {
     return;

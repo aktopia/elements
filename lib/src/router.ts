@@ -88,14 +88,20 @@ export const initRouter = (callback: (match: Match) => any) => {
   });
 };
 
-export const navigate = (
+export const generatePath = (id: string, { pathParams }: { pathParams: Params }) => {
+  const toPath = compile(routeMappings[id].path, { encode: encodeURIComponent });
+  return toPath(pathParams);
+};
+
+export const navigateToPath = (path: string, { replace = false } = {}) => {
+  replace ? history.replaceState(null, '', path) : history.pushState(null, '', path);
+};
+
+export const navigateToRoute = (
   id: string,
   { pathParams }: { pathParams: Params },
   { replace = false } = {}
 ) => {
-  const toPath = compile(routeMappings[id].path, { encode: encodeURIComponent });
-
-  const path = toPath(pathParams);
-
-  replace ? history.replaceState(null, '', path) : history.pushState(null, '', path);
+  const path = generatePath(id, { pathParams });
+  navigateToPath(path, { replace });
 };

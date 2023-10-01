@@ -15,7 +15,7 @@ import {
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
 import type { Match } from '@elements/router';
-import { navigate } from '@elements/router';
+import { navigateToRoute } from '@elements/router';
 import type { LatLng, LatLngBounds } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 
@@ -434,7 +434,7 @@ evt('navigated.issue/view', ({ params }) => {
 evt('navigated.issue/new', async ({ params }) => {
   const { title } = params.route.queryParams;
   const { id } = await rpcPost('issue.draft/create', { 'issue.title/text': title });
-  navigate('issue/view', { pathParams: { id } }, { replace: true });
+  navigateToRoute('issue/view', { pathParams: { id } }, { replace: true });
 });
 
 evt('issue.current.user.severity/vote', async ({ getState, params }) => {
