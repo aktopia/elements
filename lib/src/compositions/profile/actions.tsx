@@ -1,5 +1,6 @@
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store';
+import { Link } from '@elements/components/link';
 
 const ActionCard = suspensify(({ id }: any) => {
   const title = useValue('action.title/text', { 'action/id': id });
@@ -9,11 +10,11 @@ const ActionCard = suspensify(({ id }: any) => {
       className={
         'flex w-full flex-col items-start justify-center gap-4 rounded-lg border border-gray-300 bg-white p-4 shadow-sm'
       }>
-      <a
+      <Link
         className={'w-full cursor-pointer text-left text-base text-gray-700'}
         href={`/action/${id}`}>
         {title}
-      </a>
+      </Link>
     </div>
   );
 });

@@ -7,6 +7,7 @@ import type { EntityType } from '@elements/types';
 import { EntityType as ResultType } from '@elements/compositions/entity-type';
 import { Modal, ModalPanel } from '@elements/components/modal';
 import { Combobox } from '@headlessui/react';
+import { Link } from '@elements/components/link';
 
 function makeLink(type: EntityType, entityId: string) {
   switch (type) {
@@ -30,13 +31,13 @@ const Result = ({ type, entityId, snippet }: ResultProps) => {
   return (
     <Combobox.Option as={Fragment} value={makeLink(type, entityId)}>
       <div className={'ui-active:bg-gray-100 cursor-default select-none px-4 py-2'}>
-        <a className={'flex items-center justify-between'} href={makeLink(type, entityId)}>
+        <Link className={'flex items-center justify-between'} href={makeLink(type, entityId)}>
           <div
             dangerouslySetInnerHTML={{ __html: snippet }}
             className={'text-base text-gray-800 [&_mark]:rounded [&_mark]:bg-blue-100 [&_mark]:p-1'}
           />
           <ResultType size={'sm'} type={type} />
-        </a>
+        </Link>
       </div>
     </Combobox.Option>
   );
