@@ -82,7 +82,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   const reference = useMemo(() => ({ 'ref/id': id, 'ref/attribute': 'entity.type/comment' }), [id]);
 
   const currentUserName = useValue('current.user/name');
-  const creatorName = useValue('comment/creator-name', { 'comment/id': id });
+  const creatorName = useValue('entity.created-by/name', { 'entity/id': id });
   const status = useValue('comment/status', {
     'comment/id': id,
   });

@@ -7,8 +7,15 @@ export type Subs = {
     };
     result: number;
   };
+  'entity.created-by/name': {
+    params: {
+      'entity/id': string;
+    };
+    result: string;
+  };
 };
 
 export const entitySlice = () => ({});
 
 remoteSub('entity/updated-at');
+remoteSub('entity.created-by/name');
