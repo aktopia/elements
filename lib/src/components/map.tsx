@@ -173,7 +173,7 @@ const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
         });
       });
 
-      if (isEmpty(locationsDiff) && !isEmpty(locations)) {
+      if (isEmpty(locationsDiff) && !isEmpty(locations) && locations.length !== 1) {
         const bounds = calculateBounds(locations);
         map.fitBounds(bounds);
       }
@@ -185,9 +185,15 @@ const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
   }, [locations, map]);
 
   const onResetLocation = useCallback(() => {
-    const bounds = calculateBounds(locations);
-    map?.fitBounds(bounds);
-  }, [locations, map]);
+    // FIXME when there is only one location, the map is not centered
+    if (locations.length > 1) {
+      const bounds = calculateBounds(locations);
+      map?.fitBounds(bounds);
+    } else {
+      initialCenter && map?.setCenter(initialCenter);
+      initialZoom && map?.setZoom(initialZoom);
+    }
+  }, [locations, map, initialCenter, initialZoom]);
 
   return (
     <>

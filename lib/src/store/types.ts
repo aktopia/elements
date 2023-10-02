@@ -1,3 +1,4 @@
+import type { Subs as EntitySubs } from '@elements/logic/entity';
 import type { Events as CommentEvents, Subs as CommentSubs } from '@elements/logic/comment';
 import type { Events as UpdateEvents, Subs as UpdateSubs } from '@elements/logic/update';
 import type {
@@ -33,7 +34,8 @@ import type {
 import type { Subs as LocationSubs, Events as LocationEvents } from '@elements/logic/location';
 import type { Subs as HomeFeedSubs } from '@elements/logic/home-feed';
 
-export type Subs = CommentSubs &
+export type Subs = EntitySubs &
+  CommentSubs &
   UpdateSubs &
   TextEditorSubs &
   UserSubs &

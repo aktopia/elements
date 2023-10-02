@@ -21,7 +21,7 @@ interface ChooseLocalitySlideOverProps {
   onDone: ({ location, zoom }: { location: LatLng; zoom: number }) => void;
 }
 
-export const ChooseLocalitySlideOver = ({
+export const LocalitySlideOver = ({
   visible,
   initialCenter,
   initialZoom,

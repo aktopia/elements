@@ -33,7 +33,6 @@ const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps
   const caption = useValue('location/caption', { 'location/id': locationId });
   const latLng = useValue('location/lat-lng', { 'location/id': locationId });
   const bounds = useValue('location/bounds', { 'location/id': locationId });
-  console.log(bounds);
 
   const deleteLocation = useDispatch('issue.location/delete');
 

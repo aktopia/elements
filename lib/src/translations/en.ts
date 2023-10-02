@@ -41,6 +41,7 @@ const action = {
   'action.description/placeholder': 'Describe the action.',
   'action.locality/add': 'Choose Action Locality',
   'action.locality/update': 'Update Action Locality',
+  'action/locality': 'Action Locality',
   'action.outcome/empty':
     "You haven't added an outcome yet. Describe what promise to fulfill with this action.",
   'action.outcome/placeholder': 'Describe the outcome.',
@@ -61,6 +62,7 @@ const issue = {
   'issue.location.slide-over/empty': 'No locations have been added yet.',
   'issue.locality/add': 'Choose Issue Locality',
   'issue.locality/update': 'Update Issue Locality',
+  'issue/locality': 'Issue Locality',
   'issue.severity/label': ({ avgScore, userScore, votes }: any) => {
     const oneVote = votes === 1 || votes === '1';
     const userScoreText = userScore

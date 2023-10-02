@@ -1,6 +1,6 @@
 import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useValue } from '@elements/store';
-import { ChooseLocalitySlideOver as RawChooseLocalitySlideOver } from '@elements/components/choose-locality-slider-over';
+import { LocalitySlideOver as RawLocalitySlideOver } from '@elements/components/locality-slider-over';
 import { useTranslation } from '@elements/translation';
 
 export const ChooseLocalitySlideOver = suspensify(() => {
@@ -18,7 +18,7 @@ export const ChooseLocalitySlideOver = suspensify(() => {
   const title = chosenLocation ? t('choose-locality/update') : t('choose-locality/add');
 
   return (
-    <RawChooseLocalitySlideOver
+    <RawLocalitySlideOver
       initialCenter={chosenLocation}
       initialZoom={chosenZoom}
       title={title}
