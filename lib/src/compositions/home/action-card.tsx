@@ -7,6 +7,7 @@ import { Voting } from '@elements/compositions/voting';
 import { useTranslation } from '@elements/translation';
 import { Locality as RawLocality } from '@elements/components/locality';
 import { useCallback } from 'react';
+import { Link } from '@elements/components/link';
 
 interface ActionCardProps {
   id: string;
@@ -47,9 +48,9 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
         <LastActive entityId={id} />
         <Locality actionId={id} onClick={onLocalityClick} />
       </div>
-      <a className={'text-lg font-medium hover:underline w-full'} href={`/action/${id}`}>
+      <Link className={'text-lg font-medium hover:underline w-full'} href={`/action/${id}`}>
         {title}
-      </a>
+      </Link>
       <div className={'flex items-center gap-5'}>
         <Voting refAttribute={'entity.type/action'} refId={id} size={'xs'} suspenseLines={2} />
       </div>

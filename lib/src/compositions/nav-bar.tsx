@@ -16,6 +16,7 @@ import { CreateModal as IssueCreateModal } from '@elements/compositions/issue/cr
 import { ChooseLocalitySlideOver } from '@elements/compositions/choose-locality';
 import { Button } from '@elements/components/button';
 import { Avatar } from '@elements/components/avatar';
+import { Link } from '@elements/components/link';
 
 const aktopia = 'Aktopia';
 
@@ -111,7 +112,7 @@ const Logo = () => {
       className={
         'font-logo flex h-full w-max items-center bg-gradient-to-br from-blue-800 to-blue-600 px-3 text-xl text-white'
       }>
-      <a href={'/'}>{aktopia}</a>
+      <Link href={'/'}>{aktopia}</Link>
     </div>
   );
 };

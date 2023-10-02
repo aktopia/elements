@@ -1,35 +1,24 @@
 import { navigateToPath } from '@elements/router';
-import { type AnchorHTMLAttributes, type MouseEvent, type ReactNode, useCallback } from 'react';
+import useEvent from 'react-use-event-hook';
+import { forwardRef } from 'react';
 
-interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
-  to: string;
-  children: ReactNode;
-}
+export const Link = forwardRef(({ href, children, onClick, ...props }: any, ref) => {
+  const onClick_ = useEvent((event: any) => {
+    // ignores the navigation when clicked using right mouse button or
+    // by holding a special modifier key: ctrl, command, win, alt, shift
+    if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey || event.button !== 0)
+      return;
 
-// WIP, DOESN'T WORK, DON'T USE
-export const Link = ({ to, children, ...props }: LinkProps) => {
-  const onClick = useCallback(
-    (e: MouseEvent<HTMLAnchorElement>) => {
-      // Check for left click
-      if (e.button !== 0) return;
-
-      // Allow opening links in a new tab/window
-      if (e.metaKey || e.ctrlKey || e.shiftKey) return;
-
-      e.preventDefault();
-      navigateToPath(to);
-    },
-    [to]
-  );
+    onClick && onClick(event);
+    if (!event.defaultPrevented) {
+      event.preventDefault();
+      navigateToPath(href);
+    }
+  });
 
   return (
-    <a href={to} onClick={onClick} {...props}>
+    <a href={href} onClick={onClick_} {...props} ref={ref}>
       {children}
     </a>
   );
-};
-
-/*
-TODO
-Make this work
- */
+});

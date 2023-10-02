@@ -23,8 +23,6 @@ const LocalitySlideOver = suspensify(({ entityId, entityType, onClose }: any) =>
       ? ['issue.locality/location', 'issue.locality/zoom', 'issue/id', 'issue/locality']
       : ['action.locality/location', 'action.locality/zoom', 'action/id', 'action/locality'];
 
-  console.log(entityType, locationKey, zoomKey, idKey, tKey);
-
   const location = useValue(locationKey as keyof Subs, { [idKey]: entityId });
   const zoom = useValue(zoomKey as keyof Subs, { [idKey]: entityId });
   const locations = useMemo(() => [location], [location]);

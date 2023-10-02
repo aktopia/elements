@@ -7,6 +7,7 @@ import {
 import { cx } from '@elements/utils';
 import type { ComponentType, ReactNode } from 'react';
 import type { Kind } from '@elements/components/button';
+import { Link } from '@elements/components/link';
 
 export interface ItemType {
   text: string;
@@ -40,14 +41,14 @@ export const Item = ({ text, href, Icon, onClick, kind = 'primary' }: ItemType) 
   return (
     <RawDropdownItem>
       {href ? (
-        <a
+        <Link
           className={
             'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none hover:underline'
           }
           href={href}
           rel={'noreferrer'}>
           {body}
-        </a>
+        </Link>
       ) : (
         <button
           className={
