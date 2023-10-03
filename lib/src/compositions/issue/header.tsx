@@ -15,6 +15,7 @@ import { EditButton } from '@elements/components/edit-button';
 import { EntityType as Type } from '@elements/types';
 import { Locality, LocalitySlideOver } from '@elements/compositions/issue/locality';
 import { LastActive } from '@elements/compositions/last-active';
+import { updateHashParams } from '@elements/router';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
@@ -90,7 +91,6 @@ export const SubscriptionBar = suspensify(() => {
 export const IssueTabs = suspensify(() => {
   const t = useTranslation();
   const activeTabId = useValue('issue.tabs/active-tab');
-  const updateTab = useDispatch('issue.tabs/update');
   const tabs = useMemo(
     () => [
       { id: 'home', label: t('common/home') },
@@ -101,12 +101,9 @@ export const IssueTabs = suspensify(() => {
     [t]
   );
 
-  const onTabClick = useCallback(
-    (tabId: string) => {
-      updateTab({ 'tab/id': tabId });
-    },
-    [updateTab]
-  );
+  const onTabClick = useCallback((tabId: string) => {
+    updateHashParams({ tab: tabId }, { replace: true });
+  }, []);
 
   return <Tabs activeTabId={activeTabId} size={'lg'} tabs={tabs} onTabClick={onTabClick} />;
 });

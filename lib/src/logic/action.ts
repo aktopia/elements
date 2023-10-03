@@ -342,6 +342,10 @@ evt('action.create.modal.title/update', ({ setState, params }) => {
 
 evt('navigated.action/view', ({ params }) => {
   const id = params.route.pathParams.id;
+  const tab = params.route.hashParams.tab;
+  if (tab) {
+    dispatch('action.tabs/update', { 'tab/id': tab });
+  }
   dispatch('current.action.id/set', { 'action/id': id });
   dispatch('route.navigation/complete');
 });

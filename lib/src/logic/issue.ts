@@ -427,6 +427,10 @@ evt('issue.create.modal.title/update', ({ setState, params }) => {
 
 evt('navigated.issue/view', ({ params }) => {
   const id = params.route.pathParams.id;
+  const tab = params.route.hashParams.tab;
+  if (tab) {
+    dispatch('issue.tabs/update', { 'tab/id': tab });
+  }
   dispatch('current.issue.id/set', { 'issue/id': id });
   dispatch('route.navigation/complete');
 });

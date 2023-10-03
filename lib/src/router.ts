@@ -52,18 +52,23 @@ const subscribe = (callback: EventListener) => {
   };
 };
 
-const getLocation = () => {
-  const path = window.location.pathname;
+const getQueryParams = () => {
   const search = window.location.search;
-  const hash = window.location.hash;
-  const queryParams = isEmpty(search?.trim())
+  return isEmpty(search?.trim())
     ? emptyObject
     : Object.fromEntries([...new URLSearchParams(search)]);
-  const hashParams = isEmpty(hash?.trim())
+};
+
+const getHashParams = () => {
+  const hash = window.location.hash;
+  return isEmpty(hash?.trim())
     ? emptyObject
     : Object.fromEntries([...new URLSearchParams(hash.slice(1))]);
+};
 
-  return { path, hashParams, queryParams };
+const getLocation = () => {
+  const path = window.location.pathname;
+  return { path, hashParams: getHashParams(), queryParams: getQueryParams() };
 };
 
 const resolveRoute = (routes: RouteWithMatcher[]): Match => {
@@ -104,4 +109,12 @@ export const navigateToRoute = (
 ) => {
   const path = generatePath(id, { pathParams });
   navigateToPath(path, { replace });
+};
+
+export const updateHashParams = (params: Params, { replace = false } = {}) => {
+  if (isEmpty(params)) return;
+  const hashParams = { ...getHashParams(), ...params };
+  const hash = `#${new URLSearchParams(hashParams).toString()}`;
+  const path = `${window.location.pathname}${window.location.search}${hash}`;
+  replace ? history.replaceState(null, '', path) : history.pushState(null, '', path);
 };

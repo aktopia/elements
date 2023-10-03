@@ -3,9 +3,10 @@ import { Tabs } from '@elements/components/tabs';
 import { Actions } from '@elements/compositions/profile/actions';
 import { Issues } from '@elements/compositions/profile/issues';
 import { wrapPage } from '@elements/compositions/wrap-page';
-import { useDispatch, useValue } from '@elements/store';
+import { useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
+import { updateHashParams } from '@elements/router';
 import type { TabId } from '@elements/logic/profile';
 
 const Name = suspensify(() => {
@@ -17,7 +18,6 @@ const Name = suspensify(() => {
 const ProfileTabs = suspensify(() => {
   const t = useTranslation();
   const activeTabId = useValue('profile.tabs/active-tab');
-  const updateTab = useDispatch('profile.tabs/update');
   const tabs = useMemo(
     () => [
       {
@@ -32,12 +32,9 @@ const ProfileTabs = suspensify(() => {
     [t]
   );
 
-  const onTabClick = useCallback(
-    (tabId: TabId) => {
-      updateTab({ 'tab/id': tabId });
-    },
-    [updateTab]
-  );
+  const onTabClick = useCallback((tabId: TabId) => {
+    updateHashParams({ tab: tabId }, { replace: true });
+  }, []);
 
   return <Tabs activeTabId={activeTabId} size={'md'} tabs={tabs} onTabClick={onTabClick} />;
 });

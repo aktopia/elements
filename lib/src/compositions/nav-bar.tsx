@@ -89,11 +89,11 @@ const UserDropdown = suspensify(() => {
     () => [
       {
         text: 'My Actions',
-        href: `/profile/${userId}/actions`,
+        href: `/profile/${userId}#tab=actions`,
       },
       {
         text: 'My Issues',
-        href: `/profile/${userId}/issues`,
+        href: `/profile/${userId}#tab=issues`,
       },
       {
         text: 'Sign out',

@@ -51,7 +51,7 @@ const routes_: Route[] = [
   },
   {
     id: 'profile/view',
-    path: '/profile/:id/:tab',
+    path: '/profile/:id',
     component: Profile,
     onNavigateEvent: 'navigated.profile/view',
   },

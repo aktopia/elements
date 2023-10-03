@@ -69,8 +69,13 @@ evt('profile.user.id/set', ({ setState, params }) => {
 });
 
 evt('navigated.profile/view', ({ params }) => {
-  const { id, tab } = params.route.pathParams;
+  const { id } = params.route.pathParams;
+  const tab = params.route.hashParams.tab;
+
+  if (tab) {
+    dispatch('profile.tabs/update', { 'tab/id': tab });
+  }
+
   dispatch('profile.user.id/set', { id });
-  dispatch('profile.tabs/update', { 'tab/id': tab });
   dispatch('route.navigation/complete');
 });
