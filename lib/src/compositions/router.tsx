@@ -3,11 +3,11 @@ import { dispatch, useValue } from '@elements/store';
 import { Spinner } from '@elements/components/spinner';
 import { type Match } from '@elements/router';
 import { NavigationState } from '@elements/logic/router';
+import { NotFound } from '@elements/compositions/not-found';
 
 export const listener = (match: Match) => dispatch('route.navigation/initiate', match);
 
 export const Router = suspensify(() => {
-  const routeId = useValue('current.route/id');
   const loadingState = useValue('route.navigation/state');
   const Component = useValue('current.route/component');
 
@@ -20,9 +20,7 @@ export const Router = suspensify(() => {
   }
 
   if (!Component) {
-    console.error('No route found for route name: ', routeId);
-    // TODO - Show Not found page
-    return null;
+    return <NotFound />;
   }
 
   return <Component suspenseLines={8} />;

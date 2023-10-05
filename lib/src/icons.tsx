@@ -298,6 +298,7 @@ export {
   EllipsisHorizontalIcon as EllipsisHorizontalOutline,
   EllipsisVerticalIcon as EllipsisVerticalOutline,
   PencilIcon as PencilOutline,
+  ExclamationCircleIcon as ExclamationCircleOutline,
 } from '@heroicons/react/24/outline';
 
 /*

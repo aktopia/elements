@@ -75,6 +75,8 @@ const issue = {
           oneVote ? 'vote' : 'votes'
         }. ${userScoreText}.`;
   },
+  'issue/severity': 'Severity',
+  'issue/facing': 'Facing',
 };
 
 const update = {
@@ -104,6 +106,11 @@ const comment = {
   'comment/deleted': 'Comment was deleted.',
 };
 
+const error = {
+  'error/not-found': 'Not Found',
+  'error.not-found/message': "Sorry, we couldn't find what you were looking for.",
+};
+
 const translation = {
   ...common,
   ...action,
@@ -112,6 +119,7 @@ const translation = {
   ...relationship,
   ...location,
   ...comment,
+  ...error,
   'auth/send-otp': 'Send OTP',
   'auth/sign-in': 'Sign In',
   'auth/wait-to-resend-otp': ({ waitSeconds }: { waitSeconds: number }) => {
