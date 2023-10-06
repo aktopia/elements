@@ -1,33 +1,61 @@
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store';
-import { Link } from '@elements/components/link';
+import { ActionCard } from '@elements/compositions/action/action-card';
+import { ViewLocalitySlideOver as RawViewLocalitySlideOver } from '@elements/components/view-locality-slide-over';
+import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from '@elements/translation';
 
-const ActionCard = suspensify(({ id }: any) => {
-  const title = useValue('action.title/text', { 'action/id': id });
+const ViewActionLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
+  const t = useTranslation();
+  const initialCenter = useValue('action.locality/location', { 'action/id': entityId });
+  const initialZoom = useValue('action.locality/zoom', { 'action/id': entityId });
+  const locations = useMemo(() => [initialCenter], [initialCenter]);
 
   return (
-    <div
-      className={
-        'flex w-full flex-col items-start justify-center gap-4 rounded-lg border border-gray-300 bg-white p-4 shadow-sm'
-      }>
-      <Link
-        className={'w-full cursor-pointer text-left text-base text-gray-700'}
-        href={`/action/${id}`}>
-        {title}
-      </Link>
-    </div>
+    <RawViewLocalitySlideOver
+      initialCenter={initialCenter}
+      initialZoom={initialZoom}
+      locations={locations}
+      title={t('action/locality')}
+      visible={true}
+      onClose={onClose}
+    />
   );
 });
 
 export const Actions = suspensify(() => {
   const userId = useValue('profile.user/id');
   const actionIds = useValue('profile.action/ids', { 'user/id': userId });
+  const [localitySlideOverId, setLocalitySlideOverId] = useState<string | null>(null);
+
+  const slideOverVisible = localitySlideOverId !== null;
+
+  const onLocalitySlideOverOpen = useCallback((entityId: string) => {
+    setLocalitySlideOverId(entityId);
+  }, []);
+
+  const onLocalitySlideOverClose = useCallback(() => {
+    setLocalitySlideOverId(null);
+  }, []);
 
   return (
-    <div className={'flex flex-col gap-4'}>
-      {actionIds.map((id) => (
-        <ActionCard key={id} id={id} suspenseLines={2} />
-      ))}
-    </div>
+    <>
+      <div className={'flex flex-col gap-9'}>
+        {actionIds.map((id) => (
+          <ActionCard
+            key={id}
+            id={id}
+            suspenseLines={2}
+            onLocalitySlideOverOpen={onLocalitySlideOverOpen}
+          />
+        ))}
+      </div>
+      {slideOverVisible ? (
+        <ViewActionLocalitySlideOver
+          entityId={localitySlideOverId}
+          onClose={onLocalitySlideOverClose}
+        />
+      ) : null}
+    </>
   );
 });
