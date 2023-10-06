@@ -14,12 +14,20 @@ interface ViewLocalitySlideOverProps {
   locations: LatLng[];
   onClose: () => void;
   title: string;
+  visible: boolean;
 }
 
 export const ViewLocalitySlideOver = suspensify(
-  ({ initialCenter, initialZoom, locations, onClose, title }: ViewLocalitySlideOverProps) => {
+  ({
+    visible,
+    initialCenter,
+    initialZoom,
+    locations,
+    onClose,
+    title,
+  }: ViewLocalitySlideOverProps) => {
     return (
-      <SlideOver visible={true} onClose={onClose}>
+      <SlideOver visible={visible} onClose={onClose}>
         <div className={'relative flex h-full flex-col justify-between'}>
           <div>
             <SlideOverHeader>

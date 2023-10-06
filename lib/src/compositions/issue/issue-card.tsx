@@ -11,7 +11,7 @@ import { Link } from '@elements/components/link';
 
 interface IssueCardProps {
   id: string;
-  onLocalitySlideOverOpen: (entityId: string, entityType: Type) => void;
+  onLocalitySlideOverOpen: (entityId: string) => void;
 }
 
 const Locality = suspensify(({ issueId, onClick }: { issueId: string; onClick: () => void }) => {
@@ -56,7 +56,7 @@ const Severity = ({ issueId }: { issueId: string }) => {
 export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardProps) => {
   const title = useValue('issue.title/text', { 'issue/id': id });
   const onLocalityClick = useCallback(
-    () => onLocalitySlideOverOpen(id, Type.Issue),
+    () => onLocalitySlideOverOpen(id),
     [id, onLocalitySlideOverOpen]
   );
 

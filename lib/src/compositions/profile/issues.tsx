@@ -1,33 +1,61 @@
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store';
-import { Link } from '@elements/components/link';
+import { IssueCard } from '@elements/compositions/issue/issue-card';
+import { ViewLocalitySlideOver as RawViewLocalitySlideOver } from '@elements/components/view-locality-slide-over';
+import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from '@elements/translation';
 
-const IssueCard = suspensify(({ id }: any) => {
-  const title = useValue('issue.title/text', { 'issue/id': id });
+const ViewIssueLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
+  const t = useTranslation();
+  const initialCenter = useValue('issue.locality/location', { 'issue/id': entityId });
+  const initialZoom = useValue('issue.locality/zoom', { 'issue/id': entityId });
+  const locations = useMemo(() => [initialCenter], [initialCenter]);
 
   return (
-    <div
-      className={
-        'flex w-full flex-col items-start justify-center gap-4 rounded-lg border border-gray-300 bg-white p-4 shadow-sm'
-      }>
-      <Link
-        className={'w-full cursor-pointer text-left text-base text-gray-700'}
-        href={`/issue/${id}`}>
-        {title}
-      </Link>
-    </div>
+    <RawViewLocalitySlideOver
+      initialCenter={initialCenter}
+      initialZoom={initialZoom}
+      locations={locations}
+      title={t('issue/locality')}
+      visible={true}
+      onClose={onClose}
+    />
   );
 });
 
 export const Issues = suspensify(() => {
   const userId = useValue('profile.user/id');
   const issueIds = useValue('profile.issue/ids', { 'user/id': userId });
+  const [localitySlideOverId, setLocalitySlideOverId] = useState<string | null>(null);
+
+  const slideOverVisible = localitySlideOverId !== null;
+
+  const onLocalitySlideOverOpen = useCallback((entityId: string) => {
+    setLocalitySlideOverId(entityId);
+  }, []);
+
+  const onLocalitySlideOverClose = useCallback(() => {
+    setLocalitySlideOverId(null);
+  }, []);
 
   return (
-    <div className={'flex flex-col gap-4'}>
-      {issueIds.map((id) => (
-        <IssueCard key={id} id={id} suspenseLines={2} />
-      ))}
-    </div>
+    <>
+      <div className={'flex flex-col gap-4'}>
+        {issueIds.map((id) => (
+          <IssueCard
+            key={id}
+            id={id}
+            suspenseLines={2}
+            onLocalitySlideOverOpen={onLocalitySlideOverOpen}
+          />
+        ))}
+      </div>
+      {slideOverVisible ? (
+        <ViewIssueLocalitySlideOver
+          entityId={localitySlideOverId}
+          onClose={onLocalitySlideOverClose}
+        />
+      ) : null}
+    </>
   );
 });

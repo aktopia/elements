@@ -20,6 +20,7 @@ const ViewIssueLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
       initialZoom={initialZoom}
       locations={locations}
       title={t('issue/locality')}
+      visible={true}
       onClose={onClose}
     />
   );
@@ -37,10 +38,36 @@ const ViewActionLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
       initialZoom={initialZoom}
       locations={locations}
       title={t('action/locality')}
+      visible={true}
       onClose={onClose}
     />
   );
 });
+
+const Card = ({ entityId, entityType, onLocalitySlideOverOpen }: any) => {
+  const onLocalitySlideOverOpen_ = useCallback(
+    (entityId: string) => {
+      onLocalitySlideOverOpen(entityId, entityType);
+    },
+    [entityType, onLocalitySlideOverOpen]
+  );
+
+  let Component;
+  switch (entityType) {
+    case EntityType.Action:
+      Component = ActionCard;
+      break;
+    case EntityType.Issue:
+      Component = IssueCard;
+      break;
+    default:
+      Component = () => null;
+  }
+
+  return (
+    <Component key={entityId} id={entityId} onLocalitySlideOverOpen={onLocalitySlideOverOpen_} />
+  );
+};
 
 export const Home = wrapPage(() => {
   const userLocation = useValue('user.locality/location');
@@ -91,27 +118,14 @@ export const Home = wrapPage(() => {
   return (
     <>
       <div className={'flex flex-col gap-9'}>
-        {list.map((e) => {
-          let Component;
-          switch (e['entity/type']) {
-            case EntityType.Action:
-              Component = ActionCard;
-              break;
-            case EntityType.Issue:
-              Component = IssueCard;
-              break;
-            default:
-              Component = () => null;
-          }
-
-          return (
-            <Component
-              key={e['entity/id']}
-              id={e['entity/id']}
-              onLocalitySlideOverOpen={onLocalitySlideOverOpen}
-            />
-          );
-        })}
+        {list.map((e) => (
+          <Card
+            key={e['entity/id']}
+            entityId={e['entity/id']}
+            entityType={e['entity/type']}
+            onLocalitySlideOverOpen={onLocalitySlideOverOpen}
+          />
+        ))}
       </div>
       {viewLocalitySlideOverUI}
     </>
