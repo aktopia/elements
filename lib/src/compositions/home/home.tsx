@@ -1,57 +1,44 @@
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 import { EntityType } from '@elements/types';
-import { ActionCard } from '@elements/compositions/home/action-card';
-import { IssueCard } from '@elements/compositions/home/issue-card';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { ActionCard } from '@elements/compositions/action/action-card';
+import { IssueCard } from '@elements/compositions/issue/issue-card';
+import { useCallback, useMemo, useState } from 'react';
 import { suspensify } from '@elements/components/suspensify';
-import {
-  SlideOver,
-  SlideOverBody,
-  SlideOverCloseButton,
-  SlideOverHeader,
-  SlideOverTitle,
-} from '@elements/components/slide-over';
-import { Map } from '@elements/components/map';
 import { useTranslation } from '@elements/translation';
-import type { Subs } from '@elements/store/types';
+import { ViewLocalitySlideOver as RawViewLocalitySlideOver } from '@elements/components/view-locality-slide-over';
 
-const LocalitySlideOver = suspensify(({ entityId, entityType, onClose }: any) => {
+const ViewIssueLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
   const t = useTranslation();
-  const [locationKey, zoomKey, idKey, tKey] =
-    entityType === EntityType.Issue
-      ? ['issue.locality/location', 'issue.locality/zoom', 'issue/id', 'issue/locality']
-      : ['action.locality/location', 'action.locality/zoom', 'action/id', 'action/locality'];
-
-  const location = useValue(locationKey as keyof Subs, { [idKey]: entityId });
-  const zoom = useValue(zoomKey as keyof Subs, { [idKey]: entityId });
-  const locations = useMemo(() => [location], [location]);
-
-  const mapRef = useRef(null);
+  const initialCenter = useValue('issue.locality/location', { 'issue/id': entityId });
+  const initialZoom = useValue('issue.locality/zoom', { 'issue/id': entityId });
+  const locations = useMemo(() => [initialCenter], [initialCenter]);
 
   return (
-    <SlideOver visible={true} onClose={onClose}>
-      <div className={'relative flex h-full flex-col justify-between'}>
-        <div>
-          <SlideOverHeader>
-            <SlideOverTitle title={t(tKey)} />
-            <SlideOverCloseButton onClick={onClose} />
-          </SlideOverHeader>
-          <SlideOverBody>
-            <div className={'flex h-fit items-center gap-5'}>
-              <div className={'relative h-[25rem] w-[400px] overflow-hidden rounded-lg shadow'}>
-                <Map
-                  ref={mapRef}
-                  initialCenter={location}
-                  initialZoom={zoom}
-                  locations={locations}
-                />
-              </div>
-            </div>
-          </SlideOverBody>
-        </div>
-      </div>
-    </SlideOver>
+    <RawViewLocalitySlideOver
+      initialCenter={initialCenter}
+      initialZoom={initialZoom}
+      locations={locations}
+      title={t('issue/locality')}
+      onClose={onClose}
+    />
+  );
+});
+
+const ViewActionLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
+  const t = useTranslation();
+  const initialCenter = useValue('action.locality/location', { 'action/id': entityId });
+  const initialZoom = useValue('action.locality/zoom', { 'action/id': entityId });
+  const locations = useMemo(() => [initialCenter], [initialCenter]);
+
+  return (
+    <RawViewLocalitySlideOver
+      initialCenter={initialCenter}
+      initialZoom={initialZoom}
+      locations={locations}
+      title={t('action/locality')}
+      onClose={onClose}
+    />
   );
 });
 
@@ -73,6 +60,33 @@ export const Home = wrapPage(() => {
   const onLocalitySlideOverClose = useCallback(() => {
     setLocalitySlideOverArgs({ visible: false });
   }, []);
+
+  const viewLocalitySlideOverUI = useMemo(() => {
+    if (!localitySlideOverArgs.visible) {
+      return null;
+    }
+
+    let Component;
+    switch (localitySlideOverArgs.entityType) {
+      case EntityType.Action:
+        Component = ViewActionLocalitySlideOver;
+        break;
+      case EntityType.Issue:
+        Component = ViewIssueLocalitySlideOver;
+        break;
+      default:
+        Component = () => null;
+    }
+
+    return (
+      <Component entityId={localitySlideOverArgs.entityId} onClose={onLocalitySlideOverClose} />
+    );
+  }, [
+    localitySlideOverArgs.entityId,
+    localitySlideOverArgs.entityType,
+    onLocalitySlideOverClose,
+    localitySlideOverArgs.visible,
+  ]);
 
   return (
     <>
@@ -99,14 +113,7 @@ export const Home = wrapPage(() => {
           );
         })}
       </div>
-      {localitySlideOverArgs.visible ? (
-        <LocalitySlideOver
-          entityId={localitySlideOverArgs.entityId}
-          entityType={localitySlideOverArgs.entityType}
-          visible={true}
-          onClose={onLocalitySlideOverClose}
-        />
-      ) : null}
+      {viewLocalitySlideOverUI}
     </>
   );
 });

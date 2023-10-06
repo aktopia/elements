@@ -29,6 +29,30 @@ const Locality = suspensify(({ issueId, onClick }: { issueId: string; onClick: (
   );
 });
 
+const Facing = ({ issueId }: { issueId: string }) => {
+  const t = useTranslation();
+  const count = useValue('issue.users.facing/count', { 'issue/id': issueId });
+
+  return (
+    <div className={'flex gap-2 items-center'}>
+      <p className={'text-sm font-medium text-gray-600'}>{count}</p>
+      <p className={'text-sm text-gray-500'}>{t('issue/facing')}</p>
+    </div>
+  );
+};
+
+const Severity = ({ issueId }: { issueId: string }) => {
+  const t = useTranslation();
+  const severity = useValue('issue.severity/score', { 'issue/id': issueId });
+
+  return (
+    <div className={'flex gap-2 items-center'}>
+      <p className={'text-sm text-gray-500'}>{t('issue/severity')}</p>
+      <p className={'text-sm font-medium text-gray-600'}>{severity}</p>
+    </div>
+  );
+};
+
 export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardProps) => {
   const title = useValue('issue.title/text', { 'issue/id': id });
   const onLocalityClick = useCallback(
@@ -46,11 +70,13 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
         <LastActive entityId={id} />
         <Locality issueId={id} onClick={onLocalityClick} />
       </div>
-      <Link className={'text-lg font-medium hover:underline w-full'} href={`/issue/${id}`}>
+      <Link className={'text-xl font-medium hover:underline w-full'} href={`/issue/${id}`}>
         {title}
       </Link>
-      <div className={'flex items-center gap-5'}>
-        <Voting refAttribute={'entity.type/issue'} refId={id} size={'xs'} suspenseLines={2} />
+      <div className={'flex items-center gap-10'}>
+        <Voting refAttribute={'entity.type/issue'} refId={id} size={'sm'} suspenseLines={2} />
+        <Facing issueId={id} />
+        <Severity issueId={id} />
       </div>
     </div>
   );
