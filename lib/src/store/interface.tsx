@@ -2,15 +2,14 @@ import type { ReactNode } from 'react';
 import { createContext, memo, useCallback, useContext, useMemo } from 'react';
 import type { Events, Subs } from '@elements/store/types';
 
+export type Read = <T extends keyof Subs>(id: T, params?: Subs[T]['params']) => Subs[T]['result'];
+
 export type ValueHook = <T extends keyof Subs>(
   id: T,
   params?: Subs[T]['params']
 ) => Subs[T]['result'];
 
-export type DispatchHook = <T extends keyof Events>(
-  id: T,
-  options?: Record<string, any>
-) => (params: Events[T]['params']) => void;
+export type DispatchHook = <T extends keyof Events>(id: T) => (params: Events[T]['params']) => void;
 
 interface StoreContextType {
   useValueImpl: ValueHook;
@@ -21,25 +20,22 @@ const placeholderContext: StoreContextType = {
   useValueImpl: (_id, _params) => {
     throw new Error('"useValueImpl" not set for StoreContext');
   },
-  useDispatchImpl: (_id, _options) => {
+  useDispatchImpl: (_id) => {
     throw new Error('"useDispatchImpl" not set for StoreContext');
   },
 };
 
 export const StoreContext = createContext<StoreContextType>(placeholderContext);
 
-export function useValue<T extends keyof Subs>(
-  id: T,
-  params?: Subs[T]['params']
-): Subs[T]['result'] {
+export const useValue: ValueHook = (id, params?) => {
   const { useValueImpl } = useContext(StoreContext);
-  return useValueImpl<T>(id, params);
-}
+  return useValueImpl(id, params);
+};
 
-export function useDispatch<T extends keyof Events>(id: T): (params: Events[T]['params']) => void {
+export const useDispatch: DispatchHook = (id) => {
   const { useDispatchImpl } = useContext(StoreContext);
   return useDispatchImpl(id);
-}
+};
 
 export function useStateLike(
   valueId: keyof Subs,

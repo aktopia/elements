@@ -2,12 +2,23 @@ import { QueryClient, QueryClientProvider, useQuery as useReactQuery } from 'rea
 import { create } from 'zustand';
 import type { ReactNode } from 'react';
 import { useCallback } from 'react';
-import { Store as StoreInterface, useDispatch, useValue } from '@elements/store/interface';
+import {
+  type DispatchHook,
+  type Read,
+  Store as StoreInterface,
+  type ValueHook,
+} from '@elements/store/interface';
 import { events, subscriptions } from '@elements/store/register';
 import { slices } from '@elements/store/slices';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
 import type { Subs } from '@elements/store/types';
+
+function queryFn({ queryKey }: any) {
+  const [id, params] = queryKey;
+  const sub = subscriptions[id].fn;
+  return sub(params);
+}
 
 const useStore = create(
   immer(
@@ -19,11 +30,14 @@ const useStore = create(
   )
 );
 
-function queryFn({ queryKey }: any) {
-  const [id, params] = queryKey;
-  const sub = subscriptions[id].fn;
-  return sub(params);
-}
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      queryFn: queryFn,
+      suspense: true,
+    },
+  },
+});
 
 export const setState = useStore.setState;
 export const getState = useStore.getState;
@@ -33,39 +47,32 @@ export function dispatch(id: string, params?: Record<string, any>) {
   return fn({ setState, getState, params });
 }
 
-export function read<T extends keyof Subs>(id: T, params?: Subs[T]['params']): Subs[T]['result'] {
-  const { fn } = subscriptions[id];
-  return fn({ state: getState(), params });
-}
+export const read: Read = (id, params?) => {
+  const { fn, async } = subscriptions[id];
+  return async
+    ? queryClient.getQueryState([id, { params }])?.data
+    : fn({ state: getState(), params });
+};
 
-const useRemote: typeof useValue = (id, params) => {
+const useRemote: ValueHook = (id, params) => {
   const { data } = useReactQuery([id, { params }]);
   return data;
 };
 
-const useLocal: typeof useValue = (id, params) => {
+const useLocal: ValueHook = (id, params) => {
   const read = subscriptions[id].fn;
   return useStore((state) => read({ state, params }));
 };
 
-const useValueImpl: typeof useValue = (id, params) => {
+const useValueImpl: ValueHook = (id, params) => {
   const useVal = subscriptions[id].async ? useRemote : useLocal;
   return useVal(id, params);
 };
 
-const useDispatchImpl: typeof useDispatch = (id) => {
+const useDispatchImpl: DispatchHook = (id) => {
   const { fn } = events[id];
-  return useCallback((params) => fn({ setState, getState, params }), [fn]);
+  return useCallback((params) => fn({ setState, getState, params, read, dispatch }), [fn]);
 };
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      queryFn: queryFn,
-      suspense: true,
-    },
-  },
-});
 
 export const invalidateAsyncSub = async <T extends keyof Subs>(
   id: T,
