@@ -294,10 +294,11 @@ evt('user.registration.input.name/update', ({ setState, params }) => {
   });
 });
 
-evt('user.registration/done', async ({ getState }) => {
+evt('user.registration/done', async ({ getState, read }) => {
   const name = getState()['authentication/state']['user.registration.input/name'];
+  const currentUserId = read('current.user/id');
 
-  await rpcPost('current.user.name/update', { 'user/name': name });
+  await rpcPost('current.user.name/update', { value: name, 'user/id': currentUserId });
 
   await invalidateAsyncSub('user.registration/pending');
 });

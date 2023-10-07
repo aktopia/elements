@@ -6,6 +6,7 @@ import type { SuspensifyProps } from '@elements/components/suspensify';
 import type { Events } from '@elements/store/types';
 import { match } from 'path-to-regexp';
 import { Home } from '@elements/compositions/home/home';
+import { Account } from '@elements/compositions/account/account';
 
 export interface Route {
   id: string;
@@ -54,6 +55,12 @@ const routes_: Route[] = [
     path: '/profile/:id',
     component: Profile,
     onNavigateEvent: 'navigated.profile/view',
+  },
+  {
+    id: 'account/view',
+    path: '/account/:id',
+    component: Account,
+    // onNavigateEvent: 'navigated.account/view',
   },
 ];
 

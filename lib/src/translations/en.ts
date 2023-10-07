@@ -28,11 +28,12 @@ const common = {
   'common/you': 'You',
   'common/media': 'Media',
   'common/locations': 'Locations',
-  'common/full-name': 'Full Name',
+  'common/name': 'Name',
   'common/user': 'User',
   'common/relationships': 'Relationships',
   'common/severity': 'Severity',
   'common.phrase/empty-results': 'No results found.',
+  'common.user.name/placeholder': 'Enter your name.',
 };
 
 const action = {

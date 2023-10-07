@@ -96,6 +96,10 @@ const UserDropdown = suspensify(() => {
         href: `/profile/${userId}#tab=issues`,
       },
       {
+        text: 'My Account',
+        href: `/account/${userId}`,
+      },
+      {
         text: 'Sign out',
         onClick: () => onSignOutClick({}),
       },
