@@ -12,6 +12,7 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
       success: 'bg-green-600 text-white shadow-md',
       danger: 'bg-red-600 text-white shadow-md',
       warning: 'text-amber-700 border border-amber-500 bg-amber-50 shadow',
+      'danger-outline': 'bg-white text-red-700 border border-red-500 shadow-md',
     },
     size: {
       xxs: 'text-xs gap-1.5 px-1.5 h-[28px] font-normal shadow-sm',
@@ -55,6 +56,7 @@ const iconVariant = cva('', {
       warning: 'text-amber-700',
       success: 'text-white',
       danger: 'text-white',
+      'danger-outline': 'text-red-600',
     },
     size: {
       xxs: 'h-4 w-4',
@@ -74,6 +76,7 @@ const secondaryIconVariant = cva('', {
       warning: 'text-amber-700',
       success: 'text-white',
       danger: 'text-white',
+      'danger-outline': 'text-red-600',
     },
     size: {
       xxs: 'h-4 w-4',
@@ -93,6 +96,7 @@ const countVariant = cva('font-medium', {
       warning: 'text-amber-600',
       success: 'text-white',
       danger: 'text-white',
+      'danger-outline': 'text-white',
     },
     size: {
       xxs: 'text-xs',
@@ -105,7 +109,14 @@ const countVariant = cva('font-medium', {
 
 type Size = 'xxs' | 'xs' | 'sm' | 'md';
 
-export type Kind = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger';
+export type Kind =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'danger-outline';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size: Size;
