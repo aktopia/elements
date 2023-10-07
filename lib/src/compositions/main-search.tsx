@@ -16,7 +16,7 @@ function makeLink(type: EntityType, entityId: string) {
     case 'entity.type/issue':
       return `/issue/${entityId}`;
     case 'entity.type/user':
-      return `/profile/${entityId}/actions`;
+      return `/profile/${entityId}#tab=actions`;
   }
 }
 
