@@ -2,6 +2,7 @@ import { Button } from '@elements/components/button';
 import RichTextArea, {
   plainTextExtensions,
   richTextExtensions,
+  type RichTextOutput,
 } from '@elements/components/rich-text-area';
 import { useMemo } from 'react';
 
@@ -10,7 +11,7 @@ interface TextAreaEditorProps {
   doneText: string;
   cancelText: string;
   editable: boolean;
-  output?: 'html' | 'text';
+  output?: RichTextOutput;
   className?: string;
   placeholder?: string;
   onDone: () => void;
@@ -32,12 +33,14 @@ export const TextAreaEditor = ({
   output,
   richText = true,
 }: TextAreaEditorProps) => {
-  const extensions = useMemo(() => {
+  const [extensions, defaultOutput] = useMemo(() => {
     if (richText) {
-      return richTextExtensions;
+      return [richTextExtensions, 'html'];
     }
-    return plainTextExtensions;
+    return [plainTextExtensions, 'text'];
   }, [richText]);
+
+  const outputValue = (output || defaultOutput) as RichTextOutput;
 
   return (
     <div
@@ -49,7 +52,7 @@ export const TextAreaEditor = ({
         editable={editable}
         extensions={extensions}
         initialContent={content}
-        output={output}
+        output={outputValue}
         placeholder={placeholder}
         onChange={onChange}
       />

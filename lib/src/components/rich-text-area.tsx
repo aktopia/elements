@@ -34,12 +34,14 @@ export const richTextExtensions = [
   }),
 ];
 
+export type RichTextOutput = 'html' | 'text';
+
 interface RichTextAreaProps {
   className?: string;
   onChange: (value: string) => void;
   initialContent?: string;
   editable: boolean;
-  output?: 'html' | 'text';
+  output?: RichTextOutput;
   placeholder?: string;
   clearValue?: () => void;
   setValue?: (value: string) => void;
