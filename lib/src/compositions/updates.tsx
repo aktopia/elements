@@ -100,7 +100,7 @@ const ContextMenu = ({ id }: { id: string }) => {
 };
 
 const Update = suspensify(({ id }: { id: string }) => {
-  const creatorName = useValue('entity.created-by/name', { 'entity/id': id });
+  const creatorName = useValue('update.created-by/name', { 'update/id': id });
   const text = useValue('update/text', { 'update/id': id });
   const createdAt = useValue('update/created-at', { 'update/id': id });
 

@@ -10,21 +10,8 @@ import {
   updateText,
 } from '@elements/logic/text-editor';
 
-export const commentSlice = () => ({
-  'comment/state': {
-    'comment.deletion/id': null,
-    'new/comment': {},
-  },
-});
-
 export type Subs = {
   'comment/status': {
-    params: {
-      'comment/id': string;
-    };
-    result: string;
-  };
-  'comment/creator-name': {
     params: {
       'comment/id': string;
     };
@@ -51,6 +38,12 @@ export type Subs = {
   };
   'comment.deletion/id': {
     params: {};
+    result: string;
+  };
+  'comment.created-by/name': {
+    params: {
+      'comment/id': string;
+    };
     result: string;
   };
 };
@@ -89,8 +82,15 @@ export type Events = {
   };
 };
 
+export const commentSlice = () => ({
+  'comment/state': {
+    'comment.deletion/id': null,
+    'new/comment': {},
+  },
+});
+
 remoteSub('comment/status');
-remoteSub('comment/creator-name');
+remoteSub('comment.created-by/name');
 remoteSub('comment/created-at');
 remoteSub('comment/text');
 remoteSub('comment/ids');

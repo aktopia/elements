@@ -17,7 +17,7 @@ export type Subs = {
     };
     result: string[];
   };
-  'update/creator-name': {
+  'update.created-by/name': {
     params: {
       'update/id': string;
     };
@@ -88,7 +88,7 @@ sub('update.deletion/id', ({ state }) => state['update/state']['update.deletion/
 
 remoteSub('update/ids');
 remoteSub('update/created-at');
-remoteSub('update/creator-name');
+remoteSub('update.created-by/name');
 remoteSub('update/text');
 
 evt('new.update/create', async ({ getState }) => {
