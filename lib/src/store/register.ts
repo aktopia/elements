@@ -8,12 +8,14 @@ type Resolve<T extends keyof Subs> = (args: {
   params: Subs[T]['params'];
 }) => Subs[T]['result'];
 
-export type Dispatch<T extends keyof Events> = (args: {
+export type DispatchArgs<T extends keyof Events> = {
   setState: StoreApi<any>['setState'];
   getState: StoreApi<any>['getState'];
   read: Read;
   params: Events[T]['params'];
-}) => void;
+};
+
+export type Dispatch<T extends keyof Events> = (args: DispatchArgs<T>) => void;
 
 export const subscriptions: any = {};
 export const events: any = {};
