@@ -18,6 +18,7 @@ import type { Match } from '@elements/router';
 import { navigateToRoute } from '@elements/router';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
+import { wrapRequireAuth } from '@elements/logic/authentication';
 
 export type TabId = 'home' | 'discuss' | 'updates';
 
@@ -315,11 +316,14 @@ evt('action.tabs/update', ({ setState, params }) => {
   });
 });
 
-evt('action.create.modal/open', ({ setState }) => {
-  setState((state: any) => {
-    state['action/state']['action.create.modal/visible'] = true;
-  });
-});
+evt(
+  'action.create.modal/open',
+  wrapRequireAuth(({ setState }) => {
+    setState((state: any) => {
+      state['action/state']['action.create.modal/visible'] = true;
+    });
+  })
+);
 
 evt('action.create.modal/close', ({ setState }) => {
   setState((state: any) => {

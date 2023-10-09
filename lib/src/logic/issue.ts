@@ -18,6 +18,7 @@ import type { Match } from '@elements/router';
 import { navigateToRoute } from '@elements/router';
 import type { LatLng, LatLngBounds } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
+import { wrapRequireAuth } from '@elements/logic/authentication';
 
 type TabId = 'home' | 'discuss' | 'media' | 'locations';
 
@@ -400,11 +401,14 @@ evt('current.issue.id/set', ({ setState, params }) => {
   });
 });
 
-evt('issue.create.modal/open', ({ setState }) => {
-  setState((state: any) => {
-    state['issue/state']['issue.create.modal/visible'] = true;
-  });
-});
+evt(
+  'issue.create.modal/open',
+  wrapRequireAuth(({ setState }) => {
+    setState((state: any) => {
+      state['issue/state']['issue.create.modal/visible'] = true;
+    });
+  })
+);
 
 evt('issue.create.modal/close', ({ setState }) => {
   setState((state: any) => {
