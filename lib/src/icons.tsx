@@ -275,6 +275,8 @@ export {
   ArrowPathIcon as ArrowPathSolid,
   PencilIcon as PencilSolid,
   ExclamationTriangleIcon as ExclamationTriangleSolid,
+  SparklesIcon as SparklesSolid,
+  LightBulbIcon as LightBulbSolid,
 } from '@heroicons/react/24/solid';
 
 export {

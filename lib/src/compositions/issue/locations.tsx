@@ -56,7 +56,14 @@ const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps
 
   const menuItems = useMemo(
     () => [
-      { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
+      {
+        text: t('common/delete'),
+        onClick: onDeleteClick,
+        Icon: TrashOutline,
+        kind: 'danger',
+        type: 'button',
+        key: 'delete',
+      },
     ],
     [t, onDeleteClick]
   ) as ItemType[];
