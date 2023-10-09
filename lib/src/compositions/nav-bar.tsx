@@ -115,7 +115,7 @@ const UserDropdown = suspensify(() => {
       },
       {
         type: 'separator',
-        key: 'separator-1',
+        key: 'separator-2',
       },
       {
         type: 'button',

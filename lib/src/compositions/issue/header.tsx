@@ -137,6 +137,7 @@ const ActionBar = () => {
 
 export const Header = suspensify(() => {
   const issueId = useValue('current.issue/id');
+  const updatedAt = useValue('issue/updated-at', { 'issue/id': issueId });
 
   return (
     <>
@@ -146,7 +147,7 @@ export const Header = suspensify(() => {
             <div className={'flex items-baseline justify-between'}>
               <div className={'flex items-center gap-7'}>
                 <EntityType size={'sm'} type={Type.Issue} />
-                <LastActive entityId={issueId} />
+                <LastActive timestamp={updatedAt} />
                 <Locality issueId={issueId} />
               </div>
               <SubscriptionBar suspenseLines={1} />

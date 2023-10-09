@@ -55,6 +55,8 @@ const Severity = ({ issueId }: { issueId: string }) => {
 
 export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardProps) => {
   const title = useValue('issue.title/text', { 'issue/id': id });
+  const updatedAt = useValue('issue/updated-at', { 'issue/id': id });
+
   const onLocalityClick = useCallback(
     () => onLocalitySlideOverOpen(id),
     [id, onLocalitySlideOverOpen]
@@ -67,7 +69,7 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
       }>
       <div className={'flex items-center gap-7'}>
         <EntityType size={'sm'} type={Type.Issue} />
-        <LastActive entityId={id} />
+        <LastActive timestamp={updatedAt} />
         <Locality issueId={id} onClick={onLocalityClick} />
       </div>
       <Link className={'text-xl font-medium hover:underline w-full'} href={`/issue/${id}`}>

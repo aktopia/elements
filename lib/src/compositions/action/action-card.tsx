@@ -37,6 +37,7 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
     () => onLocalitySlideOverOpen(id, Type.Action),
     [id, onLocalitySlideOverOpen]
   );
+  const updatedAt = useValue('action/updated-at', { 'action/id': id });
 
   return (
     <div
@@ -45,7 +46,7 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
       }>
       <div className={'flex items-center gap-7'}>
         <EntityType size={'sm'} type={Type.Action} />
-        <LastActive entityId={id} />
+        <LastActive timestamp={updatedAt} />
         <Locality actionId={id} onClick={onLocalityClick} />
       </div>
       <Link className={'text-lg font-medium hover:underline w-full'} href={`/action/${id}`}>
