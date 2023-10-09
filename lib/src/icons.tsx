@@ -277,6 +277,7 @@ export {
   ExclamationTriangleIcon as ExclamationTriangleSolid,
   SparklesIcon as SparklesSolid,
   LightBulbIcon as LightBulbSolid,
+  FunnelIcon as FunnelSolid,
 } from '@heroicons/react/24/solid';
 
 export {

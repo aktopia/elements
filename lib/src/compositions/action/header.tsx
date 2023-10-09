@@ -18,6 +18,7 @@ import { EntityType as Type } from '@elements/types';
 import { Locality, LocalitySlideOver } from '@elements/compositions/action/locality';
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
+import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -49,15 +50,21 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
-      <QRCodeButton kind={'tertiary'} size={'xs'} />
-      <FollowButton
-        clicked={followed}
-        count={followCount}
-        kind={'tertiary'}
-        size={'xs'}
-        onClick={onFollowButtonClick}
-      />
-      <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
+      <WrapComingSoonPopover id={'action-qr-code'} status={'evaluating'}>
+        <QRCodeButton kind={'tertiary'} size={'xs'} />
+      </WrapComingSoonPopover>
+      <WrapComingSoonPopover id={'action-follow'} status={'evaluating'}>
+        <FollowButton
+          clicked={followed}
+          count={followCount}
+          kind={'tertiary'}
+          size={'xs'}
+          onClick={onFollowButtonClick}
+        />
+      </WrapComingSoonPopover>
+      <WrapComingSoonPopover id={'action-save'} status={'evaluating'}>
+        <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
+      </WrapComingSoonPopover>
     </div>
   );
 });
@@ -110,21 +117,25 @@ export const ActionBar = suspensify(() => {
   return (
     <div className={'flex gap-10'}>
       <Voting refAttribute={'entity.type/action'} refId={actionId} size={'md'} suspenseLines={1} />
-      <Button
-        Icon={Giving}
-        containerClassName={'w-32'}
-        kind={'primary'}
-        size={'md'}
-        value={'Fund'}
-        onClick={onFundButtonClick}
-      />
-      <Button
-        Icon={Crowd}
-        kind={'secondary'}
-        size={'md'}
-        value={'Volunteer'}
-        onClick={onVolunteerButtonClick}
-      />
+      <WrapComingSoonPopover id={'action-fund'} status={'planning'}>
+        <Button
+          Icon={Giving}
+          containerClassName={'w-32'}
+          kind={'primary'}
+          size={'md'}
+          value={'Fund'}
+          onClick={onFundButtonClick}
+        />
+      </WrapComingSoonPopover>
+      <WrapComingSoonPopover id={'action-volunteer'} status={'planning'}>
+        <Button
+          Icon={Crowd}
+          kind={'secondary'}
+          size={'md'}
+          value={'Volunteer'}
+          onClick={onVolunteerButtonClick}
+        />
+      </WrapComingSoonPopover>
     </div>
   );
 });
@@ -158,12 +169,14 @@ export const ProgressIndicator = suspensify(() => {
   return (
     <div className={'flex flex-col gap-2'}>
       <div className={'flex items-end justify-between'}>
-        <NamedSwitch
-          activeSwitchId={activeSwitchId}
-          size={'xs'}
-          switches={switches}
-          onSwitchClick={onSwitchClick}
-        />
+        <WrapComingSoonPopover id={'action-switch'} status={'planning'}>
+          <NamedSwitch
+            activeSwitchId={activeSwitchId}
+            size={'xs'}
+            switches={switches}
+            onSwitchClick={onSwitchClick}
+          />
+        </WrapComingSoonPopover>
         <div className={'flex gap-1 text-xs text-gray-500'}>
           <span className={'font-bold'}>{workPercentageText}</span>
           <span>{t('percentage/complete')}</span>

@@ -131,7 +131,7 @@ const UserDropdown = suspensify(() => {
 });
 
 const Logo = () => {
-  const preview = 'preview';
+  const prototypeTxt = 'prototype';
   return (
     <div
       className={
@@ -140,7 +140,7 @@ const Logo = () => {
       <Link className={'font-logo text-xl text-white'} href={'/'}>
         {aktopia}
       </Link>
-      <div className={'text-xs text-white font-semibold'}>{preview}</div>
+      <div className={'text-xs text-white font-semibold'}>{prototypeTxt}</div>
     </div>
   );
 };
