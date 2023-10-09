@@ -7,6 +7,10 @@ export const RawDropdownTrigger = ({ children }: { children: ReactNode }) => {
   return <RadixDropdownMenu.Trigger asChild={true}>{children}</RadixDropdownMenu.Trigger>;
 };
 
+export const RawDropdownGroup = RadixDropdownMenu.Group;
+
+export const RawDropdownSeparator = RadixDropdownMenu.Separator;
+
 export const RawDropdownPanel = ({
   children,
   sideOffset,

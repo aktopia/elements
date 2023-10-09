@@ -77,8 +77,21 @@ const ContextMenu = ({ id }: { id: string }) => {
 
   const items = useMemo(
     () => [
-      { text: t('common/edit'), onClick: onEditClick, Icon: PencilOutline },
-      { text: t('common/delete'), onClick: onDeleteClick, Icon: TrashOutline, kind: 'danger' },
+      {
+        text: t('common/edit'),
+        onClick: onEditClick,
+        Icon: PencilOutline,
+        key: 'edit',
+        type: 'button',
+      },
+      {
+        text: t('common/delete'),
+        onClick: onDeleteClick,
+        Icon: TrashOutline,
+        kind: 'danger',
+        key: 'delete',
+        type: 'button',
+      },
     ],
     [t, onEditClick, onDeleteClick]
   ) as ItemType[];

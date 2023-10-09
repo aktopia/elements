@@ -47,10 +47,14 @@ const CreateDropdown = suspensify(() => {
       {
         text: t('common/action'),
         onClick: onCreateAction,
+        type: 'button',
+        key: 'action',
       },
       {
         text: t('common/issue'),
         onClick: onCreateIssue,
+        type: 'button',
+        key: 'issue',
       },
     ],
     [onCreateAction, onCreateIssue, t]
@@ -88,20 +92,36 @@ const UserDropdown = suspensify(() => {
     // TODO i18n
     () => [
       {
+        type: 'link',
         text: 'My Actions',
         href: `/profile/${userId}#tab=actions`,
+        key: 'my-actions',
       },
       {
+        type: 'link',
         text: 'My Issues',
         href: `/profile/${userId}#tab=issues`,
+        key: 'my-issues',
       },
       {
+        type: 'separator',
+        key: 'separator-1',
+      },
+      {
+        type: 'link',
         text: 'My Account',
         href: `/account/${userId}`,
+        key: 'my-account',
       },
       {
+        type: 'separator',
+        key: 'separator-1',
+      },
+      {
+        type: 'button',
         text: 'Sign out',
         onClick: () => onSignOutClick({}),
+        key: 'sign-out',
       },
     ],
     [userId, onSignOutClick]

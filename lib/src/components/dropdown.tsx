@@ -2,6 +2,7 @@ import {
   RawDropdown,
   RawDropdownItem,
   RawDropdownPanel,
+  RawDropdownSeparator,
   RawDropdownTrigger,
 } from '@elements/components/raw-dropdown';
 import { cx } from '@elements/utils';
@@ -10,8 +11,10 @@ import type { Kind } from '@elements/components/button';
 import { Link } from '@elements/components/link';
 
 export interface ItemType {
+  type: 'link' | 'button' | 'separator';
   text: string;
   kind: Kind;
+  key: string;
   href?: string;
   openNewTab?: boolean;
   Icon?: ComponentType<{
@@ -65,7 +68,7 @@ export const Item = ({ text, href, Icon, onClick, kind = 'primary' }: ItemType) 
 
 interface DropdownProps {
   button: ReactNode;
-  items: ItemType[];
+  items: Array<ItemType>;
 }
 
 export const Dropdown = ({ button, items }: DropdownProps) => {
@@ -79,9 +82,17 @@ export const Dropdown = ({ button, items }: DropdownProps) => {
           className={
             'z-dropdown w-max overflow-hidden rounded-md bg-white p-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none'
           }>
-          {items.map((item: ItemType) => (
-            <Item key={item.text} {...item} />
-          ))}
+          {items.map((item: ItemType) => {
+            if (item.type === 'separator') {
+              return (
+                <RawDropdownSeparator
+                  key={item.key}
+                  className={'h-px w-full bg-gray-200 rounded-full my-1'}
+                />
+              );
+            }
+            return <Item {...item} />;
+          })}
         </div>
       </RawDropdownPanel>
     </RawDropdown>
