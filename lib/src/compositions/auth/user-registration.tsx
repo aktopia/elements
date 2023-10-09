@@ -5,7 +5,7 @@ import React, { useCallback } from 'react';
 import { Modal, ModalPanel, ModalTitle } from '@elements/components/modal';
 import { Button } from '@elements/components/button';
 
-export const UserRegistration = suspensify(({}) => {
+const UserRegistration_ = suspensify(({}) => {
   const t = useTranslation();
 
   const visible = useValue('user.registration/pending');
@@ -47,4 +47,10 @@ export const UserRegistration = suspensify(({}) => {
       </ModalPanel>
     </Modal>
   );
+});
+
+export const UserRegistration = suspensify(() => {
+  const sessionExists = useValue('auth.session/exists');
+
+  return sessionExists ? <UserRegistration_ /> : null;
 });
