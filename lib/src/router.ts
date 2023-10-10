@@ -5,7 +5,7 @@ import { routes } from '@elements/routes';
 import isEmpty from 'lodash/isEmpty';
 import { compile } from 'path-to-regexp';
 
-type Params = Record<string, string>;
+export type Params = Record<string, string>;
 
 type RouteMappings = Record<string, RouteWithMatcher>;
 

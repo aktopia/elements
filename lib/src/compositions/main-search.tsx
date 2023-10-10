@@ -81,6 +81,7 @@ export const MainSearch = suspensify(() => {
   const [query, setQuery] = useStateLike('main-search/query', 'main-search.query/set');
 
   const close = useDispatch('main-search/close');
+  const navigateToPath = useDispatch('navigate/path');
 
   const onClose = useCallback(() => close({}), [close]);
 
@@ -91,9 +92,13 @@ export const MainSearch = suspensify(() => {
     [setQuery]
   );
 
-  const onSelect = useCallback((result: Location) => {
-    window.location = result;
-  }, []);
+  const onSelect = useCallback(
+    (result: string) => {
+      navigateToPath({ path: result, replace: true });
+      onClose();
+    },
+    [navigateToPath, onClose]
+  );
 
   return (
     <Modal visible={visible} onClose={onClose}>

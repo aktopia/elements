@@ -2,7 +2,8 @@ import { dispatch, evt, sub } from '@elements/store';
 import type { Events as AllEvents } from '@elements/store/types';
 import type { ComponentType } from 'react';
 import type { SuspensifyProps } from '@elements/components/suspensify';
-import type { Match } from '@elements/router';
+import type { Match, Params } from '@elements/router';
+import { navigateToPath, navigateToRoute } from '@elements/router';
 
 export enum NavigationState {
   Uninitiated = 'route.navigation.state/uninitiated',
@@ -35,6 +36,12 @@ export type Events = {
   };
   'route.navigation/complete': {
     params: {};
+  };
+  'navigate/path': {
+    params: { path: string; replace?: boolean };
+  };
+  'navigate/route': {
+    params: { id: string; pathParams: Params; replace?: boolean };
   };
 };
 
@@ -103,4 +110,14 @@ evt('route.navigation/complete', ({ setState }) => {
   setState((state: any) => {
     state['router/state']['route.navigation/state'] = NavigationState.Complete;
   });
+});
+
+evt('navigate/route', ({ params }) => {
+  const { id, replace, ...otherParams } = params;
+  navigateToRoute(id, otherParams, { replace });
+});
+
+evt('navigate/path', ({ params }) => {
+  const { path, replace } = params;
+  navigateToPath(path, { replace });
 });
