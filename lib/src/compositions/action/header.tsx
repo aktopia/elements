@@ -1,8 +1,8 @@
 import { Crowd, Giving } from '@elements/icons';
 import { Button } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
-import { NamedSwitch } from '@elements/components/named-switch';
-import { ProgressBar } from '@elements/components/progress-bar';
+// import { NamedSwitch } from '@elements/components/named-switch';
+// import { ProgressBar } from '@elements/components/progress-bar';
 import { QRCodeButton } from '@elements/components/qr-code-button';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
@@ -50,10 +50,10 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
-      <WrapComingSoonPopover id={'action-qr-code'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'action-qr-code'} size={'sm'} status={'evaluating'}>
         <QRCodeButton kind={'tertiary'} size={'xs'} />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'action-follow'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'action-follow'} size={'sm'} status={'evaluating'}>
         <FollowButton
           clicked={followed}
           count={followCount}
@@ -62,7 +62,7 @@ export const SubscriptionBar = suspensify(() => {
           onClick={onFollowButtonClick}
         />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'action-save'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'action-save'} size={'sm'} status={'evaluating'}>
         <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
       </WrapComingSoonPopover>
     </div>
@@ -140,52 +140,50 @@ export const ActionBar = suspensify(() => {
   );
 });
 
-export const ProgressIndicator = suspensify(() => {
-  const t = useTranslation();
-  const actionId = useValue('current.action/id');
-  const activeSwitchId = useValue('action.progress-bar/active-switch');
-  const workPercentage = useValue('action.work/percentage', { 'action/id': actionId });
-  const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
-  const updateSwitch = useDispatch('action.progress-bar/update');
-  const workPercentageText = `${workPercentage}%`;
-
-  const switches = useMemo(
-    () => [
-      { id: 'work', label: 'Work' },
-      { id: 'funding', label: 'Funding' },
-    ],
-    []
-  );
-
-  const onSwitchClick = useCallback(
-    (switchId: string) => {
-      updateSwitch({ 'switch/id': switchId });
-    },
-    [updateSwitch]
-  );
-
-  fundingPercentage;
-
-  return (
-    <div className={'flex flex-col gap-2'}>
-      <div className={'flex items-end justify-between'}>
-        <WrapComingSoonPopover id={'action-switch'} status={'planning'}>
-          <NamedSwitch
-            activeSwitchId={activeSwitchId}
-            size={'xs'}
-            switches={switches}
-            onSwitchClick={onSwitchClick}
-          />
-        </WrapComingSoonPopover>
-        <div className={'flex gap-1 text-xs text-gray-500'}>
-          <span className={'font-bold'}>{workPercentageText}</span>
-          <span>{t('percentage/complete')}</span>
-        </div>
-      </div>
-      <ProgressBar current={workPercentage} total={100} />
-    </div>
-  );
-});
+// export const ProgressIndicator = suspensify(() => {
+//   const t = useTranslation();
+//   const actionId = useValue('current.action/id');
+//   const activeSwitchId = useValue('action.progress-bar/active-switch');
+//   const workPercentage = useValue('action.work/percentage', { 'action/id': actionId });
+//   const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
+//   const updateSwitch = useDispatch('action.progress-bar/update');
+//   const workPercentageText = `${workPercentage}%`;
+//
+//   const switches = useMemo(
+//     () => [
+//       { id: 'work', label: 'Work' },
+//       { id: 'funding', label: 'Funding' },
+//     ],
+//     []
+//   );
+//
+//   const onSwitchClick = useCallback(
+//     (switchId: string) => {
+//       updateSwitch({ 'switch/id': switchId });
+//     },
+//     [updateSwitch]
+//   );
+//
+//   fundingPercentage;
+//
+//   return (
+//     <div className={'flex flex-col gap-2'}>
+//       <div className={'flex items-end justify-between'}>
+//         <NamedSwitch
+//           activeSwitchId={activeSwitchId}
+//           size={'xs'}
+//           switches={switches}
+//           onSwitchClick={onSwitchClick}
+//         />
+//         <div className={'flex gap-1 text-xs text-gray-500'}>
+//           <span className={'font-bold'}>{workPercentageText}</span>
+//           <span>{t('percentage/complete')}</span>
+//         </div>
+//       </div>
+//       <ProgressBar current={workPercentage} total={100} />
+//     </div>
+//   );
+// });
 
 export const ActionTabs = suspensify(() => {
   const t = useTranslation();
@@ -232,7 +230,7 @@ export const Header = suspensify(() => {
               <ActionBar suspenseLines={2} />
             </div>
           </div>
-          <ProgressIndicator suspenseLines={1} />
+          {/*<ProgressIndicator suspenseLines={1} />*/}
         </div>
         <div className={'sticky'}>
           <ActionTabs suspenseLines={1} />
