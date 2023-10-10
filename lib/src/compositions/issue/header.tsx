@@ -16,6 +16,7 @@ import { EntityType as Type } from '@elements/types';
 import { Locality, LocalitySlideOver } from '@elements/compositions/issue/locality';
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
+import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
@@ -75,15 +76,21 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
-      <QRCodeButton kind={'tertiary'} size={'xs'} />
-      <FollowButton
-        clicked={followed}
-        count={followCount}
-        kind={'tertiary'}
-        size={'xs'}
-        onClick={onFollowButtonClick}
-      />
-      <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
+      <WrapComingSoonPopover id={'issue-qr-code'} status={'evaluating'}>
+        <QRCodeButton kind={'tertiary'} size={'xs'} />
+      </WrapComingSoonPopover>
+      <WrapComingSoonPopover id={'issue-follow'} status={'evaluating'}>
+        <FollowButton
+          clicked={followed}
+          count={followCount}
+          kind={'tertiary'}
+          size={'xs'}
+          onClick={onFollowButtonClick}
+        />
+      </WrapComingSoonPopover>
+      <WrapComingSoonPopover id={'issue-save'} status={'evaluating'}>
+        <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
+      </WrapComingSoonPopover>
     </div>
   );
 });

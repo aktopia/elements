@@ -1,7 +1,12 @@
 import { formatCount } from '@elements/utils';
 import { cva } from 'cva';
-import type { ButtonHTMLAttributes, ComponentType, MouseEvent, MouseEventHandler } from 'react';
+import type { ComponentType } from 'react';
 import { memo, useCallback } from 'react';
+import {
+  Button as RawButton,
+  type ButtonProps as RawButtonProps,
+  type PressEvent,
+} from 'react-aria-components';
 
 const containerVariant = cva('relative flex items-center justify-center rounded-md', {
   variants: {
@@ -118,7 +123,7 @@ export type Kind =
   | 'danger'
   | 'danger-outline';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends RawButtonProps {
   size: Size;
   value: string;
   count?: number;
@@ -131,7 +136,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   type?: 'button' | 'submit';
   kind: Kind;
   disabled?: boolean;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: any;
 }
 
 export const Button = memo(
@@ -152,14 +157,14 @@ export const Button = memo(
     ...props
   }: ButtonProps) => {
     const onClickMemo = useCallback(
-      (e: MouseEvent<HTMLButtonElement>) => {
+      (e: PressEvent) => {
         onClick && !disabled && onClick(e);
       },
       [onClick, disabled]
     );
 
     return (
-      <button
+      <RawButton
         {...props}
         className={containerVariant({
           size,
@@ -170,7 +175,7 @@ export const Button = memo(
           className: containerClassName,
         })}
         type={type === 'submit' ? 'submit' : 'button'}
-        onClick={onClickMemo}>
+        onPress={onClickMemo}>
         {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
         <span>{value}</span>
         {!!SecondaryIcon && (
@@ -179,7 +184,7 @@ export const Button = memo(
           />
         )}
         {!!count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
-      </button>
+      </RawButton>
     );
   }
 );

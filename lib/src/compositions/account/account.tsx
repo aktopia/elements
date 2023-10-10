@@ -6,6 +6,7 @@ import { Button } from '@elements/components/button';
 import { TrashOutline } from '@elements/icons';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useCallback } from 'react';
+import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 
 export const Account = wrapPage(() => {
   const t = useTranslation();
@@ -40,7 +41,14 @@ export const Account = wrapPage(() => {
         <div className={'text-base text-gray-800'}>{currentUserEmail}</div>
       </div>
       <div>
-        <Button Icon={TrashOutline} kind={'danger-outline'} size={'xs'} value={'Delete Account'} />
+        <WrapComingSoonPopover id={'account-delete'} status={'planning'}>
+          <Button
+            Icon={TrashOutline}
+            kind={'danger-outline'}
+            size={'xs'}
+            value={'Delete Account'}
+          />
+        </WrapComingSoonPopover>
       </div>
     </div>
   );

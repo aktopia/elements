@@ -1,5 +1,5 @@
 import { ComingSoon, type Status } from '@elements/components/coming-soon';
-import { Button, Dialog, DialogTrigger, Popover } from 'react-aria-components';
+import { Dialog, DialogTrigger, Popover } from 'react-aria-components';
 import type { ReactNode } from 'react';
 
 export const WrapComingSoonPopover = ({
@@ -13,7 +13,7 @@ export const WrapComingSoonPopover = ({
 }) => {
   return (
     <DialogTrigger>
-      <Button className={'focus:outline-none focus:ring-0'}>{children}</Button>
+      {children}
       <Popover>
         <Dialog
           className={
