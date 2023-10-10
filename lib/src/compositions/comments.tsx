@@ -18,6 +18,7 @@ import { useTranslation } from '@elements/translation';
 import isEmpty from 'lodash/isEmpty';
 import { useCallback, useMemo, useState } from 'react';
 import { Dropdown, type ItemType } from '@elements/components/dropdown';
+import { useWrapRequireAuth } from '@elements/store/hooks';
 
 export const User = ({ name }: { name: string }) => {
   return (
@@ -114,7 +115,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
     setExpanded(!expanded);
   }, [expanded]);
 
-  const onToggleReply = useCallback(() => {
+  const onToggleReply = useWrapRequireAuth(() => {
     setIsReplying(!isReplying);
   }, [isReplying]);
 

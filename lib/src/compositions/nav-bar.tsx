@@ -139,7 +139,7 @@ const Logo = () => {
       }
       href={'/'}>
       <div className={'font-logo text-xl text-white'}>{aktopia}</div>
-      <div className={'text-xs text-white font-semibold'}>{prototypeTxt}</div>
+      <div className={'text-xs text-white'}>{prototypeTxt}</div>
     </Link>
   );
 };

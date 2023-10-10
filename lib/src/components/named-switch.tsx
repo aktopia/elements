@@ -57,9 +57,9 @@ const Switch = ({ id, status, size, onSwitchClick, label }: SwitchProps) => {
   const onClick = useCallback(() => onSwitchClick(id), [id, onSwitchClick]);
 
   return (
-    <div className={switchVariant({ status, size })} onClick={onClick}>
+    <button className={switchVariant({ status, size })} type={'button'} onClick={onClick}>
       {label}
-    </div>
+    </button>
   );
 };
 

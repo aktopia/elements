@@ -5,6 +5,7 @@ import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { Comments } from '@elements/compositions/comments';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
+import { useWrapRequireAuth } from '@elements/store/hooks';
 
 interface DiscussProps {
   refId: string;
@@ -55,7 +56,7 @@ export const Discuss = suspensify(({ refId, refAttribute }: DiscussProps) => {
     [updateNewComment, reference]
   );
 
-  const onNewCommentPost = useCallback(() => {
+  const onNewCommentPost = useWrapRequireAuth(() => {
     postNewComment(reference);
   }, [postNewComment, reference]);
 

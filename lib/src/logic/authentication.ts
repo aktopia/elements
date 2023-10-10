@@ -1,7 +1,7 @@
 import { dispatch, evt, invalidateAsyncSub, invalidateAsyncSubs, sub } from '@elements/store';
 import { consumeOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
 import { rpcPost } from '@elements/rpc';
-import type { Dispatch, DispatchArgs } from '@elements/store/register';
+import type { EventHandler, EventHandlerArgs } from '@elements/store/register';
 import type { Events as AllEvents } from '@elements/store/types';
 
 export type ResendOtpState = 'idle' | 'waiting' | 'resending';
@@ -78,7 +78,7 @@ export type Subs = {
 
 export type Events = {
   'auth.sign-in/initiate': {
-    params: {};
+    params?: {};
   };
   'auth/sign-out': {
     params: {};
@@ -305,9 +305,9 @@ evt('user.registration/done', async ({ getState, read }) => {
   await invalidateAsyncSub('user.registration/pending');
 });
 
-export function wrapRequireAuth<T extends keyof AllEvents>(fn: Dispatch<T>) {
-  return async (args: DispatchArgs<T>) => {
-    const { getState } = args;
+export function wrapRequireAuth<T extends keyof AllEvents>(fn: EventHandler<T>) {
+  return async (args: EventHandlerArgs<T>) => {
+    const { getState, dispatch } = args;
     const sessionExists = getState()['authentication/state']['auth.session/exists'];
     if (!sessionExists) {
       return dispatch('auth.sign-in/initiate');

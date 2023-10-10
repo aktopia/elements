@@ -20,6 +20,7 @@ import { Timestamp } from '@elements/components/timestamp';
 import { ContextMenu } from '@elements/components/context-menu';
 import type { ItemType } from '@elements/components/dropdown';
 import { type SubmitHandler, useForm } from 'react-hook-form';
+import { useWrapRequireAuth } from '@elements/store/hooks';
 
 interface LocationCardProps {
   locationId: string;
@@ -205,8 +206,7 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
 
   const onViewListClick = useDispatch('issue.location.slide-over/open') as () => void;
   const onAddLocation = useDispatch('issue.location/add');
-
-  const onStartAddingLocation = useCallback(() => {
+  const onStartAddingLocation = useWrapRequireAuth(() => {
     setAddingLocation(true);
   }, []);
 
@@ -227,6 +227,7 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
       setAddingLocation(false);
       const center = mapRef.current?.getCenter();
       const bounds = mapRef.current?.getBounds();
+      console.log(center);
       center && onAddLocation({ location: center, bounds, caption });
     },
     [onAddLocation]

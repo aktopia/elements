@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import type { ReactNode } from 'react';
 import { useCallback } from 'react';
 import {
+  type Dispatch,
   type DispatchHook,
   type Read,
   Store as StoreInterface,
@@ -42,10 +43,10 @@ const queryClient = new QueryClient({
 export const setState = useStore.setState;
 export const getState = useStore.getState;
 
-export function dispatch(id: string, params?: Record<string, any>) {
+export const dispatch: Dispatch = (id, params?) => {
   const { fn } = events[id];
   return fn({ setState, getState, params });
-}
+};
 
 export const read: Read = (id, params?) => {
   const { fn, async } = subscriptions[id];

@@ -1,21 +1,22 @@
 import type { StoreApi } from 'zustand';
 import { rpcGet } from '@elements/rpc';
 import type { Events, Subs } from '@elements/store/types';
-import type { Read } from '@elements/store/interface';
+import type { Dispatch, Read } from '@elements/store/interface';
 
 type Resolve<T extends keyof Subs> = (args: {
   state: any;
   params: Subs[T]['params'];
 }) => Subs[T]['result'];
 
-export type DispatchArgs<T extends keyof Events> = {
+export type EventHandlerArgs<T extends keyof Events> = {
   setState: StoreApi<any>['setState'];
   getState: StoreApi<any>['getState'];
   read: Read;
   params: Events[T]['params'];
+  dispatch: Dispatch;
 };
 
-export type Dispatch<T extends keyof Events> = (args: DispatchArgs<T>) => void;
+export type EventHandler<T extends keyof Events> = (args: EventHandlerArgs<T>) => void;
 
 export const subscriptions: any = {};
 export const events: any = {};
@@ -34,6 +35,6 @@ export function remoteSub<T extends keyof Subs>(id: T) {
   });
 }
 
-export function evt<T extends keyof Events>(id: T, fn: Dispatch<T>) {
+export function evt<T extends keyof Events>(id: T, fn: EventHandler<T>) {
   events[id] = { fn };
 }
