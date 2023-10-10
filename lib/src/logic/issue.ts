@@ -108,10 +108,6 @@ export type Subs = {
     params: { 'issue/id': string };
     result: Location[];
   };
-  'issue.new.location/caption': {
-    params: {};
-    result: string;
-  };
   'issue.severity/score': {
     params: { 'issue/id': string };
     result: number;
@@ -195,15 +191,13 @@ export type Events = {
     params: {
       location: LatLng;
       bounds?: LatLngBounds;
+      caption: string;
     };
   };
   'issue.location/delete': {
     params: {
       'location/id': string;
     };
-  };
-  'issue.new.location.caption/update': {
-    params: { caption: string };
   };
   'current.issue.id/set': {
     params: {
@@ -274,11 +268,6 @@ sub(
   ({ state }) => state['issue/state']['issue.create.modal/visible']
 );
 
-sub(
-  'issue.new.location/caption',
-  ({ state }) => state['issue/state']['issue.new.location/caption']
-);
-
 sub('issue/saved', () => false);
 
 sub('issue/followed', () => false);
@@ -337,19 +326,11 @@ evt('issue.location.slide-over/close', ({ setState }) => {
 });
 
 evt('issue.location/add', async ({ getState, params }) => {
-  const { 'current.issue/id': currentIssueId, 'issue.new.location/caption': caption } =
-    getState()['issue/state'];
-
-  const { location, bounds } = params;
+  const { 'current.issue/id': currentIssueId } = getState()['issue/state'];
+  const { location, bounds, caption } = params;
 
   await rpcPost('issue.location/add', { 'issue/id': currentIssueId, location, bounds, caption });
   await invalidateAsyncSub('issue/locations', { 'issue/id': currentIssueId });
-});
-
-evt('issue.new.location.caption/update', ({ setState, params }) => {
-  setState((state: any) => {
-    state['issue/state']['issue.new.location/caption'] = params.caption;
-  });
 });
 
 evt('issue.current.user/face', async ({ getState }) => {

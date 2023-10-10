@@ -12,13 +12,14 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import type { Location } from '@elements/logic/issue';
 import { ListBulletOutline, MapPinSolid, TrashOutline } from '@elements/icons';
-import { type ChangeEvent, useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Button } from '@elements/components/button';
 import { type Place, SearchLocation } from '@elements/compositions/map';
 import { Avatar } from '@elements/components/avatar';
 import { Timestamp } from '@elements/components/timestamp';
 import { ContextMenu } from '@elements/components/context-menu';
 import type { ItemType } from '@elements/components/dropdown';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 
 interface LocationCardProps {
   locationId: string;
@@ -156,40 +157,40 @@ const StartAddLocation = ({ show, onClick }: { onClick: () => void; show: boolea
 const AddLocation = ({
   onAdd,
   onCancel,
-  onCaptionChange,
-  caption,
   show,
 }: {
-  onAdd: () => void;
+  onAdd: ({ caption }: { caption: string }) => void;
   onCancel: () => void;
-  onCaptionChange: ({ caption }: { caption: string }) => void;
-  caption: string;
   show: boolean;
 }) => {
   const t = useTranslation();
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      onCaptionChange({ caption: e.target.value });
-    },
-    [onCaptionChange]
-  );
+
+  const { register, handleSubmit: onSubmit, reset } = useForm<{ caption: string }>();
+
+  const submit: SubmitHandler<{ caption: string }> = ({ caption }) => {
+    onAdd({ caption });
+  };
+
+  const onCancel_ = useCallback(() => {
+    reset();
+    onCancel();
+  }, [onCancel, reset]);
 
   return show ? (
-    <div className={'flex w-2/3 gap-3'}>
+    <form className={'flex w-2/3 gap-3 items-center'} onSubmit={onSubmit(submit)}>
       <input
         className={
-          'grow rounded-md border border-gray-100 text-gray-600 placeholder-gray-400 shadow-xl'
+          'grow rounded-md border border-gray-300 text-gray-600 placeholder-gray-400 shadow py-1.5 px-2'
         }
         placeholder={'A caption to identify the location'}
         type={'text'}
-        value={caption}
-        onChange={onChange}
+        {...register('caption', { required: true })}
       />
       <div className={'flex gap-2'}>
-        <Button kind={'success'} size={'sm'} value={t('common/add')} onClick={onAdd} />
-        <Button kind={'tertiary'} size={'sm'} value={t('common/cancel')} onClick={onCancel} />
+        <Button kind={'success'} size={'sm'} type={'submit'} value={t('common/add')} />
+        <Button kind={'tertiary'} size={'sm'} value={t('common/cancel')} onClick={onCancel_} />
       </div>
-    </div>
+    </form>
   ) : null;
 };
 
@@ -201,11 +202,9 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
   const locations = useValue('issue/locations', { 'issue/id': refId });
   const center = useValue('issue.location.default/center', { 'issue/id': refId });
   const zoom = useValue('issue.location.default/zoom', { 'issue/id': refId });
-  const newLocationCaption = useValue('issue.new.location/caption');
 
   const onViewListClick = useDispatch('issue.location.slide-over/open') as () => void;
   const onAddLocation = useDispatch('issue.location/add');
-  const onCaptionChange = useDispatch('issue.new.location.caption/update');
 
   const onStartAddingLocation = useCallback(() => {
     setAddingLocation(true);
@@ -223,12 +222,15 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
     setAddingLocation(false);
   }, []);
 
-  const onConfirmLocation = useCallback(() => {
-    setAddingLocation(false);
-    const center = mapRef.current?.getCenter();
-    const bounds = mapRef.current?.getBounds();
-    center && onAddLocation({ location: center, bounds });
-  }, [onAddLocation]);
+  const onConfirmLocation = useCallback(
+    ({ caption }: { caption: string }) => {
+      setAddingLocation(false);
+      const center = mapRef.current?.getCenter();
+      const bounds = mapRef.current?.getBounds();
+      center && onAddLocation({ location: center, bounds, caption });
+    },
+    [onAddLocation]
+  );
 
   const onSelect = useCallback((place: Place) => {
     mapRef.current?.setCenter({
@@ -250,11 +252,9 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
         <ViewList onClick={onViewListClick} />
         <StartAddLocation show={!addingLocation} onClick={onStartAddingLocation} />
         <AddLocation
-          caption={newLocationCaption}
           show={addingLocation}
           onAdd={onConfirmLocation}
           onCancel={onCancelAddingLocation}
-          onCaptionChange={onCaptionChange}
         />
       </div>
       <div className={'relative h-screen w-full overflow-hidden rounded-lg shadow'}>
