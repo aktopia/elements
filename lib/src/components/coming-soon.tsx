@@ -1,7 +1,44 @@
 import { Link } from '@elements/components/link';
 import { LightBulbSolid, SparklesSolid } from '@elements/icons';
+import { cva } from 'cva';
 
 export type Status = 'evaluating' | 'planning' | 'planned' | 'in-progress' | 'coming-soon';
+
+const containerVariant = cva('w-full flex items-center justify-center', {
+  variants: {
+    size: {
+      sm: 'gap-1',
+      md: 'gap-2',
+    },
+  },
+});
+
+const iconVariant = cva('text-blue-600', {
+  variants: {
+    size: {
+      sm: 'h-6 w-6',
+      md: 'h-10 w-10',
+    },
+  },
+});
+
+const textVariant = cva('text-gray-600', {
+  variants: {
+    size: {
+      sm: 'text-sm',
+      md: 'text-base',
+    },
+  },
+});
+
+const linkVariant = cva('text-blue-700 hover:underline', {
+  variants: {
+    size: {
+      sm: 'text-sm',
+      md: 'text-base',
+    },
+  },
+});
 
 const getStuff = (status: string) => {
   switch (status) {
@@ -22,14 +59,25 @@ const getStuff = (status: string) => {
   }
 };
 
-export const ComingSoon = ({ status, id }: { id: string; status: Status }) => {
+interface ComingSoonProps {
+  id: string;
+  status: Status;
+  size?: 'sm' | 'md';
+}
+
+export const ComingSoon: React.FC<ComingSoonProps> = ({
+  status,
+  id,
+  size = 'md',
+}: ComingSoonProps) => {
   const [statusText, linkText, Icon] = getStuff(status);
+
   return (
-    <div className={'w-full flex gap-2 items-center justify-center'}>
-      <Icon className={'h-10 w-10 text-blue-500'} />
+    <div className={containerVariant({ size })}>
+      <Icon className={iconVariant({ size })} />
       <div className={'flex flex-col gap-1 flex-wrap items-start'}>
-        <p className={'text-gray-600'}>{statusText as string}</p>
-        <Link className={'text-blue-600 hover:underline'} href={`/meta/features/${id}`}>
+        <p className={textVariant({ size })}>{statusText as string}</p>
+        <Link className={linkVariant({ size })} href={`/meta/features/${id}`}>
           {linkText as string}
         </Link>
       </div>
