@@ -8,6 +8,7 @@ import { cva } from 'cva';
 import { useCallback, type ChangeEvent } from 'react';
 import { MAX_OTP_DIGITS } from '@elements/logic/authentication';
 import { suspensify } from '@elements/components/suspensify';
+import { CheckCircleSolid } from '@elements/icons';
 
 const inputVariant = cva(
   'h-max w-full rounded-md border bg-gray-50 py-2 px-3 text-center text-2xl font-medium tracking-[1rem] text-gray-600 shadow-inner',
@@ -30,6 +31,7 @@ export const VerifyOtp = suspensify(() => {
   const resendOtpState = useValue('auth.verify-otp/resend-otp-state');
   const otpError = useValue('auth.verify-otp/error');
   const waitSeconds = useValue('auth.verify-otp/wait-seconds');
+  const email = useValue('auth.sign-in/email');
 
   const onResendOtp = useDispatch('auth.verify-otp/resend-otp');
   const onBack = useDispatch('auth.verify-otp/go-back');
@@ -72,31 +74,43 @@ export const VerifyOtp = suspensify(() => {
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
-        <div className={'flex flex-col gap-7 p-6'}>
-          <ModalHeader title={t('auth/verify-otp')} onClose={onClose} />
+        <div className={'flex flex-col gap-9 p-6'}>
+          <ModalHeader title={t('auth.sign-in.modal/title')} onClose={onClose} />
           {verifyingOtp ? (
-            <div className={'flex h-20 w-[300px] items-center justify-center'}>
+            <div className={'flex h-20 w-[360px] items-center justify-center'}>
               <Spinner kind={'primary'} size={'sm'} visible={true} />
             </div>
           ) : (
-            <div className={'h-20 w-[300px]'}>
-              <div className={'mt-2'}>
-                <input
-                  className={inputVariant({ error: Boolean(otpError) })}
-                  disabled={resendOtpState == 'resending'}
-                  maxLength={MAX_OTP_DIGITS}
-                  type={'text'}
-                  value={otp}
-                  onChange={onOtpChangeMemo}
-                  onFocus={onOtpFocus}
-                />
-              </div>
-              {/*TODO handle different otp error cases*/}
-              {!!otpError && (
-                <div className={'pt-1 text-xs font-medium text-rose-500'}>
-                  {t('auth/invalid-otp')}
+            <div className={'flex flex-col w-full gap-7'}>
+              <div className={'flex gap-1.5 items-center'}>
+                <CheckCircleSolid className={'h-5 w-5 text-green-500'} />
+                <div className={'flex gap-1 items-center'}>
+                  <p className={'text-gray-500 text-sm'}>{t('auth.verify-otp.modal/otp-sent')}</p>
+                  <p className={'text-gray-500 font-medium text-sm'}>{email}</p>
                 </div>
-              )}
+              </div>
+              <form className={'w-[360px]'}>
+                <div className={'flex flex-col gap-3 w-full'}>
+                  <label className={'text-base font-medium text-gray-600'} htmlFor={'signin-email'}>
+                    {t('common/otp')}
+                  </label>
+                  <input
+                    className={inputVariant({ error: Boolean(otpError) })}
+                    disabled={resendOtpState == 'resending'}
+                    maxLength={MAX_OTP_DIGITS}
+                    type={'text'}
+                    value={otp}
+                    onChange={onOtpChangeMemo}
+                    onFocus={onOtpFocus}
+                  />
+                </div>
+                {/*TODO handle different otp error cases*/}
+                {!!otpError && (
+                  <div className={'pt-1 text-xs font-medium text-rose-500'}>
+                    {t('auth/invalid-otp')}
+                  </div>
+                )}
+              </form>
             </div>
           )}
           <div className={'relative flex w-full items-center justify-center'}>

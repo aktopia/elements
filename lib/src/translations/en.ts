@@ -32,6 +32,8 @@ const common = {
   'common/user': 'User',
   'common/relationships': 'Relationships',
   'common/severity': 'Severity',
+  'common/verify': 'Verify',
+  'common/otp': 'OTP',
   'common.phrase/empty-results': 'No results found.',
   'common.user.name/placeholder': 'Enter your name.',
 };
@@ -133,6 +135,9 @@ const translation = {
   'auth/invalid-otp': 'Incorrect OTP, please try again.',
   'auth.verify-otp/success': 'OTP successfully verified.',
   'auth/sign-in-with-google': 'Sign in with Google',
+  'auth.sign-in.modal/title': 'Welcome to Aktopia',
+  'auth.sign-in.modal/sign-in-or-up': 'Sign in or create an account.',
+  'auth.verify-otp.modal/otp-sent': 'OTP has been sent to',
   'comment/placeholder': 'What do you think?',
   'main-search/placeholder': 'Search',
   'relationships/empty': 'No relationships yet.',

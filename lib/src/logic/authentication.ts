@@ -189,11 +189,6 @@ evt('auth.sign-in/send-otp', async ({ setState, params }) => {
 
   await sendOtp({ email });
 
-  dispatch('alert/flash', {
-    message: `OTP has been successfully sent to ${email}.`,
-    kind: 'success',
-  });
-
   setState((state: any) => {
     state['authentication/state']['auth.sign-in.sending/otp'] = false;
     state['authentication/state']['auth.sign-in/visible'] = false;

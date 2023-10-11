@@ -7,7 +7,7 @@ export type Status = 'evaluating' | 'planning' | 'planned' | 'in-progress' | 'co
 const containerVariant = cva('w-full flex items-center justify-center', {
   variants: {
     size: {
-      sm: 'gap-1',
+      sm: 'gap-2',
       md: 'gap-2',
     },
   },
@@ -47,11 +47,7 @@ const getStuff = (status: string) => {
     case 'planning':
       return ['This feature is being planned.', 'You can follow it here.', LightBulbSolid];
     case 'planned':
-      return [
-        "This feature is in the pipeline but the work hasn't started yet.",
-        'You can contribute here.',
-        SparklesSolid,
-      ];
+      return ['This feature has been prioritised.', 'Track the status here.', SparklesSolid];
     case 'in-progress':
       return ['This feature is in progress.', 'Track the status here.', SparklesSolid];
     default:

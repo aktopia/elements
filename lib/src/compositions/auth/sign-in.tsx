@@ -34,25 +34,27 @@ export const SignIn = () => {
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <div className={'flex flex-col gap-9 p-6'}>
-          <ModalHeader title={'Sign In'} onClose={onClose} />
-          <form className={'flex flex-col gap-11'} onSubmit={onFormSubmitMemo}>
-            <div className={'flex flex-col gap-3'}>
-              <label className={'text-sm font-medium text-gray-600'} htmlFor={'signin-email'}>
-                {t('common/email')}
-              </label>
-              <input
-                className={
-                  'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner placeholder:font-light placeholder:text-gray-400'
-                }
-                disabled={sendingOtp}
-                id={'signin-email'}
-                placeholder={'email@address.com'}
-                type={'email'}
-                value={email}
-                onChange={onEmailChangeMemo}
-              />
+          <ModalHeader title={t('auth.sign-in.modal/title')} onClose={onClose} />
+          <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
+            <div className={'flex flex-col gap-7'}>
+              <p className={'text-gray-500 text-sm'}>{t('auth.sign-in.modal/sign-in-or-up')}</p>
+              <div className={'flex flex-col gap-3'}>
+                <label className={'text-base font-medium text-gray-600'} htmlFor={'signin-email'}>
+                  {t('common/email')}
+                </label>
+                <input
+                  className={
+                    'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner placeholder:font-light placeholder:text-gray-400'
+                  }
+                  disabled={sendingOtp}
+                  id={'signin-email'}
+                  type={'email'}
+                  value={email}
+                  onChange={onEmailChangeMemo}
+                />
+              </div>
             </div>
-            <div className={'flex w-full justify-center'}>
+            <div className={'flex w-full justify-center mt-5'}>
               {sendingOtp ? (
                 <Spinner kind={'primary'} size={'sm'} visible={true} />
               ) : (

@@ -181,7 +181,7 @@ const AddLocation = ({
     <form className={'flex w-2/3 gap-3 items-center'} onSubmit={onSubmit(submit)}>
       <input
         className={
-          'grow rounded-md border border-gray-300 text-gray-600 placeholder-gray-400 shadow py-1.5 px-2'
+          'grow rounded-md border-none text-gray-600 placeholder-gray-400 bg-gray-100 py-1.5 px-2'
         }
         placeholder={'A caption to identify the location'}
         type={'text'}

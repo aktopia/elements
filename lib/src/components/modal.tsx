@@ -18,7 +18,7 @@ const Close = ({ onClose }: any) => {
         'cursor-pointer p-1 text-gray-500 transition-all ease-out hover:rounded-full hover:bg-gray-100 hover:text-gray-700'
       }
       onClick={onClose}>
-      <XMark className={'h-4 w-4'} />
+      <XMark className={'h-5 w-5'} />
     </div>
   ) : null;
 };
