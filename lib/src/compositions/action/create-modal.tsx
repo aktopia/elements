@@ -1,7 +1,7 @@
 import { suspensify } from '@elements/components/suspensify';
 import { Modal, ModalPanel } from '@elements/components/modal';
 import { useDispatch, useValue } from '@elements/store';
-import { Button, LinkButton } from '@elements/components/button';
+import { Button } from '@elements/components/button';
 import React, { useCallback } from 'react';
 import { useTranslation } from '@elements/translation';
 import { ArrowTopRightOnSquareMiniSolid } from '@elements/icons';
@@ -15,7 +15,6 @@ export const CreateModal = suspensify(({}) => {
   const title = useValue('action.create.modal/title');
 
   const onClose = useDispatch('action.create.modal/close');
-  const onSave = useDispatch('action.create.modal/create');
   const updateTitle = useDispatch('action.create.modal.title/update');
 
   const onTitleChange = useCallback(
@@ -25,11 +24,16 @@ export const CreateModal = suspensify(({}) => {
     [updateTitle]
   );
 
+  const onSubmit = useCallback(() => {
+    window.open(`/action/new?title=${title}`, '_blank');
+    onClose({});
+  }, [onClose, title]);
+
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <div className={'flex w-full flex-col gap-7 py-7 px-6'}>
-          <form action={'/action/new'} className={'flex w-max flex-col gap-8'}>
+          <form className={'flex w-max flex-col gap-8'} onSubmit={onSubmit}>
             <input name={'title'} type={'hidden'} value={title} />
             <input
               className={
@@ -42,16 +46,13 @@ export const CreateModal = suspensify(({}) => {
             />
             <div className={'flex items-center justify-end gap-5'}>
               <Button kind={'tertiary'} size={'sm'} value={'Cancel'} onClick={onClose} />
-              <LinkButton
+              <Button
                 SecondaryIcon={ArrowTopRightOnSquareMiniSolid}
-                href={`/action/new?title=${title}`}
                 kind={'success'}
-                rel={'noreferrer'}
                 secondaryIconClassName={'relative bottom-px stroke-2'}
                 size={'sm'}
-                target={'_blank'}
+                type={'submit'}
                 value={t('text.draft/create')}
-                onClick={onSave}
               />
             </div>
           </form>

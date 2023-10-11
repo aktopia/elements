@@ -185,9 +185,6 @@ export type Events = {
   'action.create.modal/close': {
     params: {};
   };
-  'action.create.modal/create': {
-    params: {};
-  };
   'action.create.modal.title/update': {
     params: {
       value: string;
@@ -329,13 +326,6 @@ evt('action.create.modal/close', ({ setState }) => {
   setState((state: any) => {
     state['action/state']['action.create.modal/visible'] = false;
     state['action/state']['action.create.modal/title'] = '';
-  });
-});
-
-evt('action.create.modal/create', ({ setState }) => {
-  setState((state: any) => {
-    state['action/state']['action.create.modal/title'] = '';
-    state['action/state']['action.create.modal/visible'] = false;
   });
 });
 
