@@ -1,5 +1,5 @@
 import { CheckSolid, ExclamationTriangleOutline } from '@elements/icons';
-import { Button, type Kind } from '@elements/components/button';
+import { Button, type ButtonKind } from '@elements/components/button';
 import { Modal, ModalPanel, ModalTitle } from '@elements/components/modal';
 import { memo } from 'react';
 
@@ -35,7 +35,7 @@ export interface ConfirmationModalProps {
   onClose: () => void;
   confirmText: string;
   onConfirm: () => void;
-  kind: Kind;
+  kind: ButtonKind;
   cancelText?: string;
 }
 

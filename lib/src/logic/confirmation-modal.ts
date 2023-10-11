@@ -1,7 +1,7 @@
 import { emptyObject, ref } from '@elements/utils';
 import type { Reference } from '@elements/types';
 import { evt, sub } from '@elements/store';
-import type { Kind } from '@elements/components/button';
+import type { ButtonKind } from '@elements/components/button';
 
 export type Subs = {
   'confirmation-modal/visible': {
@@ -11,7 +11,7 @@ export type Subs = {
   'confirmation-modal/params': {
     params: {};
     result: {
-      kind: Kind;
+      kind: ButtonKind;
       bodyText: string;
       cancelText: string;
       confirmText: string;
@@ -27,7 +27,7 @@ export type Events = {
   };
   'confirmation-modal/open': {
     params: {
-      kind: Kind;
+      kind: ButtonKind;
       bodyText: string;
       cancelText: string;
       confirmText: string;

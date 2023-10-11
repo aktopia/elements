@@ -5,6 +5,7 @@ import { Button } from '@elements/components/button';
 import React, { useCallback } from 'react';
 import { useTranslation } from '@elements/translation';
 import { ArrowTopRightOnSquareMiniSolid } from '@elements/icons';
+import { LinkButton } from '@elements/components/button';
 
 // TODO Don't render modal if it is not visible
 
@@ -44,19 +45,17 @@ export const CreateModal = suspensify(({}) => {
             />
             <div className={'flex items-center justify-end gap-5'}>
               <Button kind={'tertiary'} size={'sm'} value={'Cancel'} onClick={onClose} />
-              <a
+              <LinkButton
+                SecondaryIcon={ArrowTopRightOnSquareMiniSolid}
                 href={`/action/new?title=${title}`}
+                kind={'success'}
                 rel={'noreferrer'}
+                secondaryIconClassName={'relative bottom-px stroke-2'}
+                size={'sm'}
                 target={'_blank'}
-                onClick={onSave}>
-                <Button
-                  SecondaryIcon={ArrowTopRightOnSquareMiniSolid}
-                  kind={'success'}
-                  secondaryIconClassName={'relative bottom-px stroke-2'}
-                  size={'sm'}
-                  value={t('text.draft/create')}
-                />
-              </a>
+                value={t('text.draft/create')}
+                onClick={onSave}
+              />
             </div>
           </form>
         </div>

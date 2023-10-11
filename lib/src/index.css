@@ -26,7 +26,11 @@
     @apply focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 focus:outline-none
 }
 
-button:focus-visible {
+.focus-none {
+    @apply focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none !important
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
     @apply button-focus
 }
 

@@ -1,12 +1,13 @@
 import { formatCount } from '@elements/utils';
 import { cva } from 'cva';
 import type { ComponentType } from 'react';
-import { memo, useCallback } from 'react';
+import { type ComponentProps, memo, type MouseEvent, useCallback } from 'react';
 import {
   Button as RawButton,
   type ButtonProps as RawButtonProps,
   type PressEvent,
 } from 'react-aria-components';
+import { Link } from '@elements/components/link';
 
 const containerVariant = cva('relative flex items-center justify-center rounded-md', {
   variants: {
@@ -112,9 +113,9 @@ const countVariant = cva('font-medium', {
   },
 });
 
-type Size = 'xxs' | 'xs' | 'sm' | 'md';
+type ButtonSize = 'xxs' | 'xs' | 'sm' | 'md';
 
-export type Kind =
+export type ButtonKind =
   | 'primary'
   | 'secondary'
   | 'tertiary'
@@ -124,7 +125,7 @@ export type Kind =
   | 'danger-outline';
 
 export interface ButtonProps extends RawButtonProps {
-  size: Size;
+  size: ButtonSize;
   value: string;
   count?: number;
   clicked?: boolean;
@@ -134,7 +135,7 @@ export interface ButtonProps extends RawButtonProps {
   secondaryIconClassName?: string;
   containerClassName?: string;
   type?: 'button' | 'submit';
-  kind: Kind;
+  kind: ButtonKind;
   disabled?: boolean;
   onClick?: any;
 }
@@ -188,3 +189,71 @@ export const Button = memo(
     );
   }
 );
+
+export interface LinkButtonProps extends ComponentProps<typeof Link> {
+  size: ButtonSize;
+  value: string;
+  count?: number;
+  clicked?: boolean;
+  Icon?: ComponentType<any>;
+  SecondaryIcon?: ComponentType<any>;
+  iconClassName?: string;
+  secondaryIconClassName?: string;
+  containerClassName?: string;
+  kind: ButtonKind;
+  disabled?: boolean;
+  onClick?: any;
+}
+
+export const LinkButton = memo(
+  ({
+    value,
+    count,
+    Icon,
+    SecondaryIcon,
+    iconClassName,
+    secondaryIconClassName,
+    containerClassName,
+    size,
+    kind,
+    disabled,
+    clicked,
+    onClick,
+    ...props
+  }: LinkButtonProps) => {
+    const onClickMemo = useCallback(
+      (e: MouseEvent) => {
+        onClick && !disabled && onClick(e);
+      },
+      [onClick, disabled]
+    );
+
+    return (
+      <Link
+        {...props}
+        className={containerVariant({
+          size,
+          kind,
+          disabled: !!disabled,
+          hasIcon: !!Icon,
+          clicked: !!clicked,
+          className: containerClassName,
+        })}
+        onClick={onClickMemo}>
+        {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
+        <span>{value}</span>
+        {!!SecondaryIcon && (
+          <SecondaryIcon
+            className={secondaryIconVariant({ size, kind, className: secondaryIconClassName })}
+          />
+        )}
+        {!!count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
+      </Link>
+    );
+  }
+);
+
+/*
+TODO
+Abstract the bodies of Button and LinkButton to be the same
+ */

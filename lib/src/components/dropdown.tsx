@@ -7,13 +7,13 @@ import {
 } from '@elements/components/raw-dropdown';
 import { cx } from '@elements/utils';
 import type { ComponentType, ReactNode } from 'react';
-import type { Kind } from '@elements/components/button';
+import type { ButtonKind } from '@elements/components/button';
 import { Link } from '@elements/components/link';
 
 export interface ItemType {
   type: 'link' | 'button' | 'separator';
   text: string;
-  kind: Kind;
+  kind: ButtonKind;
   key: string;
   href?: string;
   openNewTab?: boolean;
@@ -55,7 +55,7 @@ export const Item = ({ text, href, Icon, onClick, kind = 'primary' }: ItemType) 
       ) : (
         <button
           className={
-            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100'
+            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus-none'
           }
           type={'button'}
           onClick={onClick}>
