@@ -17,6 +17,7 @@ import { Locality, LocalitySlideOver } from '@elements/compositions/issue/locali
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
+import { useWrapRequireAuth } from '@elements/store/hooks';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
@@ -76,10 +77,10 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
-      <WrapComingSoonPopover id={'issue-qr-code'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'issue-qr-code'} size={'sm'} status={'evaluating'}>
         <QRCodeButton kind={'tertiary'} size={'xs'} />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'issue-follow'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'issue-follow'} size={'sm'} status={'evaluating'}>
         <FollowButton
           clicked={followed}
           count={followCount}
@@ -88,7 +89,7 @@ export const SubscriptionBar = suspensify(() => {
           onClick={onFollowButtonClick}
         />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'issue-save'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'issue-save'} size={'sm'} status={'evaluating'}>
         <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
       </WrapComingSoonPopover>
     </div>
@@ -128,7 +129,8 @@ const RaiseHand = suspensify(() => {
   const count = useValue('issue.users.facing/count', { 'issue/id': issueId });
   const raised = useValue('issue.current.user/facing', { 'issue/id': issueId });
 
-  const onClick = useDispatch('issue.current.user/face') as () => void;
+  const raiseHand = useDispatch('issue.current.user/face') as () => void;
+  const onClick = useWrapRequireAuth(raiseHand, [raiseHand]);
 
   return <RawRaiseHand count={count} raised={raised} size={'md'} onClick={onClick} />;
 });

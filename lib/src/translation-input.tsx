@@ -52,7 +52,7 @@ const InputTranslation = ({ id, params, currentLocales, setLocales, currentLocal
           <div className={'flex items-center text-sm font-medium text-gray-800'}>{id}</div>
           <select
             className={
-              'focus:ring-none w-max rounded-md border-gray-300 py-1 pl-2 pr-10 text-sm font-medium text-gray-800 focus:border-none focus:outline-none'
+              'w-max rounded-md border-gray-300 py-1 pl-2 pr-10 text-sm font-medium text-gray-800 focus:border-none focus:outline-none'
             }
             onChange={onWorkingLocaleChange}>
             {Object.keys(currentLocales).map((t) => (

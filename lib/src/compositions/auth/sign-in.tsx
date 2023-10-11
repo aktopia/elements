@@ -44,7 +44,7 @@ export const SignIn = () => {
                 </label>
                 <input
                   className={
-                    'h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner placeholder:font-light placeholder:text-gray-400'
+                    'focus:outline-4 h-max w-[360px] rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-xl font-medium text-gray-600 shadow-inner'
                   }
                   disabled={sendingOtp}
                   id={'signin-email'}

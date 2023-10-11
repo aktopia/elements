@@ -53,9 +53,9 @@ interface TabProps {
 const Tab = ({ id, label, status, size, onTabClick }: TabProps) => {
   const onClick = useCallback(() => onTabClick(id), [id, onTabClick]);
   return (
-    <div key={id} className={tabVariant({ status, size })} onClick={onClick}>
+    <button key={id} className={tabVariant({ status, size })} type={'button'} onClick={onClick}>
       {label}
-    </div>
+    </button>
   );
 };
 

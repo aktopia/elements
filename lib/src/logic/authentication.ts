@@ -58,6 +58,9 @@ export type Subs = {
     params: {};
     result: boolean;
   };
+  'auth.verify-otp/otp-sent': {
+    params: {};
+  };
 };
 
 export type Events = {

@@ -99,6 +99,7 @@ export const VerifyOtp = suspensify(() => {
                   </label>
                   <div>
                     <input
+                      autoComplete={'off'}
                       className={inputVariant({ error: Boolean(otpError) })}
                       disabled={resendOtpState == 'resending'}
                       id={'signin-otp'}

@@ -46,7 +46,7 @@ export const Item = ({ text, href, Icon, onClick, kind = 'primary' }: ItemType) 
       {href ? (
         <Link
           className={
-            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none hover:underline'
+            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 hover:underline'
           }
           href={href}
           rel={'noreferrer'}>
@@ -55,7 +55,7 @@ export const Item = ({ text, href, Icon, onClick, kind = 'primary' }: ItemType) 
       ) : (
         <button
           className={
-            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none'
+            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 button-focus-none'
           }
           type={'button'}
           onClick={onClick}>
@@ -91,7 +91,7 @@ export const Dropdown = ({ button, items }: DropdownProps) => {
                 />
               );
             }
-            return <Item {...item} />;
+            return <Item {...item} key={item.key} />;
           })}
         </div>
       </RawDropdownPanel>

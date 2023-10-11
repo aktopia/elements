@@ -24,15 +24,14 @@ const CreateButton = suspensify(() => {
   const t = useTranslation();
 
   return (
-    <div className={'flex cursor-pointer items-start gap-4'}>
-      <div
-        className={
-          'relative flex items-center justify-center gap-1 overflow-hidden rounded-md bg-blue-600 py-2 pl-3 pr-2'
-        }>
-        <p className={'text-xs font-medium text-white'}>{t('common/create')}</p>
-        <ChevronDownMiniSolid className={'h-4 w-4 text-white'} />
-      </div>
-    </div>
+    <button
+      className={
+        'relative flex items-center justify-center gap-1 overflow-hidden rounded-md bg-blue-600 py-2 pl-3 pr-2'
+      }
+      type={'submit'}>
+      <p className={'text-xs font-medium text-white'}>{t('common/create')}</p>
+      <ChevronDownMiniSolid className={'h-4 w-4 text-white'} />
+    </button>
   );
 });
 
@@ -68,11 +67,12 @@ export const SignInButton = suspensify(() => {
   const onSignInClick = useDispatch('auth.sign-in/initiate');
 
   return (
-    <div>
-      <div className={'cursor-pointer text-sm font-medium text-blue-600'} onClick={onSignInClick}>
-        {t('common/sign-in')}
-      </div>
-    </div>
+    <button
+      className={'cursor-pointer text-sm font-medium text-blue-600'}
+      type={'button'}
+      onClick={onSignInClick}>
+      {t('common/sign-in')}
+    </button>
   );
 });
 
@@ -82,10 +82,10 @@ const UserDropdown = suspensify(() => {
   const onSignOutClick = useDispatch('auth/sign-out');
 
   const button = (
-    <div className={'flex cursor-pointer items-center gap-1'}>
+    <button className={'flex cursor-pointer items-center gap-1'} type={'button'}>
       <Avatar size={'sm'} />
       <ChevronDownMiniSolid className={'h-4 w-4 text-gray-600'} />
-    </div>
+    </button>
   );
 
   const items = useMemo(
@@ -149,14 +149,15 @@ const SearchBar = suspensify(() => {
   const onSearchClick = useDispatch('main-search/open');
 
   return (
-    <div
+    <button
       className={
         'flex cursor-pointer gap-5 rounded-xl border border-gray-300 bg-gray-100 py-2 pl-3 pr-7'
       }
+      type={'button'}
       onClick={onSearchClick}>
       <MagnifyingGlassOutline className={'h-4 w-4 text-gray-500'} />
       <div className={'text-xs text-gray-500'}>{t('main-search/placeholder')}</div>
-    </div>
+    </button>
   );
 });
 

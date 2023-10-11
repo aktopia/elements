@@ -22,6 +22,15 @@
     pointer-events: none;
 }
 
-.ring-none {
-    @apply focus:ring-0 focus:ring-offset-0;
+.button-focus {
+    @apply focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 focus:outline-none
 }
+
+.button-focus-none {
+    @apply focus:ring-0 focus:ring-offset-0 focus:outline-none
+}
+
+button {
+    @apply button-focus
+}
+
