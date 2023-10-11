@@ -268,6 +268,8 @@ evt('auth.verify-otp/verify-otp', async ({ setState, params }) => {
       state['authentication/state']['auth.verify-otp/verifying'] = false;
       state['authentication/state']['auth.verify-otp/visible'] = false;
       state['authentication/state']['auth.session/exists'] = true;
+      state['authentication/state']['auth.verify-otp/input'] = '';
+      state['authentication/state']['auth.sign-in.email/input'] = '';
     });
 
     dispatch('alert/flash', {
