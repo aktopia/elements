@@ -55,7 +55,7 @@ export const Item = ({ text, href, Icon, onClick, kind = 'primary' }: ItemType) 
       ) : (
         <button
           className={
-            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 button-focus-none'
+            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100'
           }
           type={'button'}
           onClick={onClick}>

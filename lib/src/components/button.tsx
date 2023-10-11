@@ -8,52 +8,49 @@ import {
   type PressEvent,
 } from 'react-aria-components';
 
-const containerVariant = cva(
-  'relative flex items-center justify-center rounded-md focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 focus:outline-none',
-  {
-    variants: {
-      kind: {
-        primary: 'bg-blue-600 text-white shadow-md',
-        secondary: 'bg-white text-blue-700 border border-blue-500 shadow',
-        tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
-        success: 'bg-green-600 text-white shadow-md',
-        danger: 'bg-red-600 text-white shadow-md',
-        warning: 'text-amber-700 border border-amber-500 bg-amber-50 shadow',
-        'danger-outline': 'bg-white text-red-700 border border-red-500 shadow-md',
-      },
-      size: {
-        xxs: 'text-xs gap-1.5 px-1.5 h-[28px] font-normal shadow-sm',
-        xs: 'text-xs gap-1.5 px-2.5 h-[32px] font-medium',
-        sm: 'text-sm gap-2.5 px-3 h-[36px] font-medium',
-        md: 'text-base gap-3 px-4 h-[40px] font-medium',
-      },
-      disabled: {
-        false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
-        true: 'cursor-default bg-gray-100 text-gray-400 shadow-none',
-      },
-      clicked: { true: '' },
-      hasIcon: { true: '' },
-      hasSecondaryIcon: { true: '' },
+const containerVariant = cva('relative flex items-center justify-center rounded-md', {
+  variants: {
+    kind: {
+      primary: 'bg-blue-600 text-white shadow-md',
+      secondary: 'bg-white text-blue-700 border border-blue-500 shadow',
+      tertiary: 'bg-white text-gray-700 border border-gray-300 shadow',
+      success: 'bg-green-600 text-white shadow-md',
+      danger: 'bg-red-600 text-white shadow-md',
+      warning: 'text-amber-700 border border-amber-500 bg-amber-50 shadow',
+      'danger-outline': 'bg-white text-red-700 border border-red-500 shadow-md',
     },
-    defaultVariants: {
-      kind: 'primary',
-      size: 'sm',
+    size: {
+      xxs: 'text-xs gap-1.5 px-1.5 h-[28px] font-normal shadow-sm',
+      xs: 'text-xs gap-1.5 px-2.5 h-[32px] font-medium',
+      sm: 'text-sm gap-2.5 px-3 h-[36px] font-medium',
+      md: 'text-base gap-3 px-4 h-[40px] font-medium',
     },
-    compoundVariants: [
-      { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5 shadow-sm' },
-      { size: 'sm', hasIcon: true, class: 'pl-2.5 pr-3 shadow-sm' },
-      { size: 'md', hasIcon: true, class: 'pl-3 pr-4' },
-      { size: 'xs', hasSecondaryIcon: true, class: 'pr-2 pl-2.5 shadow-sm' },
-      { size: 'sm', hasSecondaryIcon: true, class: 'pr-2.5 pl-3 shadow-sm' },
-      { size: 'md', hasSecondaryIcon: true, class: 'pr-3 pl-4' },
-      {
-        kind: 'tertiary',
-        clicked: true,
-        class: 'bg-gray-50 translate-y-[0.5px] shadow-none',
-      },
-    ],
-  }
-);
+    disabled: {
+      false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
+      true: 'cursor-default bg-gray-100 text-gray-400 shadow-none',
+    },
+    clicked: { true: '' },
+    hasIcon: { true: '' },
+    hasSecondaryIcon: { true: '' },
+  },
+  defaultVariants: {
+    kind: 'primary',
+    size: 'sm',
+  },
+  compoundVariants: [
+    { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5 shadow-sm' },
+    { size: 'sm', hasIcon: true, class: 'pl-2.5 pr-3 shadow-sm' },
+    { size: 'md', hasIcon: true, class: 'pl-3 pr-4' },
+    { size: 'xs', hasSecondaryIcon: true, class: 'pr-2 pl-2.5 shadow-sm' },
+    { size: 'sm', hasSecondaryIcon: true, class: 'pr-2.5 pl-3 shadow-sm' },
+    { size: 'md', hasSecondaryIcon: true, class: 'pr-3 pl-4' },
+    {
+      kind: 'tertiary',
+      clicked: true,
+      class: 'bg-gray-50 translate-y-[0.5px] shadow-none',
+    },
+  ],
+});
 
 const iconVariant = cva('', {
   variants: {
