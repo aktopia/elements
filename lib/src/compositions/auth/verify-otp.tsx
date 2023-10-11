@@ -102,6 +102,7 @@ export const VerifyOtp = suspensify(() => {
                       className={inputVariant({ error: Boolean(otpError) })}
                       disabled={resendOtpState == 'resending'}
                       id={'signin-otp'}
+                      inputMode={'numeric'}
                       maxLength={MAX_OTP_DIGITS}
                       type={'text'}
                       value={otp}
@@ -138,7 +139,6 @@ export const VerifyOtp = suspensify(() => {
 
 /*
 TODO
-- Firefox bug
 - fixed heights for desktop and mobile to prevent jarring resizes
 - Shaking error on Wrong Otp
 - Successfully logged in state

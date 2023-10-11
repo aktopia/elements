@@ -39,13 +39,7 @@ export async function resendOtp() {
     let response = await resendCode();
 
     if (response.status === 'RESTART_FLOW_ERROR') {
-      // this can happen if the user has already successfully logged in into
-      // another device whilst also trying to login to this one.
-      window.alert('Login failed. Please try again');
-      window.location.assign('/auth');
-    } else {
-      // OTP resent successfully.
-      window.alert('Please check your email for the OTP');
+      // TODO Handle this
     }
   } catch (err: any) {
     if (err.isSuperTokensGeneralError === true) {

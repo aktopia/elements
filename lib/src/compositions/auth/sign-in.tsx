@@ -48,6 +48,7 @@ export const SignIn = () => {
                   }
                   disabled={sendingOtp}
                   id={'signin-email'}
+                  inputMode={'email'}
                   type={'email'}
                   value={email}
                   onChange={onEmailChangeMemo}

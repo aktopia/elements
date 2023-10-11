@@ -1,5 +1,5 @@
 import { dispatch, evt, invalidateAsyncSub, invalidateAsyncSubs, sub } from '@elements/store';
-import { consumeOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
+import { consumeOtp, resendOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
 import { rpcPost } from '@elements/rpc';
 import type { EventHandler, EventHandlerArgs } from '@elements/store/register';
 import type { Events as AllEvents } from '@elements/store/types';
@@ -7,23 +7,7 @@ import type { Events as AllEvents } from '@elements/store/types';
 export type ResendOtpState = 'idle' | 'waiting' | 'resending';
 
 export const MAX_OTP_DIGITS = 6;
-
-export const authenticationSlice = () => ({
-  'authentication/state': {
-    'auth.session/exists': false,
-    'auth.sign-in/visible': false,
-    'auth.sign-in.email/input': '',
-    'auth.sign-in.sending/otp': false,
-    'auth.sign-in/disallow-close': false,
-    'auth.verify-otp/input': '',
-    'auth.verify-otp/visible': false,
-    'auth.verify-otp/verifying': false,
-    'auth.verify-otp.resend-otp/state': 'idle',
-    'auth.verify-otp/error': null,
-    'auth.verify-otp/otp-wait-seconds': 10,
-    'user.registration.input/name': '',
-  },
-});
+export const WAIT_TIME_MS = 30000;
 
 export type Subs = {
   'auth.sign-in/visible': {
@@ -129,6 +113,23 @@ export type Events = {
   };
 };
 
+export const authenticationSlice = () => ({
+  'authentication/state': {
+    'auth.session/exists': false,
+    'auth.sign-in/visible': false,
+    'auth.sign-in.email/input': '',
+    'auth.sign-in.sending/otp': false,
+    'auth.sign-in/disallow-close': false,
+    'auth.verify-otp/input': '',
+    'auth.verify-otp/visible': false,
+    'auth.verify-otp/verifying': false,
+    'auth.verify-otp.resend-otp/state': 'idle',
+    'auth.verify-otp/error': null,
+    'auth.verify-otp/otp-wait-seconds': WAIT_TIME_MS / 1000,
+    'user.registration.input/name': '',
+  },
+});
+
 sub('auth.sign-in/visible', ({ state }) => state['authentication/state']['auth.sign-in/visible']);
 
 sub('auth.session/exists', ({ state }) => state['authentication/state']['auth.session/exists']);
@@ -216,10 +217,54 @@ evt('auth.session/sync', async ({ setState }) => {
   });
 });
 
-evt('auth.verify-otp/resend-otp', ({ setState }) => {
+function countdown(
+  durationMs: number,
+  intervalMs: number,
+  onInterval: (info: { timeLeftMs: number }) => void,
+  onComplete: () => void
+): void {
+  let timeLeftMs = durationMs;
+  const intervalFunc = () => {
+    if (timeLeftMs <= 0) {
+      clearInterval(intervalId);
+      onComplete();
+    } else {
+      timeLeftMs -= intervalMs;
+      onInterval({ timeLeftMs });
+    }
+  };
+
+  const intervalId = setInterval(intervalFunc, intervalMs);
+}
+
+evt('auth.verify-otp/resend-otp', async ({ setState }) => {
   setState((state: any) => {
     state['authentication/state']['auth.verify-otp.resend-otp/state'] = 'resending';
   });
+
+  await resendOtp();
+
+  setState((state: any) => {
+    state['authentication/state']['auth.verify-otp.resend-otp/state'] = 'waiting';
+  });
+
+  countdown(
+    WAIT_TIME_MS,
+    1000,
+    ({ timeLeftMs }) => {
+      setState((state: any) => {
+        state['authentication/state']['auth.verify-otp/otp-wait-seconds'] = Math.ceil(
+          timeLeftMs / 1000
+        );
+      });
+    },
+    () => {
+      setState((state: any) => {
+        state['authentication/state']['auth.verify-otp.resend-otp/state'] = 'idle';
+        state['authentication/state']['auth.verify-otp/otp-wait-seconds'] = WAIT_TIME_MS / 1000;
+      });
+    }
+  );
 });
 
 evt('auth.verify-otp/go-back', ({ setState }) => {
