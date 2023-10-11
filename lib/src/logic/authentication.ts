@@ -113,7 +113,7 @@ export type Events = {
       value: string;
     };
   };
-  'auth.verify-otp/submit-otp': {
+  'auth.verify-otp/verify-otp': {
     params: {
       otp: string;
     };
@@ -244,13 +244,9 @@ evt('auth.verify-otp/update-otp', ({ setState, params }) => {
   setState((state: any) => {
     state['authentication/state']['auth.verify-otp/input'] = otp;
   });
-
-  if (otp.length === MAX_OTP_DIGITS) {
-    dispatch('auth.verify-otp/submit-otp', { otp });
-  }
 });
 
-evt('auth.verify-otp/submit-otp', async ({ setState, params }) => {
+evt('auth.verify-otp/verify-otp', async ({ setState, params }) => {
   const { otp } = params;
   try {
     setState((state: any) => {

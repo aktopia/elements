@@ -38,6 +38,7 @@ export const VerifyOtp = suspensify(() => {
   const onClose = useDispatch('auth.verify-otp/close');
   const onOtpChange = useDispatch('auth.verify-otp/update-otp');
   const onOtpFocus = useDispatch('auth.verify-otp/focus-input');
+  const verifyOtp = useDispatch('auth.verify-otp/verify-otp');
 
   const onOtpChangeMemo = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +47,8 @@ export const VerifyOtp = suspensify(() => {
     },
     [onOtpChange]
   );
+
+  const onVerifyOtp = useCallback(() => verifyOtp({ otp }), [verifyOtp, otp]);
 
   let resendOtpView;
 
@@ -89,36 +92,44 @@ export const VerifyOtp = suspensify(() => {
                   <p className={'text-gray-500 font-medium text-sm'}>{email}</p>
                 </div>
               </div>
-              <form className={'w-[360px]'}>
+              <form className={'w-[360px] flex flex-col gap-4'} onSubmit={onVerifyOtp}>
                 <div className={'flex flex-col gap-3 w-full'}>
-                  <label className={'text-base font-medium text-gray-600'} htmlFor={'signin-email'}>
+                  <label className={'text-base font-medium text-gray-600'} htmlFor={'signin-otp'}>
                     {t('common/otp')}
                   </label>
-                  <input
-                    className={inputVariant({ error: Boolean(otpError) })}
-                    disabled={resendOtpState == 'resending'}
-                    maxLength={MAX_OTP_DIGITS}
-                    type={'text'}
-                    value={otp}
-                    onChange={onOtpChangeMemo}
-                    onFocus={onOtpFocus}
+                  <div>
+                    <input
+                      className={inputVariant({ error: Boolean(otpError) })}
+                      disabled={resendOtpState == 'resending'}
+                      id={'signin-otp'}
+                      maxLength={MAX_OTP_DIGITS}
+                      type={'text'}
+                      value={otp}
+                      onChange={onOtpChangeMemo}
+                      onFocus={onOtpFocus}
+                    />
+                    {otpError ? (
+                      <div className={'pt-1 text-xs font-medium text-rose-500'}>
+                        {t('auth/invalid-otp')}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className={'flex items-center justify-start'}>{resendOtpView}</div>
+                <div className={'relative flex w-full items-center justify-center mt-3'}>
+                  <div className={'absolute left-0'}>
+                    <BackIconButton size={'xs'} onClick={onBack} />
+                  </div>
+                  <Button
+                    kind={'primary'}
+                    size={'md'}
+                    type={'submit'}
+                    value={t('auth/verify-otp')}
                   />
                 </div>
-                {/*TODO handle different otp error cases*/}
-                {!!otpError && (
-                  <div className={'pt-1 text-xs font-medium text-rose-500'}>
-                    {t('auth/invalid-otp')}
-                  </div>
-                )}
               </form>
             </div>
           )}
-          <div className={'relative flex w-full items-center justify-center'}>
-            <div className={'absolute left-0'}>
-              <BackIconButton size={'xs'} onClick={onBack} />
-            </div>
-            <div className={'flex items-center justify-center'}>{resendOtpView}</div>
-          </div>
         </div>
       </ModalPanel>
     </Modal>
