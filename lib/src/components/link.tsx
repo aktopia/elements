@@ -4,7 +4,7 @@ import { type AnchorHTMLAttributes, type ForwardedRef, forwardRef, type MouseEve
 
 export const Link = forwardRef(
   (
-    { href, children, onClick, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>,
+    { href, children, onClick, target, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>,
     ref: ForwardedRef<HTMLAnchorElement>
   ) => {
     const onClick_ = useEvent((event: MouseEvent<HTMLAnchorElement>) => {
@@ -12,14 +12,19 @@ export const Link = forwardRef(
         return;
 
       onClick && onClick(event);
-      if (!event.defaultPrevented) {
+
+      if (target == '_blank') {
+        return;
+      }
+
+      if (!event.defaultPrevented!) {
         event.preventDefault();
         href && navigateToPath(href);
       }
     });
 
     return (
-      <a href={href} onClick={onClick_} {...props} ref={ref}>
+      <a href={href} target={target} onClick={onClick_} {...props} ref={ref}>
         {children}
       </a>
     );
