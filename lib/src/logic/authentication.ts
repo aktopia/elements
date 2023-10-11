@@ -199,6 +199,7 @@ evt('auth.sign-in/send-otp', async ({ setState, params }) => {
 evt('auth.sign-in/close', ({ setState }) => {
   setState((state: any) => {
     state['authentication/state']['auth.sign-in/visible'] = false;
+    state['authentication/state']['auth.sign-in.email/input'] = '';
   });
 });
 
@@ -233,6 +234,8 @@ evt('auth.verify-otp/close', ({ setState }) => {
   setState((state: any) => {
     state['authentication/state']['auth.verify-otp/visible'] = false;
     state['authentication/state']['auth.verify-otp/input'] = '';
+    state['authentication/state']['auth.verify-otp/error'] = null;
+    state['authentication/state']['auth.sign-in.email/input'] = '';
   });
 });
 
