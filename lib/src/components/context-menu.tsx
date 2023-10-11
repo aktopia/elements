@@ -10,7 +10,11 @@ interface ContextMenuProps {
 
 const ContextMenuButton = ({ orientation }: { orientation: Orientation }) => {
   const Icon = orientation === 'vertical' ? EllipsisVerticalOutline : EllipsisHorizontalOutline;
-  return <Icon className={'h-6 w-6 cursor-pointer text-gray-700'} />;
+  return (
+    <button type={'button'}>
+      <Icon className={'h-6 w-6 cursor-pointer text-gray-700'} />
+    </button>
+  );
 };
 
 export const ContextMenu = ({ orientation, items }: ContextMenuProps) => {

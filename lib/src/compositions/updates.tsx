@@ -1,9 +1,4 @@
-import {
-  EllipsisHorizontalOutline,
-  PencilOutline,
-  TrashOutline,
-  UserCircleSolid,
-} from '@elements/icons';
+import { PencilOutline, TrashOutline, UserCircleSolid } from '@elements/icons';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
@@ -13,7 +8,8 @@ import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
-import { Dropdown, type ItemType } from '@elements/components/dropdown';
+import { type ItemType } from '@elements/components/dropdown';
+import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
 
 const User = ({ name }: { name: string }) => {
   return (
@@ -62,10 +58,6 @@ const DeleteConfirmationModal = suspensify(
   }
 );
 
-const ContextMenuButton = () => {
-  return <EllipsisHorizontalOutline className={'h-6 w-6 cursor-pointer text-gray-700'} />;
-};
-
 const ContextMenu = ({ id }: { id: string }) => {
   const t = useTranslation();
 
@@ -96,7 +88,7 @@ const ContextMenu = ({ id }: { id: string }) => {
     [t, onEditClick, onDeleteClick]
   ) as ItemType[];
 
-  return <Dropdown button={<ContextMenuButton />} items={items} />;
+  return <RawContextMenu items={items} orientation={'horizontal'} />;
 };
 
 const Update = suspensify(({ id }: { id: string }) => {

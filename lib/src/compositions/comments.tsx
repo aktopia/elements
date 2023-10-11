@@ -2,7 +2,6 @@ import {
   ChatBubbleLeftEllipsisOutline,
   ChevronDownMiniSolid,
   ChevronUpMiniSolid,
-  EllipsisHorizontalOutline,
   PencilOutline,
   TrashOutline,
   UserCircleSolid,
@@ -17,8 +16,9 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import isEmpty from 'lodash/isEmpty';
 import { useCallback, useMemo, useState } from 'react';
-import { Dropdown, type ItemType } from '@elements/components/dropdown';
+import { type ItemType } from '@elements/components/dropdown';
 import { useWrapRequireAuth } from '@elements/store/hooks';
+import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
 
 export const User = ({ name }: { name: string }) => {
   return (
@@ -54,10 +54,6 @@ const ExpandCollapseButton = ({
   );
 };
 
-const ContextMenuButton = () => {
-  return <EllipsisHorizontalOutline className={'h-6 w-6 cursor-pointer text-gray-700'} />;
-};
-
 const ContextMenu = ({ id }: { id: string }) => {
   const t = useTranslation();
 
@@ -88,7 +84,7 @@ const ContextMenu = ({ id }: { id: string }) => {
     [t, onEditClick, onDeleteClick]
   ) as ItemType[];
 
-  return <Dropdown button={<ContextMenuButton />} items={items} />;
+  return <RawContextMenu items={items} orientation={'horizontal'} />;
 };
 
 export const Comment = suspensify(({ id }: { id: string }) => {
