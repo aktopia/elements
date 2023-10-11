@@ -394,6 +394,7 @@ evt(
 evt('issue.create.modal/close', ({ setState }) => {
   setState((state: any) => {
     state['issue/state']['issue.create.modal/visible'] = false;
+    state['issue/state']['issue.create.modal/title'] = '';
   });
 });
 

@@ -328,6 +328,7 @@ evt(
 evt('action.create.modal/close', ({ setState }) => {
   setState((state: any) => {
     state['action/state']['action.create.modal/visible'] = false;
+    state['action/state']['action.create.modal/title'] = '';
   });
 });
 
