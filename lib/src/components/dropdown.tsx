@@ -46,7 +46,7 @@ export const Item = ({ text, href, Icon, onClick, kind = 'primary' }: ItemType) 
       {href ? (
         <Link
           className={
-            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 hover:underline'
+            'flex w-full items-center justify-items-start gap-2 rounded-md bg-white px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 hover:underline remove-default-focus'
           }
           href={href}
           rel={'noreferrer'}>

@@ -13,20 +13,23 @@ const containerVariant = cva('flex', {
   },
 });
 
-const tabVariant = cva('flex cursor-pointer items-center justify-center ease-out transition-all', {
-  variants: {
-    size: {
-      xs: 'px-1.5 py-1 rounded-md',
-      sm: 'px-2 py-1 font-medium rounded-md',
-      md: 'px-5 py-2.5 text-base font-medium rounded-md',
-      lg: 'px-5 py-2.5 text-lg font-medium rounded-md',
+const tabVariant = cva(
+  'flex cursor-pointer items-center justify-center ease-out transition-all default-focus',
+  {
+    variants: {
+      size: {
+        xs: 'px-1.5 py-1 rounded-md',
+        sm: 'px-2 py-1 font-medium rounded-md',
+        md: 'px-5 py-2.5 text-base font-medium rounded-md',
+        lg: 'px-5 py-2.5 text-lg font-medium rounded-md',
+      },
+      status: {
+        active: 'text-gray-800 shadow-inner bg-gray-100 border border-gray-300',
+        inactive: 'text-gray-500 hover:text-gray-800',
+      },
     },
-    status: {
-      active: 'text-gray-800 shadow-inner bg-gray-100 border border-gray-300',
-      inactive: 'text-gray-500 hover:text-gray-800',
-    },
-  },
-});
+  }
+);
 
 type ContainerVariant = VariantProps<typeof containerVariant>;
 

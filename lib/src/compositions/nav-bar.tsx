@@ -26,7 +26,7 @@ const CreateButton = suspensify(() => {
   return (
     <button
       className={
-        'relative flex items-center justify-center gap-1 overflow-hidden rounded-md bg-blue-600 py-2 pl-3 pr-2'
+        'relative flex items-center justify-center gap-1 overflow-hidden rounded-md bg-blue-600 py-2 pl-3 pr-2 default-focus'
       }
       type={'submit'}>
       <p className={'text-xs font-medium text-white'}>{t('common/create')}</p>
@@ -68,7 +68,7 @@ export const SignInButton = suspensify(() => {
 
   return (
     <button
-      className={'cursor-pointer text-sm font-medium text-blue-600'}
+      className={'cursor-pointer text-sm font-medium text-blue-600 default-focus'}
       type={'button'}
       onClick={onSignInClick}>
       {t('common/sign-in')}
@@ -82,7 +82,7 @@ const UserDropdown = suspensify(() => {
   const onSignOutClick = useDispatch('auth/sign-out');
 
   const button = (
-    <button className={'flex cursor-pointer items-center gap-1'} type={'button'}>
+    <button className={'flex cursor-pointer items-center gap-1 default-focus'} type={'button'}>
       <Avatar size={'sm'} />
       <ChevronDownMiniSolid className={'h-4 w-4 text-gray-600'} />
     </button>
@@ -135,7 +135,7 @@ const Logo = () => {
   return (
     <Link
       className={
-        'flex flex-col h-full w-max items-center justify-center bg-gradient-to-br from-blue-800 to-blue-600 px-3'
+        'flex flex-col h-full w-max items-center justify-center bg-gradient-to-br from-blue-800 to-blue-600 px-3 default-focus'
       }
       href={'/'}>
       <div className={'font-logo text-xl text-white'}>{aktopia}</div>
@@ -151,7 +151,7 @@ const SearchBar = suspensify(() => {
   return (
     <button
       className={
-        'flex cursor-pointer gap-5 rounded-xl border border-gray-300 bg-gray-100 py-2 pl-3 pr-7'
+        'flex cursor-pointer gap-5 rounded-xl border border-gray-300 bg-gray-100 py-2 pl-3 pr-7 default-focus'
       }
       type={'button'}
       onClick={onSearchClick}>
@@ -168,7 +168,9 @@ const ChooseLocalityButton = suspensify(() => {
 
   return isLocalityChosen ? (
     <button
-      className={'group flex max-w-5xl items-center justify-center gap-2 overflow-hidden'}
+      className={
+        'group flex max-w-5xl items-center justify-center gap-2 overflow-hidden default-focus'
+      }
       type={'button'}
       onClick={onOpen}>
       <PinOnMap className={'h-5 w-5 text-gray-500 group-hover:text-gray-600'} />

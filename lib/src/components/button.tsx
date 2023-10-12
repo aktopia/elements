@@ -9,7 +9,7 @@ import {
 } from 'react-aria-components';
 import { Link } from '@elements/components/link';
 
-const containerVariant = cva('relative flex items-center justify-center rounded-md', {
+const containerVariant = cva('relative flex items-center justify-center rounded-md default-focus', {
   variants: {
     kind: {
       primary: 'bg-blue-600 text-white shadow-md',

@@ -254,6 +254,7 @@ export {
   ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareMiniSolid,
   TrashIcon as TrashMiniSolid,
   MapIcon as MapMiniSolid,
+  ExclamationCircleIcon as ExclamationCircleMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
