@@ -5,6 +5,7 @@ import { Button } from '@elements/components/button';
 import React, { useCallback } from 'react';
 import { useTranslation } from '@elements/translation';
 import { ArrowTopRightOnSquareMiniSolid } from '@elements/icons';
+import { TextInput } from '@elements/components/text-input';
 
 // TODO Don't render modal if it is not visible
 
@@ -33,14 +34,11 @@ export const CreateModal = suspensify(({}) => {
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <div className={'flex w-full flex-col gap-7 py-7 px-6'}>
-          <form className={'flex w-max flex-col gap-8'} onSubmit={onSubmit}>
+          <form className={'flex w-[500px] flex-col gap-8'} onSubmit={onSubmit}>
             <input name={'title'} type={'hidden'} value={title} />
-            <input
-              className={
-                'w-[500px] rounded-md border-none bg-gray-100 p-3 text-xl text-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 focus:outline-none'
-              }
+            <TextInput
               placeholder={t('action.title/placeholder')}
-              type={'text'}
+              size={'xl'}
               value={title}
               onChange={onTitleChange}
             />

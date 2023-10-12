@@ -22,15 +22,14 @@
     pointer-events: none;
 }
 
-.button-focus {
-    @apply focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 focus:outline-none
+.default-focus {
+    @apply focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none focus-visible:ring-blue-400
 }
 
-.focus-none {
+.remove-default-focus {
     @apply focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none !important
 }
 
-button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
-    @apply button-focus
+button, a, input[type="text"], textarea {
+    @apply default-focus
 }
-
