@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store/interface';
 import { EntityType } from '@elements/compositions/entity-type';
@@ -70,7 +71,7 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
       <div className={'flex items-center gap-7'}>
         <EntityType size={'sm'} type={Type.Issue} />
         <LastActive timestamp={updatedAt} />
-        <Locality issueId={id} onClick={onLocalityClick} />
+        {/*<Locality issueId={id} onClick={onLocalityClick} />*/}
       </div>
       <Link className={'text-xl font-medium hover:underline w-full'} href={`/issue/${id}`}>
         {title}
@@ -83,3 +84,9 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
     </div>
   );
 });
+
+/*
+TODO
+- Enable locality
+- Add choose locality
+ */
