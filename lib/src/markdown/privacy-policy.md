@@ -52,7 +52,7 @@ For the purposes of this Privacy Policy:
   infrastructure itself (for example, the duration of a page visit).
 
 
-- __Website__ refers to Aktopia, accessible from [https://aktopia.com](https://aktopia.com)
+- __Website__ refers to Aktopia, accessible from [aktopia.com](https://aktopia.com)
 
 - __You__ means the individual accessing or using the Service, or the company, or other legal entity on behalf of which
   such individual is accessing or using the Service, as applicable.
@@ -285,4 +285,4 @@ If you have any questions about this Privacy Policy, You can contact us:
 - By email: [hi@aktopia.com](mailto:hi@aktopia.com)
 
 
-- By visiting this page on our website: [https://aktopia.com/contact](https://aktopia.com/contact)
+- By visiting this page on our website: [aktopia.com/contact](https://aktopia.com/contact)

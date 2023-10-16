@@ -10,6 +10,7 @@ import { Account } from '@elements/compositions/account/account';
 import { Initiatives } from '@elements/compositions/meta/initiatives';
 import { Initiative } from '@elements/compositions/meta/initiative';
 import { PrivacyPolicy } from '@elements/compositions/privacy-policy';
+import { TermsOfService } from '@elements/compositions/terms-of-service';
 
 export interface Route {
   id: string;
@@ -80,6 +81,11 @@ const routes_: Route[] = [
     id: 'legal/privacy-policy',
     path: '/privacy-policy',
     component: PrivacyPolicy,
+  },
+  {
+    id: 'legal/terms-of-service',
+    path: '/terms-of-service',
+    component: TermsOfService,
   },
 ];
 
