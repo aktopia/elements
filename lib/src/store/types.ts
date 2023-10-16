@@ -33,6 +33,10 @@ import type {
 import type { Subs as LocationSubs, Events as LocationEvents } from '@elements/logic/location';
 import type { Subs as HomeFeedSubs } from '@elements/logic/home-feed';
 import type { Events as AccountEvents } from '@elements/logic/account';
+import type {
+  Events as MetaInitiativeEvents,
+  Subs as MetaInitiativeSubs,
+} from '@elements/logic/meta/initiative';
 
 export type Subs = CommentSubs &
   UpdateSubs &
@@ -52,7 +56,8 @@ export type Subs = CommentSubs &
   LocalitySubs &
   LocationSubs &
   ConfirmationModalSubs &
-  HomeFeedSubs;
+  HomeFeedSubs &
+  MetaInitiativeSubs;
 
 export type Events = CommentEvents &
   UpdateEvents &
@@ -71,4 +76,5 @@ export type Events = CommentEvents &
   LocalityEvents &
   LocationEvents &
   ConfirmationModalEvents &
-  AccountEvents;
+  AccountEvents &
+  MetaInitiativeEvents;

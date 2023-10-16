@@ -7,6 +7,8 @@ import type { Events } from '@elements/store/types';
 import { match } from 'path-to-regexp';
 import { Home } from '@elements/compositions/home/home';
 import { Account } from '@elements/compositions/account/account';
+import { Initiatives } from '@elements/compositions/meta/initiatives';
+import { Initiative } from '@elements/compositions/meta/initiative';
 
 export interface Route {
   id: string;
@@ -61,6 +63,17 @@ const routes_: Route[] = [
     path: '/account/:id',
     component: Account,
     // onNavigateEvent: 'navigated.account/view',
+  },
+  {
+    id: 'meta.initiatives/view',
+    path: '/meta/initiatives',
+    component: Initiatives,
+  },
+  {
+    id: 'meta.initiative/view',
+    path: '/meta/initiative/:id',
+    component: Initiative,
+    onNavigateEvent: 'navigated.meta.initiative/view',
   },
 ];
 
