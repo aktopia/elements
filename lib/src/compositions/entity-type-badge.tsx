@@ -15,7 +15,7 @@ const containerVariant = cva('w-max rounded', {
       [Type.Issue]: 'bg-rose-50 border border-rose-200',
       [Type.Action]: 'bg-blue-50 border border-blue-200',
       [Type.User]: 'bg-teal-50 border border-teal-200',
-      [Type.MetaInitiative]: 'bg-slate-50 border border-slate-200',
+      [Type.MetaInitiative]: 'bg-emerald-50 border border-emerald-200',
     },
     size: {
       sm: 'px-3 py-1',
@@ -30,7 +30,7 @@ const textVariant = cva('text-xs', {
       [Type.Issue]: 'text-rose-600',
       [Type.Action]: 'text-blue-600',
       [Type.User]: 'text-teal-600',
-      [Type.MetaInitiative]: 'text-slate-600',
+      [Type.MetaInitiative]: 'text-emerald-600',
     },
     size: {
       sm: 'font-medium',

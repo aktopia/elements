@@ -50,7 +50,7 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
-      <WrapComingSoonPopover id={'action-qr-code'} size={'sm'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'action-share'} size={'sm'} status={'evaluating'}>
         <QRCodeButton kind={'tertiary'} size={'xs'} />
       </WrapComingSoonPopover>
       <WrapComingSoonPopover id={'action-follow'} size={'sm'} status={'evaluating'}>
@@ -127,7 +127,7 @@ export const ActionBar = suspensify(() => {
           onClick={onFundButtonClick}
         />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'action-volunteer'} status={'planning'}>
+      <WrapComingSoonPopover id={'action-volunteering'} status={'planning'}>
         <Button
           Icon={Crowd}
           kind={'secondary'}

@@ -77,7 +77,7 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
-      <WrapComingSoonPopover id={'issue-qr-code'} size={'sm'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'issue-share'} size={'sm'} status={'evaluating'}>
         <QRCodeButton kind={'tertiary'} size={'xs'} />
       </WrapComingSoonPopover>
       <WrapComingSoonPopover id={'issue-follow'} size={'sm'} status={'evaluating'}>

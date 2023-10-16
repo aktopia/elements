@@ -24,7 +24,7 @@ export const InitiativeCard = suspensify(({ id: slug }: any) => {
       </div>
       <Link
         className={'text-xl font-medium hover:underline w-full'}
-        href={`/meta/initiative/${slug}`}>
+        href={`/meta/initiative/${slug}#tab=discuss`}>
         {title}
       </Link>
       <div className={'flex items-center gap-10'}>
@@ -36,10 +36,14 @@ export const InitiativeCard = suspensify(({ id: slug }: any) => {
 
 export const Initiatives = wrapPage(() => {
   const slugs = useValue('meta.initiative/slugs');
-
+  const makeBetter = "Let's make Aktopia better together.";
+  const welcome =
+    'Welcome to the meta portal. This is where Aktopia evolves to better serve communities. Dive in and have a say in its future.';
   return (
-    <div>
-      <div>
+    <div className={'flex-col flex items-center gap-10'}>
+      <h1 className={'text-4xl font-medium text-gray-800'}>{makeBetter}</h1>
+      <p className={'text-gray-600 text-lg'}>{welcome}</p>
+      <div className={'flex flex-col gap-9 w-full'}>
         {slugs.map((id) => (
           <InitiativeCard key={id} id={id} suspenseLines={2} />
         ))}
