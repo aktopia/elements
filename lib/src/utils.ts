@@ -63,14 +63,6 @@ export function isBefore(ts1: number, ts2: number, unit: ManipulateType) {
   return date.isBefore(ts2, unit);
 }
 
-export function openInNewTab(url: string) {
-  window.open(url, '_blank')?.focus();
-}
-
-export function navigateTo({ replace = false, to }: { replace?: boolean; to: string }) {
-  history[replace ? 'replaceState' : 'pushState'](null, '', to);
-}
-
 export function ref(...keys: string[]) {
   return keys.join('|');
 }
@@ -90,3 +82,7 @@ export function keep<T>(a: T[], fn: (e: T) => any) {
 }
 
 export const emptyObject = {};
+
+export const scrollToTop = ({ behavior = 'smooth' }: { behavior: ScrollBehavior }) => {
+  window.scrollTo({ top: 0, behavior });
+};

@@ -42,7 +42,7 @@ export const Initiatives = wrapPage(() => {
   return (
     <div className={'flex-col flex items-center gap-10'}>
       <h1 className={'text-4xl font-medium text-gray-800'}>{makeBetter}</h1>
-      <p className={'text-gray-600 text-lg'}>{welcome}</p>
+      <p className={'text-gray-600 text-lg text-center w-2/3'}>{welcome}</p>
       <div className={'flex flex-col gap-9 w-full'}>
         {slugs.map((id) => (
           <InitiativeCard key={id} id={id} suspenseLines={2} />

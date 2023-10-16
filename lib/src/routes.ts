@@ -11,6 +11,7 @@ import { Initiatives } from '@elements/compositions/meta/initiatives';
 import { Initiative } from '@elements/compositions/meta/initiative';
 import { PrivacyPolicy } from '@elements/compositions/privacy-policy';
 import { TermsOfService } from '@elements/compositions/terms-of-service';
+import { Contact } from '@elements/compositions/contact';
 
 export interface Route {
   id: string;
@@ -87,6 +88,7 @@ const routes_: Route[] = [
     path: '/terms-of-service',
     component: TermsOfService,
   },
+  { id: 'contact', path: '/contact', component: Contact },
 ];
 
 export const routes: RouteWithMatcher[] = routes_.map((route) => {

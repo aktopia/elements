@@ -37,6 +37,8 @@ const common = {
   'common/initiative': 'Initiative',
   'common.phrase/empty-results': 'No results found.',
   'common.user.name/placeholder': 'Enter your name.',
+  'common/whatsapp': 'WhatsApp',
+  'common/telegram': 'Telegram',
 };
 
 const action = {

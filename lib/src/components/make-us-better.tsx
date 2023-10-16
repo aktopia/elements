@@ -10,7 +10,7 @@ export const MakeUsBetter = () => {
       }
       href={'/meta/initiatives'}>
       <Wheel className={'h-8 w-8 text-white animate-[spin_2s_ease-in-out_infinite] stroke-4'} />
-      <p className={'text-lg text-white font-medium'}>{text}</p>
+      <p className={'text-xl text-white font-medium'}>{text}</p>
     </Link>
   );
 };

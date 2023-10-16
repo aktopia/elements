@@ -1,4 +1,4 @@
-import { emptyObject, keep } from '@elements/utils';
+import { emptyObject, keep, scrollToTop } from '@elements/utils';
 import omit from 'lodash/omit';
 import type { Route, RouteWithMatcher } from '@elements/routes';
 import { routes } from '@elements/routes';
@@ -100,6 +100,7 @@ export const generatePath = (id: string, { pathParams }: { pathParams: Params })
 
 export const navigateToPath = (path: string, { replace = false } = {}) => {
   replace ? history.replaceState(null, '', path) : history.pushState(null, '', path);
+  scrollToTop({ behavior: 'auto' });
 };
 
 export const navigateToRoute = (
@@ -109,6 +110,7 @@ export const navigateToRoute = (
 ) => {
   const path = generatePath(id, { pathParams });
   navigateToPath(path, { replace });
+  scrollToTop({ behavior: 'auto' });
 };
 
 export const updateHashParams = (params: Params, { replace = false } = {}) => {
