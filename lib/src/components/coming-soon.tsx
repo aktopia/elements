@@ -56,16 +56,12 @@ const getStuff = (status: string) => {
 };
 
 interface ComingSoonProps {
-  id: string;
+  slug: string;
   status: Status;
   size?: 'sm' | 'md';
 }
 
-export const ComingSoon: React.FC<ComingSoonProps> = ({
-  status,
-  id,
-  size = 'md',
-}: ComingSoonProps) => {
+export const ComingSoon = ({ status, slug, size = 'md' }: ComingSoonProps) => {
   const [statusText, linkText, Icon] = getStuff(status);
 
   return (
@@ -73,7 +69,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
       <Icon className={iconVariant({ size })} />
       <div className={'flex flex-col gap-1 flex-wrap items-start'}>
         <p className={textVariant({ size })}>{statusText as string}</p>
-        <Link className={linkVariant({ size })} href={`/meta/initiatives/${id}`}>
+        <Link className={linkVariant({ size })} href={`/meta/initiative/${slug}`}>
           {linkText as string}
         </Link>
       </div>

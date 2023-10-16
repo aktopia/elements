@@ -303,6 +303,7 @@ export {
   EllipsisVerticalIcon as EllipsisVerticalOutline,
   PencilIcon as PencilOutline,
   ExclamationCircleIcon as ExclamationCircleOutline,
+  LightBulbIcon as LightBulbOutline,
 } from '@heroicons/react/24/outline';
 
 /*

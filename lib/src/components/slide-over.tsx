@@ -61,7 +61,7 @@ export const SlideOver = ({
       <div aria-hidden={'true'} className={'z-overlay fixed inset-0 bg-black/20'} />
       <div
         className={
-          'z-slide-over fixed right-0 top-0 h-screen w-max overflow-y-scroll border-l border-l-gray-300 bg-white shadow-2xl'
+          'z-slideover fixed right-0 top-0 h-screen w-max overflow-y-scroll border-l border-l-gray-300 bg-white shadow-2xl'
         }>
         {children}
       </div>

@@ -77,7 +77,7 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
         {title}
       </Link>
       <div className={'flex items-center gap-10'}>
-        <Voting lookupRef={id} size={'sm'} suspenseLines={2} />
+        <Voting lookupRef={id} size={'xs'} suspenseLines={2} />
         <Facing issueId={id} />
         <Severity issueId={id} />
       </div>

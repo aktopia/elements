@@ -23,7 +23,7 @@ export const WrapComingSoonPopover = ({
             'z-tooltip bg-white border border-gray-300 shadow-lg rounded-lg focus:outline-none focus:ring-0',
             size === 'sm' ? 'py-1.5 px-2' : 'p-3'
           )}>
-          <ComingSoon id={id} size={size} status={status} />
+          <ComingSoon size={size} slug={id} status={status} />
         </Dialog>
       </Popover>
     </DialogTrigger>
