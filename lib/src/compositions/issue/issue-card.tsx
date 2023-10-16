@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store/interface';
-import { EntityType } from '@elements/compositions/entity-type';
+import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { EntityType as Type } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';
 import { Voting } from '@elements/compositions/voting';

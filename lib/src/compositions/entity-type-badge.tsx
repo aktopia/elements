@@ -6,6 +6,7 @@ const entityTypeTranslation = {
   [Type.Issue]: 'common/issue',
   [Type.Action]: 'common/action',
   [Type.User]: 'common/user',
+  [Type.MetaInitiative]: 'common/initiative',
 };
 
 const containerVariant = cva('w-max rounded', {
@@ -14,6 +15,7 @@ const containerVariant = cva('w-max rounded', {
       [Type.Issue]: 'bg-rose-50 border border-rose-200',
       [Type.Action]: 'bg-blue-50 border border-blue-200',
       [Type.User]: 'bg-teal-50 border border-teal-200',
+      [Type.MetaInitiative]: 'bg-slate-50 border border-slate-200',
     },
     size: {
       sm: 'px-3 py-1',
@@ -28,6 +30,7 @@ const textVariant = cva('text-xs', {
       [Type.Issue]: 'text-rose-600',
       [Type.Action]: 'text-blue-600',
       [Type.User]: 'text-teal-600',
+      [Type.MetaInitiative]: 'text-slate-600',
     },
     size: {
       sm: 'font-medium',
@@ -41,7 +44,7 @@ interface EntityTypeProps {
   size: 'xs' | 'sm';
 }
 
-export const EntityType = ({ type, size = 'sm' }: EntityTypeProps) => {
+export const EntityTypeBadge = ({ type, size = 'sm' }: EntityTypeProps) => {
   const t = useTranslation();
   return (
     <div className={containerVariant({ type, size })}>

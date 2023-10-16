@@ -43,15 +43,15 @@ const linkVariant = cva('text-blue-700 hover:underline', {
 const getStuff = (status: string) => {
   switch (status) {
     case 'evaluating':
-      return ['This feature is under evaluation.', 'Share your thoughts here.', LightBulbSolid];
+      return ['This initiative is under evaluation.', 'Share your thoughts here.', LightBulbSolid];
     case 'planning':
-      return ['This feature is being planned.', 'You can follow it here.', LightBulbSolid];
+      return ['This initiative is being planned.', 'You can follow it here.', LightBulbSolid];
     case 'planned':
-      return ['This feature has been prioritised.', 'Track the status here.', SparklesSolid];
+      return ['This initiative has been prioritised.', 'Track the status here.', SparklesSolid];
     case 'in-progress':
-      return ['This feature is in progress.', 'Track the status here.', SparklesSolid];
+      return ['This initiative is in progress.', 'Track the status here.', SparklesSolid];
     default:
-      return ['This feature is coming soon.', 'You can follow it here.', SparklesSolid];
+      return ['This initiative is coming soon.', 'You can follow it here.', SparklesSolid];
   }
 };
 
@@ -73,7 +73,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
       <Icon className={iconVariant({ size })} />
       <div className={'flex flex-col gap-1 flex-wrap items-start'}>
         <p className={textVariant({ size })}>{statusText as string}</p>
-        <Link className={linkVariant({ size })} href={`/meta/features/${id}`}>
+        <Link className={linkVariant({ size })} href={`/meta/initiatives/${id}`}>
           {linkText as string}
         </Link>
       </div>

@@ -34,6 +34,7 @@ const common = {
   'common/severity': 'Severity',
   'common/verify': 'Verify',
   'common/otp': 'OTP',
+  'common/initiative': 'Initiative',
   'common.phrase/empty-results': 'No results found.',
   'common.user.name/placeholder': 'Enter your name.',
 };
@@ -114,6 +115,12 @@ const error = {
   'error.not-found/message': "Sorry, we couldn't find what you were looking for.",
 };
 
+const metaInitiative = {
+  'meta.initiative.title/placeholder': 'Give the initiative a title.',
+  'meta.initiative.description/placeholder': 'Describe the initiative.',
+  'meta.initiative.description/empty': "You haven't added a description yet.",
+};
+
 const translation = {
   ...common,
   ...action,
@@ -123,6 +130,7 @@ const translation = {
   ...location,
   ...comment,
   ...error,
+  ...metaInitiative,
   'auth/send-otp': 'Send OTP',
   'auth/sign-in': 'Sign In',
   'auth/wait-to-resend-otp': ({ waitSeconds }: { waitSeconds: number }) => {

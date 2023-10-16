@@ -6,7 +6,7 @@ import {
   WrenchOutline,
 } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
-import { EntityType } from '@elements/compositions/entity-type';
+import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { EntityType as ResultType } from '@elements/types';
 import { useDispatch, useStateLike, useValue } from '@elements/store';
 import {
@@ -121,7 +121,7 @@ const Relationship = suspensify(({ id }: { id: string }) => {
           <div className={'text-sm text-gray-500'}>{t(relationTKey[relation])}</div>
         </div>
         <div className={'flex items-center gap-1.5'}>
-          <EntityType size={'sm'} type={type} />
+          <EntityTypeBadge size={'sm'} type={type} />
         </div>
       </div>
       <div className={'text-gray-700'}>{title}</div>
@@ -170,7 +170,7 @@ const Result = (result: Result) => {
             dangerouslySetInnerHTML={{ __html: snippet }}
             className={'text-sm text-gray-800 [&_mark]:rounded [&_mark]:bg-blue-100 [&_mark]:p-1'}
           />
-          <EntityType size={'xs'} type={type} />
+          <EntityTypeBadge size={'xs'} type={type} />
         </div>
       </div>
     </Combobox.Option>

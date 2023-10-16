@@ -6,7 +6,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
 import { SeveritySlider } from '@elements/compositions/issue/severity-slider';
 import { Voting as RawVoting } from '@elements/compositions/voting';
-import { EntityType } from '@elements/compositions/entity-type';
+import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -155,7 +155,7 @@ export const Header = suspensify(() => {
           <div className={'flex flex-col gap-8'}>
             <div className={'flex items-baseline justify-between'}>
               <div className={'flex items-center gap-7'}>
-                <EntityType size={'sm'} type={Type.Issue} />
+                <EntityTypeBadge size={'sm'} type={Type.Issue} />
                 <LastActive timestamp={updatedAt} />
                 <Locality issueId={issueId} />
               </div>

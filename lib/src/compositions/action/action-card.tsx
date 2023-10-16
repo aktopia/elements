@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store/interface';
-import { EntityType } from '@elements/compositions/entity-type';
+import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { EntityType as Type } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';
 import { Voting } from '@elements/compositions/voting';
@@ -46,7 +46,7 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
         'flex w-full flex-col items-start justify-center gap-7 rounded-lg border border-gray-300 bg-white p-5 shadow-sm'
       }>
       <div className={'flex items-center gap-7'}>
-        <EntityType size={'sm'} type={Type.Action} />
+        <EntityTypeBadge size={'sm'} type={Type.Action} />
         <LastActive timestamp={updatedAt} />
         {/*<Locality actionId={id} onClick={onLocalityClick} />*/}
       </div>

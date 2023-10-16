@@ -4,7 +4,7 @@ import { useDispatch, useStateLike, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import React, { Fragment, useCallback } from 'react';
 import type { EntityType } from '@elements/types';
-import { EntityType as ResultType } from '@elements/compositions/entity-type';
+import { EntityTypeBadge as ResultType } from '@elements/compositions/entity-type-badge';
 import { Modal, ModalPanel } from '@elements/components/modal';
 import { Combobox } from '@headlessui/react';
 import { Link } from '@elements/components/link';

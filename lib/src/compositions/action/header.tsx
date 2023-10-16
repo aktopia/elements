@@ -7,7 +7,7 @@ import { QRCodeButton } from '@elements/components/qr-code-button';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
-import { EntityType } from '@elements/compositions/entity-type';
+import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { Voting } from '@elements/compositions/voting';
 import { useDispatch, useValue } from '@elements/store';
@@ -217,7 +217,7 @@ export const Header = suspensify(() => {
           <div className={'flex flex-col gap-8'}>
             <div className={'flex items-baseline justify-between'}>
               <div className={'flex gap-7'}>
-                <EntityType size={'sm'} type={Type.Action} />
+                <EntityTypeBadge size={'sm'} type={Type.Action} />
                 <LastActive timestamp={updatedAt} />
                 <Locality actionId={actionId} />
               </div>
@@ -232,9 +232,7 @@ export const Header = suspensify(() => {
           </div>
           {/*<ProgressIndicator suspenseLines={1} />*/}
         </div>
-        <div className={'sticky'}>
-          <ActionTabs suspenseLines={1} />
-        </div>
+        <ActionTabs suspenseLines={1} />
       </div>
       <LocalitySlideOver actionId={actionId} />
     </>
