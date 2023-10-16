@@ -42,6 +42,10 @@ export type Subs = {
     params: {};
     result: string[];
   };
+  'meta.portal.link/visible': {
+    params: {};
+    result: boolean;
+  };
 };
 
 export type Events = {
@@ -83,6 +87,10 @@ sub(
   'meta.initiative.tabs/active-tab',
   ({ state }) => state['meta.initiative/state']['meta.initiative.tabs/active-tab']
 );
+
+sub('meta.portal.link/visible', ({ state }) => {
+  return state['router/state']['route/id'] !== 'meta.initiatives/view';
+});
 
 remoteSub('meta.initiative/slugs');
 remoteSub('meta.initiative.title/text');
