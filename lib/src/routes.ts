@@ -9,6 +9,7 @@ import { Home } from '@elements/compositions/home/home';
 import { Account } from '@elements/compositions/account/account';
 import { Initiatives } from '@elements/compositions/meta/initiatives';
 import { Initiative } from '@elements/compositions/meta/initiative';
+import { PrivacyPolicy } from '@elements/compositions/privacy-policy';
 
 export interface Route {
   id: string;
@@ -74,6 +75,11 @@ const routes_: Route[] = [
     path: '/meta/initiative/:id',
     component: Initiative,
     onNavigateEvent: 'navigated.meta.initiative/view',
+  },
+  {
+    id: 'legal/privacy-policy',
+    path: '/privacy-policy',
+    component: PrivacyPolicy,
   },
 ];
 

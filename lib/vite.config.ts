@@ -15,5 +15,6 @@ export default defineConfig({
   build: {
     target: 'esnext',
   },
+  assetsInclude: ['**/*.md'],
   plugins: [react()],
 });
