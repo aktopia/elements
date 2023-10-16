@@ -114,7 +114,7 @@ const Update = suspensify(({ id }: { id: string }) => {
         suspenseLines={4}
       />
       <div className={'flex items-center gap-5'}>
-        <Voting refAttribute={'entity.type/update'} refId={id} size={'xs'} suspenseLines={2} />
+        <Voting lookupRef={id} size={'xs'} suspenseLines={2} />
         <ContextMenu id={id} />
       </div>
     </div>

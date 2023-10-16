@@ -116,7 +116,7 @@ export const ActionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-10'}>
-      <Voting refAttribute={'entity.type/action'} refId={actionId} size={'md'} suspenseLines={1} />
+      <Voting lookupRef={actionId} size={'md'} suspenseLines={1} />
       <WrapComingSoonPopover id={'action-fund'} status={'planning'}>
         <Button
           Icon={Giving}

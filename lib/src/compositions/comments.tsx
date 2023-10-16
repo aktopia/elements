@@ -156,12 +156,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
                 suspenseLines={2}
               />
               <div className={'flex gap-5'}>
-                <Voting
-                  refAttribute={'entity.type/comment'}
-                  refId={id}
-                  size={'xs'}
-                  suspenseLines={1}
-                />
+                <Voting lookupRef={id} size={'xs'} suspenseLines={1} />
                 <Button
                   Icon={ChatBubbleLeftEllipsisOutline}
                   clicked={isReplying}

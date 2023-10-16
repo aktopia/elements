@@ -69,7 +69,7 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
         'flex w-full flex-col items-start justify-center gap-7 rounded-lg border border-gray-300 bg-white p-5 shadow-sm'
       }>
       <div className={'flex items-center gap-7'}>
-        <EntityType size={'sm'} type={Type.Issue} />
+        <EntityTypeBadge size={'sm'} type={Type.Issue} />
         <LastActive timestamp={updatedAt} />
         {/*<Locality issueId={id} onClick={onLocalityClick} />*/}
       </div>
@@ -77,7 +77,7 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
         {title}
       </Link>
       <div className={'flex items-center gap-10'}>
-        <Voting refAttribute={'entity.type/issue'} refId={id} size={'sm'} suspenseLines={2} />
+        <Voting lookupRef={id} size={'sm'} suspenseLines={2} />
         <Facing issueId={id} />
         <Severity issueId={id} />
       </div>

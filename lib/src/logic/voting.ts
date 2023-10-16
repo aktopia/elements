@@ -1,6 +1,7 @@
 import { evt, invalidateAsyncSubs, remoteSub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import { wrapRequireAuth } from '@elements/logic/authentication';
+import type { LookupRef } from '@elements/types';
 
 export type Kind = 'upvote' | 'downvote' | null;
 
@@ -11,15 +12,13 @@ export const votingSlice = () => ({
 export type Subs = {
   'voting.vote/count': {
     params: {
-      'ref/id': string;
-      'ref/attribute': string;
+      ref: LookupRef;
     };
     result: number;
   };
   'voting.current.user.vote/kind': {
     params: {
-      'ref/id': string;
-      'ref/attribute': string;
+      ref: LookupRef;
     };
     result: Kind;
   };
@@ -28,14 +27,12 @@ export type Subs = {
 export type Events = {
   'voting.current.user/upvote': {
     params: {
-      'ref/id': string;
-      'ref/attribute': string;
+      ref: LookupRef;
     };
   };
   'voting.current.user/downvote': {
     params: {
-      'ref/id': string;
-      'ref/attribute': string;
+      ref: LookupRef;
     };
   };
 };

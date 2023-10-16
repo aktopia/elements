@@ -13,3 +13,9 @@ export enum EntityType {
   Issue = 'entity.type/issue',
   User = 'entity.type/user',
 }
+
+export type EntityId = string;
+
+export type Keyword = string;
+
+export type LookupRef = [Keyword, string | Keyword] | EntityId;

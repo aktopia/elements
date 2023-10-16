@@ -119,9 +119,7 @@ export const IssueTabs = suspensify(() => {
 const Voting = suspensify(() => {
   const issueId = useValue('current.issue/id');
 
-  return (
-    <RawVoting refAttribute={'entity.type/issue'} refId={issueId} size={'md'} suspenseLines={2} />
-  );
+  return <RawVoting lookupRef={issueId} size={'md'} suspenseLines={2} />;
 });
 
 const RaiseHand = suspensify(() => {

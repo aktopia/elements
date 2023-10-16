@@ -54,7 +54,7 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
         {title}
       </Link>
       <div className={'flex items-center gap-5'}>
-        <Voting refAttribute={'entity.type/action'} refId={id} size={'xs'} suspenseLines={2} />
+        <Voting lookupRef={id} size={'xs'} suspenseLines={2} />
       </div>
     </div>
   );
