@@ -4,7 +4,7 @@ import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { EntityType as Type, type LookupRef } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';
 import { Link } from '@elements/components/link';
-import { Voting } from '@elements/compositions/voting';
+import { UpVoting } from '@elements/compositions/voting';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useMemo } from 'react';
 
@@ -28,7 +28,7 @@ export const InitiativeCard = suspensify(({ id: slug }: any) => {
         {title}
       </Link>
       <div className={'flex items-center gap-10'}>
-        <Voting lookupRef={lookupRef} size={'sm'} suspenseLines={2} />
+        <UpVoting lookupRef={lookupRef} size={'sm'} suspenseLines={2} />
       </div>
     </div>
   );
@@ -38,7 +38,7 @@ export const Initiatives = wrapPage(() => {
   const slugs = useValue('meta.initiative/slugs');
   const makeBetter = "Let's make Aktopia better together.";
   const welcome =
-    'Welcome to the meta portal. This is where Aktopia evolves to better serve communities. Dive in and have a say in its future.';
+    'Welcome to the MetaAktopia. This is where Aktopia itself evolves to better serve communities. Dive in and have a say in its future.';
   return (
     <div className={'flex-col flex items-center gap-10'}>
       <h1 className={'text-4xl font-medium text-gray-800'}>{makeBetter}</h1>

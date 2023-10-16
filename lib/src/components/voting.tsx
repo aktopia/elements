@@ -67,3 +67,14 @@ export const Voting = ({ count, onUpvote, onDownvote, kind, size }: VoteProps) =
     </div>
   );
 };
+
+export const UpVoting = ({ count, onUpvote, kind, size }: Omit<VoteProps, 'onDownvote'>) => {
+  return (
+    <div className={containerVariant({ size })}>
+      <button type={'button'} onClick={onUpvote}>
+        <ArrowSmallUpSolid className={voteVariant({ size, active: kind === 'upvote' })} />
+      </button>
+      <p className={countVariant({ size, active: !!kind })}>{count}</p>
+    </div>
+  );
+};

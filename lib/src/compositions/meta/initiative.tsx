@@ -2,7 +2,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { TextEditor } from '@elements/compositions/text-editor';
-import { Voting } from '@elements/compositions/voting';
+import { UpVoting } from '@elements/compositions/voting';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
@@ -51,7 +51,7 @@ export const ActionBar = suspensify(() => {
     [initiativeSlug]
   );
 
-  return <Voting lookupRef={lookupRef} size={'md'} suspenseLines={1} />;
+  return <UpVoting lookupRef={lookupRef} size={'md'} suspenseLines={1} />;
 });
 
 export const InitiativeTabs = suspensify(() => {
