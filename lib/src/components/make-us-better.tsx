@@ -1,16 +1,16 @@
 import { Link } from '@elements/components/link';
-import { LightBulbSolid } from '@elements/icons';
+import { Wheel } from '@elements/icons';
 
 export const MakeUsBetter = () => {
-  const text = 'Improve Aktopia';
+  const text = "Drive Aktopia's future. Track progress and suggest what's next.";
   return (
     <Link
       className={
-        'w-max flex rounded-full bg-emerald-500 shadow-lg items-center border border-emerald-300 gap-1.5 pr-3 pl-2.5 justify-center py-1.5'
+        'flex rounded-full w-max gap-2 pr-3 pl-2.5 justify-center py-1.5 hover:underline decoration-white items-center'
       }
       href={'/meta/initiatives'}>
-      <LightBulbSolid className={'h-3 w-3 text-white'} />
-      <p className={'text-xs text-white'}>{text}</p>
+      <Wheel className={'h-8 w-8 text-white animate-[spin_2s_ease-in-out_infinite] stroke-4'} />
+      <p className={'text-lg text-white font-medium'}>{text}</p>
     </Link>
   );
 };

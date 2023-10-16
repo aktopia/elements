@@ -196,7 +196,7 @@ const ChooseLocalityButton = suspensify(() => {
 export const NavBar = () => {
   return (
     <>
-      <div className={'grid h-max grid-cols-7 border-b border-b-gray-300 bg-white shadow-sm'}>
+      <nav className={'grid h-max grid-cols-7 border-b border-b-gray-300 bg-white shadow-sm'}>
         <div className={'col-start-1 col-end-2'}>
           <Logo />
         </div>
@@ -215,7 +215,7 @@ export const NavBar = () => {
           }>
           <UserDropdown />
         </div>
-      </div>
+      </nav>
       <Auth suspenseLines={5} />
       <MainSearch suspenseLines={5} />
       <ActionCreateModal suspenseLines={1} />
