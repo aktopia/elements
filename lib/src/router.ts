@@ -99,7 +99,9 @@ export const generatePath = (id: string, { pathParams }: { pathParams: Params })
 };
 
 export const navigateToPath = (path: string, { replace = false } = {}) => {
-  replace ? history.replaceState(null, '', path) : history.pushState(null, '', path);
+  const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  const samePath = currentPath === path;
+  replace || samePath ? history.replaceState(null, '', path) : history.pushState(null, '', path);
   scrollToTop({ behavior: 'auto' });
 };
 
@@ -117,6 +119,6 @@ export const updateHashParams = (params: Params, { replace = false } = {}) => {
   if (isEmpty(params)) return;
   const hashParams = { ...getHashParams(), ...params };
   const hash = `#${new URLSearchParams(hashParams).toString()}`;
-  const path = `${window.location.pathname}${window.location.search}${hash}`;
-  replace ? history.replaceState(null, '', path) : history.pushState(null, '', path);
+  const newPath = `${window.location.pathname}${window.location.search}${hash}`;
+  replace ? history.replaceState(null, '', newPath) : history.pushState(null, '', newPath);
 };
