@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store/interface';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
@@ -48,9 +47,9 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
       <div className={'flex items-center gap-7'}>
         <EntityTypeBadge size={'sm'} type={Type.Action} />
         <LastActive timestamp={updatedAt} />
-        {/*<Locality actionId={id} onClick={onLocalityClick} />*/}
+        <Locality actionId={id} onClick={onLocalityClick} />
       </div>
-      <Link className={'text-lg font-medium hover:underline w-full'} href={`/action/${id}`}>
+      <Link className={'text-2xl font-medium hover:underline w-full'} href={`/action/${id}`}>
         {title}
       </Link>
       <div className={'flex items-center gap-5'}>
