@@ -12,6 +12,7 @@ import Volunteering from '@elements/assets/volunteering.svg?react';
 import {
   ChatBubbleLeftEllipsisOutline,
   CheckCircleOutline,
+  ChevronRightSolid,
   Crowd,
   DocumentTextOutline,
   ExclamationTriangleOutline,
@@ -130,7 +131,10 @@ export const Feed = () => {
   ]);
 
   return (
-    <>
+    <section className={'flex flex-col gap-20 scroll-mt-20 w-full'} id={'home-feed'}>
+      <h2 className={'text-4xl text-gray-600 text-center'}>
+        {"Here is what's happening near you."}
+      </h2>
       <div className={'flex flex-col gap-9'}>
         {list.map((e) => (
           <Card
@@ -142,7 +146,7 @@ export const Feed = () => {
         ))}
       </div>
       {viewLocalitySlideOverUI}
-    </>
+    </section>
   );
 };
 
@@ -151,7 +155,7 @@ const HeroTitle = () => {
   const subText =
     'Aktopia empowers communities to come together and solve their pressing problems.';
   return (
-    <div className={'flex flex-col justify-center gap-6'}>
+    <section className={'flex flex-col justify-center items-center gap-6 snap-start'}>
       <h1
         className={
           'text-7xl text-center font-semibold bg-gradient-to-br from-blue-600 to-blue-800 text-transparent bg-clip-text p-5'
@@ -159,7 +163,15 @@ const HeroTitle = () => {
         {text}
       </h1>
       <h2 className={'text-xl text-center font-medium text-gray-500'}>{subText}</h2>
-    </div>
+      <a
+        className={
+          'shadow-sm w-max flex gap-2 justify-center items-center py-2 px-4 rounded-full border border-gray-300 bg-gradient-to-br from-blue-50 to-blue-100'
+        }
+        href={'#home-feed'}>
+        <p className={'text-gray-700 font-medium'}>{"See what's happening near you"}</p>
+        <ChevronRightSolid className={'h-4 w-4 text-gray-600'} />
+      </a>
+    </section>
   );
 };
 
@@ -191,7 +203,7 @@ const IssueHero = () => {
     },
   ];
   return (
-    <section className={'flex flex-col gap-16 w-full'}>
+    <section className={'flex flex-col gap-16 w-full snap-start'}>
       <div className={'flex flex-col gap-5'}>
         <div className={'flex gap-2 items-center'}>
           <h3 className={'text-3xl text-gray-600'}>{'It starts with an'}</h3>
@@ -202,7 +214,7 @@ const IssueHero = () => {
         </div>
         <p className={'text-gray-500 text-xl'}>
           {
-            'You spot a public issue, minor or significant. Begin by documenting it. As others participate, the issue gains public awareness.'
+            'You spot a public issue, minor or significant. Begin by reporting it. As others participate, the issue gains public awareness.'
           }
         </p>
       </div>
@@ -242,7 +254,7 @@ const ActionHero = () => {
       Icon: DocumentTextOutline,
     },
     {
-      text: 'Stay up to date with the progress.',
+      text: 'Stay up to date on the progress.',
       Icon: MegaphoneOutline,
     },
     {
@@ -255,7 +267,7 @@ const ActionHero = () => {
     },
   ];
   return (
-    <section className={'flex flex-col gap-16 w-full'}>
+    <section className={'flex flex-col gap-16 w-full snap-start'}>
       <div className={'flex flex-col items-center gap-9'}>
         <div className={'flex gap-2 items-center'}>
           <h3 className={'text-4xl text-gray-600'}>{'...and ends with an'}</h3>
@@ -263,7 +275,7 @@ const ActionHero = () => {
         </div>
         <p className={'text-gray-500 text-xl'}>
           {
-            'The community comes together, creates an action. Driven by volunteers and backed by sponsors, they bring the action to fruition. Aktopia betters local communities, nations and the world one action at a time.'
+            "The community comes together, creates an action. Driven by volunteers and backed by sponsors, they bring the action to fruition. Let's advance local communities, nations and the world one action at a time."
           }
         </p>
       </div>
@@ -288,20 +300,12 @@ const ActionHero = () => {
   );
 };
 
-const Hero = () => {
+export const Home = wrapPage(() => {
   return (
-    <div className={'flex flex-col justify-center gap-36 items-center'}>
+    <main className={'flex-col flex gap-36 justify-center items-center'}>
       <HeroTitle />
       <IssueHero />
       <ActionHero />
-    </div>
-  );
-};
-
-export const Home = wrapPage(() => {
-  return (
-    <main className={'flex-col flex gap-10'}>
-      <Hero />
       <Feed />
     </main>
   );
@@ -309,6 +313,6 @@ export const Home = wrapPage(() => {
 
 /*
 TODO
- - Make infinite scroll
+ - Make feed infinite scroll
 
  */
