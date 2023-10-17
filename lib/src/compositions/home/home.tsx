@@ -7,6 +7,20 @@ import { useCallback, useMemo, useState } from 'react';
 import { suspensify } from '@elements/components/suspensify';
 import { useTranslation } from '@elements/translation';
 import { ViewLocalitySlideOver as RawViewLocalitySlideOver } from '@elements/components/view-locality-slide-over';
+import WaterPollution from '@elements/assets/water-pollution.svg?react';
+import Volunteering from '@elements/assets/volunteering.svg?react';
+import {
+  ChatBubbleLeftEllipsisOutline,
+  CheckCircleOutline,
+  Crowd,
+  DocumentTextOutline,
+  ExclamationTriangleOutline,
+  Giving,
+  HandRaisedOutline,
+  MapPinOutline,
+  MegaphoneOutline,
+  PhotoOutline,
+} from '@elements/icons';
 
 const ViewIssueLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
   const t = useTranslation();
@@ -69,7 +83,7 @@ const Card = ({ entityId, entityType, onLocalitySlideOverOpen }: any) => {
   );
 };
 
-export const Home = wrapPage(() => {
+export const Feed = () => {
   const userLocation = useValue('user.locality/location');
   const list = useValue('home-feed/list', { 'user.locality/location': userLocation });
   const [localitySlideOverArgs, setLocalitySlideOverArgs] = useState<{
@@ -129,6 +143,167 @@ export const Home = wrapPage(() => {
       </div>
       {viewLocalitySlideOverUI}
     </>
+  );
+};
+
+const HeroTitle = () => {
+  const text = 'The future of community is already here.';
+  const subText =
+    'Aktopia empowers communities to come together and solve their pressing problems.';
+  return (
+    <div className={'flex flex-col justify-center gap-6'}>
+      <h1
+        className={
+          'text-7xl text-center font-semibold bg-gradient-to-br from-blue-600 to-blue-800 text-transparent bg-clip-text p-5'
+        }>
+        {text}
+      </h1>
+      <h2 className={'text-xl text-center font-medium text-gray-500'}>{subText}</h2>
+    </div>
+  );
+};
+
+const IssueHero = () => {
+  const features = [
+    {
+      text: 'Describe the issue in detail.',
+      Icon: DocumentTextOutline,
+    },
+    {
+      text: 'Add media related to the issue.',
+      Icon: PhotoOutline,
+    },
+    {
+      text: 'Add spots in a map to locate the issue.',
+      Icon: MapPinOutline,
+    },
+    {
+      text: "Collectively choose the issue's severity.",
+      Icon: ExclamationTriangleOutline,
+    },
+    {
+      text: "Tell if you're directly facing the issue.",
+      Icon: HandRaisedOutline,
+    },
+    {
+      text: 'Discuss the issue in depth.',
+      Icon: ChatBubbleLeftEllipsisOutline,
+    },
+  ];
+  return (
+    <section className={'flex flex-col gap-16 w-full'}>
+      <div className={'flex flex-col gap-5'}>
+        <div className={'flex gap-2 items-center'}>
+          <h3 className={'text-3xl text-gray-600'}>{'It starts with an'}</h3>
+          <div className={'flex items-center'}>
+            <h3 className={'text-3xl text-rose-600 font-bold'}>{'issue'}</h3>
+            {/*<h3 className={'text-3xl text-gray-600'}>{'...'}</h3>*/}
+          </div>
+        </div>
+        <p className={'text-gray-500 text-xl'}>
+          {
+            'You spot a public issue, minor or significant. Begin by documenting it. As others participate, the issue gains public awareness.'
+          }
+        </p>
+      </div>
+      <div className={'flex gap-20 w-full items-center justify-center'}>
+        <div className={'flex items-center justify-center'}>
+          <WaterPollution className={'h-72 w-72'} />
+        </div>
+        <div className={'flex flex-col gap-5'}>
+          <div className={'flex flex-col gap-7'}>
+            <ul className={'flex flex-col gap-5'}>
+              {features.map(({ text, Icon }) => (
+                <li key={text} className={'flex gap-5 items-center'}>
+                  <Icon className={'h-7 w-7 text-gray-600'} />
+                  <p className={'text-gray-600 text-lg'}>{text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ActionHero = () => {
+  const features = [
+    {
+      text: 'Volunteer for an action.',
+      Icon: Crowd,
+    },
+    {
+      text: 'Fund an action.',
+      Icon: Giving,
+    },
+    {
+      text: 'Document the plan of action.',
+      Icon: DocumentTextOutline,
+    },
+    {
+      text: 'Stay up to date with the progress.',
+      Icon: MegaphoneOutline,
+    },
+    {
+      text: 'Organize the action into smaller tasks.',
+      Icon: CheckCircleOutline,
+    },
+    {
+      text: 'Vet the action in depth.',
+      Icon: ChatBubbleLeftEllipsisOutline,
+    },
+  ];
+  return (
+    <section className={'flex flex-col gap-16 w-full'}>
+      <div className={'flex flex-col items-center gap-9'}>
+        <div className={'flex gap-2 items-center'}>
+          <h3 className={'text-4xl text-gray-600'}>{'...and ends with an'}</h3>
+          <h3 className={'text-4xl text-blue-600 font-bold'}>{'action'}</h3>
+        </div>
+        <p className={'text-gray-500 text-xl'}>
+          {
+            'The community comes together, creates an action. Driven by volunteers and backed by sponsors, they bring the action to fruition. Aktopia betters local communities, nations and the world one action at a time.'
+          }
+        </p>
+      </div>
+      <div className={'flex gap-20 w-full items-center justify-center'}>
+        <div className={'flex flex-col gap-5'}>
+          <div className={'flex flex-col gap-7'}>
+            <ul className={'flex flex-col gap-5'}>
+              {features.map(({ text, Icon }) => (
+                <li key={text} className={'flex gap-5 items-center'}>
+                  <Icon className={'h-7 w-7 text-gray-600'} />
+                  <p className={'text-gray-600 text-lg'}>{text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className={'flex items-center justify-center'}>
+          <Volunteering className={'h-80 w-80'} />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Hero = () => {
+  return (
+    <div className={'flex flex-col justify-center gap-36 items-center'}>
+      <HeroTitle />
+      <IssueHero />
+      <ActionHero />
+    </div>
+  );
+};
+
+export const Home = wrapPage(() => {
+  return (
+    <main className={'flex-col flex gap-10'}>
+      <Hero />
+      <Feed />
+    </main>
   );
 });
 

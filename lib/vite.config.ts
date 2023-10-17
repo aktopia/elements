@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { resolve } from 'path';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   resolve: {
@@ -16,5 +17,5 @@ export default defineConfig({
     target: 'esnext',
   },
   assetsInclude: ['**/*.md'],
-  plugins: [react()],
+  plugins: [react(), svgr()],
 });

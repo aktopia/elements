@@ -279,11 +279,12 @@ export {
   TrashIcon as TrashMiniSolid,
   MapIcon as MapMiniSolid,
   ExclamationCircleIcon as ExclamationCircleMiniSolid,
+  DocumentTextIcon as DocumentTextMiniSolid,
+  MegaphoneIcon as MegaphoneMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
   XMarkIcon as XMarkSolid,
-  CheckCircleIcon as CheckCircleSolid,
   UserCircleIcon as UserCircleSolid,
   MagnifyingGlassIcon as MagnifyingGlassSolid,
   CheckIcon as CheckSolid,
@@ -303,6 +304,11 @@ export {
   SparklesIcon as SparklesSolid,
   LightBulbIcon as LightBulbSolid,
   FunnelIcon as FunnelSolid,
+  PhotoIcon as PhotoSolid,
+  ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisSolid,
+  DocumentTextIcon as DocumentTextSolid,
+  MegaphoneIcon as MegaphoneSolid,
+  CheckCircleIcon as CheckCircleSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -328,6 +334,9 @@ export {
   PencilIcon as PencilOutline,
   ExclamationCircleIcon as ExclamationCircleOutline,
   LightBulbIcon as LightBulbOutline,
+  DocumentTextIcon as DocumentTextOutline,
+  MegaphoneIcon as MegaphoneOutline,
+  CheckCircleIcon as CheckCircleOutline,
 } from '@heroicons/react/24/outline';
 
 /*

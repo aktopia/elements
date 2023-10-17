@@ -31,7 +31,8 @@
     "verbatimModuleSyntax": true,
     "types": [
       "vite/client",
-      "google.maps"
+      "google.maps",
+      "vite-plugin-svgr/client"
     ]
   },
   "include": [

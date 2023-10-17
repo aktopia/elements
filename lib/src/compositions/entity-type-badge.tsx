@@ -20,11 +20,13 @@ const containerVariant = cva('w-max rounded', {
     size: {
       sm: 'px-3 py-1',
       xs: 'px-1 py-0.5',
+      md: 'px-4 py-2',
+      lg: 'px-5 py-2.5',
     },
   },
 });
 
-const textVariant = cva('text-xs', {
+const textVariant = cva('', {
   variants: {
     type: {
       [Type.Issue]: 'text-rose-600',
@@ -33,15 +35,17 @@ const textVariant = cva('text-xs', {
       [Type.MetaInitiative]: 'text-emerald-600',
     },
     size: {
-      sm: 'font-medium',
-      xs: 'font-normal',
+      sm: 'font-medium text-xs',
+      xs: 'font-normal text-xs',
+      md: 'font-medium text-base',
+      lg: 'font-medium text-lg',
     },
   },
 });
 
 interface EntityTypeProps {
   type: Type;
-  size: 'xs' | 'sm';
+  size: 'xs' | 'sm' | 'md' | 'lg';
 }
 
 export const EntityTypeBadge = ({ type, size = 'sm' }: EntityTypeProps) => {

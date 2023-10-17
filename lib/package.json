@@ -86,6 +86,7 @@
     "typescript": "^5.2.2",
     "vite": "4.4.9",
     "vite-bundle-visualizer": "^0.10.0",
+    "vite-plugin-svgr": "^4.1.0",
     "zx": "^7.2.3"
   }
 }
