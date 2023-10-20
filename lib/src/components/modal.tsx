@@ -1,7 +1,7 @@
 import { XMark } from '@elements/icons';
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useMemo } from 'react';
+import { Dialog } from '@headlessui/react';
 import type { ReactNode } from 'react';
+import { useMemo } from 'react';
 
 interface ModalProps {
   children: ReactNode;
@@ -40,21 +40,9 @@ export const ModalHeader = ({ title, onClose }: any) => {
 
 export const ModalPanel = ({ children }: { children: ReactNode }) => {
   return (
-    <Transition.Child
-      as={Fragment}
-      enter={'ease-out duration-300'}
-      enterFrom={'opacity-0 scale-95'}
-      enterTo={'opacity-100 scale-100'}
-      leave={'ease-in duration-200'}
-      leaveFrom={'opacity-100 scale-100'}
-      leaveTo={'opacity-0 scale-95'}>
-      <Dialog.Panel
-        className={
-          'w-max scale-100 transform rounded-2xl border border-gray-200 bg-white opacity-100 shadow-xl transition-all'
-        }>
-        {children}
-      </Dialog.Panel>
-    </Transition.Child>
+    <Dialog.Panel className={'w-max rounded-2xl border border-gray-200 bg-white shadow-xl'}>
+      {children}
+    </Dialog.Panel>
   );
 };
 
@@ -64,26 +52,14 @@ export const Modal = ({ children, onClose, visible }: ModalProps) => {
   }, [onClose]);
 
   return (
-    <Transition.Root appear afterLeave={console.log} as={Fragment} show={visible}>
-      <Dialog className={'z-modal relative'} open={visible} onClose={onDialogClose}>
-        <Transition.Child
-          as={Fragment}
-          enter={'ease-out duration-300'}
-          enterFrom={'opacity-0'}
-          enterTo={'opacity-100'}
-          leave={'ease-in duration-200'}
-          leaveFrom={'opacity-100'}
-          leaveTo={'opacity-0'}>
-          <div className={'fixed inset-0 bg-opacity-25 transition-opacity'} />
-        </Transition.Child>
-        <div
-          className={
-            'fixed inset-0 flex items-start justify-center overflow-y-auto p-4 sm:p-6 md:p-20'
-          }>
-          {children}
-        </div>
-      </Dialog>
-    </Transition.Root>
+    <Dialog className={'z-modal relative'} open={visible} onClose={onDialogClose}>
+      <div
+        className={
+          'fixed inset-0 flex items-start justify-center overflow-y-auto p-4 sm:p-6 md:p-20'
+        }>
+        {children}
+      </div>
+    </Dialog>
   );
 };
 
