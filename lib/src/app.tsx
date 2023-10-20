@@ -14,15 +14,25 @@ const authConfig = {
   appName: 'aktopia',
 };
 
+const viewportResize = () => {
+  dispatch('viewport/resize');
+};
+
 function init() {
   initAuth(authConfig);
   initRouter(listener);
   dispatch('app/load');
+  viewportResize();
 }
 
 export const App = suspensify(() => {
   useEffect(() => {
     init();
+    window.addEventListener('resize', viewportResize);
+
+    return () => {
+      window.removeEventListener('resize', viewportResize);
+    };
   }, []);
 
   const loading = useValue('app/loading');

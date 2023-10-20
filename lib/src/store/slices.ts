@@ -19,6 +19,7 @@ import { confirmationModalSlice } from '@elements/logic/confirmation-modal';
 import { homeFeedSlice } from '@elements/logic/home-feed';
 import { accountSlice } from '@elements/logic/account';
 import { metaInitiativeSlice } from '@elements/logic/meta/initiative';
+import { viewportSlice } from '@elements/logic/viewport';
 
 export const slices = [
   localeSlice,
@@ -42,4 +43,5 @@ export const slices = [
   homeFeedSlice,
   accountSlice,
   metaInitiativeSlice,
+  viewportSlice,
 ];

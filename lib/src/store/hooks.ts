@@ -17,3 +17,7 @@ export const useWrapRequireAuth = (callback: Function, deps: Array<any>) => {
 export const useCurrentUserId = () => {
   return useValue('current.user/id');
 };
+
+export const useViewport = () => {
+  return useValue('viewport/size');
+};

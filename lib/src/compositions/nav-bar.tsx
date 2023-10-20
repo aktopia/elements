@@ -17,6 +17,7 @@ import { ChooseLocalitySlideOver } from '@elements/compositions/choose-locality'
 import { Button } from '@elements/components/button';
 import { Avatar } from '@elements/components/avatar';
 import { Link } from '@elements/components/link';
+import { useViewport } from '@elements/store/hooks';
 
 const aktopia = 'Aktopia';
 
@@ -194,6 +195,8 @@ const ChooseLocalityButton = suspensify(() => {
 });
 
 export const NavBar = () => {
+  const viewport = useViewport();
+  console.log(viewport);
   return (
     <>
       <nav className={'grid h-max grid-cols-7 border-b border-b-gray-300 bg-white shadow-sm'}>
