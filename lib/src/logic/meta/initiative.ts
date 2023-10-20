@@ -9,6 +9,13 @@ import {
 import { rpcPost } from '@elements/rpc';
 import { type Match } from '@elements/router';
 
+export enum Status {
+  Evaluating = 'meta.initiative.status/evaluating',
+  Planning = 'meta.initiative.status/planning',
+  Planned = 'meta.initiative.status/planned',
+  InProgress = 'meta.initiative.status/in-progress',
+}
+
 export type Subs = {
   'current.meta.initiative/slug': {
     params: {};
@@ -42,6 +49,10 @@ export type Subs = {
     params: {};
     result: string[];
   };
+  'meta.initiative/status': {
+    params: { 'meta.initiative/slug': string };
+    result: Status;
+  };
 };
 
 export type Events = {
@@ -64,6 +75,12 @@ export type Events = {
   'current.meta.initiative.id/set': {
     params: {
       'meta.initiative/slug': string;
+    };
+  };
+  'meta.initiative.status/update': {
+    params: {
+      'meta.initiative/slug': string;
+      status: Status;
     };
   };
 };
@@ -90,6 +107,7 @@ remoteSub('meta.initiative.title/can-edit');
 remoteSub('meta.initiative.description/text');
 remoteSub('meta.initiative.description/can-edit');
 remoteSub('meta.initiative/updated-at');
+remoteSub('meta.initiative/status');
 
 evt('current.meta.initiative.id/set', ({ setState, params }) => {
   setState((state: any) => {
@@ -132,6 +150,17 @@ evt('navigated.meta.initiative/view', ({ params }) => {
   }
   dispatch('current.meta.initiative.id/set', { 'meta.initiative/slug': id });
   dispatch('route.navigation/complete');
+});
+
+evt('meta.initiative.status/update', async ({ params }) => {
+  await rpcPost('meta.initiative.status/update', {
+    'meta.initiative/slug': params['meta.initiative/slug'],
+    status: params.status,
+  });
+
+  await invalidateAsyncSub('meta.initiative/status', {
+    'meta.initiative/slug': params['meta.initiative/slug'],
+  });
 });
 
 registerTextEditor('meta.initiative.title/text', {

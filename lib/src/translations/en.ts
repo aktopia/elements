@@ -121,6 +121,10 @@ const metaInitiative = {
   'meta.initiative.title/placeholder': 'Give the initiative a title.',
   'meta.initiative.description/placeholder': 'Describe the initiative.',
   'meta.initiative.description/empty': "You haven't added a description yet.",
+  'meta.initiative.status/evaluating': 'Evaluating',
+  'meta.initiative.status/in-progress': 'In progress',
+  'meta.initiative.status/planning': 'Planning',
+  'meta.initiative.status/planned': 'Planned',
 };
 
 const translation = {

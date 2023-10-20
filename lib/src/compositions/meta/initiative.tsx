@@ -13,6 +13,8 @@ import { updateHashParams } from '@elements/router';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { Updates } from '@elements/compositions/updates';
 import { Discuss } from '@elements/compositions/discuss';
+import { Status } from '@elements/logic/meta/initiative';
+import { statuses, StatusSelect } from '@elements/compositions/meta/status';
 
 const Title = suspensify(() => {
   const initiativeSlug = useValue('current.meta.initiative/slug');
@@ -72,7 +74,25 @@ export const InitiativeTabs = suspensify(() => {
   return <Tabs activeTabId={activeTabId} size={'lg'} tabs={tabs} onTabClick={onTabClick} />;
 });
 
-export const Header = suspensify(() => {
+const InitiativeStatus = () => {
+  const initiativeSlug = useValue('current.meta.initiative/slug');
+  const status = useValue('meta.initiative/status', { 'meta.initiative/slug': initiativeSlug });
+
+  const updateStatus = useDispatch('meta.initiative.status/update');
+
+  const onSelectionChange = useCallback(
+    (status: Status) => {
+      updateStatus({ status, 'meta.initiative/slug': initiativeSlug });
+    },
+    [updateStatus, initiativeSlug]
+  );
+
+  return (
+    <StatusSelect selected={status} statuses={statuses} onSelectionChange={onSelectionChange} />
+  );
+};
+
+export const Details = suspensify(() => {
   const initiativeSlug = useValue('current.meta.initiative/slug');
   const updatedAt = useValue('meta.initiative/updated-at', {
     'meta.initiative/slug': initiativeSlug,
@@ -91,6 +111,7 @@ export const Header = suspensify(() => {
               <Title suspenseLineHeight={'36'} suspenseLines={1} />
             </div>
             <ActionBar suspenseLines={2} />
+            <InitiativeStatus />
           </div>
         </div>
       </div>
@@ -181,7 +202,7 @@ export const Initiative = wrapPage(() => {
 
   return (
     <div className={'flex flex-col gap-16'}>
-      <Header />
+      <Details />
       {tab}
     </div>
   );

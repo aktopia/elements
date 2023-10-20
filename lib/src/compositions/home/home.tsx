@@ -150,7 +150,7 @@ export const Feed = () => {
   );
 };
 
-const HeroTitle = () => {
+const Introduction = () => {
   const text = 'The future of community is already here.';
   const subText =
     'Aktopia empowers communities to come together and solve their pressing problems.';
@@ -175,7 +175,7 @@ const HeroTitle = () => {
   );
 };
 
-const IssueHero = () => {
+const IssueIntroduction = () => {
   const features = [
     {
       text: 'Describe the issue in detail.',
@@ -239,7 +239,7 @@ const IssueHero = () => {
   );
 };
 
-const ActionHero = () => {
+const ActionIntroduction = () => {
   const features = [
     {
       text: 'Volunteer for an action.',
@@ -303,9 +303,9 @@ const ActionHero = () => {
 export const Home = wrapPage(() => {
   return (
     <main className={'flex-col flex gap-36 justify-center items-center'}>
-      <HeroTitle />
-      <IssueHero />
-      <ActionHero />
+      <Introduction />
+      <IssueIntroduction />
+      <ActionIntroduction />
       <Feed />
     </main>
   );

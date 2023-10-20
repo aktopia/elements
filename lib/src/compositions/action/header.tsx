@@ -19,6 +19,7 @@ import { Locality, LocalitySlideOver } from '@elements/compositions/action/local
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
+import { Status } from '@elements/logic/meta/initiative';
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -50,10 +51,10 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
-      <WrapComingSoonPopover id={'action-share'} size={'sm'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'action-share'} size={'sm'} status={Status.Evaluating}>
         <QRCodeButton kind={'tertiary'} size={'xs'} />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'action-follow'} size={'sm'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'action-follow'} size={'sm'} status={Status.Evaluating}>
         <FollowButton
           clicked={followed}
           count={followCount}
@@ -62,7 +63,7 @@ export const SubscriptionBar = suspensify(() => {
           onClick={onFollowButtonClick}
         />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'action-save'} size={'sm'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'action-save'} size={'sm'} status={Status.Evaluating}>
         <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
       </WrapComingSoonPopover>
     </div>
@@ -117,7 +118,7 @@ export const ActionBar = suspensify(() => {
   return (
     <div className={'flex gap-10'}>
       <Voting lookupRef={actionId} size={'md'} suspenseLines={1} />
-      <WrapComingSoonPopover id={'action-funding'} status={'planning'}>
+      <WrapComingSoonPopover id={'action-funding'} status={Status.Planning}>
         <Button
           Icon={Giving}
           containerClassName={'w-32'}
@@ -127,7 +128,7 @@ export const ActionBar = suspensify(() => {
           onClick={onFundButtonClick}
         />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'action-volunteering'} status={'planning'}>
+      <WrapComingSoonPopover id={'action-volunteering'} status={Status.Planning}>
         <Button
           Icon={Crowd}
           kind={'secondary'}

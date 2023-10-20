@@ -1,8 +1,7 @@
 import { Link } from '@elements/components/link';
 import { LightBulbSolid, SparklesSolid } from '@elements/icons';
 import { cva } from 'cva';
-
-export type Status = 'evaluating' | 'planning' | 'planned' | 'in-progress' | 'coming-soon';
+import { Status } from '@elements/logic/meta/initiative';
 
 const containerVariant = cva('w-full flex items-center justify-center', {
   variants: {
@@ -40,15 +39,15 @@ const linkVariant = cva('text-blue-700 hover:underline', {
   },
 });
 
-const getStuff = (status: string) => {
+const getStuff = (status: Status) => {
   switch (status) {
-    case 'evaluating':
+    case Status.Evaluating:
       return ['This initiative is under evaluation.', 'Share your thoughts here.', LightBulbSolid];
-    case 'planning':
+    case Status.Planning:
       return ['This initiative is being planned.', 'You can follow it here.', LightBulbSolid];
-    case 'planned':
+    case Status.Planned:
       return ['This initiative has been prioritised.', 'Track the status here.', SparklesSolid];
-    case 'in-progress':
+    case Status.InProgress:
       return ['This initiative is in progress.', 'Track the status here.', SparklesSolid];
     default:
       return ['This initiative is coming soon.', 'You can follow it here.', SparklesSolid];

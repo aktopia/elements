@@ -18,6 +18,7 @@ import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 import { useWrapRequireAuth } from '@elements/store/hooks';
+import { Status } from '@elements/logic/meta/initiative';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
@@ -77,10 +78,10 @@ export const SubscriptionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-4'}>
-      <WrapComingSoonPopover id={'issue-share'} size={'sm'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'issue-share'} size={'sm'} status={Status.Evaluating}>
         <QRCodeButton kind={'tertiary'} size={'xs'} />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'issue-follow'} size={'sm'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'issue-follow'} size={'sm'} status={Status.Evaluating}>
         <FollowButton
           clicked={followed}
           count={followCount}
@@ -89,7 +90,7 @@ export const SubscriptionBar = suspensify(() => {
           onClick={onFollowButtonClick}
         />
       </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'issue-save'} size={'sm'} status={'evaluating'}>
+      <WrapComingSoonPopover id={'issue-save'} size={'sm'} status={Status.Evaluating}>
         <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
       </WrapComingSoonPopover>
     </div>

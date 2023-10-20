@@ -1,7 +1,8 @@
-import { ComingSoon, type Status } from '@elements/components/coming-soon';
+import { ComingSoon } from '@elements/components/coming-soon';
 import { Dialog, DialogTrigger, Popover } from 'react-aria-components';
 import type { ReactNode } from 'react';
 import { cx } from '@elements/utils';
+import type { Status } from '@elements/logic/meta/initiative';
 
 export const WrapComingSoonPopover = ({
   id,
