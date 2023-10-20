@@ -281,6 +281,7 @@ export {
   ExclamationCircleIcon as ExclamationCircleMiniSolid,
   DocumentTextIcon as DocumentTextMiniSolid,
   MegaphoneIcon as MegaphoneMiniSolid,
+  HomeIcon as HomeMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
@@ -309,6 +310,7 @@ export {
   DocumentTextIcon as DocumentTextSolid,
   MegaphoneIcon as MegaphoneSolid,
   CheckCircleIcon as CheckCircleSolid,
+  HomeIcon as HomeSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -337,6 +339,7 @@ export {
   DocumentTextIcon as DocumentTextOutline,
   MegaphoneIcon as MegaphoneOutline,
   CheckCircleIcon as CheckCircleOutline,
+  HomeIcon as HomeOutline,
 } from '@heroicons/react/24/outline';
 
 /*

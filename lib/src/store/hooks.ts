@@ -21,3 +21,8 @@ export const useCurrentUserId = () => {
 export const useViewport = () => {
   return useValue('viewport/size');
 };
+
+export const useIsCompactViewport = () => {
+  const viewport = useValue('viewport/size');
+  return viewport === 'md' || viewport === 'sm';
+};
