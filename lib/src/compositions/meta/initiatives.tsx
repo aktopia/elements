@@ -7,8 +7,9 @@ import { Link } from '@elements/components/link';
 import { UpVoting } from '@elements/compositions/voting';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useMemo } from 'react';
+import { InitiativeStatus } from '@elements/compositions/meta/status';
 
-export const InitiativeCard = suspensify(({ id: slug }: any) => {
+export const InitiativeCard = suspensify(({ slug }: any) => {
   const title = useValue('meta.initiative.title/text', { 'meta.initiative/slug': slug });
   const updatedAt = useValue('meta.initiative/updated-at', { 'meta.initiative/slug': slug });
   const lookupRef = useMemo(() => ['meta.initiative/slug', slug] as LookupRef, [slug]);
@@ -29,6 +30,7 @@ export const InitiativeCard = suspensify(({ id: slug }: any) => {
       </Link>
       <div className={'flex items-center gap-10'}>
         <UpVoting lookupRef={lookupRef} size={'sm'} suspenseLines={2} />
+        <InitiativeStatus slug={slug} />
       </div>
     </div>
   );
@@ -44,8 +46,8 @@ export const Initiatives = wrapPage(() => {
       <h1 className={'text-4xl font-medium text-gray-800'}>{makeBetter}</h1>
       <p className={'text-gray-600 text-lg text-center w-2/3'}>{welcome}</p>
       <div className={'flex flex-col gap-9 w-full'}>
-        {slugs.map((id) => (
-          <InitiativeCard key={id} id={id} suspenseLines={2} />
+        {slugs.map((slug) => (
+          <InitiativeCard key={slug} slug={slug} suspenseLines={2} />
         ))}
       </div>
     </div>
