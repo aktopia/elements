@@ -33,8 +33,8 @@ export const CreateModal = suspensify(({}) => {
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
-        <div className={'flex w-full flex-col gap-7 py-7 px-6'}>
-          <form className={'flex w-[500px] flex-col gap-8'} onSubmit={onSubmit}>
+        <div className={'flex md:w-full w-screen flex-col gap-7 py-7 px-6'}>
+          <form className={'flex w-full md:w-[500px] flex-col gap-8'} onSubmit={onSubmit}>
             <input name={'title'} type={'hidden'} value={title} />
             <TextInput
               placeholder={t('action.title/placeholder')}

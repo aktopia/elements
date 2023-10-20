@@ -168,8 +168,8 @@ const Introduction = () => {
           'shadow-sm w-max flex gap-2 justify-center items-center py-2 px-4 rounded-full border border-gray-300 bg-gradient-to-br from-blue-50 to-blue-100'
         }
         href={'#home-feed'}>
-        <p className={'text-gray-700 font-medium'}>{"See what's happening near you"}</p>
-        <ChevronRightSolid className={'h-4 w-4 text-gray-600'} />
+        <p className={'text-gray-700 text-lg font-medium'}>{"See what's happening near you"}</p>
+        <ChevronRightSolid className={'h-5 w-5 text-gray-700'} />
       </a>
     </section>
   );
