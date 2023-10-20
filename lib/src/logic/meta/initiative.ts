@@ -53,6 +53,10 @@ export type Subs = {
     params: { 'meta.initiative/slug': string };
     result: Status;
   };
+  'meta.initiative.status/can-edit': {
+    params: { 'meta.initiative/slug': string };
+    result: boolean;
+  };
 };
 
 export type Events = {
@@ -108,6 +112,7 @@ remoteSub('meta.initiative.description/text');
 remoteSub('meta.initiative.description/can-edit');
 remoteSub('meta.initiative/updated-at');
 remoteSub('meta.initiative/status');
+remoteSub('meta.initiative.status/can-edit');
 
 evt('current.meta.initiative.id/set', ({ setState, params }) => {
   setState((state: any) => {

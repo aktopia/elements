@@ -14,7 +14,8 @@ import { wrapPage } from '@elements/compositions/wrap-page';
 import { Updates } from '@elements/compositions/updates';
 import { Discuss } from '@elements/compositions/discuss';
 import { Status } from '@elements/logic/meta/initiative';
-import { statuses, StatusSelect } from '@elements/compositions/meta/status';
+import { StatusSelect } from '@elements/compositions/meta/status';
+import { cx } from '@elements/utils';
 
 const Title = suspensify(() => {
   const initiativeSlug = useValue('current.meta.initiative/slug');
@@ -74,9 +75,20 @@ export const InitiativeTabs = suspensify(() => {
   return <Tabs activeTabId={activeTabId} size={'lg'} tabs={tabs} onTabClick={onTabClick} />;
 });
 
+const statusColors = {
+  [Status.Evaluating]: 'bg-gray-500',
+  [Status.Planning]: 'bg-yellow-500',
+  [Status.Planned]: 'bg-lime-500',
+  [Status.InProgress]: 'bg-green-500',
+};
+
 const InitiativeStatus = () => {
+  const t = useTranslation();
   const initiativeSlug = useValue('current.meta.initiative/slug');
   const status = useValue('meta.initiative/status', { 'meta.initiative/slug': initiativeSlug });
+  const canEdit = useValue('meta.initiative.status/can-edit', {
+    'meta.initiative/slug': initiativeSlug,
+  });
 
   const updateStatus = useDispatch('meta.initiative.status/update');
 
@@ -87,8 +99,30 @@ const InitiativeStatus = () => {
     [updateStatus, initiativeSlug]
   );
 
-  return (
+  const statuses = useMemo(
+    () =>
+      [Status.Evaluating, Status.Planning, Status.Planned, Status.InProgress].map((status) => ({
+        id: status,
+        color: statusColors[status],
+      })),
+    []
+  );
+
+  return canEdit ? (
     <StatusSelect selected={status} statuses={statuses} onSelectionChange={onSelectionChange} />
+  ) : (
+    <div
+      className={
+        'flex items-center gap-2 cursor-default border border-gray-300 transition py-1.5 px-3 text-base text-gray-700 focus:outline-none rounded-full'
+      }>
+      <span
+        className={cx(
+          'w-3 h-3 rounded-full border border-solid border-white',
+          statusColors[status]
+        )}
+      />
+      <span>{t(status)}</span>
+    </div>
   );
 };
 

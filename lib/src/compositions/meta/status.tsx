@@ -3,15 +3,7 @@ import { Button, Item, ListBox, Popover, Select, SelectValue } from 'react-aria-
 import { CheckSolid } from '@elements/icons';
 import type { ReactNode } from 'react';
 import { cx } from '@elements/utils';
-import { Status } from '@elements/logic/meta/initiative';
 import { useTranslation } from '@elements/translation';
-
-export const statuses = [
-  { id: Status.Evaluating, color: 'bg-gray-500' },
-  { id: Status.Planning, color: 'bg-blue-500' },
-  { id: Status.Planned, color: 'bg-yellow-500' },
-  { id: Status.InProgress, color: 'bg-green-500' },
-];
 
 const ListBoxItem = (props: ItemProps & { children: ReactNode }) => {
   return (
@@ -42,7 +34,7 @@ export const StatusSelect = ({ statuses, onSelectionChange, selected }: any) => 
       onSelectionChange={onSelectionChange}>
       <Button
         className={
-          'flex items-center justify-center cursor-default border border-gray-300 transition py-1.5 px-3 text-base text-gray-700 focus:outline-none rounded-full'
+          'flex items-center justify-center border border-gray-300 transition py-1.5 px-3 text-base text-gray-700 focus:outline-none rounded-full'
         }>
         <SelectValue />
       </Button>

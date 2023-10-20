@@ -13,3 +13,7 @@ export const useWrapRequireAuth = (callback: Function, deps: Array<any>) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionExists, promptSignIn, ...deps]);
 };
+
+export const useCurrentUserId = () => {
+  return useValue('current.user/id');
+};
