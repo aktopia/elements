@@ -21,7 +21,6 @@ export const accountSlice = () => ({
 });
 
 evt('account.user.name/edit', ({ setState, params }) => {
-  console.log(params);
   startEditing({ setState, params: { 'ref/id': params['user/id'], 'ref/attribute': 'user/name' } });
 });
 

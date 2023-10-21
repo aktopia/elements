@@ -40,7 +40,7 @@ export const ModalHeader = ({ title, onClose }: any) => {
 
 export const ModalPanel = ({ children }: { children: ReactNode }) => {
   return (
-    <Dialog.Panel className={'w-max rounded-2xl border border-gray-200 bg-white shadow-xl'}>
+    <Dialog.Panel className={'rounded-2xl border border-gray-200 bg-white shadow-xl'}>
       {children}
     </Dialog.Panel>
   );

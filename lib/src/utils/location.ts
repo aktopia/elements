@@ -2,7 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import type { GoogleMap, LatLng, LatLngBounds } from '@elements/components/map';
 import { googleMapsApiKey } from '@elements/config';
 
-const { AutocompleteService, PlacesService } = (await google.maps.importLibrary(
+const { AutocompleteService } = (await google.maps.importLibrary(
   'places'
 )) as google.maps.PlacesLibrary;
 
@@ -10,7 +10,7 @@ const { Geocoder } = (await google.maps.importLibrary('geocoding')) as google.ma
 
 const emptyPredictions: any[] = [];
 
-const placesService = new PlacesService(document.createElement('div'));
+// const placesService = new PlacesService(document.createElement('div'));
 const autoCompleteService = new AutocompleteService();
 const geocoderService = new Geocoder();
 
@@ -67,7 +67,7 @@ export async function resolveLatLng(latLng: LatLng): Promise<PlaceDetails> {
   const { results } = await geocoderService.geocode({ location: latLng });
   const { formatted_address, place_id, address_components } = results[0];
 
-  placesService.getDetails({ placeId: place_id }, (r) => console.log(r));
+  // placesService.getDetails({ placeId: place_id }, (r) => console.log(r));
 
   return {
     formattedAddress: formatted_address,

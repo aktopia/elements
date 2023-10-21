@@ -104,7 +104,7 @@ export const MainSearch = suspensify(() => {
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <Combobox onChange={onSelect}>
-          <div className={'relative w-[500px]'}>
+          <div className={'relative md:w-[500px] w-screen'}>
             <MagnifyingGlassSolid
               aria-hidden={'true'}
               className={'pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400'}

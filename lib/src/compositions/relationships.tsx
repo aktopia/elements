@@ -87,6 +87,7 @@ const ContextMenu = ({ id }: { id: string }) => {
         onClick: onDeleteClick,
         Icon: TrashOutline,
         kind: 'danger',
+        key: 'delete',
       },
     ],
     [t, onDeleteClick]

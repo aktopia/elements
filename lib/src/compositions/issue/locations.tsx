@@ -73,7 +73,7 @@ const LocationCard = suspensify(({ locationId, setMapCenter }: LocationCardProps
   return (
     <div
       className={
-        'flex w-[400px] flex-col items-start gap-3 rounded-md border border-gray-300 px-3 py-2 shadow-sm'
+        'flex md:w-[400px] w-full flex-col items-start gap-3 rounded-md border border-gray-300 px-3 py-2 shadow-sm'
       }>
       <div className={'flex w-full items-center gap-5'}>
         <div className={'flex items-center gap-2'}>
@@ -227,7 +227,6 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
       setAddingLocation(false);
       const center = mapRef.current?.getCenter();
       const bounds = mapRef.current?.getBounds();
-      console.log(center);
       center && onAddLocation({ location: center, bounds, caption });
     },
     [onAddLocation]

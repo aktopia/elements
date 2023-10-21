@@ -14,7 +14,7 @@ export const Contact = wrapPage(() => {
   return (
     <main className={'flex flex-col gap-9 items-center'}>
       <h1 className={'text-3xl text-gray-800'}>{header}</h1>
-      <div className={'grid grid-cols-2 grid-rows-2 gap-10'}>
+      <div className={'md:grid md:grid-cols-2 md:grid-rows-2 flex flex-col gap-10'}>
         <div className={'flex-col flex items-center justify-center gap-2'}>
           <label className={'text-gray-500 text-sm font-medium'}>{t('common/email')}</label>
           <a className={'text-xl font-medium text-blue-600 underline'} href={`mailto:${EMAIL}`}>

@@ -315,6 +315,7 @@ export {
 
 export {
   BoltIcon as BoltOutline,
+  XMarkIcon as XMarkOutline,
   ExclamationTriangleIcon as ExclamationTriangleOutline,
   ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisOutline,
   TrashIcon as TrashOutline,

@@ -14,7 +14,7 @@ export const wrapPage = (Component: ComponentType) =>
           <div className={'z-navbar sticky top-0'}>
             <NavBar />
           </div>
-          <div className={'px-4 pb-8 pt-10 w-full mx-auto lg:w-4/5 md:w-11/12 md:pt-14 pb-48'}>
+          <div className={'px-4 pb-32 pt-10 w-full mx-auto lg:w-4/5 md:w-11/12 md:pt-14 md:pb-48'}>
             <Component {...props} />
           </div>
           <Footer />

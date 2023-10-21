@@ -269,7 +269,7 @@ const ActionIntroduction = () => {
         </div>
         <p className={'text-gray-500 text-xl'}>
           {
-            "The community comes together, creates an action. Driven by volunteers and backed by sponsors, they bring the action to fruition. Let's advance local communities, nations and the world one action at a time."
+            "The community comes together, creates an action. Led by volunteers and backed by sponsors, they drive the action to completion. Let's advance local communities, nations and the world one action at a time."
           }
         </p>
       </div>

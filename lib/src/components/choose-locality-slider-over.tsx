@@ -66,8 +66,8 @@ export const ChooseLocalitySlideOver = ({
             <SlideOverCloseButton onClick={onClose} />
           </SlideOverHeader>
           <SlideOverBody>
-            <div className={'flex h-fit items-center gap-5'}>
-              <div className={'relative h-[25rem] w-[400px] overflow-hidden rounded-lg shadow'}>
+            <div className={'flex h-fit w-full items-center gap-5'}>
+              <div className={'relative h-[25rem] md:w-[400px] w-full rounded-lg shadow'}>
                 <Map
                   ref={mapRef}
                   initialCenter={initialCenter}
