@@ -73,7 +73,7 @@ evt('navigated.profile/view', ({ params }) => {
   const tab = params.route.hashParams.tab;
 
   if (tab) {
-    dispatch('profile.tabs/update', { 'tab/id': tab });
+    dispatch('profile.tabs/update', { 'tab/id': tab as TabId });
   }
 
   dispatch('profile.user.id/set', { id });

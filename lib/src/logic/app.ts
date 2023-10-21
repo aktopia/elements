@@ -29,9 +29,9 @@ evt('app.loading/set', ({ setState, params }) => {
 });
 
 evt('app/load', async () => {
-  dispatch('app.loading/set', { 'app/loading': true });
+  dispatch('app.loading/set', { loading: true });
   await dispatch('auth.session/sync');
   dispatch('user.chosen.locality/sync');
   dispatch('user.apparent.locality/sync');
-  dispatch('app.loading/set', { 'app/loading': false });
+  dispatch('app.loading/set', { loading: false });
 });

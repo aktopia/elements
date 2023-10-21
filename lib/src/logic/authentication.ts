@@ -60,6 +60,7 @@ export type Subs = {
   };
   'auth.verify-otp/otp-sent': {
     params: {};
+    result: boolean;
   };
 };
 
