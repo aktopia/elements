@@ -39,6 +39,9 @@ import type {
 } from '@elements/logic/meta/initiative';
 import type { Subs as ViewportSubs, Events as ViewportEvents } from '@elements/logic/viewport';
 
+export type Sub<Params, Result> = { params: Params; result: Result };
+export type Evt<Params> = { params: Params };
+
 export type Subs = CommentSubs &
   UpdateSubs &
   TextEditorSubs &
