@@ -12,7 +12,7 @@ import type { TabId } from '@elements/logic/profile';
 const Name = suspensify(() => {
   const userId = useValue('profile.user/id');
   const name = useValue('user/name', { 'user/id': userId });
-  return <div className={'w-full text-2xl font-bold text-gray-900'}>{name}</div>;
+  return <div className={'w-full text-4xl font-medium text-gray-700'}>{name}</div>;
 });
 
 const ProfileTabs = suspensify(() => {

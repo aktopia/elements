@@ -67,7 +67,7 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
       className={
         'flex w-full flex-col items-start justify-center gap-7 rounded-lg border border-gray-300 bg-white p-5 shadow-sm'
       }>
-      <div className={'flex items-center gap-7'}>
+      <div className={'flex items-center gap-7 flex-wrap'}>
         <EntityTypeBadge size={'sm'} type={Type.Issue} />
         <LastActive timestamp={updatedAt} />
         <Locality issueId={id} onClick={onLocalityClick} />

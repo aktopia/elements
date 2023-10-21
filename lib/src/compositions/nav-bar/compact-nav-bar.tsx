@@ -178,7 +178,7 @@ const ChooseLocalityButton = suspensify(() => {
       iconClassName={'stroke-2 relative top-px animate-bounce'}
       kind={'warning'}
       size={'xs'}
-      value={'Choose Locality'}
+      value={'Set Locality'}
       onClick={onOpen}
     />
   );
@@ -187,23 +187,23 @@ const ChooseLocalityButton = suspensify(() => {
 export const CompactNavBar = () => {
   return (
     <>
-      <nav className={'grid h-max grid-cols-7 border-b border-b-gray-300 bg-white shadow-sm'}>
-        <div className={'col-start-1 col-end-2'}>
+      <nav
+        className={
+          'flex h-max w-full justify-between border-b border-b-gray-300 bg-white shadow-sm'
+        }>
+        <div>
           <Logo />
         </div>
-        <div className={'col-start-2 col-end-2 flex items-center justify-start'}>
+        <div className={'flex items-center justify-center'}>
           <CreateDropdown />
         </div>
-        <div className={'col-start-3 col-end-5 flex items-center justify-start'}>
+        <div className={'flex items-center justify-center'}>
           <ChooseLocalityButton />
         </div>
-        <div className={'col-start-6 col-end-6 my-3 flex items-center justify-center'}>
+        <div className={'my-3 flex items-center justify-center'}>
           <SearchBar />
         </div>
-        <div
-          className={
-            'col-start-7 col-end-7 flex w-full items-center justify-center bg-white py-2.5 pl-2 pr-6 md:pl-12 md:pr-14'
-          }>
+        <div className={'flex items-center justify-center bg-white px-4'}>
           <UserDropdown />
         </div>
       </nav>

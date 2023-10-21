@@ -45,7 +45,7 @@ const action = {
   'action.description/empty':
     "You haven't added a description yet. Describe what the action is all about.",
   'action.description/placeholder': 'Describe the action.',
-  'action.locality/add': 'Choose action locality',
+  'action.locality/add': 'Choose locality',
   'action.locality/update': 'Update action locality',
   'action/locality': 'Action locality',
   'action.outcome/empty':
@@ -66,7 +66,7 @@ const issue = {
   'issue/expected-resolution': 'Expected Resolution',
   'issue.location.slide-over/location-list': 'Issue Locations',
   'issue.location.slide-over/empty': 'No locations have been added yet.',
-  'issue.locality/add': 'Choose issue locality',
+  'issue.locality/add': 'Choose locality',
   'issue.locality/update': 'Update issue locality',
   'issue/locality': 'Issue locality',
   'issue.severity/label': ({ avgScore, userScore, votes }: any) => {

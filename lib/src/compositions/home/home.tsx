@@ -155,10 +155,10 @@ const Introduction = () => {
   const subText =
     'Aktopia empowers communities to come together and solve their pressing problems.';
   return (
-    <section className={'flex flex-col justify-center items-center gap-6 snap-start'}>
+    <section className={'flex flex-col justify-center items-center gap-6'}>
       <h1
         className={
-          'text-7xl text-center font-semibold bg-gradient-to-br from-blue-600 to-blue-800 text-transparent bg-clip-text p-5'
+          'md:text-7xl text-5xl text-center font-semibold bg-gradient-to-br from-blue-600 to-blue-800 text-transparent bg-clip-text p-5'
         }>
         {text}
       </h1>
@@ -203,13 +203,12 @@ const IssueIntroduction = () => {
     },
   ];
   return (
-    <section className={'flex flex-col gap-16 w-full snap-start'}>
+    <section className={'flex flex-col md:gap-16 gap-12 w-full'}>
       <div className={'flex flex-col gap-5'}>
         <div className={'flex gap-2 items-center'}>
           <h3 className={'text-3xl text-gray-600'}>{'It starts with an'}</h3>
           <div className={'flex items-center'}>
             <h3 className={'text-3xl text-rose-600 font-bold'}>{'issue'}</h3>
-            {/*<h3 className={'text-3xl text-gray-600'}>{'...'}</h3>*/}
           </div>
         </div>
         <p className={'text-gray-500 text-xl'}>
@@ -218,22 +217,17 @@ const IssueIntroduction = () => {
           }
         </p>
       </div>
-      <div className={'flex gap-20 w-full items-center justify-center'}>
-        <div className={'flex items-center justify-center'}>
-          <WaterPollution className={'h-72 w-72'} />
-        </div>
-        <div className={'flex flex-col gap-5'}>
-          <div className={'flex flex-col gap-7'}>
-            <ul className={'flex flex-col gap-5'}>
-              {features.map(({ text, Icon }) => (
-                <li key={text} className={'flex gap-5 items-center'}>
-                  <Icon className={'h-7 w-7 text-gray-600'} />
-                  <p className={'text-gray-600 text-lg'}>{text}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+      <div
+        className={'flex flex-col md:flex-row md:gap-20 gap-12 w-full items-center justify-center'}>
+        <WaterPollution className={'h-72 w-72'} />
+        <ul className={'flex flex-col gap-5'}>
+          {features.map(({ text, Icon }) => (
+            <li key={text} className={'flex gap-5 items-center'}>
+              <Icon className={'h-7 w-7 text-gray-600'} />
+              <p className={'text-gray-600 text-lg'}>{text}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -267,11 +261,11 @@ const ActionIntroduction = () => {
     },
   ];
   return (
-    <section className={'flex flex-col gap-16 w-full snap-start'}>
+    <section className={'flex flex-col md:gap-16 gap-12 w-full'}>
       <div className={'flex flex-col items-center gap-9'}>
-        <div className={'flex gap-2 items-center'}>
-          <h3 className={'text-4xl text-gray-600'}>{'...and ends with an'}</h3>
-          <h3 className={'text-4xl text-blue-600 font-bold'}>{'action'}</h3>
+        <div className={'flex gap-2 items-center flex-wrap'}>
+          <h3 className={'text-3xl text-gray-600'}>{'...and ends with an'}</h3>
+          <h3 className={'text-3xl text-blue-600 font-bold'}>{'action'}</h3>
         </div>
         <p className={'text-gray-500 text-xl'}>
           {
@@ -279,22 +273,19 @@ const ActionIntroduction = () => {
           }
         </p>
       </div>
-      <div className={'flex gap-20 w-full items-center justify-center'}>
-        <div className={'flex flex-col gap-5'}>
-          <div className={'flex flex-col gap-7'}>
-            <ul className={'flex flex-col gap-5'}>
-              {features.map(({ text, Icon }) => (
-                <li key={text} className={'flex gap-5 items-center'}>
-                  <Icon className={'h-7 w-7 text-gray-600'} />
-                  <p className={'text-gray-600 text-lg'}>{text}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <div className={'flex items-center justify-center'}>
-          <Volunteering className={'h-80 w-80'} />
-        </div>
+      <div
+        className={
+          'flex md:flex-row-reverse flex-col md:gap-20 gap-12 w-full items-center justify-center'
+        }>
+        <Volunteering className={'h-80 w-80'} />
+        <ul className={'flex flex-col gap-5'}>
+          {features.map(({ text, Icon }) => (
+            <li key={text} className={'flex gap-5 items-center'}>
+              <Icon className={'h-7 w-7 text-gray-600'} />
+              <p className={'text-gray-600 text-lg'}>{text}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -302,7 +293,7 @@ const ActionIntroduction = () => {
 
 export const Home = wrapPage(() => {
   return (
-    <main className={'flex-col flex gap-36 justify-center items-center'}>
+    <main className={'flex-col flex md:gap-36 gap-20 justify-center items-center'}>
       <Introduction />
       <IssueIntroduction />
       <ActionIntroduction />

@@ -131,7 +131,7 @@ const UserDropdown = suspensify(() => {
 });
 
 const Logo = () => {
-  const prototypeTxt = 'prototype';
+  const preAlpha = 'pre-alpha';
   return (
     <Link
       className={
@@ -139,7 +139,7 @@ const Logo = () => {
       }
       href={'/'}>
       <div className={'font-logo text-xl text-white'}>{aktopia}</div>
-      <div className={'text-xs text-white'}>{prototypeTxt}</div>
+      <div className={'text-xs text-white'}>{preAlpha}</div>
     </Link>
   );
 };
@@ -187,7 +187,7 @@ const ChooseLocalityButton = suspensify(() => {
       iconClassName={'stroke-2 relative top-px animate-bounce'}
       kind={'warning'}
       size={'xs'}
-      value={'Choose Locality'}
+      value={'Set Locality'}
       onClick={onOpen}
     />
   );

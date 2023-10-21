@@ -116,27 +116,29 @@ export const ActionBar = suspensify(() => {
   }, [navigateToFunding, ident]);
 
   return (
-    <div className={'flex gap-10'}>
+    <div className={'flex gap-10 md:flex-row flex-col'}>
       <Voting lookupRef={actionId} size={'md'} suspenseLines={1} />
-      <WrapComingSoonPopover id={'action-funding'} status={Status.Planning}>
-        <Button
-          Icon={Giving}
-          containerClassName={'w-32'}
-          kind={'primary'}
-          size={'md'}
-          value={'Fund'}
-          onClick={onFundButtonClick}
-        />
-      </WrapComingSoonPopover>
-      <WrapComingSoonPopover id={'action-volunteering'} status={Status.Planning}>
-        <Button
-          Icon={Crowd}
-          kind={'secondary'}
-          size={'md'}
-          value={'Volunteer'}
-          onClick={onVolunteerButtonClick}
-        />
-      </WrapComingSoonPopover>
+      <div className={'flex gap-10'}>
+        <WrapComingSoonPopover id={'action-funding'} status={Status.Planning}>
+          <Button
+            Icon={Giving}
+            containerClassName={'w-32'}
+            kind={'primary'}
+            size={'md'}
+            value={'Fund'}
+            onClick={onFundButtonClick}
+          />
+        </WrapComingSoonPopover>
+        <WrapComingSoonPopover id={'action-volunteering'} status={Status.Planning}>
+          <Button
+            Icon={Crowd}
+            kind={'secondary'}
+            size={'md'}
+            value={'Volunteer'}
+            onClick={onVolunteerButtonClick}
+          />
+        </WrapComingSoonPopover>
+      </div>
     </div>
   );
 });
@@ -216,7 +218,8 @@ export const Header = suspensify(() => {
       <div className={'flex flex-col gap-16'}>
         <div className={'flex flex-col gap-10'}>
           <div className={'flex flex-col gap-8'}>
-            <div className={'flex items-baseline justify-between'}>
+            <div
+              className={'flex md:flex-row flex-col-reverse gap-5 items-baseline justify-between'}>
               <div className={'flex gap-7'}>
                 <EntityTypeBadge size={'sm'} type={Type.Action} />
                 <LastActive timestamp={updatedAt} />

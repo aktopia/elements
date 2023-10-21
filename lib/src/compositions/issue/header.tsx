@@ -152,7 +152,8 @@ export const Header = suspensify(() => {
       <div className={'flex flex-col gap-16'}>
         <div className={'flex flex-col gap-10'}>
           <div className={'flex flex-col gap-8'}>
-            <div className={'flex items-baseline justify-between'}>
+            <div
+              className={'flex md:flex-row flex-col-reverse gap-5 items-baseline justify-between'}>
               <div className={'flex items-center gap-7'}>
                 <EntityTypeBadge size={'sm'} type={Type.Issue} />
                 <LastActive timestamp={updatedAt} />
