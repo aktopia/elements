@@ -220,7 +220,7 @@ export const Header = suspensify(() => {
           <div className={'flex flex-col gap-8'}>
             <div
               className={'flex md:flex-row flex-col-reverse gap-5 items-baseline justify-between'}>
-              <div className={'flex gap-7'}>
+              <div className={'flex gap-7 flex-wrap'}>
                 <EntityTypeBadge size={'sm'} type={Type.Action} />
                 <LastActive timestamp={updatedAt} />
                 <Locality actionId={actionId} />
