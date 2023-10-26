@@ -90,7 +90,7 @@ const ContextMenu = ({ id }: { id: string }) => {
 
 export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
-  const reference = useMemo(() => ({ ref: ['comment/id', id] as LookupRef }), [id]);
+  const lookupRef = useMemo(() => ['comment/id', id] as LookupRef, [id]);
 
   const currentUserName = useValue('current.user/name');
   const creatorName = useValue('comment.created-by/name', { 'comment/id': id });
@@ -99,7 +99,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   });
   const text = useValue('comment/text', { 'comment/id': id });
   const createdAt = useValue('comment/created-at', { 'comment/id': id });
-  const responseIds = useValue('comment/ids', reference);
+  const responseIds = useValue('comment/ids', { ref: lookupRef });
   const deleted = status === 'comment.status/deleted';
 
   const updateNewComment = useDispatch('new.comment/update');
@@ -118,15 +118,15 @@ export const Comment = suspensify(({ id }: { id: string }) => {
 
   const onNewCommentUpdate = useCallback(
     (value: string) => {
-      updateNewComment({ ...reference, value });
+      updateNewComment({ ref: lookupRef, value });
     },
-    [reference, updateNewComment]
+    [lookupRef, updateNewComment]
   );
 
   const onNewCommentPost = useCallback(() => {
-    postNewComment(reference);
+    postNewComment({ ref: lookupRef });
     setIsReplying(false);
-  }, [reference, postNewComment]);
+  }, [lookupRef, postNewComment]);
 
   const showResponses = expanded && responseIds && !isEmpty(responseIds);
 
@@ -157,7 +157,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
                 suspenseLines={2}
               />
               <div className={'flex gap-5'}>
-                <Voting lookupRef={id} size={'xs'} suspenseLines={1} />
+                <Voting lookupRef={lookupRef} size={'xs'} suspenseLines={1} />
                 <Button
                   Icon={ChatBubbleLeftEllipsisOutline}
                   clicked={isReplying}

@@ -14,7 +14,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
-import { EntityType as Type } from '@elements/types';
+import { EntityType as Type, type LookupRef } from '@elements/types';
 import { Locality, LocalitySlideOver } from '@elements/compositions/action/locality';
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
@@ -104,6 +104,8 @@ export const ActionBar = suspensify(() => {
 
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
 
+  const lookupRef = useMemo(() => ['action/id', actionId] as LookupRef, [actionId]);
+
   const volunteer = useDispatch('action/volunteer');
   const navigateToFunding = useDispatch('action/fund');
 
@@ -117,7 +119,7 @@ export const ActionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-10 md:flex-row flex-col'}>
-      <Voting lookupRef={actionId} size={'md'} suspenseLines={1} />
+      <Voting lookupRef={lookupRef} size={'md'} suspenseLines={1} />
       <div className={'flex gap-10'}>
         <WrapComingSoonPopover id={'action-funding'} status={Status.Planning}>
           <Button

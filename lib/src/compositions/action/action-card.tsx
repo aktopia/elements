@@ -1,12 +1,12 @@
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store/interface';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
-import { EntityType as Type } from '@elements/types';
+import { EntityType as Type, type LookupRef } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';
 import { Voting } from '@elements/compositions/voting';
 import { useTranslation } from '@elements/translation';
 import { Locality as RawLocality } from '@elements/components/locality';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Link } from '@elements/components/link';
 
 interface ActionCardProps {
@@ -38,6 +38,7 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
     [id, onLocalitySlideOverOpen]
   );
   const updatedAt = useValue('action/updated-at', { 'action/id': id });
+  const lookupRef = useMemo(() => ['action/id', id] as LookupRef, [id]);
 
   return (
     <div
@@ -53,7 +54,7 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
         {title}
       </Link>
       <div className={'flex items-center gap-5'}>
-        <Voting lookupRef={id} size={'xs'} suspenseLines={2} />
+        <Voting lookupRef={lookupRef} size={'xs'} suspenseLines={2} />
       </div>
     </div>
   );
