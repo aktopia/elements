@@ -19,6 +19,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { type ItemType } from '@elements/components/dropdown';
 import { useWrapRequireAuth } from '@elements/store/hooks';
 import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
+import type { LookupRef } from '@elements/types';
 
 export const User = ({ name }: { name: string }) => {
   return (
@@ -89,7 +90,7 @@ const ContextMenu = ({ id }: { id: string }) => {
 
 export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
-  const reference = useMemo(() => ({ 'ref/id': id, 'ref/attribute': 'entity.type/comment' }), [id]);
+  const reference = useMemo(() => ({ ref: ['comment/id', id] as LookupRef }), [id]);
 
   const currentUserName = useValue('current.user/name');
   const creatorName = useValue('comment.created-by/name', { 'comment/id': id });
@@ -99,7 +100,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   const text = useValue('comment/text', { 'comment/id': id });
   const createdAt = useValue('comment/created-at', { 'comment/id': id });
   const responseIds = useValue('comment/ids', reference);
-  const deleted = status === 'deleted';
+  const deleted = status === 'comment.status/deleted';
 
   const updateNewComment = useDispatch('new.comment/update');
   const postNewComment = useDispatch('new.comment/create');

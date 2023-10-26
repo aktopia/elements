@@ -2,14 +2,14 @@ import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { Comments } from '@elements/compositions/comments';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { useWrapRequireAuth } from '@elements/store/hooks';
+import type { LookupRef } from '@elements/types';
 
 interface DiscussProps {
-  refId: string;
-  refAttribute: string;
+  lookupRef: LookupRef;
 }
 
 const DeleteConfirmationModal = suspensify(() => {
@@ -36,29 +36,25 @@ const DeleteConfirmationModal = suspensify(() => {
   );
 });
 
-export const Discuss = suspensify(({ refId, refAttribute }: DiscussProps) => {
+export const Discuss = suspensify(({ lookupRef }: DiscussProps) => {
   const t = useTranslation();
-
   const currentUserName = useValue('current.user/name');
-  const reference = useMemo(
-    () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
-    [refId, refAttribute]
-  );
-  const commentIds = useValue('comment/ids', reference);
+
+  const commentIds = useValue('comment/ids', { ref: lookupRef });
 
   const updateNewComment = useDispatch('new.comment/update');
   const postNewComment = useDispatch('new.comment/create');
 
   const onNewCommentChange = useCallback(
     (value: string) => {
-      updateNewComment({ ...reference, value });
+      updateNewComment({ ref: lookupRef, value });
     },
-    [updateNewComment, reference]
+    [updateNewComment, lookupRef]
   );
 
   const onNewCommentPost = useWrapRequireAuth(() => {
-    postNewComment(reference);
-  }, [postNewComment, reference]);
+    postNewComment({ ref: lookupRef });
+  }, [postNewComment, lookupRef]);
 
   const authorName = currentUserName || t('common/you');
 

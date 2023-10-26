@@ -1,7 +1,7 @@
 import { evt, sub } from '@elements/store';
-
 import { ref } from '@elements/utils';
-import type { Reference } from '@elements/types';
+import type { LookupRef } from '@elements/types';
+import type { Evt, Sub } from '@elements/store/types';
 
 export const textEditorSlice = () => ({
   'text-editor/state': {},
@@ -20,56 +20,32 @@ export function registerTextEditor(attribute: string, actions: Actions) {
 }
 
 export type Subs = {
-  'text-editor/can-edit': {
-    params: {};
-    result: boolean;
-  };
-  'text-editor/editing': {
-    params: {
-      'ref/attribute': string;
-      'ref/id': string;
-    };
-    result: boolean;
-  };
+  'text-editor/can-edit': Sub<{ ref: LookupRef }, boolean>;
+  'text-editor/editing': Sub<{ ref: LookupRef }, boolean>;
 };
 
 export type Events = {
-  'text-editor/edit': {
-    params: {
-      'ref/attribute': string;
-      'ref/id': string;
-    };
-  };
-  'text-editor.edit/done': {
-    params: {
-      'ref/attribute': string;
-      'ref/id': string;
-    };
-  };
-  'text-editor.edit/cancel': {
-    params: {
-      'ref/attribute': string;
-      'ref/id': string;
-    };
-  };
-  'text-editor.text/update': {
-    params: {
-      'ref/attribute': string;
-      'ref/id': string;
-      value: string;
-    };
-  };
+  'text-editor/edit': Evt<{ ref: LookupRef }>;
+  'text-editor.edit/done': Evt<{ ref: LookupRef }>;
+  'text-editor.edit/cancel': Evt<{ ref: LookupRef }>;
+  'text-editor.text/update': Evt<{ ref: LookupRef; value: string }>;
 };
 
 sub('text-editor/can-edit', ({}) => true);
 
 sub('text-editor/editing', ({ state, params }) => {
-  const key = ref(params['ref/attribute'], params['ref/id']);
+  const key = ref(params.ref);
   return !!state['text-editor/state'][key]?.['text-editor/editing'];
 });
 
-export const startEditing = ({ setState, params }: { setState: any; params: Reference }) => {
-  const key = ref(params['ref/attribute'], params['ref/id']);
+export const startEditing = ({
+  setState,
+  params,
+}: {
+  setState: any;
+  params: { ref: LookupRef };
+}) => {
+  const key = ref(params.ref);
 
   setState((state: any) => {
     state['text-editor/state'][key]
@@ -79,7 +55,7 @@ export const startEditing = ({ setState, params }: { setState: any; params: Refe
 };
 
 export const endEditing = ({ setState, params }: any) => {
-  const key = ref(params['ref/attribute'], params['ref/id']);
+  const key = ref(params.ref);
 
   setState((state: any) => {
     state['text-editor/state'][key]['text-editor/editing'] = false;
@@ -87,7 +63,7 @@ export const endEditing = ({ setState, params }: any) => {
 };
 
 export const updateText = ({ setState, params }: any) => {
-  const key = ref(params['ref/attribute'], params['ref/id']);
+  const key = ref(params.ref);
 
   setState((state: any) => {
     state['text-editor/state'][key]
@@ -97,24 +73,24 @@ export const updateText = ({ setState, params }: any) => {
 };
 
 export const text = ({ state, params }: any) => {
-  const key = ref(params['ref/attribute'], params['ref/id']);
+  const key = ref(params.ref);
   return state['text-editor/state'][key]['text-editor/text'];
 };
 
 evt('text-editor.edit/done', async (args) => {
   const { params } = args;
-  const { onEditDone } = textEditors[params['ref/attribute']];
+  const { onEditDone } = textEditors[params.ref[0]];
   onEditDone(args);
 });
 
 evt('text-editor.edit/cancel', async (args) => {
   const { params } = args;
-  const { onEditCancel } = textEditors[params['ref/attribute']];
+  const { onEditCancel } = textEditors[params.ref[0]];
   onEditCancel(args);
 });
 
 evt('text-editor.text/update', (args) => {
   const { params } = args;
-  const { onTextUpdate } = textEditors[params['ref/attribute']];
+  const { onTextUpdate } = textEditors[params.ref[0]];
   onTextUpdate(args);
 });

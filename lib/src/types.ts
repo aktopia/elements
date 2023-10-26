@@ -19,4 +19,4 @@ export type EntityId = string;
 
 export type Keyword = string;
 
-export type LookupRef = [Keyword, string | Keyword] | EntityId;
+export type LookupRef = [Keyword, string | Keyword];

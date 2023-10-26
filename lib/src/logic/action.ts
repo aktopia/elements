@@ -269,7 +269,7 @@ evt('action.title/edit', ({ setState, getState }) => {
 
   startEditing({
     setState,
-    params: { 'ref/id': currenActionId, 'ref/attribute': 'action.title/text' },
+    params: { ref: ['action.title/text', currenActionId] },
   });
 });
 
@@ -278,7 +278,9 @@ evt('action.description/edit', ({ setState, getState }) => {
 
   startEditing({
     setState,
-    params: { 'ref/id': currenActionId, 'ref/attribute': 'action.description/text' },
+    params: {
+      ref: ['action.description/text', currenActionId],
+    },
   });
 });
 
@@ -287,7 +289,9 @@ evt('action.outcome/edit', ({ setState, getState }) => {
 
   startEditing({
     setState,
-    params: { 'ref/id': currenActionId, 'ref/attribute': 'action.outcome/text' },
+    params: {
+      ref: ['action.outcome/text', currenActionId],
+    },
   });
 });
 
@@ -391,10 +395,10 @@ registerTextEditor('action.title/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const title = text({ state: getState(), params });
     await rpcPost('action.title.text/update', {
-      'action/id': params['ref/id'],
+      'action/id': params.ref[1],
       value: title,
     });
-    await invalidateAsyncSub('action.title/text', { 'action/id': params['ref/id'] });
+    await invalidateAsyncSub('action.title/text', { 'action/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
@@ -405,10 +409,10 @@ registerTextEditor('action.description/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const description = text({ state: getState(), params });
     await rpcPost('action.description.text/update', {
-      'action/id': params['ref/id'],
+      'action/id': params.ref[1],
       value: description,
     });
-    await invalidateAsyncSub('action.description/text', { 'action/id': params['ref/id'] });
+    await invalidateAsyncSub('action.description/text', { 'action/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
@@ -419,10 +423,10 @@ registerTextEditor('action.outcome/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const outcome = text({ state: getState(), params });
     await rpcPost('action.outcome.text/update', {
-      'action/id': params['ref/id'],
+      'action/id': params.ref[1],
       value: outcome,
     });
-    await invalidateAsyncSub('action.outcome/text', { 'action/id': params['ref/id'] });
+    await invalidateAsyncSub('action.outcome/text', { 'action/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,

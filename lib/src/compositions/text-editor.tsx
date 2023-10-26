@@ -5,6 +5,7 @@ import { useTranslation } from '@elements/translation';
 import type { ReactElement } from 'react';
 import { useCallback, useMemo } from 'react';
 import isEmpty from 'lodash/isEmpty';
+import type { LookupRef } from '@elements/types';
 
 interface TextEditorProps {
   refId: string;
@@ -30,7 +31,7 @@ export const TextEditor = suspensify(
   }: TextEditorProps) => {
     const t = useTranslation();
     const reference = useMemo(
-      () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
+      () => ({ ref: [refAttribute, refId] as LookupRef }),
       [refAttribute, refId]
     );
 

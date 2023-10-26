@@ -6,6 +6,7 @@ import { useCallback, useEffect } from 'react';
 import { cx as clsx } from 'cva';
 import { twMerge } from 'tailwind-merge';
 import type { ClassValue } from 'cva/dist/types';
+import type { LookupRef } from '@elements/types';
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' });
 
@@ -63,8 +64,9 @@ export function isBefore(ts1: number, ts2: number, unit: ManipulateType) {
   return date.isBefore(ts2, unit);
 }
 
-export function ref(...keys: string[]) {
-  return keys.join('|');
+// TODO spid
+export function ref(lookupRef: LookupRef) {
+  return JSON.stringify(lookupRef);
 }
 
 export function cx(...inputs: ClassValue[]) {

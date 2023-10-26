@@ -1,4 +1,4 @@
-import { emptyObject, ref } from '@elements/utils';
+import { emptyObject } from '@elements/utils';
 import type { Reference } from '@elements/types';
 import { evt, sub } from '@elements/store';
 import type { ButtonKind } from '@elements/components/button';
@@ -43,24 +43,6 @@ export const confirmationModalSlice = () => ({
     'confirmation-modal/params': {},
   },
 });
-
-export const openModal = ({ setState, params }: { setState: any; params: Reference }) => {
-  const key = ref(params['ref/attribute'], params['ref/id']);
-
-  setState((state: any) => {
-    state['confirmation-modal/state'][key]
-      ? (state['confirmation-modal/state'][key]['confirmation-modal/visible'] = true)
-      : (state['confirmation-modal/state'][key] = { 'confirmation-modal/visible': true });
-  });
-};
-
-export const closeModal = ({ setState, params }: any) => {
-  const key = ref(params['ref/attribute'], params['ref/id']);
-
-  setState((state: any) => {
-    state['confirmation-modal/state'][key]['confirmation-modal/visible'] = false;
-  });
-};
 
 sub('confirmation-modal/visible', ({ state }: any) => {
   return state['confirmation-modal/state']['confirmation-modal/visible'];

@@ -1,5 +1,4 @@
 import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
-import pick from 'lodash/pick';
 import { rpcPost } from '@elements/rpc';
 import { ref } from '@elements/utils';
 import {
@@ -9,6 +8,8 @@ import {
   text,
   updateText,
 } from '@elements/logic/text-editor';
+import type { Evt, Sub } from '@elements/store/types';
+import type { LookupRef } from '@elements/types';
 
 export type Subs = {
   'comment/status': {
@@ -29,13 +30,7 @@ export type Subs = {
     };
     result: string;
   };
-  'comment/ids': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-    result: string[];
-  };
+  'comment/ids': Sub<{ ref: LookupRef }, string[]>;
   'comment.deletion/id': {
     params: {};
     result: string;
@@ -54,19 +49,8 @@ export type Events = {
       'comment/id': string;
     };
   };
-  'new.comment/create': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-  };
-  'new.comment/update': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-      value: string;
-    };
-  };
+  'new.comment/create': Evt<{ ref: LookupRef }>;
+  'new.comment/update': Evt<{ ref: LookupRef; value: string }>;
   'comment.deletion/cancel': {
     params: {};
   };
@@ -98,20 +82,19 @@ remoteSub('comment/ids');
 sub('comment.deletion/id', ({ state }) => state['comment/state']['comment.deletion/id']);
 
 evt('new.comment/create', async ({ getState, params }) => {
-  const key = ref(params['ref/attribute'], params['ref/id']);
+  const key = ref(params.ref);
   const newComment = getState()['comment/state']['new/comment'][key];
-  const reference = pick(params, ['ref/id', 'ref/attribute']);
 
   await rpcPost('comment/create', {
-    ...reference,
+    ...params,
     value: newComment.text,
   });
 
-  await invalidateAsyncSub('comment/ids', reference);
+  await invalidateAsyncSub('comment/ids', params);
 });
 
 evt('new.comment/update', ({ setState, params }) => {
-  const key = ref(params['ref/attribute'], params['ref/id']);
+  const key = ref(params.ref);
 
   setState((state: any) => {
     state['comment/state']['new/comment'][key]
@@ -147,7 +130,7 @@ evt('comment/delete', async ({ setState, params }) => {
 evt('comment.text/edit', ({ setState, params }) => {
   startEditing({
     setState,
-    params: { 'ref/id': params['comment/id'], 'ref/attribute': 'comment/text' },
+    params: { ref: ['comment/text', params['comment/id']] },
   });
 });
 
@@ -156,10 +139,10 @@ registerTextEditor('comment/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const value = text({ state: getState(), params });
     await rpcPost('comment.text/update', {
-      'comment/id': params['ref/id'],
+      'comment/id': params.ref[1],
       value,
     });
-    await invalidateAsyncSub('comment/text', { 'comment/id': params['ref/id'] });
+    await invalidateAsyncSub('comment/text', { 'comment/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
