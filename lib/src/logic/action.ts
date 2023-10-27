@@ -19,196 +19,59 @@ import { navigateToRoute } from '@elements/router';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
 import { wrapRequireAuth } from '@elements/logic/authentication';
+import type { Evt, Sub } from '@elements/store/types';
 
 export type TabId = 'home' | 'discuss' | 'updates';
 
 export type Subs = {
-  'action.tabs/active-tab': {
-    params: {};
-    result: TabId;
-  };
-  'action.progress-bar/active-switch': {
-    params: {};
-    result: string;
-  };
-  'action.title/text': {
-    params: {
-      'action/id': string;
-    };
-    result: string;
-  };
-  'action.description/text': {
-    params: {
-      'action/id': string;
-    };
-    result: string;
-  };
-  'action.outcome/text': {
-    params: {
-      'action/id': string;
-    };
-    result: string;
-  };
-  'action.funding/percentage': {
-    params: {};
-    result: number;
-  };
-  'action/saved': {
-    params: {};
-    result: boolean;
-  };
-  'action/followed': {
-    params: {};
-    result: boolean;
-  };
-  'action.bump/count': {
-    params: {};
-    result: number;
-  };
-  'action.follow/count': {
-    params: {};
-    result: number;
-  };
-  'action.work/percentage': {
-    params: {};
-    result: number;
-  };
-  'action/updated-at': {
-    params: {};
-    result: number;
-  };
-  'current.action/id': {
-    params: {};
-    result: string;
-  };
-  'action.create.modal/title': {
-    params: {};
-    result: string;
-  };
-  'action.create.modal/visible': {
-    params: {};
-    result: boolean;
-  };
-  'action.title/can-edit': {
-    params: {};
-    result: boolean;
-  };
-  'action.description/can-edit': {
-    params: {};
-    result: boolean;
-  };
-  'action.outcome/can-edit': {
-    params: {};
-    result: boolean;
-  };
-  'action.locality/exists': {
-    params: { 'action/id': string };
-    result: boolean;
-  };
-  'action.locality/name': {
-    params: { 'action/id': string };
-    result: string;
-  };
-  'action.locality.slide-over/visible': {
-    params: {};
-    result: boolean;
-  };
-  'action.locality/location': {
-    params: { 'action/id': string };
-    result: LatLng;
-  };
-  'action.locality/zoom': {
-    params: { 'action/id': string };
-    result: number;
-  };
+  'action.tabs/active-tab': Sub<{}, TabId>;
+  'action.progress-bar/active-switch': Sub<{}, string>;
+  'action.title/text': Sub<{ 'action/id': string }, string>;
+  'action.description/text': Sub<{ 'action/id': string }, string>;
+  'action.outcome/text': Sub<{ 'action/id': string }, string>;
+  'action.funding/percentage': Sub<{}, number>;
+  'action/saved': Sub<{}, boolean>;
+  'action/followed': Sub<{}, boolean>;
+  'action.bump/count': Sub<{}, number>;
+  'action.follow/count': Sub<{}, number>;
+  'action.work/percentage': Sub<{}, number>;
+  'action/updated-at': Sub<{}, number>;
+  'current.action/id': Sub<{}, string>;
+  'action.create.modal/title': Sub<{}, string>;
+  'action.create.modal/visible': Sub<{}, boolean>;
+  'action.title/can-edit': Sub<{}, boolean>;
+  'action.description/can-edit': Sub<{}, boolean>;
+  'action.outcome/can-edit': Sub<{}, boolean>;
+  'action.locality/exists': Sub<{ 'action/id': string }, boolean>;
+  'action.locality/name': Sub<{ 'action/id': string }, string>;
+  'action.locality.slide-over/visible': Sub<{}, boolean>;
+  'action.locality/location': Sub<{ 'action/id': string }, LatLng>;
+  'action.locality/zoom': Sub<{ 'action/id': string }, number>;
 };
 
 export type Events = {
-  'action.title/edit': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-  };
-  'action.description/edit': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-  };
-  'action.outcome/edit': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-  };
-  'current.action.id/set': {
-    params: {
-      'action/id': string;
-    };
-  };
-  'action/volunteer': {
-    params: {};
-  };
-  'action/follow': {
-    params: {};
-  };
-  'action/unfollow': {
-    params: {};
-  };
-  'action/save': {
-    params: {};
-  };
-  'action/unsave': {
-    params: {};
-  };
-  'action/bump': {
-    params: {};
-  };
-  'action/unbump': {
-    params: {};
-  };
-  'action/fund': {
-    params: {};
-  };
-  'action.progress-bar/update': {
-    params: {};
-  };
-  'action.tabs/update': {
-    params: {
-      'tab/id': string;
-    };
-  };
-  'action.create.modal/open': {
-    params: {};
-  };
-  'action.create.modal/close': {
-    params: {};
-  };
-  'action.create.modal.title/update': {
-    params: {
-      value: string;
-    };
-  };
-  'action.locality.slide-over/open': {
-    params: {};
-  };
-  'action.locality.slide-over/close': {
-    params: {};
-  };
-  'action.locality/choose': {
-    params: { location: LatLng; zoom: number };
-  };
-  'navigated.action/view': {
-    params: {
-      route: Match;
-    };
-  };
-  'navigated.action/new': {
-    params: {
-      route: Match;
-    };
-  };
+  'action.title/edit': Evt<{ 'ref/id': string; 'ref/attribute': string }>;
+  'action.description/edit': Evt<{ 'ref/id': string; 'ref/attribute': string }>;
+  'action.outcome/edit': Evt<{ 'ref/id': string; 'ref/attribute': string }>;
+  'current.action.id/set': Evt<{ 'action/id': string }>;
+  'action/volunteer': Evt<{}>;
+  'action/follow': Evt<{}>;
+  'action/unfollow': Evt<{}>;
+  'action/save': Evt<{}>;
+  'action/unsave': Evt<{}>;
+  'action/bump': Evt<{}>;
+  'action/unbump': Evt<{}>;
+  'action/fund': Evt<{}>;
+  'action.progress-bar/update': Evt<{}>;
+  'action.tabs/update': Evt<{ 'tab/id': TabId }>;
+  'action.create.modal/open': Evt<{}>;
+  'action.create.modal/close': Evt<{}>;
+  'action.create.modal.title/update': Evt<{ value: string }>;
+  'action.locality.slide-over/open': Evt<{}>;
+  'action.locality.slide-over/close': Evt<{}>;
+  'action.locality/choose': Evt<{ location: LatLng; zoom: number }>;
+  'navigated.action/view': Evt<{ route: Match }>;
+  'navigated.action/new': Evt<{ route: Match }>;
 };
 
 export const actionSlice = () => ({
@@ -341,7 +204,7 @@ evt('action.create.modal.title/update', ({ setState, params }) => {
 
 evt('navigated.action/view', ({ params }) => {
   const id = params.route.pathParams.id;
-  const tab = params.route.hashParams.tab;
+  const tab = params.route.hashParams.tab as TabId;
   if (tab) {
     dispatch('action.tabs/update', { 'tab/id': tab });
   }

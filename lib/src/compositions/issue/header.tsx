@@ -12,12 +12,12 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
-import { EntityType as Type, type LookupRef } from '@elements/types';
+import { EntityType as Type } from '@elements/types';
 import { Locality, LocalitySlideOver } from '@elements/compositions/issue/locality';
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
-import { useWrapRequireAuth } from '@elements/store/hooks';
+import { useLookupRef, useWrapRequireAuth } from '@elements/store/hooks';
 import { Status } from '@elements/logic/meta/initiative';
 
 const Title = suspensify(() => {
@@ -119,7 +119,7 @@ export const IssueTabs = suspensify(() => {
 
 const Voting = suspensify(() => {
   const issueId = useValue('current.issue/id');
-  const lookupRef = useMemo(() => ['issue/id', issueId] as LookupRef, [issueId]);
+  const lookupRef = useLookupRef('issue/id', issueId);
 
   return <RawVoting lookupRef={lookupRef} size={'md'} suspenseLines={2} />;
 });

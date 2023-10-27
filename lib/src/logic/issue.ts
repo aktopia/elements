@@ -19,6 +19,7 @@ import { navigateToRoute } from '@elements/router';
 import type { LatLng, LatLngBounds } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { wrapRequireAuth } from '@elements/logic/authentication';
+import type { Evt, Sub } from '@elements/store/types';
 
 type TabId = 'home' | 'discuss' | 'media' | 'locations';
 
@@ -28,220 +29,61 @@ export interface Location extends LatLng {
 }
 
 export type Subs = {
-  'current.issue/id': {
-    params: {};
-    result: string;
-  };
-  'issue/saved': {
-    params: {};
-    result: boolean;
-  };
-  'issue/followed': {
-    params: {};
-    result: boolean;
-  };
-  'issue.follow/count': {
-    params: {};
-    result: number;
-  };
-  'issue.title/text': {
-    params: { 'issue/id': string };
-    result: string;
-  };
-  'issue.tabs/active-tab': {
-    params: {};
-    result: TabId;
-  };
-  'issue/updated-at': {
-    params: { 'issue/id': string };
-    result: number;
-  };
-  'issue.resolution/text': {
-    params: { 'issue/id': string };
-    result: string;
-  };
-  'issue.description/text': {
-    params: { 'issue/id': string };
-    result: string;
-  };
-  'issue.location.default/center': {
-    params: { 'issue/id': string };
-    result: LatLng;
-  };
-  'issue.location.default/zoom': {
-    params: { 'issue/id': string };
-    result: number;
-  };
-  'issue.location.slide-over/visible': {
-    params: {};
-    result: boolean;
-  };
-  'issue.create.modal/title': {
-    params: {};
-    result: string;
-  };
-  'issue.create.modal/visible': {
-    params: {};
-    result: boolean;
-  };
-  'issue.title/can-edit': {
-    params: {};
-    result: boolean;
-  };
-  'issue.description/can-edit': {
-    params: {};
-    result: boolean;
-  };
-  'issue.resolution/can-edit': {
-    params: {};
-    result: boolean;
-  };
-  'issue.users.facing/count': {
-    params: { 'issue/id': string };
-    result: number;
-  };
-  'issue.current.user/facing': {
-    params: { 'issue/id': string };
-    result: boolean;
-  };
-  'issue/locations': {
-    params: { 'issue/id': string };
-    result: Location[];
-  };
-  'issue.severity/score': {
-    params: { 'issue/id': string };
-    result: number;
-  };
-  'issue.severity.score/votes': {
-    params: { 'issue/id': string };
-    result: number;
-  };
-  'issue.current.user.severity/score': {
-    params: { 'issue/id': string };
-    result: number;
-  };
-  'issue.locality/exists': {
-    params: { 'issue/id': string };
-    result: boolean;
-  };
-  'issue.locality/name': {
-    params: { 'issue/id': string };
-    result: string;
-  };
-  'issue.locality.slide-over/visible': {
-    params: {};
-    result: boolean;
-  };
-  'issue.locality/location': {
-    params: { 'issue/id': string };
-    result: LatLng;
-  };
-  'issue.locality/zoom': {
-    params: { 'issue/id': string };
-    result: number;
-  };
+  'current.issue/id': Sub<{}, string>;
+  'issue/saved': Sub<{}, boolean>;
+  'issue/followed': Sub<{}, boolean>;
+  'issue.follow/count': Sub<{}, number>;
+  'issue.title/text': Sub<{ 'issue/id': string }, string>;
+  'issue.tabs/active-tab': Sub<{}, TabId>;
+  'issue/updated-at': Sub<{ 'issue/id': string }, number>;
+  'issue.resolution/text': Sub<{ 'issue/id': string }, string>;
+  'issue.description/text': Sub<{ 'issue/id': string }, string>;
+  'issue.location.default/center': Sub<{ 'issue/id': string }, LatLng>;
+  'issue.location.default/zoom': Sub<{ 'issue/id': string }, number>;
+  'issue.location.slide-over/visible': Sub<{}, boolean>;
+  'issue.create.modal/title': Sub<{}, string>;
+  'issue.create.modal/visible': Sub<{}, boolean>;
+  'issue.title/can-edit': Sub<{}, boolean>;
+  'issue.description/can-edit': Sub<{}, boolean>;
+  'issue.resolution/can-edit': Sub<{}, boolean>;
+  'issue.users.facing/count': Sub<{ 'issue/id': string }, number>;
+  'issue.current.user/facing': Sub<{ 'issue/id': string }, boolean>;
+  'issue/locations': Sub<{ 'issue/id': string }, Location[]>;
+  'issue.severity/score': Sub<{ 'issue/id': string }, number>;
+  'issue.severity.score/votes': Sub<{ 'issue/id': string }, number>;
+  'issue.current.user.severity/score': Sub<{ 'issue/id': string }, number>;
+  'issue.locality/exists': Sub<{ 'issue/id': string }, boolean>;
+  'issue.locality/name': Sub<{ 'issue/id': string }, string>;
+  'issue.locality.slide-over/visible': Sub<{}, boolean>;
+  'issue.locality/location': Sub<{ 'issue/id': string }, LatLng>;
+  'issue.locality/zoom': Sub<{ 'issue/id': string }, number>;
 };
 
 export type Events = {
-  'issue.title/edit': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-  };
-  'issue.description/edit': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-  };
-  'issue.resolution/edit': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-  };
-  'issue/follow': {
-    params: {};
-  };
-  'issue/unfollow': {
-    params: {};
-  };
-  'issue/save': {
-    params: {};
-  };
-  'issue/unsave': {
-    params: {};
-  };
-  'issue.severity/reset': {
-    params: {};
-  };
-  'issue.tabs/update': {
-    params: {
-      'tab/id': string;
-    };
-  };
-  'issue.location.slide-over/open': {
-    params: {};
-  };
-  'issue.location.slide-over/close': {
-    params: {};
-  };
-  'issue.location/add': {
-    params: {
-      location: LatLng;
-      bounds?: LatLngBounds;
-      caption: string;
-    };
-  };
-  'issue.location/delete': {
-    params: {
-      'location/id': string;
-    };
-  };
-  'current.issue.id/set': {
-    params: {
-      'issue/id': string;
-    };
-  };
-  'issue.current.user/face': {
-    params: {};
-  };
-  'issue.create.modal/open': {
-    params: {};
-  };
-  'issue.create.modal/close': {
-    params: {};
-  };
-  'issue.create.modal.title/update': {
-    params: {
-      value: string;
-    };
-  };
-  'issue.current.user.severity/vote': {
-    params: {
-      score: number;
-    };
-  };
-  'issue.locality.slide-over/open': {
-    params: {};
-  };
-  'issue.locality.slide-over/close': {
-    params: {};
-  };
-  'issue.locality/choose': {
-    params: { location: LatLng; zoom: number };
-  };
-  'navigated.issue/view': {
-    params: {
-      route: Match;
-    };
-  };
-  'navigated.issue/new': {
-    params: {
-      route: Match;
-    };
-  };
+  'issue.title/edit': Evt<{ 'ref/id': string; 'ref/attribute': string }>;
+  'issue.description/edit': Evt<{ 'ref/id': string; 'ref/attribute': string }>;
+  'issue.resolution/edit': Evt<{ 'ref/id': string; 'ref/attribute': string }>;
+  'issue/follow': Evt<{}>;
+  'issue/unfollow': Evt<{}>;
+  'issue/save': Evt<{}>;
+  'issue/unsave': Evt<{}>;
+  'issue.severity/reset': Evt<{}>;
+  'issue.tabs/update': Evt<{ 'tab/id': string }>;
+  'issue.location.slide-over/open': Evt<{}>;
+  'issue.location.slide-over/close': Evt<{}>;
+  'issue.location/add': Evt<{ location: LatLng; bounds?: LatLngBounds; caption: string }>;
+  'issue.location/delete': Evt<{ 'location/id': string }>;
+  'current.issue.id/set': Evt<{ 'issue/id': string }>;
+  'issue.current.user/face': Evt<{}>;
+  'issue.create.modal/open': Evt<{}>;
+  'issue.create.modal/close': Evt<{}>;
+  'issue.create.modal.title/update': Evt<{ value: string }>;
+  'issue.current.user.severity/vote': Evt<{ score: number }>;
+  'issue.locality.slide-over/open': Evt<{}>;
+  'issue.locality.slide-over/close': Evt<{}>;
+  'issue.locality/choose': Evt<{ location: LatLng; zoom: number }>;
+  'navigated.issue/view': Evt<{ route: Match }>;
+  'navigated.issue/new': Evt<{ route: Match }>;
 };
 
 export const issueSlice = () => ({
@@ -345,7 +187,7 @@ evt('issue.title/edit', ({ setState, getState }) => {
 
   startEditing({
     setState,
-    params: { 'ref/id': currenActionId, 'ref/attribute': 'issue.title/text' },
+    params: { ref: ['issue.title/text', currenActionId] },
   });
 });
 
@@ -354,7 +196,7 @@ evt('issue.description/edit', ({ setState, getState }) => {
 
   startEditing({
     setState,
-    params: { 'ref/id': currenActionId, 'ref/attribute': 'issue.description/text' },
+    params: { ref: ['issue.description/text', currenActionId] },
   });
 });
 
@@ -363,7 +205,7 @@ evt('issue.resolution/edit', ({ setState, getState }) => {
 
   startEditing({
     setState,
-    params: { 'ref/id': currenActionId, 'ref/attribute': 'issue.resolution/text' },
+    params: { ref: ['issue.resolution/text', currenActionId] },
   });
 });
 
@@ -476,10 +318,10 @@ registerTextEditor('issue.title/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const title = text({ state: getState(), params });
     await rpcPost('issue.title.text/update', {
-      'issue/id': params['ref/id'],
+      'issue/id': params.ref[1],
       value: title,
     });
-    await invalidateAsyncSub('issue.title/text', { 'issue/id': params['ref/id'] });
+    await invalidateAsyncSub('issue.title/text', { 'issue/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
@@ -490,10 +332,10 @@ registerTextEditor('issue.description/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const description = text({ state: getState(), params });
     await rpcPost('issue.description.text/update', {
-      'issue/id': params['ref/id'],
+      'issue/id': params.ref[1],
       value: description,
     });
-    await invalidateAsyncSub('issue.description/text', { 'issue/id': params['ref/id'] });
+    await invalidateAsyncSub('issue.description/text', { 'issue/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
@@ -504,10 +346,10 @@ registerTextEditor('issue.resolution/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const resolution = text({ state: getState(), params });
     await rpcPost('issue.resolution.text/update', {
-      'issue/id': params['ref/id'],
+      'issue/id': params.ref[1],
       value: resolution,
     });
-    await invalidateAsyncSub('issue.resolution/text', { 'issue/id': params['ref/id'] });
+    await invalidateAsyncSub('issue.resolution/text', { 'issue/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
