@@ -1,5 +1,6 @@
 import { useDispatch, useValue } from '@elements/store';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import type { LookupRef } from '@elements/types';
 
 export const useWrapRequireAuth = (callback: Function, deps: Array<any>) => {
   const sessionExists = useValue('auth.session/exists');
@@ -25,4 +26,8 @@ export const useViewport = () => {
 export const useIsCompactViewport = () => {
   const viewport = useValue('viewport/size');
   return viewport === 'md' || viewport === 'sm';
+};
+
+export const useLookupRef = (attr: string, val: string) => {
+  return useMemo(() => [attr, val], [attr, val]) as LookupRef;
 };

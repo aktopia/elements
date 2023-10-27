@@ -1,5 +1,4 @@
 import { PencilOutline, TrashOutline, UserCircleSolid } from '@elements/icons';
-import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
 import { Timestamp } from '@elements/components/timestamp';
@@ -10,6 +9,7 @@ import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { type ItemType } from '@elements/components/dropdown';
 import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
+import type { LookupRef } from '@elements/types';
 
 const User = ({ name }: { name: string }) => {
   return (
@@ -20,52 +20,26 @@ const User = ({ name }: { name: string }) => {
   );
 };
 
-interface DeleteConfirmationModalProps {
-  refId: string;
-  refAttribute: string;
-}
-
-const DeleteConfirmationModal = suspensify(
-  ({ refId, refAttribute }: DeleteConfirmationModalProps) => {
-    const t = useTranslation();
-    const reference = useMemo(
-      () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
-      [refId, refAttribute]
-    );
-    const id = useValue('update.deletion/id');
-
-    const cancelDeletion = useDispatch('update.deletion/cancel');
-    const deleteUpdate = useDispatch('update/delete');
-
-    const onClose = useCallback(() => cancelDeletion({ 'update/id': id }), [cancelDeletion, id]);
-    const onDelete = useCallback(
-      () => deleteUpdate({ 'update/id': id, ...reference }),
-      [deleteUpdate, id, reference]
-    );
-
-    return (
-      <ConfirmationModal
-        bodyText={t('update.delete.modal/body')}
-        cancelText={t('common/cancel')}
-        confirmText={t('common/delete')}
-        kind={'danger'}
-        titleText={t('update.delete.modal/title')}
-        visible={!!id}
-        onClose={onClose}
-        onConfirm={onDelete}
-      />
-    );
-  }
-);
-
-const ContextMenu = ({ id }: { id: string }) => {
+const ContextMenu = ({ id, parentLookupRef }: { id: string; parentLookupRef: LookupRef }) => {
   const t = useTranslation();
 
-  const startDeletion = useDispatch('update.deletion/start');
   const edit = useDispatch('update.text/edit');
 
-  const onDeleteClick = useCallback(() => startDeletion({ 'update/id': id }), [id, startDeletion]);
   const onEditClick = useCallback(() => edit({ 'update/id': id }), [id, edit]);
+  const openModal = useDispatch('confirmation-modal/open');
+  const deleteUpdate = useDispatch('update/delete');
+
+  const onDeleteClick = useCallback(() => {
+    const onConfirm = async () => deleteUpdate({ 'update/id': id, ref: parentLookupRef });
+    openModal({
+      kind: 'danger',
+      confirmText: t('common/delete'),
+      titleText: t('update.delete.modal/title'),
+      bodyText: t('update.delete.modal/body'),
+      cancelText: t('common/cancel'),
+      onConfirm,
+    });
+  }, [openModal, t, deleteUpdate, id, parentLookupRef]);
 
   const items = useMemo(
     () => [
@@ -91,10 +65,11 @@ const ContextMenu = ({ id }: { id: string }) => {
   return <RawContextMenu items={items} orientation={'horizontal'} />;
 };
 
-const Update = suspensify(({ id }: { id: string }) => {
+const Update = suspensify(({ id, parentLookupRef }: { id: string; parentLookupRef: LookupRef }) => {
   const creatorName = useValue('update.created-by/name', { 'update/id': id });
   const text = useValue('update/text', { 'update/id': id });
   const createdAt = useValue('update/created-at', { 'update/id': id });
+  const updateLookupRef = useMemo(() => ['update/id', id] as LookupRef, [id]);
 
   return (
     <div
@@ -114,40 +89,35 @@ const Update = suspensify(({ id }: { id: string }) => {
         suspenseLines={4}
       />
       <div className={'flex items-center gap-5'}>
-        <Voting lookupRef={id} size={'xs'} suspenseLines={2} />
-        <ContextMenu id={id} />
+        <Voting lookupRef={updateLookupRef} size={'xs'} suspenseLines={2} />
+        <ContextMenu id={id} parentLookupRef={parentLookupRef} />
       </div>
     </div>
   );
 });
 
 interface UpdatesProps {
-  refId: string;
-  refAttribute: string;
+  lookupRef: LookupRef;
 }
 
-export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
+export const Updates = suspensify(({ lookupRef }: UpdatesProps) => {
   const t = useTranslation();
-  const reference = useMemo(
-    () => ({ 'ref/id': refId, 'ref/attribute': refAttribute }),
-    [refId, refAttribute]
-  );
   const currentUserName = useValue('current.user/name');
-  const updateIds = useValue('update/ids', reference);
+  const updateIds = useValue('update/ids', { ref: lookupRef });
 
   const updateContent = useDispatch('new.update/update');
   const createContent = useDispatch('new.update/create');
 
   const onChange = useCallback(
     (value: string) => {
-      updateContent({ ...reference, value });
+      updateContent({ ref: lookupRef, value });
     },
-    [updateContent, reference]
+    [updateContent, lookupRef]
   );
 
   const onPost = useCallback(() => {
-    createContent(reference);
-  }, [createContent, reference]);
+    createContent({ ref: lookupRef });
+  }, [createContent, lookupRef]);
 
   return (
     <div className={'flex flex-col gap-7'}>
@@ -162,11 +132,10 @@ export const Updates = suspensify(({ refId, refAttribute }: UpdatesProps) => {
         {updateIds.map((id, idx) => (
           <div key={id} className={'w-full'}>
             {idx !== 0 && <div className={'my-2.5 ml-9 h-7 w-0.5 rounded bg-gray-300'} />}
-            <Update id={id} suspenseLines={5} />
+            <Update id={id} parentLookupRef={lookupRef} suspenseLines={5} />
           </div>
         ))}
       </div>
-      <DeleteConfirmationModal refAttribute={refAttribute} refId={refId} suspenseLines={3} />
     </div>
   );
 });

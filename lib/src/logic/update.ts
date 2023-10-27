@@ -1,6 +1,5 @@
 import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
-import pick from 'lodash/pick';
 import {
   endEditing,
   registerTextEditor,
@@ -8,73 +7,24 @@ import {
   text,
   updateText,
 } from '@elements/logic/text-editor';
+import type { Evt, Sub } from '@elements/store/types';
+import type { LookupRef } from '@elements/types';
 
 export type Subs = {
-  'update/ids': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-    result: string[];
-  };
-  'update.created-by/name': {
-    params: {
-      'update/id': string;
-    };
-    result: string;
-  };
-  'update/created-at': {
-    params: {
-      'update/id': string;
-    };
-    result: number;
-  };
-  'update/text': {
-    params: {
-      'update/id': string;
-    };
-    result: string;
-  };
-  'update.deletion/id': {
-    params: {};
-    result: string;
-  };
+  'update/ids': Sub<{ ref: LookupRef }, string[]>;
+  'update.created-by/name': Sub<{ 'update/id': string }, string>;
+  'update/created-at': Sub<{ 'update/id': string }, number>;
+  'update/text': Sub<{ 'update/id': string }, string>;
+  'update.deletion/id': Sub<{}, string>;
 };
 
 export type Events = {
-  'new.update/create': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-  };
-  'new.update/update': {
-    params: {
-      'ref/id': string;
-      'ref/attribute': string;
-      value: string;
-    };
-  };
-  'update.deletion/cancel': {
-    params: {};
-  };
-  'update.deletion/start': {
-    params: {
-      'update/id': string;
-    };
-  };
-  'update.text/edit': {
-    params: {
-      'update/id': string;
-    };
-  };
-  'update/delete': {
-    params: {
-      'update/id': string;
-      'ref/id': string;
-      'ref/attribute': string;
-    };
-  };
+  'new.update/create': Evt<{ ref: LookupRef }>;
+  'new.update/update': Evt<{ ref: LookupRef; value: string }>;
+  'update.deletion/cancel': Evt<{}>;
+  'update.deletion/start': Evt<{ 'update/id': string }>;
+  'update.text/edit': Evt<{ 'update/id': string }>;
+  'update/delete': Evt<{ 'update/id': string; ref: LookupRef }>;
 };
 
 export const updateSlice = () => ({
@@ -93,18 +43,16 @@ remoteSub('update/text');
 
 evt('new.update/create', async ({ getState }) => {
   const newUpdate = getState()['update/state']['new/update'];
-  const reference = pick(newUpdate, ['ref/id', 'ref/attribute']);
   await rpcPost('update/create', {
-    ...reference,
+    ref: newUpdate.ref,
     value: newUpdate.text,
   });
-  await invalidateAsyncSub('update/ids', reference);
+  await invalidateAsyncSub('update/ids', { ref: newUpdate.ref });
 });
 
 evt('new.update/update', ({ setState, params }) => {
   setState((state: any) => {
-    state['update/state']['new/update']['ref/id'] = params['ref/id'];
-    state['update/state']['new/update']['ref/attribute'] = params['ref/attribute'];
+    state['update/state']['new/update'].ref = params.ref;
     state['update/state']['new/update'].text = params.value;
   });
 });
@@ -130,16 +78,13 @@ evt('update/delete', async ({ setState, params }) => {
     state['update/state']['update.deletion/id'] = null;
   });
 
-  await invalidateAsyncSub('update/ids', {
-    'ref/id': params['ref/id'],
-    'ref/attribute': params['ref/attribute'],
-  });
+  await invalidateAsyncSub('update/ids', { ref: params.ref });
 });
 
 evt('update.text/edit', ({ setState, params }) => {
   startEditing({
     setState,
-    params: { 'ref/id': params['update/id'], 'ref/attribute': 'update/text' },
+    params: { ref: ['update/text', params['update/id']] },
   });
 });
 
@@ -148,10 +93,10 @@ registerTextEditor('update/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const value = text({ state: getState(), params });
     await rpcPost('update.text/update', {
-      'update/id': params['ref/id'],
+      'update/id': params.ref[1],
       value,
     });
-    await invalidateAsyncSub('update/text', { 'update/id': params['ref/id'] });
+    await invalidateAsyncSub('update/text', { 'update/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,

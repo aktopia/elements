@@ -12,58 +12,21 @@ import type { Evt, Sub } from '@elements/store/types';
 import type { LookupRef } from '@elements/types';
 
 export type Subs = {
-  'comment/status': {
-    params: {
-      'comment/id': string;
-    };
-    result: string;
-  };
-  'comment/created-at': {
-    params: {
-      'comment/id': string;
-    };
-    result: number;
-  };
-  'comment/text': {
-    params: {
-      'comment/id': string;
-    };
-    result: string;
-  };
+  'comment/status': Sub<{ 'comment/id': string }, string>;
+  'comment/created-at': Sub<{ 'comment/id': string }, number>;
+  'comment/text': Sub<{ 'comment/id': string }, string>;
   'comment/ids': Sub<{ ref: LookupRef }, string[]>;
-  'comment.deletion/id': {
-    params: {};
-    result: string;
-  };
-  'comment.created-by/name': {
-    params: {
-      'comment/id': string;
-    };
-    result: string;
-  };
+  'comment.deletion/id': Sub<{}, string>;
+  'comment.created-by/name': Sub<{ 'comment/id': string }, string>;
 };
 
 export type Events = {
-  'comment.text/edit': {
-    params: {
-      'comment/id': string;
-    };
-  };
+  'comment.text/edit': Evt<{ 'comment/id': string }>;
   'new.comment/create': Evt<{ ref: LookupRef }>;
   'new.comment/update': Evt<{ ref: LookupRef; value: string }>;
-  'comment.deletion/cancel': {
-    params: {};
-  };
-  'comment.deletion/start': {
-    params: {
-      'comment/id': string;
-    };
-  };
-  'comment/delete': {
-    params: {
-      'comment/id': string;
-    };
-  };
+  'comment.deletion/cancel': Evt<{}>;
+  'comment.deletion/start': Evt<{ 'comment/id': string }>;
+  'comment/delete': Evt<{ 'comment/id': string }>;
 };
 
 export const commentSlice = () => ({
