@@ -1,9 +1,10 @@
 import { dispatch, evt, sub } from '@elements/store';
-import type { Events as AllEvents } from '@elements/store/types';
+import type { Events as AllEvents, Evt, Sub } from '@elements/store/types';
 import type { ComponentType } from 'react';
 import type { SuspensifyProps } from '@elements/components/suspensify';
 import type { Match, Params } from '@elements/router';
 import { navigateToPath, navigateToRoute } from '@elements/router';
+import isEqual from 'lodash/isEqual';
 
 export enum NavigationState {
   Uninitiated = 'route.navigation.state/uninitiated',
@@ -12,37 +13,17 @@ export enum NavigationState {
 }
 
 export type Subs = {
-  'current.route/id': {
-    params: {};
-    result: string;
-  };
-  'route.navigation/state': {
-    params: {};
-    result: NavigationState;
-  };
-  'current.route/on-navigate-event': {
-    params: {};
-    result: keyof AllEvents;
-  };
-  'current.route/component': {
-    params: {};
-    result: ComponentType<SuspensifyProps>;
-  };
+  'current.route/id': Sub<{}, string>;
+  'route.navigation/state': Sub<{}, NavigationState>;
+  'current.route/on-navigate-event': Sub<{}, keyof AllEvents>;
+  'current.route/component': Sub<{}, ComponentType<SuspensifyProps>>;
 };
 
 export type Events = {
-  'route.navigation/initiate': {
-    params: Match;
-  };
-  'route.navigation/complete': {
-    params: {};
-  };
-  'navigate/path': {
-    params: { path: string; replace?: boolean };
-  };
-  'navigate/route': {
-    params: { id: string; pathParams: Params; replace?: boolean };
-  };
+  'route.navigation/initiate': Evt<Match>;
+  'route.navigation/complete': Evt<{}>;
+  'navigate/path': Evt<{ path: string; replace?: boolean }>;
+  'navigate/route': Evt<{ id: string; pathParams: Params; replace?: boolean }>;
 };
 
 export const routerSlice = () => ({
@@ -64,11 +45,11 @@ sub('route.navigation/state', ({ state }) => state['router/state']['route.naviga
 
 const routeChanged = (currentState: any, newMatch: Match) => {
   return (
-    currentState['route/id'] !== newMatch.id ||
-    currentState['route/path'] !== newMatch.path ||
-    currentState['route/path-params'] !== newMatch.pathParams ||
-    currentState['route/query-params'] !== newMatch.queryParams ||
-    currentState['route/hash-params'] !== newMatch.hashParams
+    !isEqual(currentState['route/id'], newMatch.id) ||
+    !isEqual(currentState['route/path'], newMatch.path) ||
+    !isEqual(currentState['route/path-params'], newMatch.pathParams) ||
+    !isEqual(currentState['route/query-params'], newMatch.queryParams) ||
+    !isEqual(currentState['route/hash-params'], newMatch.hashParams)
   );
 };
 
