@@ -8,6 +8,7 @@ export const LocalitySlideOver = suspensify(({ actionId }: { actionId: string })
   const t = useTranslation();
   const visible = useValue('action.locality.slide-over/visible');
   const location = useValue('action.locality/location', { 'action/id': actionId });
+  const userLocation = useValue('user.locality/location');
   const zoom = useValue('action.locality/zoom', { 'action/id': actionId });
   const onClose = useDispatch('action.locality.slide-over/close') as () => void;
   const onDone = useDispatch('action.locality/choose');
@@ -20,7 +21,7 @@ export const LocalitySlideOver = suspensify(({ actionId }: { actionId: string })
 
   return (
     <RawChooseLocalitySlideOver
-      initialCenter={location}
+      initialCenter={location || userLocation}
       initialZoom={zoom}
       title={title}
       visible={visible}

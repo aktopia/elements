@@ -1,6 +1,7 @@
 import { dispatch, evt, sub } from '@elements/store';
 import type { LatLng } from '@elements/components/map';
 import { geolocate, parseClosestLocality, resolveLatLng } from '@elements/utils/location';
+import type { Evt, Sub } from '@elements/store/types';
 
 interface Locality {
   location: LatLng;
@@ -9,59 +10,22 @@ interface Locality {
 }
 
 export type Subs = {
-  'choose-locality.slide-over/visible': {
-    params: {};
-    result: boolean;
-  };
-  'user.chosen.locality/exists': {
-    params: {};
-    result: boolean;
-  };
-  'user.apparent.locality/location': {
-    params: {};
-    result: LatLng | undefined;
-  };
-  'user.chosen.locality/location': {
-    params: {};
-    result: LatLng | undefined;
-  };
-  'user.chosen.locality/name': {
-    params: {};
-    result: string | undefined;
-  };
-  'user.chosen.locality/zoom': {
-    params: {};
-    result: number | undefined;
-  };
-  'user.locality/location': {
-    params: {};
-    result: LatLng;
-  };
-  'user.locality/zoom': {
-    params: {};
-    result: number;
-  };
+  'choose-locality.slide-over/visible': Sub<{}, boolean>;
+  'user.chosen.locality/exists': Sub<{}, boolean>;
+  'user.apparent.locality/location': Sub<{}, LatLng | undefined>;
+  'user.chosen.locality/location': Sub<{}, LatLng | undefined>;
+  'user.chosen.locality/name': Sub<{}, string | undefined>;
+  'user.chosen.locality/zoom': Sub<{}, number | undefined>;
+  'user.locality/location': Sub<{}, LatLng>;
+  'user.locality/zoom': Sub<{}, number>;
 };
 
 export type Events = {
-  'choose-locality.slide-over/close': {
-    params: {};
-  };
-  'choose-locality.slide-over/open': {
-    params: {};
-  };
-  'choose-locality.location/done': {
-    params: {
-      location: LatLng | undefined;
-      zoom: number | undefined;
-    };
-  };
-  'user.chosen.locality/sync': {
-    params: {};
-  };
-  'user.apparent.locality/sync': {
-    params: {};
-  };
+  'choose-locality.slide-over/close': Evt<{}>;
+  'choose-locality.slide-over/open': Evt<{}>;
+  'choose-locality.location/done': Evt<{ location: LatLng | undefined; zoom: number | undefined }>;
+  'user.chosen.locality/sync': Evt<{}>;
+  'user.apparent.locality/sync': Evt<{}>;
 };
 
 const getChosenLocality = (): Locality | null => {
