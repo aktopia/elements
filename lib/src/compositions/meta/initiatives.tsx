@@ -1,18 +1,18 @@
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
-import { EntityType as Type, type LookupRef } from '@elements/types';
+import { EntityType as Type } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';
 import { Link } from '@elements/components/link';
 import { UpVoting } from '@elements/compositions/voting';
 import { wrapPage } from '@elements/compositions/wrap-page';
-import { useMemo } from 'react';
 import { InitiativeStatus } from '@elements/compositions/meta/status';
+import { useLookupRef } from '@elements/store/hooks';
 
 export const InitiativeCard = suspensify(({ slug }: any) => {
   const title = useValue('meta.initiative.title/text', { 'meta.initiative/slug': slug });
   const updatedAt = useValue('meta.initiative/updated-at', { 'meta.initiative/slug': slug });
-  const lookupRef = useMemo(() => ['meta.initiative/slug', slug] as LookupRef, [slug]);
+  const lookupRef = useLookupRef('meta.initiative/slug', slug);
 
   return (
     <div

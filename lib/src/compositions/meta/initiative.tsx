@@ -7,13 +7,14 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
-import { EntityType, EntityType as Type, type LookupRef } from '@elements/types';
+import { EntityType as Type, type LookupRef } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { Updates } from '@elements/compositions/updates';
 import { Discuss } from '@elements/compositions/discuss';
 import { InitiativeStatus } from '@elements/compositions/meta/status';
+import { useLookupRef } from '@elements/store/hooks';
 
 const Title = suspensify(() => {
   const initiativeSlug = useValue('current.meta.initiative/slug');
@@ -150,35 +151,18 @@ const Description = suspensify(() => {
 export const Initiative = wrapPage(() => {
   const activeTabId = useValue('meta.initiative.tabs/active-tab');
   const initiativeSlug = useValue('current.meta.initiative/slug');
+  const lookupRef = useLookupRef('meta.initiative/slug', initiativeSlug);
   let tab;
 
   switch (activeTabId) {
     case 'updates':
-      tab = (
-        <Updates
-          refAttribute={EntityType.MetaInitiative}
-          refId={initiativeSlug}
-          suspenseLines={12}
-        />
-      );
+      tab = <Updates lookupRef={lookupRef} suspenseLines={12} />;
       break;
     case 'discuss':
-      tab = (
-        <Discuss
-          refAttribute={EntityType.MetaInitiative}
-          refId={initiativeSlug}
-          suspenseLines={12}
-        />
-      );
+      tab = <Discuss lookupRef={lookupRef} suspenseLines={12} />;
       break;
     default:
-      tab = (
-        <Discuss
-          refAttribute={EntityType.MetaInitiative}
-          refId={initiativeSlug}
-          suspenseLines={12}
-        />
-      );
+      tab = <Discuss lookupRef={lookupRef} suspenseLines={12} />;
   }
 
   return (

@@ -115,7 +115,7 @@ const LocationsListSlideOver = suspensify(({ locations, setMapCenter }: SlideOve
       </SlideOverHeader>
       <SlideOverBody>
         {emptyLocations ? (
-          <p className={'w-[400px] text-center text-gray-400'}>
+          <p className={'md:w-[400px] w-full text-center text-gray-400'}>
             {t('issue.location.slide-over/empty')}
           </p>
         ) : (
@@ -170,6 +170,7 @@ const AddLocation = ({
 
   const submit: SubmitHandler<{ caption: string }> = ({ caption }) => {
     onAdd({ caption });
+    reset();
   };
 
   const onCancel_ = useCallback(() => {
@@ -178,7 +179,7 @@ const AddLocation = ({
   }, [onCancel, reset]);
 
   return show ? (
-    <form className={'flex w-2/3 gap-3 items-center'} onSubmit={onSubmit(submit)}>
+    <form className={'flex md:w-2/3 w-full gap-3 items-center'} onSubmit={onSubmit(submit)}>
       <input
         className={
           'grow rounded-md border-none text-gray-600 placeholder-gray-400 bg-gray-100 py-1.5 px-2'
@@ -248,7 +249,7 @@ export const Locations = suspensify(({ refId }: { refId: string }) => {
 
   return (
     <div className={'flex flex-col gap-8'}>
-      <div className={'flex justify-between'}>
+      <div className={'flex justify-between flex-wrap gap-4'}>
         <ViewList onClick={onViewListClick} />
         <StartAddLocation show={!addingLocation} onClick={onStartAddingLocation} />
         <AddLocation
