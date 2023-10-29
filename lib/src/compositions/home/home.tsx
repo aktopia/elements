@@ -90,6 +90,7 @@ const Card = ({ entityId, entityType, onLocalitySlideOverOpen }: any) => {
 };
 
 export const Feed = () => {
+  const nearYou = "Here is what's happening near you.";
   const userLocation = useValue('user.locality/location');
   const list = useValue('home-feed/list', { 'user.locality/location': userLocation });
   const [localitySlideOverArgs, setLocalitySlideOverArgs] = useState<{
@@ -137,9 +138,7 @@ export const Feed = () => {
 
   return (
     <section className={'flex flex-col gap-20 scroll-mt-20 w-full'} id={'home-feed'}>
-      <h2 className={'text-4xl text-gray-600 text-center'}>
-        {"Here is what's happening near you."}
-      </h2>
+      <h2 className={'text-4xl text-gray-600 text-center'}>{nearYou}</h2>
       <div className={'flex flex-col gap-9'}>
         {list.map((e) => (
           <Card
@@ -156,13 +155,14 @@ export const Feed = () => {
 };
 
 const PrototypeWarningModal = ({ visible, onClose }: any) => {
+  const title = 'Prototype Warning';
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <div className={'px-8 pt-12 pb-10 flex-col flex gap-8 items-center'}>
           <div className={'flex flex-col gap-2 justify-center items-center'}>
             <ExclamationTriangleSolid className={'h-12 w-12 text-amber-500'} />
-            <h2 className={'text-2xl text-gray-600 font-semibold'}>{'Prototype Warning'}</h2>
+            <h2 className={'text-2xl text-gray-600 font-semibold'}>{title}</h2>
           </div>
           <Markdown className={'prose prose-gray prose-h3:text-gray-700 prose-h3:font-medium'}>
             {prototypeWarningMarkdown}
@@ -212,7 +212,7 @@ const Introduction = () => {
         <h2 className={'text-xl text-center font-medium text-gray-500'}>{subText}</h2>
         <a
           className={
-            'shadow-sm w-max flex gap-2 justify-center items-center py-2 px-4 rounded-full border border-blue-300 bg-gradient-to-br from-blue-100 via-blue-50 to-blue-300'
+            'shadow-sm w-max flex gap-2 justify-center items-center py-2 px-4 rounded-full border border-gray-200 bg-gradient-to-br from-blue-100 via-blue-50 to-blue-200'
           }
           href={'#home-feed'}>
           <p className={'text-gray-700 text-lg font-medium'}>{whatsHappening}</p>
@@ -228,6 +228,11 @@ const Introduction = () => {
 };
 
 const IssueIntroduction = () => {
+  const issueTitleItStarts = 'It starts with an';
+  const issueTitleIssue = 'issue';
+  const issueDescription =
+    'You spot a public issue, minor or significant. Begin by reporting it. As others participate, the issue gains public awareness.';
+
   const features = [
     {
       text: 'Describe the issue in detail.',
@@ -254,20 +259,17 @@ const IssueIntroduction = () => {
       Icon: ChatBubbleLeftEllipsisOutline,
     },
   ];
+
   return (
     <section className={'flex flex-col md:gap-16 gap-12 w-full'}>
       <div className={'flex flex-col gap-5'}>
         <div className={'flex gap-2 items-center'}>
-          <h3 className={'text-3xl text-gray-600'}>{'It starts with an'}</h3>
+          <h3 className={'text-3xl text-gray-600'}>{issueTitleItStarts}</h3>
           <div className={'flex items-center'}>
-            <h3 className={'text-3xl text-rose-600 font-bold'}>{'issue'}</h3>
+            <h3 className={'text-3xl text-rose-600 font-bold'}>{issueTitleIssue}</h3>
           </div>
         </div>
-        <p className={'text-gray-500 text-xl'}>
-          {
-            'You spot a public issue, minor or significant. Begin by reporting it. As others participate, the issue gains public awareness.'
-          }
-        </p>
+        <p className={'text-gray-500 text-xl'}>{issueDescription}</p>
       </div>
       <div
         className={'flex flex-col md:flex-row md:gap-20 gap-12 w-full items-center justify-center'}>
@@ -286,6 +288,8 @@ const IssueIntroduction = () => {
 };
 
 const ActionIntroduction = () => {
+  const actionDescription =
+    "The community comes together, creates an action. Led by volunteers and backed by sponsors, they drive the action to completion. Let's advance local communities, nations and the world one action at a time.";
   const features = [
     {
       text: 'Volunteer for an action.',
@@ -316,14 +320,12 @@ const ActionIntroduction = () => {
     <section className={'flex flex-col md:gap-16 gap-12 w-full'}>
       <div className={'flex flex-col items-center gap-9'}>
         <div className={'flex gap-2 items-center flex-wrap'}>
+          {/* eslint-disable-next-line react/jsx-no-literals */}
           <h3 className={'text-3xl text-gray-600'}>{'...and ends with an'}</h3>
+          {/* eslint-disable-next-line react/jsx-no-literals */}
           <h3 className={'text-3xl text-blue-600 font-bold'}>{'action'}</h3>
         </div>
-        <p className={'text-gray-500 text-xl'}>
-          {
-            "The community comes together, creates an action. Led by volunteers and backed by sponsors, they drive the action to completion. Let's advance local communities, nations and the world one action at a time."
-          }
-        </p>
+        <p className={'text-gray-500 text-xl'}>{actionDescription}</p>
       </div>
       <div
         className={
