@@ -16,12 +16,17 @@ import {
   Crowd,
   DocumentTextOutline,
   ExclamationTriangleOutline,
+  ExclamationTriangleSolid,
   Giving,
   HandRaisedOutline,
   MapPinOutline,
   MegaphoneOutline,
   PhotoOutline,
 } from '@elements/icons';
+import { Modal, ModalPanel } from '@elements/components/modal';
+import Markdown from 'react-markdown';
+import prototypeWarningMarkdown from '@elements/markdown/prototype-warning.md?raw';
+import { Button } from '@elements/components/button';
 
 const ViewIssueLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
   const t = useTranslation();
@@ -150,28 +155,75 @@ export const Feed = () => {
   );
 };
 
+const PrototypeWarningModal = ({ visible, onClose }: any) => {
+  return (
+    <Modal visible={visible} onClose={onClose}>
+      <ModalPanel>
+        <div className={'px-8 pt-12 pb-10 flex-col flex gap-8 items-center'}>
+          <div className={'flex flex-col gap-2 justify-center items-center'}>
+            <ExclamationTriangleSolid className={'h-12 w-12 text-amber-500'} />
+            <h2 className={'text-2xl text-gray-600 font-semibold'}>{'Prototype Warning'}</h2>
+          </div>
+          <Markdown className={'prose prose-gray prose-h3:text-gray-700 prose-h3:font-medium'}>
+            {prototypeWarningMarkdown}
+          </Markdown>
+          <div>
+            <Button kind={'primary'} size={'md'} value={'Okay, I understand.'} onClick={onClose} />
+          </div>
+        </div>
+      </ModalPanel>
+    </Modal>
+  );
+};
+
 const Introduction = () => {
   const text = 'The future of community is already here.';
   const subText =
     'Aktopia empowers communities to come together and solve their pressing problems.';
+  const whatsHappening = "See what's happening near you";
+  const prototypeWarning = 'Experimental prototype warning';
+
+  const [isPrototypeWarningModalVisible, setIsPrototypeWarningModalVisible] = useState(true);
+
+  const onPrototypeWarningModalOpen = useCallback(() => {
+    setIsPrototypeWarningModalVisible(true);
+  }, []);
+
+  const onPrototypeWarningModalClose = useCallback(() => {
+    setIsPrototypeWarningModalVisible(false);
+  }, []);
+
   return (
-    <section className={'flex flex-col justify-center items-center gap-6'}>
-      <h1
-        className={
-          'md:text-7xl text-5xl text-center font-semibold bg-gradient-to-br from-blue-600 to-blue-800 text-transparent bg-clip-text p-5'
-        }>
-        {text}
-      </h1>
-      <h2 className={'text-xl text-center font-medium text-gray-500'}>{subText}</h2>
-      <a
-        className={
-          'shadow-sm w-max flex gap-2 justify-center items-center py-2 px-4 rounded-full border border-gray-300 bg-gradient-to-br from-blue-50 to-blue-100'
-        }
-        href={'#home-feed'}>
-        <p className={'text-gray-700 text-lg font-medium'}>{"See what's happening near you"}</p>
-        <ChevronRightSolid className={'h-5 w-5 text-gray-700'} />
-      </a>
-    </section>
+    <>
+      <section className={'flex flex-col justify-center items-center gap-6'}>
+        <button
+          className={'w-max flex gap-2.5 items-center'}
+          type={'button'}
+          onClick={onPrototypeWarningModalOpen}>
+          <ExclamationTriangleSolid className={'h-6 w-6 text-amber-500'} />
+          <p className={'text-amber-800 text-lg hover:underline'}>{prototypeWarning}</p>
+        </button>
+        <h1
+          className={
+            'md:text-7xl text-5xl text-center font-semibold bg-gradient-to-br from-blue-600 to-blue-800 text-transparent bg-clip-text p-5'
+          }>
+          {text}
+        </h1>
+        <h2 className={'text-xl text-center font-medium text-gray-500'}>{subText}</h2>
+        <a
+          className={
+            'shadow-sm w-max flex gap-2 justify-center items-center py-2 px-4 rounded-full border border-blue-300 bg-gradient-to-br from-blue-100 via-blue-50 to-blue-300'
+          }
+          href={'#home-feed'}>
+          <p className={'text-gray-700 text-lg font-medium'}>{whatsHappening}</p>
+          <ChevronRightSolid className={'h-5 w-5 text-gray-700'} />
+        </a>
+      </section>
+      <PrototypeWarningModal
+        visible={isPrototypeWarningModalVisible}
+        onClose={onPrototypeWarningModalClose}
+      />
+    </>
   );
 };
 
