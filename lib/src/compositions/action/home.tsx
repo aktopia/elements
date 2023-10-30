@@ -4,35 +4,19 @@ import { Relationships } from '@elements/compositions/relationships';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
-import { useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
+import { useLookupRef } from '@elements/store/hooks';
 
-const DescriptionText = suspensify(() => {
+const Description = suspensify(() => {
   const t = useTranslation();
 
   const actionId = useValue('current.action/id');
   const description = useValue('action.description/text', { 'action/id': actionId });
+  const canEdit = useValue('action.description/can-edit', { 'action/id': actionId });
+
+  const onEdit = useDispatch('action.description/edit');
 
   const noContent = <p className={'text-gray-400'}>{t('action.description/empty')}</p>;
-
-  return (
-    <TextEditor
-      className={'text-gray-700'}
-      content={description}
-      noContent={noContent}
-      placeholder={t('action.description/placeholder')}
-      refAttribute={'action.description/text'}
-      refId={actionId}
-      richText={false}
-      suspenseLines={3}
-    />
-  );
-});
-
-const Description = suspensify(() => {
-  const t = useTranslation();
-  const canEdit = useValue('action.description/can-edit');
-  const onEdit = useDispatch('action.description/edit');
 
   return (
     <div className={'flex w-full flex-col gap-4'}>
@@ -45,43 +29,32 @@ const Description = suspensify(() => {
           onEdit={onEdit}
         />
       </div>
-      <DescriptionText suspenseLines={6} />
+      <TextEditor
+        className={'text-gray-700'}
+        content={description}
+        noContent={noContent}
+        placeholder={t('action.description/placeholder')}
+        refAttribute={'action.description/text'}
+        refId={actionId}
+        richText={false}
+        suspenseLines={3}
+      />
     </div>
-  );
-});
-
-const OutcomeText = suspensify(() => {
-  const t = useTranslation();
-
-  const actionId = useValue('current.action/id');
-  const outcome = useValue('action.outcome/text', { 'action/id': actionId });
-  const reference = useMemo(
-    () => ({ 'ref/id': actionId, 'ref/attribute': 'action.outcome/text' }),
-    [actionId]
-  );
-
-  const isEditing = useValue('text-editor/editing', reference);
-
-  const noContent = <p className={'text-gray-400'}>{t('action.outcome/empty')}</p>;
-
-  return (
-    <TextEditor
-      className={isEditing ? 'text-gray-700' : 'text-blue-700'}
-      content={outcome}
-      noContent={noContent}
-      placeholder={t('action.outcome/placeholder')}
-      refAttribute={'action.outcome/text'}
-      refId={actionId}
-      richText={false}
-      suspenseLines={3}
-    />
   );
 });
 
 const Outcome = suspensify(() => {
   const t = useTranslation();
-  const canEdit = useValue('action.outcome/can-edit');
+
+  const actionId = useValue('current.action/id');
+  const canEdit = useValue('action.outcome/can-edit', { 'action/id': actionId });
+  const outcome = useValue('action.outcome/text', { 'action/id': actionId });
+  const ref = useLookupRef('action.outcome/text', actionId);
+  const isEditing = useValue('text-editor/editing', { ref });
+
   const onEdit = useDispatch('action.outcome/edit');
+
+  const noContent = <p className={'text-gray-400'}>{t('action.outcome/empty')}</p>;
 
   return (
     <div className={'flex w-full flex-col gap-4 rounded-lg border border-blue-600 bg-blue-50 p-6'}>
@@ -92,7 +65,16 @@ const Outcome = suspensify(() => {
         </div>
         <EditButton canEdit={canEdit} className={'h-4 w-4 text-gray-500'} onEdit={onEdit} />
       </div>
-      <OutcomeText suspenseColor={'primary'} suspenseLines={6} />
+      <TextEditor
+        className={isEditing ? 'text-gray-700' : 'text-blue-700'}
+        content={outcome}
+        noContent={noContent}
+        placeholder={t('action.outcome/placeholder')}
+        refAttribute={'action.outcome/text'}
+        refId={actionId}
+        richText={false}
+        suspenseLines={3}
+      />
     </div>
   );
 });

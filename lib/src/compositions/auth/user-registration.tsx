@@ -26,7 +26,7 @@ const UserRegistration_ = suspensify(({}) => {
       <ModalPanel>
         <div className={'flex w-full flex-col gap-7 py-7 px-6'}>
           <ModalTitle className={'text-lg font-medium leading-6 text-gray-900'}>
-            {'Welcome to Aktopia!'}
+            {t('common/welcome-to-aktopia')}
           </ModalTitle>
           <form className={'flex w-max flex-col gap-8'}>
             <input

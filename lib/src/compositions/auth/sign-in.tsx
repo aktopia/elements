@@ -34,7 +34,7 @@ export const SignIn = () => {
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <div className={'flex flex-col gap-9 p-6'}>
-          <ModalHeader title={t('auth.sign-in.modal/title')} onClose={onClose} />
+          <ModalHeader title={t('common/welcome-to-aktopia')} onClose={onClose} />
           <form className={'flex flex-col gap-5'} onSubmit={onFormSubmitMemo}>
             <div className={'flex flex-col gap-7'}>
               <p className={'text-gray-500 text-sm'}>{t('auth.sign-in.modal/sign-in-or-up')}</p>

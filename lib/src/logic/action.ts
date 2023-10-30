@@ -107,12 +107,6 @@ sub(
   ({ state }) => state['action/state']['action.create.modal/visible']
 );
 
-sub('action.title/can-edit', () => true);
-
-sub('action.description/can-edit', () => true);
-
-sub('action.outcome/can-edit', () => true);
-
 sub(
   'action.locality.slide-over/visible',
   ({ state }) => state['action/state']['action.locality.slide-over/visible']
@@ -126,6 +120,9 @@ remoteSub('action.locality/exists');
 remoteSub('action.locality/name');
 remoteSub('action.locality/location');
 remoteSub('action.locality/zoom');
+remoteSub('action.title/can-edit');
+remoteSub('action.description/can-edit');
+remoteSub('action.outcome/can-edit');
 
 evt('action.title/edit', ({ setState, getState }) => {
   const currenActionId = getState()['action/state']['current.action/id'];

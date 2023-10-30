@@ -78,7 +78,7 @@ export const VerifyOtp = suspensify(() => {
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <div className={'flex flex-col gap-9 p-6'}>
-          <ModalHeader title={t('auth.sign-in.modal/title')} onClose={onClose} />
+          <ModalHeader title={t('common/welcome-to-aktopia')} onClose={onClose} />
           {verifyingOtp ? (
             <div className={'flex h-20 w-[360px] items-center justify-center'}>
               <Spinner kind={'primary'} size={'sm'} visible={true} />
