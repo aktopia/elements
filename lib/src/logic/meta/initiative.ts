@@ -131,7 +131,7 @@ evt('meta.initiative.title/edit', ({ setState, getState }) => {
 
   startEditing({
     setState,
-    params: { 'ref/id': currentInitiativeSlug, 'ref/attribute': 'meta.initiative.title/text' },
+    params: { ref: ['meta.initiative.description/text', currentInitiativeSlug] },
   });
 });
 
@@ -141,8 +141,7 @@ evt('meta.initiative.description/edit', ({ setState, getState }) => {
   startEditing({
     setState,
     params: {
-      'ref/id': currentInitiativeSlug,
-      'ref/attribute': 'meta.initiative.description/text',
+      ref: ['meta.initiative.description/text', currentInitiativeSlug],
     },
   });
 });

@@ -113,12 +113,6 @@ sub('issue/followed', () => false);
 
 sub('issue.follow/count', () => 2600);
 
-sub('issue.title/can-edit', () => true);
-
-sub('issue.description/can-edit', () => true);
-
-sub('issue.resolution/can-edit', () => true);
-
 sub(
   'issue.location.slide-over/visible',
   ({ state }) => state['issue/state']['issue.location.slide-over/visible']
@@ -135,6 +129,9 @@ remoteSub('issue.title/text');
 remoteSub('issue/updated-at');
 remoteSub('issue.resolution/text');
 remoteSub('issue.description/text');
+remoteSub('issue.title/can-edit');
+remoteSub('issue.description/can-edit');
+remoteSub('issue.resolution/can-edit');
 remoteSub('issue/locations');
 remoteSub('issue.location.default/center');
 remoteSub('issue.location.default/zoom');

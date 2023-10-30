@@ -23,7 +23,7 @@ import { Status } from '@elements/logic/meta/initiative';
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
   const title = useValue('issue.title/text', { 'issue/id': issueId });
-  const canEdit = useValue('issue.title/can-edit');
+  const canEdit = useValue('issue.title/can-edit', { 'issue/id': issueId });
 
   const onEdit = useDispatch('issue.title/edit');
 
