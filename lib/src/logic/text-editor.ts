@@ -9,10 +9,16 @@ export const textEditorSlice = () => ({
 
 const textEditors: any = {};
 
+interface Action {
+  setState: any;
+  params: { ref: LookupRef };
+  getState: any;
+}
+
 interface Actions {
-  onEditDone: ({ setState, params, getState }: any) => void;
-  onEditCancel: ({ setState, params, getState }: any) => void;
-  onTextUpdate: ({ setState, params, getState }: any) => void;
+  onEditDone: ({ setState, params, getState }: Action) => void;
+  onEditCancel: ({ setState, params, getState }: Action) => void;
+  onTextUpdate: ({ setState, params, getState }: Action) => void;
 }
 
 export function registerTextEditor(attribute: string, actions: Actions) {

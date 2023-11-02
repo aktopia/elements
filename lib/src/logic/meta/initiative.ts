@@ -172,11 +172,11 @@ registerTextEditor('meta.initiative.title/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const title = text({ state: getState(), params });
     await rpcPost('meta.initiative.title.text/update', {
-      'meta.initiative/slug': params['ref/id'],
+      'meta.initiative/slug': params.ref[1],
       value: title,
     });
     await invalidateAsyncSub('meta.initiative.title/text', {
-      'meta.initiative/slug': params['ref/id'],
+      'meta.initiative/slug': params.ref[1],
     });
     endEditing({ setState, getState, params });
   },
@@ -188,11 +188,11 @@ registerTextEditor('meta.initiative.description/text', {
   onEditDone: async ({ setState, getState, params }) => {
     const description = text({ state: getState(), params });
     await rpcPost('meta.initiative.description.text/update', {
-      'meta.initiative/slug': params['ref/id'],
+      'meta.initiative/slug': params.ref[1],
       value: description,
     });
     await invalidateAsyncSub('meta.initiative.description/text', {
-      'meta.initiative/slug': params['ref/id'],
+      'meta.initiative/slug': params.ref[1],
     });
     endEditing({ setState, getState, params });
   },

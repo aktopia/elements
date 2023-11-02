@@ -21,7 +21,7 @@ export const accountSlice = () => ({
 });
 
 evt('account.user.name/edit', ({ setState, params }) => {
-  startEditing({ setState, params: { 'ref/id': params['user/id'], 'ref/attribute': 'user/name' } });
+  startEditing({ setState, params: { ref: ['user/name', params['user/id']] } });
 });
 
 registerTextEditor('user/name', {
@@ -29,13 +29,10 @@ registerTextEditor('user/name', {
   onEditDone: async ({ setState, getState, params }) => {
     const value = text({ state: getState(), params });
     await rpcPost('user.name/update', {
-      'user/id': params['ref/id'],
+      'user/id': params.ref[1],
       value,
     });
-    await invalidateAsyncSubs([
-      ['current.user/name'],
-      ['user/name', { 'user/id': params['ref/id'] }],
-    ]);
+    await invalidateAsyncSubs([['current.user/name'], ['user/name', { 'user/id': params.ref[1] }]]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: endEditing,
