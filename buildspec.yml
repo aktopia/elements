@@ -5,7 +5,9 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
+      - cd lib
       - npm install
+
   build:
     commands:
       - npx tsc && npx vite build --mode production
@@ -14,4 +16,4 @@ artifacts:
   files:
     - '**/*'
   discard-paths: yes
-  base-directory: 'dist'
+  base-directory: 'lib/dist'
