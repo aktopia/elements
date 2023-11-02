@@ -10,6 +10,7 @@ import { useCallback, useMemo } from 'react';
 import { type ItemType } from '@elements/components/dropdown';
 import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
 import type { LookupRef } from '@elements/types';
+import { useLookupRef, useWrapRequireAuth } from '@elements/store/hooks';
 
 const User = ({ name }: { name: string }) => {
   return (
@@ -69,7 +70,7 @@ const Update = suspensify(({ id, parentLookupRef }: { id: string; parentLookupRe
   const creatorName = useValue('update.created-by/name', { 'update/id': id });
   const text = useValue('update/text', { 'update/id': id });
   const createdAt = useValue('update/created-at', { 'update/id': id });
-  const updateLookupRef = useMemo(() => ['update/id', id] as LookupRef, [id]);
+  const updateLookupRef = useLookupRef('update/id', id);
 
   return (
     <div
@@ -104,6 +105,7 @@ export const Updates = suspensify(({ lookupRef }: UpdatesProps) => {
   const t = useTranslation();
   const currentUserName = useValue('current.user/name');
   const updateIds = useValue('update/ids', { ref: lookupRef });
+  const canCreate = useValue('update/can-create', { ref: lookupRef });
 
   const updateContent = useDispatch('new.update/update');
   const createContent = useDispatch('new.update/create');
@@ -115,19 +117,21 @@ export const Updates = suspensify(({ lookupRef }: UpdatesProps) => {
     [updateContent, lookupRef]
   );
 
-  const onPost = useCallback(() => {
+  const onPost = useWrapRequireAuth(() => {
     createContent({ ref: lookupRef });
   }, [createContent, lookupRef]);
 
   return (
     <div className={'flex flex-col gap-7'}>
-      <NewContent
-        creatorName={currentUserName}
-        placeholderText={"Any updates that you'd like to share?"}
-        postText={t('common/post')}
-        onChange={onChange}
-        onPost={onPost}
-      />
+      {canCreate ? (
+        <NewContent
+          creatorName={currentUserName}
+          placeholderText={"Any updates that you'd like to share?"}
+          postText={t('common/post')}
+          onChange={onChange}
+          onPost={onPost}
+        />
+      ) : null}
       <div className={'w-full'}>
         {updateIds.map((id, idx) => (
           <div key={id} className={'w-full'}>

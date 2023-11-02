@@ -17,9 +17,8 @@ import { useTranslation } from '@elements/translation';
 import isEmpty from 'lodash/isEmpty';
 import { useCallback, useMemo, useState } from 'react';
 import { type ItemType } from '@elements/components/dropdown';
-import { useWrapRequireAuth } from '@elements/store/hooks';
+import { useLookupRef, useWrapRequireAuth } from '@elements/store/hooks';
 import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
-import type { LookupRef } from '@elements/types';
 
 export const User = ({ name }: { name: string }) => {
   return (
@@ -90,7 +89,7 @@ const ContextMenu = ({ id }: { id: string }) => {
 
 export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
-  const lookupRef = useMemo(() => ['comment/id', id] as LookupRef, [id]);
+  const lookupRef = useLookupRef('comment/id', id);
 
   const currentUserName = useValue('current.user/name');
   const creatorName = useValue('comment.created-by/name', { 'comment/id': id });

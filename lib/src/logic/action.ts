@@ -22,10 +22,11 @@ import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 
 export type TabId = 'home' | 'discuss' | 'updates';
+export type SwitchId = 'work' | 'funding';
 
 export type Subs = {
   'action.tabs/active-tab': Sub<{}, TabId>;
-  'action.progress-bar/active-switch': Sub<{}, string>;
+  'action.progress-bar.switches/active-switch': Sub<{}, string>;
   'action.title/text': Sub<{ 'action/id': string }, string>;
   'action.description/text': Sub<{ 'action/id': string }, string>;
   'action.outcome/text': Sub<{ 'action/id': string }, string>;
@@ -62,7 +63,7 @@ export type Events = {
   'action/bump': Evt<{}>;
   'action/unbump': Evt<{}>;
   'action/fund': Evt<{}>;
-  'action.progress-bar/update': Evt<{}>;
+  'action.progress-bar.switches/update': Evt<{ 'switch/id': SwitchId }>;
   'action.tabs/update': Evt<{ 'tab/id': TabId }>;
   'action.create.modal/open': Evt<{}>;
   'action.create.modal/close': Evt<{}>;
@@ -77,7 +78,7 @@ export type Events = {
 export const actionSlice = () => ({
   'action/state': {
     'action.tabs/active-tab': 'home',
-    'action.progress-bar/active-switch': 'work',
+    'action.progress-bar.switches/active-switch': 'work',
     'action.create.modal/visible': false,
     'action.create.modal/title': '',
     'action.locality.slide-over/visible': false,
@@ -87,11 +88,11 @@ export const actionSlice = () => ({
 sub('action.tabs/active-tab', ({ state }) => state['action/state']['action.tabs/active-tab']);
 
 sub(
-  'action.progress-bar/active-switch',
-  ({ state }) => state['action/state']['action.progress-bar/active-switch']
+  'action.progress-bar.switches/active-switch',
+  ({ state }) => state['action/state']['action.progress-bar.switches/active-switch']
 );
 
-sub('action.funding/percentage', () => 24);
+sub('action.funding/percentage', () => 42);
 sub('action/saved', () => false);
 sub('action/followed', () => false);
 sub('action.bump/count', () => 10);
@@ -169,7 +170,12 @@ evt('action/unsave', () => null);
 evt('action/bump', () => null);
 evt('action/unbump', () => null);
 evt('action/fund', () => null);
-evt('action.progress-bar/update', () => null);
+
+evt('action.progress-bar.switches/update', ({ setState, params }) => {
+  setState((state: any) => {
+    state['action/state']['action.progress-bar.switches/active-switch'] = params['switch/id'];
+  });
+});
 
 evt('action.tabs/update', ({ setState, params }) => {
   setState((state: any) => {

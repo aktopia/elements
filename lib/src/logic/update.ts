@@ -16,6 +16,7 @@ export type Subs = {
   'update/created-at': Sub<{ 'update/id': string }, number>;
   'update/text': Sub<{ 'update/id': string }, string>;
   'update.deletion/id': Sub<{}, string>;
+  'update/can-create': Sub<{ ref: LookupRef }, boolean>;
 };
 
 export type Events = {
@@ -40,6 +41,7 @@ remoteSub('update/ids');
 remoteSub('update/created-at');
 remoteSub('update.created-by/name');
 remoteSub('update/text');
+remoteSub('update/can-create');
 
 evt('new.update/create', async ({ getState }) => {
   const newUpdate = getState()['update/state']['new/update'];

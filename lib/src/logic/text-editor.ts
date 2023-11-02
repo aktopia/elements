@@ -20,7 +20,6 @@ export function registerTextEditor(attribute: string, actions: Actions) {
 }
 
 export type Subs = {
-  'text-editor/can-edit': Sub<{ ref: LookupRef }, boolean>;
   'text-editor/editing': Sub<{ ref: LookupRef }, boolean>;
 };
 
@@ -30,8 +29,6 @@ export type Events = {
   'text-editor.edit/cancel': Evt<{ ref: LookupRef }>;
   'text-editor.text/update': Evt<{ ref: LookupRef; value: string }>;
 };
-
-sub('text-editor/can-edit', ({}) => true);
 
 sub('text-editor/editing', ({ state, params }) => {
   const key = ref(params.ref);

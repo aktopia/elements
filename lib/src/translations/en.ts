@@ -157,6 +157,7 @@ const translation = {
   'relationships/empty': 'No relationships yet.',
   'locations/confirm': 'Confirm Location',
   'percentage/complete': 'Complete',
+  'percentage/funded': 'Funded',
   'text.draft/create': 'Create Draft',
   'registration.full-name/placeholder': 'Please enter your full name.',
   'choose-locality/add': 'Choose your Locality',

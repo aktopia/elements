@@ -1,8 +1,8 @@
 import { Crowd, Giving } from '@elements/icons';
 import { Button } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
-// import { NamedSwitch } from '@elements/components/named-switch';
-// import { ProgressBar } from '@elements/components/progress-bar';
+import { NamedSwitch } from '@elements/components/named-switch';
+import { ProgressBar } from '@elements/components/progress-bar';
 import { QRCodeButton } from '@elements/components/qr-code-button';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
@@ -14,12 +14,14 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
-import { EntityType as Type, type LookupRef } from '@elements/types';
+import { EntityType as Type } from '@elements/types';
 import { Locality, LocalitySlideOver } from '@elements/compositions/action/locality';
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 import { Status } from '@elements/logic/meta/initiative';
+import type { SwitchId } from '@elements/logic/action';
+import { useLookupRef } from '@elements/store/hooks';
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -104,8 +106,7 @@ export const ActionBar = suspensify(() => {
 
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
 
-  const lookupRef = useMemo(() => ['action/id', actionId] as LookupRef, [actionId]);
-
+  const lookupRef = useLookupRef('action/id', actionId);
   const volunteer = useDispatch('action/volunteer');
   const navigateToFunding = useDispatch('action/fund');
 
@@ -145,50 +146,60 @@ export const ActionBar = suspensify(() => {
   );
 });
 
-// export const ProgressIndicator = suspensify(() => {
-//   const t = useTranslation();
-//   const actionId = useValue('current.action/id');
-//   const activeSwitchId = useValue('action.progress-bar/active-switch');
-//   const workPercentage = useValue('action.work/percentage', { 'action/id': actionId });
-//   const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
-//   const updateSwitch = useDispatch('action.progress-bar/update');
-//   const workPercentageText = `${workPercentage}%`;
-//
-//   const switches = useMemo(
-//     () => [
-//       { id: 'work', label: 'Work' },
-//       { id: 'funding', label: 'Funding' },
-//     ],
-//     []
-//   );
-//
-//   const onSwitchClick = useCallback(
-//     (switchId: string) => {
-//       updateSwitch({ 'switch/id': switchId });
-//     },
-//     [updateSwitch]
-//   );
-//
-//   fundingPercentage;
-//
-//   return (
-//     <div className={'flex flex-col gap-2'}>
-//       <div className={'flex items-end justify-between'}>
-//         <NamedSwitch
-//           activeSwitchId={activeSwitchId}
-//           size={'xs'}
-//           switches={switches}
-//           onSwitchClick={onSwitchClick}
-//         />
-//         <div className={'flex gap-1 text-xs text-gray-500'}>
-//           <span className={'font-bold'}>{workPercentageText}</span>
-//           <span>{t('percentage/complete')}</span>
-//         </div>
-//       </div>
-//       <ProgressBar current={workPercentage} total={100} />
-//     </div>
-//   );
-// });
+export const ProgressIndicator = suspensify(() => {
+  const t = useTranslation();
+  const actionId = useValue('current.action/id');
+  const activeSwitchId = useValue('action.progress-bar.switches/active-switch');
+  const workPercentage = useValue('action.work/percentage', { 'action/id': actionId });
+  const fundingPercentage = useValue('action.funding/percentage', { 'action/id': actionId });
+  const updateSwitch = useDispatch('action.progress-bar.switches/update');
+  const workPercentageText = `${workPercentage}%`;
+  const fundingPercentageText = `${fundingPercentage}%`;
+
+  const switches = useMemo(
+    () => [
+      { id: 'work', label: 'Work' },
+      { id: 'funding', label: 'Funding' },
+    ],
+    []
+  );
+
+  const onSwitchClick = useCallback(
+    (switchId: SwitchId) => {
+      updateSwitch({ 'switch/id': switchId });
+    },
+    [updateSwitch]
+  );
+
+  return (
+    <div className={'flex flex-col gap-2'}>
+      <div className={'flex items-end justify-between'}>
+        <NamedSwitch
+          activeSwitchId={activeSwitchId}
+          size={'xs'}
+          switches={switches}
+          onSwitchClick={onSwitchClick}
+        />
+        {activeSwitchId === 'work' ? (
+          <div className={'flex gap-1 text-xs text-gray-500'}>
+            <span className={'font-bold'}>{workPercentageText}</span>
+            <span>{t('percentage/complete')}</span>
+          </div>
+        ) : (
+          <div className={'flex gap-1 text-xs text-gray-500'}>
+            <span className={'font-bold'}>{fundingPercentageText}</span>
+            <span>{t('percentage/funded')}</span>
+          </div>
+        )}
+      </div>
+      {activeSwitchId === 'work' ? (
+        <ProgressBar barClassName={'bg-green-500'} current={workPercentage} total={100} />
+      ) : (
+        <ProgressBar barClassName={'bg-blue-500'} current={fundingPercentage} total={100} />
+      )}
+    </div>
+  );
+});
 
 export const ActionTabs = suspensify(() => {
   const t = useTranslation();
@@ -236,7 +247,7 @@ export const Header = suspensify(() => {
               <ActionBar suspenseLines={2} />
             </div>
           </div>
-          {/*<ProgressIndicator suspenseLines={1} />*/}
+          <ProgressIndicator suspenseLines={1} />
         </div>
         <ActionTabs suspenseLines={1} />
       </div>

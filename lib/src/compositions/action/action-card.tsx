@@ -1,13 +1,14 @@
 import { suspensify } from '@elements/components/suspensify';
 import { useValue } from '@elements/store/interface';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
-import { EntityType as Type, type LookupRef } from '@elements/types';
+import { EntityType as Type } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';
 import { Voting } from '@elements/compositions/voting';
 import { useTranslation } from '@elements/translation';
 import { Locality as RawLocality } from '@elements/components/locality';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { Link } from '@elements/components/link';
+import { useLookupRef } from '@elements/store/hooks';
 
 interface ActionCardProps {
   id: string;
@@ -38,7 +39,7 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
     [id, onLocalitySlideOverOpen]
   );
   const updatedAt = useValue('action/updated-at', { 'action/id': id });
-  const lookupRef = useMemo(() => ['action/id', id] as LookupRef, [id]);
+  const lookupRef = useLookupRef('action/id', id);
 
   return (
     <div

@@ -5,13 +5,12 @@ import { Locations } from '@elements/compositions/issue/locations';
 import { Media } from '@elements/compositions/issue/media';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
-import { useMemo } from 'react';
-import type { LookupRef } from '@elements/types';
+import { useLookupRef } from '@elements/store/hooks';
 
 export const Issue = wrapPage(() => {
   const activeTabId = useValue('issue.tabs/active-tab');
   const issueId = useValue('current.issue/id');
-  const ref = useMemo(() => ['issue/id', issueId] as LookupRef, [issueId]);
+  const ref = useLookupRef('issue/id', issueId);
   let tab;
 
   switch (activeTabId) {

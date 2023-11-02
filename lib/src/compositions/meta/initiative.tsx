@@ -7,7 +7,7 @@ import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
-import { EntityType as Type, type LookupRef } from '@elements/types';
+import { EntityType as Type } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
 import { wrapPage } from '@elements/compositions/wrap-page';
@@ -48,10 +48,7 @@ const Title = suspensify(() => {
 
 export const ActionBar = suspensify(() => {
   const initiativeSlug = useValue('current.meta.initiative/slug');
-  const lookupRef = useMemo(
-    () => ['meta.initiative/slug', initiativeSlug] as LookupRef,
-    [initiativeSlug]
-  );
+  const lookupRef = useLookupRef('meta.initiative/slug', initiativeSlug);
 
   return <UpVoting lookupRef={lookupRef} size={'md'} suspenseLines={1} />;
 });
