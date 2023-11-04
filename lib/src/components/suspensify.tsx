@@ -1,11 +1,13 @@
 import { Skeleton } from '@elements/components/skeleton';
-import type { ComponentProps, ComponentType } from 'react';
+import type { ComponentProps, ComponentType, ReactNode } from 'react';
 import { memo, Suspense } from 'react';
 
 export interface SuspensifyProps {
   suspenseLines?: number;
   suspenseColor?: 'grey' | 'primary';
   suspenseLineHeight?: string;
+  suspenseFallback?: ReactNode;
+  suspenseCircle?: boolean;
 }
 
 export const suspensify = <P extends object>(Component: ComponentType<P>) =>
@@ -14,13 +16,26 @@ export const suspensify = <P extends object>(Component: ComponentType<P>) =>
       suspenseLines,
       suspenseLineHeight,
       suspenseColor,
+      suspenseFallback,
+      suspenseCircle,
       ...props
     }: ComponentProps<ComponentType<P>> & SuspensifyProps) => {
+      let fallback;
+
+      if (suspenseFallback) {
+        fallback = suspenseFallback;
+      } else {
+        fallback = (
+          <Skeleton
+            circle={suspenseCircle}
+            count={suspenseLines}
+            height={suspenseLineHeight}
+            kind={suspenseColor}
+          />
+        );
+      }
       return (
-        <Suspense
-          fallback={
-            <Skeleton count={suspenseLines} height={suspenseLineHeight} kind={suspenseColor} />
-          }>
+        <Suspense fallback={fallback}>
           <Component {...(props as ComponentProps<ComponentType<P>>)} />
         </Suspense>
       );

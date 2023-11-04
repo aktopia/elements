@@ -13,14 +13,16 @@ export interface SkeletonProps {
   count?: number;
   height?: string;
   kind?: string;
+  circle?: boolean;
 }
 
-export const Skeleton = ({ count, kind = 'grey', height }: SkeletonProps) => {
+export const Skeleton = ({ count, circle, kind = 'grey', height }: SkeletonProps) => {
   const { baseColor, highlightColor } = kindToColors(kind);
 
   return (
     <Component
       baseColor={baseColor}
+      circle={circle}
       count={count}
       height={height}
       highlightColor={highlightColor}

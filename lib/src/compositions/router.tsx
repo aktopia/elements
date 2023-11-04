@@ -7,6 +7,11 @@ import { NotFound } from '@elements/compositions/not-found';
 
 export const listener = (match: Match) => dispatch('route.navigation/initiate', match);
 
+const fullPageSpinner = (
+  <div className={'fixed flex h-full w-full items-center justify-center'}>
+    <Spinner kind={'primary'} size={'sm'} visible={true} />
+  </div>
+);
 export const Router = suspensify(() => {
   const loadingState = useValue('route.navigation/state');
   const Component = useValue('current.route/component');
@@ -23,5 +28,5 @@ export const Router = suspensify(() => {
     return <NotFound />;
   }
 
-  return <Component suspenseLines={8} />;
+  return <Component suspenseFallback={fullPageSpinner} />;
 });
