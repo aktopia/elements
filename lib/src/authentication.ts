@@ -16,7 +16,12 @@ export const init = (authConfig: AppInfoUserInput) => {
       appName,
       apiBasePath,
     },
-    recipeList: [Session.init({}), Passwordless.init({})],
+    recipeList: [
+      Session.init({
+        tokenTransferMethod: 'cookie',
+      }),
+      Passwordless.init({}),
+    ],
   });
 };
 
