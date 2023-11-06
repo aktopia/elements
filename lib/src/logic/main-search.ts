@@ -1,5 +1,6 @@
 import { evt, remoteSub, sub } from '@elements/store';
 import type { EntityType } from '@elements/types';
+import type { Evt, Sub } from '@elements/store/types';
 
 export interface SearchResult {
   'entity/type': EntityType;
@@ -11,32 +12,15 @@ export interface SearchResult {
 }
 
 export type Subs = {
-  'main-search/visible': {
-    params: {};
-    result: boolean;
-  };
-  'main-search/query': {
-    params: {};
-    result: string;
-  };
-  'main-search/results': {
-    params: { query: string };
-    result: SearchResult[];
-  };
+  'main-search/visible': Sub<{}, boolean>;
+  'main-search/query': Sub<{}, string>;
+  'main-search/results': Sub<{ query: string }, SearchResult[]>;
 };
 
 export type Events = {
-  'main-search/open': {
-    params: {};
-  };
-  'main-search.query/set': {
-    params: {
-      value: string;
-    };
-  };
-  'main-search/close': {
-    params: {};
-  };
+  'main-search/open': Evt<{}>;
+  'main-search.query/set': Evt<{ value: string }>;
+  'main-search/close': Evt<{}>;
 };
 
 export const mainSearchSlice = () => ({
