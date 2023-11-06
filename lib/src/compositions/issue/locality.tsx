@@ -22,7 +22,7 @@ export const LocalitySlideOver = suspensify(({ issueId }: { issueId: string }) =
   return (
     <RawChooseLocalitySlideOver
       initialCenter={location || userLocation}
-      initialZoom={zoom}
+      initialZoom={zoom || 13}
       title={title}
       visible={visible}
       onClose={onClose}
