@@ -160,8 +160,8 @@ const translation = {
   'percentage/funded': 'Funded',
   'text.draft/create': 'Create Draft',
   'registration.full-name/placeholder': 'Please enter your full name.',
-  'choose-locality/add': 'Choose your Locality',
-  'choose-locality/update': 'Update your Locality',
+  'choose-locality/add': 'Choose your locality',
+  'choose-locality/update': 'Update your locality',
 };
 
 type Action = typeof action;

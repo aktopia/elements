@@ -50,6 +50,10 @@ sub(
   ({ state }: any) => state['locality/state']['choose-locality.slide-over/visible']
 );
 
+sub('user.apparent.locality/location', ({ state }: any) => {
+  return state['locality/state']['user.apparent.locality/location'];
+});
+
 sub(
   'user.chosen.locality/location',
   ({ state }: any) => state['locality/state']['user.chosen.locality/location']
@@ -80,10 +84,7 @@ sub(
     state['locality/state']['user.apparent.locality/location']
 );
 
-sub(
-  'user.locality/zoom',
-  ({ state }: any) => state['locality/state']['user.chosen.locality/zoom'] || 13
-);
+sub('user.locality/zoom', ({ state }: any) => state['locality/state']['user.chosen.locality/zoom']);
 
 evt('user.chosen.locality/sync', ({ setState }) => {
   const chosenLocality = getChosenLocality();
