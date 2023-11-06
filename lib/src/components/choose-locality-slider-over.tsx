@@ -15,6 +15,7 @@ import { SearchLocation } from '@elements/compositions/map';
 interface ChooseLocalitySlideOverProps {
   visible: boolean;
   title: string;
+  description: string;
   initialCenter?: LatLng;
   initialZoom?: number;
   onClose: () => void;
@@ -26,6 +27,7 @@ export const ChooseLocalitySlideOver = ({
   initialCenter,
   initialZoom,
   title,
+  description,
   onClose,
   onDone,
 }: ChooseLocalitySlideOverProps) => {
@@ -66,8 +68,9 @@ export const ChooseLocalitySlideOver = ({
             <SlideOverCloseButton onClick={onClose} />
           </SlideOverHeader>
           <SlideOverBody>
-            <div className={'flex h-fit w-full items-center gap-5'}>
-              <div className={'relative h-[25rem] md:w-[400px] w-full rounded-lg shadow'}>
+            <div className={'flex h-fit  md:w-[400px] w-full gap-10 flex-col'}>
+              <p className={'text-gray-500 text-base'}>{description}</p>
+              <div className={'relative h-[25rem] rounded-lg shadow'}>
                 <Map
                   ref={mapRef}
                   initialCenter={initialCenter}

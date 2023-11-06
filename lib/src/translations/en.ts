@@ -46,8 +46,9 @@ const action = {
   'action.description/empty':
     "You haven't added a description yet. Describe what the action is all about.",
   'action.description/placeholder': 'Describe the action.',
-  'action.locality/add': 'Choose locality',
+  'action.locality/add': 'Choose action locality',
   'action.locality/update': 'Update action locality',
+  'action.locality/description': 'The center at which the action will be taking place.',
   'action/locality': 'Action locality',
   'action.outcome/empty':
     "You haven't added an outcome yet. Describe what promise to fulfill with this action.",
@@ -67,8 +68,9 @@ const issue = {
   'issue/expected-resolution': 'Expected Resolution',
   'issue.location.slide-over/location-list': 'Issue Locations',
   'issue.location.slide-over/empty': 'No locations have been added yet.',
-  'issue.locality/add': 'Choose locality',
+  'issue.locality/add': 'Choose issue locality',
   'issue.locality/update': 'Update issue locality',
+  'issue.locality/description': 'The locality around which the issue is centered.',
   'issue/locality': 'Issue locality',
   'issue.severity/label': ({ avgScore, userScore, votes }: any) => {
     const oneVote = votes === 1 || votes === '1';
@@ -162,6 +164,7 @@ const translation = {
   'registration.full-name/placeholder': 'Please enter your full name.',
   'choose-locality/add': 'Choose your locality',
   'choose-locality/update': 'Update your locality',
+  'choose-locality/description': 'Your experience will be streamlined to your chosen locality.',
 };
 
 type Action = typeof action;

@@ -22,6 +22,7 @@ export const ChooseLocalitySlideOver = suspensify(() => {
 
   return (
     <RawChooseLocalitySlideOver
+      description={t('choose-locality/description')}
       initialCenter={initialCenter}
       initialZoom={initialZoom}
       title={title}

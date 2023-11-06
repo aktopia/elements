@@ -15,10 +15,10 @@ import OrderedList from '@tiptap/extension-ordered-list';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
 
-export const plainTextExtensions = [Document, Text, Paragraph, History];
+export const PlainTextExtensions = [Document, Text, Paragraph, History];
 
-export const richTextExtensions = [
-  ...plainTextExtensions,
+export const RichTextExtensions = [
+  ...PlainTextExtensions,
   Bold,
   Italic,
   Strike,
@@ -61,7 +61,7 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
     output = 'html',
     editable,
     placeholder,
-    extensions = richTextExtensions,
+    extensions = RichTextExtensions,
   },
   ref
 ) => {
