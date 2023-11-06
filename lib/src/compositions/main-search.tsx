@@ -80,6 +80,8 @@ export const MainSearch = suspensify(() => {
 
   const [query, setQuery] = useStateLike('main-search/query', 'main-search.query/set');
 
+  const emptyQuery = query.trim() === '';
+
   const close = useDispatch('main-search/close');
   const navigateToPath = useDispatch('navigate/path');
 
@@ -119,7 +121,7 @@ export const MainSearch = suspensify(() => {
               onChange={onQueryChange}
             />
           </div>
-          <Results query={query} suspenseLines={6} />
+          {emptyQuery ? null : <Results query={query} />}
         </Combobox>
       </ModalPanel>
     </Modal>
