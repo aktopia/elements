@@ -16,6 +16,7 @@ interface TextEditorProps {
   noContent?: ReactElement;
   output?: 'html' | 'text';
   richText?: boolean;
+  error?: string;
 }
 
 export const TextEditor = suspensify(
@@ -28,6 +29,7 @@ export const TextEditor = suspensify(
     noContent,
     output,
     richText,
+    error,
   }: TextEditorProps) => {
     const t = useTranslation();
     const reference = useMemo(
@@ -67,6 +69,7 @@ export const TextEditor = suspensify(
         content={content}
         doneText={t('common/done')}
         editable={isEditing}
+        error={error}
         output={output}
         placeholder={placeholder}
         richText={richText}
