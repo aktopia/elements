@@ -106,6 +106,7 @@ export const Updates = suspensify(({ lookupRef }: UpdatesProps) => {
   const currentUserName = useValue('current.user/name');
   const updateIds = useValue('update/ids', { ref: lookupRef });
   const canCreate = useValue('update/can-create', { ref: lookupRef });
+  const newUpdateError = useValue('new.update/error');
 
   const updateContent = useDispatch('new.update/update');
   const createContent = useDispatch('new.update/create');
@@ -126,6 +127,7 @@ export const Updates = suspensify(({ lookupRef }: UpdatesProps) => {
       {canCreate ? (
         <NewContent
           creatorName={currentUserName}
+          error={newUpdateError}
           placeholderText={"Any updates that you'd like to share?"}
           postText={t('common/post')}
           onChange={onChange}

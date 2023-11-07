@@ -8,10 +8,12 @@ import {
 } from '@elements/store';
 import {
   endEditing,
+  onEditCancelDefault,
+  onTextUpdateDefault,
   registerTextEditor,
+  setError,
   startEditing,
   text,
-  updateText,
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
 import type { Match } from '@elements/router';
@@ -311,9 +313,14 @@ evt('issue.location/delete', async ({ getState, params }) => {
 });
 
 registerTextEditor('issue.title/text', {
-  onTextUpdate: updateText,
+  onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
-    const title = text({ state: getState(), params });
+    const title = text({ getState, params })?.trim();
+    // TODO Think about abstracting validations than having them in the logic layer.
+    if (title === '') {
+      return setError({ setState, params: { ...params, error: 'Title cannot be empty.' } });
+    }
+
     await rpcPost('issue.title.text/update', {
       'issue/id': params.ref[1],
       value: title,
@@ -321,13 +328,13 @@ registerTextEditor('issue.title/text', {
     await invalidateAsyncSub('issue.title/text', { 'issue/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
-  onEditCancel: endEditing,
+  onEditCancel: onEditCancelDefault,
 });
 
 registerTextEditor('issue.description/text', {
-  onTextUpdate: updateText,
+  onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
-    const description = text({ state: getState(), params });
+    const description = text({ getState, params });
     await rpcPost('issue.description.text/update', {
       'issue/id': params.ref[1],
       value: description,
@@ -335,13 +342,13 @@ registerTextEditor('issue.description/text', {
     await invalidateAsyncSub('issue.description/text', { 'issue/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
-  onEditCancel: endEditing,
+  onEditCancel: onEditCancelDefault,
 });
 
 registerTextEditor('issue.resolution/text', {
-  onTextUpdate: updateText,
+  onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
-    const resolution = text({ state: getState(), params });
+    const resolution = text({ getState, params });
     await rpcPost('issue.resolution.text/update', {
       'issue/id': params.ref[1],
       value: resolution,
@@ -349,5 +356,5 @@ registerTextEditor('issue.resolution/text', {
     await invalidateAsyncSub('issue.resolution/text', { 'issue/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
-  onEditCancel: endEditing,
+  onEditCancel: onEditCancelDefault,
 });

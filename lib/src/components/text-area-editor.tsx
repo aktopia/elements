@@ -1,10 +1,11 @@
 import { Button } from '@elements/components/button';
 import RichTextArea, {
   PlainTextExtensions,
+  type RichTextAreaHandle,
   RichTextExtensions,
   type RichTextOutput,
 } from '@elements/components/rich-text-area';
-import { type FormEventHandler, useCallback, useMemo } from 'react';
+import { type FormEventHandler, type Ref, useCallback, useMemo } from 'react';
 import { cva } from 'cva';
 import { ExclamationCircleMiniSolid } from '@elements/icons';
 
@@ -21,6 +22,7 @@ interface TextAreaEditorProps {
   onChange: (value: string) => void;
   richText?: boolean;
   error?: string;
+  editorRef?: Ref<RichTextAreaHandle>;
 }
 
 const formContainerVariants = cva('w-full', {
@@ -46,6 +48,7 @@ export const TextAreaEditor = ({
   output,
   richText = true,
   error,
+  editorRef,
 }: TextAreaEditorProps) => {
   const [extensions, defaultOutput] = useMemo(() => {
     if (richText) {
@@ -69,6 +72,7 @@ export const TextAreaEditor = ({
     <div className={'relative w-full'}>
       <form className={formContainerVariants({ editable, hasError })} onSubmit={onSubmit}>
         <RichTextArea
+          ref={editorRef}
           className={className}
           editable={editable}
           extensions={extensions}

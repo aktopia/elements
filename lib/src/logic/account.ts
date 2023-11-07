@@ -1,10 +1,11 @@
 import { evt, invalidateAsyncSubs } from '@elements/store';
 import {
   endEditing,
+  onEditCancelDefault,
+  onTextUpdateDefault,
   registerTextEditor,
   startEditing,
   text,
-  updateText,
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
 
@@ -25,9 +26,9 @@ evt('account.user.name/edit', ({ setState, params }) => {
 });
 
 registerTextEditor('user/name', {
-  onTextUpdate: updateText,
+  onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
-    const value = text({ state: getState(), params });
+    const value = text({ getState, params });
     await rpcPost('user.name/update', {
       'user/id': params.ref[1],
       value,
@@ -35,5 +36,5 @@ registerTextEditor('user/name', {
     await invalidateAsyncSubs([['current.user/name'], ['user/name', { 'user/id': params.ref[1] }]]);
     endEditing({ setState, getState, params });
   },
-  onEditCancel: endEditing,
+  onEditCancel: onEditCancelDefault,
 });
