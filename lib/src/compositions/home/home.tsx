@@ -3,12 +3,22 @@ import { useValue } from '@elements/store';
 import { EntityType } from '@elements/types';
 import { ActionCard } from '@elements/compositions/action/action-card';
 import { IssueCard } from '@elements/compositions/issue/issue-card';
-import { useCallback, useMemo, useState } from 'react';
+import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 import { suspensify } from '@elements/components/suspensify';
 import { useTranslation } from '@elements/translation';
 import { ViewLocalitySlideOver as RawViewLocalitySlideOver } from '@elements/components/view-locality-slide-over';
-import WaterPollution from '@elements/assets/water-pollution.svg?react';
-import Volunteering from '@elements/assets/volunteering.svg?react';
+// import WaterPollution from '@elements/assets/water-pollution.svg?react';
+// import Volunteering from '@elements/assets/volunteering.svg?react';
+
+const WaterPollution = lazy(() => import('@elements/assets/water-pollution.svg?react'));
+const Volunteering = lazy(() => import('@elements/assets/volunteering.svg?react'));
+
+const ImageFallback = ({ className }: any) => (
+  <div className={cx(className, 'flex items-center justify-center')}>
+    <Spinner kind={'primary'} size={'sm'} visible={true} />
+  </div>
+);
+
 import {
   ChatBubbleLeftEllipsisOutline,
   CheckCircleOutline,
@@ -27,6 +37,8 @@ import { Modal, ModalPanel } from '@elements/components/modal';
 import Markdown from 'react-markdown';
 import prototypeWarningMarkdown from '@elements/markdown/prototype-warning.md?raw';
 import { Button } from '@elements/components/button';
+import { Spinner } from '@elements/components/spinner';
+import { cx } from '@elements/utils';
 
 const ViewIssueLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
   const t = useTranslation();
@@ -273,7 +285,9 @@ const IssueIntroduction = () => {
       </div>
       <div
         className={'flex flex-col md:flex-row md:gap-20 gap-12 w-full items-center justify-center'}>
-        <WaterPollution className={'h-72 w-72'} />
+        <Suspense fallback={<ImageFallback className={'h-72 w-72'} />}>
+          <WaterPollution className={'h-72 w-72'} />
+        </Suspense>
         <ul className={'flex flex-col gap-5'}>
           {features.map(({ text, Icon }) => (
             <li key={text} className={'flex gap-5 items-center'}>
@@ -331,7 +345,9 @@ const ActionIntroduction = () => {
         className={
           'flex md:flex-row-reverse flex-col md:gap-20 gap-12 w-full items-center justify-center'
         }>
-        <Volunteering className={'h-80 w-80'} />
+        <Suspense fallback={<ImageFallback className={'h-80 w-80'} />}>
+          <Volunteering className={'h-80 w-80'} />
+        </Suspense>
         <ul className={'flex flex-col gap-5'}>
           {features.map(({ text, Icon }) => (
             <li key={text} className={'flex gap-5 items-center'}>
