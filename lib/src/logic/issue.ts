@@ -313,7 +313,7 @@ evt('issue.location/delete', async ({ getState, params }) => {
 registerTextEditor('issue.title/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
-    const title = text({ state: getState(), params });
+    const title = text({ getState, params });
     await rpcPost('issue.title.text/update', {
       'issue/id': params.ref[1],
       value: title,
@@ -327,7 +327,7 @@ registerTextEditor('issue.title/text', {
 registerTextEditor('issue.description/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
-    const description = text({ state: getState(), params });
+    const description = text({ getState, params });
     await rpcPost('issue.description.text/update', {
       'issue/id': params.ref[1],
       value: description,
@@ -341,7 +341,7 @@ registerTextEditor('issue.description/text', {
 registerTextEditor('issue.resolution/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
-    const resolution = text({ state: getState(), params });
+    const resolution = text({ getState, params });
     await rpcPost('issue.resolution.text/update', {
       'issue/id': params.ref[1],
       value: resolution,

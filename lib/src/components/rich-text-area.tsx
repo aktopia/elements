@@ -50,6 +50,7 @@ interface RichTextAreaProps {
 
 export interface RichTextAreaHandle {
   clearContent: () => void;
+  setContent: (content: string) => void;
 }
 
 // DO NOT MAKE THIS A CONTROLLED COMPONENT
@@ -99,6 +100,9 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
   useImperativeHandle(ref, () => ({
     clearContent: (emitUpdate?: boolean) => {
       editorRef.current?.commands.clearContent(emitUpdate ? emitUpdate : false);
+    },
+    setContent: (content: string) => {
+      editorRef.current?.commands.setContent(content);
     },
   }));
 

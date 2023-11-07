@@ -100,7 +100,7 @@ evt('comment.text/edit', ({ setState, params }) => {
 registerTextEditor('comment/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
-    const value = text({ state: getState(), params });
+    const value = text({ getState, params });
     await rpcPost('comment.text/update', {
       'comment/id': params.ref[1],
       value,

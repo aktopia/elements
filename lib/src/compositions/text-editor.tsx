@@ -3,9 +3,10 @@ import { TextAreaEditor } from '@elements/components/text-area-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import type { ReactElement } from 'react';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import type { LookupRef } from '@elements/types';
+import type { RichTextAreaHandle } from '@elements/components/rich-text-area';
 
 interface TextEditorProps {
   refId: string;
@@ -29,19 +30,29 @@ export const TextEditor = suspensify(
     noContent,
     output,
     richText,
-    error,
   }: TextEditorProps) => {
     const t = useTranslation();
+    const editorRef = useRef<RichTextAreaHandle>(null);
     const reference = useMemo(
       () => ({ ref: [refAttribute, refId] as LookupRef }),
       [refAttribute, refId]
     );
 
     const isEditing = useValue('text-editor/editing', reference);
+    const error = useValue('text-editor/error', reference);
+    const shouldReset = useValue('text-editor/reset', reference);
 
     const editDone = useDispatch('text-editor.edit/done');
     const editCancel = useDispatch('text-editor.edit/cancel');
     const updateContent = useDispatch('text-editor.text/update');
+    const resetComplete = useDispatch('text-editor.reset/complete');
+
+    useEffect(() => {
+      if (shouldReset) {
+        editorRef.current?.setContent(content);
+        resetComplete(reference);
+      }
+    }, [shouldReset, resetComplete, updateContent, content, reference]);
 
     const onChange = useCallback(
       (value: string) => {
@@ -69,6 +80,7 @@ export const TextEditor = suspensify(
         content={content}
         doneText={t('common/done')}
         editable={isEditing}
+        editorRef={editorRef}
         error={error}
         output={output}
         placeholder={placeholder}

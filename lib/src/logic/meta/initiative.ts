@@ -170,7 +170,7 @@ evt('meta.initiative.status/update', async ({ params }) => {
 registerTextEditor('meta.initiative.title/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
-    const title = text({ state: getState(), params });
+    const title = text({ getState, params });
     await rpcPost('meta.initiative.title.text/update', {
       'meta.initiative/slug': params.ref[1],
       value: title,
@@ -186,7 +186,7 @@ registerTextEditor('meta.initiative.title/text', {
 registerTextEditor('meta.initiative.description/text', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
-    const description = text({ state: getState(), params });
+    const description = text({ getState, params });
     await rpcPost('meta.initiative.description.text/update', {
       'meta.initiative/slug': params.ref[1],
       value: description,

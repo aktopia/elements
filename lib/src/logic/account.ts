@@ -27,7 +27,7 @@ evt('account.user.name/edit', ({ setState, params }) => {
 registerTextEditor('user/name', {
   onTextUpdate: updateText,
   onEditDone: async ({ setState, getState, params }) => {
-    const value = text({ state: getState(), params });
+    const value = text({ getState, params });
     await rpcPost('user.name/update', {
       'user/id': params.ref[1],
       value,
