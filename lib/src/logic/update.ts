@@ -7,6 +7,7 @@ import {
   text,
   onTextUpdateDefault,
   onEditCancelDefault,
+  setError,
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
 import type { LookupRef } from '@elements/types';
@@ -94,7 +95,12 @@ evt('update.text/edit', ({ setState, params }) => {
 registerTextEditor('update/text', {
   onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
-    const value = text({ getState, params });
+    const value = text({ getState, params })?.trim();
+
+    if (value === '') {
+      return setError({ setState, params: { ...params, error: 'Update cannot be empty.' } });
+    }
+
     await rpcPost('update.text/update', {
       'update/id': params.ref[1],
       value,

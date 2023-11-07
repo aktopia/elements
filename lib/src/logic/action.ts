@@ -261,10 +261,10 @@ evt('action.locality/choose', async ({ getState, params }) => {
 registerTextEditor('action.title/text', {
   onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
-    const title = text({ getState, params });
+    const title = text({ getState, params })?.trim();
 
     // TODO Think about abstracting validations than having them in the logic layer.
-    if (title.trim() === '') {
+    if (title === '') {
       return setError({ setState, params: { ...params, error: 'Title cannot be empty.' } });
     }
 

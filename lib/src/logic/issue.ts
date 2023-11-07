@@ -11,6 +11,7 @@ import {
   onEditCancelDefault,
   onTextUpdateDefault,
   registerTextEditor,
+  setError,
   startEditing,
   text,
 } from '@elements/logic/text-editor';
@@ -314,7 +315,12 @@ evt('issue.location/delete', async ({ getState, params }) => {
 registerTextEditor('issue.title/text', {
   onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
-    const title = text({ getState, params });
+    const title = text({ getState, params })?.trim();
+    // TODO Think about abstracting validations than having them in the logic layer.
+    if (title === '') {
+      return setError({ setState, params: { ...params, error: 'Title cannot be empty.' } });
+    }
+
     await rpcPost('issue.title.text/update', {
       'issue/id': params.ref[1],
       value: title,

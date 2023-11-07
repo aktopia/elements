@@ -6,6 +6,7 @@ import {
   onEditCancelDefault,
   onTextUpdateDefault,
   registerTextEditor,
+  setError,
   startEditing,
   text,
 } from '@elements/logic/text-editor';
@@ -101,7 +102,10 @@ evt('comment.text/edit', ({ setState, params }) => {
 registerTextEditor('comment/text', {
   onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
-    const value = text({ getState, params });
+    const value = text({ getState, params })?.trim();
+    if (value === '') {
+      return setError({ setState, params: { ...params, error: 'Comment cannot be empty.' } });
+    }
     await rpcPost('comment.text/update', {
       'comment/id': params.ref[1],
       value,
