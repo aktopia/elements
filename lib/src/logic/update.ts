@@ -5,7 +5,8 @@ import {
   registerTextEditor,
   startEditing,
   text,
-  updateText,
+  onTextUpdateDefault,
+  onEditCancelDefault,
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
 import type { LookupRef } from '@elements/types';
@@ -91,7 +92,7 @@ evt('update.text/edit', ({ setState, params }) => {
 });
 
 registerTextEditor('update/text', {
-  onTextUpdate: updateText,
+  onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
     const value = text({ getState, params });
     await rpcPost('update.text/update', {
@@ -101,5 +102,5 @@ registerTextEditor('update/text', {
     await invalidateAsyncSub('update/text', { 'update/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
-  onEditCancel: endEditing,
+  onEditCancel: onEditCancelDefault,
 });

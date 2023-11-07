@@ -183,3 +183,8 @@ evt('text-editor.reset/complete', ({ params, setState }) => {
     state['text-editor/state'][key]['text-editor/reset'] = false;
   });
 });
+
+/*
+TODO
+- Handle race conditions (major thinking required)
+ */

@@ -8,10 +8,11 @@ import {
 } from '@elements/store';
 import {
   endEditing,
+  onEditCancelDefault,
+  onTextUpdateDefault,
   registerTextEditor,
   startEditing,
   text,
-  updateText,
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
 import type { Match } from '@elements/router';
@@ -311,7 +312,7 @@ evt('issue.location/delete', async ({ getState, params }) => {
 });
 
 registerTextEditor('issue.title/text', {
-  onTextUpdate: updateText,
+  onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
     const title = text({ getState, params });
     await rpcPost('issue.title.text/update', {
@@ -321,11 +322,11 @@ registerTextEditor('issue.title/text', {
     await invalidateAsyncSub('issue.title/text', { 'issue/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
-  onEditCancel: endEditing,
+  onEditCancel: onEditCancelDefault,
 });
 
 registerTextEditor('issue.description/text', {
-  onTextUpdate: updateText,
+  onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
     const description = text({ getState, params });
     await rpcPost('issue.description.text/update', {
@@ -335,11 +336,11 @@ registerTextEditor('issue.description/text', {
     await invalidateAsyncSub('issue.description/text', { 'issue/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
-  onEditCancel: endEditing,
+  onEditCancel: onEditCancelDefault,
 });
 
 registerTextEditor('issue.resolution/text', {
-  onTextUpdate: updateText,
+  onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
     const resolution = text({ getState, params });
     await rpcPost('issue.resolution.text/update', {
@@ -349,5 +350,5 @@ registerTextEditor('issue.resolution/text', {
     await invalidateAsyncSub('issue.resolution/text', { 'issue/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
-  onEditCancel: endEditing,
+  onEditCancel: onEditCancelDefault,
 });

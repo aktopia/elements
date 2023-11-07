@@ -3,10 +3,11 @@ import { rpcPost } from '@elements/rpc';
 import { ref } from '@elements/utils';
 import {
   endEditing,
+  onEditCancelDefault,
+  onTextUpdateDefault,
   registerTextEditor,
   startEditing,
   text,
-  updateText,
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
 import type { LookupRef } from '@elements/types';
@@ -98,7 +99,7 @@ evt('comment.text/edit', ({ setState, params }) => {
 });
 
 registerTextEditor('comment/text', {
-  onTextUpdate: updateText,
+  onTextUpdate: onTextUpdateDefault,
   onEditDone: async ({ setState, getState, params }) => {
     const value = text({ getState, params });
     await rpcPost('comment.text/update', {
@@ -108,5 +109,5 @@ registerTextEditor('comment/text', {
     await invalidateAsyncSub('comment/text', { 'comment/id': params.ref[1] });
     endEditing({ setState, getState, params });
   },
-  onEditCancel: endEditing,
+  onEditCancel: onEditCancelDefault,
 });
