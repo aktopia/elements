@@ -6,7 +6,6 @@ import {
   onEditCancelDefault,
   onTextUpdateDefault,
   registerTextEditor,
-  setError,
   startEditing,
   text,
 } from '@elements/logic/text-editor';
@@ -20,12 +19,14 @@ export type Subs = {
   'comment/ids': Sub<{ ref: LookupRef }, string[]>;
   'comment.deletion/id': Sub<{}, string>;
   'comment.created-by/name': Sub<{ 'comment/id': string }, string>;
+  'new.comment/error': Sub<{ ref: LookupRef }, string>;
 };
 
 export type Events = {
   'comment.text/edit': Evt<{ 'comment/id': string }>;
   'new.comment/create': Evt<{ ref: LookupRef }>;
   'new.comment/update': Evt<{ ref: LookupRef; value: string }>;
+  'new.comment.error/set': Evt<{ ref: LookupRef; error: string }>;
   'comment.deletion/cancel': Evt<{}>;
   'comment.deletion/start': Evt<{ 'comment/id': string }>;
   'comment/delete': Evt<{ 'comment/id': string }>;
@@ -46,13 +47,25 @@ remoteSub('comment/ids');
 
 sub('comment.deletion/id', ({ state }) => state['comment/state']['comment.deletion/id']);
 
-evt('new.comment/create', async ({ getState, params }) => {
+sub('new.comment/error', ({ state, params }) => {
   const key = ref(params.ref);
-  const newComment = getState()['comment/state']['new/comment'][key];
+  return state['comment/state']['new/comment'][key]?.error;
+});
+
+evt('new.comment/create', async ({ getState, params, dispatch }) => {
+  const key = ref(params.ref);
+  const newComment = getState()['comment/state']['new/comment'][key]?.text?.trim();
+
+  if (newComment === '') {
+    return dispatch('new.comment.error/set', {
+      ref: params.ref,
+      error: 'Comment cannot be empty.',
+    });
+  }
 
   await rpcPost('comment/create', {
     ...params,
-    value: newComment.text,
+    value: newComment,
   });
 
   await invalidateAsyncSub('comment/ids', params);
@@ -99,12 +112,23 @@ evt('comment.text/edit', ({ setState, params }) => {
   });
 });
 
+evt('new.comment.error/set', ({ setState, params }) => {
+  const key = ref(params.ref);
+
+  setState((state: any) => {
+    state['comment/state']['new/comment'][key].error = params.error;
+  });
+});
+
 registerTextEditor('comment/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, dispatch }) => {
     const value = text({ getState, params })?.trim();
     if (value === '') {
-      return setError({ setState, params: { ...params, error: 'Comment cannot be empty.' } });
+      return dispatch('new.comment.error/set', {
+        ref: params.ref,
+        error: 'Comment cannot be empty.',
+      });
     }
     await rpcPost('comment.text/update', {
       'comment/id': params.ref[1],

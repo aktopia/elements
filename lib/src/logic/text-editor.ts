@@ -2,6 +2,7 @@ import { evt, sub } from '@elements/store';
 import { ref } from '@elements/utils';
 import type { LookupRef } from '@elements/types';
 import type { Evt, Sub } from '@elements/store/types';
+import type { EventHandlerArgs } from '@elements/store/register';
 
 interface Action {
   setState: any;
@@ -10,9 +11,9 @@ interface Action {
 }
 
 interface Actions {
-  onEditDone: ({ setState, params, getState }: Action) => void;
-  onEditCancel: ({ setState, params, getState }: Action) => void;
-  onTextUpdate: ({ setState, params, getState }: Action) => void;
+  onEditDone: (args: EventHandlerArgs<'text-editor.edit/done'>) => void;
+  onEditCancel: (args: EventHandlerArgs<'text-editor.edit/cancel'>) => void;
+  onTextUpdate: (args: EventHandlerArgs<'text-editor.text/update'>) => void;
 }
 
 export type Subs = {

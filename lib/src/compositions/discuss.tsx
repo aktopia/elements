@@ -41,6 +41,7 @@ export const Discuss = suspensify(({ lookupRef }: DiscussProps) => {
   const currentUserName = useValue('current.user/name');
 
   const commentIds = useValue('comment/ids', { ref: lookupRef });
+  const newCommentError = useValue('new.comment/error', { ref: lookupRef });
 
   const updateNewComment = useDispatch('new.comment/update');
   const postNewComment = useDispatch('new.comment/create');
@@ -63,6 +64,7 @@ export const Discuss = suspensify(({ lookupRef }: DiscussProps) => {
       <div className={'flex flex-col gap-7'}>
         <NewContent
           creatorName={authorName}
+          error={newCommentError}
           placeholderText={t('comment/placeholder')}
           postText={t('common/post')}
           onChange={onNewCommentChange}

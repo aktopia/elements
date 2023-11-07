@@ -99,6 +99,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   const text = useValue('comment/text', { 'comment/id': id });
   const createdAt = useValue('comment/created-at', { 'comment/id': id });
   const responseIds = useValue('comment/ids', { ref: lookupRef });
+  const newCommentError = useValue('new.comment/error', { ref: lookupRef });
   const deleted = status === 'comment.status/deleted';
 
   const updateNewComment = useDispatch('new.comment/update');
@@ -175,6 +176,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
         <NewContent
           cancelText={t('common/cancel')}
           creatorName={currentUserName}
+          error={newCommentError}
           placeholderText={t('comment/placeholder')}
           postText={t('common/post')}
           onCancel={onToggleReply}
