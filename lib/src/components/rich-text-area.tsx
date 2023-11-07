@@ -53,16 +53,16 @@ export interface RichTextAreaHandle {
   setContent: (content: string) => void;
 }
 
-// DO NOT MAKE THIS A CONTROLLED COMPONENT
+// WARNING: DO NOT MAKE THIS A CONTROLLED COMPONENT
 const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaProps> = (
   {
     className,
     onChange,
     initialContent,
-    output = 'html',
+    output = 'text',
     editable,
     placeholder,
-    extensions = RichTextExtensions,
+    extensions = PlainTextExtensions,
   },
   ref
 ) => {

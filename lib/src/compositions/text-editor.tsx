@@ -29,7 +29,7 @@ export const TextEditor = suspensify(
     placeholder,
     noContent,
     output,
-    richText,
+    richText = false, // TODO: change to true once we fully support rich text
   }: TextEditorProps) => {
     const t = useTranslation();
     const editorRef = useRef<RichTextAreaHandle>(null);

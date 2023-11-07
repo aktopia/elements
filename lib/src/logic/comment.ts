@@ -20,6 +20,7 @@ export type Subs = {
   'comment.deletion/id': Sub<{}, string>;
   'comment.created-by/name': Sub<{ 'comment/id': string }, string>;
   'new.comment/error': Sub<{ ref: LookupRef }, string>;
+  'comment/replying': Sub<{ ref: LookupRef }, boolean>;
 };
 
 export type Events = {
@@ -27,15 +28,18 @@ export type Events = {
   'new.comment/create': Evt<{ ref: LookupRef }>;
   'new.comment/update': Evt<{ ref: LookupRef; value: string }>;
   'new.comment.error/set': Evt<{ ref: LookupRef; error: string }>;
+  'new.comment.error/clear': Evt<{ ref: LookupRef }>;
   'comment.deletion/cancel': Evt<{}>;
   'comment.deletion/start': Evt<{ 'comment/id': string }>;
   'comment/delete': Evt<{ 'comment/id': string }>;
+  'comment.replying/set': Evt<{ ref: LookupRef; replying: boolean }>;
 };
 
 export const commentSlice = () => ({
   'comment/state': {
     'comment.deletion/id': null,
     'new/comment': {},
+    'comment/replying': {},
   },
 });
 
@@ -50,6 +54,21 @@ sub('comment.deletion/id', ({ state }) => state['comment/state']['comment.deleti
 sub('new.comment/error', ({ state, params }) => {
   const key = ref(params.ref);
   return state['comment/state']['new/comment'][key]?.error;
+});
+
+sub('comment/replying', ({ state, params }) => {
+  const key = ref(params.ref);
+  return state['comment/state']['comment/replying'][key];
+});
+
+evt('comment.replying/set', ({ setState, params }) => {
+  const key = ref(params.ref);
+
+  setState((state: any) => {
+    state['comment/state']['comment/replying'][key]
+      ? (state['comment/state']['comment/replying'][key] = params.replying)
+      : (state['comment/state']['comment/replying'][key] = { replying: params.replying });
+  });
 });
 
 evt('new.comment/create', async ({ getState, params, dispatch }) => {
@@ -68,11 +87,18 @@ evt('new.comment/create', async ({ getState, params, dispatch }) => {
     value: newComment,
   });
 
+  dispatch('comment.replying/set', { ref: params.ref, replying: false });
+
   await invalidateAsyncSub('comment/ids', params);
 });
 
-evt('new.comment/update', ({ setState, params }) => {
+evt('new.comment/update', ({ setState, params, getState, dispatch }) => {
   const key = ref(params.ref);
+  const error = getState()['comment/state']['new/comment'][key]?.error;
+
+  if (error) {
+    dispatch('new.comment.error/clear', { ref: params.ref });
+  }
 
   setState((state: any) => {
     state['comment/state']['new/comment'][key]
@@ -117,6 +143,14 @@ evt('new.comment.error/set', ({ setState, params }) => {
 
   setState((state: any) => {
     state['comment/state']['new/comment'][key].error = params.error;
+  });
+});
+
+evt('new.comment.error/clear', ({ setState, params }) => {
+  const key = ref(params.ref);
+
+  setState((state: any) => {
+    state['comment/state']['new/comment'][key].error = null;
   });
 });
 
