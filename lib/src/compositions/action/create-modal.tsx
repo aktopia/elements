@@ -2,7 +2,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { Modal, ModalPanel } from '@elements/components/modal';
 import { useDispatch, useValue } from '@elements/store';
 import { Button } from '@elements/components/button';
-import React, { useCallback } from 'react';
+import { type FormEventHandler, type ChangeEvent, useCallback, useState } from 'react';
 import { useTranslation } from '@elements/translation';
 import { ArrowTopRightOnSquareMiniSolid } from '@elements/icons';
 import { TextInput } from '@elements/components/text-input';
@@ -12,6 +12,7 @@ import { TextInput } from '@elements/components/text-input';
 export const CreateModal = suspensify(({}) => {
   const t = useTranslation();
 
+  const [error, setError] = useState<string | null>(null);
   const visible = useValue('action.create.modal/visible');
   const title = useValue('action.create.modal/title');
 
@@ -19,16 +20,27 @@ export const CreateModal = suspensify(({}) => {
   const updateTitle = useDispatch('action.create.modal.title/update');
 
   const onTitleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (error) {
+        setError(null);
+      }
       updateTitle({ value: e.target.value });
     },
-    [updateTitle]
+    [updateTitle, error]
   );
 
-  const onSubmit = useCallback(() => {
-    window.open(`/action/new?title=${title}`, '_blank');
-    onClose({});
-  }, [onClose, title]);
+  const onSubmit: FormEventHandler = useCallback(
+    (e) => {
+      if (title?.trim() === '') {
+        setError('Title cannot be empty.');
+        e.preventDefault();
+        return;
+      }
+      window.open(`/action/new?title=${title}`, '_blank');
+      onClose({});
+    },
+    [onClose, title]
+  );
 
   return (
     <Modal visible={visible} onClose={onClose}>
@@ -37,6 +49,7 @@ export const CreateModal = suspensify(({}) => {
           <form className={'flex w-full md:w-[500px] flex-col gap-8'} onSubmit={onSubmit}>
             <input name={'title'} type={'hidden'} value={title} />
             <TextInput
+              error={error}
               placeholder={t('action.title/placeholder')}
               size={'xl'}
               value={title}
