@@ -2,12 +2,12 @@ import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import {
   endEditing,
+  onEditCancelDefault,
+  onTextUpdateDefault,
   registerTextEditor,
+  setError,
   startEditing,
   text,
-  onTextUpdateDefault,
-  onEditCancelDefault,
-  setError,
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
 import type { LookupRef } from '@elements/types';
@@ -19,6 +19,7 @@ export type Subs = {
   'update/text': Sub<{ 'update/id': string }, string>;
   'update.deletion/id': Sub<{}, string>;
   'update/can-create': Sub<{ ref: LookupRef }, boolean>;
+  'new.update/error': Sub<{}, string>;
 };
 
 export type Events = {
@@ -28,6 +29,8 @@ export type Events = {
   'update.deletion/start': Evt<{ 'update/id': string }>;
   'update.text/edit': Evt<{ 'update/id': string }>;
   'update/delete': Evt<{ 'update/id': string; ref: LookupRef }>;
+  'new.update.error/set': Evt<{ error: string }>;
+  'new.update.error/clear': Evt<{}>;
 };
 
 export const updateSlice = () => ({
@@ -39,22 +42,34 @@ export const updateSlice = () => ({
 
 sub('update.deletion/id', ({ state }) => state['update/state']['update.deletion/id']);
 
+sub('new.update/error', ({ state }) => {
+  return state['update/state']['new/update'].error;
+});
+
 remoteSub('update/ids');
 remoteSub('update/created-at');
 remoteSub('update.created-by/name');
 remoteSub('update/text');
 remoteSub('update/can-create');
 
-evt('new.update/create', async ({ getState }) => {
-  const newUpdate = getState()['update/state']['new/update'];
+evt('new.update/create', async ({ getState, dispatch, params }) => {
+  const newUpdate = getState()['update/state']['new/update'].text?.trim();
+  if (newUpdate === '') {
+    return dispatch('new.update.error/set', { error: 'Update cannot be empty.' });
+  }
+
   await rpcPost('update/create', {
-    ref: newUpdate.ref,
-    value: newUpdate.text,
+    ref: params.ref,
+    value: newUpdate,
   });
-  await invalidateAsyncSub('update/ids', { ref: newUpdate.ref });
+  await invalidateAsyncSub('update/ids', { ref: params.ref });
 });
 
-evt('new.update/update', ({ setState, params }) => {
+evt('new.update/update', ({ setState, params, read, dispatch }) => {
+  const error = read('new.update/error');
+  if (error) {
+    dispatch('new.update.error/clear');
+  }
   setState((state: any) => {
     state['update/state']['new/update'].ref = params.ref;
     state['update/state']['new/update'].text = params.value;
@@ -89,6 +104,18 @@ evt('update.text/edit', ({ setState, params }) => {
   startEditing({
     setState,
     params: { ref: ['update/text', params['update/id']] },
+  });
+});
+
+evt('new.update.error/set', ({ setState, params }) => {
+  setState((state: any) => {
+    state['update/state']['new/update'].error = params.error;
+  });
+});
+
+evt('new.update.error/clear', ({ setState }) => {
+  setState((state: any) => {
+    state['update/state']['new/update'].error = null;
   });
 });
 
