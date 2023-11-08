@@ -21,50 +21,62 @@ const User = ({ name }: { name: string }) => {
   );
 };
 
-const ContextMenu = ({ id, parentLookupRef }: { id: string; parentLookupRef: LookupRef }) => {
-  const t = useTranslation();
+const ContextMenu = suspensify(
+  ({ id, parentLookupRef }: { id: string; parentLookupRef: LookupRef }) => {
+    // TODO do not even build this component if the user cannot edit or delete
+    const t = useTranslation();
 
-  const edit = useDispatch('update.text/edit');
+    const lookupRef = useLookupRef('update/id', id);
+    const canEdit = useValue('update/can-update', { ref: lookupRef });
+    const canDelete = useValue('update/can-delete', { ref: lookupRef });
 
-  const onEditClick = useCallback(() => edit({ 'update/id': id }), [id, edit]);
-  const openModal = useDispatch('confirmation-modal/open');
-  const deleteUpdate = useDispatch('update/delete');
+    const edit = useDispatch('update.text/edit');
 
-  const onDeleteClick = useCallback(() => {
-    const onConfirm = async () => deleteUpdate({ 'update/id': id, ref: parentLookupRef });
-    openModal({
-      kind: 'danger',
-      confirmText: t('common/delete'),
-      titleText: t('update.delete.modal/title'),
-      bodyText: t('update.delete.modal/body'),
-      cancelText: t('common/cancel'),
-      onConfirm,
-    });
-  }, [openModal, t, deleteUpdate, id, parentLookupRef]);
+    const onEditClick = useCallback(() => edit({ 'update/id': id }), [id, edit]);
+    const openModal = useDispatch('confirmation-modal/open');
+    const deleteUpdate = useDispatch('update/delete');
 
-  const items = useMemo(
-    () => [
-      {
-        text: t('common/edit'),
-        onClick: onEditClick,
-        Icon: PencilOutline,
-        key: 'edit',
-        type: 'button',
-      },
-      {
-        text: t('common/delete'),
-        onClick: onDeleteClick,
-        Icon: TrashOutline,
+    const onDeleteClick = useCallback(() => {
+      const onConfirm = async () => deleteUpdate({ 'update/id': id, ref: parentLookupRef });
+      openModal({
         kind: 'danger',
-        key: 'delete',
-        type: 'button',
-      },
-    ],
-    [t, onEditClick, onDeleteClick]
-  ) as ItemType[];
+        confirmText: t('common/delete'),
+        titleText: t('update.delete.modal/title'),
+        bodyText: t('update.delete.modal/body'),
+        cancelText: t('common/cancel'),
+        onConfirm,
+      });
+    }, [openModal, t, deleteUpdate, id, parentLookupRef]);
 
-  return <RawContextMenu items={items} orientation={'horizontal'} />;
-};
+    const items = useMemo(() => {
+      let items = [];
+      if (canEdit) {
+        items.push({
+          text: t('common/edit'),
+          onClick: onEditClick,
+          Icon: PencilOutline,
+          key: 'edit',
+          type: 'button',
+        });
+      }
+
+      if (canDelete) {
+        items.push({
+          text: t('common/delete'),
+          onClick: onDeleteClick,
+          Icon: TrashOutline,
+          kind: 'danger',
+          key: 'delete',
+          type: 'button',
+        });
+      }
+
+      return items;
+    }, [t, onEditClick, onDeleteClick, canDelete, canEdit]) as ItemType[];
+
+    return items.length === 0 ? null : <RawContextMenu items={items} orientation={'horizontal'} />;
+  }
+);
 
 const Update = suspensify(({ id, parentLookupRef }: { id: string; parentLookupRef: LookupRef }) => {
   const creatorName = useValue('update.created-by/name', { 'update/id': id });

@@ -19,6 +19,8 @@ export type Subs = {
   'update/text': Sub<{ 'update/id': string }, string>;
   'update.deletion/id': Sub<{}, string>;
   'update/can-create': Sub<{ ref: LookupRef }, boolean>;
+  'update/can-update': Sub<{ ref: LookupRef }, boolean>;
+  'update/can-delete': Sub<{ ref: LookupRef }, boolean>;
   'new.update/error': Sub<{}, string>;
 };
 
@@ -51,6 +53,8 @@ remoteSub('update/created-at');
 remoteSub('update.created-by/name');
 remoteSub('update/text');
 remoteSub('update/can-create');
+remoteSub('update/can-update');
+remoteSub('update/can-delete');
 
 evt('new.update/create', async ({ getState, dispatch, params }) => {
   const newUpdate = getState()['update/state']['new/update'].text?.trim();
