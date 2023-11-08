@@ -23,7 +23,7 @@ const User = ({ name }: { name: string }) => {
 
 const ContextMenu = suspensify(
   ({ id, parentLookupRef }: { id: string; parentLookupRef: LookupRef }) => {
-    // TODO do not even build this component if the user cannot edit or delete
+    // TODO Maybe do not even build this component if the user cannot edit or delete
     const t = useTranslation();
 
     const lookupRef = useLookupRef('update/id', id);

@@ -21,6 +21,8 @@ export type Subs = {
   'comment.created-by/name': Sub<{ 'comment/id': string }, string>;
   'new.comment/error': Sub<{ ref: LookupRef }, string>;
   'comment/replying': Sub<{ ref: LookupRef }, boolean>;
+  'comment/can-update': Sub<{ ref: LookupRef }, boolean>;
+  'comment/can-delete': Sub<{ ref: LookupRef }, boolean>;
 };
 
 export type Events = {
@@ -48,6 +50,8 @@ remoteSub('comment.created-by/name');
 remoteSub('comment/created-at');
 remoteSub('comment/text');
 remoteSub('comment/ids');
+remoteSub('comment/can-update');
+remoteSub('comment/can-delete');
 
 sub('comment.deletion/id', ({ state }) => state['comment/state']['comment.deletion/id']);
 

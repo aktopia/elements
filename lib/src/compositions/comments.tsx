@@ -55,36 +55,45 @@ const ExpandCollapseButton = ({
 };
 
 const ContextMenu = ({ id }: { id: string }) => {
+  // TODO Maybe do not even build this component if the user cannot edit or delete
   const t = useTranslation();
 
+  const lookupRef = useLookupRef('comment/id', id);
+  const canEdit = useValue('comment/can-update', { ref: lookupRef });
+  const canDelete = useValue('comment/can-delete', { ref: lookupRef });
   const startDeletion = useDispatch('comment.deletion/start');
   const edit = useDispatch('comment.text/edit');
 
   const onDeleteClick = useCallback(() => startDeletion({ 'comment/id': id }), [id, startDeletion]);
   const onEditClick = useCallback(() => edit({ 'comment/id': id }), [id, edit]);
 
-  const items = useMemo(
-    () => [
-      {
+  const items = useMemo(() => {
+    let items = [];
+    if (canEdit) {
+      items.push({
         text: t('common/edit'),
         onClick: onEditClick,
         Icon: PencilOutline,
         key: 'edit',
         type: 'button',
-      },
-      {
+      });
+    }
+
+    if (canDelete) {
+      items.push({
         text: t('common/delete'),
         onClick: onDeleteClick,
         Icon: TrashOutline,
         kind: 'danger',
         key: 'delete',
         type: 'button',
-      },
-    ],
-    [t, onEditClick, onDeleteClick]
-  ) as ItemType[];
+      });
+    }
 
-  return <RawContextMenu items={items} orientation={'horizontal'} />;
+    return items;
+  }, [t, canEdit, canDelete, onEditClick, onDeleteClick]) as ItemType[];
+
+  return items.length === 0 ? null : <RawContextMenu items={items} orientation={'horizontal'} />;
 };
 
 export const Comment = suspensify(({ id }: { id: string }) => {

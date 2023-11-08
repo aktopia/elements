@@ -3,6 +3,7 @@ import { TextAreaEditor } from '@elements/components/text-area-editor';
 import isEmpty from 'lodash/isEmpty';
 import { memo, useCallback, useState } from 'react';
 
+// UNUSED
 export interface CommentProps {
   id: string;
   authorName: string;
