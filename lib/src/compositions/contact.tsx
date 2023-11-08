@@ -30,7 +30,7 @@ export const Contact = wrapPage(() => {
         <div className={'flex-col flex items-center justify-center gap-3'}>
           <label className={'text-gray-500 text-sm font-medium'}>{t('common/whatsapp')}</label>
           <a
-            className={'text-xl font-medium text-blue-600 underline'}
+            className={'p-3 border border-gray-300 shadow-md rounded-lg'}
             href={WHATSAPP}
             rel={'noreferrer'}
             target={'_blank'}>
@@ -40,7 +40,7 @@ export const Contact = wrapPage(() => {
         <div className={'flex-col flex items-center justify-center gap-3'}>
           <label className={'text-gray-500 text-sm font-medium'}>{t('common/telegram')}</label>
           <a
-            className={'text-xl font-medium text-blue-600 underline'}
+            className={'p-3 border border-gray-300 shadow-md rounded-lg'}
             href={TELEGRAM}
             rel={'noreferrer'}
             target={'_blank'}>
