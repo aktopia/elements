@@ -26,6 +26,13 @@ import type { Evt, Sub } from '@elements/store/types';
 export type TabId = 'home' | 'discuss' | 'updates';
 export type SwitchId = 'work' | 'funding';
 
+export enum ActionStatus {
+  Draft = 'action.status/draft',
+  Reviewing = 'action.status/reviewing',
+  Active = 'action.status/active',
+  Completed = 'action.status/completed',
+}
+
 export type Subs = {
   'action.tabs/active-tab': Sub<{}, TabId>;
   'action.progress-bar.switches/active-switch': Sub<{}, string>;
@@ -33,6 +40,7 @@ export type Subs = {
   'action.description/text': Sub<{ 'action/id': string }, string>;
   'action.outcome/text': Sub<{ 'action/id': string }, string>;
   'action.funding/percentage': Sub<{}, number>;
+  'action/status': Sub<{ 'action/id': string }, ActionStatus>;
   'action/saved': Sub<{}, boolean>;
   'action/followed': Sub<{}, boolean>;
   'action.bump/count': Sub<{}, number>;
@@ -100,6 +108,8 @@ sub('action/followed', () => false);
 sub('action.bump/count', () => 10);
 sub('action.follow/count', () => 2600);
 sub('action.work/percentage', () => 23);
+
+sub('action/status', () => ActionStatus.Reviewing);
 
 sub('current.action/id', ({ state }) => state['action/state']['current.action/id']);
 

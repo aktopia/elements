@@ -55,6 +55,10 @@ const action = {
   'action.outcome/placeholder': 'Describe the outcome.',
   'action.title/placeholder': 'Give the action a title.',
   'action/promised-outcome': 'Promised Outcome',
+  'action.status/draft': 'Draft',
+  'action.status/active': 'Active',
+  'action.status/reviewing': 'In Review',
+  'action.status/completed': 'Completed',
 };
 
 const issue = {
