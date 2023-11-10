@@ -22,8 +22,7 @@ import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover'
 import { Status } from '@elements/logic/meta/initiative';
 import type { SwitchId } from '@elements/logic/action';
 import { useLookupRef } from '@elements/store/hooks';
-import { cva } from 'cva';
-import { ActionStatus as ActionStatusEnum } from '@elements/logic/action';
+import { ActionStatusButton } from '@elements/compositions/action/action-status';
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -224,78 +223,7 @@ export const ActionTabs = suspensify(() => {
   return <Tabs activeTabId={activeTabId} size={'lg'} tabs={tabs} onTabClick={onTabClick} />;
 });
 
-const statusContainerVariant = cva(
-  'flex items-center gap-2 border pl-2 pr-2.5 py-1 rounded-full shadow bg-white',
-  {
-    variants: {
-      color: {
-        gray: 'border-gray-400',
-        blue: 'border-blue-500',
-        green: 'border-green-600',
-        indigo: 'border-indigo-600',
-        lime: 'border-lime-600',
-        orange: 'border-orange-600',
-        teal: 'border-teal-600',
-        sky: 'border-sky-600',
-      },
-    },
-  }
-);
-
-const statusDotVariant = cva('w-3 h-3 rounded-full', {
-  variants: {
-    color: {
-      gray: 'bg-gray-400',
-      blue: 'bg-blue-500',
-      green: 'bg-green-600',
-      indigo: 'bg-indigo-600',
-      lime: 'bg-lime-600',
-      orange: 'bg-orange-600',
-      teal: 'bg-teal-600',
-      sky: 'bg-sky-600',
-    },
-  },
-});
-
-const statusTextVariant = cva('text-xs font-medium', {
-  variants: {
-    color: {
-      gray: 'text-gray-500',
-      blue: 'text-blue-600',
-      green: 'text-green-600',
-      indigo: 'text-indigo-600',
-      lime: 'text-lime-600',
-      orange: 'text-orange-600',
-      teal: 'text-teal-600',
-      sky: 'text-sky-600',
-    },
-  },
-});
-
-type Colors = 'gray' | 'blue' | 'green' | 'indigo' | 'lime' | 'orange';
-
-const colorMapping: Record<ActionStatusEnum, Colors> = {
-  [ActionStatusEnum.Draft]: 'gray',
-  [ActionStatusEnum.Reviewing]: 'blue',
-  [ActionStatusEnum.Active]: 'green',
-  [ActionStatusEnum.Completed]: 'indigo',
-};
-
-const ActionStatus = suspensify(() => {
-  const t = useTranslation();
-  const actionId = useValue('current.action/id');
-  const status = useValue('action/status', { 'action/id': actionId });
-  const color = colorMapping[status];
-
-  return (
-    <button className={statusContainerVariant({ color })} type={'button'}>
-      <div className={statusDotVariant({ color })} />
-      <p className={statusTextVariant({ color })}>{t(status)}</p>
-    </button>
-  );
-});
-
-export const Header = suspensify(() => {
+export const ActionHeader = suspensify(() => {
   const actionId = useValue('current.action/id');
   const updatedAt = useValue('action/updated-at', { 'action/id': actionId });
 
@@ -311,7 +239,7 @@ export const Header = suspensify(() => {
               <div className={'flex gap-7 flex-wrap'}>
                 <EntityTypeBadge size={'sm'} type={Type.Action} />
                 <LastActive timestamp={updatedAt} />
-                <ActionStatus />
+                <ActionStatusButton />
               </div>
               <SubscriptionBar suspenseLines={2} />
             </div>

@@ -58,6 +58,7 @@ export type Subs = {
   'action.locality.slide-over/visible': Sub<{}, boolean>;
   'action.locality/location': Sub<{ 'action/id': string }, LatLng>;
   'action.locality/zoom': Sub<{ 'action/id': string }, number>;
+  'action.status.modal/visible': Sub<{}, boolean>;
 };
 
 export type Events = {
@@ -80,9 +81,12 @@ export type Events = {
   'action.create.modal.title/update': Evt<{ value: string }>;
   'action.locality.slide-over/open': Evt<{}>;
   'action.locality.slide-over/close': Evt<{}>;
+  'action.status.modal/open': Evt<{}>;
+  'action.status.modal/close': Evt<{}>;
   'action.locality/choose': Evt<{ location: LatLng; zoom: number }>;
   'navigated.action/view': Evt<{ route: Match }>;
   'navigated.action/new': Evt<{ route: Match }>;
+  'action.status/update': Evt<{ 'action/id': string; status: ActionStatus }>;
 };
 
 export const actionSlice = () => ({
@@ -92,6 +96,7 @@ export const actionSlice = () => ({
     'action.create.modal/visible': false,
     'action.create.modal/title': '',
     'action.locality.slide-over/visible': false,
+    'action.status.modal/visible': false,
   },
 });
 
@@ -109,8 +114,6 @@ sub('action.bump/count', () => 10);
 sub('action.follow/count', () => 2600);
 sub('action.work/percentage', () => 23);
 
-sub('action/status', () => ActionStatus.Reviewing);
-
 sub('current.action/id', ({ state }) => state['action/state']['current.action/id']);
 
 sub('action.create.modal/title', ({ state }) => state['action/state']['action.create.modal/title']);
@@ -125,6 +128,11 @@ sub(
   ({ state }) => state['action/state']['action.locality.slide-over/visible']
 );
 
+sub(
+  'action.status.modal/visible',
+  ({ state }) => state['action/state']['action.status.modal/visible']
+);
+
 remoteSub('action.title/text');
 remoteSub('action.description/text');
 remoteSub('action.outcome/text');
@@ -136,6 +144,7 @@ remoteSub('action.locality/zoom');
 remoteSub('action.title/can-edit');
 remoteSub('action.description/can-edit');
 remoteSub('action.outcome/can-edit');
+remoteSub('action/status');
 
 evt('action.title/edit', ({ setState, getState }) => {
   const currenActionId = getState()['action/state']['current.action/id'];
@@ -266,6 +275,32 @@ evt('action.locality/choose', async ({ getState, params }) => {
   ]);
 
   dispatch('action.locality.slide-over/close', {});
+});
+
+evt('action.status.modal/open', ({ setState }) => {
+  setState((state: any) => {
+    state['action/state']['action.status.modal/visible'] = true;
+  });
+});
+
+evt('action.status.modal/close', ({ setState }) => {
+  setState((state: any) => {
+    state['action/state']['action.status.modal/visible'] = false;
+  });
+});
+
+evt('action.status/update', async ({ params, dispatch }) => {
+  await rpcPost('action.status/update', {
+    'action/id': params['action/id'],
+    status: params.status,
+  });
+
+  dispatch('action.status.modal/close', {});
+  dispatch('alert/flash', {
+    message: 'Action status has been updated.',
+    kind: 'info',
+  });
+  await invalidateAsyncSub('action/status', { 'action/id': params['action/id'] });
 });
 
 registerTextEditor('action.title/text', {

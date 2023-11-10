@@ -1,5 +1,5 @@
 import { Discuss } from '@elements/compositions/discuss';
-import { Header } from '@elements/compositions/action/header';
+import { ActionHeader } from '@elements/compositions/action/action-header';
 import { Home } from '@elements/compositions/action/home';
 import { Updates } from '@elements/compositions/updates';
 import { wrapPage } from '@elements/compositions/wrap-page';
@@ -28,7 +28,7 @@ export const Action = wrapPage(() => {
 
   return (
     <div className={'flex flex-col gap-16'}>
-      <Header />
+      <ActionHeader />
       {tab}
     </div>
   );

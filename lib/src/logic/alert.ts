@@ -34,7 +34,7 @@ export const alertSlice = () => ({
 });
 
 sub('alert/visible', ({ state }) => state['alert/state']['alert/visible']);
-sub('alert/message', ({ state }) => state['alert/state']['alert.message']);
+sub('alert/message', ({ state }) => state['alert/state']['alert/message']);
 sub('alert/kind', ({ state }) => state['alert/state']['alert/kind']);
 
 evt('alert/dismiss', ({ setState }) => {
@@ -45,9 +45,9 @@ evt('alert/dismiss', ({ setState }) => {
 
 evt('alert/flash', ({ setState, params }) => {
   setState((state: any) => {
-    state['alert/state']['alert/visible'] = true;
-    state['alert/state']['alert.message'] = params.message;
+    state['alert/state']['alert/message'] = params.message;
     state['alert/state']['alert/kind'] = params.kind;
+    state['alert/state']['alert/visible'] = true;
     setTimeout(() => {
       dispatch('alert/dismiss');
     }, 7000);
