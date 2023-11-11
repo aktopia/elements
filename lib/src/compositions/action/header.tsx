@@ -243,8 +243,23 @@ export const ActionTabs = suspensify(() => {
 
 const ActionContextMenu = suspensify(() => {
   const t = useTranslation();
-  const canDelete = true;
-  const onDeleteClick = useCallback(() => {}, []);
+
+  const actionId = useValue('current.action/id');
+  const canDelete = useValue('action/can-delete', { 'action/id': actionId });
+  const openModal = useDispatch('confirmation-modal/open');
+  const deleteAction = useDispatch('action/delete');
+
+  const onDeleteClick = useCallback(() => {
+    const onConfirm = async () => deleteAction({ 'action/id': actionId });
+    openModal({
+      kind: 'danger',
+      confirmText: t('common/delete'),
+      titleText: t('action.delete.modal/title'),
+      bodyText: t('action.delete.modal/body'),
+      cancelText: t('common/cancel'),
+      onConfirm,
+    });
+  }, [openModal, t, deleteAction, actionId]);
 
   const items = useMemo(() => {
     let items = [];
