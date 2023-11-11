@@ -1,5 +1,5 @@
 import { FollowButton } from '@elements/components/follow-button';
-import { QRCodeButton } from '@elements/components/qr-code-button';
+import { ShareButton } from '@elements/components/share-button';
 import { RaiseHand as RawRaiseHand } from '@elements/components/raise-hand';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
@@ -79,7 +79,7 @@ export const SubscriptionBar = suspensify(() => {
   return (
     <div className={'flex gap-4'}>
       <WrapComingSoonPopover id={'issue-share'} size={'sm'} status={Status.Evaluating}>
-        <QRCodeButton kind={'tertiary'} size={'xs'} />
+        <ShareButton kind={'tertiary'} size={'xs'} />
       </WrapComingSoonPopover>
       <WrapComingSoonPopover id={'issue-follow'} size={'sm'} status={Status.Evaluating}>
         <FollowButton

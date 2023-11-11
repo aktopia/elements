@@ -3,7 +3,7 @@ import { Button } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
 import { NamedSwitch } from '@elements/components/named-switch';
 import { ProgressBar } from '@elements/components/progress-bar';
-import { QRCodeButton } from '@elements/components/qr-code-button';
+import { ShareButton } from '@elements/components/share-button';
 import { SaveButton } from '@elements/components/save-button';
 import { suspensify } from '@elements/components/suspensify';
 import { Tabs } from '@elements/components/tabs';
@@ -54,19 +54,26 @@ export const SubscriptionBar = suspensify(() => {
   return (
     <div className={'flex gap-4'}>
       <WrapComingSoonPopover id={'action-share'} size={'sm'} status={Status.Evaluating}>
-        <QRCodeButton kind={'tertiary'} size={'xs'} />
+        <ShareButton data-event-id={'action-share-button-click'} kind={'tertiary'} size={'xs'} />
       </WrapComingSoonPopover>
       <WrapComingSoonPopover id={'action-follow'} size={'sm'} status={Status.Evaluating}>
         <FollowButton
           clicked={followed}
           count={followCount}
+          data-event-id={'action-share-button-click'}
           kind={'tertiary'}
           size={'xs'}
           onClick={onFollowButtonClick}
         />
       </WrapComingSoonPopover>
       <WrapComingSoonPopover id={'action-save'} size={'sm'} status={Status.Evaluating}>
-        <SaveButton clicked={saved} kind={'tertiary'} size={'xs'} onClick={onSaveButtonClick} />
+        <SaveButton
+          clicked={saved}
+          data-event-id={'action-share-button-click'}
+          kind={'tertiary'}
+          size={'xs'}
+          onClick={onSaveButtonClick}
+        />
       </WrapComingSoonPopover>
     </div>
   );
@@ -126,6 +133,7 @@ export const ActionBar = suspensify(() => {
           <Button
             Icon={Giving}
             containerClassName={'w-32'}
+            data-event-id={'action-funding-button-click'}
             kind={'primary'}
             size={'md'}
             value={'Fund'}
@@ -135,6 +143,7 @@ export const ActionBar = suspensify(() => {
         <WrapComingSoonPopover id={'action-volunteering'} status={Status.Planning}>
           <Button
             Icon={Crowd}
+            data-event-id={'action-volunteering-button-click'}
             kind={'secondary'}
             size={'md'}
             value={'Volunteer'}
