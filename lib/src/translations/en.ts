@@ -131,8 +131,8 @@ const metaInitiative = {
 };
 
 const profile = {
-  'profile.actions/empty': "You haven't created any actions yet.",
-  'profile.issues/empty': "You haven't created any issues yet.",
+  'profile.actions/empty': 'No actions yet.',
+  'profile.issues/empty': 'No issues yet.',
 };
 
 const translation = {
