@@ -130,6 +130,11 @@ const metaInitiative = {
   'meta.initiative.status/planned': 'Planned',
 };
 
+const profile = {
+  'profile.actions/empty': "You haven't created any actions yet.",
+  'profile.issues/empty': "You haven't created any issues yet.",
+};
+
 const translation = {
   ...common,
   ...action,
@@ -140,6 +145,7 @@ const translation = {
   ...comment,
   ...error,
   ...metaInitiative,
+  ...profile,
   'auth/send-otp': 'Send OTP',
   'auth/sign-in': 'Sign In',
   'auth/wait-to-resend-otp': ({ waitSeconds }: { waitSeconds: number }) => {

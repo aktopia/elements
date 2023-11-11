@@ -24,6 +24,7 @@ const ViewIssueLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
 });
 
 export const Issues = suspensify(() => {
+  const t = useTranslation();
   const userId = useValue('profile.user/id');
   const issueIds = useValue('profile.issue/ids', { 'user/id': userId });
   const [localitySlideOverId, setLocalitySlideOverId] = useState<string | null>(null);
@@ -40,16 +41,20 @@ export const Issues = suspensify(() => {
 
   return (
     <>
-      <div className={'flex flex-col gap-9'}>
-        {issueIds.map((id) => (
-          <IssueCard
-            key={id}
-            id={id}
-            suspenseLines={2}
-            onLocalitySlideOverOpen={onLocalitySlideOverOpen}
-          />
-        ))}
-      </div>
+      {issueIds.length === 0 ? (
+        <div className={'text-base text-gray-500'}>{t('profile.issues/empty')}</div>
+      ) : (
+        <div className={'flex flex-col gap-9'}>
+          {issueIds.map((id) => (
+            <IssueCard
+              key={id}
+              id={id}
+              suspenseLines={2}
+              onLocalitySlideOverOpen={onLocalitySlideOverOpen}
+            />
+          ))}
+        </div>
+      )}
       {slideOverVisible ? (
         <ViewIssueLocalitySlideOver
           entityId={localitySlideOverId}
