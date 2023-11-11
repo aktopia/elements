@@ -45,6 +45,7 @@ export const Account = wrapPage(() => {
         <WrapComingSoonPopover id={'account-delete'} status={Status.Planning}>
           <Button
             Icon={TrashOutline}
+            data-event-id={'account-delete-button-click'}
             kind={'danger-outline'}
             size={'xs'}
             value={'Delete Account'}

@@ -14,7 +14,7 @@ const authConfig = {
   appName: 'aktopia',
 };
 
-const viewportResize = () => {
+const handleViewportResize = () => {
   dispatch('viewport/resize');
 };
 
@@ -22,24 +22,27 @@ function init() {
   initAuth(authConfig);
   initRouter(listener);
   dispatch('app/load');
-  viewportResize();
+  handleViewportResize();
 }
 
 const handleClick = (event: any) => {
+  // FIXME This might be expensive, evaluate if it is expensive
+  // DO NOT DO THIS FOR EVENTS LIKE SCROLL
   const element = event.target.closest('[data-event-id]');
   if (element) {
-    const event = element.getAttribute('data-event-id');
-    gtag('event', event, {});
+    const eventId = element.getAttribute('data-event-id');
+    const eventCategory = element.getAttribute('data-event-category');
+    gtag('event', eventId, { event_category: eventCategory });
   }
 };
 
 export const App = suspensify(() => {
   useEffect(() => {
     init();
-    window.addEventListener('resize', viewportResize);
+    window.addEventListener('resize', handleViewportResize);
 
     return () => {
-      window.removeEventListener('resize', viewportResize);
+      window.removeEventListener('resize', handleViewportResize);
     };
   }, []);
 

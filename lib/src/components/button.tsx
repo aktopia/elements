@@ -175,6 +175,7 @@ const Button_ = forwardRef(
           clicked: !!clicked,
           className: containerClassName,
         })}
+        data-event-category={'button'}
         type={type === 'submit' ? 'submit' : 'button'}
         onClick={onClickMemo}>
         {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
