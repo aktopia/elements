@@ -25,6 +25,14 @@ function init() {
   viewportResize();
 }
 
+const handleClick = (event: any) => {
+  const element = event.target.closest('[data-event-id]');
+  if (element) {
+    const event = element.getAttribute('data-event-id');
+    gtag('event', event, {});
+  }
+};
+
 export const App = suspensify(() => {
   useEffect(() => {
     init();
@@ -32,6 +40,13 @@ export const App = suspensify(() => {
 
     return () => {
       window.removeEventListener('resize', viewportResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
     };
   }, []);
 

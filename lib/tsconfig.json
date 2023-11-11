@@ -32,7 +32,8 @@
     "types": [
       "vite/client",
       "google.maps",
-      "vite-plugin-svgr/client"
+      "vite-plugin-svgr/client",
+      "gtag.js"
     ]
   },
   "include": [
