@@ -119,7 +119,7 @@ export type ButtonKind =
   | 'danger'
   | 'danger-outline';
 
-export interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'size'> {
+export interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'size' | 'ref'> {
   size: ButtonSize;
   value: string;
   count?: number;
