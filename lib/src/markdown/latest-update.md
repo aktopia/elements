@@ -2,6 +2,7 @@
 
 #### Product
 
+- Initiative page is editable by the admins.
 - Show the latest update's timestamp and modal on homepage (how meta).
 
 #### Engineering

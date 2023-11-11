@@ -132,7 +132,7 @@ evt('meta.initiative.title/edit', ({ setState, getState }) => {
 
   startEditing({
     setState,
-    params: { ref: ['meta.initiative.description/text', currentInitiativeSlug] },
+    params: { ref: ['meta.initiative.title/text', currentInitiativeSlug] },
   });
 });
 
