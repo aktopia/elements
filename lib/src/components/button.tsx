@@ -4,6 +4,7 @@ import type { ComponentType, ForwardedRef, HTMLProps } from 'react';
 import { type ComponentProps, forwardRef, memo, type MouseEvent, useCallback } from 'react';
 import { Link } from '@elements/components/link';
 
+// TODO Refactor to have proper shadows based on kind and size, it's messed up now
 const containerVariant = cva('relative flex items-center justify-center rounded-md default-focus', {
   variants: {
     kind: {
@@ -27,6 +28,7 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
     },
     clicked: { true: '' },
     hasIcon: { true: '' },
+    hasText: { true: '' },
     hasSecondaryIcon: { true: '' },
   },
   defaultVariants: {
@@ -37,6 +39,9 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
     { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5 shadow-sm' },
     { size: 'sm', hasIcon: true, class: 'pl-2.5 pr-3 shadow-sm' },
     { size: 'md', hasIcon: true, class: 'pl-3 pr-4' },
+    { size: 'xs', hasIcon: true, hasText: false, class: 'px-2.5 shadow-sm' },
+    { size: 'sm', hasIcon: true, hasText: false, class: 'px-3 shadow-sm' },
+    { size: 'md', hasIcon: true, hasText: false, class: 'px-4' },
     { size: 'xs', hasSecondaryIcon: true, class: 'pr-2 pl-2.5 shadow-sm' },
     { size: 'sm', hasSecondaryIcon: true, class: 'pr-2.5 pl-3 shadow-sm' },
     { size: 'md', hasSecondaryIcon: true, class: 'pr-3 pl-4' },
@@ -121,7 +126,7 @@ export type ButtonKind =
 
 export interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'size' | 'ref'> {
   size: ButtonSize;
-  value: string;
+  value?: string;
   count?: number;
   clicked?: boolean;
   Icon?: ComponentType<any>;
@@ -134,6 +139,7 @@ export interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'size' |
   disabled?: boolean;
   onClick?: any;
   'data-event-id'?: string;
+  iconOnly?: boolean;
 }
 
 const Button_ = forwardRef(
@@ -152,6 +158,7 @@ const Button_ = forwardRef(
       disabled,
       clicked,
       onClick,
+      iconOnly,
       ...props
     }: ButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
@@ -173,13 +180,14 @@ const Button_ = forwardRef(
           disabled: !!disabled,
           hasIcon: !!Icon,
           clicked: !!clicked,
+          hasText: !!value,
           className: containerClassName,
         })}
         data-event-category={'button'}
         type={type === 'submit' ? 'submit' : 'button'}
         onClick={onClickMemo}>
         {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
-        <span>{value}</span>
+        {!value || iconOnly ? null : <span>{value}</span>}
         {!!SecondaryIcon && (
           <SecondaryIcon
             className={secondaryIconVariant({ size, kind, className: secondaryIconClassName })}
@@ -195,7 +203,7 @@ export const Button = memo(Button_);
 
 export interface LinkButtonProps extends ComponentProps<typeof Link> {
   size: ButtonSize;
-  value: string;
+  value?: string;
   count?: number;
   clicked?: boolean;
   Icon?: ComponentType<any>;
@@ -206,6 +214,7 @@ export interface LinkButtonProps extends ComponentProps<typeof Link> {
   kind: ButtonKind;
   disabled?: boolean;
   onClick?: any;
+  iconOnly?: boolean;
 }
 
 const LinkButton_ = forwardRef(
@@ -223,6 +232,7 @@ const LinkButton_ = forwardRef(
       disabled,
       clicked,
       onClick,
+      iconOnly,
       ...props
     }: LinkButtonProps,
     ref: ForwardedRef<HTMLAnchorElement>
@@ -248,7 +258,7 @@ const LinkButton_ = forwardRef(
         })}
         onClick={onClickMemo}>
         {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
-        <span>{value}</span>
+        {!value || iconOnly ? null : <span>{value}</span>}
         {!!SecondaryIcon && (
           <SecondaryIcon
             className={secondaryIconVariant({ size, kind, className: secondaryIconClassName })}
