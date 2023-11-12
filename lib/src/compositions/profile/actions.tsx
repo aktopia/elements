@@ -4,6 +4,7 @@ import { ActionCard } from '@elements/compositions/action/action-card';
 import { ViewLocalitySlideOver as RawViewLocalitySlideOver } from '@elements/components/view-locality-slide-over';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from '@elements/translation';
+import { ActionStatusModal } from '@elements/compositions/action/action-status';
 
 const ViewActionLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
   const t = useTranslation();
@@ -56,6 +57,7 @@ export const Actions = suspensify(() => {
           onClose={onLocalitySlideOverClose}
         />
       ) : null}
+      <ActionStatusModal />
     </>
   );
 });

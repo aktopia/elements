@@ -58,7 +58,7 @@ export type Subs = {
   'action.locality.slide-over/visible': Sub<{}, boolean>;
   'action.locality/location': Sub<{ 'action/id': string }, LatLng>;
   'action.locality/zoom': Sub<{ 'action/id': string }, number>;
-  'action.status.modal/visible': Sub<{}, boolean>;
+  'action.status/modal': Sub<{}, { 'action/id': string; visible: boolean }>;
 };
 
 export type Events = {
@@ -81,7 +81,7 @@ export type Events = {
   'action.create.modal.title/update': Evt<{ value: string }>;
   'action.locality.slide-over/open': Evt<{}>;
   'action.locality.slide-over/close': Evt<{}>;
-  'action.status.modal/open': Evt<{}>;
+  'action.status.modal/open': Evt<{ 'action/id': string }>;
   'action.status.modal/close': Evt<{}>;
   'action.locality/choose': Evt<{ location: LatLng; zoom: number }>;
   'navigated.action/view': Evt<{ route: Match }>;
@@ -96,7 +96,7 @@ export const actionSlice = () => ({
     'action.create.modal/visible': false,
     'action.create.modal/title': '',
     'action.locality.slide-over/visible': false,
-    'action.status.modal/visible': false,
+    'action.status/modal': { visible: false },
   },
 });
 
@@ -128,10 +128,7 @@ sub(
   ({ state }) => state['action/state']['action.locality.slide-over/visible']
 );
 
-sub(
-  'action.status.modal/visible',
-  ({ state }) => state['action/state']['action.status.modal/visible']
-);
+sub('action.status/modal', ({ state }) => state['action/state']['action.status/modal']);
 
 remoteSub('action.title/text');
 remoteSub('action.description/text');
@@ -277,15 +274,18 @@ evt('action.locality/choose', async ({ getState, params }) => {
   dispatch('action.locality.slide-over/close', {});
 });
 
-evt('action.status.modal/open', ({ setState }) => {
+evt('action.status.modal/open', ({ setState, params }) => {
   setState((state: any) => {
-    state['action/state']['action.status.modal/visible'] = true;
+    state['action/state']['action.status/modal'] = {
+      visible: true,
+      'action/id': params['action/id'],
+    };
   });
 });
 
 evt('action.status.modal/close', ({ setState }) => {
   setState((state: any) => {
-    state['action/state']['action.status.modal/visible'] = false;
+    state['action/state']['action.status/modal'] = { visible: false };
   });
 });
 

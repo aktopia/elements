@@ -9,6 +9,7 @@ import { Locality as RawLocality } from '@elements/components/locality';
 import { useCallback } from 'react';
 import { Link } from '@elements/components/link';
 import { useLookupRef } from '@elements/store/hooks';
+import { ActionStatusButton } from '@elements/compositions/action/action-status';
 
 interface ActionCardProps {
   id: string;
@@ -49,8 +50,9 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
       <div className={'flex items-center gap-7 flex-wrap'}>
         <EntityTypeBadge size={'sm'} type={Type.Action} />
         <LastActive timestamp={updatedAt} />
-        <Locality actionId={id} onClick={onLocalityClick} />
+        <ActionStatusButton actionId={id} />
       </div>
+      <Locality actionId={id} onClick={onLocalityClick} />
       <Link className={'text-2xl font-medium hover:underline w-full'} href={`/action/${id}`}>
         {title}
       </Link>

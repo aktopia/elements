@@ -22,7 +22,7 @@ import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover'
 import { Status } from '@elements/logic/meta/initiative';
 import type { SwitchId } from '@elements/logic/action';
 import { useLookupRef } from '@elements/store/hooks';
-import { ActionStatusButton } from '@elements/compositions/action/action-status';
+import { ActionStatusButton, ActionStatusModal } from '@elements/compositions/action/action-status';
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -239,7 +239,7 @@ export const ActionHeader = suspensify(() => {
               <div className={'flex gap-7 flex-wrap'}>
                 <EntityTypeBadge size={'sm'} type={Type.Action} />
                 <LastActive timestamp={updatedAt} />
-                <ActionStatusButton />
+                <ActionStatusButton actionId={actionId} />
               </div>
               <SubscriptionBar suspenseLines={2} />
             </div>
@@ -256,6 +256,7 @@ export const ActionHeader = suspensify(() => {
         <ActionTabs suspenseLines={1} />
       </div>
       <LocalitySlideOver actionId={actionId} />
+      <ActionStatusModal />
     </>
   );
 });

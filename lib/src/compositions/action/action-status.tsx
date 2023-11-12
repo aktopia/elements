@@ -15,9 +15,8 @@ const colorMapping: Record<ActionStatusEnum, Colors> = {
   [ActionStatusEnum.Completed]: 'indigo',
 };
 
-const DraftModalContent = ({ onClose, visible }: any) => {
+const DraftModalContent = ({ onClose, visible, actionId }: any) => {
   const t = useTranslation();
-  const actionId = useValue('current.action/id');
   const updateStatus = useDispatch('action.status/update');
   const onPushForReview = useCallback(() => {
     updateStatus({ 'action/id': actionId, status: ActionStatusEnum.Reviewing });
@@ -59,8 +58,7 @@ const DraftModalContent = ({ onClose, visible }: any) => {
   );
 };
 
-const InReviewModalContent = ({ onClose, visible }: any) => {
-  const actionId = useValue('current.action/id');
+const InReviewModalContent = ({ onClose, visible, actionId }: any) => {
   const updateStatus = useDispatch('action.status/update');
   const onPublish = useCallback(() => {
     updateStatus({ 'action/id': actionId, status: ActionStatusEnum.Active });
@@ -122,27 +120,28 @@ const modalMapping = {
   [ActionStatusEnum.Completed]: InReviewModalContent,
 };
 
-export const ActionStatusModal = suspensify(() => {
-  const actionId = useValue('current.action/id');
+const ActionStatusModal_ = suspensify(({ actionId }: { actionId: string }) => {
   const status = useValue('action/status', { 'action/id': actionId });
-  const visible = useValue('action.status.modal/visible');
   const onClose = useDispatch('action.status.modal/close');
   const Component = modalMapping[status];
-  return <Component visible={visible} onClose={onClose} />;
+  return <Component actionId={actionId} visible={true} onClose={onClose} />;
 });
 
-export const ActionStatusButton = suspensify(() => {
+export const ActionStatusModal = suspensify(() => {
+  const { visible, 'action/id': actionId } = useValue('action.status/modal');
+  return visible ? <ActionStatusModal_ actionId={actionId} /> : null;
+});
+
+export const ActionStatusButton = suspensify(({ actionId }: { actionId: string }) => {
   const t = useTranslation();
-  const actionId = useValue('current.action/id');
   const status = useValue('action/status', { 'action/id': actionId });
   const color = colorMapping[status];
 
-  const onClick = useDispatch('action.status.modal/open');
+  const openActionModal = useDispatch('action.status.modal/open');
 
-  return (
-    <>
-      <ActionStatusModal />
-      <StatusButton color={color} name={t(status)} onClick={onClick} />
-    </>
-  );
+  const onClick = useCallback(() => {
+    openActionModal({ 'action/id': actionId });
+  }, [openActionModal, actionId]);
+
+  return <StatusButton color={color} name={t(status)} onClick={onClick} />;
 });
