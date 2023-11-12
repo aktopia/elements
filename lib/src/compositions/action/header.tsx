@@ -276,7 +276,9 @@ const ActionContextMenu = suspensify(() => {
 
     return items;
   }, [t, canDelete, onDeleteClick]) as ItemType[];
-  return <ContextMenu dotsOnly={false} items={items} orientation={'vertical'} />;
+  return items.length === 0 ? null : (
+    <ContextMenu dotsOnly={false} items={items} orientation={'vertical'} />
+  );
 });
 
 export const Header = suspensify(() => {

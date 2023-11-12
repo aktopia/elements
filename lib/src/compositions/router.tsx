@@ -3,7 +3,7 @@ import { dispatch, useValue } from '@elements/store';
 import { Spinner } from '@elements/components/spinner';
 import { type Match } from '@elements/router';
 import { NavigationState } from '@elements/logic/router';
-import { NotFound } from '@elements/compositions/not-found';
+import { NotFoundPage } from '@elements/compositions/not-found';
 
 export const listener = (match: Match) => dispatch('route.navigation/initiate', match);
 
@@ -25,7 +25,7 @@ export const Router = suspensify(() => {
   }
 
   if (!Component) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
 
   return <Component suspenseFallback={fullPageSpinner} />;

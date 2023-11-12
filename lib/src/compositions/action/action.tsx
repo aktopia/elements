@@ -5,10 +5,10 @@ import { Updates } from '@elements/compositions/updates';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 import { useLookupRef } from '@elements/store/hooks';
+import { NotFound } from '@elements/compositions/not-found';
 
-export const Action = wrapPage(() => {
+const Action_ = ({ actionId }: { actionId: string }) => {
   const activeTabId = useValue('action.tabs/active-tab');
-  const actionId = useValue('current.action/id');
   const ref = useLookupRef('action/id', actionId);
   let tab;
 
@@ -32,4 +32,15 @@ export const Action = wrapPage(() => {
       {tab}
     </div>
   );
+};
+
+export const Action = wrapPage(() => {
+  const actionId = useValue('current.action/id');
+  const actionExists = useValue('action/exists', { 'action/id': actionId });
+
+  if (!actionExists) {
+    return <NotFound />;
+  }
+
+  return <Action_ actionId={actionId} />;
 });

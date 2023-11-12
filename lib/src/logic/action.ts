@@ -51,6 +51,7 @@ export type Subs = {
   'action.locality/location': Sub<{ 'action/id': string }, LatLng>;
   'action.locality/zoom': Sub<{ 'action/id': string }, number>;
   'action/can-delete': Sub<{ 'action/id': string }, boolean>;
+  'action/exists': Sub<{ 'action/id': string }, boolean>;
 };
 
 export type Events = {
@@ -129,6 +130,7 @@ remoteSub('action.title/can-edit');
 remoteSub('action.description/can-edit');
 remoteSub('action.outcome/can-edit');
 remoteSub('action/can-delete');
+remoteSub('action/exists');
 
 evt('action.title/edit', ({ setState, getState }) => {
   const currenActionId = getState()['action/state']['current.action/id'];
