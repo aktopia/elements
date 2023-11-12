@@ -2,7 +2,7 @@ import { wrapPage } from '@elements/compositions/wrap-page';
 import { ExclamationCircleOutline } from '@elements/icons';
 import { useTranslation } from '@elements/translation';
 
-export const NotFound = wrapPage(() => {
+export const NotFound = () => {
   const t = useTranslation();
 
   return (
@@ -14,4 +14,8 @@ export const NotFound = wrapPage(() => {
       <h2 className={'text-gray-500 text-base'}>{t('error.not-found/message')}</h2>
     </div>
   );
+};
+
+export const NotFoundPage = wrapPage(() => {
+  return <NotFound />;
 });

@@ -55,6 +55,8 @@ const action = {
   'action.outcome/placeholder': 'Describe the outcome.',
   'action.title/placeholder': 'Give the action a title.',
   'action/promised-outcome': 'Promised Outcome',
+  'action.delete.modal/title': 'Delete Action',
+  'action.delete.modal/body': 'Are you sure you want to delete the action? This cannot be undone.',
 };
 
 const issue = {

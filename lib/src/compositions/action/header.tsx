@@ -1,4 +1,4 @@
-import { Crowd, Giving } from '@elements/icons';
+import { Crowd, Giving, TrashOutline } from '@elements/icons';
 import { Button } from '@elements/components/button';
 import { FollowButton } from '@elements/components/follow-button';
 import { NamedSwitch } from '@elements/components/named-switch';
@@ -21,7 +21,9 @@ import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 import { Status } from '@elements/logic/meta/initiative';
 import type { SwitchId } from '@elements/logic/action';
-import { useLookupRef } from '@elements/store/hooks';
+import { useIsCompactViewport, useLookupRef } from '@elements/store/hooks';
+import { type ItemType } from '@elements/components/dropdown';
+import { ContextMenu } from '@elements/components/context-menu';
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -34,6 +36,7 @@ export const SubscriptionBar = suspensify(() => {
   const unFollow = useDispatch('action/unfollow');
   const save = useDispatch('action/save');
   const unSave = useDispatch('action/unsave');
+  const isCompactViewport = useIsCompactViewport();
 
   const onFollowButtonClick = useCallback(() => {
     if (followed) {
@@ -54,13 +57,19 @@ export const SubscriptionBar = suspensify(() => {
   return (
     <div className={'flex gap-4'}>
       <WrapComingSoonPopover id={'action-share'} size={'sm'} status={Status.Evaluating}>
-        <ShareButton data-event-id={'action-share-button-click'} kind={'tertiary'} size={'xs'} />
+        <ShareButton
+          data-event-id={'action-share-button-click'}
+          iconOnly={isCompactViewport}
+          kind={'tertiary'}
+          size={'xs'}
+        />
       </WrapComingSoonPopover>
       <WrapComingSoonPopover id={'action-follow'} size={'sm'} status={Status.Evaluating}>
         <FollowButton
           clicked={followed}
           count={followCount}
           data-event-id={'action-share-button-click'}
+          iconOnly={isCompactViewport}
           kind={'tertiary'}
           size={'xs'}
           onClick={onFollowButtonClick}
@@ -70,6 +79,7 @@ export const SubscriptionBar = suspensify(() => {
         <SaveButton
           clicked={saved}
           data-event-id={'action-share-button-click'}
+          iconOnly={isCompactViewport}
           kind={'tertiary'}
           size={'xs'}
           onClick={onSaveButtonClick}
@@ -231,6 +241,46 @@ export const ActionTabs = suspensify(() => {
   return <Tabs activeTabId={activeTabId} size={'lg'} tabs={tabs} onTabClick={onTabClick} />;
 });
 
+const ActionContextMenu = suspensify(() => {
+  const t = useTranslation();
+
+  const actionId = useValue('current.action/id');
+  const canDelete = useValue('action/can-delete', { 'action/id': actionId });
+  const openModal = useDispatch('confirmation-modal/open');
+  const deleteAction = useDispatch('action/delete');
+
+  const onDeleteClick = useCallback(() => {
+    const onConfirm = async () => deleteAction({ 'action/id': actionId });
+    openModal({
+      kind: 'danger',
+      confirmText: t('common/delete'),
+      titleText: t('action.delete.modal/title'),
+      bodyText: t('action.delete.modal/body'),
+      cancelText: t('common/cancel'),
+      onConfirm,
+    });
+  }, [openModal, t, deleteAction, actionId]);
+
+  const items = useMemo(() => {
+    let items = [];
+    if (canDelete) {
+      items.push({
+        text: t('common/delete'),
+        onClick: onDeleteClick,
+        Icon: TrashOutline,
+        kind: 'danger',
+        key: 'delete',
+        type: 'button',
+      });
+    }
+
+    return items;
+  }, [t, canDelete, onDeleteClick]) as ItemType[];
+  return items.length === 0 ? null : (
+    <ContextMenu dotsOnly={false} items={items} orientation={'vertical'} />
+  );
+});
+
 export const Header = suspensify(() => {
   const actionId = useValue('current.action/id');
   const updatedAt = useValue('action/updated-at', { 'action/id': actionId });
@@ -242,12 +292,15 @@ export const Header = suspensify(() => {
           <div className={'flex flex-col gap-8'}>
             <div
               className={'flex md:flex-row flex-col-reverse gap-5 items-baseline justify-between'}>
-              <div className={'flex gap-7 flex-wrap'}>
+              <div className={'flex h-min gap-7 flex-wrap'}>
                 <EntityTypeBadge size={'sm'} type={Type.Action} />
                 <LastActive timestamp={updatedAt} />
                 <Locality actionId={actionId} />
               </div>
-              <SubscriptionBar suspenseLines={2} />
+              <div className={'flex gap-4 items-center flex-row-reverse md:flex-row'}>
+                <SubscriptionBar suspenseLines={2} />
+                <ActionContextMenu />
+              </div>
             </div>
             <div className={'flex flex-col items-start gap-10'}>
               <div className={'mr-5 h-full w-full'}>

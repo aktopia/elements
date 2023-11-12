@@ -93,7 +93,7 @@ export const initRouter = (callback: (match: Match) => any) => {
   });
 };
 
-export const generatePath = (id: string, { pathParams }: { pathParams: Params }) => {
+export const generatePath = (id: string, { pathParams }: { pathParams?: Params }) => {
   const toPath = compile(routeMappings[id].path, { encode: encodeURIComponent });
   return toPath(pathParams);
 };
@@ -107,7 +107,7 @@ export const navigateToPath = (path: string, { replace = false } = {}) => {
 
 export const navigateToRoute = (
   id: string,
-  { pathParams }: { pathParams: Params },
+  { pathParams }: { pathParams?: Params },
   { replace = false } = {}
 ) => {
   const path = generatePath(id, { pathParams });
