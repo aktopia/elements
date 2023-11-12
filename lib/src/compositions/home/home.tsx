@@ -201,7 +201,7 @@ const LastUpdatedModal = ({ visible, onClose }: any) => {
 };
 
 const Introduction = () => {
-  const text = 'The future of community is already here.';
+  const text = 'The future of democracy is already here.';
   const subText =
     'Aktopia empowers communities to come together and solve their pressing problems.';
   const whatsHappening = "See what's happening near you";
