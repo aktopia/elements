@@ -1,14 +1,10 @@
 import { formatCount } from '@elements/utils';
 import { cva } from 'cva';
-import type { ComponentType } from 'react';
-import { type ComponentProps, memo, type MouseEvent, useCallback } from 'react';
-import {
-  Button as RawButton,
-  type ButtonProps as RawButtonProps,
-  type PressEvent,
-} from 'react-aria-components';
+import type { ComponentType, ForwardedRef, HTMLProps } from 'react';
+import { type ComponentProps, forwardRef, memo, type MouseEvent, useCallback } from 'react';
 import { Link } from '@elements/components/link';
 
+// TODO Refactor to have proper shadows based on kind and size, it's messed up now
 const containerVariant = cva('relative flex items-center justify-center rounded-md default-focus', {
   variants: {
     kind: {
@@ -32,6 +28,7 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
     },
     clicked: { true: '' },
     hasIcon: { true: '' },
+    hasText: { true: '' },
     hasSecondaryIcon: { true: '' },
   },
   defaultVariants: {
@@ -42,6 +39,9 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
     { size: 'xs', hasIcon: true, class: 'pl-2 pr-2.5 shadow-sm' },
     { size: 'sm', hasIcon: true, class: 'pl-2.5 pr-3 shadow-sm' },
     { size: 'md', hasIcon: true, class: 'pl-3 pr-4' },
+    { size: 'xs', hasIcon: true, hasText: false, class: 'px-2.5 shadow-sm' },
+    { size: 'sm', hasIcon: true, hasText: false, class: 'px-3 shadow-sm' },
+    { size: 'md', hasIcon: true, hasText: false, class: 'px-4' },
     { size: 'xs', hasSecondaryIcon: true, class: 'pr-2 pl-2.5 shadow-sm' },
     { size: 'sm', hasSecondaryIcon: true, class: 'pr-2.5 pl-3 shadow-sm' },
     { size: 'md', hasSecondaryIcon: true, class: 'pr-3 pl-4' },
@@ -124,9 +124,9 @@ export type ButtonKind =
   | 'danger'
   | 'danger-outline';
 
-export interface ButtonProps extends RawButtonProps {
+export interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'size' | 'ref'> {
   size: ButtonSize;
-  value: string;
+  value?: string;
   count?: number;
   clicked?: boolean;
   Icon?: ComponentType<any>;
@@ -138,61 +138,72 @@ export interface ButtonProps extends RawButtonProps {
   kind: ButtonKind;
   disabled?: boolean;
   onClick?: any;
+  'data-event-id'?: string;
+  iconOnly?: boolean;
 }
 
-export const Button = memo(
-  ({
-    value,
-    count,
-    type = 'button',
-    Icon,
-    SecondaryIcon,
-    iconClassName,
-    secondaryIconClassName,
-    containerClassName,
-    size,
-    kind,
-    disabled,
-    clicked,
-    onClick,
-    ...props
-  }: ButtonProps) => {
+const Button_ = forwardRef(
+  (
+    {
+      value,
+      count,
+      type = 'button',
+      Icon,
+      SecondaryIcon,
+      iconClassName,
+      secondaryIconClassName,
+      containerClassName,
+      size,
+      kind,
+      disabled,
+      clicked,
+      onClick,
+      iconOnly,
+      ...props
+    }: ButtonProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
     const onClickMemo = useCallback(
-      (e: PressEvent) => {
+      (e: any) => {
         onClick && !disabled && onClick(e);
       },
       [onClick, disabled]
     );
 
     return (
-      <RawButton
+      <button
         {...props}
+        ref={ref}
         className={containerVariant({
           size,
           kind,
           disabled: !!disabled,
           hasIcon: !!Icon,
           clicked: !!clicked,
+          hasText: !!value,
           className: containerClassName,
         })}
+        data-event-category={'button'}
         type={type === 'submit' ? 'submit' : 'button'}
-        onPress={onClickMemo}>
+        onClick={onClickMemo}>
         {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
-        <span>{value}</span>
+        {!value || iconOnly ? null : <span>{value}</span>}
         {!!SecondaryIcon && (
           <SecondaryIcon
             className={secondaryIconVariant({ size, kind, className: secondaryIconClassName })}
           />
         )}
         {!!count && <span className={countVariant({ size, kind })}>{formatCount(count)}</span>}
-      </RawButton>
+      </button>
     );
   }
 );
 
+export const Button = memo(Button_);
+
 export interface LinkButtonProps extends ComponentProps<typeof Link> {
   size: ButtonSize;
-  value: string;
+  value?: string;
   count?: number;
   clicked?: boolean;
   Icon?: ComponentType<any>;
@@ -203,24 +214,29 @@ export interface LinkButtonProps extends ComponentProps<typeof Link> {
   kind: ButtonKind;
   disabled?: boolean;
   onClick?: any;
+  iconOnly?: boolean;
 }
 
-export const LinkButton = memo(
-  ({
-    value,
-    count,
-    Icon,
-    SecondaryIcon,
-    iconClassName,
-    secondaryIconClassName,
-    containerClassName,
-    size,
-    kind,
-    disabled,
-    clicked,
-    onClick,
-    ...props
-  }: LinkButtonProps) => {
+const LinkButton_ = forwardRef(
+  (
+    {
+      value,
+      count,
+      Icon,
+      SecondaryIcon,
+      iconClassName,
+      secondaryIconClassName,
+      containerClassName,
+      size,
+      kind,
+      disabled,
+      clicked,
+      onClick,
+      iconOnly,
+      ...props
+    }: LinkButtonProps,
+    ref: ForwardedRef<HTMLAnchorElement>
+  ) => {
     const onClickMemo = useCallback(
       (e: MouseEvent) => {
         onClick && !disabled && onClick(e);
@@ -231,6 +247,7 @@ export const LinkButton = memo(
     return (
       <Link
         {...props}
+        ref={ref}
         className={containerVariant({
           size,
           kind,
@@ -241,7 +258,7 @@ export const LinkButton = memo(
         })}
         onClick={onClickMemo}>
         {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
-        <span>{value}</span>
+        {!value || iconOnly ? null : <span>{value}</span>}
         {!!SecondaryIcon && (
           <SecondaryIcon
             className={secondaryIconVariant({ size, kind, className: secondaryIconClassName })}
@@ -253,6 +270,7 @@ export const LinkButton = memo(
   }
 );
 
+export const LinkButton = memo(LinkButton_);
 /*
 TODO
 Abstract the bodies of Button and LinkButton to be the same

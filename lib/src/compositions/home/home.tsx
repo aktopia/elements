@@ -7,18 +7,6 @@ import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 import { suspensify } from '@elements/components/suspensify';
 import { useTranslation } from '@elements/translation';
 import { ViewLocalitySlideOver as RawViewLocalitySlideOver } from '@elements/components/view-locality-slide-over';
-// import WaterPollution from '@elements/assets/water-pollution.svg?react';
-// import Volunteering from '@elements/assets/volunteering.svg?react';
-
-const WaterPollution = lazy(() => import('@elements/assets/water-pollution.svg?react'));
-const Volunteering = lazy(() => import('@elements/assets/volunteering.svg?react'));
-
-const ImageFallback = ({ className }: any) => (
-  <div className={cx(className, 'flex items-center justify-center')}>
-    <Spinner kind={'primary'} size={'sm'} visible={true} />
-  </div>
-);
-
 import {
   ChatBubbleLeftEllipsisOutline,
   CheckCircleOutline,
@@ -36,9 +24,19 @@ import {
 import { Modal, ModalPanel } from '@elements/components/modal';
 import Markdown from 'react-markdown';
 import prototypeWarningMarkdown from '@elements/markdown/prototype-warning.md?raw';
+import latestUpdateMarkdown from '@elements/markdown/latest-update.md?raw';
 import { Button } from '@elements/components/button';
 import { Spinner } from '@elements/components/spinner';
 import { cx } from '@elements/utils';
+
+const WaterPollution = lazy(() => import('@elements/assets/water-pollution.svg?react'));
+const Volunteering = lazy(() => import('@elements/assets/volunteering.svg?react'));
+
+const ImageFallback = ({ className }: any) => (
+  <div className={cx(className, 'flex items-center justify-center')}>
+    <Spinner kind={'primary'} size={'sm'} visible={true} />
+  </div>
+);
 
 const ViewIssueLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
   const t = useTranslation();
@@ -188,33 +186,65 @@ const PrototypeWarningModal = ({ visible, onClose }: any) => {
   );
 };
 
+const LastUpdatedModal = ({ visible, onClose }: any) => {
+  return (
+    <Modal visible={visible} onClose={onClose}>
+      <ModalPanel>
+        <div className={'p-6 flex-col flex gap-8'}>
+          <Markdown className={'prose prose-gray prose-h3:text-gray-700 prose-h3:font-medium'}>
+            {latestUpdateMarkdown}
+          </Markdown>
+        </div>
+      </ModalPanel>
+    </Modal>
+  );
+};
+
 const Introduction = () => {
-  const text = 'The future of community is already here.';
+  const text = 'The future of democracy is already here.';
   const subText =
     'Aktopia empowers communities to come together and solve their pressing problems.';
   const whatsHappening = "See what's happening near you";
   const prototypeWarning = 'Experimental prototype warning';
+  const lastUpdated = 'Last updated on 12th Nov 2023';
 
   const [isPrototypeWarningModalVisible, setIsPrototypeWarningModalVisible] = useState(true);
+  const [isLastUpdatedModalVisible, setIsLastUpdatedModalVisible] = useState(false);
 
   const onPrototypeWarningModalOpen = useCallback(() => {
     setIsPrototypeWarningModalVisible(true);
+  }, []);
+
+  const onLastUpdatedModalOpen = useCallback(() => {
+    setIsLastUpdatedModalVisible(true);
   }, []);
 
   const onPrototypeWarningModalClose = useCallback(() => {
     setIsPrototypeWarningModalVisible(false);
   }, []);
 
+  const onLastUpdatedModalClose = useCallback(() => {
+    setIsLastUpdatedModalVisible(false);
+  }, []);
+
   return (
     <>
       <section className={'flex flex-col justify-center items-center gap-6'}>
-        <button
-          className={'w-max flex gap-2.5 items-center'}
-          type={'button'}
-          onClick={onPrototypeWarningModalOpen}>
-          <ExclamationTriangleSolid className={'h-6 w-6 text-amber-500'} />
-          <p className={'text-amber-800 text-lg hover:underline'}>{prototypeWarning}</p>
-        </button>
+        <div className={'flex flex-col gap-3 items-center'}>
+          <button
+            data-event-id={'last-updated-button-click'}
+            type={'button'}
+            onClick={onLastUpdatedModalOpen}>
+            <p className={'text-gray-500 font-medium text-xs underline'}>{lastUpdated}</p>
+          </button>
+          <button
+            className={'w-max flex gap-2.5 items-center'}
+            type={'button'}
+            onClick={onPrototypeWarningModalOpen}>
+            <ExclamationTriangleSolid className={'h-6 w-6 text-amber-500'} />
+            <p className={'text-amber-800 text-lg hover:underline'}>{prototypeWarning}</p>
+          </button>
+        </div>
         <h1
           className={
             'md:text-7xl text-5xl text-center font-semibold bg-gradient-to-br from-blue-600 to-blue-800 text-transparent bg-clip-text p-5'
@@ -235,6 +265,7 @@ const Introduction = () => {
         visible={isPrototypeWarningModalVisible}
         onClose={onPrototypeWarningModalClose}
       />
+      <LastUpdatedModal visible={isLastUpdatedModalVisible} onClose={onLastUpdatedModalClose} />
     </>
   );
 };

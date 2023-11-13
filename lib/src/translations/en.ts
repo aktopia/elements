@@ -55,6 +55,8 @@ const action = {
   'action.outcome/placeholder': 'Describe the outcome.',
   'action.title/placeholder': 'Give the action a title.',
   'action/promised-outcome': 'Promised Outcome',
+  'action.delete.modal/title': 'Delete Action',
+  'action.delete.modal/body': 'Are you sure you want to delete the action? This cannot be undone.',
   'action.status/draft': 'Draft',
   'action.status/active': 'Active',
   'action.status/reviewing': 'In Review',
@@ -134,6 +136,11 @@ const metaInitiative = {
   'meta.initiative.status/planned': 'Planned',
 };
 
+const profile = {
+  'profile.actions/empty': 'No actions yet.',
+  'profile.issues/empty': 'No issues yet.',
+};
+
 const translation = {
   ...common,
   ...action,
@@ -144,6 +151,7 @@ const translation = {
   ...comment,
   ...error,
   ...metaInitiative,
+  ...profile,
   'auth/send-otp': 'Send OTP',
   'auth/sign-in': 'Sign In',
   'auth/wait-to-resend-otp': ({ waitSeconds }: { waitSeconds: number }) => {

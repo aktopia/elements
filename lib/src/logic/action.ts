@@ -59,6 +59,8 @@ export type Subs = {
   'action.locality/location': Sub<{ 'action/id': string }, LatLng>;
   'action.locality/zoom': Sub<{ 'action/id': string }, number>;
   'action.status/modal': Sub<{}, { 'action/id': string; visible: boolean }>;
+  'action/can-delete': Sub<{ 'action/id': string }, boolean>;
+  'action/exists': Sub<{ 'action/id': string }, boolean>;
 };
 
 export type Events = {
@@ -87,6 +89,7 @@ export type Events = {
   'navigated.action/view': Evt<{ route: Match }>;
   'navigated.action/new': Evt<{ route: Match }>;
   'action.status/update': Evt<{ 'action/id': string; status: ActionStatus }>;
+  'action/delete': Evt<{ 'action/id': string }>;
 };
 
 export const actionSlice = () => ({
@@ -142,6 +145,8 @@ remoteSub('action.title/can-edit');
 remoteSub('action.description/can-edit');
 remoteSub('action.outcome/can-edit');
 remoteSub('action/status');
+remoteSub('action/can-delete');
+remoteSub('action/exists');
 
 evt('action.title/edit', ({ setState, getState }) => {
   const currenActionId = getState()['action/state']['current.action/id'];
@@ -301,6 +306,11 @@ evt('action.status/update', async ({ params, dispatch }) => {
     kind: 'info',
   });
   await invalidateAsyncSub('action/status', { 'action/id': params['action/id'] });
+});
+
+evt('action/delete', async ({ params }) => {
+  await rpcPost('action/delete', { 'action/id': params['action/id'] });
+  navigateToRoute('home/view', {}, { replace: true });
 });
 
 registerTextEditor('action.title/text', {

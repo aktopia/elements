@@ -25,6 +25,7 @@ const ViewActionLocalitySlideOver = suspensify(({ entityId, onClose }: any) => {
 });
 
 export const Actions = suspensify(() => {
+  const t = useTranslation();
   const userId = useValue('profile.user/id');
   const actionIds = useValue('profile.action/ids', { 'user/id': userId });
   const [localitySlideOverId, setLocalitySlideOverId] = useState<string | null>(null);
@@ -41,16 +42,20 @@ export const Actions = suspensify(() => {
 
   return (
     <>
-      <div className={'flex flex-col gap-9'}>
-        {actionIds.map((id) => (
-          <ActionCard
-            key={id}
-            id={id}
-            suspenseLines={2}
-            onLocalitySlideOverOpen={onLocalitySlideOverOpen}
-          />
-        ))}
-      </div>
+      {actionIds.length === 0 ? (
+        <div className={'text-base text-gray-500'}>{t('profile.actions/empty')}</div>
+      ) : (
+        <div className={'flex flex-col gap-9'}>
+          {actionIds.map((id) => (
+            <ActionCard
+              key={id}
+              id={id}
+              suspenseLines={2}
+              onLocalitySlideOverOpen={onLocalitySlideOverOpen}
+            />
+          ))}
+        </div>
+      )}
       {slideOverVisible ? (
         <ViewActionLocalitySlideOver
           entityId={localitySlideOverId}
