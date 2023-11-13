@@ -5,7 +5,7 @@ const statusContainerVariant = cva(
   {
     variants: {
       color: {
-        gray: 'border-gray-400',
+        gray: 'border-gray-500',
         blue: 'border-blue-500',
         green: 'border-green-600',
         indigo: 'border-indigo-600',

@@ -61,6 +61,8 @@ const action = {
   'action.status/active': 'Active',
   'action.status/reviewing': 'In Review',
   'action.status/completed': 'Completed',
+  'action.updates/unavailable': 'Updates are not available when the action is still in draft.',
+  'action.discussion/unavailable': 'Discussion is not available when the action is still in draft.',
 };
 
 const issue = {

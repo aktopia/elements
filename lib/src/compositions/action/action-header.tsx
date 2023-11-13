@@ -25,6 +25,7 @@ import { useIsCompactViewport, useLookupRef } from '@elements/store/hooks';
 import { type ItemType } from '@elements/components/dropdown';
 import { ContextMenu } from '@elements/components/context-menu';
 import { ActionStatusButton, ActionStatusModal } from '@elements/compositions/action/action-status';
+import { ActionStatus } from '@elements/logic/action';
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -285,6 +286,10 @@ const ActionContextMenu = suspensify(() => {
 export const ActionHeader = suspensify(() => {
   const actionId = useValue('current.action/id');
   const updatedAt = useValue('action/updated-at', { 'action/id': actionId });
+  const isDraft = useValue('action.status/check', {
+    'action/id': actionId,
+    in: [ActionStatus.Draft],
+  });
 
   return (
     <>
@@ -301,7 +306,7 @@ export const ActionHeader = suspensify(() => {
                 <ActionStatusButton actionId={actionId} />
               </div>
               <div className={'flex gap-4 items-center flex-row-reverse md:flex-row'}>
-                <SubscriptionBar suspenseLines={2} />
+                {isDraft ? null : <SubscriptionBar suspenseLines={2} />}
                 <ActionContextMenu />
               </div>
             </div>
@@ -310,10 +315,10 @@ export const ActionHeader = suspensify(() => {
               <div className={'mr-5'}>
                 <Title suspenseLineHeight={'36'} suspenseLines={1} />
               </div>
-              <ActionBar suspenseLines={2} />
+              {isDraft ? null : <ActionBar suspenseLines={2} />}
             </div>
           </div>
-          <ProgressIndicator suspenseLines={1} />
+          {isDraft ? null : <ProgressIndicator suspenseLines={1} />}
         </div>
         <ActionTabs suspenseLines={1} />
       </div>

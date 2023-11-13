@@ -1,4 +1,5 @@
 import {
+  asyncSub,
   dispatch,
   evt,
   invalidateAsyncSub,
@@ -6,7 +7,7 @@ import {
   remoteSub,
   sub,
 } from '@elements/store';
-import { rpcPost } from '@elements/rpc';
+import { rpcGet, rpcPost } from '@elements/rpc';
 import {
   endEditing,
   onEditCancelDefault,
@@ -61,6 +62,7 @@ export type Subs = {
   'action.status/modal': Sub<{}, { 'action/id': string; visible: boolean }>;
   'action/can-delete': Sub<{ 'action/id': string }, boolean>;
   'action/exists': Sub<{ 'action/id': string }, boolean>;
+  'action.status/check': Sub<{ 'action/id': string; in: ActionStatus[] }, boolean>;
 };
 
 export type Events = {
@@ -132,6 +134,11 @@ sub(
 );
 
 sub('action.status/modal', ({ state }) => state['action/state']['action.status/modal']);
+
+asyncSub('action.status/check', async ({ params }) => {
+  const status: ActionStatus = await rpcGet('action/status', { 'action/id': params['action/id'] });
+  return params['in'].includes(status);
+});
 
 remoteSub('action.title/text');
 remoteSub('action.description/text');

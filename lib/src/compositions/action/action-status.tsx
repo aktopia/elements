@@ -33,12 +33,12 @@ interface Step {
 export const Steps = ({ currentStatus }: { currentStatus: ActionStatusEnum }) => {
   const t = useTranslation();
   const [steps, _] = states.reduce<[Step[], boolean]>(
-    ([steps, found], state) => {
+    ([steps, currentReached], state) => {
       if (state === currentStatus) {
         return [[...steps, { state, status: 'current' }], true];
       }
 
-      if (found) {
+      if (currentReached) {
         return [[...steps, { state, status: 'inactive' }], true];
       }
 
@@ -105,35 +105,42 @@ export const Steps = ({ currentStatus }: { currentStatus: ActionStatusEnum }) =>
 };
 
 const DraftModalContent = ({ onClose, visible, actionId }: any) => {
-  const t = useTranslation();
   const updateStatus = useDispatch('action.status/update');
   const onPushForReview = useCallback(() => {
     updateStatus({ 'action/id': actionId, status: ActionStatusEnum.Reviewing });
   }, [updateStatus, actionId]);
 
+  // TODO i18n
+  const modalTitle = 'Action Status - Draft';
+  const draftDescription =
+    'The action is currently in draft. It can be pushed for public review once ready.';
+  const reviewHeading = 'When the action is up for review';
+  const reviewPoint1 = 'It will be publicly available in search and feeds.';
+  const reviewPoint2 = 'It can be edited anytime to accommodate feedback.';
+  const reviewPoint3 = 'If the action is not viable, it can be deleted at any time.';
+  const reviewPoint4 = 'It cannot be moved back to draft.';
+  const reviewPoint5 = 'People cannot fund it yet.';
+  const pushForReviewButtonLabel = 'Push for Review';
+
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <div className={'flex flex-col gap-6 p-6 w-full md:w-[500px]'}>
-          <ModalHeader title={'Action Status - Draft'} onClose={onClose} />
+          <ModalHeader title={modalTitle} onClose={onClose} />
           <div>
             <div className={'divide-y divide-gray-300'}>
               <div className={'mb-5 space-y-5'}>
                 {/*<Steps currentStatus={ActionStatus.Reviewing} />*/}
-                <p className={'text-gray-600 text-sm'}>
-                  {
-                    'The action is currently in draft. It can be pushed for public review once ready.'
-                  }
-                </p>
+                <p className={'text-gray-600 text-sm'}>{draftDescription}</p>
               </div>
               <div className={'space-y-2 pt-5'}>
-                <p className={'text-gray-600 font-medium'}>{'When the action is up for review'}</p>
+                <p className={'text-gray-600 font-medium'}>{reviewHeading}</p>
                 <ul className={'[&>li]:text-gray-600 [&>li]:text-sm list-disc list-inside '}>
-                  <li>{'It will be publicly available in search and feeds.'}</li>
-                  <li>{'It can be edited anytime to accommodate feedback.'}</li>
-                  <li>{'If the action is not viable, it can be deleted at anytime.'}</li>
-                  <li>{'It cannot be moved back to draft.'}</li>
-                  <li>{'People cannot fund it yet.'}</li>
+                  <li>{reviewPoint1}</li>
+                  <li>{reviewPoint2}</li>
+                  <li>{reviewPoint3}</li>
+                  <li>{reviewPoint4}</li>
+                  <li>{reviewPoint5}</li>
                 </ul>
               </div>
             </div>
@@ -142,7 +149,7 @@ const DraftModalContent = ({ onClose, visible, actionId }: any) => {
             <Button
               kind={'primary'}
               size={'sm'}
-              value={'Push for Review'}
+              value={pushForReviewButtonLabel}
               onClick={onPushForReview}
             />
           </div>
@@ -158,31 +165,38 @@ const InReviewModalContent = ({ onClose, visible, actionId }: any) => {
     updateStatus({ 'action/id': actionId, status: ActionStatusEnum.Active });
   }, [updateStatus, actionId]);
 
+  // TODO i18n
+  const modalTitle = 'Action Status - In Review';
+  const inReviewDescription =
+    'The action is currently in public review. It can be published to kickstart the work and funding.';
+  const publishHeading = 'When the action is published';
+  const publishPoint1 = 'It cannot be edited or deleted.';
+  const publishPoint2 = 'It cannot be moved back to review.';
+  const publishPoint3 = 'Work on the action can start.';
+  const publishPoint4 = 'The community can start funding it.';
+  const publishButtonLabel = 'Publish';
+
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <div className={'flex flex-col gap-6 p-6 w-full md:w-[500px]'}>
-          <ModalHeader title={'Action Status - In Review'} onClose={onClose} />
+          <ModalHeader title={modalTitle} onClose={onClose} />
           <div>
             <div className={'divide-y divide-gray-300'}>
-              <p className={'text-gray-600 text-sm mb-5'}>
-                {
-                  'The action is currently in public review. It can be published to kickstart the work and funding.'
-                }
-              </p>
+              <p className={'text-gray-600 text-sm mb-5'}>{inReviewDescription}</p>
               <div className={'space-y-2 pt-5'}>
-                <p className={'text-gray-600 font-medium'}>{'When the action is published'}</p>
+                <p className={'text-gray-600 font-medium'}>{publishHeading}</p>
                 <ul className={'[&>li]:text-gray-600 [&>li]:text-sm list-disc list-inside'}>
-                  <li>{'It cannot be edited or deleted.'}</li>
-                  <li>{'It cannot be moved back to review.'}</li>
-                  <li>{'Work on the action can start.'}</li>
-                  <li>{'The community can start funding it.'}</li>
+                  <li>{publishPoint1}</li>
+                  <li>{publishPoint2}</li>
+                  <li>{publishPoint3}</li>
+                  <li>{publishPoint4}</li>
                 </ul>
               </div>
             </div>
           </div>
           <div className={'flex justify-center mt-3'}>
-            <Button kind={'success'} size={'md'} value={'Publish'} onClick={onPublish} />
+            <Button kind={'success'} size={'md'} value={publishButtonLabel} onClick={onPublish} />
           </div>
         </div>
       </ModalPanel>
@@ -191,16 +205,17 @@ const InReviewModalContent = ({ onClose, visible, actionId }: any) => {
 };
 
 const ActiveModalContent = ({ onClose, visible }: any) => {
+  // TODO i18n
+  const modalTitle = 'Action Status - Active';
+  const activeDescription =
+    'The action is being actively worked on. The community can support by volunteering or funding.';
+
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <div className={'flex flex-col gap-6 p-6 w-full md:w-[500px]'}>
-          <ModalHeader title={'Action Status - Active'} onClose={onClose} />
-          <p className={'text-gray-600 text-sm'}>
-            {
-              'The action is being actively worked on. The community can support by volunteering or funding.'
-            }
-          </p>
+          <ModalHeader title={modalTitle} onClose={onClose} />
+          <p className={'text-gray-600 text-sm'}>{activeDescription}</p>
         </div>
       </ModalPanel>
     </Modal>

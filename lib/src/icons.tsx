@@ -311,6 +311,7 @@ export {
   MegaphoneIcon as MegaphoneSolid,
   CheckCircleIcon as CheckCircleSolid,
   HomeIcon as HomeSolid,
+  InformationCircleIcon as InformationCircleSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -341,6 +342,7 @@ export {
   MegaphoneIcon as MegaphoneOutline,
   CheckCircleIcon as CheckCircleOutline,
   HomeIcon as HomeOutline,
+  InformationCircleIcon as InformationCircleOutline,
 } from '@heroicons/react/24/outline';
 
 /*

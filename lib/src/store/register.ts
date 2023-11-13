@@ -6,7 +6,7 @@ import type { Dispatch, Read } from '@elements/store/interface';
 type Resolve<T extends keyof Subs> = (args: {
   state: any;
   params: Subs[T]['params'];
-}) => Subs[T]['result'];
+}) => Subs[T]['result'] | Promise<Subs[T]['result']>;
 
 export type EventHandlerArgs<T extends keyof Events> = {
   setState: StoreApi<any>['setState'];
