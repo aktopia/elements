@@ -1,7 +1,7 @@
 import { cva } from 'cva';
 
 const statusContainerVariant = cva(
-  'flex items-center gap-2 border pl-2 pr-2.5 py-1 rounded-full shadow bg-white',
+  'flex items-center gap-2 border pl-2 pr-2.5 py-1 rounded-full shadow-sm bg-white',
   {
     variants: {
       color: {
@@ -58,7 +58,11 @@ interface StatusButtonProps {
 
 export const StatusButton = ({ name, color, onClick }: StatusButtonProps) => {
   return (
-    <button className={statusContainerVariant({ color })} type={'button'} onClick={onClick}>
+    <button
+      className={statusContainerVariant({ color })}
+      data-event-id={`action-${name}-status-button-click`}
+      type={'button'}
+      onClick={onClick}>
       <div className={statusDotVariant({ color })} />
       <p className={statusTextVariant({ color })}>{name}</p>
     </button>

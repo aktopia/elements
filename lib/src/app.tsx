@@ -26,12 +26,12 @@ function init() {
 }
 
 const handleClick = (event: any) => {
-  // FIXME This might be expensive, evaluate if it is expensive
-  // DO NOT DO THIS FOR EVENTS LIKE SCROLL
+  // FIXME This might be expensive, evaluate how expensive
+  // DO NOT DO SOMETHING SIMILAR FOR EVENTS LIKE SCROLL
   const element = event.target.closest('[data-event-id]');
   if (element) {
-    const eventId = element.getAttribute('data-event-id');
-    const eventCategory = element.getAttribute('data-event-category');
+    const eventId = element.getAttribute('data-event-id')?.toLowerCase();
+    const eventCategory = element.getAttribute('data-event-category')?.toLowerCase();
     gtag('event', eventId, { event_category: eventCategory });
   }
 };
