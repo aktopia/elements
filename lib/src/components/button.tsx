@@ -40,7 +40,7 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
   defaultVariants: {
     kind: 'primary',
     size: 'sm',
-    // shadow: 'small',
+    disabled: false,
   },
   compoundVariants: [
     // hasIcon padding
@@ -79,6 +79,9 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
       kind: ['secondary', 'danger-outline', 'tertiary', 'warning'],
       class: 'shadow',
     },
+
+    // disabled
+    { disabled: true, kind: 'primary', class: 'bg-blue-300 text-white' },
   ],
 });
 
