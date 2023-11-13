@@ -64,6 +64,7 @@ export type Subs = {
   'action/can-delete': Sub<{ 'action/id': string }, boolean>;
   'action/exists': Sub<{ 'action/id': string }, boolean>;
   'action.status/check': Sub<{ 'action/id': string; in: ActionStatus[] }, boolean>;
+  'action.locality/error': Sub<{}, string>;
 };
 
 export type Events = {
@@ -93,6 +94,7 @@ export type Events = {
   'navigated.action/new': Evt<{ route: Match }>;
   'action.status/update': Evt<{ 'action/id': string; status: ActionStatus }>;
   'action/delete': Evt<{ 'action/id': string }>;
+  'action.locality.error/clear': Evt<{}>;
 };
 
 export const actionSlice = () => ({
@@ -103,6 +105,7 @@ export const actionSlice = () => ({
     'action.create.modal/title': '',
     'action.locality.slide-over/visible': false,
     'action.status/modal': { visible: false },
+    'action.locality/error': null,
   },
 });
 
@@ -135,6 +138,8 @@ sub(
 );
 
 sub('action.status/modal', ({ state }) => state['action/state']['action.status/modal']);
+
+sub('action.locality/error', ({ state }) => state['action/state']['action.locality/error']);
 
 asyncSub('action.status/check', async ({ params }) => {
   const status: ActionStatus = await rpcGet('action/status', { 'action/id': params['action/id'] });
@@ -287,6 +292,12 @@ evt('action.locality/choose', async ({ getState, params }) => {
   dispatch('action.locality.slide-over/close', {});
 });
 
+evt('action.locality.error/clear', ({ setState }) => {
+  setState((state: any) => {
+    state['action/state']['action.locality/error'] = null;
+  });
+});
+
 evt('action.status.modal/open', ({ setState, params }) => {
   setState((state: any) => {
     state['action/state']['action.status/modal'] = {
@@ -302,10 +313,11 @@ evt('action.status.modal/close', ({ setState }) => {
   });
 });
 
-evt('action.status/update', async ({ params, dispatch, getState, setState }) => {
+evt('action.status/update', async ({ params, dispatch, getState, setState, read }) => {
   const actionId = params['action/id'];
-  if (params.status === ActionStatus.Reviewing) {
-    console.log(['action.description/text', actionId]);
+
+  // TODO Think about abstracting validations than having them in the logic layer.
+  if ([ActionStatus.Reviewing, ActionStatus.Active].includes(params.status)) {
     const isDescriptionEmpty = isEmpty({
       getState,
       params: { ref: ['action.description/text', actionId] },
@@ -316,7 +328,9 @@ evt('action.status/update', async ({ params, dispatch, getState, setState }) => 
       params: { ref: ['action.outcome/text', actionId] },
     });
 
-    const hasErrors = isDescriptionEmpty || isOutcomeEmpty;
+    const isLocalityNotChosen = !read('action.locality/exists', { 'action/id': actionId });
+
+    const hasErrors = isDescriptionEmpty || isOutcomeEmpty || isLocalityNotChosen;
 
     if (isDescriptionEmpty) {
       startEditing({ setState, params: { ref: ['action.description/text', actionId] } });
@@ -324,7 +338,7 @@ evt('action.status/update', async ({ params, dispatch, getState, setState }) => 
         setState,
         params: {
           ref: ['action.description/text', actionId],
-          error: 'Description cannot be empty.',
+          error: 'Description cannot be empty.', // TODO i18n
         },
       });
     }
@@ -335,8 +349,14 @@ evt('action.status/update', async ({ params, dispatch, getState, setState }) => 
         setState,
         params: {
           ref: ['action.outcome/text', actionId],
-          error: 'Outcome cannot be empty.',
+          error: 'Outcome cannot be empty.', // TODO i18n
         },
+      });
+    }
+
+    if (isLocalityNotChosen) {
+      setState((state: any) => {
+        state['action/state']['action.locality/error'] = 'Locality must be chosen.'; // TODO i18n
       });
     }
 
@@ -344,6 +364,7 @@ evt('action.status/update', async ({ params, dispatch, getState, setState }) => 
       return;
     }
   }
+
   await rpcPost('action.status/update', {
     'action/id': params['action/id'],
     status: params.status,

@@ -69,7 +69,7 @@ export const TextAreaEditor = ({
   const hasError = !!error;
 
   return (
-    <div className={'relative w-full'}>
+    <div className={'w-full'}>
       <form className={formContainerVariants({ editable, hasError })} onSubmit={onSubmit}>
         <RichTextArea
           ref={editorRef}
