@@ -21,11 +21,11 @@ import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 import { Status } from '@elements/logic/meta/initiative';
 import type { SwitchId } from '@elements/logic/action';
+import { ActionStatus } from '@elements/logic/action';
 import { useIsCompactViewport, useLookupRef } from '@elements/store/hooks';
 import { type ItemType } from '@elements/components/dropdown';
 import { ContextMenu } from '@elements/components/context-menu';
 import { ActionStatusButton, ActionStatusModal } from '@elements/compositions/action/action-status';
-import { ActionStatus } from '@elements/logic/action';
 
 export const SubscriptionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
@@ -122,6 +122,10 @@ const Title = suspensify(() => {
 export const ActionBar = suspensify(() => {
   const actionId = useValue('current.action/id');
   const userId = useValue('current.user/id');
+  const inDraftOrReview = useValue('action.status/check', {
+    'action/id': actionId,
+    in: [ActionStatus.Draft, ActionStatus.Reviewing],
+  });
 
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
 
@@ -146,6 +150,7 @@ export const ActionBar = suspensify(() => {
             Icon={Giving}
             containerClassName={'w-32'}
             data-event-id={'action-funding-button-click'}
+            disabled={inDraftOrReview}
             kind={'primary'}
             size={'md'}
             value={'Fund'}
@@ -286,10 +291,12 @@ const ActionContextMenu = suspensify(() => {
 export const ActionHeader = suspensify(() => {
   const actionId = useValue('current.action/id');
   const updatedAt = useValue('action/updated-at', { 'action/id': actionId });
-  const isDraft = useValue('action.status/check', {
+  const actionStatus = useValue('action/status', {
     'action/id': actionId,
-    in: [ActionStatus.Draft],
   });
+
+  const isDraft = actionStatus === ActionStatus.Draft;
+  const isInReview = actionStatus === ActionStatus.Reviewing;
 
   return (
     <>
@@ -318,7 +325,7 @@ export const ActionHeader = suspensify(() => {
               {isDraft ? null : <ActionBar suspenseLines={2} />}
             </div>
           </div>
-          {isDraft ? null : <ProgressIndicator suspenseLines={1} />}
+          {isDraft || isInReview ? null : <ProgressIndicator suspenseLines={1} />}
         </div>
         <ActionTabs suspenseLines={1} />
       </div>
