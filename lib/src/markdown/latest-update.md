@@ -1,16 +1,22 @@
-### Latest Update - 12th Nov 2023
+### Latest Update - 13th Nov 2023
 
 #### Product
 
-- The ability to delete an action if it is in draft state.
+The first phase of action states is live. One can now set action's state
+to `Draft`, `In Review` or `Active`.
+
+- Draft is unlisted and for personal drafting purposes.
+- In Review is for when you want to share the action with the public for review. Funding cannot be started yet.
+- Active when the work and funding can be started on the action.
 
 #### Engineering
 
-- Add a not found page.
+- Refactor button variants.
+- All the backend, auth, and frontend work for action states.
 
 ---
 
 #### What's Next
 
-- Work on different action states is coming out well, we've started with these states for
-  now - `Draft`, `In Review`, `Active`.
+- Validation for action states.
+- More annotations and discoverability around action states.
