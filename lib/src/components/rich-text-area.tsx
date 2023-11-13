@@ -111,11 +111,11 @@ const RichTextArea_: ForwardRefRenderFunction<RichTextAreaHandle, RichTextAreaPr
   }, [editor]);
 
   useEffect(() => {
-    editor?.commands.setContent(content);
+    editor?.commands.setContent(content, false);
   }, [editor, content]);
 
   useEffect(() => {
-    editor?.setEditable(editable);
+    editor?.setEditable(editable, false);
   }, [editor, editable]);
 
   return <EditorContent className={'h-full w-full'} editor={editor} />;

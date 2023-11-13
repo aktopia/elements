@@ -84,7 +84,12 @@ export const updateText = ({ setState, params }: any) => {
 
 export const text = ({ getState, params }: { getState: any; params: { ref: LookupRef } }) => {
   const key = ref(params.ref);
-  return getState()['text-editor/state'][key]['text-editor/text'];
+  return getState()['text-editor/state']?.[key]?.['text-editor/text'];
+};
+
+export const isEmpty = ({ getState, params }: { getState: any; params: { ref: LookupRef } }) => {
+  const text_ = text({ getState, params });
+  return !text_ || text_.trim().length === 0;
 };
 
 export const setError = ({
@@ -115,6 +120,7 @@ export const hasError = ({ getState, params }: any) => {
 
 export const clearError = ({ setState, params }: { params: { ref: LookupRef }; setState: any }) => {
   const key = ref(params.ref);
+  console.log('clearing error');
 
   setState((state: any) => {
     state['text-editor/state'][key]['text-editor/error'] = null;

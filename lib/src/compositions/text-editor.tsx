@@ -20,6 +20,7 @@ interface TextEditorProps {
   error?: string;
 }
 
+// TODO Refactor to pass lookup ref instead of refId and refAttribute
 export const TextEditor = suspensify(
   ({
     refId,
@@ -46,6 +47,10 @@ export const TextEditor = suspensify(
     const editCancel = useDispatch('text-editor.edit/cancel');
     const updateContent = useDispatch('text-editor.text/update');
     const resetComplete = useDispatch('text-editor.reset/complete');
+
+    useEffect(() => {
+      updateContent({ ...reference, value: content });
+    }, [content, reference, updateContent]);
 
     useEffect(() => {
       if (shouldReset) {

@@ -10,6 +10,7 @@ import {
 import { rpcGet, rpcPost } from '@elements/rpc';
 import {
   endEditing,
+  isEmpty,
   onEditCancelDefault,
   onTextUpdateDefault,
   registerTextEditor,
@@ -301,7 +302,48 @@ evt('action.status.modal/close', ({ setState }) => {
   });
 });
 
-evt('action.status/update', async ({ params, dispatch }) => {
+evt('action.status/update', async ({ params, dispatch, getState, setState }) => {
+  const actionId = params['action/id'];
+  if (params.status === ActionStatus.Reviewing) {
+    console.log(['action.description/text', actionId]);
+    const isDescriptionEmpty = isEmpty({
+      getState,
+      params: { ref: ['action.description/text', actionId] },
+    });
+
+    const isOutcomeEmpty = isEmpty({
+      getState,
+      params: { ref: ['action.outcome/text', actionId] },
+    });
+
+    const hasErrors = isDescriptionEmpty || isOutcomeEmpty;
+
+    if (isDescriptionEmpty) {
+      startEditing({ setState, params: { ref: ['action.description/text', actionId] } });
+      setError({
+        setState,
+        params: {
+          ref: ['action.description/text', actionId],
+          error: 'Description cannot be empty.',
+        },
+      });
+    }
+
+    if (isOutcomeEmpty) {
+      startEditing({ setState, params: { ref: ['action.outcome/text', actionId] } });
+      setError({
+        setState,
+        params: {
+          ref: ['action.outcome/text', actionId],
+          error: 'Outcome cannot be empty.',
+        },
+      });
+    }
+
+    if (hasErrors) {
+      return;
+    }
+  }
   await rpcPost('action.status/update', {
     'action/id': params['action/id'],
     status: params.status,
