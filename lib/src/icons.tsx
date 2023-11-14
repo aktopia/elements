@@ -312,6 +312,7 @@ export {
   CheckCircleIcon as CheckCircleSolid,
   HomeIcon as HomeSolid,
   InformationCircleIcon as InformationCircleSolid,
+  ArrowRightIcon as ArrowRightSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -343,6 +344,8 @@ export {
   CheckCircleIcon as CheckCircleOutline,
   HomeIcon as HomeOutline,
   InformationCircleIcon as InformationCircleOutline,
+  ChevronDownIcon as ChevronDownOutline,
+  ArrowRightIcon as ArrowRightOutline,
 } from '@heroicons/react/24/outline';
 
 /*

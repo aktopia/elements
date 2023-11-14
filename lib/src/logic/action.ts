@@ -65,6 +65,7 @@ export type Subs = {
   'action/exists': Sub<{ 'action/id': string }, boolean>;
   'action.status/check': Sub<{ 'action/id': string; in: ActionStatus[] }, boolean>;
   'action.locality/error': Sub<{}, string>;
+  'action.status/can-update': Sub<{ 'action/id': string; status: ActionStatus }, boolean>;
 };
 
 export type Events = {
@@ -160,6 +161,7 @@ remoteSub('action.outcome/can-edit');
 remoteSub('action/status');
 remoteSub('action/can-delete');
 remoteSub('action/exists');
+remoteSub('action.status/can-update');
 
 evt('action.title/edit', ({ setState, getState }) => {
   const currenActionId = getState()['action/state']['current.action/id'];

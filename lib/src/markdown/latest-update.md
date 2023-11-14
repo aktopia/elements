@@ -3,6 +3,7 @@
 #### Product
 
 - Give a visual indication of the action state as steps when clicked on the status.
+- Update authorization logic for status update changes.
 
 #### Engineering
 

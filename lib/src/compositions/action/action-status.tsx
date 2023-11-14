@@ -7,6 +7,7 @@ import { StatusButton } from '@elements/components/status-button';
 import { Modal, ModalHeader, ModalPanel } from '@elements/components/modal';
 import { Button } from '@elements/components/button';
 import { useCallback } from 'react';
+import { ArrowRightSolid } from '@elements/icons';
 
 const colorMapping: Record<ActionStatusEnum, Colors> = {
   [ActionStatusEnum.Draft]: 'gray',
@@ -64,7 +65,7 @@ export const Steps = ({ currentStatus }: { currentStatus: ActionStatusEnum }) =>
                   className={
                     'h-5 w-5 flex items-center justify-center rounded-full border-4 border-blue-600 bg-white'
                   }>
-                  <span className={'h-1.5 w-1.5 rounded-full bg-blue-600'} />
+                  <span className={'h-2 w-2 rounded-full bg-blue-600 animate-pulse'} />
                 </span>
                 <span className={'absolute top-6 text-xs text-gray-600 font-medium w-max'}>
                   {t(step.state)}
@@ -95,57 +96,60 @@ export const Steps = ({ currentStatus }: { currentStatus: ActionStatusEnum }) =>
 };
 
 const DraftModalContent = ({ onClose, visible, actionId }: any) => {
+  const canUpdateStatus = useValue('action.status/can-update', {
+    'action/id': actionId,
+    status: ActionStatusEnum.Reviewing,
+  });
+
   const updateStatus = useDispatch('action.status/update');
   const onPushForReview = useCallback(() => {
     updateStatus({ 'action/id': actionId, status: ActionStatusEnum.Reviewing });
   }, [updateStatus, actionId]);
 
   // TODO i18n
-  const modalTitle = 'Action Status - Draft';
-  const draftDescription =
-    'The action is currently in draft. It can be pushed for public review once ready.';
-  const reviewHeading = 'When the action is up for review';
-  const reviewPoint1 = 'It will be publicly available in search and feeds.';
-  const reviewPoint2 = 'It can be edited anytime to accommodate feedback.';
-  const reviewPoint3 = 'If the action is not viable, it can be deleted at any time.';
-  const reviewPoint4 = 'It cannot be moved back to draft.';
-  const reviewPoint5 = 'People cannot fund it yet.';
+  const modalTitle = 'Action Status';
+  const draftDescription = canUpdateStatus
+    ? 'The action is currently in draft and is not publicly listed. It can be pushed for public review once ready.'
+    : 'This action is currently in draft and is not publicly listed.';
+  // const reviewHeading = 'When the action is up for review';
+  // const reviewPoint1 = 'It will be publicly available in search and feeds.';
+  // const reviewPoint2 = 'It can be edited anytime to accommodate feedback.';
+  // const reviewPoint3 = 'If the action is not viable, it can be deleted at any time.';
+  // const reviewPoint4 = 'It cannot be moved back to draft.';
+  // const reviewPoint5 = 'People cannot fund it yet.';
   const pushForReviewButtonLabel = 'Push for Review';
+
+  const StepsUI = (
+    <div className={'flex justify-center mb-7'}>
+      <div className={'w-4/5'}>
+        <Steps currentStatus={ActionStatusEnum.Draft} />
+      </div>
+    </div>
+  );
+
+  const StateDescriptionUI = <p className={'text-gray-600 text-sm'}>{draftDescription}</p>;
+
+  const PublishButtonUI = canUpdateStatus ? (
+    <div className={'flex justify-center mt-3'}>
+      <Button
+        SecondaryIcon={ArrowRightSolid}
+        kind={'success'}
+        size={'sm'}
+        value={pushForReviewButtonLabel}
+        onClick={onPushForReview}
+      />
+    </div>
+  ) : null;
 
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
-        <div className={'flex flex-col gap-6 p-6 w-full md:w-[500px]'}>
+        <div className={'flex flex-col gap-7 p-6 w-full md:w-[500px]'}>
           <ModalHeader title={modalTitle} onClose={onClose} />
-          <div>
-            <div className={'divide-y divide-gray-300'}>
-              <div className={'mb-5 space-y-5'}>
-                <div className={'flex justify-center'}>
-                  <div className={'w-4/5 mb-5'}>
-                    <Steps currentStatus={ActionStatusEnum.Draft} />
-                  </div>
-                </div>
-                <p className={'text-gray-600 text-sm'}>{draftDescription}</p>
-              </div>
-              <div className={'space-y-2 pt-5'}>
-                <p className={'text-gray-600 font-medium'}>{reviewHeading}</p>
-                <ul className={'[&>li]:text-gray-600 [&>li]:text-sm list-disc list-inside '}>
-                  <li>{reviewPoint1}</li>
-                  <li>{reviewPoint2}</li>
-                  <li>{reviewPoint3}</li>
-                  <li>{reviewPoint4}</li>
-                  <li>{reviewPoint5}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className={'flex justify-center mt-3'}>
-            <Button
-              kind={'primary'}
-              size={'sm'}
-              value={pushForReviewButtonLabel}
-              onClick={onPushForReview}
-            />
+          <div className={'flex-col flex gap-5'}>
+            {StepsUI}
+            {StateDescriptionUI}
+            {PublishButtonUI}
           </div>
         </div>
       </ModalPanel>
@@ -154,50 +158,59 @@ const DraftModalContent = ({ onClose, visible, actionId }: any) => {
 };
 
 const InReviewModalContent = ({ onClose, visible, actionId }: any) => {
+  const canUpdateStatus = useValue('action.status/can-update', {
+    'action/id': actionId,
+    status: ActionStatusEnum.Active,
+  });
+
   const updateStatus = useDispatch('action.status/update');
   const onPublish = useCallback(() => {
     updateStatus({ 'action/id': actionId, status: ActionStatusEnum.Active });
   }, [updateStatus, actionId]);
 
   // TODO i18n
-  const modalTitle = 'Action Status - In Review';
-  const inReviewDescription =
-    'The action is currently in public review. It can be published to kickstart the work and funding.';
-  const publishHeading = 'When the action is published';
-  const publishPoint1 = 'It cannot be edited or deleted.';
-  const publishPoint2 = 'It cannot be moved back to review.';
-  const publishPoint3 = 'Work on the action can start.';
-  const publishPoint4 = 'The community can start funding it.';
+  const modalTitle = 'Action Status';
+  const inReviewDescription = canUpdateStatus
+    ? 'The action is currently in public review. If you think it has been refined enough, you can publish it to kickstart work and funding.'
+    : 'Your thoughts are critical. Discuss the action with the team and community to refine it.';
+  // const publishHeading = 'When the action is published';
+  // const publishPoint1 = 'It cannot be edited or deleted.';
+  // const publishPoint2 = 'It cannot be moved back to review.';
+  // const publishPoint3 = 'Work on the action can start.';
+  // const publishPoint4 = 'The community can start funding it.';
   const publishButtonLabel = 'Publish';
+
+  const StepsUI = (
+    <div className={'flex justify-center mb-7'}>
+      <div className={'w-4/5'}>
+        <Steps currentStatus={ActionStatusEnum.Reviewing} />
+      </div>
+    </div>
+  );
+
+  const StateDescriptionUI = <p className={'text-gray-600 text-sm'}>{inReviewDescription}</p>;
+
+  const PublishButtonUI = canUpdateStatus ? (
+    <div className={'flex justify-center mt-3'}>
+      <Button
+        SecondaryIcon={ArrowRightSolid}
+        kind={'success'}
+        size={'sm'}
+        value={publishButtonLabel}
+        onClick={onPublish}
+      />
+    </div>
+  ) : null;
 
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
-        <div className={'flex flex-col gap-6 p-6 w-full md:w-[500px]'}>
+        <div className={'flex flex-col gap-7 p-6 w-full md:w-[500px]'}>
           <ModalHeader title={modalTitle} onClose={onClose} />
-          <div>
-            <div className={'divide-y divide-gray-300'}>
-              <div className={'mb-5 space-y-5'}>
-                <div className={'flex justify-center'}>
-                  <div className={'w-4/5 mb-5'}>
-                    <Steps currentStatus={ActionStatusEnum.Reviewing} />
-                  </div>
-                </div>
-                <p className={'text-gray-600 text-sm mb-5'}>{inReviewDescription}</p>
-              </div>
-              <div className={'space-y-2 pt-5'}>
-                <p className={'text-gray-600 font-medium'}>{publishHeading}</p>
-                <ul className={'[&>li]:text-gray-600 [&>li]:text-sm list-disc list-inside'}>
-                  <li>{publishPoint1}</li>
-                  <li>{publishPoint2}</li>
-                  <li>{publishPoint3}</li>
-                  <li>{publishPoint4}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className={'flex justify-center mt-3'}>
-            <Button kind={'success'} size={'md'} value={publishButtonLabel} onClick={onPublish} />
+          <div className={'flex-col flex gap-5'}>
+            {StepsUI}
+            {StateDescriptionUI}
+            {PublishButtonUI}
           </div>
         </div>
       </ModalPanel>
@@ -207,7 +220,7 @@ const InReviewModalContent = ({ onClose, visible, actionId }: any) => {
 
 const ActiveModalContent = ({ onClose, visible }: any) => {
   // TODO i18n
-  const modalTitle = 'Action Status - Active';
+  const modalTitle = 'Action Status';
   const activeDescription =
     'The action is being actively worked on. The community can support by volunteering or funding.';
 
