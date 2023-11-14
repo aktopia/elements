@@ -120,7 +120,6 @@ export const hasError = ({ getState, params }: any) => {
 
 export const clearError = ({ setState, params }: { params: { ref: LookupRef }; setState: any }) => {
   const key = ref(params.ref);
-  console.log('clearing error');
 
   setState((state: any) => {
     state['text-editor/state'][key]['text-editor/error'] = null;

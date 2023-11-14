@@ -7,7 +7,6 @@ import { StatusButton } from '@elements/components/status-button';
 import { Modal, ModalHeader, ModalPanel } from '@elements/components/modal';
 import { Button } from '@elements/components/button';
 import { useCallback } from 'react';
-import { cx } from '@elements/utils';
 
 const colorMapping: Record<ActionStatusEnum, Colors> = {
   [ActionStatusEnum.Draft]: 'gray',
@@ -32,75 +31,66 @@ interface Step {
 
 export const Steps = ({ currentStatus }: { currentStatus: ActionStatusEnum }) => {
   const t = useTranslation();
-  const [steps, _] = states.reduce<[Step[], boolean]>(
-    ([steps, currentReached], state) => {
+  const [steps, currentStatusIndex, _] = states.reduce<[Step[], number, boolean]>(
+    ([steps, currentStatusIndex, currentReached], state, idx) => {
       if (state === currentStatus) {
-        return [[...steps, { state, status: 'current' }], true];
+        return [[...steps, { state, status: 'current' }], idx, true];
       }
 
       if (currentReached) {
-        return [[...steps, { state, status: 'inactive' }], true];
+        return [[...steps, { state, status: 'inactive' }], currentStatusIndex, true];
       }
 
-      return [[...steps, { state, status: 'complete' }], false];
+      return [[...steps, { state, status: 'complete' }], currentStatusIndex, false];
     },
-    [[], false]
+    [[], 0, false]
   );
 
   return (
-    <ol className={'flex items-center'} role={'list'}>
+    <div className={'flex items-center w-full'}>
       {steps.map((step, stepIdx) => (
-        <li
-          key={step.state}
-          className={cx(stepIdx !== steps.length - 1 ? 'w-full' : '', 'relative')}>
-          {step.status === 'complete' ? (
-            <>
-              <div aria-hidden={'true'} className={'absolute inset-0 flex items-center'}>
-                <div className={'h-0.5 w-full bg-blue-600'} />
-              </div>
-              <div
-                className={
-                  'relative flex h-4 w-4 items-center justify-center rounded-full bg-blue-600'
-                }>
-                <span className={'absolute top-5 text-xs text-gray-600 font-medium'}>
+        <>
+          <span key={step.state} className={'relative flex flex-col items-center justify-center'}>
+            {step.status === 'complete' ? (
+              <>
+                <span className={'h-5 w-5 rounded-full bg-blue-600'} />
+                <span className={'absolute top-6 text-xs text-gray-600 font-medium w-max'}>
                   {t(step.state)}
                 </span>
-              </div>
-            </>
-          ) : step.status === 'current' ? (
-            <>
-              <div aria-hidden={'true'} className={'absolute inset-0 flex items-center'}>
-                <div className={'h-0.5 w-full bg-gray-200'} />
-              </div>
-              <div
-                aria-current={'step'}
-                className={
-                  'relative flex h-5 w-5 items-center justify-center rounded-full border-2 border-blue-600 bg-white'
-                }>
-                <span aria-hidden={'true'} className={'h-1.5 w-1.5 rounded-full bg-blue-600'} />
-                <span className={'absolute top-5 text-xs text-gray-600 font-medium w-max'}>
+              </>
+            ) : step.status === 'current' ? (
+              <>
+                <span
+                  className={
+                    'h-5 w-5 flex items-center justify-center rounded-full border-4 border-blue-600 bg-white'
+                  }>
+                  <span className={'h-1.5 w-1.5 rounded-full bg-blue-600'} />
+                </span>
+                <span className={'absolute top-6 text-xs text-gray-600 font-medium w-max'}>
                   {t(step.state)}
                 </span>
-              </div>
-            </>
-          ) : (
-            <>
-              <div aria-hidden={'true'} className={'absolute inset-0 flex items-center'}>
-                <div className={'h-0.5 w-full bg-gray-200'} />
-              </div>
-              <div
-                className={
-                  'flex h-4 w-4 items-center justify-center rounded-full border-2 border-gray-300 bg-white'
-                }
-              />
-              <div className={'absolute top-5 text-xs text-gray-600 font-medium w-max right-1/2'}>
-                {t(step.state)}
-              </div>
-            </>
-          )}
-        </li>
+              </>
+            ) : (
+              <>
+                <span className={'h-5 w-5 rounded-full border-4 border-gray-300 bg-white'} />
+                <span className={'absolute top-6 text-xs text-gray-600 font-medium w-max'}>
+                  {t(step.state)}
+                </span>
+              </>
+            )}
+          </span>
+          {stepIdx < steps.length - 1 ? (
+            <span className={'w-full'}>
+              {stepIdx < currentStatusIndex ? (
+                <div className={'h-1 bg-blue-600'} />
+              ) : (
+                <div className={'h-1 bg-gray-300'} />
+              )}
+            </span>
+          ) : null}
+        </>
       ))}
-    </ol>
+    </div>
   );
 };
 
@@ -130,7 +120,11 @@ const DraftModalContent = ({ onClose, visible, actionId }: any) => {
           <div>
             <div className={'divide-y divide-gray-300'}>
               <div className={'mb-5 space-y-5'}>
-                {/*<Steps currentStatus={ActionStatus.Reviewing} />*/}
+                <div className={'flex justify-center'}>
+                  <div className={'w-4/5 mb-5'}>
+                    <Steps currentStatus={ActionStatusEnum.Draft} />
+                  </div>
+                </div>
                 <p className={'text-gray-600 text-sm'}>{draftDescription}</p>
               </div>
               <div className={'space-y-2 pt-5'}>
@@ -183,7 +177,14 @@ const InReviewModalContent = ({ onClose, visible, actionId }: any) => {
           <ModalHeader title={modalTitle} onClose={onClose} />
           <div>
             <div className={'divide-y divide-gray-300'}>
-              <p className={'text-gray-600 text-sm mb-5'}>{inReviewDescription}</p>
+              <div className={'mb-5 space-y-5'}>
+                <div className={'flex justify-center'}>
+                  <div className={'w-4/5 mb-5'}>
+                    <Steps currentStatus={ActionStatusEnum.Reviewing} />
+                  </div>
+                </div>
+                <p className={'text-gray-600 text-sm mb-5'}>{inReviewDescription}</p>
+              </div>
               <div className={'space-y-2 pt-5'}>
                 <p className={'text-gray-600 font-medium'}>{publishHeading}</p>
                 <ul className={'[&>li]:text-gray-600 [&>li]:text-sm list-disc list-inside'}>
@@ -215,7 +216,14 @@ const ActiveModalContent = ({ onClose, visible }: any) => {
       <ModalPanel>
         <div className={'flex flex-col gap-6 p-6 w-full md:w-[500px]'}>
           <ModalHeader title={modalTitle} onClose={onClose} />
-          <p className={'text-gray-600 text-sm'}>{activeDescription}</p>
+          <div className={'space-y-5'}>
+            <div className={'flex justify-center'}>
+              <div className={'w-4/5 mb-5'}>
+                <Steps currentStatus={ActionStatusEnum.Active} />
+              </div>
+            </div>
+            <p className={'text-gray-600 text-sm'}>{activeDescription}</p>
+          </div>
         </div>
       </ModalPanel>
     </Modal>
