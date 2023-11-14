@@ -1,22 +1,15 @@
-### Latest Update - 13th Nov 2023
+### Latest Update - 14th Nov 2023
 
 #### Product
 
-The first phase of action states is live. One can now set action's state
-to `Draft`, `In Review` or `Active`.
-
-- Draft is unlisted and for personal drafting purposes.
-- In Review is for when you want to share the action with the public for review. Funding cannot be started yet.
-- Active when the work and funding can be started on the action.
+- Give a visual indication of the action state as steps when clicked on the status.
 
 #### Engineering
 
-- Refactor button variants.
-- All the backend, auth, and frontend work for action states.
+- Validations for moving the action through the states.
 
 ---
 
 #### What's Next
 
-- Validation for action states.
 - More annotations and discoverability around action states.
