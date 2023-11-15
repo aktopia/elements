@@ -10,7 +10,7 @@ const QnA = [
   {
     id: 'government-role',
     q: "Isn't addressing public issues the government's responsibility?",
-    a: "While the government's responsibility is undeniable, our vision is future-oriented. We foresee a society where the government intervenes only in critical situations, like national or home security. Our aim is to encourage communal problem-solving for local issues, in collaboration with government bodies.",
+    a: "While the government's responsibility is undeniable, Aktopia’s vision is fundamental. We foresee a society where the government intervenes only in critical situations, like national or home security. Our aim is to encourage communal problem-solving for local issues, in collaboration with government bodies.",
   },
 ];
 
@@ -42,3 +42,8 @@ export const FAQ = () => {
     </div>
   );
 };
+
+/*
+What is the difference between an action and an issue?
+
+ */
