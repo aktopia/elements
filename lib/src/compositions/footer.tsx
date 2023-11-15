@@ -20,6 +20,28 @@ export const ContactUs = () => {
   );
 };
 
+export const PrivacyPolicy = () => {
+  const text = 'Privacy Policy';
+  return (
+    <Link
+      className={'hover:underline decoration-white text-xs text-white px-2'}
+      href={'/privacy-policy'}>
+      {text}
+    </Link>
+  );
+};
+
+export const TermsOfService = () => {
+  const text = 'Terms of Service';
+  return (
+    <Link
+      className={'hover:underline decoration-white text-xs text-white px-2'}
+      href={'/terms-of-service'}>
+      {text}
+    </Link>
+  );
+};
+
 export const Footer = () => {
   return (
     <footer
@@ -27,6 +49,10 @@ export const Footer = () => {
       <div className={'flex flex-col items-center gap-7'}>
         <MakeUsBetter />
         <ContactUs />
+        <div className={'flex divide-x'}>
+          <PrivacyPolicy />
+          <TermsOfService />
+        </div>
       </div>
       <Copyright />
     </footer>
