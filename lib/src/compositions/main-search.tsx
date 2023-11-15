@@ -34,7 +34,9 @@ const Result = ({ type, entityId, snippet }: ResultProps) => {
         <Link className={'flex items-center justify-between'} href={makeLink(type, entityId)}>
           <div
             dangerouslySetInnerHTML={{ __html: snippet }}
-            className={'text-base text-gray-800 [&_mark]:rounded [&_mark]:bg-blue-100 [&_mark]:p-1'}
+            className={
+              'text-base text-gray-800 [&_mark]:rounded [&_mark]:bg-blue-100 [&_mark]:p-1 truncate mr-3'
+            }
           />
           <ResultType size={'sm'} type={type} />
         </Link>
@@ -101,26 +103,32 @@ export const MainSearch = suspensify(() => {
     [navigateToPath, onClose]
   );
 
+  const InputUI = (
+    <div className={'relative'}>
+      <MagnifyingGlassSolid
+        aria-hidden={'true'}
+        className={'pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400'}
+      />
+      <Combobox.Input
+        autoComplete={'off'}
+        className={
+          'h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0'
+        }
+        placeholder={t('main-search/placeholder')}
+        value={query}
+        onChange={onQueryChange}
+      />
+    </div>
+  );
+
   return (
     <Modal visible={visible} onClose={onClose}>
       <ModalPanel>
         <Combobox onChange={onSelect}>
-          <div className={'relative md:w-[500px] w-screen'}>
-            <MagnifyingGlassSolid
-              aria-hidden={'true'}
-              className={'pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400'}
-            />
-            <Combobox.Input
-              autoComplete={'off'}
-              className={
-                'h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0'
-              }
-              placeholder={t('main-search/placeholder')}
-              value={query}
-              onChange={onQueryChange}
-            />
+          <div className={'md:w-[500px] w-screen'}>
+            {InputUI}
+            {emptyQuery ? null : <Results query={query} />}
           </div>
-          {emptyQuery ? null : <Results query={query} />}
         </Combobox>
       </ModalPanel>
     </Modal>
