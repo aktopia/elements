@@ -53,7 +53,9 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
         <ActionStatusButton actionId={id} />
       </div>
       <Locality actionId={id} onClick={onLocalityClick} />
-      <Link className={'text-2xl font-medium hover:underline w-full'} href={`/action/${id}`}>
+      <Link
+        className={'text-2xl font-medium hover:underline w-full break-all'}
+        href={`/action/${id}`}>
         {title}
       </Link>
       <div className={'flex items-center gap-5'}>

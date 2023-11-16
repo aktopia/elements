@@ -74,7 +74,9 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
         <LastActive timestamp={updatedAt} />
         <Locality issueId={id} onClick={onLocalityClick} />
       </div>
-      <Link className={'text-2xl font-medium hover:underline w-full'} href={`/issue/${id}`}>
+      <Link
+        className={'text-2xl font-medium hover:underline w-full break-all'}
+        href={`/issue/${id}`}>
         {title}
       </Link>
       <div className={'flex items-center gap-10'}>
