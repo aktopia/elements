@@ -116,6 +116,23 @@ photographs terminate within a commercially reasonable time after you remove or 
 Service. You understand and agree, however, that the Company may retain, but not display, distribute, or
 perform, server copies of your photographs that have been removed or deleted.
 
+# Refund Policy
+
+Donations made through the Service are final and cannot be refunded, except in accordance with the Company’s Refund
+Policy.
+All Donation payments are final and cannot be refunded. However, the Company will issue refunds for the following
+“exceptional” scenarios.
+
+- An Action has been identified as a fraudulent or violating the terms of service and no funds have yet been transferred
+  to the Recipient towards the same. The Company has decided to refund all the donations to the donors
+- A Funding has been identified to have been initiated using an unauthorised payment instrument not belonging to the
+  user
+  by the user and the user wishes a refund.
+
+Any other claims for refunds shall be honoured at the discretion of the Company.
+
+All refunds will be credited to the original mode of payment in 10 bank working days.
+
 # Intellectual Property Rights
 
 By using the Service, users agree that any content uploaded, including photographs and text, becomes the exclusive
