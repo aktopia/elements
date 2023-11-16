@@ -118,7 +118,7 @@ perform, server copies of your photographs that have been removed or deleted.
 
 # Refund Policy
 
-Donations made through the Service are final and cannot be refunded, except in accordance with the Company’s Refund
+Funding made through the Service are final and cannot be refunded, except in accordance with the Company’s Refund
 Policy.
 All Donation payments are final and cannot be refunded. However, the Company will issue refunds for the following
 “exceptional” scenarios.
