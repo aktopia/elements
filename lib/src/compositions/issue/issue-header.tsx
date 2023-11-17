@@ -144,7 +144,7 @@ const ActionBar = () => {
   );
 };
 
-export const Header = suspensify(() => {
+export const IssueHeader = suspensify(() => {
   const issueId = useValue('current.issue/id');
   const updatedAt = useValue('issue/updated-at', { 'issue/id': issueId });
 
@@ -160,7 +160,7 @@ export const Header = suspensify(() => {
                 <LastActive timestamp={updatedAt} />
                 <Locality issueId={issueId} />
               </div>
-              <SubscriptionBar suspenseLines={1} />
+              {/*<SubscriptionBar suspenseLines={1} />*/}
             </div>
             <div className={'flex flex-col items-start gap-10'}>
               <div className={'flex h-full w-full flex-col gap-7'}>

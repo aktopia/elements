@@ -1,4 +1,4 @@
-import { Header as Component } from '@elements/compositions/issue/header';
+import { IssueHeader as Component } from '@elements/compositions/issue/issue-header';
 import { store } from '@story/stores/issue/header';
 import { mockStory } from '@story/utils/mock-story';
 

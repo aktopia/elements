@@ -1,5 +1,5 @@
 import { Discuss } from '@elements/compositions/discuss';
-import { Header } from '@elements/compositions/issue/header';
+import { IssueHeader } from '@elements/compositions/issue/issue-header';
 import { Home } from '@elements/compositions/issue/home';
 import { Locations } from '@elements/compositions/issue/locations';
 import { Media } from '@elements/compositions/issue/media';
@@ -32,7 +32,7 @@ export const Issue = wrapPage(() => {
 
   return (
     <div className={'flex flex-col gap-16'}>
-      <Header />
+      <IssueHeader />
       {tab}
     </div>
   );
