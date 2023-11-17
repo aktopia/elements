@@ -296,7 +296,7 @@ export const ActionHeader = suspensify(() => {
   });
 
   const isDraft = actionStatus === ActionStatus.Draft;
-  const isInReview = actionStatus === ActionStatus.Reviewing;
+  // const isInReview = actionStatus === ActionStatus.Reviewing;
 
   return (
     <>
@@ -313,7 +313,7 @@ export const ActionHeader = suspensify(() => {
                 <ActionStatusButton actionId={actionId} />
               </div>
               <div className={'flex gap-4 items-center flex-row-reverse md:flex-row'}>
-                {isDraft ? null : <SubscriptionBar suspenseLines={2} />}
+                {/*{isDraft ? null : <SubscriptionBar suspenseLines={2} />}*/}
                 <ActionContextMenu />
               </div>
             </div>
@@ -325,7 +325,7 @@ export const ActionHeader = suspensify(() => {
               {isDraft ? null : <ActionBar suspenseLines={2} />}
             </div>
           </div>
-          {isDraft || isInReview ? null : <ProgressIndicator suspenseLines={1} />}
+          {/*{isDraft || isInReview ? null : <ProgressIndicator suspenseLines={1} />}*/}
         </div>
         <ActionTabs suspenseLines={1} />
       </div>
