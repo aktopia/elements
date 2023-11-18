@@ -26,6 +26,10 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
       false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
       true: 'cursor-default shadow-none',
     },
+    waiting: {
+      false: '',
+      true: 'animate-pulse cursor-default',
+    },
     shadow: {
       none: 'shadow-none',
       small: 'shadow-sm',
@@ -172,6 +176,7 @@ export interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'size' |
   onClick?: any;
   'data-event-id'?: string;
   iconOnly?: boolean;
+  waiting?: boolean;
 }
 
 const Button_ = forwardRef(
@@ -191,6 +196,7 @@ const Button_ = forwardRef(
       clicked,
       onClick,
       iconOnly,
+      waiting,
       ...props
     }: ButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
@@ -214,8 +220,10 @@ const Button_ = forwardRef(
           clicked: !!clicked,
           hasText: !!value,
           className: containerClassName,
+          waiting: !!waiting,
         })}
         data-event-category={'button'}
+        disabled={!!disabled || !!waiting}
         type={type === 'submit' ? 'submit' : 'button'}
         onClick={onClickMemo}>
         {!!Icon && <Icon className={iconVariant({ size, kind, className: iconClassName })} />}
@@ -247,6 +255,7 @@ export interface LinkButtonProps extends ComponentProps<typeof Link> {
   disabled?: boolean;
   onClick?: any;
   iconOnly?: boolean;
+  waiting?: boolean;
 }
 
 const LinkButton_ = forwardRef(
@@ -305,5 +314,5 @@ const LinkButton_ = forwardRef(
 export const LinkButton = memo(LinkButton_);
 /*
 TODO
-Abstract the bodies of Button and LinkButton to be the same
+Too much repetition Abstract the bodies of Button and LinkButton to be the same
  */
