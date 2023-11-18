@@ -1,36 +1,57 @@
 import { PhotoOutline, PlusOutline, XMarkSolid } from '@elements/icons';
-import { useState } from 'react';
+import { type ChangeEvent, useCallback, useId, useState } from 'react';
+import {
+  SlideOver,
+  SlideOverBody,
+  SlideOverCloseButton,
+  SlideOverFooter,
+  SlideOverHeader,
+  SlideOverTitle,
+} from '@elements/components/slide-over';
 
-const AddMedia = () => {
+export interface Image {
+  id: string;
+  url: string;
+  caption?: string;
+}
+
+const AddMedia = ({ onChoose }: any) => {
   const text = 'Add Media';
+  const id = useId();
   return (
-    <div
-      className={
-        'duration-250 group flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 transition ease-in-out  sm:hover:border-gray-400'
-      }>
-      <div className={'relative inline-block'}>
-        <PhotoOutline
-          className={
-            'duration-250 h-14 w-14 text-gray-400 transition ease-in-out sm:group-hover:text-gray-500'
-          }
-        />
-        <PlusOutline
-          className={
-            'duration-250 absolute bottom-0 right-2 block h-4 w-4 -translate-y-1/2 translate-x-1/2 transform rounded-full bg-white text-gray-400 ring-2 ring-white transition ease-in-out sm:group-hover:text-gray-500'
-          }
-        />
-      </div>
-      <p
+    <form>
+      <label
         className={
-          'duration-250 text-gray-400 transition ease-in-out sm:group-hover:text-gray-500'
-        }>
-        {text}
-      </p>
-    </div>
+          'duration-250 group flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 transition ease-in-out  sm:hover:border-gray-400'
+        }
+        htmlFor={id}>
+        <div className={'relative inline-block'}>
+          <PhotoOutline
+            className={
+              'duration-250 h-14 w-14 text-gray-400 transition ease-in-out sm:group-hover:text-gray-500'
+            }
+          />
+          <PlusOutline
+            className={
+              'duration-250 absolute bottom-0 right-2 block h-4 w-4 -translate-y-1/2 translate-x-1/2 transform rounded-full bg-white text-gray-400 ring-2 ring-white transition ease-in-out sm:group-hover:text-gray-500'
+            }
+          />
+        </div>
+        <p
+          className={
+            'duration-250 text-gray-400 transition ease-in-out sm:group-hover:text-gray-500'
+          }>
+          {text}
+        </p>
+      </label>
+      <input className={'hidden'} id={id} type={'file'} onInput={onChoose} />
+    </form>
   );
 };
 
-export const Lightbox = ({ image, onClose, visible }: any) => {
+export const Lightbox = ({ image, onClose }: any) => {
+  const visible = !!image;
+
   return visible ? (
     <>
       <div className={'fixed inset-0 z-40 bg-black opacity-95'} />
@@ -52,32 +73,112 @@ export const Lightbox = ({ image, onClose, visible }: any) => {
   ) : null;
 };
 
-export const MediaGallery = ({ images }: any) => {
-  const [image, setImage] = useState<any>(null);
+const UploadPreview = ({ image, onClose, onUpload }: any) => {
+  const visible = !!image;
+  const imgSrc = visible ? URL.createObjectURL(image) : '';
+  const description = '';
+
+  const onUpload_ = useCallback(() => {
+    onUpload({ file: image, caption: 'update-me' });
+    onClose();
+  }, [image, onUpload, onClose]);
+
+  return (
+    <SlideOver visible={visible} onClose={onClose}>
+      <div className={'relative flex h-full flex-col justify-between'}>
+        <div>
+          <SlideOverHeader>
+            <SlideOverTitle title={'Upload Image'} />
+            <SlideOverCloseButton onClick={onClose} />
+          </SlideOverHeader>
+          <SlideOverBody>
+            <div className={'flex h-fit  md:w-[400px] w-full gap-10 flex-col'}>
+              <p className={'text-gray-500 text-base'}>{description}</p>
+              <img alt={'upload-preview'} src={imgSrc} />
+            </div>
+          </SlideOverBody>
+        </div>
+        <div className={'sticky bottom-0 w-full'}>
+          <SlideOverFooter
+            actionText={'Upload'}
+            cancelText={'Cancel'}
+            onAction={onUpload_}
+            onCancel={onClose}
+          />
+        </div>
+      </div>
+    </SlideOver>
+  );
+};
+
+const Image = ({ image, onClick }: any) => {
+  const onClick_ = useCallback(() => {
+    onClick(image);
+  }, [image, onClick]);
+
+  const { id, url } = image;
+
+  return (
+    <div key={id} className={'flex flex-col gap-3'}>
+      <img
+        key={url}
+        alt={'media'}
+        className={
+          'h-40 w-full cursor-pointer rounded-lg border border-gray-300 bg-black object-cover shadow-lg'
+        }
+        src={url}
+        onClick={onClick_}
+      />
+    </div>
+  );
+};
+
+interface MediaGalleryProps {
+  images: Image[];
+  onUpload: ({ file, caption }: { file: File; caption: string }) => void;
+}
+
+export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
+  const [image, setImage] = useState<Image | null>(null);
+  const [imageToUpload, setImageToUpload] = useState<File | null>(null);
+
+  const onLightboxOpen = useCallback((image: any) => {
+    setImage(image);
+  }, []);
+
+  const onLightboxClose = useCallback(() => {
+    setImage(null);
+  }, []);
+
+  const onUploadPreviewClose = useCallback(() => {
+    setImageToUpload(null);
+  }, []);
+
+  const noImages = !!images ? images.length === 0 : true;
+
+  const onChoose = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    files && setImageToUpload(files[0]);
+  }, []);
+
   return (
     <>
-      {image && <Lightbox image={image} visible={!!image} onClose={() => setImage(null)} />}
+      <Lightbox image={image} onClose={onLightboxClose} />
+      <UploadPreview image={imageToUpload} onClose={onUploadPreviewClose} onUpload={onUpload} />
       <div className={'flex flex-col items-center space-y-4'}>
-        <p className={'text-xs text-gray-400'}>{'You can drag and drop your media here to add.'}</p>
-        <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4'}>
-          <AddMedia />
-          {images.map((image: any) => {
-            const { id, url } = image;
-            return (
-              <div key={id} className={'flex flex-col gap-3'}>
-                <img
-                  key={url}
-                  alt={'media'}
-                  className={
-                    'h-40 w-full cursor-pointer rounded-lg border border-gray-300 bg-black object-cover shadow-lg'
-                  }
-                  src={url}
-                  onClick={() => setImage(image)}
-                />
-              </div>
-            );
-          })}
-        </div>
+        <p className={'text-xs text-gray-400'}>{'You can drag and drop your image here to add.'}</p>
+        {noImages ? (
+          <div className={'flex items-center justify-center'}>
+            <AddMedia onChoose={onChoose} />
+          </div>
+        ) : (
+          <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4'}>
+            <AddMedia />
+            {images.map((image) => (
+              <Image key={image.id} image={image} onClick={onLightboxOpen} />
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

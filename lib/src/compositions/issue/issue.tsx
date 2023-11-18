@@ -21,7 +21,7 @@ export const Issue = wrapPage(() => {
       tab = <Discuss lookupRef={ref} suspenseLines={12} />;
       break;
     case 'media':
-      tab = <Media suspenseLines={8} />;
+      tab = <Media issueId={issueId} />;
       break;
     case 'locations':
       tab = <Locations refId={issueId} suspenseLines={5} />;
@@ -37,7 +37,3 @@ export const Issue = wrapPage(() => {
     </div>
   );
 });
-
-export const routes = {
-  'issue/view': Issue,
-};

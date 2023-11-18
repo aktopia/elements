@@ -22,6 +22,7 @@ import type { LatLng, LatLngBounds } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
+import { guid } from '@elements/utils';
 
 type TabId = 'home' | 'discuss' | 'media' | 'locations';
 
@@ -86,6 +87,7 @@ export type Events = {
   'issue.locality/choose': Evt<{ location: LatLng; zoom: number }>;
   'navigated.issue/view': Evt<{ route: Match }>;
   'navigated.issue/new': Evt<{ route: Match }>;
+  'issue.image/add': Evt<{ file: File; 'issue/id': string; caption: string }>;
 };
 
 export const issueSlice = () => ({
@@ -310,6 +312,61 @@ evt('issue.location/delete', async ({ getState, params }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];
   await rpcPost('location/delete', { 'location/id': params['location/id'] });
   await invalidateAsyncSub('issue/locations', { 'issue/id': currentIssueId });
+});
+
+const getPresignedUrlS3 = async ({
+  objectKey,
+}: {
+  objectKey: string;
+  metadata: Record<string, string>;
+}) => {
+  const url = '/api/lambda/s3/presign-url';
+
+  const res = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({ 'object-key': objectKey }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const json = await res.json();
+
+  return json.data;
+};
+
+const uploadToS3 = async (presignedUrl: string, file: File) => {
+  return await fetch(presignedUrl, {
+    method: 'PUT',
+    body: file,
+    headers: {
+      'Content-Type': file.type,
+    },
+  });
+};
+
+evt('issue.image/add', async ({ params }) => {
+  // TODO Add metadata like type, timestamp, etc.
+  // TODO Think if extension to objectKey is required.
+  try {
+    const metadata = {};
+    const id = guid();
+    const presignedUrl = await getPresignedUrlS3({ objectKey: id, metadata });
+    const res = await uploadToS3(presignedUrl, params.file);
+
+    if (res.status !== 200) {
+      return console.error('error uploading to s3.');
+    }
+
+    await rpcPost('issue.image/add', {
+      'issue/id': params['issue/id'],
+      'image/id': id,
+      'image/caption': params['caption'],
+    });
+  } catch (e) {
+    // TODO Handle error properly
+    console.error(e);
+  }
 });
 
 registerTextEditor('issue.title/text', {

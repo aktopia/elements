@@ -7,6 +7,9 @@ import { cx as clsx } from 'cva';
 import { twMerge } from 'tailwind-merge';
 import type { ClassValue } from 'cva/dist/types';
 import type { LookupRef } from '@elements/types';
+import { customAlphabet } from 'nanoid';
+
+const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz');
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' });
 
@@ -87,4 +90,8 @@ export const emptyObject = {};
 
 export const scrollToTop = ({ behavior = 'smooth' }: { behavior: ScrollBehavior }) => {
   window.scrollTo({ top: 0, behavior });
+};
+
+export const guid = () => {
+  return nanoid();
 };
