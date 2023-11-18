@@ -1,11 +1,22 @@
-### Latest Update - 15th Nov 2023
+### Latest Update - 18th Nov 2023
 
 #### Product
 
-- Updates to Terms of Service and Privacy Policy.
+- Major update: Ability to add images to an issue.
+- Add tooltips to issue facing and voting buttons.
+
+#### Engineering
+
+All the backend and infrastructure work required for uploading images and serving them.
 
 ---
 
 #### What's Next
 
-Planning around Volunteering and Funding.
+##### Refining the issue image upload experience.
+
+- Adding loading indicators for when the image is loading
+- Adding loading indicators for when the image is uploading
+- Mobile experience
+- Input mandatory caption for the issue
+- Ability to delete the image
