@@ -120,6 +120,7 @@ const Title = suspensify(() => {
 });
 
 export const ActionBar = suspensify(() => {
+  const t = useTranslation();
   const actionId = useValue('current.action/id');
   const userId = useValue('current.user/id');
   const inDraftOrReview = useValue('action.status/check', {
@@ -143,7 +144,13 @@ export const ActionBar = suspensify(() => {
 
   return (
     <div className={'flex gap-10 md:flex-row flex-col'}>
-      <Voting lookupRef={lookupRef} size={'md'} suspenseLines={1} />
+      <Voting
+        downvoteTooltipText={t('common/suppress')}
+        lookupRef={lookupRef}
+        size={'md'}
+        suspenseLines={1}
+        upvoteTooltipText={t('common/boost')}
+      />
       <div className={'flex gap-10'}>
         <WrapComingSoonPopover id={'action-funding'} status={Status.Planning}>
           <Button

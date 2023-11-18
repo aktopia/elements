@@ -40,6 +40,8 @@ const common = {
   'common/whatsapp': 'WhatsApp',
   'common/telegram': 'Telegram',
   'common/welcome-to-aktopia': 'Welcome to Aktopia',
+  'common/boost': 'Boost',
+  'common/suppress': 'Suppress',
 };
 
 const action = {
@@ -94,6 +96,7 @@ const issue = {
   },
   'issue/severity': 'Severity',
   'issue/facing': 'Facing',
+  'issue.facing.tooltip/text': "Raise hand if you're directly affected by this issue.",
 };
 
 const update = {

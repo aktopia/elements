@@ -1,6 +1,7 @@
 import { HandRaisedOutline, HandRaisedSolid } from '@elements/icons';
 import { cva } from 'cva';
 import { formatCount } from '@elements/utils';
+import { WithInfoTooltip } from '@elements/components/info-tooltip';
 
 const iconVariant = cva('', {
   variants: {
@@ -51,14 +52,17 @@ interface RaiseHandProps {
   onClick: () => void;
   raised: boolean;
   size: Size;
+  tooltipText: string;
 }
 
-export const RaiseHand = ({ count, onClick, size, raised }: RaiseHandProps) => {
+export const RaiseHand = ({ count, onClick, size, raised, tooltipText }: RaiseHandProps) => {
   const Icon = raised ? HandRaisedSolid : HandRaisedOutline;
   return (
-    <button className={containerVariant({ size })} type={'button'} onClick={onClick}>
-      <Icon className={iconVariant({ size, active: raised })} />
-      <p className={countVariant({ size, active: raised })}>{formatCount(count)}</p>
-    </button>
+    <WithInfoTooltip text={tooltipText}>
+      <button className={containerVariant({ size })} type={'button'} onClick={onClick}>
+        <Icon className={iconVariant({ size, active: raised })} />
+        <p className={countVariant({ size, active: raised })}>{formatCount(count)}</p>
+      </button>
+    </WithInfoTooltip>
   );
 };

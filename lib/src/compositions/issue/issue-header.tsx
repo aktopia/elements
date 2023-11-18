@@ -118,13 +118,23 @@ export const IssueTabs = suspensify(() => {
 });
 
 const Voting = suspensify(() => {
+  const t = useTranslation();
   const issueId = useValue('current.issue/id');
   const lookupRef = useLookupRef('issue/id', issueId);
 
-  return <RawVoting lookupRef={lookupRef} size={'md'} suspenseLines={2} />;
+  return (
+    <RawVoting
+      downvoteTooltipText={t('common/suppress')}
+      lookupRef={lookupRef}
+      size={'md'}
+      suspenseLines={2}
+      upvoteTooltipText={t('common/boost')}
+    />
+  );
 });
 
 const RaiseHand = suspensify(() => {
+  const t = useTranslation();
   const issueId = useValue('current.issue/id');
   const count = useValue('issue.users.facing/count', { 'issue/id': issueId });
   const raised = useValue('issue.current.user/facing', { 'issue/id': issueId });
@@ -132,7 +142,15 @@ const RaiseHand = suspensify(() => {
   const raiseHand = useDispatch('issue.current.user/face') as () => void;
   const onClick = useWrapRequireAuth(raiseHand, [raiseHand]);
 
-  return <RawRaiseHand count={count} raised={raised} size={'md'} onClick={onClick} />;
+  return (
+    <RawRaiseHand
+      count={count}
+      raised={raised}
+      size={'md'}
+      tooltipText={t('issue.facing.tooltip/text')}
+      onClick={onClick}
+    />
+  );
 });
 
 const ActionBar = () => {

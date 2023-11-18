@@ -1,6 +1,7 @@
 import { ArrowSmallDownSolid, ArrowSmallUpSolid } from '@elements/icons';
 import { cva } from 'cva';
 import type { Kind } from '@elements/logic/voting';
+import { WithInfoTooltip } from '@elements/components/info-tooltip';
 
 const voteVariant = cva('hover:text-blue-600', {
   variants: {
@@ -52,18 +53,32 @@ interface VoteProps {
   onDownvote: () => void;
   kind: Kind;
   size: Size;
+  downvoteTooltipText?: string;
+  upvoteTooltipText?: string;
 }
 
-export const Voting = ({ count, onUpvote, onDownvote, kind, size }: VoteProps) => {
+export const Voting = ({
+  count,
+  onUpvote,
+  onDownvote,
+  kind,
+  size,
+  upvoteTooltipText,
+  downvoteTooltipText,
+}: VoteProps) => {
   return (
     <div className={containerVariant({ size })}>
-      <button type={'button'} onClick={onUpvote}>
-        <ArrowSmallUpSolid className={voteVariant({ size, active: kind === 'upvote' })} />
-      </button>
+      <WithInfoTooltip text={upvoteTooltipText}>
+        <button type={'button'} onClick={onUpvote}>
+          <ArrowSmallUpSolid className={voteVariant({ size, active: kind === 'upvote' })} />
+        </button>
+      </WithInfoTooltip>
       <p className={countVariant({ size, active: !!kind })}>{count}</p>
-      <button type={'button'} onClick={onDownvote}>
-        <ArrowSmallDownSolid className={voteVariant({ size, active: kind === 'downvote' })} />
-      </button>
+      <WithInfoTooltip text={downvoteTooltipText}>
+        <button type={'button'} onClick={onDownvote}>
+          <ArrowSmallDownSolid className={voteVariant({ size, active: kind === 'downvote' })} />
+        </button>
+      </WithInfoTooltip>
     </div>
   );
 };
