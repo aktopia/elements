@@ -23,6 +23,7 @@ import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
+import type { Image } from '@elements/components/media-gallery';
 
 type TabId = 'home' | 'discuss' | 'media' | 'locations';
 
@@ -60,6 +61,7 @@ export type Subs = {
   'issue.locality.slide-over/visible': Sub<{}, boolean>;
   'issue.locality/location': Sub<{ 'issue/id': string }, LatLng>;
   'issue.locality/zoom': Sub<{ 'issue/id': string }, number>;
+  'issue/images': Sub<{ 'issue/id': string }, Image[]>;
 };
 
 export type Events = {
@@ -146,6 +148,7 @@ remoteSub('issue.locality/exists');
 remoteSub('issue.locality/name');
 remoteSub('issue.locality/location');
 remoteSub('issue.locality/zoom');
+remoteSub('issue/images');
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
@@ -363,6 +366,8 @@ evt('issue.image/add', async ({ params }) => {
       'image/id': id,
       'image/caption': params['caption'],
     });
+
+    await invalidateAsyncSub('issue/images', { 'issue/id': params['issue/id'] });
   } catch (e) {
     // TODO Handle error properly
     console.error(e);

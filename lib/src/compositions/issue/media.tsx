@@ -1,11 +1,10 @@
-import { type Image, MediaGallery } from '@elements/components/media-gallery';
+import { MediaGallery } from '@elements/components/media-gallery';
 import { suspensify } from '@elements/components/suspensify';
-import { useDispatch } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store';
 import { useCallback } from 'react';
 
-const images: Image[] = [];
-
 export const Media = suspensify(({ issueId }: { issueId: string }) => {
+  const images = useValue('issue/images', { 'issue/id': issueId });
   const upload = useDispatch('issue.image/add');
 
   const onUpload = useCallback(

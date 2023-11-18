@@ -11,7 +11,6 @@ import {
 
 export interface Image {
   id: string;
-  url: string;
   caption?: string;
 }
 
@@ -116,17 +115,16 @@ const Image = ({ image, onClick }: any) => {
     onClick(image);
   }, [image, onClick]);
 
-  const { id, url } = image;
+  const { id } = image;
 
   return (
     <div key={id} className={'flex flex-col gap-3'}>
       <img
-        key={url}
         alt={'media'}
         className={
           'h-40 w-full cursor-pointer rounded-lg border border-gray-300 bg-black object-cover shadow-lg'
         }
-        src={url}
+        src={`https://aktopia.com/image/${id}`}
         onClick={onClick_}
       />
     </div>
@@ -173,7 +171,7 @@ export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
           </div>
         ) : (
           <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4'}>
-            <AddMedia />
+            <AddMedia onChoose={onChoose} />
             {images.map((image) => (
               <Image key={image.id} image={image} onClick={onLightboxOpen} />
             ))}
