@@ -61,6 +61,12 @@ const AddMedia = ({ onChoose }: any) => {
 export const Lightbox = ({ image, onClose }: any) => {
   const visible = !!image;
 
+  const ImageCaptionUI = (
+    <div className={'flex items-center justify-center w-full min-h-20 px-5 py-5'}>
+      {image?.caption ? <p className={'text-white text-center'}>{image.caption}</p> : null}
+    </div>
+  );
+
   return visible ? (
     <>
       <div className={'fixed inset-0 z-overlay bg-black opacity-95'} />
@@ -79,9 +85,7 @@ export const Lightbox = ({ image, onClose }: any) => {
           className={'object-fit min-h-0'}
           src={genImgUrl(image.id, {})}
         />
-        <div className={'flex h-max w-full items-center justify-center px-3 py-4'}>
-          <p className={'text-white'}>{image.caption || 'whatever'}</p>
-        </div>
+        {ImageCaptionUI}
       </div>
     </>
   ) : null;
@@ -199,6 +203,7 @@ export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
 /*
 TODO
 - Dropzone
+- Restrict image types and size
 - Lightbox image loading
 - Thumbnail image loading
 - Max photos
