@@ -14,6 +14,16 @@ export interface Image {
   caption?: string;
 }
 
+function genImgUrl(id: string, params?: Record<string, any>) {
+  const imageRequest = btoa(
+    JSON.stringify({
+      key: id,
+      edits: { contentModeration: true, ...params },
+    })
+  );
+  return `/image/${imageRequest}`;
+}
+
 const AddMedia = ({ onChoose }: any) => {
   const text = 'Add Media';
   const id = useId();
@@ -115,16 +125,6 @@ const UploadPreview = ({ image, onClose, onUpload }: any) => {
   );
 };
 
-function genImgUrl(id: string, params?: Record<string, any>) {
-  const imageRequest = btoa(
-    JSON.stringify({
-      key: id,
-      edits: { contentModeration: true, ...params },
-    })
-  );
-  return `https://aktopia.com/image/${imageRequest}`;
-}
-
 const ImageThumbnail = ({ image, onClick }: any) => {
   const onClick_ = useCallback(() => {
     onClick(image);
@@ -150,6 +150,7 @@ interface MediaGalleryProps {
 }
 
 export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
+  // const t = useTranslation(); // TODO Maybe a pure component shouldn't use translation?
   const [image, setImage] = useState<Image | null>(null);
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
 
@@ -177,7 +178,7 @@ export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
       <Lightbox image={image} onClose={onLightboxClose} />
       <UploadPreview image={imageToUpload} onClose={onUploadPreviewClose} onUpload={onUpload} />
       <div className={'flex flex-col items-center space-y-4'}>
-        <p className={'text-xs text-gray-400'}>{'You can drag and drop your image here to add.'}</p>
+        {/*<p className={'text-xs text-gray-400'}>{t('media-gallery.drag-and-drop/hint')}</p>*/}
         {noImages ? (
           <div className={'flex items-center justify-center'}>
             <AddMedia onChoose={onChoose} />
@@ -194,3 +195,19 @@ export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
     </>
   );
 };
+
+/*
+TODO
+- Dropzone
+- Lightbox image loading
+- Thumbnail image loading
+- Max photos
+- Accessibility
+- Image upload loading
+- Image upload error
+- Image upload success and focus on new image
+- Show caption on hover
+- Get caption
+- Delete image and confirmation
+
+ */

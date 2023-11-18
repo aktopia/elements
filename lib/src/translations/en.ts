@@ -143,6 +143,10 @@ const profile = {
   'profile.issues/empty': 'No issues yet.',
 };
 
+const mediaGallery = {
+  'media-gallery.drag-and-drop/hint': 'You can drag and drop your image here to add.',
+};
+
 const translation = {
   ...common,
   ...action,
@@ -154,6 +158,7 @@ const translation = {
   ...error,
   ...metaInitiative,
   ...profile,
+  ...mediaGallery,
   'auth/send-otp': 'Send OTP',
   'auth/sign-in': 'Sign In',
   'auth/wait-to-resend-otp': ({ waitSeconds }: { waitSeconds: number }) => {
