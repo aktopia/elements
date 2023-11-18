@@ -53,17 +53,22 @@ export const Lightbox = ({ image, onClose }: any) => {
 
   return visible ? (
     <>
-      <div className={'fixed inset-0 z-40 bg-black opacity-95'} />
-      <div className={'fixed inset-0 z-50 flex h-full flex-col items-center justify-between'}>
-        <div className={'flex w-full items-center justify-end px-3 py-4'}>
+      <div className={'fixed inset-0 z-overlay bg-black opacity-95'} />
+      <div className={'fixed inset-0 z-modal flex h-full flex-col items-center justify-between'}>
+        <div className={'flex w-full items-center justify-end px-5 py-5'}>
           <button
             className={'flex h-max w-full items-center justify-end text-end focus:outline-none'}
             type={'button'}
             onClick={onClose}>
-            <XMarkSolid className={'h-5 w-5 text-white'} />
+            <XMarkSolid className={'h-7 w-7 text-white'} />
           </button>
         </div>
-        <img key={image.url} alt={'media'} className={'object-fit min-h-0'} src={image.url} />
+        <img
+          key={image.id}
+          alt={'media'}
+          className={'object-fit min-h-0'}
+          src={genImgUrl(image.id, {})}
+        />
         <div className={'flex h-max w-full items-center justify-center px-3 py-4'}>
           <p className={'text-white'}>{image.caption || 'whatever'}</p>
         </div>
@@ -110,7 +115,17 @@ const UploadPreview = ({ image, onClose, onUpload }: any) => {
   );
 };
 
-const Image = ({ image, onClick }: any) => {
+function genImgUrl(id: string, params?: Record<string, any>) {
+  const imageRequest = btoa(
+    JSON.stringify({
+      key: id,
+      edits: { contentModeration: true, ...params },
+    })
+  );
+  return `https://aktopia.com/image/${imageRequest}`;
+}
+
+const ImageThumbnail = ({ image, onClick }: any) => {
   const onClick_ = useCallback(() => {
     onClick(image);
   }, [image, onClick]);
@@ -121,10 +136,8 @@ const Image = ({ image, onClick }: any) => {
     <div key={id} className={'flex flex-col gap-3'}>
       <img
         alt={'media'}
-        className={
-          'h-40 w-full cursor-pointer rounded-lg border border-gray-300 bg-black object-cover shadow-lg'
-        }
-        src={`https://aktopia.com/image/${id}`}
+        className={'h-40 w-full cursor-pointer rounded-lg bg-black object-cover shadow-lg'}
+        src={genImgUrl(id, { resize: { width: 400, height: 400 } })}
         onClick={onClick_}
       />
     </div>
@@ -170,10 +183,10 @@ export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
             <AddMedia onChoose={onChoose} />
           </div>
         ) : (
-          <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4'}>
+          <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 w-full'}>
             <AddMedia onChoose={onChoose} />
             {images.map((image) => (
-              <Image key={image.id} image={image} onClick={onLightboxOpen} />
+              <ImageThumbnail key={image.id} image={image} onClick={onLightboxOpen} />
             ))}
           </div>
         )}
