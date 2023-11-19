@@ -11,7 +11,7 @@ export interface CommentProps {
   responses?: CommentProps[];
   canEdit: boolean;
   onEditCancel: (id: string) => void;
-  onEditDone: (id: string) => void;
+  onEditDone: (id: string) => Promise<void>;
   editText: string;
   editCancelText: string;
   editDoneText: string;
@@ -55,8 +55,8 @@ export const Comment = memo(
       setIsEditing(false);
     }, [id, onEditCancel]);
 
-    const onDone = useCallback(() => {
-      onEditDone(id);
+    const onDone = useCallback(async () => {
+      await onEditDone(id);
       setIsEditing(false);
     }, [id, onEditDone]);
 
