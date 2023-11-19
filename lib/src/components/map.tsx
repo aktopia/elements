@@ -22,6 +22,10 @@ export type LatLng = google.maps.LatLngLiteral;
 export type LatLngBounds = { north: number; east: number; south: number; west: number };
 export type GoogleMap = google.maps.Map;
 
+const EMPTY_LOCATIONS: LatLng[] = [];
+
+const DEFAULT_ZOOM = 7;
+
 interface MapProps {
   initialCenter?: LatLng;
   locations?: LatLng[];
@@ -72,8 +76,6 @@ export const AddLocationPin = ({ dragging }: { dragging: boolean }) => {
   );
 };
 
-const emptyLocations: LatLng[] = [];
-
 const initMap = ({
   initialCenter,
   initialZoom,
@@ -91,7 +93,7 @@ const initMap = ({
     zoomControlOptions: {
       position: google.maps.ControlPosition.LEFT_BOTTOM,
     },
-    zoom: initialZoom || 4,
+    zoom: initialZoom || 4, // TODO Set user zoom as default zoom
     center: initialCenter,
   });
 
@@ -115,8 +117,8 @@ const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
   {
     initialCenter,
     onTilesLoaded,
-    initialZoom = 4,
-    locations = emptyLocations,
+    initialZoom = DEFAULT_ZOOM,
+    locations = EMPTY_LOCATIONS,
     onDragEnd,
     onDragStart,
   },
@@ -144,7 +146,6 @@ const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
 
   useEffect(() => {
     if (mapRef.current && !map) {
-      // TODO fix center not being set on initial renders
       const newMap = initMap({
         initialCenter,
         initialZoom,
@@ -173,22 +174,33 @@ const MapRefRender: ForwardRefRenderFunction<MapHandle, MapProps> = (
         });
       });
 
-      if (isEmpty(locationsDiff) && !isEmpty(locations) && locations.length !== 1) {
+      // When a new location is added do not fit bounds as it is bad UX,
+      // but when initially rendering fit bounds
+      if (isEmpty(locationsDiff) && locations.length > 1) {
         const bounds = calculateBounds(locations);
         map.fitBounds(bounds);
       }
 
+      // When a new location is added do not fit bounds as it is bad UX,
+      // but when initially rendering and there is only one location set that as center
+      if (isEmpty(locationsDiff) && locations.length === 1) {
+        map?.setCenter(locations[0]);
+        map?.setZoom(DEFAULT_ZOOM);
+      }
+
       // Is this okay? How will it be GC'ed?
       new MarkerClusterer({ map, markers });
-      currentLocations.current = locations || [];
+      currentLocations.current = locations;
     }
   }, [locations, map]);
 
   const onResetLocation = useCallback(() => {
-    // FIXME when there is only one location, the map is not centered
     if (locations.length > 1) {
       const bounds = calculateBounds(locations);
       map?.fitBounds(bounds);
+    } else if (locations.length === 1) {
+      map?.setCenter(locations[0]);
+      map?.setZoom(DEFAULT_ZOOM);
     } else {
       initialCenter && map?.setCenter(initialCenter);
       initialZoom && map?.setZoom(initialZoom);
