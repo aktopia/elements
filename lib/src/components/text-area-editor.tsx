@@ -5,7 +5,7 @@ import RichTextArea, {
   RichTextExtensions,
   type RichTextOutput,
 } from '@elements/components/rich-text-area';
-import { type FormEventHandler, type Ref, useCallback, useMemo } from 'react';
+import { type FormEventHandler, type Ref, useCallback, useMemo, useState } from 'react';
 import { cva } from 'cva';
 import { ExclamationCircleMiniSolid } from '@elements/icons';
 
@@ -17,7 +17,7 @@ interface TextAreaEditorProps {
   output?: RichTextOutput;
   className?: string;
   placeholder?: string;
-  onDone: () => void;
+  onDone: () => Promise<void>;
   onCancel: () => void;
   onChange: (value: string) => void;
   richText?: boolean;
@@ -50,6 +50,7 @@ export const TextAreaEditor = ({
   error,
   editorRef,
 }: TextAreaEditorProps) => {
+  const [waiting, setWaiting] = useState(false);
   const [extensions, defaultOutput] = useMemo(() => {
     if (richText) {
       return [RichTextExtensions, 'html'];
@@ -60,9 +61,11 @@ export const TextAreaEditor = ({
   const outputValue = (output || defaultOutput) as RichTextOutput;
 
   const onSubmit: FormEventHandler = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
-      onDone();
+      setWaiting(true);
+      await onDone();
+      setWaiting(false);
     },
     [onDone]
   );
@@ -83,8 +86,20 @@ export const TextAreaEditor = ({
         />
         {editable && (
           <div className={'flex items-start justify-end gap-3'}>
-            <Button kind={'tertiary'} size={'xs'} value={cancelText} onClick={onCancel} />
-            <Button kind={'success'} size={'xs'} type={'submit'} value={doneText} />
+            <Button
+              disabled={waiting}
+              kind={'tertiary'}
+              size={'xs'}
+              value={cancelText}
+              onClick={onCancel}
+            />
+            <Button
+              kind={'success'}
+              size={'xs'}
+              type={'submit'}
+              value={doneText}
+              waiting={waiting}
+            />
           </div>
         )}
       </form>

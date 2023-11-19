@@ -11,7 +11,7 @@ interface Action {
 }
 
 interface Actions {
-  onEditDone: (args: EventHandlerArgs<'text-editor.edit/done'>) => void;
+  onEditDone: (args: EventHandlerArgs<'text-editor.edit/done'>) => void | Promise<void>;
   onEditCancel: (args: EventHandlerArgs<'text-editor.edit/cancel'>) => void;
   onTextUpdate: (args: EventHandlerArgs<'text-editor.text/update'>) => void;
 }
@@ -167,7 +167,7 @@ sub('text-editor/reset', ({ state, params }) => {
 evt('text-editor.edit/done', async (args) => {
   const { params } = args;
   const { onEditDone } = textEditors[params.ref[0]];
-  onEditDone(args);
+  await onEditDone(args);
 });
 
 evt('text-editor.edit/cancel', async (args) => {

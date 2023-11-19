@@ -1,8 +1,16 @@
 import { formatCount } from '@elements/utils';
 import { cva } from 'cva';
 import type { ComponentType, ForwardedRef, HTMLProps } from 'react';
-import { type ComponentProps, forwardRef, memo, type MouseEvent, useCallback } from 'react';
+import {
+  type ComponentProps,
+  forwardRef,
+  memo,
+  type MouseEvent,
+  useCallback,
+  useState,
+} from 'react';
 import { Link } from '@elements/components/link';
+import isBoolean from 'lodash/isBoolean';
 
 // TODO Refactor to have proper shadows and padding
 const containerVariant = cva('relative flex items-center justify-center rounded-md default-focus', {
@@ -23,7 +31,7 @@ const containerVariant = cva('relative flex items-center justify-center rounded-
       md: 'text-base gap-3 px-4 h-[40px] font-medium',
     },
     disabled: {
-      false: 'cursor-pointer ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
+      false: 'ease-out hover:translate-y-[0.5px] hover:shadow-none transition-all',
       true: 'cursor-default shadow-none',
     },
     waiting: {
@@ -177,6 +185,7 @@ export interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'size' |
   'data-event-id'?: string;
   iconOnly?: boolean;
   waiting?: boolean;
+  async?: boolean;
 }
 
 const Button_ = forwardRef(
@@ -196,17 +205,26 @@ const Button_ = forwardRef(
       clicked,
       onClick,
       iconOnly,
+      async,
       waiting,
       ...props
     }: ButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
+    const [waitingOnClick, setWaitingOnClick] = useState(false);
+
     const onClickMemo = useCallback(
-      (e: any) => {
-        onClick && !disabled && onClick(e);
+      async (e: any) => {
+        if (onClick && !disabled) {
+          async && setWaitingOnClick(true);
+          await onClick(e);
+          async && setWaitingOnClick(false);
+        }
       },
-      [onClick, disabled]
+      [onClick, disabled, async]
     );
+
+    const isWaiting = isBoolean(waiting) ? waiting : waitingOnClick;
 
     return (
       <button
@@ -220,7 +238,7 @@ const Button_ = forwardRef(
           clicked: !!clicked,
           hasText: !!value,
           className: containerClassName,
-          waiting: !!waiting,
+          waiting: isWaiting,
         })}
         data-event-category={'button'}
         disabled={!!disabled || !!waiting}

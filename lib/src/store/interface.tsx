@@ -3,14 +3,19 @@ import { createContext, memo, useCallback, useContext, useMemo } from 'react';
 import type { Events, Subs } from '@elements/store/types';
 
 export type Read = <T extends keyof Subs>(id: T, params?: Subs[T]['params']) => Subs[T]['result'];
-export type Dispatch = <T extends keyof Events>(id: T, params?: Events[T]['params']) => void;
+export type Dispatch = <T extends keyof Events>(
+  id: T,
+  params?: Events[T]['params']
+) => void | Promise<void>;
 
 export type ValueHook = <T extends keyof Subs>(
   id: T,
   params?: Subs[T]['params']
 ) => Subs[T]['result'];
 
-export type DispatchHook = <T extends keyof Events>(id: T) => (params: Events[T]['params']) => void;
+export type DispatchHook = <T extends keyof Events>(
+  id: T
+) => (params: Events[T]['params']) => void | Promise<void>;
 
 interface StoreContextType {
   useValueImpl: ValueHook;

@@ -70,8 +70,8 @@ export const TextEditor = suspensify(
       editCancel(reference);
     }, [reference, editCancel]);
 
-    const onDone = useCallback(() => {
-      editDone(reference);
+    const onDone = useCallback(async () => {
+      await editDone(reference);
     }, [reference, editDone]);
 
     const showNoContent = isEmpty(content) && noContent && !isEditing;
