@@ -1,4 +1,4 @@
-### Latest Update - 18th Nov 2023
+### Latest Update - 19th Nov 2023
 
 #### Product
 
@@ -7,7 +7,9 @@
 
 #### Engineering
 
-All the backend and infrastructure work required for uploading images and serving them.
+- Fix Issue location map initial render when there is just one location.
+- New automatic waiting UI for buttons
+- Use waiting UI for text editor posting buttons
 
 ---
 
