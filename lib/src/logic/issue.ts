@@ -25,7 +25,7 @@ import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
 import type { Image } from '@elements/components/media-gallery';
 
-type TabId = 'home' | 'discuss' | 'media' | 'locations';
+export type TabId = 'issue.tab/home' | 'issue.tab/discuss' | 'issue.tab/media' | 'issue.tab/spots';
 
 export interface Location extends LatLng {
   id: string;

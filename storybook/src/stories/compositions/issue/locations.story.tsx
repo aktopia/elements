@@ -1,4 +1,4 @@
-import { Locations as Component } from '@elements/compositions/issue/locations';
+import { Spots as Component } from '@elements/compositions/issue/spots';
 import { store } from '@story/stores/issue/locations';
 import { mockStory } from '@story/utils/mock-story';
 

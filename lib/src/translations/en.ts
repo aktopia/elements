@@ -28,6 +28,7 @@ const common = {
   'common/you': 'You',
   'common/media': 'Media',
   'common/locations': 'Locations',
+  'common/spots': 'Spots',
   'common/name': 'Name',
   'common/user': 'User',
   'common/relationships': 'Relationships',
@@ -76,8 +77,8 @@ const issue = {
   'issue.resolution/empty':
     "You haven't added a resolution yet. Describe what an ideal resolution for this issue should be.",
   'issue/expected-resolution': 'Expected Resolution',
-  'issue.location.slide-over/location-list': 'Issue Locations',
-  'issue.location.slide-over/empty': 'No locations have been added yet.',
+  'issue.spots.slide-over/list': 'Issue Spots',
+  'issue.spots.slide-over/empty': 'No spots have been added yet.',
   'issue.locality/add': 'Choose issue locality',
   'issue.locality/update': 'Update issue locality',
   'issue.locality/description': 'The locality around which the issue is centered.',
@@ -97,6 +98,7 @@ const issue = {
   'issue/severity': 'Severity',
   'issue/facing': 'Facing',
   'issue.facing.tooltip/text': "Raise hand if you're directly affected by this issue.",
+  'issue.media/description': 'Images related to the issue.',
 };
 
 const update = {

@@ -110,13 +110,13 @@ const LocationsListSlideOver = suspensify(({ locations, setMapCenter }: SlideOve
   return (
     <SlideOver visible={visible} onClose={onClose}>
       <SlideOverHeader>
-        <SlideOverTitle title={t('issue.location.slide-over/location-list')} />
+        <SlideOverTitle title={t('issue.spots.slide-over/list')} />
         <SlideOverCloseButton onClick={onClose} />
       </SlideOverHeader>
       <SlideOverBody>
         {emptyLocations ? (
           <p className={'md:w-[400px] w-full text-center text-gray-400'}>
-            {t('issue.location.slide-over/empty')}
+            {t('issue.spots.slide-over/empty')}
           </p>
         ) : (
           <div className={'flex flex-col gap-7'}>
@@ -136,7 +136,7 @@ const LocationsListSlideOver = suspensify(({ locations, setMapCenter }: SlideOve
 });
 
 const ViewList = ({ onClick }: { onClick: () => void }) => {
-  const text = 'List Locations';
+  const text = 'List Spots';
   return (
     <Button
       Icon={ListBulletOutline}
@@ -149,7 +149,7 @@ const ViewList = ({ onClick }: { onClick: () => void }) => {
 };
 
 const StartAddLocation = ({ show, onClick }: { onClick: () => void; show: boolean }) => {
-  const text = 'Add Location';
+  const text = 'Add Spot';
   return show ? (
     <Button Icon={MapPinSolid} kind={'primary'} size={'sm'} value={text} onClick={onClick} />
   ) : null;
@@ -184,7 +184,7 @@ const AddLocation = ({
         className={
           'grow rounded-md border-none text-gray-600 placeholder-gray-400 bg-gray-100 py-1.5 px-2'
         }
-        placeholder={'A caption to identify the location'}
+        placeholder={'A caption to identify the spot'}
         type={'text'}
         {...register('caption', { required: true })}
       />
@@ -196,7 +196,7 @@ const AddLocation = ({
   ) : null;
 };
 
-export const Locations = suspensify(({ refId }: { refId: string }) => {
+export const Spots = suspensify(({ refId }: { refId: string }) => {
   const mapRef = useRef<MapHandle>(null);
   const [addingLocation, setAddingLocation] = useState(false);
   const [dragging, setDragging] = useState(false);
