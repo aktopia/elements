@@ -188,7 +188,7 @@ export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
             <AddMedia onChoose={onChoose} />
           </div>
         ) : (
-          <div className={'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 w-full'}>
+          <div className={'grid grid-cols-2 gap-8 lg:grid-cols-4 w-full'}>
             <AddMedia onChoose={onChoose} />
             {images.map((image) => (
               <ImageThumbnail key={image.id} image={image} onClick={onLightboxOpen} />
