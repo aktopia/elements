@@ -21,14 +21,14 @@ function genImgUrl(id: string, params?: Record<string, any>) {
       edits: { contentModeration: true, ...params },
     })
   );
-  return `/image/${imageRequest}`;
+  return `https://aktopia.com/image/${imageRequest}`;
 }
 
 const AddMedia = ({ onChoose }: any) => {
   const text = 'Add Media';
   const id = useId();
   return (
-    <form>
+    <form className={'h-40'}>
       <label
         className={
           'duration-250 group flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 transition ease-in-out  sm:hover:border-gray-400'
@@ -183,18 +183,14 @@ export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
       <UploadPreview image={imageToUpload} onClose={onUploadPreviewClose} onUpload={onUpload} />
       <div className={'flex flex-col items-center space-y-4'}>
         {/*<p className={'text-xs text-gray-400'}>{t('media-gallery.drag-and-drop/hint')}</p>*/}
-        {noImages ? (
-          <div className={'flex items-center justify-center'}>
-            <AddMedia onChoose={onChoose} />
-          </div>
-        ) : (
-          <div className={'grid grid-cols-2 gap-8 lg:grid-cols-4 w-full'}>
-            <AddMedia onChoose={onChoose} />
-            {images.map((image) => (
-              <ImageThumbnail key={image.id} image={image} onClick={onLightboxOpen} />
-            ))}
-          </div>
-        )}
+        <div className={'grid grid-cols-2 gap-8 lg:grid-cols-4 w-full'}>
+          <AddMedia onChoose={onChoose} />
+          {noImages
+            ? null
+            : images.map((image) => (
+                <ImageThumbnail key={image.id} image={image} onClick={onLightboxOpen} />
+              ))}
+        </div>
       </div>
     </>
   );
@@ -214,5 +210,4 @@ TODO
 - Show caption on hover
 - Get caption
 - Delete image and confirmation
-
  */
