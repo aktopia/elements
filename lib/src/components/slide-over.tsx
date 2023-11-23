@@ -19,13 +19,19 @@ export const SlideOverBody = memo(({ children }: { children: ReactNode }) => {
   return <div className={'relative mt-5 mb-10 flex-1 px-4 sm:px-6'}>{children}</div>;
 });
 
-export const SlideOverCloseButton = memo(({ onClick }: { onClick: () => void }) => {
-  return (
-    <button className={'flex justify-center items-center'} type={'button'} onClick={onClick}>
-      <XMarkSolid className={'h-6 w-6 text-gray-400'} />
-    </button>
-  );
-});
+export const SlideOverCloseButton = memo(
+  ({ onClick, disabled = false }: { onClick: () => void; disabled?: boolean }) => {
+    return (
+      <button
+        className={'flex justify-center items-center'}
+        disabled={disabled}
+        type={'button'}
+        onClick={onClick}>
+        <XMarkSolid className={'h-6 w-6 text-gray-400'} />
+      </button>
+    );
+  }
+);
 
 export const SlideOverFooter = ({
   onCancel,

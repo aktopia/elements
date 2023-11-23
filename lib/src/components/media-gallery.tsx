@@ -123,7 +123,7 @@ export const Lightbox = ({ image, onClose }: any) => {
 const UploadPreview = ({ image, onClose, onUpload }: any) => {
   const visible = !!image;
   const imgSrc = visible ? URL.createObjectURL(image) : '';
-  const description = '';
+  const description = ''; // TODO i18n
 
   const [waiting, setWaiting] = useState(false);
 
@@ -134,18 +134,20 @@ const UploadPreview = ({ image, onClose, onUpload }: any) => {
     setWaiting(false);
   }, [image, onUpload, onClose]);
 
+  const title = waiting ? 'Uploading...' : 'Upload Image'; // TODO i18n
+
   return (
     <SlideOver visible={visible} onClose={onClose}>
       <div className={'relative flex h-full flex-col justify-between'}>
         <div>
           <SlideOverHeader>
-            <SlideOverTitle title={'Upload Image'} />
-            <SlideOverCloseButton onClick={onClose} />
+            <SlideOverTitle title={title} />
+            <SlideOverCloseButton disabled={waiting} onClick={onClose} />
           </SlideOverHeader>
           <SlideOverBody>
-            <div className={'flex h-fit  md:w-[400px] w-full gap-10 flex-col'}>
+            <div className={'flex h-fit md:w-[400px] w-full gap-10 flex-col'}>
               <p className={'text-gray-500 text-base'}>{description}</p>
-              <img alt={'upload-preview'} src={imgSrc} />
+              <img alt={'upload-preview'} className={cx(waiting && 'animate-pulse')} src={imgSrc} />
             </div>
           </SlideOverBody>
         </div>
