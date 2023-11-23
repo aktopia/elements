@@ -42,8 +42,6 @@ export type Subs = {
   'issue/updated-at': Sub<{ 'issue/id': string }, number>;
   'issue.resolution/text': Sub<{ 'issue/id': string }, string>;
   'issue.description/text': Sub<{ 'issue/id': string }, string>;
-  'issue.location.default/center': Sub<{ 'issue/id': string }, LatLng>;
-  'issue.location.default/zoom': Sub<{ 'issue/id': string }, number>;
   'issue.location.slide-over/visible': Sub<{}, boolean>;
   'issue.create.modal/title': Sub<{}, string>;
   'issue.create.modal/visible': Sub<{}, boolean>;
@@ -141,8 +139,6 @@ remoteSub('issue.title/can-edit');
 remoteSub('issue.description/can-edit');
 remoteSub('issue.resolution/can-edit');
 remoteSub('issue/locations');
-remoteSub('issue.location.default/center');
-remoteSub('issue.location.default/zoom');
 remoteSub('issue.severity/score');
 remoteSub('issue.severity.score/votes');
 remoteSub('issue.current.user.severity/score');

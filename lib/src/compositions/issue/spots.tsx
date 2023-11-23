@@ -202,8 +202,8 @@ export const Spots = suspensify(({ refId }: { refId: string }) => {
   const [dragging, setDragging] = useState(false);
 
   const locations = useValue('issue/locations', { 'issue/id': refId });
-  const center = useValue('issue.location.default/center', { 'issue/id': refId });
-  const zoom = useValue('issue.location.default/zoom', { 'issue/id': refId });
+  const center = useValue('user.locality/location');
+  const zoom = useValue('user.locality/zoom');
 
   const onViewListClick = useDispatch('issue.location.slide-over/open') as () => void;
   const onAddLocation = useDispatch('issue.location/add');
