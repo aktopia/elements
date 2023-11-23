@@ -25,7 +25,12 @@ import { type LatLng } from '@elements/components/map';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 
-export type TabId = 'home' | 'discuss' | 'updates';
+export enum ActionTab {
+  Home = 'action.tab/home',
+  Discuss = 'action.tab/discuss',
+  Updates = 'action.tab/updates',
+}
+
 export type SwitchId = 'work' | 'funding';
 
 export enum ActionStatus {
@@ -36,7 +41,7 @@ export enum ActionStatus {
 }
 
 export type Subs = {
-  'action.tabs/active-tab': Sub<{}, TabId>;
+  'action.tabs/active-tab': Sub<{}, ActionTab>;
   'action.progress-bar.switches/active-switch': Sub<{}, string>;
   'action.title/text': Sub<{ 'action/id': string }, string>;
   'action.description/text': Sub<{ 'action/id': string }, string>;
@@ -82,7 +87,7 @@ export type Events = {
   'action/unbump': Evt<{}>;
   'action/fund': Evt<{}>;
   'action.progress-bar.switches/update': Evt<{ 'switch/id': SwitchId }>;
-  'action.tabs/update': Evt<{ 'tab/id': TabId }>;
+  'action.tabs/update': Evt<{ 'tab/id': ActionTab }>;
   'action.create.modal/open': Evt<{}>;
   'action.create.modal/close': Evt<{}>;
   'action.create.modal.title/update': Evt<{ value: string }>;
@@ -100,7 +105,7 @@ export type Events = {
 
 export const actionSlice = () => ({
   'action/state': {
-    'action.tabs/active-tab': 'home',
+    'action.tabs/active-tab': ActionTab.Home,
     'action.progress-bar.switches/active-switch': 'work',
     'action.create.modal/visible': false,
     'action.create.modal/title': '',
@@ -245,7 +250,7 @@ evt('action.create.modal.title/update', ({ setState, params }) => {
 
 evt('navigated.action/view', ({ params }) => {
   const id = params.route.pathParams.id;
-  const tab = params.route.hashParams.tab as TabId;
+  const tab = params.route.hashParams.tab as ActionTab;
   if (tab) {
     dispatch('action.tabs/update', { 'tab/id': tab });
   }

@@ -19,7 +19,7 @@ import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 import { useLookupRef, useWrapRequireAuth } from '@elements/store/hooks';
 import { Status } from '@elements/logic/meta/initiative';
-import type { TabId } from '@elements/logic/issue';
+import { IssueTab } from '@elements/logic/issue';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
@@ -101,12 +101,12 @@ export const SubscriptionBar = suspensify(() => {
 export const IssueTabs = suspensify(() => {
   const t = useTranslation();
   const activeTabId = useValue('issue.tabs/active-tab');
-  const tabs: { id: TabId; label: string }[] = useMemo(
+  const tabs: { id: IssueTab; label: string }[] = useMemo(
     () => [
-      { id: 'issue.tab/home', label: t('common/home') },
-      { id: 'issue.tab/media', label: t('common/media') },
-      { id: 'issue.tab/spots', label: t('common/spots') },
-      { id: 'issue.tab/discuss', label: t('common/discuss') },
+      { id: IssueTab.Home, label: t('common/home') },
+      { id: IssueTab.Media, label: t('common/media') },
+      { id: IssueTab.Spots, label: t('common/spots') },
+      { id: IssueTab.Discuss, label: t('common/discuss') },
     ],
     [t]
   );

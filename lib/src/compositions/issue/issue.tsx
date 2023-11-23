@@ -6,6 +6,7 @@ import { Media } from '@elements/compositions/issue/media';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 import { useLookupRef } from '@elements/store/hooks';
+import { IssueTab } from '@elements/logic/issue';
 
 export const Issue = wrapPage(() => {
   const activeTabId = useValue('issue.tabs/active-tab');
@@ -14,16 +15,16 @@ export const Issue = wrapPage(() => {
   let tab;
 
   switch (activeTabId) {
-    case 'issue.tab/home':
+    case IssueTab.Home:
       tab = <Home suspenseLines={12} />;
       break;
-    case 'issue.tab/discuss':
+    case IssueTab.Discuss:
       tab = <Discuss lookupRef={ref} suspenseLines={12} />;
       break;
-    case 'issue.tab/media':
+    case IssueTab.Media:
       tab = <Media issueId={issueId} />;
       break;
-    case 'issue.tab/spots':
+    case IssueTab.Spots:
       tab = <Spots refId={issueId} suspenseLines={5} />;
       break;
     default:

@@ -21,7 +21,7 @@ import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 import { Status } from '@elements/logic/meta/initiative';
 import type { SwitchId } from '@elements/logic/action';
-import { ActionStatus } from '@elements/logic/action';
+import { ActionStatus, ActionTab } from '@elements/logic/action';
 import { useIsCompactViewport, useLookupRef } from '@elements/store/hooks';
 import { type ItemType } from '@elements/components/dropdown';
 import { ContextMenu } from '@elements/components/context-menu';
@@ -239,10 +239,10 @@ export const ActionTabs = suspensify(() => {
   const activeTabId = useValue('action.tabs/active-tab');
   const tabs = useMemo(
     () => [
-      { id: 'home', label: t('common/home') },
+      { id: ActionTab.Home, label: t('common/home') },
       // { id: 'funding', label: t('common/funding') },
-      { id: 'updates', label: t('common/updates') },
-      { id: 'discuss', label: t('common/discuss') },
+      { id: ActionTab.Updates, label: t('common/updates') },
+      { id: ActionTab.Discuss, label: t('common/discuss') },
       // { id: 'team', label: t('common/team') },
     ],
     [t]

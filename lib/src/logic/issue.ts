@@ -25,7 +25,12 @@ import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
 import type { Image } from '@elements/components/media-gallery';
 
-export type TabId = 'issue.tab/home' | 'issue.tab/discuss' | 'issue.tab/media' | 'issue.tab/spots';
+export enum IssueTab {
+  Home = 'issue.tab/home',
+  Discuss = 'issue.tab/discuss',
+  Media = 'issue.tab/media',
+  Spots = 'issue.tab/spots',
+}
 
 export interface Location extends LatLng {
   id: string;
@@ -38,7 +43,7 @@ export type Subs = {
   'issue/followed': Sub<{}, boolean>;
   'issue.follow/count': Sub<{}, number>;
   'issue.title/text': Sub<{ 'issue/id': string }, string>;
-  'issue.tabs/active-tab': Sub<{}, TabId>;
+  'issue.tabs/active-tab': Sub<{}, IssueTab>;
   'issue/updated-at': Sub<{ 'issue/id': string }, number>;
   'issue.resolution/text': Sub<{ 'issue/id': string }, string>;
   'issue.description/text': Sub<{ 'issue/id': string }, string>;
@@ -94,7 +99,7 @@ export type Events = {
 
 export const issueSlice = () => ({
   'issue/state': {
-    'issue.tabs/active-tab': 'home',
+    'issue.tabs/active-tab': IssueTab.Home,
     'issue.create.modal/visible': false,
     'issue.create.modal/title': '',
     'issue.location.slide-over/visible': false,

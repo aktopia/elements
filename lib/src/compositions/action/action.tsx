@@ -6,7 +6,7 @@ import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 import { useLookupRef } from '@elements/store/hooks';
 import { NotFound } from '@elements/compositions/not-found';
-import { ActionStatus } from '@elements/logic/action';
+import { ActionStatus, ActionTab } from '@elements/logic/action';
 import { InformationCircleOutline } from '@elements/icons';
 import { useTranslation } from '@elements/translation';
 
@@ -31,17 +31,17 @@ const Action_ = ({ actionId }: { actionId: string }) => {
   let tab;
 
   switch (activeTabId) {
-    case 'home':
+    case ActionTab.Home:
       tab = <Home suspenseLines={12} />;
       break;
-    case 'updates':
+    case ActionTab.Updates:
       tab = isDraft ? (
         <Unavailable text={t('action.updates/unavailable')} />
       ) : (
         <Updates lookupRef={ref} suspenseLines={12} />
       );
       break;
-    case 'discuss':
+    case ActionTab.Discuss:
       tab = isDraft ? (
         <Unavailable text={t('action.discussion/unavailable')} />
       ) : (
