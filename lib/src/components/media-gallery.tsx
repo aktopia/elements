@@ -12,6 +12,10 @@ import { cx } from '@elements/utils';
 import { Spinner } from '@elements/components/spinner';
 import { useDispatch } from '@elements/store';
 import { useTranslation } from '@elements/translation';
+import { useWrapRequireAuth } from '@elements/store/hooks';
+
+const IMAGE_FORMATS_ACCEPT =
+  'image/png,image/jpeg,image/gif,image/webp,image/avif,image/tiff,image/svg+xml,image/bmp,image/heif,image/heic';
 
 export interface Image {
   id: string;
@@ -58,7 +62,13 @@ const AddMedia = ({ onChoose }: any) => {
           {text}
         </p>
       </label>
-      <input className={'hidden'} id={id} type={'file'} onInput={onChoose} />
+      <input
+        accept={IMAGE_FORMATS_ACCEPT}
+        className={'hidden'}
+        id={id}
+        type={'file'}
+        onInput={onChoose}
+      />
     </form>
   );
 };
@@ -236,7 +246,7 @@ export const MediaGallery = ({ images, onUpload, onDelete }: MediaGalleryProps) 
 
   const noImages = !!images ? images.length === 0 : true;
 
-  const onChoose = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const onChoose = useWrapRequireAuth((e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     files && setImageToUpload(files[0]);
   }, []);
@@ -263,15 +273,11 @@ export const MediaGallery = ({ images, onUpload, onDelete }: MediaGalleryProps) 
 /*
 TODO
 - Dropzone
-- Restrict image types and size
-- Lightbox image loading
-- Thumbnail image loading
+- Restrict image size
 - Max photos
 - Accessibility
-- Image upload loading
 - Image upload error
 - Image upload success and focus on new image
 - Show caption on hover
 - Get caption
-- Delete image and confirmation
  */
