@@ -1,20 +1,11 @@
-### Latest Update - 23rd Nov 2023
+### Latest Update - 24th Nov 2023
 
 #### Product
 
-- Add more feedback with spinners when the image is loading and uploading.
+- The ability to delete an image from an issue.
 
 #### Engineering
 
-- Fix Issue location map initial render when there is just one location.
-- New automatic waiting UI for buttons
-- Use waiting UI for text editor posting buttons
+- All the backend work for deleting an image from an issue by an authorized user.
 
 ---
-
-#### What's Next
-
-##### Refining the issue image upload experience.
-
-- Mandatory caption for the issue
-- Ability to delete the image
