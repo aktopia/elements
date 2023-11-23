@@ -8,6 +8,7 @@ import {
   SlideOverHeader,
   SlideOverTitle,
 } from '@elements/components/slide-over';
+import { cx } from '@elements/utils';
 
 export interface Image {
   id: string;
@@ -21,6 +22,7 @@ function genImgUrl(id: string, params?: Record<string, any>) {
       edits: { contentModeration: true, ...params },
     })
   );
+  // FIXME Once dev images are setup, use relative url
   return `https://aktopia.com/image/${imageRequest}`;
 }
 
@@ -130,21 +132,29 @@ const UploadPreview = ({ image, onClose, onUpload }: any) => {
 };
 
 const ImageThumbnail = ({ image, onClick }: any) => {
+  const imgSrc = genImgUrl(image.id, { resize: { width: 400 } });
+
+  const [loading, setLoading] = useState(true);
+
   const onClick_ = useCallback(() => {
     onClick(image);
   }, [image, onClick]);
 
-  const { id } = image;
+  const onLoaded = useCallback(() => {
+    setLoading(false);
+  }, []);
 
   return (
-    <div key={id} className={'flex flex-col gap-3'}>
-      <img
-        alt={'media'}
-        className={'h-40 w-full cursor-pointer rounded-lg bg-black object-cover shadow-lg'}
-        src={genImgUrl(id, { resize: { width: 400, height: 400 } })}
-        onClick={onClick_}
-      />
-    </div>
+    <img
+      alt={'media'}
+      className={cx(
+        'h-40 w-full cursor-pointer rounded-lg bg-gray-300 object-cover shadow-lg',
+        loading && 'animate-pulse'
+      )}
+      src={imgSrc}
+      onClick={onClick_}
+      onLoad={onLoaded}
+    />
   );
 };
 
