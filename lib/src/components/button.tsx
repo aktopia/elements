@@ -1,16 +1,8 @@
 import { formatCount } from '@elements/utils';
 import { cva } from 'cva';
 import type { ComponentType, ForwardedRef, HTMLProps } from 'react';
-import {
-  type ComponentProps,
-  forwardRef,
-  memo,
-  type MouseEvent,
-  useCallback,
-  useState,
-} from 'react';
+import { type ComponentProps, forwardRef, memo, type MouseEvent, useCallback } from 'react';
 import { Link } from '@elements/components/link';
-import isBoolean from 'lodash/isBoolean';
 
 // TODO Refactor to have proper shadows and padding
 const containerVariant = cva('relative flex items-center justify-center rounded-md default-focus', {
@@ -185,7 +177,6 @@ export interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'size' |
   'data-event-id'?: string;
   iconOnly?: boolean;
   waiting?: boolean;
-  async?: boolean;
 }
 
 const Button_ = forwardRef(
@@ -205,26 +196,17 @@ const Button_ = forwardRef(
       clicked,
       onClick,
       iconOnly,
-      async,
-      waiting,
+      waiting = false,
       ...props
     }: ButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
-    const [waitingOnClick, setWaitingOnClick] = useState(false);
-
     const onClickMemo = useCallback(
-      async (e: any) => {
-        if (onClick && !disabled) {
-          async && setWaitingOnClick(true);
-          await onClick(e);
-          async && setWaitingOnClick(false);
-        }
+      (e: any) => {
+        onClick && !disabled && onClick(e);
       },
-      [onClick, disabled, async]
+      [onClick, disabled]
     );
-
-    const isWaiting = isBoolean(waiting) ? waiting : waitingOnClick;
 
     return (
       <button
@@ -238,7 +220,7 @@ const Button_ = forwardRef(
           clicked: !!clicked,
           hasText: !!value,
           className: containerClassName,
-          waiting: isWaiting,
+          waiting,
         })}
         data-event-category={'button'}
         disabled={!!disabled || !!waiting}
