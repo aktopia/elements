@@ -62,6 +62,7 @@ export type Subs = {
   'issue.locality/location': Sub<{ 'issue/id': string }, LatLng>;
   'issue.locality/zoom': Sub<{ 'issue/id': string }, number>;
   'issue/images': Sub<{ 'issue/id': string }, Image[]>;
+  'issue.image/can-delete': Sub<{ 'issue/id': string }, boolean>;
 };
 
 export type Events = {
@@ -150,6 +151,7 @@ remoteSub('issue.locality/name');
 remoteSub('issue.locality/location');
 remoteSub('issue.locality/zoom');
 remoteSub('issue/images');
+remoteSub('issue.image/can-delete');
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);

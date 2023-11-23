@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 
 export const Media = suspensify(({ issueId }: { issueId: string }) => {
   const images = useValue('issue/images', { 'issue/id': issueId });
+  const canDelete = useValue('issue.image/can-delete', { 'issue/id': issueId });
   const uploadImage = useDispatch('issue.image/add');
   const deleteImage = useDispatch('issue.image/delete');
 
@@ -22,5 +23,7 @@ export const Media = suspensify(({ issueId }: { issueId: string }) => {
     [deleteImage, issueId]
   );
 
-  return <MediaGallery images={images} onDelete={onDelete} onUpload={onUpload} />;
+  return (
+    <MediaGallery canDelete={canDelete} images={images} onDelete={onDelete} onUpload={onUpload} />
+  );
 });

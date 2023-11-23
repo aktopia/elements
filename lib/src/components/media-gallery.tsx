@@ -73,7 +73,7 @@ const AddMedia = ({ onChoose }: any) => {
   );
 };
 
-export const Lightbox = ({ image, onClose, onDelete }: any) => {
+export const Lightbox = ({ image, onClose, onDelete, canDelete }: any) => {
   const t = useTranslation();
   const imgRef = useRef<HTMLImageElement>(null);
   const [loading, setLoading] = useState(true);
@@ -126,9 +126,11 @@ export const Lightbox = ({ image, onClose, onDelete }: any) => {
       <div className={'fixed inset-0 z-overlay bg-black opacity-95'} />
       <div className={'fixed inset-0 z-modal flex h-full flex-col items-center justify-between'}>
         <div className={'flex w-full items-center justify-end gap-10 px-5 py-5'}>
-          <button className={'flex h-max focus:outline-none'} type={'button'} onClick={onDelete_}>
-            <TrashOutline className={'h-6 w-6 text-white'} />
-          </button>
+          {canDelete ? (
+            <button className={'flex h-max focus:outline-none'} type={'button'} onClick={onDelete_}>
+              <TrashOutline className={'h-6 w-6 text-white'} />
+            </button>
+          ) : null}
           <button className={'flex h-max focus:outline-none'} type={'button'} onClick={onClose}>
             <XMarkSolid className={'h-7 w-7 text-white'} />
           </button>
@@ -225,9 +227,10 @@ interface MediaGalleryProps {
   images: Image[];
   onUpload: ({ file, caption }: { file: File; caption: string }) => void;
   onDelete: (args: { imageId: string }) => void;
+  canDelete: boolean;
 }
 
-export const MediaGallery = ({ images, onUpload, onDelete }: MediaGalleryProps) => {
+export const MediaGallery = ({ images, onUpload, onDelete, canDelete }: MediaGalleryProps) => {
   // const t = useTranslation(); // TODO Maybe a pure component shouldn't use translation?
   const [image, setImage] = useState<Image | null>(null);
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
@@ -253,7 +256,7 @@ export const MediaGallery = ({ images, onUpload, onDelete }: MediaGalleryProps) 
 
   return (
     <>
-      <Lightbox image={image} onClose={onLightboxClose} onDelete={onDelete} />
+      <Lightbox canDelete={canDelete} image={image} onClose={onLightboxClose} onDelete={onDelete} />
       <UploadPreview image={imageToUpload} onClose={onUploadPreviewClose} onUpload={onUpload} />
       <div className={'flex flex-col items-center space-y-4'}>
         {/*<p className={'text-xs text-gray-400'}>{t('media-gallery.drag-and-drop/hint')}</p>*/}
@@ -278,6 +281,5 @@ TODO
 - Accessibility
 - Image upload error
 - Image upload success and focus on new image
-- Show caption on hover
-- Get caption
+- Image download caption and extension
  */
