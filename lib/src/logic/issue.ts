@@ -90,6 +90,7 @@ export type Events = {
   'navigated.issue/view': Evt<{ route: Match }>;
   'navigated.issue/new': Evt<{ route: Match }>;
   'issue.image/add': Evt<{ file: File; 'issue/id': string; caption: string }>;
+  'issue.image/delete': Evt<{ 'image/id': string; 'issue/id': string }>;
 };
 
 export const issueSlice = () => ({
@@ -372,6 +373,15 @@ evt('issue.image/add', async ({ params }) => {
     // TODO Handle error properly
     console.error(e);
   }
+});
+
+evt('issue.image/delete', async ({ params }) => {
+  await rpcPost('issue.image/delete', {
+    'issue/id': params['issue/id'],
+    'image/id': params['image/id'],
+  });
+
+  await invalidateAsyncSub('issue/images', { 'issue/id': params['issue/id'] });
 });
 
 registerTextEditor('issue.title/text', {

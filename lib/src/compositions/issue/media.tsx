@@ -5,14 +5,22 @@ import { useCallback } from 'react';
 
 export const Media = suspensify(({ issueId }: { issueId: string }) => {
   const images = useValue('issue/images', { 'issue/id': issueId });
-  const upload = useDispatch('issue.image/add');
+  const uploadImage = useDispatch('issue.image/add');
+  const deleteImage = useDispatch('issue.image/delete');
 
   const onUpload = useCallback(
     async ({ file, caption }: { file: File; caption: string }) => {
-      await upload({ file, caption, 'issue/id': issueId });
+      await uploadImage({ file, caption, 'issue/id': issueId });
     },
-    [upload, issueId]
+    [uploadImage, issueId]
   );
 
-  return <MediaGallery images={images} onUpload={onUpload} />;
+  const onDelete = useCallback(
+    async ({ imageId }: { imageId: string }) => {
+      await deleteImage({ 'image/id': imageId, 'issue/id': issueId });
+    },
+    [deleteImage, issueId]
+  );
+
+  return <MediaGallery images={images} onDelete={onDelete} onUpload={onUpload} />;
 });

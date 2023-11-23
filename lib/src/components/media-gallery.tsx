@@ -1,4 +1,4 @@
-import { PhotoOutline, PlusOutline, XMarkSolid } from '@elements/icons';
+import { PhotoOutline, PlusOutline, TrashOutline, XMarkSolid } from '@elements/icons';
 import { type ChangeEvent, useCallback, useEffect, useId, useRef, useState } from 'react';
 import {
   SlideOver,
@@ -10,6 +10,7 @@ import {
 } from '@elements/components/slide-over';
 import { cx } from '@elements/utils';
 import { Spinner } from '@elements/components/spinner';
+import { ConfirmationModal } from '@elements/compositions/confirmation-modal';
 
 export interface Image {
   id: string;
@@ -61,7 +62,7 @@ const AddMedia = ({ onChoose }: any) => {
   );
 };
 
-export const Lightbox = ({ image, onClose }: any) => {
+export const Lightbox = ({ image, onClose, onDelete }: any) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [loading, setLoading] = useState(true);
 
@@ -76,6 +77,11 @@ export const Lightbox = ({ image, onClose }: any) => {
   const onLoad = useCallback(() => {
     setLoading(false);
   }, []);
+
+  const onDelete_ = useCallback(async () => {
+    await onDelete({ imageId: image.id });
+    onClose();
+  }, [image, onDelete, onClose]);
 
   if (!image) {
     return null;
@@ -97,11 +103,11 @@ export const Lightbox = ({ image, onClose }: any) => {
     <>
       <div className={'fixed inset-0 z-overlay bg-black opacity-95'} />
       <div className={'fixed inset-0 z-modal flex h-full flex-col items-center justify-between'}>
-        <div className={'flex w-full items-center justify-end px-5 py-5'}>
-          <button
-            className={'flex h-max w-full items-center justify-end text-end focus:outline-none'}
-            type={'button'}
-            onClick={onClose}>
+        <div className={'flex w-full items-end justify-end gap-7 px-5 py-5'}>
+          <button className={'flex h-max focus:outline-none'} type={'button'} onClick={onDelete_}>
+            <TrashOutline className={'h-7 w-7 text-white'} />
+          </button>
+          <button className={'flex h-max focus:outline-none'} type={'button'} onClick={onClose}>
             <XMarkSolid className={'h-7 w-7 text-white'} />
           </button>
         </div>
@@ -196,9 +202,10 @@ const ImageThumbnail = ({ image, onClick }: any) => {
 interface MediaGalleryProps {
   images: Image[];
   onUpload: ({ file, caption }: { file: File; caption: string }) => void;
+  onDelete: (args: { imageId: string }) => void;
 }
 
-export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
+export const MediaGallery = ({ images, onUpload, onDelete }: MediaGalleryProps) => {
   // const t = useTranslation(); // TODO Maybe a pure component shouldn't use translation?
   const [image, setImage] = useState<Image | null>(null);
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
@@ -224,7 +231,7 @@ export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
 
   return (
     <>
-      <Lightbox image={image} onClose={onLightboxClose} />
+      <Lightbox image={image} onClose={onLightboxClose} onDelete={onDelete} />
       <UploadPreview image={imageToUpload} onClose={onUploadPreviewClose} onUpload={onUpload} />
       <div className={'flex flex-col items-center space-y-4'}>
         {/*<p className={'text-xs text-gray-400'}>{t('media-gallery.drag-and-drop/hint')}</p>*/}
@@ -237,6 +244,7 @@ export const MediaGallery = ({ images, onUpload }: MediaGalleryProps) => {
               ))}
         </div>
       </div>
+      <ConfirmationModal />
     </>
   );
 };
