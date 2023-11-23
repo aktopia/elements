@@ -1,4 +1,8 @@
-import { ArrowPathMiniSolid, ExclamationTriangleOutline } from '@elements/icons';
+import {
+  ArrowPathMiniSolid,
+  ExclamationTriangleOutline,
+  GlobeAmericasMiniSolid,
+} from '@elements/icons';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { Slider, SliderThumb, SliderTrack } from 'react-aria-components';
@@ -11,7 +15,7 @@ const SEVERITY_MIN = 0;
 const SEVERITY_MAX = 10;
 const SEVERITY_STEP = 1;
 
-const THUMB_OFFSET = -1;
+const THUMB_OFFSET = -12;
 
 const UserScoreThumb = ({ chosen }: any) => {
   return (
@@ -25,27 +29,27 @@ const UserScoreThumb = ({ chosen }: any) => {
   );
 };
 
-// const AverageScoreThumb = ({ score }: any) => {
-//   const percent = (score / SEVERITY_MAX) * 100;
-//   const p = `calc(${percent}% + ${THUMB_OFFSET}px)`;
-//
-//   return (
-//     <div
-//       className={
-//         'absolute -top-2 rounded-full border border-gray-300 bg-white p-px shadow-inner focus:outline-none'
-//       }
-//       style={{ left: p }}>
-//       <GlobeAmericasMiniSolid className={'h-5 w-5 text-gray-600'} />
-//     </div>
-//   );
-// };
-
 const AverageScoreThumb = ({ score }: any) => {
   const percent = (score / SEVERITY_MAX) * 100;
   const p = `calc(${percent}% + ${THUMB_OFFSET}px)`;
 
-  return <div className={'absolute -top-1.5 h-5 w-0.5 rounded bg-gray-600'} style={{ left: p }} />;
+  return (
+    <div
+      className={
+        'absolute -top-2 rounded-full border border-gray-300 bg-white p-px shadow-inner focus:outline-none'
+      }
+      style={{ left: p }}>
+      <GlobeAmericasMiniSolid className={'h-5 w-5 text-gray-600'} />
+    </div>
+  );
 };
+
+// const AverageScoreThumb = ({ score }: any) => {
+//   const percent = (score / SEVERITY_MAX) * 100;
+//   const p = `calc(${percent}% + ${THUMB_OFFSET}px)`;
+//
+//   return <div className={'absolute -top-1.5 h-5 w-0.5 rounded bg-gray-600'} style={{ left: p }} />;
+// };
 
 const SeverityScoreLabel = suspensify(() => {
   const t = useTranslation();
