@@ -1,18 +1,21 @@
 import { useDispatch, useValue } from '@elements/store';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { LookupRef } from '@elements/types';
 
 export const useWrapRequireAuth = (callback: Function, deps: Array<any>) => {
   const sessionExists = useValue('auth.session/exists');
   const promptSignIn = useDispatch('auth.sign-in/initiate');
 
-  return useCallback(() => {
-    if (!sessionExists) {
-      return promptSignIn({});
-    }
-    return callback();
+  return useCallback(
+    (...args: any[]) => {
+      if (!sessionExists) {
+        return promptSignIn({});
+      }
+      return callback(...args);
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionExists, promptSignIn, ...deps]);
+    [sessionExists, promptSignIn, ...deps]
+  );
 };
 
 export const useCurrentUserId = () => {
@@ -30,4 +33,20 @@ export const useIsCompactViewport = () => {
 
 export const useLookupRef = (attr: string, val: string) => {
   return useMemo(() => [attr, val], [attr, val]) as LookupRef;
+};
+
+export const useWrapWaiting = (callback: Function, initialValue: boolean, deps: Array<any>) => {
+  const [waiting, setWaiting] = useState<boolean>(initialValue);
+
+  const cb = useCallback(
+    async (...args: any[]) => {
+      setWaiting(true);
+      await callback(...args);
+      setWaiting(false);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...deps]
+  );
+
+  return [cb, waiting] as [typeof callback, typeof waiting];
 };

@@ -1,7 +1,8 @@
 import { CheckSolid, ExclamationTriangleOutline } from '@elements/icons';
 import { Button, type ButtonKind } from '@elements/components/button';
 import { Modal, ModalPanel, ModalTitle } from '@elements/components/modal';
-import { memo, useCallback, useState } from 'react';
+import { memo } from 'react';
+import { useWrapWaiting } from '@elements/store/hooks';
 
 const IconBadge = ({ kind }: { kind: any }) => {
   let component;
@@ -50,13 +51,7 @@ export const ConfirmationModal = memo(
     kind,
     cancelText,
   }: ConfirmationModalProps) => {
-    const [waiting, setWaiting] = useState(false);
-
-    const onConfirm_ = useCallback(async () => {
-      setWaiting(true);
-      await onConfirm();
-      setWaiting(false);
-    }, [onConfirm]);
+    const [onConfirm_, waiting] = useWrapWaiting(onConfirm, false, [onConfirm]);
 
     return (
       <Modal closeDisabled={waiting} visible={visible} onClose={onClose}>
