@@ -10,7 +10,8 @@ import {
 } from '@elements/components/slide-over';
 import { cx } from '@elements/utils';
 import { Spinner } from '@elements/components/spinner';
-import { ConfirmationModal } from '@elements/compositions/confirmation-modal';
+import { useDispatch } from '@elements/store';
+import { useTranslation } from '@elements/translation';
 
 export interface Image {
   id: string;
@@ -63,8 +64,24 @@ const AddMedia = ({ onChoose }: any) => {
 };
 
 export const Lightbox = ({ image, onClose, onDelete }: any) => {
+  const t = useTranslation();
   const imgRef = useRef<HTMLImageElement>(null);
   const [loading, setLoading] = useState(true);
+  const openModal = useDispatch('confirmation-modal/open');
+
+  const onDelete_ = useCallback(() => {
+    openModal({
+      kind: 'danger',
+      confirmText: t('common/delete'),
+      titleText: t('issue.image.delete.modal/title'),
+      bodyText: t('issue.image.delete.modal/body'),
+      cancelText: t('common/cancel'),
+      onConfirm: async () => {
+        await onDelete({ imageId: image.id });
+        onClose();
+      },
+    });
+  }, [openModal, t, image, onDelete, onClose]);
 
   useEffect(() => {
     if (imgRef?.current?.complete) {
@@ -77,11 +94,6 @@ export const Lightbox = ({ image, onClose, onDelete }: any) => {
   const onLoad = useCallback(() => {
     setLoading(false);
   }, []);
-
-  const onDelete_ = useCallback(async () => {
-    await onDelete({ imageId: image.id });
-    onClose();
-  }, [image, onDelete, onClose]);
 
   if (!image) {
     return null;
@@ -103,9 +115,9 @@ export const Lightbox = ({ image, onClose, onDelete }: any) => {
     <>
       <div className={'fixed inset-0 z-overlay bg-black opacity-95'} />
       <div className={'fixed inset-0 z-modal flex h-full flex-col items-center justify-between'}>
-        <div className={'flex w-full items-end justify-end gap-7 px-5 py-5'}>
+        <div className={'flex w-full items-center justify-end gap-10 px-5 py-5'}>
           <button className={'flex h-max focus:outline-none'} type={'button'} onClick={onDelete_}>
-            <TrashOutline className={'h-7 w-7 text-white'} />
+            <TrashOutline className={'h-6 w-6 text-white'} />
           </button>
           <button className={'flex h-max focus:outline-none'} type={'button'} onClick={onClose}>
             <XMarkSolid className={'h-7 w-7 text-white'} />
@@ -244,7 +256,6 @@ export const MediaGallery = ({ images, onUpload, onDelete }: MediaGalleryProps) 
               ))}
         </div>
       </div>
-      <ConfirmationModal />
     </>
   );
 };

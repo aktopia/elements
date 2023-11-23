@@ -1,12 +1,13 @@
 import { XMark } from '@elements/icons';
 import { Dialog } from '@headlessui/react';
 import type { ReactNode } from 'react';
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 
 interface ModalProps {
   children: ReactNode;
   onClose?: (..._: any) => void;
   visible: boolean;
+  closeDisabled?: boolean;
 }
 
 export const ModalTitle = Dialog.Title;
@@ -46,13 +47,16 @@ export const ModalPanel = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const Modal = ({ children, onClose, visible }: ModalProps) => {
-  const onDialogClose = useMemo(() => {
-    return onClose || (() => {});
-  }, [onClose]);
+export const Modal = ({ children, onClose, visible, closeDisabled = false }: ModalProps) => {
+  const onDialogClose = useCallback(() => {
+    if (onClose && !closeDisabled) {
+      onClose();
+    }
+  }, [onClose, closeDisabled]);
 
-  return (
-    <Dialog className={'z-modal relative'} open={visible} onClose={onDialogClose}>
+  // not sending open as visible because it renders and empty div if visible is false
+  return visible ? (
+    <Dialog className={'z-modal relative'} open={true} onClose={onDialogClose}>
       <div
         className={
           'fixed inset-0 flex items-start justify-center overflow-y-auto p-4 sm:p-6 md:p-20'
@@ -60,7 +64,7 @@ export const Modal = ({ children, onClose, visible }: ModalProps) => {
         {children}
       </div>
     </Dialog>
-  );
+  ) : null;
 };
 
 /*

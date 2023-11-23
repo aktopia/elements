@@ -10,8 +10,8 @@ export const ConfirmationModal = suspensify(() => {
   const visible = useValue('confirmation-modal/visible');
   const onClose = useDispatch('confirmation-modal/close') as () => void;
 
-  const onConfirmClick = useCallback(() => {
-    onConfirm();
+  const onConfirmClick = useCallback(async () => {
+    await onConfirm();
     onClose();
   }, [onConfirm, onClose]);
 

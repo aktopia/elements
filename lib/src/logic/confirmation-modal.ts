@@ -2,6 +2,7 @@ import { emptyObject } from '@elements/utils';
 import type { Reference } from '@elements/types';
 import { evt, sub } from '@elements/store';
 import type { ButtonKind } from '@elements/components/button';
+import type { Evt } from '@elements/store/types';
 
 export type Subs = {
   'confirmation-modal/visible': {
@@ -16,25 +17,21 @@ export type Subs = {
       cancelText: string;
       confirmText: string;
       titleText: string;
-      onConfirm: () => void;
+      onConfirm: () => void | Promise<void>;
     };
   };
 };
 
 export type Events = {
-  'confirmation-modal/close': {
-    params: Reference;
-  };
-  'confirmation-modal/open': {
-    params: {
-      kind: ButtonKind;
-      bodyText: string;
-      cancelText: string;
-      confirmText: string;
-      titleText: string;
-      onConfirm: () => void;
-    };
-  };
+  'confirmation-modal/close': Evt<Reference>;
+  'confirmation-modal/open': Evt<{
+    kind: ButtonKind;
+    bodyText: string;
+    cancelText: string;
+    confirmText: string;
+    titleText: string;
+    onConfirm: () => void | Promise<void>;
+  }>;
 };
 
 export const confirmationModalSlice = () => ({

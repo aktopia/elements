@@ -99,6 +99,9 @@ const issue = {
   'issue/facing': 'Facing',
   'issue.facing.tooltip/text': "Raise hand if you're directly affected by this issue.",
   'issue.media/description': 'Images related to the issue.',
+  'issue.image.delete.modal/title': 'Delete Image',
+  'issue.image.delete.modal/body':
+    'Are you sure you want to delete the image? This cannot be undone.',
 };
 
 const update = {

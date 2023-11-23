@@ -1,7 +1,7 @@
 import { CheckSolid, ExclamationTriangleOutline } from '@elements/icons';
 import { Button, type ButtonKind } from '@elements/components/button';
 import { Modal, ModalPanel, ModalTitle } from '@elements/components/modal';
-import { memo } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 const IconBadge = ({ kind }: { kind: any }) => {
   let component;
@@ -34,7 +34,7 @@ export interface ConfirmationModalProps {
   visible: boolean;
   onClose: () => void;
   confirmText: string;
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
   kind: ButtonKind;
   cancelText?: string;
 }
@@ -50,8 +50,16 @@ export const ConfirmationModal = memo(
     kind,
     cancelText,
   }: ConfirmationModalProps) => {
+    const [waiting, setWaiting] = useState(false);
+
+    const onConfirm_ = useCallback(async () => {
+      setWaiting(true);
+      await onConfirm();
+      setWaiting(false);
+    }, [onConfirm]);
+
     return (
-      <Modal visible={visible} onClose={onClose}>
+      <Modal closeDisabled={waiting} visible={visible} onClose={onClose}>
         <ModalPanel>
           <div className={'flex w-full flex-col items-center justify-center gap-6 p-6'}>
             <div>
@@ -67,9 +75,21 @@ export const ConfirmationModal = memo(
             </div>
             <div className={'flex gap-6'}>
               {cancelText ? (
-                <Button kind={'tertiary'} size={'sm'} value={cancelText} onClick={onClose} />
+                <Button
+                  disabled={waiting}
+                  kind={'tertiary'}
+                  size={'sm'}
+                  value={cancelText}
+                  onClick={onClose}
+                />
               ) : null}
-              <Button kind={kind} size={'sm'} value={confirmText} onClick={onConfirm} />
+              <Button
+                kind={kind}
+                size={'sm'}
+                value={confirmText}
+                waiting={waiting}
+                onClick={onConfirm_}
+              />
             </div>
           </div>
         </ModalPanel>
