@@ -8,8 +8,8 @@ export const Media = suspensify(({ issueId }: { issueId: string }) => {
   const upload = useDispatch('issue.image/add');
 
   const onUpload = useCallback(
-    ({ file, caption }: { file: File; caption: string }) => {
-      upload({ file, caption, 'issue/id': issueId });
+    async ({ file, caption }: { file: File; caption: string }) => {
+      await upload({ file, caption, 'issue/id': issueId });
     },
     [upload, issueId]
   );

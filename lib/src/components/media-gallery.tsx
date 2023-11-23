@@ -1,5 +1,5 @@
 import { PhotoOutline, PlusOutline, XMarkSolid } from '@elements/icons';
-import { type ChangeEvent, useCallback, useId, useState } from 'react';
+import { type ChangeEvent, useCallback, useEffect, useId, useRef, useState } from 'react';
 import {
   SlideOver,
   SlideOverBody,
@@ -9,6 +9,7 @@ import {
   SlideOverTitle,
 } from '@elements/components/slide-over';
 import { cx } from '@elements/utils';
+import { Spinner } from '@elements/components/spinner';
 
 export interface Image {
   id: string;
@@ -61,7 +62,24 @@ const AddMedia = ({ onChoose }: any) => {
 };
 
 export const Lightbox = ({ image, onClose }: any) => {
-  const visible = !!image;
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (imgRef?.current?.complete) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [image?.id]);
+
+  const onLoad = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  if (!image) {
+    return null;
+  }
 
   const ImageCaptionUI = (
     <div className={'flex items-center justify-center w-full min-h-20 px-5 py-5'}>
@@ -69,7 +87,13 @@ export const Lightbox = ({ image, onClose }: any) => {
     </div>
   );
 
-  return visible ? (
+  const LoadingSpinnerUI = loading ? (
+    <div className={'flex h-full w-full items-center justify-center'}>
+      <Spinner kind={'secondary'} size={'sm'} visible={true} />
+    </div>
+  ) : null;
+
+  return (
     <>
       <div className={'fixed inset-0 z-overlay bg-black opacity-95'} />
       <div className={'fixed inset-0 z-modal flex h-full flex-col items-center justify-between'}>
@@ -81,16 +105,19 @@ export const Lightbox = ({ image, onClose }: any) => {
             <XMarkSolid className={'h-7 w-7 text-white'} />
           </button>
         </div>
+        {LoadingSpinnerUI}
         <img
           key={image.id}
+          ref={imgRef}
           alt={'media'}
-          className={'object-fit min-h-0'}
+          className={cx('object-fit min-h-0', loading && 'hidden')}
           src={genImgUrl(image.id, {})}
+          onLoad={onLoad}
         />
         {ImageCaptionUI}
       </div>
     </>
-  ) : null;
+  );
 };
 
 const UploadPreview = ({ image, onClose, onUpload }: any) => {
@@ -98,9 +125,13 @@ const UploadPreview = ({ image, onClose, onUpload }: any) => {
   const imgSrc = visible ? URL.createObjectURL(image) : '';
   const description = '';
 
-  const onUpload_ = useCallback(() => {
-    onUpload({ file: image, caption: 'update-me' });
+  const [waiting, setWaiting] = useState(false);
+
+  const onUpload_ = useCallback(async () => {
+    setWaiting(true);
+    await onUpload({ file: image, caption: 'update-me' });
     onClose();
+    setWaiting(false);
   }, [image, onUpload, onClose]);
 
   return (
@@ -121,6 +152,8 @@ const UploadPreview = ({ image, onClose, onUpload }: any) => {
         <div className={'sticky bottom-0 w-full'}>
           <SlideOverFooter
             actionText={'Upload'}
+            actionWaiting={waiting}
+            cancelDisabled={waiting}
             cancelText={'Cancel'}
             onAction={onUpload_}
             onCancel={onClose}
@@ -140,7 +173,7 @@ const ImageThumbnail = ({ image, onClick }: any) => {
     onClick(image);
   }, [image, onClick]);
 
-  const onLoaded = useCallback(() => {
+  const onLoad = useCallback(() => {
     setLoading(false);
   }, []);
 
@@ -148,12 +181,12 @@ const ImageThumbnail = ({ image, onClick }: any) => {
     <img
       alt={'media'}
       className={cx(
-        'h-40 w-full cursor-pointer rounded-lg bg-gray-300 object-cover shadow-lg',
+        'h-40 w-full cursor-pointer rounded-lg bg-gray-200 object-cover shadow-lg',
         loading && 'animate-pulse'
       )}
       src={imgSrc}
       onClick={onClick_}
-      onLoad={onLoaded}
+      onLoad={onLoad}
     />
   );
 };
