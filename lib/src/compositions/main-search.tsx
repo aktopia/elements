@@ -8,17 +8,7 @@ import { EntityTypeBadge as ResultType } from '@elements/compositions/entity-typ
 import { Modal, ModalPanel } from '@elements/components/modal';
 import { Combobox } from '@headlessui/react';
 import { Link } from '@elements/components/link';
-
-function makeLink(type: EntityType, entityId: string) {
-  switch (type) {
-    case 'entity.type/action':
-      return `/action/${entityId}`;
-    case 'entity.type/issue':
-      return `/issue/${entityId}`;
-    case 'entity.type/user':
-      return `/profile/${entityId}#tab=actions`;
-  }
-}
+import { makeLink } from '@elements/utils';
 
 interface ResultProps {
   type: EntityType;

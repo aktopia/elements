@@ -7,6 +7,7 @@ import { cx as clsx } from 'cva';
 import { twMerge } from 'tailwind-merge';
 import type { ClassValue } from 'cva/dist/types';
 import type { LookupRef } from '@elements/types';
+import { EntityType } from '@elements/types';
 import { customAlphabet } from 'nanoid';
 
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz');
@@ -95,3 +96,14 @@ export const scrollToTop = ({ behavior = 'smooth' }: { behavior: ScrollBehavior 
 export const guid = () => {
   return nanoid();
 };
+
+export function makeLink(type: EntityType, entityId: string) {
+  switch (type) {
+    case EntityType.Action:
+      return `/action/${entityId}`;
+    case EntityType.Issue:
+      return `/issue/${entityId}`;
+    case EntityType.User:
+      return `/profile/${entityId}#tab=actions`;
+  }
+}

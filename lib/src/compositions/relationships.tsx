@@ -22,6 +22,7 @@ import { Combobox, Listbox } from '@headlessui/react';
 import { Button } from '@elements/components/button';
 import { RelationType } from '@elements/logic/relationship';
 import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
+import { useWrapWaiting } from '@elements/store/hooks';
 
 // TODO Translation for labels
 const relations: { id: RelationType; label: string }[] = [
@@ -124,7 +125,10 @@ const Relationship = suspensify(
     const Icon = icon[relation];
 
     return (
-      <div className={'flex flex-col gap-2 rounded-lg border border-gray-300 p-4 shadow-sm'}>
+      <div
+        className={
+          'flex flex-col gap-2 rounded-lg border border-gray-300 pl-4 pr-2 py-4 shadow-sm'
+        }>
         <div className={'flex items-center justify-between'}>
           <div className={'flex items-center gap-4'}>
             <Icon className={'h-5 w-5 text-gray-500'} />
@@ -221,19 +225,23 @@ const NewRelationship = suspensify(({ onAddToggle, fromLookupRef }: any) => {
     return result ? result.text : '';
   }, []);
 
-  const onAdd = useCallback(() => {
-    if (selectedResult) {
-      addRelation({
-        'relationship.from/ref': fromLookupRef,
-        'relationship.to/ref': [
-          // @ts-ignore
-          entityTypeToIdAttr[selectedResult.type],
-          selectedResult.entityId,
-        ],
-        'relationship/relation': selectedRelation.id,
-      });
-    }
-  }, [addRelation, selectedRelation, selectedResult, fromLookupRef]);
+  const [onAdd, waiting] = useWrapWaiting(
+    async () => {
+      if (selectedResult) {
+        await addRelation({
+          'relationship.from/ref': fromLookupRef,
+          'relationship.to/ref': [
+            // @ts-ignore
+            entityTypeToIdAttr[selectedResult.type],
+            selectedResult.entityId,
+          ],
+          'relationship/relation': selectedRelation.id,
+        });
+      }
+    },
+    false,
+    [addRelation, selectedRelation, selectedResult, fromLookupRef]
+  );
 
   return (
     <div className={'flex flex-col gap-4 rounded-lg border border-gray-300 p-4 shadow-sm'}>
@@ -270,7 +278,7 @@ const NewRelationship = suspensify(({ onAddToggle, fromLookupRef }: any) => {
         </Listbox>
       </div>
       <div className={'relative'}>
-        <Combobox value={selectedResult} onChange={onSelectResult}>
+        <Combobox disabled={waiting} value={selectedResult} onChange={onSelectResult}>
           <div className={'relative flex w-full items-center'}>
             <Combobox.Input
               autoComplete={'off'}
@@ -286,8 +294,20 @@ const NewRelationship = suspensify(({ onAddToggle, fromLookupRef }: any) => {
         </Combobox>
       </div>
       <div className={'flex justify-end gap-2'}>
-        <Button kind={'tertiary'} size={'xs'} value={t('common/cancel')} onClick={onAddToggle} />
-        <Button kind={'success'} size={'xs'} value={t('common/add')} onClick={onAdd} />
+        <Button
+          disabled={waiting}
+          kind={'tertiary'}
+          size={'xs'}
+          value={t('common/cancel')}
+          onClick={onAddToggle}
+        />
+        <Button
+          kind={'success'}
+          size={'xs'}
+          value={t('common/add')}
+          waiting={waiting}
+          onClick={onAdd}
+        />
       </div>
     </div>
   );
