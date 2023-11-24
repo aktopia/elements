@@ -15,6 +15,8 @@ export type Subs = {
   'relationship.to/title': Sub<{ 'relationship/id': string }, string>;
   'relationship/relation': Sub<{ 'relationship/id': string }, RelationType>;
   'relationship/adding': Sub<{}, boolean>;
+  'relationship/can-create': Sub<{ 'relationship.from/ref': LookupRef }, boolean>;
+  'relationship/can-delete': Sub<{ 'relationship.from/ref': LookupRef }, boolean>;
 };
 
 export type Events = {
@@ -40,6 +42,8 @@ remoteSub('relationship/ids');
 remoteSub('relationship.to/title');
 remoteSub('relationship.to.entity/type');
 remoteSub('relationship/relation');
+remoteSub('relationship/can-create');
+remoteSub('relationship/can-delete');
 
 evt('relationship.adding/set', ({ setState, params }) => {
   setState((state: any) => {

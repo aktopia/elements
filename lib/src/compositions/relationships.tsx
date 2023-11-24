@@ -63,39 +63,47 @@ const icon: Record<RelationType, ComponentType<any>> = {
   [RelationType.Relates]: ArrowsRightLeftOutline,
 };
 
-const ContextMenu = ({ fromLookupRef, id }: { fromLookupRef: LookupRef; id: string }) => {
-  const t = useTranslation();
-  const deleteRelationship = useDispatch('relationship/delete');
-  const openModal = useDispatch('confirmation-modal/open');
-
-  const onDeleteClick = useCallback(() => {
-    openModal({
-      kind: 'danger',
-      confirmText: t('common/delete'),
-      titleText: t('relationship.delete.modal/title'),
-      bodyText: t('relationship.delete.modal/body'),
-      cancelText: t('common/cancel'),
-      onConfirm: () =>
-        deleteRelationship({ 'relationship/id': id, 'relationship.from/ref': fromLookupRef }),
+const ContextMenu = suspensify(
+  ({ fromLookupRef, id }: { fromLookupRef: LookupRef; id: string }) => {
+    const t = useTranslation();
+    const canDelete = useValue('relationship/can-delete', {
+      'relationship.from/ref': fromLookupRef,
     });
-  }, [openModal, t, deleteRelationship, id, fromLookupRef]);
+    const deleteRelationship = useDispatch('relationship/delete');
+    const openModal = useDispatch('confirmation-modal/open');
 
-  const items = useMemo(
-    () => [
-      {
-        text: t('common/remove'),
-        onClick: onDeleteClick,
-        Icon: TrashOutline,
+    const onDeleteClick = useCallback(() => {
+      openModal({
         kind: 'danger',
-        key: 'delete',
-      },
-    ],
-    [t, onDeleteClick]
-  );
+        confirmText: t('common/delete'),
+        titleText: t('relationship.delete.modal/title'),
+        bodyText: t('relationship.delete.modal/body'),
+        cancelText: t('common/cancel'),
+        onConfirm: () =>
+          deleteRelationship({ 'relationship/id': id, 'relationship.from/ref': fromLookupRef }),
+      });
+    }, [openModal, t, deleteRelationship, id, fromLookupRef]);
 
-  // @ts-ignore
-  return <RawContextMenu items={items} orientation={'vertical'} />;
-};
+    const items = useMemo(() => {
+      if (!canDelete) {
+        return [];
+      }
+
+      return [
+        {
+          text: t('common/remove'),
+          onClick: onDeleteClick,
+          Icon: TrashOutline,
+          kind: 'danger',
+          key: 'delete',
+        },
+      ];
+    }, [t, onDeleteClick, canDelete]);
+
+    // @ts-ignore
+    return items.length === 0 ? null : <RawContextMenu items={items} orientation={'vertical'} />;
+  }
+);
 
 const Relationship = suspensify(
   ({ id, fromLookupRef }: { id: string; fromLookupRef: LookupRef }) => {
@@ -288,11 +296,14 @@ const NewRelationship = suspensify(({ onAddToggle, fromLookupRef }: any) => {
 export const Relationships = suspensify(({ lookupRef }: RelationsProps) => {
   const t = useTranslation();
   const addingNewRelation = useValue('relationship/adding');
-  const setAddingNewRelation = useDispatch('relationship.adding/set');
-
   const relationIds = useValue('relationship/ids', {
     'relationship.from/ref': lookupRef,
   });
+  const canCreate = useValue('relationship/can-create', {
+    'relationship.from/ref': lookupRef,
+  });
+
+  const setAddingNewRelation = useDispatch('relationship.adding/set');
 
   const onAddToggle = useCallback(() => {
     setAddingNewRelation({
@@ -304,9 +315,11 @@ export const Relationships = suspensify(({ lookupRef }: RelationsProps) => {
     <div className={'flex flex-col gap-4'}>
       <div className={'flex items-center justify-between'}>
         <div className={'text-sm font-medium text-gray-500'}>{t('common/relationships')}</div>
-        <button type={'button'} onClick={onAddToggle}>
-          <PlusOutline className={'h-5 w-5 text-gray-500'} />
-        </button>
+        {canCreate ? (
+          <button type={'button'} onClick={onAddToggle}>
+            <PlusOutline className={'h-5 w-5 text-gray-500'} />
+          </button>
+        ) : null}
       </div>
       <div className={'flex flex-col gap-5'}>
         {addingNewRelation ? (
