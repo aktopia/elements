@@ -7,7 +7,7 @@ import {
 } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
-import { EntityType as ResultType } from '@elements/types';
+import { EntityType as ResultType, type LookupRef } from '@elements/types';
 import { useDispatch, useStateLike, useValue } from '@elements/store';
 import {
   type ChangeEvent,
@@ -22,7 +22,6 @@ import { Combobox, Listbox } from '@headlessui/react';
 import { Button } from '@elements/components/button';
 import { RelationType } from '@elements/logic/relationship';
 import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
-import { ConfirmationModal } from '@elements/components/confirmation-modal';
 
 // TODO Translation for labels
 const relations: { id: RelationType; label: string }[] = [
@@ -41,8 +40,7 @@ const relations: { id: RelationType; label: string }[] = [
 ];
 
 interface RelationsProps {
-  refId: string;
-  refAttribute: string;
+  lookupRef: LookupRef;
 }
 
 interface Result {
@@ -51,11 +49,6 @@ interface Result {
   entityId: string;
   snippet: string;
   text: string;
-}
-
-interface DeleteConfirmationModalProps {
-  refId: string;
-  refAttribute: string;
 }
 
 const relationTKey = {
@@ -70,20 +63,27 @@ const icon: Record<RelationType, ComponentType<any>> = {
   [RelationType.Relates]: ArrowsRightLeftOutline,
 };
 
-const ContextMenu = ({ id }: { id: string }) => {
+const ContextMenu = ({ fromLookupRef, id }: { fromLookupRef: LookupRef; id: string }) => {
   const t = useTranslation();
+  const deleteRelationship = useDispatch('relationship/delete');
+  const openModal = useDispatch('confirmation-modal/open');
 
-  const startDeletion = useDispatch('relationship.deletion/start');
-
-  const onDeleteClick = useCallback(
-    () => startDeletion({ 'relationship/id': id }),
-    [id, startDeletion]
-  );
+  const onDeleteClick = useCallback(() => {
+    openModal({
+      kind: 'danger',
+      confirmText: t('common/delete'),
+      titleText: t('relationship.delete.modal/title'),
+      bodyText: t('relationship.delete.modal/body'),
+      cancelText: t('common/cancel'),
+      onConfirm: () =>
+        deleteRelationship({ 'relationship/id': id, 'relationship.from/ref': fromLookupRef }),
+    });
+  }, [openModal, t, deleteRelationship, id, fromLookupRef]);
 
   const items = useMemo(
     () => [
       {
-        text: t('common/delete'),
+        text: t('common/remove'),
         onClick: onDeleteClick,
         Icon: TrashOutline,
         kind: 'danger',
@@ -94,72 +94,44 @@ const ContextMenu = ({ id }: { id: string }) => {
   );
 
   // @ts-ignore
-  return <RawContextMenu items={items} orientation={'horizontal'} />;
+  return <RawContextMenu items={items} orientation={'vertical'} />;
 };
 
-const Relationship = suspensify(({ id }: { id: string }) => {
-  const t = useTranslation();
+const Relationship = suspensify(
+  ({ id, fromLookupRef }: { id: string; fromLookupRef: LookupRef }) => {
+    const t = useTranslation();
 
-  const type = useValue('relationship.entity/type', {
-    'relation/id': id,
-  });
+    const type = useValue('relationship.to.entity/type', {
+      'relationship/id': id,
+    });
 
-  const title = useValue('relationship.entity/title', {
-    'relation/id': id,
-  });
+    const title = useValue('relationship.to/title', {
+      'relationship/id': id,
+    });
 
-  const relation = useValue('relationship/relation', {
-    'relation/id': id,
-  });
+    const relation = useValue('relationship/relation', {
+      'relationship/id': id,
+    });
 
-  const Icon = icon[relation];
+    const Icon = icon[relation];
 
-  return (
-    <div className={'flex flex-col gap-2 rounded-lg border border-gray-300 p-4 shadow-sm'}>
-      <div className={'flex items-center justify-between'}>
-        <div className={'flex items-center gap-2'}>
-          <Icon className={'h-5 w-5 text-gray-500'} />
-          <div className={'text-sm text-gray-500'}>{t(relationTKey[relation])}</div>
+    return (
+      <div className={'flex flex-col gap-2 rounded-lg border border-gray-300 p-4 shadow-sm'}>
+        <div className={'flex items-center justify-between'}>
+          <div className={'flex items-center gap-4'}>
+            <Icon className={'h-5 w-5 text-gray-500'} />
+            <div className={'text-sm text-gray-500'}>{t(relationTKey[relation])}</div>
+          </div>
+          <div className={'flex items-center justify-center gap-1.5'}>
+            <EntityTypeBadge size={'sm'} type={type} />
+            <ContextMenu fromLookupRef={fromLookupRef} id={id} />
+          </div>
         </div>
-        <div className={'flex items-center gap-1.5'}>
-          <EntityTypeBadge size={'sm'} type={type} />
-        </div>
+        <div className={'text-gray-700'}>{title}</div>
       </div>
-      <div className={'text-gray-700'}>{title}</div>
-      <ContextMenu id={id} />
-    </div>
-  );
-});
-
-const DeleteConfirmationModal = suspensify(({ refId }: DeleteConfirmationModalProps) => {
-  const t = useTranslation();
-  const id = useValue('relationship.deletion/id');
-
-  const cancelDeletion = useDispatch('relationship.deletion/cancel');
-  const deleteUpdate = useDispatch('relationship/delete');
-
-  const onClose = useCallback(
-    () => cancelDeletion({ 'relationship/id': id }),
-    [cancelDeletion, id]
-  );
-  const onDelete = useCallback(
-    () => deleteUpdate({ 'relationship/id': id, 'ref/id': refId }),
-    [deleteUpdate, id, refId]
-  );
-
-  return (
-    <ConfirmationModal
-      bodyText={t('relationship.delete.modal/body')}
-      cancelText={t('common/cancel')}
-      confirmText={t('common/delete')}
-      kind={'danger'}
-      titleText={t('relationship.delete.modal/title')}
-      visible={!!id}
-      onClose={onClose}
-      onConfirm={onDelete}
-    />
-  );
-});
+    );
+  }
+);
 
 const Result = (result: Result) => {
   const { type, snippet } = result;
@@ -211,7 +183,14 @@ const Results = suspensify(({ query }: { query: string }) => {
   );
 });
 
-const NewRelationship = suspensify(({ onAddToggle, refId }: any) => {
+const entityTypeToIdAttr = {
+  // TODO This should not be done in the front end, send backend result with ref
+  [ResultType.Action]: 'action/id',
+  [ResultType.Issue]: 'issue/id',
+  [ResultType.User]: 'user/id',
+};
+
+const NewRelationship = suspensify(({ onAddToggle, fromLookupRef }: any) => {
   const t = useTranslation();
   const [query, setQuery] = useStateLike('main-search/query', 'main-search.query/set');
 
@@ -236,12 +215,16 @@ const NewRelationship = suspensify(({ onAddToggle, refId }: any) => {
   const onAdd = useCallback(() => {
     if (selectedResult) {
       addRelation({
-        'relationship.from.entity/id': refId,
-        'relationship.to.entity/id': selectedResult.entityId,
+        'relationship.from/ref': fromLookupRef,
+        'relationship.to/ref': [
+          // @ts-ignore
+          entityTypeToIdAttr[selectedResult.type],
+          selectedResult.entityId,
+        ],
         'relationship/relation': selectedRelation.id,
       });
     }
-  }, [addRelation, selectedRelation, selectedResult, refId]);
+  }, [addRelation, selectedRelation, selectedResult, fromLookupRef]);
 
   return (
     <div className={'flex flex-col gap-4 rounded-lg border border-gray-300 p-4 shadow-sm'}>
@@ -301,7 +284,7 @@ const NewRelationship = suspensify(({ onAddToggle, refId }: any) => {
   );
 });
 
-export const Relationships = suspensify(({ refId, refAttribute }: RelationsProps) => {
+export const Relationships = suspensify(({ lookupRef }: RelationsProps) => {
   const t = useTranslation();
   const [addingNewRelation, setAddingNewRelation] = useStateLike(
     'relationship/adding',
@@ -309,7 +292,7 @@ export const Relationships = suspensify(({ refId, refAttribute }: RelationsProps
   );
 
   const relationIds = useValue('relationship/ids', {
-    'ref/id': refId,
+    'relationship.from/ref': lookupRef,
   });
 
   const onAddToggle = useCallback(() => {
@@ -317,34 +300,30 @@ export const Relationships = suspensify(({ refId, refAttribute }: RelationsProps
   }, [addingNewRelation, setAddingNewRelation]);
 
   return (
-    <>
-      <div className={'flex flex-col gap-4'}>
-        <div className={'flex items-center justify-between'}>
-          <div className={'text-sm font-medium text-gray-500'}>{t('common/relationships')}</div>
-          <button type={'button'} onClick={onAddToggle}>
-            <PlusOutline className={'h-5 w-5 text-gray-500'} />
-          </button>
-        </div>
-        <div className={'flex flex-col gap-5'}>
-          {addingNewRelation && (
-            <NewRelationship
-              refAttribute={refAttribute}
-              refId={refId}
-              suspenseLines={3}
-              onAddToggle={onAddToggle}
-            />
-          )}
-          {relationIds.length > 0 ? (
-            relationIds.map((relationId) => (
-              <Relationship key={relationId} id={relationId} suspenseLines={3} />
-            ))
-          ) : (
-            <div className={'text-sm text-gray-500'}>{t('relationships/empty')}</div>
-          )}
-        </div>
+    <div className={'flex flex-col gap-4'}>
+      <div className={'flex items-center justify-between'}>
+        <div className={'text-sm font-medium text-gray-500'}>{t('common/relationships')}</div>
+        <button type={'button'} onClick={onAddToggle}>
+          <PlusOutline className={'h-5 w-5 text-gray-500'} />
+        </button>
       </div>
-
-      <DeleteConfirmationModal refAttribute={refAttribute} refId={refId} suspenseLines={3} />
-    </>
+      <div className={'flex flex-col gap-5'}>
+        {addingNewRelation && (
+          <NewRelationship fromLookupRef={lookupRef} suspenseLines={3} onAddToggle={onAddToggle} />
+        )}
+        {relationIds.length > 0 ? (
+          relationIds.map((relationId) => (
+            <Relationship
+              key={relationId}
+              fromLookupRef={lookupRef}
+              id={relationId}
+              suspenseLines={3}
+            />
+          ))
+        ) : (
+          <div className={'text-sm text-gray-500'}>{t('relationships/empty')}</div>
+        )}
+      </div>
+    </div>
   );
 });

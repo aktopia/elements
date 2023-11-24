@@ -1,6 +1,7 @@
 import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
-import { EntityType } from '@elements/types';
+import type { EntityType, LookupRef } from '@elements/types';
 import { rpcPost } from '@elements/rpc';
+import type { Evt, Sub } from '@elements/store/types';
 
 export enum RelationType {
   Resolves = 'relation.type/resolves',
@@ -9,54 +10,24 @@ export enum RelationType {
 }
 
 export type Subs = {
-  'relationship/ids': {
-    params: {
-      'ref/id': string;
-    };
-    result: string[];
-  };
-  'relationship.entity/type': {
-    params: { 'relation/id': string };
-    result: EntityType;
-  };
-  'relationship.entity/title': {
-    params: { 'relation/id': string };
-    result: string;
-  };
-  'relationship/relation': {
-    params: { 'relation/id': string };
-    result: RelationType;
-  };
-  'relationship/adding': {
-    params: {};
-    result: boolean;
-  };
-  'relationship.deletion/id': {
-    params: {};
-    result: string;
-  };
+  'relationship/ids': Sub<{ 'relationship.from/ref': LookupRef }, string[]>;
+  'relationship.to.entity/type': Sub<{ 'relationship/id': string }, EntityType>;
+  'relationship.to/title': Sub<{ 'relationship/id': string }, string>;
+  'relationship/relation': Sub<{ 'relationship/id': string }, RelationType>;
+  'relationship/adding': Sub<{}, boolean>;
+  'relationship.deletion/id': Sub<{}, string>;
 };
 
 export type Events = {
-  'relationship.adding/set': {
-    params: { value: boolean };
-  };
-  'relationship/add': {
-    params: {
-      'relationship/relation': string;
-      'relationship.from.entity/id': string;
-      'relationship.to.entity/id': string;
-    };
-  };
-  'relationship.deletion/start': {
-    params: { 'relationship/id': string };
-  };
-  'relationship.deletion/cancel': {
-    params: { 'relationship/id': string };
-  };
-  'relationship/delete': {
-    params: { 'relationship/id': string; 'ref/id': string };
-  };
+  'relationship.adding/set': Evt<{ value: boolean }>;
+  'relationship/add': Evt<{
+    'relationship/relation': RelationType;
+    'relationship.from/ref': LookupRef;
+    'relationship.to/ref': LookupRef;
+  }>;
+  'relationship.deletion/start': Evt<{ 'relationship/id': string }>;
+  'relationship.deletion/cancel': Evt<{ 'relationship/id': string }>;
+  'relationship/delete': Evt<{ 'relationship/id': string; 'relationship.from/ref': LookupRef }>;
 };
 
 export const relationshipSlice = () => ({
@@ -73,8 +44,8 @@ sub(
 );
 
 remoteSub('relationship/ids');
-remoteSub('relationship.entity/title');
-remoteSub('relationship.entity/type');
+remoteSub('relationship.to/title');
+remoteSub('relationship.to.entity/type');
 remoteSub('relationship/relation');
 
 evt('relationship.adding/set', ({ setState, params }) => {
@@ -90,7 +61,9 @@ evt('relationship/add', async ({ setState, params }) => {
     state['relationship/state']['relationship/adding'] = false;
   });
 
-  await invalidateAsyncSub('relationship/ids', { 'ref/id': params['relationship.from.entity/id'] });
+  await invalidateAsyncSub('relationship/ids', {
+    'relationship.from/ref': params['relationship.from/ref'],
+  });
 });
 
 evt('relationship.deletion/start', ({ setState, params }) => {
@@ -108,7 +81,9 @@ evt('relationship.deletion/cancel', ({ setState }) => {
 evt('relationship/delete', async ({ params, setState }) => {
   await rpcPost('relationship/delete', { 'relationship/id': params['relationship/id'] });
 
-  await invalidateAsyncSub('relationship/ids', { 'ref/id': params['ref/id'] });
+  await invalidateAsyncSub('relationship/ids', {
+    'relationship.from/ref': params['relationship.from/ref'],
+  });
 
   setState((state: any) => {
     state['relationship/state']['relationship.deletion/id'] = null;

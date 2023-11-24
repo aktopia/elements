@@ -7,6 +7,7 @@ const common = {
   'common/cancel': 'Cancel',
   'common/create': 'Create',
   'common/delete': 'Delete',
+  'common/remove': 'Remove',
   'common/description': 'Description',
   'common/discuss': 'Discuss',
   'common/done': 'Done',

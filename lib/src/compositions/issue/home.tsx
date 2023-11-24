@@ -83,6 +83,7 @@ const Resolution = suspensify(() => {
 
 export const Home = suspensify(() => {
   const issueId = useValue('current.issue/id');
+  const lookupRef = useLookupRef('issue/id', issueId);
 
   return (
     <div className={'flex w-full flex-col gap-8 md:flex-row'}>
@@ -91,7 +92,7 @@ export const Home = suspensify(() => {
         <Resolution />
       </div>
       <div className={'w-full md:w-[35%]'}>
-        <Relationships refAttribute={'issue/id'} refId={issueId} suspenseLines={8} />
+        <Relationships lookupRef={lookupRef} suspenseLines={8} />
       </div>
     </div>
   );

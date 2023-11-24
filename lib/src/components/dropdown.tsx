@@ -75,7 +75,8 @@ export const Dropdown = ({ button, items }: DropdownProps) => {
   return (
     <RawDropdown>
       <RawDropdownTrigger>
-        <div className={'w-min outline-none'}>{button}</div>
+        {/*TODO Fix this, it should ideally be a button directly and not wrapped in a div*/}
+        <div className={'w-min outline-none h-min flex items-center justify-center'}>{button}</div>
       </RawDropdownTrigger>
       <RawDropdownPanel sideOffset={5}>
         <div

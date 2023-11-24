@@ -81,6 +81,7 @@ const Outcome = suspensify(() => {
 
 export const Home = suspensify(() => {
   const actionId = useValue('current.action/id');
+  const lookupRef = useLookupRef('action/id', actionId);
 
   return (
     <div className={'flex w-full flex-col gap-8 md:flex-row'}>
@@ -89,7 +90,7 @@ export const Home = suspensify(() => {
         <Outcome />
       </div>
       <div className={'w-full md:w-[35%]'}>
-        <Relationships refAttribute={'action/id'} refId={actionId} suspenseLines={8} />
+        <Relationships lookupRef={lookupRef} suspenseLines={8} />
       </div>
     </div>
   );
