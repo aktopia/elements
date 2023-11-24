@@ -2,6 +2,7 @@ import { ArrowSmallDownSolid, ArrowSmallUpSolid } from '@elements/icons';
 import { cva } from 'cva';
 import type { Kind } from '@elements/logic/voting';
 import { WithInfoTooltip } from '@elements/components/info-tooltip';
+import { useWrapWaiting } from '@elements/store/hooks';
 
 const voteVariant = cva('hover:text-blue-600', {
   variants: {
@@ -14,10 +15,15 @@ const voteVariant = cva('hover:text-blue-600', {
       true: 'text-blue-600',
       false: 'text-gray-400',
     },
+    waiting: {
+      true: 'animate-pulse',
+      false: '',
+    },
   },
   defaultVariants: {
     size: 'sm',
     active: false,
+    waiting: false,
   },
 });
 
@@ -49,8 +55,8 @@ export type Size = 'xs' | 'sm' | 'md';
 
 interface VoteProps {
   count: number;
-  onUpvote: () => void;
-  onDownvote: () => void;
+  onUpvote: () => Promise<void>;
+  onDownvote: () => Promise<void>;
   kind: Kind;
   size: Size;
   downvoteTooltipText?: string;
@@ -66,17 +72,26 @@ export const Voting = ({
   upvoteTooltipText,
   downvoteTooltipText,
 }: VoteProps) => {
+  const [onUpvote_, upvoteWaiting] = useWrapWaiting(onUpvote, false, [onUpvote]);
+  const [onDownvote_, downvoteWaiting] = useWrapWaiting(onDownvote, false, [onDownvote]);
+
+  const waiting = upvoteWaiting || downvoteWaiting;
+
   return (
     <div className={containerVariant({ size })}>
       <WithInfoTooltip text={upvoteTooltipText}>
-        <button type={'button'} onClick={onUpvote}>
-          <ArrowSmallUpSolid className={voteVariant({ size, active: kind === 'upvote' })} />
+        <button disabled={waiting} type={'button'} onClick={onUpvote_}>
+          <ArrowSmallUpSolid
+            className={voteVariant({ size, active: kind === 'upvote', waiting: upvoteWaiting })}
+          />
         </button>
       </WithInfoTooltip>
       <p className={countVariant({ size, active: !!kind })}>{count}</p>
       <WithInfoTooltip text={downvoteTooltipText}>
-        <button type={'button'} onClick={onDownvote}>
-          <ArrowSmallDownSolid className={voteVariant({ size, active: kind === 'downvote' })} />
+        <button disabled={waiting} type={'button'} onClick={onDownvote_}>
+          <ArrowSmallDownSolid
+            className={voteVariant({ size, active: kind === 'downvote', waiting: downvoteWaiting })}
+          />
         </button>
       </WithInfoTooltip>
     </div>
@@ -84,10 +99,14 @@ export const Voting = ({
 };
 
 export const UpVoting = ({ count, onUpvote, kind, size }: Omit<VoteProps, 'onDownvote'>) => {
+  const [onUpvote_, upvoteWaiting] = useWrapWaiting(onUpvote, false, [onUpvote]);
+
   return (
     <div className={containerVariant({ size })}>
-      <button type={'button'} onClick={onUpvote}>
-        <ArrowSmallUpSolid className={voteVariant({ size, active: kind === 'upvote' })} />
+      <button disabled={upvoteWaiting} type={'button'} onClick={onUpvote_}>
+        <ArrowSmallUpSolid
+          className={voteVariant({ size, active: kind === 'upvote', waiting: upvoteWaiting })}
+        />
       </button>
       <p className={countVariant({ size, active: !!kind })}>{count}</p>
     </div>

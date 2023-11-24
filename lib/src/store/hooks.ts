@@ -35,7 +35,11 @@ export const useLookupRef = (attr: string, val: string) => {
   return useMemo(() => [attr, val], [attr, val]) as LookupRef;
 };
 
-export const useWrapWaiting = (callback: Function, initialValue: boolean, deps: Array<any>) => {
+export const useWrapWaiting = <T extends (...args: any[]) => Promise<void>>(
+  callback: T,
+  initialValue: boolean,
+  deps: Array<any>
+) => {
   const [waiting, setWaiting] = useState<boolean>(initialValue);
 
   const cb = useCallback(
@@ -48,5 +52,5 @@ export const useWrapWaiting = (callback: Function, initialValue: boolean, deps: 
     [...deps]
   );
 
-  return [cb, waiting] as [typeof callback, typeof waiting];
+  return [cb, waiting] as [T, typeof waiting];
 };

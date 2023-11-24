@@ -20,8 +20,11 @@ export const Voting = suspensify(
     const upvote = useDispatch('voting.current.user/upvote');
     const downvote = useDispatch('voting.current.user/downvote');
 
-    const onUpvote = useCallback(() => upvote({ ref: lookupRef }), [lookupRef, upvote]);
-    const onDownvote = useCallback(() => downvote({ ref: lookupRef }), [lookupRef, downvote]);
+    const onUpvote = useCallback(async () => await upvote({ ref: lookupRef }), [lookupRef, upvote]);
+    const onDownvote = useCallback(
+      async () => await downvote({ ref: lookupRef }),
+      [lookupRef, downvote]
+    );
 
     return (
       <RawVoting
@@ -49,7 +52,7 @@ export const UpVoting = suspensify(({ lookupRef, size, upvoteTooltipText }: Upvo
 
   const upvote = useDispatch('voting.current.user/upvote');
 
-  const onUpvote = useCallback(() => upvote({ ref: lookupRef }), [lookupRef, upvote]);
+  const onUpvote = useCallback(async () => await upvote({ ref: lookupRef }), [lookupRef, upvote]);
 
   return (
     <RawUpVoting
