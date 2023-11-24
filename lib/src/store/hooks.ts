@@ -35,7 +35,7 @@ export const useLookupRef = (attr: string, val: string) => {
   return useMemo(() => [attr, val], [attr, val]) as LookupRef;
 };
 
-export const useWrapWaiting = <T extends (...args: any[]) => Promise<void>>(
+export const useWrapWaiting = <T extends (...args: any[]) => Promise<void> | void>(
   callback: T,
   initialValue: boolean,
   deps: Array<any>
