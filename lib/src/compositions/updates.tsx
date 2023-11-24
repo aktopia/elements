@@ -2,7 +2,7 @@ import { PencilOutline, TrashOutline, UserCircleSolid } from '@elements/icons';
 import { NewContent } from '@elements/components/new-content';
 import { suspensify } from '@elements/components/suspensify';
 import { Timestamp } from '@elements/components/timestamp';
-import { Voting } from '@elements/compositions/voting';
+import { UpVoting } from '@elements/compositions/voting';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
@@ -102,7 +102,7 @@ const Update = suspensify(({ id, parentLookupRef }: { id: string; parentLookupRe
         suspenseLines={4}
       />
       <div className={'flex items-center gap-5'}>
-        <Voting lookupRef={updateLookupRef} size={'xs'} suspenseLines={2} />
+        <UpVoting lookupRef={updateLookupRef} size={'xs'} suspenseLines={2} />
         <ContextMenu id={id} parentLookupRef={parentLookupRef} />
       </div>
     </div>

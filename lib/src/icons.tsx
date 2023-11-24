@@ -349,6 +349,7 @@ export {
   ChevronDownIcon as ChevronDownOutline,
   ArrowRightIcon as ArrowRightOutline,
   QuestionMarkCircleIcon as QuestionMarkCircleOutline,
+  ChevronDoubleUpIcon as ChevronDoubleUpOutline,
 } from '@heroicons/react/24/outline';
 
 /*

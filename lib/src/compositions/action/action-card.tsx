@@ -10,6 +10,7 @@ import { useCallback } from 'react';
 import { Link } from '@elements/components/link';
 import { useLookupRef } from '@elements/store/hooks';
 import { ActionStatusButton } from '@elements/compositions/action/action-status';
+import { ActionStatus } from '@elements/logic/action';
 
 interface ActionCardProps {
   id: string;
@@ -35,6 +36,10 @@ export const Locality = suspensify(
 
 export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCardProps) => {
   const title = useValue('action.title/text', { 'action/id': id });
+  const isDraft = useValue('action.status/check', {
+    'action/id': id,
+    in: [ActionStatus.Draft],
+  });
   const onLocalityClick = useCallback(
     () => onLocalitySlideOverOpen(id, Type.Action),
     [id, onLocalitySlideOverOpen]
@@ -58,9 +63,11 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
         href={`/action/${id}`}>
         {title}
       </Link>
-      <div className={'flex items-center gap-5'}>
-        <Voting lookupRef={lookupRef} size={'xs'} suspenseLines={2} />
-      </div>
+      {isDraft ? null : (
+        <div className={'flex items-center gap-5'}>
+          <Voting lookupRef={lookupRef} size={'xs'} suspenseLines={2} />
+        </div>
+      )}
     </div>
   );
 });
