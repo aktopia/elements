@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { createContext, memo, useCallback, useContext, useMemo } from 'react';
+import { createContext, memo, useContext, useMemo } from 'react';
 import type { Events, Subs } from '@elements/store/types';
 
 export type Read = <T extends keyof Subs>(id: T, params?: Subs[T]['params']) => Subs[T]['result'];
@@ -42,17 +42,6 @@ export const useDispatch: DispatchHook = (id) => {
   const { useDispatchImpl } = useContext(StoreContext);
   return useDispatchImpl(id);
 };
-
-export function useStateLike(
-  valueId: keyof Subs,
-  dispatchId: keyof Events
-): [any, (value: any) => void] {
-  // TODO Deprecate
-  const value = useValue(valueId);
-  const dispatch = useDispatch(dispatchId);
-  const setValue = useCallback((value: any) => dispatch({ value }), [dispatch]);
-  return [value, setValue];
-}
 
 interface StoreProps {
   useValue: ValueHook;

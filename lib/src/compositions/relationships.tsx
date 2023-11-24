@@ -8,7 +8,7 @@ import {
 import { suspensify } from '@elements/components/suspensify';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { EntityType as ResultType, type LookupRef } from '@elements/types';
-import { useDispatch, useStateLike, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store';
 import {
   type ChangeEvent,
   type ComponentType,
@@ -192,7 +192,8 @@ const entityTypeToIdAttr = {
 
 const NewRelationship = suspensify(({ onAddToggle, fromLookupRef }: any) => {
   const t = useTranslation();
-  const [query, setQuery] = useStateLike('main-search/query', 'main-search.query/set');
+  const query = useValue('main-search/query');
+  const setQuery = useDispatch('main-search.query/set');
 
   const addRelation = useDispatch('relationship/add');
 
@@ -201,7 +202,7 @@ const NewRelationship = suspensify(({ onAddToggle, fromLookupRef }: any) => {
 
   const onQueryChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      setQuery(e.target.value);
+      setQuery({ value: e.target.value });
     },
     [setQuery]
   );
@@ -286,17 +287,17 @@ const NewRelationship = suspensify(({ onAddToggle, fromLookupRef }: any) => {
 
 export const Relationships = suspensify(({ lookupRef }: RelationsProps) => {
   const t = useTranslation();
-  const [addingNewRelation, setAddingNewRelation] = useStateLike(
-    'relationship/adding',
-    'relationship.adding/set'
-  );
+  const addingNewRelation = useValue('relationship/adding');
+  const setAddingNewRelation = useDispatch('relationship.adding/set');
 
   const relationIds = useValue('relationship/ids', {
     'relationship.from/ref': lookupRef,
   });
 
   const onAddToggle = useCallback(() => {
-    setAddingNewRelation(!addingNewRelation);
+    setAddingNewRelation({
+      value: !addingNewRelation,
+    });
   }, [addingNewRelation, setAddingNewRelation]);
 
   return (

@@ -1,4 +1,4 @@
-export { useValue, useDispatch, useStateLike, Store } from '@elements/store/interface';
+export { useValue, useDispatch, Store } from '@elements/store/interface';
 export { sub, asyncSub, evt, remoteSub } from '@elements/store/register';
 export {
   setState,
