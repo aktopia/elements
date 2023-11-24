@@ -309,9 +309,9 @@ export const Relationships = suspensify(({ lookupRef }: RelationsProps) => {
         </button>
       </div>
       <div className={'flex flex-col gap-5'}>
-        {addingNewRelation && (
+        {addingNewRelation ? (
           <NewRelationship fromLookupRef={lookupRef} suspenseLines={3} onAddToggle={onAddToggle} />
-        )}
+        ) : null}
         {relationIds.length > 0 ? (
           relationIds.map((relationId) => (
             <Relationship
@@ -328,3 +328,7 @@ export const Relationships = suspensify(({ lookupRef }: RelationsProps) => {
     </div>
   );
 });
+
+/*
+TODO Abstract search functionality
+ */

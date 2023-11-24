@@ -283,6 +283,8 @@ export {
   MegaphoneIcon as MegaphoneMiniSolid,
   HomeIcon as HomeMiniSolid,
   QuestionMarkCircleIcon as QuestionMarkCircleMiniSolid,
+  UsersIcon as UsersMiniSolid,
+  UserGroupIcon as UserGroupMiniSolid,
 } from '@heroicons/react/20/solid';
 
 export {
@@ -315,6 +317,7 @@ export {
   InformationCircleIcon as InformationCircleSolid,
   ArrowRightIcon as ArrowRightSolid,
   QuestionMarkCircleIcon as QuestionMarkCircleSolid,
+  UsersIcon as UsersSolid,
 } from '@heroicons/react/24/solid';
 
 export {
@@ -350,6 +353,7 @@ export {
   ArrowRightIcon as ArrowRightOutline,
   QuestionMarkCircleIcon as QuestionMarkCircleOutline,
   ChevronDoubleUpIcon as ChevronDoubleUpOutline,
+  UsersIcon as UsersOutline,
 } from '@heroicons/react/24/outline';
 
 /*

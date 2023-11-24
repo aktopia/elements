@@ -15,7 +15,6 @@ export type Subs = {
   'relationship.to/title': Sub<{ 'relationship/id': string }, string>;
   'relationship/relation': Sub<{ 'relationship/id': string }, RelationType>;
   'relationship/adding': Sub<{}, boolean>;
-  'relationship.deletion/id': Sub<{}, string>;
 };
 
 export type Events = {
@@ -25,8 +24,6 @@ export type Events = {
     'relationship.from/ref': LookupRef;
     'relationship.to/ref': LookupRef;
   }>;
-  'relationship.deletion/start': Evt<{ 'relationship/id': string }>;
-  'relationship.deletion/cancel': Evt<{ 'relationship/id': string }>;
   'relationship/delete': Evt<{ 'relationship/id': string; 'relationship.from/ref': LookupRef }>;
 };
 
@@ -38,10 +35,6 @@ export const relationshipSlice = () => ({
 });
 
 sub('relationship/adding', ({ state }) => state['relationship/state']['relationship/adding']);
-sub(
-  'relationship.deletion/id',
-  ({ state }) => state['relationship/state']['relationship.deletion/id']
-);
 
 remoteSub('relationship/ids');
 remoteSub('relationship.to/title');
@@ -63,18 +56,6 @@ evt('relationship/add', async ({ setState, params }) => {
 
   await invalidateAsyncSub('relationship/ids', {
     'relationship.from/ref': params['relationship.from/ref'],
-  });
-});
-
-evt('relationship.deletion/start', ({ setState, params }) => {
-  setState((state: any) => {
-    state['relationship/state']['relationship.deletion/id'] = params['relationship/id'];
-  });
-});
-
-evt('relationship.deletion/cancel', ({ setState }) => {
-  setState((state: any) => {
-    state['relationship/state']['relationship.deletion/id'] = null;
   });
 });
 
