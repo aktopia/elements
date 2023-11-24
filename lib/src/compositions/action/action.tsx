@@ -1,6 +1,6 @@
 import { Discuss } from '@elements/compositions/discuss';
 import { ActionHeader } from '@elements/compositions/action/action-header';
-import { Home } from '@elements/compositions/action/home';
+import { ActionHome } from '@elements/compositions/action/action-home';
 import { Updates } from '@elements/compositions/updates';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
@@ -32,7 +32,7 @@ const Action_ = ({ actionId }: { actionId: string }) => {
 
   switch (activeTabId) {
     case ActionTab.Home:
-      tab = <Home suspenseLines={12} />;
+      tab = <ActionHome suspenseLines={12} />;
       break;
     case ActionTab.Updates:
       tab = isDraft ? (
@@ -49,7 +49,7 @@ const Action_ = ({ actionId }: { actionId: string }) => {
       );
       break;
     default:
-      tab = <Home suspenseLines={12} />;
+      tab = <ActionHome suspenseLines={12} />;
   }
 
   return (

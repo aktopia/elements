@@ -1,4 +1,4 @@
-import { Home as Component } from '@elements/compositions/action/home';
+import { ActionHome as Component } from '@elements/compositions/action/action-home';
 import { store } from '@story/stores/action/home';
 import { mockStory } from '@story/utils/mock-story';
 

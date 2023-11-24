@@ -1,6 +1,6 @@
 import { Discuss } from '@elements/compositions/discuss';
 import { IssueHeader } from '@elements/compositions/issue/issue-header';
-import { Home } from '@elements/compositions/issue/home';
+import { IssueHome } from '@elements/compositions/issue/issue-home';
 import { Spots } from '@elements/compositions/issue/spots';
 import { Media } from '@elements/compositions/issue/media';
 import { wrapPage } from '@elements/compositions/wrap-page';
@@ -16,7 +16,7 @@ export const Issue = wrapPage(() => {
 
   switch (activeTabId) {
     case IssueTab.Home:
-      tab = <Home suspenseLines={12} />;
+      tab = <IssueHome suspenseLines={12} />;
       break;
     case IssueTab.Discuss:
       tab = <Discuss lookupRef={ref} suspenseLines={12} />;
@@ -28,7 +28,7 @@ export const Issue = wrapPage(() => {
       tab = <Spots refId={issueId} suspenseLines={5} />;
       break;
     default:
-      tab = <Home suspenseLines={12} />;
+      tab = <IssueHome suspenseLines={12} />;
   }
 
   return (
