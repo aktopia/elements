@@ -76,16 +76,24 @@ const useDispatchImpl: DispatchHook = (id) => {
 };
 
 export const invalidateAsyncSub = async <T extends keyof Subs>(
-  id: T,
-  params?: Subs[T]['params']
+  sub: [id: T, params?: Subs[T]['params']]
 ) => {
+  const [id, params] = sub;
   await queryClient.invalidateQueries({ queryKey: [id, { params }] });
+};
+
+export const replaceAsyncSub = <T extends keyof Subs>(
+  sub: [id: T, params?: Subs[T]['params']],
+  updater: Subs[T]['result'] | ((old: Subs[T]['result']) => Subs[T]['result'])
+) => {
+  const [id, params] = sub;
+  queryClient.setQueryData([id, { params }], updater);
 };
 
 export const invalidateAsyncSubs = async <T extends keyof Subs>(
   subs: Array<[id: T, params?: Subs[T]['params']]>
 ) => {
-  await Promise.all(subs.map(([id, params]) => invalidateAsyncSub(id, params)));
+  await Promise.all(subs.map(([id, params]) => invalidateAsyncSub([id, params])));
 };
 
 export const Store = ({ children }: { children: ReactNode }) => {

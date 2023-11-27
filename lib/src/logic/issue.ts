@@ -177,7 +177,7 @@ evt('issue.location/add', async ({ getState, params }) => {
   const { location, bounds, caption } = params;
 
   await rpcPost('issue.location/add', { 'issue/id': currentIssueId, location, bounds, caption });
-  await invalidateAsyncSub('issue/locations', { 'issue/id': currentIssueId });
+  await invalidateAsyncSub(['issue/locations', { 'issue/id': currentIssueId }]);
 });
 
 evt('issue.current.user/face', async ({ getState }) => {
@@ -318,7 +318,7 @@ evt('issue.locality/choose', async ({ getState, params }) => {
 evt('issue.location/delete', async ({ getState, params }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];
   await rpcPost('location/delete', { 'location/id': params['location/id'] });
-  await invalidateAsyncSub('issue/locations', { 'issue/id': currentIssueId });
+  await invalidateAsyncSub(['issue/locations', { 'issue/id': currentIssueId }]);
 });
 
 const getPresignedUrlS3 = async ({
@@ -371,7 +371,7 @@ evt('issue.image/add', async ({ params }) => {
       'image/caption': params['caption'],
     });
 
-    await invalidateAsyncSub('issue/images', { 'issue/id': params['issue/id'] });
+    await invalidateAsyncSub(['issue/images', { 'issue/id': params['issue/id'] }]);
   } catch (e) {
     // TODO Handle error properly
     console.error(e);
@@ -384,7 +384,7 @@ evt('issue.image/delete', async ({ params }) => {
     'image/id': params['image/id'],
   });
 
-  await invalidateAsyncSub('issue/images', { 'issue/id': params['issue/id'] });
+  await invalidateAsyncSub(['issue/images', { 'issue/id': params['issue/id'] }]);
 });
 
 registerTextEditor('issue.title/text', {
@@ -400,7 +400,7 @@ registerTextEditor('issue.title/text', {
       'issue/id': params.ref[1],
       value: title,
     });
-    await invalidateAsyncSub('issue.title/text', { 'issue/id': params.ref[1] });
+    await invalidateAsyncSub(['issue.title/text', { 'issue/id': params.ref[1] }]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,
@@ -414,7 +414,7 @@ registerTextEditor('issue.description/text', {
       'issue/id': params.ref[1],
       value: description,
     });
-    await invalidateAsyncSub('issue.description/text', { 'issue/id': params.ref[1] });
+    await invalidateAsyncSub(['issue.description/text', { 'issue/id': params.ref[1] }]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,
@@ -428,7 +428,7 @@ registerTextEditor('issue.resolution/text', {
       'issue/id': params.ref[1],
       value: resolution,
     });
-    await invalidateAsyncSub('issue.resolution/text', { 'issue/id': params.ref[1] });
+    await invalidateAsyncSub(['issue.resolution/text', { 'issue/id': params.ref[1] }]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,

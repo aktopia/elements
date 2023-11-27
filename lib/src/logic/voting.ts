@@ -1,8 +1,9 @@
-import { evt, invalidateAsyncSubs, remoteSub } from '@elements/store';
+import { evt, remoteSub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { LookupRef } from '@elements/types';
 import type { Evt, Sub } from '@elements/store/types';
+import { replaceAsyncSub } from '@elements/store/impl';
 
 export type Kind = 'upvote' | 'downvote' | null;
 
@@ -26,21 +27,25 @@ remoteSub('voting.current.user.vote/kind');
 evt(
   'voting.current.user/upvote',
   wrapRequireAuth(async ({ params }) => {
-    await rpcPost('voting.current.user/upvote', params);
-    await invalidateAsyncSubs([
-      ['voting.vote/count', params],
-      ['voting.current.user.vote/kind', params],
-    ]);
+    const { 'voting.vote/count': count, 'voting.current.user.vote/kind': kind } = await rpcPost(
+      'voting.current.user/upvote',
+      params
+    );
+
+    replaceAsyncSub(['voting.vote/count', params], count);
+    replaceAsyncSub(['voting.current.user.vote/kind', params], kind);
   })
 );
 
 evt(
   'voting.current.user/downvote',
   wrapRequireAuth(async ({ params }) => {
-    await rpcPost('voting.current.user/downvote', params);
-    await invalidateAsyncSubs([
-      ['voting.vote/count', params],
-      ['voting.current.user.vote/kind', params],
-    ]);
+    const { 'voting.vote/count': count, 'voting.current.user.vote/kind': kind } = await rpcPost(
+      'voting.current.user/downvote',
+      params
+    );
+
+    replaceAsyncSub(['voting.vote/count', params], count);
+    replaceAsyncSub(['voting.current.user.vote/kind', params], kind);
   })
 );

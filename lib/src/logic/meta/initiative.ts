@@ -163,9 +163,12 @@ evt('meta.initiative.status/update', async ({ params }) => {
     status: params.status,
   });
 
-  await invalidateAsyncSub('meta.initiative/status', {
-    'meta.initiative/slug': params['meta.initiative/slug'],
-  });
+  await invalidateAsyncSub([
+    'meta.initiative/status',
+    {
+      'meta.initiative/slug': params['meta.initiative/slug'],
+    },
+  ]);
 });
 
 registerTextEditor('meta.initiative.title/text', {
@@ -176,9 +179,12 @@ registerTextEditor('meta.initiative.title/text', {
       'meta.initiative/slug': params.ref[1],
       value: title,
     });
-    await invalidateAsyncSub('meta.initiative.title/text', {
-      'meta.initiative/slug': params.ref[1],
-    });
+    await invalidateAsyncSub([
+      'meta.initiative.title/text',
+      {
+        'meta.initiative/slug': params.ref[1],
+      },
+    ]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,
@@ -192,9 +198,12 @@ registerTextEditor('meta.initiative.description/text', {
       'meta.initiative/slug': params.ref[1],
       value: description,
     });
-    await invalidateAsyncSub('meta.initiative.description/text', {
-      'meta.initiative/slug': params.ref[1],
-    });
+    await invalidateAsyncSub([
+      'meta.initiative.description/text',
+      {
+        'meta.initiative/slug': params.ref[1],
+      },
+    ]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,

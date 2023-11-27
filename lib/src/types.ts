@@ -12,4 +12,4 @@ export enum EntityType {
 
 export type Keyword = string;
 
-export type LookupRef = [Keyword, string | Keyword];
+export type LookupRef = [string, string];

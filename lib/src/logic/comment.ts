@@ -11,6 +11,7 @@ import {
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
 import type { LookupRef } from '@elements/types';
+import { replaceAsyncSub } from '@elements/store/impl';
 
 export type Subs = {
   'comment/status': Sub<{ 'comment/id': string }, string>;
@@ -93,7 +94,7 @@ evt('new.comment/create', async ({ getState, params, dispatch }) => {
 
   dispatch('comment.replying/set', { ref: params.ref, replying: false });
 
-  await invalidateAsyncSub('comment/ids', params);
+  await invalidateAsyncSub(['comment/ids', params]);
 });
 
 evt('new.comment/update', ({ setState, params, getState, dispatch }) => {
@@ -132,7 +133,7 @@ evt('comment/delete', async ({ setState, params }) => {
     state['comment/state']['comment.deletion/id'] = null;
   });
 
-  await invalidateAsyncSub('comment/status', { 'comment/id': params['comment/id'] });
+  await invalidateAsyncSub(['comment/status', { 'comment/id': params['comment/id'] }]);
 });
 
 evt('comment.text/edit', ({ setState, params }) => {
@@ -172,7 +173,7 @@ registerTextEditor('comment/text', {
       'comment/id': params.ref[1],
       value,
     });
-    await invalidateAsyncSub('comment/text', { 'comment/id': params.ref[1] });
+    replaceAsyncSub(['comment/text', { 'comment/id': params.ref[1] }], value);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,

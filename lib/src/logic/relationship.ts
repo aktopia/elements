@@ -58,17 +58,23 @@ evt('relationship/add', async ({ setState, params }) => {
     state['relationship/state']['relationship/adding'] = false;
   });
 
-  await invalidateAsyncSub('relationship/ids', {
-    'relationship.from/ref': params['relationship.from/ref'],
-  });
+  await invalidateAsyncSub([
+    'relationship/ids',
+    {
+      'relationship.from/ref': params['relationship.from/ref'],
+    },
+  ]);
 });
 
 evt('relationship/delete', async ({ params, setState }) => {
   await rpcPost('relationship/delete', { 'relationship/id': params['relationship/id'] });
 
-  await invalidateAsyncSub('relationship/ids', {
-    'relationship.from/ref': params['relationship.from/ref'],
-  });
+  await invalidateAsyncSub([
+    'relationship/ids',
+    {
+      'relationship.from/ref': params['relationship.from/ref'],
+    },
+  ]);
 
   setState((state: any) => {
     state['relationship/state']['relationship.deletion/id'] = null;

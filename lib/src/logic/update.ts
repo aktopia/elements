@@ -66,7 +66,7 @@ evt('new.update/create', async ({ getState, dispatch, params }) => {
     ref: params.ref,
     value: newUpdate,
   });
-  await invalidateAsyncSub('update/ids', { ref: params.ref });
+  await invalidateAsyncSub(['update/ids', { ref: params.ref }]);
 });
 
 evt('new.update/update', ({ setState, params, read, dispatch }) => {
@@ -101,7 +101,7 @@ evt('update/delete', async ({ setState, params }) => {
     state['update/state']['update.deletion/id'] = null;
   });
 
-  await invalidateAsyncSub('update/ids', { ref: params.ref });
+  await invalidateAsyncSub(['update/ids', { ref: params.ref }]);
 });
 
 evt('update.text/edit', ({ setState, params }) => {
@@ -136,7 +136,7 @@ registerTextEditor('update/text', {
       'update/id': params.ref[1],
       value,
     });
-    await invalidateAsyncSub('update/text', { 'update/id': params.ref[1] });
+    await invalidateAsyncSub(['update/text', { 'update/id': params.ref[1] }]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,

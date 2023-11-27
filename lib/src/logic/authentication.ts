@@ -347,7 +347,7 @@ evt('user.registration/done', async ({ getState, read }) => {
 
   await rpcPost('user.name/update', { value: name, 'user/id': currentUserId });
 
-  await invalidateAsyncSub('user.registration/pending');
+  await invalidateAsyncSub(['user.registration/pending']);
 });
 
 export function wrapRequireAuth<T extends keyof AllEvents>(fn: EventHandler<T>) {

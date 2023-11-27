@@ -382,7 +382,7 @@ evt('action.status/update', async ({ params, dispatch, getState, setState, read 
     message: 'Action status has been updated.',
     kind: 'info',
   });
-  await invalidateAsyncSub('action/status', { 'action/id': params['action/id'] });
+  await invalidateAsyncSub(['action/status', { 'action/id': params['action/id'] }]);
 });
 
 evt('action/delete', async ({ params }) => {
@@ -404,7 +404,7 @@ registerTextEditor('action.title/text', {
       'action/id': params.ref[1],
       value: title,
     });
-    await invalidateAsyncSub('action.title/text', { 'action/id': params.ref[1] });
+    await invalidateAsyncSub(['action.title/text', { 'action/id': params.ref[1] }]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,
@@ -418,7 +418,7 @@ registerTextEditor('action.description/text', {
       'action/id': params.ref[1],
       value: description,
     });
-    await invalidateAsyncSub('action.description/text', { 'action/id': params.ref[1] });
+    await invalidateAsyncSub(['action.description/text', { 'action/id': params.ref[1] }]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,
@@ -432,7 +432,7 @@ registerTextEditor('action.outcome/text', {
       'action/id': params.ref[1],
       value: outcome,
     });
-    await invalidateAsyncSub('action.outcome/text', { 'action/id': params.ref[1] });
+    await invalidateAsyncSub(['action.outcome/text', { 'action/id': params.ref[1] }]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,
