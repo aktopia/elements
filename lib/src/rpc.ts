@@ -4,9 +4,8 @@ export const rpcGet = async <Params, Result>(
   id: string,
   params: Params | {} = {}
 ): Promise<Result> => {
-  const key = encodeURIComponent(id);
   const urlJson = isEmpty(params) ? null : encodeURIComponent(JSON.stringify(params));
-  const url = `/api/rpc/${key}?json=${urlJson}`;
+  const url = `/api/rpc/${id}?json=${urlJson}`;
 
   const res = await fetch(url);
   const json = await res.json();
@@ -15,8 +14,7 @@ export const rpcGet = async <Params, Result>(
 };
 
 export const rpcPost = async (id: string, params: Record<string, any> = {}) => {
-  const key = encodeURIComponent(id);
-  const url = `/api/rpc/${key}`;
+  const url = `/api/rpc/${id}`;
 
   const res = await fetch(url, {
     method: 'POST',
