@@ -1,5 +1,5 @@
-import type { ItemProps } from 'react-aria-components';
-import { Button, Item, ListBox, Popover, Select, SelectValue } from 'react-aria-components';
+import type { ListBoxItemProps } from 'react-aria-components';
+import { Button, ListBoxItem, ListBox, Popover, Select, SelectValue } from 'react-aria-components';
 import { CheckSolid } from '@elements/icons';
 import type { ReactNode } from 'react';
 import { cx } from '@elements/utils';
@@ -8,9 +8,9 @@ import { Status } from '@elements/logic/meta/initiative';
 import { useDispatch, useValue } from '@elements/store/interface';
 import { useCallback, useMemo } from 'react';
 
-const ListBoxItem = (props: ItemProps & { children: ReactNode }) => {
+const Item = (props: ListBoxItemProps & { children: ReactNode }) => {
   return (
-    <Item
+    <ListBoxItem
       {...props}
       className={
         'group flex items-center justify-center gap-2 cursor-default py-2 px-4 outline-none rounded text-gray-700 focus:bg-gray-100'
@@ -23,7 +23,7 @@ const ListBoxItem = (props: ItemProps & { children: ReactNode }) => {
           {isSelected && <CheckSolid className={'h-4 w-4 text-gray-600'} />}
         </>
       )}
-    </Item>
+    </ListBoxItem>
   );
 };
 
@@ -47,7 +47,7 @@ export const StatusSelect = ({ statuses, onSelectionChange, selected }: any) => 
         }>
         <ListBox className={'outline-none p-1'} items={statuses}>
           {(status: any) => (
-            <ListBoxItem key={status.id} id={status.id} textValue={t(status.id)} value={status.id}>
+            <Item key={status.id} id={status.id} textValue={t(status.id)} value={status.id}>
               <span
                 className={cx(
                   'w-3 h-3 rounded-full border border-solid border-white',
@@ -55,7 +55,7 @@ export const StatusSelect = ({ statuses, onSelectionChange, selected }: any) => 
                 )}
               />
               <span>{t(status.id)}</span>
-            </ListBoxItem>
+            </Item>
           )}
         </ListBox>
       </Popover>
