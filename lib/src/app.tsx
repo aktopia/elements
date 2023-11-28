@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 import { init as initAuth } from '@elements/authentication';
 import { dispatch, useValue } from '@elements/store';
 import { suspensify } from '@elements/components/suspensify';
-import { Spinner } from '@elements/components/spinner';
 import { initRouter } from '@elements/router';
 import { authApiDomain } from '@elements/config';
+import { FullPageSpinner } from '@elements/components/full-page-spinner';
 
 const authConfig = {
   apiDomain: authApiDomain,
@@ -55,11 +55,5 @@ export const App = suspensify(() => {
 
   const loading = useValue('app/loading');
 
-  return loading ? (
-    <div className={'fixed flex h-full w-full items-center justify-center'}>
-      <Spinner kind={'primary'} size={'sm'} visible={true} />
-    </div>
-  ) : (
-    <Router suspenseLines={20} />
-  );
+  return loading ? FullPageSpinner : <Router suspenseFallback={FullPageSpinner} />;
 });

@@ -5,14 +5,10 @@ import { type Match } from '@elements/router';
 import { NavigationState } from '@elements/logic/router';
 import { NotFoundPage } from '@elements/compositions/not-found';
 import { resolveComponent } from '@elements/routes';
+import { FullPageSpinner } from '@elements/components/full-page-spinner';
 
 export const listener = (match: Match) => dispatch('route.navigation/initiate', match);
 
-const fullPageSpinner = (
-  <div className={'fixed flex h-full w-full items-center justify-center'}>
-    <Spinner kind={'primary'} size={'sm'} visible={true} />
-  </div>
-);
 export const Router = suspensify(() => {
   const currentRoute = useValue('current.route/id');
   const loadingState = useValue('route.navigation/state');
@@ -30,5 +26,5 @@ export const Router = suspensify(() => {
     return <NotFoundPage />;
   }
 
-  return <Component suspenseFallback={fullPageSpinner} />;
+  return <Component suspenseFallback={FullPageSpinner} />;
 });
