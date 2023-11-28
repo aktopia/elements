@@ -321,27 +321,6 @@ evt('issue.location/delete', async ({ getState, params }) => {
   await invalidateAsyncSub(['issue/locations', { 'issue/id': currentIssueId }]);
 });
 
-const getPresignedUrlS3 = async ({
-  objectKey,
-}: {
-  objectKey: string;
-  metadata: Record<string, string>;
-}) => {
-  const url = '/api/lambda/s3/presign-url';
-
-  const res = await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify({ 'object-key': objectKey }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  const json = await res.json();
-
-  return json.data;
-};
-
 const uploadToS3 = async (presignedUrl: string, file: File) => {
   return await fetch(presignedUrl, {
     method: 'PUT',
@@ -358,7 +337,10 @@ evt('issue.image/add', async ({ params }) => {
   try {
     const metadata = {};
     const id = guid();
-    const presignedUrl = await getPresignedUrlS3({ objectKey: id, metadata });
+    const presignedUrl = await rpcPost('s3/presigned-image-put-url', {
+      'object-key': id,
+      metadata,
+    });
     const res = await uploadToS3(presignedUrl, params.file);
 
     if (res.status !== 200) {
