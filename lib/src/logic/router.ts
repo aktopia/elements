@@ -1,7 +1,5 @@
 import { dispatch, evt, sub } from '@elements/store';
 import type { Events as AllEvents, Evt, Sub } from '@elements/store/types';
-import type { ComponentType } from 'react';
-import type { SuspensifyProps } from '@elements/components/suspensify';
 import type { Match, Params } from '@elements/router';
 import { navigateToPath, navigateToRoute } from '@elements/router';
 import isEqual from 'lodash/isEqual';
@@ -16,7 +14,6 @@ export type Subs = {
   'current.route/id': Sub<{}, string>;
   'route.navigation/state': Sub<{}, NavigationState>;
   'current.route/on-navigate-event': Sub<{}, keyof AllEvents>;
-  'current.route/component': Sub<{}, ComponentType<SuspensifyProps>>;
 };
 
 export type Events = {
@@ -39,8 +36,6 @@ sub(
   ({ state }) => state['router/state']['route/on-navigate-event']
 );
 
-sub('current.route/component', ({ state }) => state['router/state']['route/component']);
-
 sub('route.navigation/state', ({ state }) => state['router/state']['route.navigation/state']);
 
 const routeChanged = (currentState: any, newMatch: Match) => {
@@ -54,7 +49,7 @@ const routeChanged = (currentState: any, newMatch: Match) => {
 };
 
 evt('route.navigation/initiate', async ({ setState, params, getState }) => {
-  const { id, pathParams, queryParams, hashParams, component, path, onNavigateEvent } = params;
+  const { id, pathParams, queryParams, hashParams, path, onNavigateEvent } = params;
   const navigationState = getState()['router/state']['route.navigation/state'];
   const navigationUninitiated = navigationState === NavigationState.Uninitiated;
   const navigationInitiated = navigationState === NavigationState.Initiated;
@@ -73,7 +68,6 @@ evt('route.navigation/initiate', async ({ setState, params, getState }) => {
       'route/path-params': pathParams,
       'route/query-params': queryParams,
       'route/hash-params': hashParams,
-      'route/component': component,
       'route/path': path,
       'route.navigation/state': NavigationState.Initiated,
     };
@@ -81,7 +75,7 @@ evt('route.navigation/initiate', async ({ setState, params, getState }) => {
 
   if (onNavigateEvent) {
     await dispatch(onNavigateEvent, { route: params });
-    // dispatch 'route.navigation/complete' whenever all the logic is done
+    // You should dispatch 'route.navigation/complete' whenever all the logic is done your handler
   } else {
     dispatch('route.navigation/complete');
   }

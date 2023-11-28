@@ -8,7 +8,7 @@ const PHONE = '+91 99434198796';
 const WHATSAPP = 'https://wa.me/+919943418796';
 const TELEGRAM = 'https://t.me/+919943418796';
 
-export const Contact = wrapPage(() => {
+const Contact = wrapPage(() => {
   const header = 'We listen intently.';
   const t = useTranslation();
   return (
@@ -51,3 +51,5 @@ export const Contact = wrapPage(() => {
     </main>
   );
 });
+
+export default Contact;

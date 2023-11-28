@@ -145,7 +145,7 @@ const Description = suspensify(() => {
   );
 });
 
-export const Initiative = wrapPage(() => {
+const Initiative = wrapPage(() => {
   const activeTabId = useValue('meta.initiative.tabs/active-tab');
   const initiativeSlug = useValue('current.meta.initiative/slug');
   const lookupRef = useLookupRef('meta.initiative/slug', initiativeSlug);
@@ -169,3 +169,5 @@ export const Initiative = wrapPage(() => {
     </div>
   );
 });
+
+export default Initiative;

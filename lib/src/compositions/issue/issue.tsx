@@ -8,7 +8,7 @@ import { useValue } from '@elements/store';
 import { useLookupRef } from '@elements/store/hooks';
 import { IssueTab } from '@elements/logic/issue';
 
-export const Issue = wrapPage(() => {
+const Issue = wrapPage(() => {
   const activeTabId = useValue('issue.tabs/active-tab');
   const issueId = useValue('current.issue/id');
   const ref = useLookupRef('issue/id', issueId);
@@ -38,3 +38,5 @@ export const Issue = wrapPage(() => {
     </div>
   );
 });
+
+export default Issue;

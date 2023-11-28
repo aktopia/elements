@@ -36,7 +36,7 @@ export const InitiativeCard = suspensify(({ slug }: any) => {
   );
 });
 
-export const Initiatives = wrapPage(() => {
+const Initiatives = wrapPage(() => {
   const slugs = useValue('meta.initiative/slugs');
   const makeBetter = "Let's make Aktopia better together.";
   const welcome =
@@ -53,3 +53,5 @@ export const Initiatives = wrapPage(() => {
     </div>
   );
 });
+
+export default Initiatives;

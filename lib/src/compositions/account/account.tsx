@@ -9,7 +9,7 @@ import { useCallback } from 'react';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 import { Status } from '@elements/logic/meta/initiative';
 
-export const Account = wrapPage(() => {
+const Account = wrapPage(() => {
   const t = useTranslation();
   const currentUserId = useValue('current.user/id');
   const currentUserName = useValue('current.user/name');
@@ -55,3 +55,5 @@ export const Account = wrapPage(() => {
     </div>
   );
 });
+
+export default Account;

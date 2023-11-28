@@ -4,6 +4,7 @@ import { Spinner } from '@elements/components/spinner';
 import { type Match } from '@elements/router';
 import { NavigationState } from '@elements/logic/router';
 import { NotFoundPage } from '@elements/compositions/not-found';
+import { resolveComponent } from '@elements/routes';
 
 export const listener = (match: Match) => dispatch('route.navigation/initiate', match);
 
@@ -13,8 +14,9 @@ const fullPageSpinner = (
   </div>
 );
 export const Router = suspensify(() => {
+  const currentRoute = useValue('current.route/id');
   const loadingState = useValue('route.navigation/state');
-  const Component = useValue('current.route/component');
+  const Component = resolveComponent[currentRoute];
 
   if (loadingState !== NavigationState.Complete) {
     return (

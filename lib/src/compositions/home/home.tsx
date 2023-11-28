@@ -273,6 +273,8 @@ export const Home = wrapPage(() => {
   );
 });
 
+export default Home;
+
 /*
 TODO
  - Make feed infinite scroll

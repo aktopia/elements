@@ -48,7 +48,7 @@ const Header = () => {
   );
 };
 
-export const Profile = wrapPage(() => {
+const Profile = wrapPage(() => {
   const activeTabId = useValue('profile.tabs/active-tab');
   let tab;
 
@@ -70,3 +70,5 @@ export const Profile = wrapPage(() => {
     </div>
   );
 });
+
+export default Profile;
