@@ -2,18 +2,16 @@ import type { ComponentType } from 'react';
 import type { SuspensifyProps } from '@elements/components/suspensify';
 import type { Events } from '@elements/store/types';
 import { match } from 'path-to-regexp';
-import { lazy } from 'react';
-
-const Home = lazy(() => import('@elements/compositions/home/home'));
-const Action = lazy(() => import('@elements/compositions/action/action'));
-const Issue = lazy(() => import('@elements/compositions/issue/issue'));
-const Profile = lazy(() => import('@elements/compositions/profile/profile'));
-const Account = lazy(() => import('@elements/compositions/account/account'));
-const Initiatives = lazy(() => import('@elements/compositions/meta/initiatives'));
-const Initiative = lazy(() => import('@elements/compositions/meta/initiative'));
-const PrivacyPolicy = lazy(() => import('@elements/compositions/privacy-policy'));
-const TermsOfService = lazy(() => import('@elements/compositions/terms-of-service'));
-const Contact = lazy(() => import('@elements/compositions/contact'));
+import Home from '@elements/compositions/home/home';
+import Action from '@elements/compositions/action/action';
+import Issue from '@elements/compositions/issue/issue';
+import Profile from '@elements/compositions/profile/profile';
+import Account from '@elements/compositions/account/account';
+import Initiatives from '@elements/compositions/meta/initiatives';
+import Initiative from '@elements/compositions/meta/initiative';
+import PrivacyPolicy from '@elements/compositions/privacy-policy';
+import TermsOfService from '@elements/compositions/terms-of-service';
+import Contact from '@elements/compositions/contact';
 
 export interface Route {
   id: string;
