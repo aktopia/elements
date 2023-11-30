@@ -48,9 +48,9 @@ const Title = suspensify(() => {
 
 export const ActionBar = suspensify(() => {
   const initiativeSlug = useValue('current.meta.initiative/slug');
-  const lookupRef = useIdent('meta.initiative/slug', initiativeSlug);
+  const ident = useIdent('meta.initiative/slug', initiativeSlug);
 
-  return <UpVoting lookupRef={lookupRef} size={'md'} suspenseLines={1} />;
+  return <UpVoting ident={ident} size={'md'} suspenseLines={1} />;
 });
 
 export const InitiativeTabs = suspensify(() => {
