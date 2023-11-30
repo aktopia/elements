@@ -24,7 +24,7 @@ export const suspensify = <P extends object>(Component: ComponentType<P>) =>
 
       if (suspenseFallback) {
         fallback = suspenseFallback;
-      } else {
+      } else if (suspenseCircle || suspenseLines) {
         fallback = (
           <Skeleton
             circle={suspenseCircle}
@@ -33,7 +33,10 @@ export const suspensify = <P extends object>(Component: ComponentType<P>) =>
             kind={suspenseColor}
           />
         );
+      } else {
+        fallback = null;
       }
+
       return (
         <Suspense fallback={fallback}>
           <Component {...(props as ComponentProps<ComponentType<P>>)} />
