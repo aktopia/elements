@@ -24,6 +24,7 @@ import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
 import type { Image } from '@elements/components/media-gallery';
+import type { Ident } from '@elements/types';
 
 export enum IssueTab {
   Home = 'issue.tab/home',
@@ -42,7 +43,7 @@ export type Subs = {
   'issue/saved': Sub<{}, boolean>;
   'issue/followed': Sub<{}, boolean>;
   'issue.follow/count': Sub<{}, number>;
-  'issue.title/text': Sub<{ 'issue/id': string }, string>;
+  'issue.title/text': Sub<{ ident: Ident }, string>;
   'issue.tabs/active-tab': Sub<{}, IssueTab>;
   'issue/updated-at': Sub<{ 'issue/id': string }, number>;
   'issue.resolution/text': Sub<{ 'issue/id': string }, string>;
@@ -50,7 +51,7 @@ export type Subs = {
   'issue.location.slide-over/visible': Sub<{}, boolean>;
   'issue.create.modal/title': Sub<{}, string>;
   'issue.create.modal/visible': Sub<{}, boolean>;
-  'issue.title/can-edit': Sub<{}, boolean>;
+  'issue.title/can-edit': Sub<{ ident: Ident }, boolean>;
   'issue.description/can-edit': Sub<{}, boolean>;
   'issue.resolution/can-edit': Sub<{}, boolean>;
   'issue.users.facing/count': Sub<{ 'issue/id': string }, number>;
@@ -382,7 +383,7 @@ registerTextEditor('issue.title/text', {
       'issue/id': params.ref[1],
       value: title,
     });
-    await invalidateAsyncSub(['issue.title/text', { 'issue/id': params.ref[1] }]);
+    await invalidateAsyncSub(['issue.title/text', { ident: ['issue/id', params.ref[1]] }]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,

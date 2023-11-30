@@ -10,6 +10,4 @@ export enum EntityType {
   MetaInitiative = 'entity.type.meta/initiative',
 }
 
-export type Keyword = string;
-
 export type Ident = [string, string];
