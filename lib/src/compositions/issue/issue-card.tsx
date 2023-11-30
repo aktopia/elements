@@ -8,7 +8,7 @@ import { useTranslation } from '@elements/translation';
 import { Locality as RawLocality } from '@elements/components/locality';
 import { useCallback } from 'react';
 import { Link } from '@elements/components/link';
-import { useLookupRef } from '@elements/store/hooks';
+import { useIdent } from '@elements/store/hooks';
 
 interface IssueCardProps {
   id: string;
@@ -57,7 +57,7 @@ const Severity = ({ issueId }: { issueId: string }) => {
 export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardProps) => {
   const title = useValue('issue.title/text', { 'issue/id': id });
   const updatedAt = useValue('issue/updated-at', { 'issue/id': id });
-  const lookupRef = useLookupRef('issue/id', id);
+  const ident = useIdent('issue/id', id);
 
   const onLocalityClick = useCallback(
     () => onLocalitySlideOverOpen(id),
@@ -80,7 +80,7 @@ export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardP
         {title}
       </Link>
       <div className={'flex items-center gap-10'}>
-        <Voting lookupRef={lookupRef} size={'xs'} suspenseLines={2} />
+        <Voting ident={ident} size={'xs'} suspenseLines={2} />
         <Facing issueId={id} />
         <Severity issueId={id} />
       </div>

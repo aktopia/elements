@@ -1,12 +1,12 @@
 import { evt, sub } from '@elements/store';
 import { ref } from '@elements/utils';
-import type { LookupRef } from '@elements/types';
+import type { Ident } from '@elements/types';
 import type { Evt, Sub } from '@elements/store/types';
 import type { EventHandlerArgs } from '@elements/store/register';
 
 interface Action {
   setState: any;
-  params: { ref: LookupRef };
+  params: { ref: Ident };
   getState: any;
 }
 
@@ -17,17 +17,17 @@ interface Actions {
 }
 
 export type Subs = {
-  'text-editor/editing': Sub<{ ref: LookupRef }, boolean>;
-  'text-editor/error': Sub<{ ref: LookupRef }, string>;
-  'text-editor/reset': Sub<{ ref: LookupRef }, boolean>;
+  'text-editor/editing': Sub<{ ref: Ident }, boolean>;
+  'text-editor/error': Sub<{ ref: Ident }, string>;
+  'text-editor/reset': Sub<{ ref: Ident }, boolean>;
 };
 
 export type Events = {
-  'text-editor/edit': Evt<{ ref: LookupRef }>;
-  'text-editor.edit/done': Evt<{ ref: LookupRef }>;
-  'text-editor.edit/cancel': Evt<{ ref: LookupRef }>;
-  'text-editor.text/update': Evt<{ ref: LookupRef; value: string }>;
-  'text-editor.reset/complete': Evt<{ ref: LookupRef }>;
+  'text-editor/edit': Evt<{ ref: Ident }>;
+  'text-editor.edit/done': Evt<{ ref: Ident }>;
+  'text-editor.edit/cancel': Evt<{ ref: Ident }>;
+  'text-editor.text/update': Evt<{ ref: Ident; value: string }>;
+  'text-editor.reset/complete': Evt<{ ref: Ident }>;
 };
 
 const textEditors: Record<string, Actions> = {};
@@ -40,13 +40,7 @@ export const textEditorSlice = () => ({
   'text-editor/state': {},
 });
 
-export const startEditing = ({
-  setState,
-  params,
-}: {
-  setState: any;
-  params: { ref: LookupRef };
-}) => {
+export const startEditing = ({ setState, params }: { setState: any; params: { ref: Ident } }) => {
   const key = ref(params.ref);
 
   setState((state: any) => {
@@ -82,12 +76,12 @@ export const updateText = ({ setState, params }: any) => {
   });
 };
 
-export const text = ({ getState, params }: { getState: any; params: { ref: LookupRef } }) => {
+export const text = ({ getState, params }: { getState: any; params: { ref: Ident } }) => {
   const key = ref(params.ref);
   return getState()['text-editor/state']?.[key]?.['text-editor/text'];
 };
 
-export const isEmpty = ({ getState, params }: { getState: any; params: { ref: LookupRef } }) => {
+export const isEmpty = ({ getState, params }: { getState: any; params: { ref: Ident } }) => {
   const text_ = text({ getState, params });
   return !text_ || text_.trim().length === 0;
 };
@@ -97,7 +91,7 @@ export const setError = ({
   params,
 }: {
   setState: any;
-  params: { ref: LookupRef; error: string };
+  params: { ref: Ident; error: string };
 }) => {
   const key = ref(params.ref);
 
@@ -118,7 +112,7 @@ export const hasError = ({ getState, params }: any) => {
   return !!getState()['text-editor/state'][key]?.['text-editor/error'];
 };
 
-export const clearError = ({ setState, params }: { params: { ref: LookupRef }; setState: any }) => {
+export const clearError = ({ setState, params }: { params: { ref: Ident }; setState: any }) => {
   const key = ref(params.ref);
 
   setState((state: any) => {

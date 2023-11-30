@@ -1,7 +1,7 @@
 import { evt, remoteSub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import { wrapRequireAuth } from '@elements/logic/authentication';
-import type { LookupRef } from '@elements/types';
+import type { Ident } from '@elements/types';
 import type { Evt, Sub } from '@elements/store/types';
 import { replaceAsyncSub } from '@elements/store/impl';
 
@@ -12,13 +12,13 @@ export const votingSlice = () => ({
 });
 
 export type Subs = {
-  'voting.vote/count': Sub<{ ref: LookupRef }, number>;
-  'voting.current.user.vote/kind': Sub<{ ref: LookupRef }, Kind>;
+  'voting.vote/count': Sub<{ ident: Ident }, number>;
+  'voting.current.user.vote/kind': Sub<{ ident: Ident }, Kind>;
 };
 
 export type Events = {
-  'voting.current.user/upvote': Evt<{ ref: LookupRef }>;
-  'voting.current.user/downvote': Evt<{ ref: LookupRef }>;
+  'voting.current.user/upvote': Evt<{ ident: Ident }>;
+  'voting.current.user/downvote': Evt<{ ident: Ident }>;
 };
 
 remoteSub('voting.vote/count');

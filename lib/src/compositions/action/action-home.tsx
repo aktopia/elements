@@ -5,7 +5,7 @@ import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { EditButton } from '@elements/components/edit-button';
-import { useLookupRef } from '@elements/store/hooks';
+import { useIdent } from '@elements/store/hooks';
 
 const Description = suspensify(() => {
   const t = useTranslation();
@@ -49,7 +49,7 @@ const Outcome = suspensify(() => {
   const actionId = useValue('current.action/id');
   const canEdit = useValue('action.outcome/can-edit', { 'action/id': actionId });
   const outcome = useValue('action.outcome/text', { 'action/id': actionId });
-  const ref = useLookupRef('action.outcome/text', actionId);
+  const ref = useIdent('action.outcome/text', actionId);
   const isEditing = useValue('text-editor/editing', { ref });
 
   const onEdit = useDispatch('action.outcome/edit');
@@ -81,7 +81,7 @@ const Outcome = suspensify(() => {
 
 export const ActionHome = suspensify(() => {
   const actionId = useValue('current.action/id');
-  const lookupRef = useLookupRef('action/id', actionId);
+  const lookupRef = useIdent('action/id', actionId);
 
   return (
     <div className={'flex w-full flex-col gap-8 md:flex-row'}>

@@ -7,7 +7,7 @@ import {
 } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
-import { EntityType as ResultType, type LookupRef } from '@elements/types';
+import { EntityType as ResultType, type Ident } from '@elements/types';
 import { useDispatch, useValue } from '@elements/store';
 import {
   type ChangeEvent,
@@ -41,7 +41,7 @@ const relations: { id: RelationType; label: string }[] = [
 ];
 
 interface RelationsProps {
-  lookupRef: LookupRef;
+  lookupRef: Ident;
 }
 
 interface Result {
@@ -64,86 +64,80 @@ const icon: Record<RelationType, ComponentType<any>> = {
   [RelationType.Relates]: ArrowsRightLeftOutline,
 };
 
-const ContextMenu = suspensify(
-  ({ fromLookupRef, id }: { fromLookupRef: LookupRef; id: string }) => {
-    const t = useTranslation();
-    const canDelete = useValue('relationship/can-delete', {
-      'relationship.from/ref': fromLookupRef,
-    });
-    const deleteRelationship = useDispatch('relationship/delete');
-    const openModal = useDispatch('confirmation-modal/open');
+const ContextMenu = suspensify(({ fromLookupRef, id }: { fromLookupRef: Ident; id: string }) => {
+  const t = useTranslation();
+  const canDelete = useValue('relationship/can-delete', {
+    'relationship.from/ref': fromLookupRef,
+  });
+  const deleteRelationship = useDispatch('relationship/delete');
+  const openModal = useDispatch('confirmation-modal/open');
 
-    const onDeleteClick = useCallback(() => {
-      openModal({
+  const onDeleteClick = useCallback(() => {
+    openModal({
+      kind: 'danger',
+      confirmText: t('common/delete'),
+      titleText: t('relationship.delete.modal/title'),
+      bodyText: t('relationship.delete.modal/body'),
+      cancelText: t('common/cancel'),
+      onConfirm: () =>
+        deleteRelationship({ 'relationship/id': id, 'relationship.from/ref': fromLookupRef }),
+    });
+  }, [openModal, t, deleteRelationship, id, fromLookupRef]);
+
+  const items = useMemo(() => {
+    if (!canDelete) {
+      return [];
+    }
+
+    return [
+      {
+        text: t('common/remove'),
+        onClick: onDeleteClick,
+        Icon: TrashOutline,
         kind: 'danger',
-        confirmText: t('common/delete'),
-        titleText: t('relationship.delete.modal/title'),
-        bodyText: t('relationship.delete.modal/body'),
-        cancelText: t('common/cancel'),
-        onConfirm: () =>
-          deleteRelationship({ 'relationship/id': id, 'relationship.from/ref': fromLookupRef }),
-      });
-    }, [openModal, t, deleteRelationship, id, fromLookupRef]);
+        key: 'delete',
+      },
+    ];
+  }, [t, onDeleteClick, canDelete]);
 
-    const items = useMemo(() => {
-      if (!canDelete) {
-        return [];
-      }
+  // @ts-ignore
+  return items.length === 0 ? null : <RawContextMenu items={items} orientation={'vertical'} />;
+});
 
-      return [
-        {
-          text: t('common/remove'),
-          onClick: onDeleteClick,
-          Icon: TrashOutline,
-          kind: 'danger',
-          key: 'delete',
-        },
-      ];
-    }, [t, onDeleteClick, canDelete]);
+const Relationship = suspensify(({ id, fromLookupRef }: { id: string; fromLookupRef: Ident }) => {
+  const t = useTranslation();
 
-    // @ts-ignore
-    return items.length === 0 ? null : <RawContextMenu items={items} orientation={'vertical'} />;
-  }
-);
+  const type = useValue('relationship.to.entity/type', {
+    'relationship/id': id,
+  });
 
-const Relationship = suspensify(
-  ({ id, fromLookupRef }: { id: string; fromLookupRef: LookupRef }) => {
-    const t = useTranslation();
+  const title = useValue('relationship.to/title', {
+    'relationship/id': id,
+  });
 
-    const type = useValue('relationship.to.entity/type', {
-      'relationship/id': id,
-    });
+  const relation = useValue('relationship/relation', {
+    'relationship/id': id,
+  });
 
-    const title = useValue('relationship.to/title', {
-      'relationship/id': id,
-    });
+  const Icon = icon[relation];
 
-    const relation = useValue('relationship/relation', {
-      'relationship/id': id,
-    });
-
-    const Icon = icon[relation];
-
-    return (
-      <div
-        className={
-          'flex flex-col gap-2 rounded-lg border border-gray-300 pl-4 pr-2 py-4 shadow-sm'
-        }>
-        <div className={'flex items-center justify-between'}>
-          <div className={'flex items-center gap-4'}>
-            <Icon className={'h-5 w-5 text-gray-500'} />
-            <div className={'text-sm text-gray-500'}>{t(relationTKey[relation])}</div>
-          </div>
-          <div className={'flex items-center justify-center gap-1.5'}>
-            <EntityTypeBadge size={'sm'} type={type} />
-            <ContextMenu fromLookupRef={fromLookupRef} id={id} />
-          </div>
+  return (
+    <div
+      className={'flex flex-col gap-2 rounded-lg border border-gray-300 pl-4 pr-2 py-4 shadow-sm'}>
+      <div className={'flex items-center justify-between'}>
+        <div className={'flex items-center gap-4'}>
+          <Icon className={'h-5 w-5 text-gray-500'} />
+          <div className={'text-sm text-gray-500'}>{t(relationTKey[relation])}</div>
         </div>
-        <div className={'text-gray-700'}>{title}</div>
+        <div className={'flex items-center justify-center gap-1.5'}>
+          <EntityTypeBadge size={'sm'} type={type} />
+          <ContextMenu fromLookupRef={fromLookupRef} id={id} />
+        </div>
       </div>
-    );
-  }
-);
+      <div className={'text-gray-700'}>{title}</div>
+    </div>
+  );
+});
 
 const Result = (result: Result) => {
   const { type, snippet } = result;

@@ -9,8 +9,8 @@ import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { type ItemType } from '@elements/components/dropdown';
 import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
-import type { LookupRef } from '@elements/types';
-import { useLookupRef, useWrapRequireAuth } from '@elements/store/hooks';
+import type { Ident } from '@elements/types';
+import { useIdent, useWrapRequireAuth } from '@elements/store/hooks';
 
 const User = ({ name }: { name: string }) => {
   return (
@@ -22,11 +22,11 @@ const User = ({ name }: { name: string }) => {
 };
 
 const ContextMenu = suspensify(
-  ({ id, parentLookupRef }: { id: string; parentLookupRef: LookupRef }) => {
+  ({ id, parentLookupRef }: { id: string; parentLookupRef: Ident }) => {
     // TODO Maybe do not even build this component if the user cannot edit or delete
     const t = useTranslation();
 
-    const lookupRef = useLookupRef('update/id', id);
+    const lookupRef = useIdent('update/id', id);
     const canEdit = useValue('update/can-update', { ref: lookupRef });
     const canDelete = useValue('update/can-delete', { ref: lookupRef });
 
@@ -78,11 +78,11 @@ const ContextMenu = suspensify(
   }
 );
 
-const Update = suspensify(({ id, parentLookupRef }: { id: string; parentLookupRef: LookupRef }) => {
+const Update = suspensify(({ id, parentLookupRef }: { id: string; parentLookupRef: Ident }) => {
   const creatorName = useValue('update.created-by/name', { 'update/id': id });
   const text = useValue('update/text', { 'update/id': id });
   const createdAt = useValue('update/created-at', { 'update/id': id });
-  const updateLookupRef = useLookupRef('update/id', id);
+  const updateIdent = useIdent('update/id', id);
 
   return (
     <div
@@ -102,7 +102,7 @@ const Update = suspensify(({ id, parentLookupRef }: { id: string; parentLookupRe
         suspenseLines={4}
       />
       <div className={'flex items-center gap-5'}>
-        <UpVoting lookupRef={updateLookupRef} size={'xs'} suspenseLines={2} />
+        <UpVoting ident={updateIdent} size={'xs'} suspenseLines={2} />
         <ContextMenu id={id} parentLookupRef={parentLookupRef} />
       </div>
     </div>
@@ -110,7 +110,7 @@ const Update = suspensify(({ id, parentLookupRef }: { id: string; parentLookupRe
 });
 
 interface UpdatesProps {
-  lookupRef: LookupRef;
+  lookupRef: Ident;
 }
 
 export const Updates = suspensify(({ lookupRef }: UpdatesProps) => {

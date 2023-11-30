@@ -17,7 +17,7 @@ import { useTranslation } from '@elements/translation';
 import isEmpty from 'lodash/isEmpty';
 import { useCallback, useMemo, useState } from 'react';
 import { type ItemType } from '@elements/components/dropdown';
-import { useLookupRef, useWrapRequireAuth } from '@elements/store/hooks';
+import { useIdent, useWrapRequireAuth } from '@elements/store/hooks';
 import { ContextMenu as RawContextMenu } from '@elements/components/context-menu';
 
 export const User = ({ name }: { name: string }) => {
@@ -58,7 +58,7 @@ const ContextMenu = ({ id }: { id: string }) => {
   // TODO Maybe do not even build this component if the user cannot edit or delete
   const t = useTranslation();
 
-  const lookupRef = useLookupRef('comment/id', id);
+  const lookupRef = useIdent('comment/id', id);
   const canEdit = useValue('comment/can-update', { ref: lookupRef });
   const canDelete = useValue('comment/can-delete', { ref: lookupRef });
   const startDeletion = useDispatch('comment.deletion/start');
@@ -98,7 +98,7 @@ const ContextMenu = ({ id }: { id: string }) => {
 
 export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
-  const lookupRef = useLookupRef('comment/id', id);
+  const ident = useIdent('comment/id', id);
 
   const currentUserName = useValue('current.user/name');
   const creatorName = useValue('comment.created-by/name', { 'comment/id': id });
@@ -107,9 +107,9 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   });
   const text = useValue('comment/text', { 'comment/id': id });
   const createdAt = useValue('comment/created-at', { 'comment/id': id });
-  const responseIds = useValue('comment/ids', { ref: lookupRef });
-  const newCommentError = useValue('new.comment/error', { ref: lookupRef });
-  const isReplying = useValue('comment/replying', { ref: lookupRef });
+  const responseIds = useValue('comment/ids', { ref: ident });
+  const newCommentError = useValue('new.comment/error', { ref: ident });
+  const isReplying = useValue('comment/replying', { ref: ident });
   const deleted = status === 'comment.status/deleted';
 
   const updateNewComment = useDispatch('new.comment/update');
@@ -123,19 +123,19 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   }, [expanded]);
 
   const onToggleReply = useWrapRequireAuth(() => {
-    setIsReplying({ replying: !isReplying, ref: lookupRef });
+    setIsReplying({ replying: !isReplying, ref: ident });
   }, [isReplying]);
 
   const onNewCommentUpdate = useCallback(
     (value: string) => {
-      updateNewComment({ ref: lookupRef, value });
+      updateNewComment({ ref: ident, value });
     },
-    [lookupRef, updateNewComment]
+    [ident, updateNewComment]
   );
 
   const onNewCommentPost = useCallback(() => {
-    postNewComment({ ref: lookupRef });
-  }, [lookupRef, postNewComment]);
+    postNewComment({ ref: ident });
+  }, [ident, postNewComment]);
 
   const showResponses = expanded && responseIds && !isEmpty(responseIds);
 
@@ -166,7 +166,7 @@ export const Comment = suspensify(({ id }: { id: string }) => {
                 suspenseLines={2}
               />
               <div className={'flex gap-5'}>
-                <Voting lookupRef={lookupRef} size={'xs'} suspenseLines={1} />
+                <Voting ident={ident} size={'xs'} suspenseLines={1} />
                 <Button
                   Icon={ChatBubbleLeftEllipsisOutline}
                   clicked={isReplying}

@@ -17,7 +17,7 @@ import { Locality, LocalitySlideOver } from '@elements/compositions/issue/locali
 import { LastActive } from '@elements/compositions/last-active';
 import { updateHashParams } from '@elements/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
-import { useLookupRef, useWrapRequireAuth } from '@elements/store/hooks';
+import { useIdent, useWrapRequireAuth } from '@elements/store/hooks';
 import { Status } from '@elements/logic/meta/initiative';
 import { IssueTab } from '@elements/logic/issue';
 
@@ -121,12 +121,12 @@ export const IssueTabs = suspensify(() => {
 const Voting = suspensify(() => {
   const t = useTranslation();
   const issueId = useValue('current.issue/id');
-  const lookupRef = useLookupRef('issue/id', issueId);
+  const ident = useIdent('issue/id', issueId);
 
   return (
     <RawVoting
       downvoteTooltipText={t('common/suppress')}
-      lookupRef={lookupRef}
+      ident={ident}
       size={'md'}
       suspenseLines={2}
       upvoteTooltipText={t('common/boost')}

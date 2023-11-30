@@ -7,12 +7,12 @@ import { Link } from '@elements/components/link';
 import { UpVoting } from '@elements/compositions/voting';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { InitiativeStatus } from '@elements/compositions/meta/status';
-import { useLookupRef } from '@elements/store/hooks';
+import { useIdent } from '@elements/store/hooks';
 
 export const InitiativeCard = suspensify(({ slug }: any) => {
   const title = useValue('meta.initiative.title/text', { 'meta.initiative/slug': slug });
   const updatedAt = useValue('meta.initiative/updated-at', { 'meta.initiative/slug': slug });
-  const lookupRef = useLookupRef('meta.initiative/slug', slug);
+  const ident = useIdent('meta.initiative/slug', slug);
 
   return (
     <div
@@ -29,7 +29,7 @@ export const InitiativeCard = suspensify(({ slug }: any) => {
         {title}
       </Link>
       <div className={'flex items-center gap-10'}>
-        <UpVoting lookupRef={lookupRef} size={'sm'} suspenseLines={2} />
+        <UpVoting ident={ident} size={'sm'} suspenseLines={2} />
         <InitiativeStatus slug={slug} />
       </div>
     </div>

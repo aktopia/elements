@@ -3,28 +3,25 @@ import type { Size } from '@elements/components/voting';
 import { UpVoting as RawUpVoting, Voting as RawVoting } from '@elements/components/voting';
 import { useDispatch, useValue } from '@elements/store';
 import { useCallback } from 'react';
-import type { LookupRef } from '@elements/types';
+import type { Ident } from '@elements/types';
 
 interface VotingProps {
-  lookupRef: LookupRef;
+  ident: Ident;
   size: Size;
   downvoteTooltipText?: string;
   upvoteTooltipText?: string;
 }
 
 export const Voting = suspensify(
-  ({ lookupRef, size, downvoteTooltipText, upvoteTooltipText }: VotingProps) => {
-    const count = useValue('voting.vote/count', { ref: lookupRef });
-    const kind = useValue('voting.current.user.vote/kind', { ref: lookupRef });
+  ({ ident, size, downvoteTooltipText, upvoteTooltipText }: VotingProps) => {
+    const count = useValue('voting.vote/count', { ident });
+    const kind = useValue('voting.current.user.vote/kind', { ident });
 
     const upvote = useDispatch('voting.current.user/upvote');
     const downvote = useDispatch('voting.current.user/downvote');
 
-    const onUpvote = useCallback(async () => await upvote({ ref: lookupRef }), [lookupRef, upvote]);
-    const onDownvote = useCallback(
-      async () => await downvote({ ref: lookupRef }),
-      [lookupRef, downvote]
-    );
+    const onUpvote = useCallback(async () => await upvote({ ident }), [ident, upvote]);
+    const onDownvote = useCallback(async () => await downvote({ ident }), [ident, downvote]);
 
     return (
       <RawVoting
@@ -41,18 +38,18 @@ export const Voting = suspensify(
 );
 
 interface UpvotingProps {
-  lookupRef: LookupRef;
+  ident: Ident;
   size: Size;
   upvoteTooltipText?: string;
 }
 
-export const UpVoting = suspensify(({ lookupRef, size, upvoteTooltipText }: UpvotingProps) => {
-  const count = useValue('voting.vote/count', { ref: lookupRef });
-  const kind = useValue('voting.current.user.vote/kind', { ref: lookupRef });
+export const UpVoting = suspensify(({ ident, size, upvoteTooltipText }: UpvotingProps) => {
+  const count = useValue('voting.vote/count', { ident });
+  const kind = useValue('voting.current.user.vote/kind', { ident });
 
   const upvote = useDispatch('voting.current.user/upvote');
 
-  const onUpvote = useCallback(async () => await upvote({ ref: lookupRef }), [lookupRef, upvote]);
+  const onUpvote = useCallback(async () => await upvote({ ident }), [ident, upvote]);
 
   return (
     <RawUpVoting

@@ -6,10 +6,10 @@ import { useCallback } from 'react';
 import { Comments } from '@elements/compositions/comments';
 import { ConfirmationModal } from '@elements/components/confirmation-modal';
 import { useWrapRequireAuth } from '@elements/store/hooks';
-import type { LookupRef } from '@elements/types';
+import type { Ident } from '@elements/types';
 
 interface DiscussProps {
-  lookupRef: LookupRef;
+  lookupRef: Ident;
 }
 
 const DeleteConfirmationModal = suspensify(() => {

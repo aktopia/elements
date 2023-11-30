@@ -22,7 +22,7 @@ import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover'
 import { Status } from '@elements/logic/meta/initiative';
 import type { SwitchId } from '@elements/logic/action';
 import { ActionStatus, ActionTab } from '@elements/logic/action';
-import { useIsCompactViewport, useLookupRef } from '@elements/store/hooks';
+import { useIsCompactViewport, useIdent } from '@elements/store/hooks';
 import { type ItemType } from '@elements/components/dropdown';
 import { ContextMenu } from '@elements/components/context-menu';
 import { ActionStatusButton, ActionStatusModal } from '@elements/compositions/action/action-status';
@@ -130,7 +130,7 @@ export const ActionBar = suspensify(() => {
 
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
 
-  const lookupRef = useLookupRef('action/id', actionId);
+  const actionIdent = useIdent('action/id', actionId);
   const volunteer = useDispatch('action/volunteer');
   const navigateToFunding = useDispatch('action/fund');
 
@@ -146,7 +146,7 @@ export const ActionBar = suspensify(() => {
     <div className={'flex gap-10 md:flex-row flex-col'}>
       <Voting
         downvoteTooltipText={t('common/suppress')}
-        lookupRef={lookupRef}
+        ident={actionIdent}
         size={'md'}
         suspenseLines={1}
         upvoteTooltipText={t('common/boost')}

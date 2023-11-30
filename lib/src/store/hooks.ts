@@ -1,6 +1,6 @@
 import { useDispatch, useValue } from '@elements/store';
 import { useCallback, useMemo, useState } from 'react';
-import type { LookupRef } from '@elements/types';
+import type { Ident } from '@elements/types';
 
 export const useWrapRequireAuth = (callback: Function, deps: Array<any>) => {
   const sessionExists = useValue('auth.session/exists');
@@ -31,8 +31,8 @@ export const useIsCompactViewport = () => {
   return viewport === 'md' || viewport === 'sm';
 };
 
-export const useLookupRef = (attr: string, val: string) => {
-  return useMemo(() => [attr, val], [attr, val]) as LookupRef;
+export const useIdent = (attr: string, val: string) => {
+  return useMemo(() => [attr, val], [attr, val]) as Ident;
 };
 
 export const useWrapWaiting = <T extends (...args: any[]) => Promise<void> | void>(

@@ -5,13 +5,13 @@ import { Spots } from '@elements/compositions/issue/spots';
 import { Media } from '@elements/compositions/issue/media';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
-import { useLookupRef } from '@elements/store/hooks';
+import { useIdent } from '@elements/store/hooks';
 import { IssueTab } from '@elements/logic/issue';
 
 const Issue = wrapPage(() => {
   const activeTabId = useValue('issue.tabs/active-tab');
   const issueId = useValue('current.issue/id');
-  const ref = useLookupRef('issue/id', issueId);
+  const ref = useIdent('issue/id', issueId);
   let tab;
 
   switch (activeTabId) {

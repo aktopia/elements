@@ -6,7 +6,7 @@ import { useCallback, useEffect } from 'react';
 import { cx as clsx } from 'cva';
 import { twMerge } from 'tailwind-merge';
 import type { ClassValue } from 'cva/dist/types';
-import type { LookupRef } from '@elements/types';
+import type { Ident } from '@elements/types';
 import { EntityType } from '@elements/types';
 import { customAlphabet } from 'nanoid';
 
@@ -69,7 +69,7 @@ export function isBefore(ts1: number, ts2: number, unit: ManipulateType) {
 }
 
 // TODO spid
-export function ref(lookupRef: LookupRef) {
+export function ref(lookupRef: Ident) {
   return JSON.stringify(lookupRef);
 }
 

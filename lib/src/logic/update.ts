@@ -10,27 +10,27 @@ import {
   text,
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
-import type { LookupRef } from '@elements/types';
+import type { Ident } from '@elements/types';
 
 export type Subs = {
-  'update/ids': Sub<{ ref: LookupRef }, string[]>;
+  'update/ids': Sub<{ ref: Ident }, string[]>;
   'update.created-by/name': Sub<{ 'update/id': string }, string>;
   'update/created-at': Sub<{ 'update/id': string }, number>;
   'update/text': Sub<{ 'update/id': string }, string>;
   'update.deletion/id': Sub<{}, string>;
-  'update/can-create': Sub<{ ref: LookupRef }, boolean>;
-  'update/can-update': Sub<{ ref: LookupRef }, boolean>;
-  'update/can-delete': Sub<{ ref: LookupRef }, boolean>;
+  'update/can-create': Sub<{ ref: Ident }, boolean>;
+  'update/can-update': Sub<{ ref: Ident }, boolean>;
+  'update/can-delete': Sub<{ ref: Ident }, boolean>;
   'new.update/error': Sub<{}, string>;
 };
 
 export type Events = {
-  'new.update/create': Evt<{ ref: LookupRef }>;
-  'new.update/update': Evt<{ ref: LookupRef; value: string }>;
+  'new.update/create': Evt<{ ref: Ident }>;
+  'new.update/update': Evt<{ ref: Ident; value: string }>;
   'update.deletion/cancel': Evt<{}>;
   'update.deletion/start': Evt<{ 'update/id': string }>;
   'update.text/edit': Evt<{ 'update/id': string }>;
-  'update/delete': Evt<{ 'update/id': string; ref: LookupRef }>;
+  'update/delete': Evt<{ 'update/id': string; ref: Ident }>;
   'new.update.error/set': Evt<{ error: string }>;
   'new.update.error/clear': Evt<{}>;
 };

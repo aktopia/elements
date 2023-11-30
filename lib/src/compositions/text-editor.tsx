@@ -5,7 +5,7 @@ import { useTranslation } from '@elements/translation';
 import type { ReactElement } from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import type { LookupRef } from '@elements/types';
+import type { Ident } from '@elements/types';
 import type { RichTextAreaHandle } from '@elements/components/rich-text-area';
 
 interface TextEditorProps {
@@ -35,7 +35,7 @@ export const TextEditor = suspensify(
     const t = useTranslation();
     const editorRef = useRef<RichTextAreaHandle>(null);
     const reference = useMemo(
-      () => ({ ref: [refAttribute, refId] as LookupRef }),
+      () => ({ ref: [refAttribute, refId] as Ident }),
       [refAttribute, refId]
     );
 

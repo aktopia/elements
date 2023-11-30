@@ -10,32 +10,32 @@ import {
   text,
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
-import type { LookupRef } from '@elements/types';
+import type { Ident } from '@elements/types';
 import { replaceAsyncSub } from '@elements/store/impl';
 
 export type Subs = {
   'comment/status': Sub<{ 'comment/id': string }, string>;
   'comment/created-at': Sub<{ 'comment/id': string }, number>;
   'comment/text': Sub<{ 'comment/id': string }, string>;
-  'comment/ids': Sub<{ ref: LookupRef }, string[]>;
+  'comment/ids': Sub<{ ref: Ident }, string[]>;
   'comment.deletion/id': Sub<{}, string>;
   'comment.created-by/name': Sub<{ 'comment/id': string }, string>;
-  'new.comment/error': Sub<{ ref: LookupRef }, string>;
-  'comment/replying': Sub<{ ref: LookupRef }, boolean>;
-  'comment/can-update': Sub<{ ref: LookupRef }, boolean>;
-  'comment/can-delete': Sub<{ ref: LookupRef }, boolean>;
+  'new.comment/error': Sub<{ ref: Ident }, string>;
+  'comment/replying': Sub<{ ref: Ident }, boolean>;
+  'comment/can-update': Sub<{ ref: Ident }, boolean>;
+  'comment/can-delete': Sub<{ ref: Ident }, boolean>;
 };
 
 export type Events = {
   'comment.text/edit': Evt<{ 'comment/id': string }>;
-  'new.comment/create': Evt<{ ref: LookupRef }>;
-  'new.comment/update': Evt<{ ref: LookupRef; value: string }>;
-  'new.comment.error/set': Evt<{ ref: LookupRef; error: string }>;
-  'new.comment.error/clear': Evt<{ ref: LookupRef }>;
+  'new.comment/create': Evt<{ ref: Ident }>;
+  'new.comment/update': Evt<{ ref: Ident; value: string }>;
+  'new.comment.error/set': Evt<{ ref: Ident; error: string }>;
+  'new.comment.error/clear': Evt<{ ref: Ident }>;
   'comment.deletion/cancel': Evt<{}>;
   'comment.deletion/start': Evt<{ 'comment/id': string }>;
   'comment/delete': Evt<{ 'comment/id': string }>;
-  'comment.replying/set': Evt<{ ref: LookupRef; replying: boolean }>;
+  'comment.replying/set': Evt<{ ref: Ident; replying: boolean }>;
 };
 
 export const commentSlice = () => ({

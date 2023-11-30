@@ -5,7 +5,7 @@ import { TextEditor } from '@elements/compositions/text-editor';
 import { useDispatch, useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { EditButton } from '@elements/components/edit-button';
-import { useLookupRef } from '@elements/store/hooks';
+import { useIdent } from '@elements/store/hooks';
 
 const Description = suspensify(() => {
   const t = useTranslation();
@@ -50,7 +50,7 @@ const Resolution = suspensify(() => {
   const resolution = useValue('issue.resolution/text', { 'issue/id': issueId });
   const canEdit = useValue('issue.resolution/can-edit', { 'issue/id': issueId });
 
-  const ref = useLookupRef('issue.resolution/text', issueId);
+  const ref = useIdent('issue.resolution/text', issueId);
 
   const isEditing = useValue('text-editor/editing', { ref });
 
@@ -83,7 +83,7 @@ const Resolution = suspensify(() => {
 
 export const IssueHome = suspensify(() => {
   const issueId = useValue('current.issue/id');
-  const lookupRef = useLookupRef('issue/id', issueId);
+  const lookupRef = useIdent('issue/id', issueId);
 
   return (
     <div className={'flex w-full flex-col gap-8 md:flex-row'}>

@@ -14,7 +14,7 @@ import { wrapPage } from '@elements/compositions/wrap-page';
 import { Updates } from '@elements/compositions/updates';
 import { Discuss } from '@elements/compositions/discuss';
 import { InitiativeStatus } from '@elements/compositions/meta/status';
-import { useLookupRef } from '@elements/store/hooks';
+import { useIdent } from '@elements/store/hooks';
 
 const Title = suspensify(() => {
   const initiativeSlug = useValue('current.meta.initiative/slug');
@@ -48,7 +48,7 @@ const Title = suspensify(() => {
 
 export const ActionBar = suspensify(() => {
   const initiativeSlug = useValue('current.meta.initiative/slug');
-  const lookupRef = useLookupRef('meta.initiative/slug', initiativeSlug);
+  const lookupRef = useIdent('meta.initiative/slug', initiativeSlug);
 
   return <UpVoting lookupRef={lookupRef} size={'md'} suspenseLines={1} />;
 });
@@ -148,7 +148,7 @@ const Description = suspensify(() => {
 const Initiative = wrapPage(() => {
   const activeTabId = useValue('meta.initiative.tabs/active-tab');
   const initiativeSlug = useValue('current.meta.initiative/slug');
-  const lookupRef = useLookupRef('meta.initiative/slug', initiativeSlug);
+  const lookupRef = useIdent('meta.initiative/slug', initiativeSlug);
   let tab;
 
   switch (activeTabId) {

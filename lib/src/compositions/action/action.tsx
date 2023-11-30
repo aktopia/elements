@@ -4,7 +4,7 @@ import { ActionHome } from '@elements/compositions/action/action-home';
 import { Updates } from '@elements/compositions/updates';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
-import { useLookupRef } from '@elements/store/hooks';
+import { useIdent } from '@elements/store/hooks';
 import { NotFound } from '@elements/compositions/not-found';
 import { ActionStatus, ActionTab } from '@elements/logic/action';
 import { InformationCircleOutline } from '@elements/icons';
@@ -22,7 +22,7 @@ const Unavailable = ({ text }: { text: string }) => {
 const Action_ = ({ actionId }: { actionId: string }) => {
   const t = useTranslation();
   const activeTabId = useValue('action.tabs/active-tab');
-  const ref = useLookupRef('action/id', actionId);
+  const ref = useIdent('action/id', actionId);
   const isDraft = useValue('action.status/check', {
     'action/id': actionId,
     in: [ActionStatus.Draft],

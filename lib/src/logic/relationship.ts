@@ -1,5 +1,5 @@
 import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
-import type { EntityType, LookupRef } from '@elements/types';
+import type { EntityType, Ident } from '@elements/types';
 import { rpcPost } from '@elements/rpc';
 import type { Evt, Sub } from '@elements/store/types';
 
@@ -10,23 +10,23 @@ export enum RelationType {
 }
 
 export type Subs = {
-  'relationship/ids': Sub<{ 'relationship.from/ref': LookupRef }, string[]>;
+  'relationship/ids': Sub<{ 'relationship.from/ref': Ident }, string[]>;
   'relationship.to.entity/type': Sub<{ 'relationship/id': string }, EntityType>;
   'relationship.to/title': Sub<{ 'relationship/id': string }, string>;
   'relationship/relation': Sub<{ 'relationship/id': string }, RelationType>;
   'relationship/adding': Sub<{}, boolean>;
-  'relationship/can-create': Sub<{ 'relationship.from/ref': LookupRef }, boolean>;
-  'relationship/can-delete': Sub<{ 'relationship.from/ref': LookupRef }, boolean>;
+  'relationship/can-create': Sub<{ 'relationship.from/ref': Ident }, boolean>;
+  'relationship/can-delete': Sub<{ 'relationship.from/ref': Ident }, boolean>;
 };
 
 export type Events = {
   'relationship.adding/set': Evt<{ value: boolean }>;
   'relationship/add': Evt<{
     'relationship/relation': RelationType;
-    'relationship.from/ref': LookupRef;
-    'relationship.to/ref': LookupRef;
+    'relationship.from/ref': Ident;
+    'relationship.to/ref': Ident;
   }>;
-  'relationship/delete': Evt<{ 'relationship/id': string; 'relationship.from/ref': LookupRef }>;
+  'relationship/delete': Evt<{ 'relationship/id': string; 'relationship.from/ref': Ident }>;
 };
 
 export const relationshipSlice = () => ({
