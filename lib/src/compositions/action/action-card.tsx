@@ -46,7 +46,7 @@ export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCar
   );
 
   const ident = useIdent('action/id', id);
-  const updatedAt = useValue('action/updated-at', { ref: ident });
+  const updatedAt = useValue('action/updated-at', { 'action/id': id });
 
   return (
     <div
