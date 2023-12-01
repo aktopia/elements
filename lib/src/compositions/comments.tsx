@@ -100,7 +100,8 @@ export const Comment = suspensify(({ id }: { id: string }) => {
   const t = useTranslation();
   const ident = useIdent('comment/id', id);
 
-  const currentUserName = useValue('current.user/name');
+  const currentUserId = useValue('current.user/id');
+  const currentUserName = useValue('user/name', { 'user/id': currentUserId });
   const creatorName = useValue('comment.created-by/name', { 'comment/id': id });
   const status = useValue('comment/status', {
     'comment/id': id,

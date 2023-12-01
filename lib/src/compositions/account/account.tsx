@@ -12,7 +12,7 @@ import { Status } from '@elements/logic/meta/initiative';
 const Account = wrapPage(() => {
   const t = useTranslation();
   const currentUserId = useValue('current.user/id');
-  const currentUserName = useValue('current.user/name');
+  const currentUserName = useValue('user/name', { 'user/id': currentUserId });
   const currentUserEmail = useValue('user/email', { 'user/id': currentUserId });
 
   const startEditing = useDispatch('account.user.name/edit');

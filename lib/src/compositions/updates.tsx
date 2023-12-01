@@ -115,7 +115,8 @@ interface UpdatesProps {
 
 export const Updates = suspensify(({ lookupRef }: UpdatesProps) => {
   const t = useTranslation();
-  const currentUserName = useValue('current.user/name');
+  const currentUserId = useValue('current.user/id');
+  const currentUserName = useValue('user/name', { 'user/id': currentUserId });
   const updateIds = useValue('update/ids', { ref: lookupRef });
   const canCreate = useValue('update/can-create', { ref: lookupRef });
   const newUpdateError = useValue('new.update/error');

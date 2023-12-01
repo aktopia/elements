@@ -38,7 +38,8 @@ const DeleteConfirmationModal = suspensify(() => {
 
 export const Discuss = suspensify(({ lookupRef }: DiscussProps) => {
   const t = useTranslation();
-  const currentUserName = useValue('current.user/name');
+  const currentUserId = useValue('current.user/id');
+  const currentUserName = useValue('user/name', { 'user/id': currentUserId });
 
   const commentIds = useValue('comment/ids', { ref: lookupRef });
   const newCommentError = useValue('new.comment/error', { ref: lookupRef });

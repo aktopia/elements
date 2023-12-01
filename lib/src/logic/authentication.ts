@@ -21,7 +21,7 @@ export type Subs = {
   'auth.verify-otp/error': Sub<{}, any>;
   'auth.verify-otp/wait-seconds': Sub<{}, number>;
   'user.registration.input/name': Sub<{}, string>;
-  'user.registration/pending': Sub<{}, boolean>;
+  'user.registration/pending': Sub<{ 'user/id': string }, boolean>;
   'auth.verify-otp/otp-sent': Sub<{}, boolean>;
 };
 
@@ -236,7 +236,7 @@ evt('auth.verify-otp/verify-otp', async ({ setState, params }) => {
       });
     }
 
-    await invalidateAsyncSubs([['current.user/id'], ['current.user/name']]);
+    await invalidateAsyncSubs([['current.user/id']]);
 
     setState((state: any) => {
       state['authentication/state']['auth.verify-otp/verifying'] = false;

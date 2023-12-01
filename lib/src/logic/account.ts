@@ -30,7 +30,7 @@ registerTextEditor('user/name', {
       'user/id': params.ref[1],
       value,
     });
-    await invalidateAsyncSubs([['current.user/name'], ['user/name', { 'user/id': params.ref[1] }]]);
+    await invalidateAsyncSubs([['user/name', { 'user/id': params.ref[1] }]]);
     endEditing({ setState, getState, params });
   },
   onEditCancel: onEditCancelDefault,

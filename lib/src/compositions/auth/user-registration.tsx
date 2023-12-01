@@ -8,7 +8,8 @@ import { Button } from '@elements/components/button';
 const UserRegistration_ = suspensify(({}) => {
   const t = useTranslation();
 
-  const visible = useValue('user.registration/pending');
+  const currentUserId = useValue('current.user/id');
+  const visible = useValue('user.registration/pending', { 'user/id': currentUserId });
   const name = useValue('user.registration.input/name');
 
   const updateName = useDispatch('user.registration.input.name/update');
