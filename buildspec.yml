@@ -12,12 +12,9 @@ phases:
   post_build:
     commands:
       - >-
-        echo "Deploying to S3 ${SURROGATE_KEY} ${FASTLY_SERVICE_ID}
-        ${FASTLY_API_KEY}"
-      - >-
         aws s3 sync ./dist s3://aktopia-elements --delete
         --metadata="surrogate-key=${SURROGATE_KEY}"
       - >-
-        curl -i  -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge/${SURROGATE_KEY}" 
-        -H "Fastly-Key": "${FASTLY_API_KEY}"
-        -H "Accept": "application/json"
+        curl -i -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge/${SURROGATE_KEY}" 
+        -H "Fastly-Key: ${FASTLY_API_KEY}"
+        -H "Accept: application/json"
