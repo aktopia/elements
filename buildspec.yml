@@ -12,8 +12,10 @@ phases:
   post_build:
     commands:
       - >-
-        aws s3 sync ./dist s3://aktopia-elements --delete
-        --metadata="surrogate-key=${SURROGATE_KEY}"
+        aws s3 sync ./dist s3://${S3_BUCKET} --delete
+        --metadata-directive "REPLACE"
+        --metadata "surrogate-key=${SURROGATE_KEY}"
+        --cache-control "max-age=604800, must-revalidate"
       - >-
         curl -i -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge/${SURROGATE_KEY}" 
         -H "Fastly-Key: ${FASTLY_API_KEY}"
