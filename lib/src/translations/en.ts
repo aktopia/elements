@@ -184,7 +184,7 @@ const translation = {
   'auth.verify-otp.modal/otp-sent': 'OTP has been sent to',
   'comment/placeholder': 'What do you think?',
   'main-search/placeholder': 'Search',
-  'relationships/empty': 'No relationships yet.',
+  'relationships/empty': 'No relationships yet',
   'locations/confirm': 'Confirm Location',
   'percentage/complete': 'Complete',
   'percentage/funded': 'Funded',
