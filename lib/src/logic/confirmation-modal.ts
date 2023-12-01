@@ -2,24 +2,21 @@ import { emptyObject } from '@elements/utils';
 import type { Reference } from '@elements/types';
 import { evt, sub } from '@elements/store';
 import type { ButtonKind } from '@elements/components/button';
-import type { Evt } from '@elements/store/types';
+import type { Evt, Sub } from '@elements/store/types';
 
 export type Subs = {
-  'confirmation-modal/visible': {
-    params: {};
-    result: boolean;
-  };
-  'confirmation-modal/params': {
-    params: {};
-    result: {
+  'confirmation-modal/visible': Sub<{}, boolean>;
+  'confirmation-modal/params': Sub<
+    {},
+    {
       kind: ButtonKind;
       bodyText: string;
       cancelText: string;
       confirmText: string;
       titleText: string;
       onConfirm: () => void | Promise<void>;
-    };
-  };
+    }
+  >;
 };
 
 export type Events = {

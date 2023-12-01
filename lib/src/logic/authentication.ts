@@ -2,7 +2,7 @@ import { dispatch, evt, invalidateAsyncSub, invalidateAsyncSubs, sub } from '@el
 import { consumeOtp, resendOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
 import { rpcPost } from '@elements/rpc';
 import type { EventHandler, EventHandlerArgs } from '@elements/store/register';
-import type { Events as AllEvents } from '@elements/store/types';
+import type { Events as AllEvents, Evt, Sub } from '@elements/store/types';
 
 export type ResendOtpState = 'idle' | 'waiting' | 'resending';
 
@@ -10,111 +10,36 @@ export const MAX_OTP_DIGITS = 6;
 export const WAIT_TIME_MS = 30000;
 
 export type Subs = {
-  'auth.sign-in/visible': {
-    params: {};
-    result: boolean;
-  };
-  'auth.session/exists': {
-    params: {};
-    result: boolean;
-  };
-  'auth.sign-in/email': {
-    params: {};
-    result: string;
-  };
-  'auth.sign-in/sending-otp': {
-    params: {};
-    result: boolean;
-  };
-  'auth.verify-otp/otp': {
-    params: {};
-    result: string;
-  };
-  'auth.verify-otp/visible': {
-    params: {};
-    result: boolean;
-  };
-  'auth.verify-otp/verifying': {
-    params: {};
-    result: boolean;
-  };
-  'auth.verify-otp/resend-otp-state': {
-    params: {};
-    result: ResendOtpState;
-  };
-  'auth.verify-otp/error': {
-    params: {};
-    result: any;
-  };
-  'auth.verify-otp/wait-seconds': {
-    params: {};
-    result: number;
-  };
-  'user.registration.input/name': {
-    params: {};
-    result: string;
-  };
-  'user.registration/pending': {
-    params: {};
-    result: boolean;
-  };
-  'auth.verify-otp/otp-sent': {
-    params: {};
-    result: boolean;
-  };
+  'auth.sign-in/visible': Sub<{}, boolean>;
+  'auth.session/exists': Sub<{}, boolean>;
+  'auth.sign-in/email': Sub<{}, string>;
+  'auth.sign-in/sending-otp': Sub<{}, boolean>;
+  'auth.verify-otp/otp': Sub<{}, string>;
+  'auth.verify-otp/visible': Sub<{}, boolean>;
+  'auth.verify-otp/verifying': Sub<{}, boolean>;
+  'auth.verify-otp/resend-otp-state': Sub<{}, ResendOtpState>;
+  'auth.verify-otp/error': Sub<{}, any>;
+  'auth.verify-otp/wait-seconds': Sub<{}, number>;
+  'user.registration.input/name': Sub<{}, string>;
+  'user.registration/pending': Sub<{}, boolean>;
+  'auth.verify-otp/otp-sent': Sub<{}, boolean>;
 };
 
 export type Events = {
-  'auth.sign-in/initiate': {
-    params?: {};
-  };
-  'auth/sign-out': {
-    params: {};
-  };
-  'auth.sign-in/send-otp': {
-    params: {
-      email: string;
-    };
-  };
-  'auth.sign-in/close': {
-    params: {};
-  };
-  'auth.sign-in/update-email': {
-    params: {
-      value: string;
-    };
-  };
-  'auth.session/sync': {
-    params: {};
-  };
-  'auth.verify-otp/resend-otp': {
-    params: {};
-  };
-  'auth.verify-otp/go-back': {
-    params: {};
-  };
-  'auth.verify-otp/close': {
-    params: {};
-  };
-  'auth.verify-otp/update-otp': {
-    params: {
-      value: string;
-    };
-  };
-  'auth.verify-otp/verify-otp': {
-    params: {
-      otp: string;
-    };
-  };
-  'auth.verify-otp/focus-input': {
-    params: {};
-  };
-  'user.registration/done': {
-    params: {};
-  };
-  'user.registration.input.name/update': {
-    params: { value: string };
-  };
+  'auth.sign-in/initiate': Evt<{}>;
+  'auth/sign-out': Evt<{}>;
+  'auth.sign-in/send-otp': Evt<{ email: string }>;
+  'auth.sign-in/close': Evt<{}>;
+  'auth.sign-in/update-email': Evt<{ value: string }>;
+  'auth.session/sync': Evt<{}>;
+  'auth.verify-otp/resend-otp': Evt<{}>;
+  'auth.verify-otp/go-back': Evt<{}>;
+  'auth.verify-otp/close': Evt<{}>;
+  'auth.verify-otp/update-otp': Evt<{ value: string }>;
+  'auth.verify-otp/verify-otp': Evt<{ otp: string }>;
+  'auth.verify-otp/focus-input': Evt<{}>;
+  'user.registration/done': Evt<{}>;
+  'user.registration.input.name/update': Evt<{ value: string }>;
 };
 
 export const authenticationSlice = () => ({

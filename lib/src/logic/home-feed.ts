@@ -1,12 +1,13 @@
 import type { EntityType } from '@elements/types';
 import { remoteSub } from '@elements/store';
 import type { LatLng } from '@elements/components/map';
+import type { Sub } from '@elements/store/types';
 
 export type Subs = {
-  'home-feed/list': {
-    params: { 'user.locality/location': LatLng };
-    result: { 'entity/id': string; 'entity/type': EntityType }[];
-  };
+  'home-feed/list': Sub<
+    { 'user.locality/location': LatLng },
+    { 'entity/id': string; 'entity/type': EntityType }[]
+  >;
 };
 
 export const homeFeedSlice = () => ({});

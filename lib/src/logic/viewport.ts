@@ -1,16 +1,12 @@
 import { evt, sub } from '@elements/store';
+import type { Evt, Sub } from '@elements/store/types';
 
 export type Subs = {
-  'viewport/size': {
-    params: {};
-    result: string;
-  };
+  'viewport/size': Sub<{}, string>;
 };
 
 export type Events = {
-  'viewport/resize': {
-    params: {};
-  };
+  'viewport/resize': Evt<{}>;
 };
 
 export const viewportSlice = () => ({

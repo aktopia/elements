@@ -1,47 +1,20 @@
 import { dispatch, evt, remoteSub, sub } from '@elements/store';
 import type { Match } from '@elements/router';
+import type { Evt, Sub } from '@elements/store/types';
 
 export type TabId = 'actions' | 'issues';
 
 export type Subs = {
-  'profile.user/id': {
-    params: {};
-    result: string;
-  };
-  'profile.action/ids': {
-    params: {
-      'user/id': string;
-    };
-    result: string[];
-  };
-  'profile.issue/ids': {
-    params: {
-      'user/id': string;
-    };
-    result: string[];
-  };
-  'profile.tabs/active-tab': {
-    params: {};
-    result: TabId;
-  };
+  'profile.user/id': Sub<{}, string>;
+  'profile.action/ids': Sub<{ 'user/id': string }, string[]>;
+  'profile.issue/ids': Sub<{ 'user/id': string }, string[]>;
+  'profile.tabs/active-tab': Sub<{}, TabId>;
 };
 
 export type Events = {
-  'profile.tabs/update': {
-    params: {
-      'tab/id': TabId;
-    };
-  };
-  'profile.user.id/set': {
-    params: {
-      id: string;
-    };
-  };
-  'navigated.profile/view': {
-    params: {
-      route: Match;
-    };
-  };
+  'profile.tabs/update': Evt<{ 'tab/id': TabId }>;
+  'profile.user.id/set': Evt<{ id: string }>;
+  'navigated.profile/view': Evt<{ route: Match }>;
 };
 
 export const profileSlice = () => ({

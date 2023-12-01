@@ -8,13 +8,10 @@ import {
   text,
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
+import type { Evt } from '@elements/store/types';
 
 export type Events = {
-  'account.user.name/edit': {
-    params: {
-      'user/id': string;
-    };
-  };
+  'account.user.name/edit': Evt<{ 'user/id': string }>;
 };
 
 export const accountSlice = () => ({

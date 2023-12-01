@@ -1,32 +1,20 @@
 import { dispatch, evt, sub } from '@elements/store';
+import type { Evt, Sub } from '@elements/store/types';
 
 export type Kind = 'info' | 'success' | 'warning' | 'error';
 
 export type Subs = {
-  'alert/visible': {
-    params: {};
-    result: boolean;
-  };
-  'alert/message': {
-    params: {};
-    result: string;
-  };
-  'alert/kind': {
-    params: {};
-    result: Kind;
-  };
+  'alert/visible': Sub<{}, boolean>;
+  'alert/message': Sub<{}, string>;
+  'alert/kind': Sub<{}, Kind>;
 };
 
 export type Events = {
-  'alert/dismiss': {
-    params: {};
-  };
-  'alert/flash': {
-    params: {
-      message: string;
-      kind: string;
-    };
-  };
+  'alert/dismiss': Evt<{}>;
+  'alert/flash': Evt<{
+    message: string;
+    kind: string;
+  }>;
 };
 
 export const alertSlice = () => ({

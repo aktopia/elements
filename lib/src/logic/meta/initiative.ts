@@ -9,6 +9,7 @@ import {
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
 import { type Match } from '@elements/router';
+import type { Evt, Sub } from '@elements/store/types';
 
 export enum Status {
   Evaluating = 'meta.initiative.status/evaluating',
@@ -18,76 +19,25 @@ export enum Status {
 }
 
 export type Subs = {
-  'current.meta.initiative/slug': {
-    params: {};
-    result: string;
-  };
-  'meta.initiative.title/text': {
-    params: { 'meta.initiative/slug': string };
-    result: string;
-  };
-  'meta.initiative.title/can-edit': {
-    params: { 'meta.initiative/slug': string };
-    result: boolean;
-  };
-  'meta.initiative.tabs/active-tab': {
-    params: {};
-    result: string;
-  };
-  'meta.initiative/updated-at': {
-    params: { 'meta.initiative/slug': string };
-    result: number;
-  };
-  'meta.initiative.description/text': {
-    params: { 'meta.initiative/slug': string };
-    result: string;
-  };
-  'meta.initiative.description/can-edit': {
-    params: {};
-    result: boolean;
-  };
-  'meta.initiative/slugs': {
-    params: {};
-    result: string[];
-  };
-  'meta.initiative/status': {
-    params: { 'meta.initiative/slug': string };
-    result: Status;
-  };
-  'meta.initiative.status/can-edit': {
-    params: { 'meta.initiative/slug': string };
-    result: boolean;
-  };
+  'current.meta.initiative/slug': Sub<{}, string>;
+  'meta.initiative.title/text': Sub<{ 'meta.initiative/slug': string }, string>;
+  'meta.initiative.title/can-edit': Sub<{ 'meta.initiative/slug': string }, boolean>;
+  'meta.initiative.tabs/active-tab': Sub<{}, string>;
+  'meta.initiative/updated-at': Sub<{ 'meta.initiative/slug': string }, number>;
+  'meta.initiative.description/text': Sub<{ 'meta.initiative/slug': string }, string>;
+  'meta.initiative.description/can-edit': Sub<{}, boolean>;
+  'meta.initiative/slugs': Sub<{}, string[]>;
+  'meta.initiative/status': Sub<{ 'meta.initiative/slug': string }, Status>;
+  'meta.initiative.status/can-edit': Sub<{ 'meta.initiative/slug': string }, boolean>;
 };
 
 export type Events = {
-  'meta.initiative.title/edit': {
-    params: {};
-  };
-  'meta.initiative.description/edit': {
-    params: {};
-  };
-  'navigated.meta.initiative/view': {
-    params: {
-      route: Match;
-    };
-  };
-  'meta.initiative.tabs/update': {
-    params: {
-      'tab/id': string;
-    };
-  };
-  'current.meta.initiative.id/set': {
-    params: {
-      'meta.initiative/slug': string;
-    };
-  };
-  'meta.initiative.status/update': {
-    params: {
-      'meta.initiative/slug': string;
-      status: Status;
-    };
-  };
+  'meta.initiative.title/edit': Evt<{}>;
+  'meta.initiative.description/edit': Evt<{}>;
+  'navigated.meta.initiative/view': Evt<{ route: Match }>;
+  'meta.initiative.tabs/update': Evt<{ 'tab/id': string }>;
+  'current.meta.initiative.id/set': Evt<{ 'meta.initiative/slug': string }>;
+  'meta.initiative.status/update': Evt<{ 'meta.initiative/slug': string; status: Status }>;
 };
 
 export const metaInitiativeSlice = () => ({

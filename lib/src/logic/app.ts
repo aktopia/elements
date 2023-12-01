@@ -1,21 +1,13 @@
 import { dispatch, evt, sub } from '@elements/store';
+import type { Evt, Sub } from '@elements/store/types';
 
 export type Subs = {
-  'app/loading': {
-    params: {};
-    result: boolean;
-  };
+  'app/loading': Sub<{}, boolean>;
 };
 
 export type Events = {
-  'app.loading/set': {
-    params: {
-      loading: boolean;
-    };
-  };
-  'app/load': {
-    params: {};
-  };
+  'app.loading/set': Evt<{ loading: boolean }>;
+  'app/load': Evt<{}>;
 };
 
 export const appSlice = () => ({ 'app/state': { 'app/loading': false } });

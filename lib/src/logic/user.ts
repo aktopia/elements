@@ -1,30 +1,15 @@
 import { remoteSub } from '@elements/store';
+import type { Sub } from '@elements/store/types';
 
 export const userSlice = () => ({
   'user/state': {},
 });
 
 export type Subs = {
-  'current.user/id': {
-    params: {};
-    result: string;
-  };
-  'current.user/name': {
-    params: {};
-    result: string;
-  };
-  'user/name': {
-    params: {
-      'user/id': string;
-    };
-    result: string;
-  };
-  'user/email': {
-    params: {
-      'user/id': string;
-    };
-    result: string;
-  };
+  'current.user/id': Sub<{}, string>;
+  'current.user/name': Sub<{}, string>;
+  'user/name': Sub<{ 'user/id': string }, string>;
+  'user/email': Sub<{ 'user/id': string }, string>;
 };
 
 remoteSub('current.user/id');

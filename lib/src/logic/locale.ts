@@ -1,19 +1,13 @@
 import { evt, sub } from '@elements/store';
 import type { Translations } from '@elements/translations';
+import type { Evt, Sub } from '@elements/store/types';
 
 export type Subs = {
-  'current/locale': {
-    params: {};
-    result: keyof Translations;
-  };
+  'current/locale': Sub<{}, keyof Translations>;
 };
 
 export type Events = {
-  'current.locale/set': {
-    params: {
-      locale: string;
-    };
-  };
+  'current.locale/set': Evt<{ locale: string }>;
 };
 
 export const localeSlice = () => ({
