@@ -12,6 +12,9 @@ export default defineConfig({
   server: {
     port: 3000,
     strictPort: true,
+    headers: {
+      'Cache-Control': 'no-store, no-cache',
+    },
   },
   build: {
     target: 'esnext',
