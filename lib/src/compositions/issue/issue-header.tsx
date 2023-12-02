@@ -23,9 +23,8 @@ import { IssueTab } from '@elements/logic/issue';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
-  const ident = useIdent('issue/id', issueId);
-  const title = useValue('issue.title/text', { ident });
-  const canEdit = useValue('issue.title/can-edit', { ident });
+  const title = useValue('issue.title/text', { 'issue/id': issueId });
+  const canEdit = useValue('issue.title/can-edit', { 'issue/id': issueId });
 
   const onEdit = useDispatch('issue.title/edit');
 

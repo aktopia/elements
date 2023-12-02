@@ -56,7 +56,7 @@ const Severity = ({ issueId }: { issueId: string }) => {
 
 export const IssueCard = suspensify(({ id, onLocalitySlideOverOpen }: IssueCardProps) => {
   const ident = useIdent('issue/id', id);
-  const title = useValue('issue.title/text', { ident });
+  const title = useValue('issue.title/text', { 'issue/id': id });
   const updatedAt = useValue('issue/updated-at', { 'issue/id': id });
 
   const onLocalityClick = useCallback(
