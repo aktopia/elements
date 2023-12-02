@@ -9,8 +9,9 @@ import type { ClassValue } from 'cva/dist/types';
 import type { Ident } from '@elements/types';
 import { EntityType } from '@elements/types';
 import { customAlphabet } from 'nanoid';
+import { encodeURL } from 'js-base64';
 
-const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz');
+const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' });
 
@@ -106,4 +107,12 @@ export function makeLink(type: EntityType, entityId: string) {
     case EntityType.User:
       return `/profile/${entityId}#tab=actions`;
   }
+}
+
+export function base64EncodeURL(str: string) {
+  return encodeURL(str);
+}
+
+export function base64UrlEncodeObject(obj: any) {
+  return base64EncodeURL(JSON.stringify(obj));
 }

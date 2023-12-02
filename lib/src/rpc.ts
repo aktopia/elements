@@ -1,11 +1,10 @@
-import isEmpty from 'lodash/isEmpty';
+import { base64UrlEncodeObject, emptyObject } from '@elements/utils';
 
 export const rpcGet = async <Params, Result>(
   id: string,
-  params: Params | {} = {}
+  params: Params | {} = emptyObject
 ): Promise<Result> => {
-  const urlJson = isEmpty(params) ? null : encodeURIComponent(JSON.stringify(params));
-  const url = `/api/rpc/${id}?json=${urlJson}`;
+  const url = `/api/rpc/${id}/${base64UrlEncodeObject(params)}`;
 
   const res = await fetch(url);
   const json = await res.json();
