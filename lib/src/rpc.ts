@@ -4,7 +4,7 @@ export const rpcGet = async <Params, Result>(
   id: string,
   params: Params | {} = emptyObject
 ): Promise<Result> => {
-  const url = `/api/rpc/${id}/${base64UrlEncodeObject(params)}`;
+  const url = `/api/rpc/${id}?q=${base64UrlEncodeObject(params)}`;
 
   const res = await fetch(url);
   const json = await res.json();

@@ -134,7 +134,7 @@ export const ActionBar = suspensify(() => {
   const volunteer = useDispatch('action/volunteer');
   const navigateToFunding = useDispatch('action/fund');
 
-  const onVolunteerButtonClick = useCallback(() => {
+  const onJoinClick = useCallback(() => {
     volunteer(ident);
   }, [volunteer, ident]);
 
@@ -155,7 +155,7 @@ export const ActionBar = suspensify(() => {
         <WrapComingSoonPopover id={'action-funding'} status={Status.Planning}>
           <Button
             Icon={Giving}
-            containerClassName={'w-32'}
+            containerClassName={'w-28'}
             data-event-id={'action-funding-button-click'}
             disabled={inDraftOrReview}
             kind={'primary'}
@@ -167,11 +167,12 @@ export const ActionBar = suspensify(() => {
         <WrapComingSoonPopover id={'action-volunteering'} status={Status.Planning}>
           <Button
             Icon={Crowd}
-            data-event-id={'action-volunteering-button-click'}
+            containerClassName={'w-28'}
+            data-event-id={'action-participate-button-click'}
             kind={'secondary'}
             size={'md'}
-            value={'Volunteer'}
-            onClick={onVolunteerButtonClick}
+            value={'Join'}
+            onClick={onJoinClick}
           />
         </WrapComingSoonPopover>
       </div>
