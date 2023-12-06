@@ -21,7 +21,7 @@ export const Locality = suspensify(
   ({ actionId, onClick }: { actionId: string; onClick: () => void }) => {
     const t = useTranslation();
     const isLocalityChosen = useValue('action.locality/exists', { 'action/id': actionId });
-    const localityName = useValue('action.locality/name', { 'action/id': actionId });
+    const localityName = useValue('action.locality/caption', { 'action/id': actionId });
 
     return (
       <RawLocality

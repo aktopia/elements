@@ -1,12 +1,4 @@
-import {
-  asyncSub,
-  dispatch,
-  evt,
-  invalidateAsyncSub,
-  invalidateAsyncSubs,
-  remoteSub,
-  sub,
-} from '@elements/store';
+import { asyncSub, dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcGet, rpcPost } from '@elements/rpc';
 import {
   endEditing,
@@ -24,6 +16,7 @@ import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
+import { replaceAsyncSubs } from '@elements/store/impl';
 
 export enum ActionTab {
   Home = 'action.tab/home',
@@ -61,7 +54,7 @@ export type Subs = {
   'action.description/can-edit': Sub<{}, boolean>;
   'action.outcome/can-edit': Sub<{}, boolean>;
   'action.locality/exists': Sub<{ 'action/id': string }, boolean>;
-  'action.locality/name': Sub<{ 'action/id': string }, string>;
+  'action.locality/caption': Sub<{ 'action/id': string }, string>;
   'action.locality.slide-over/visible': Sub<{}, boolean>;
   'action.locality/location': Sub<{ 'action/id': string }, LatLng>;
   'action.locality/zoom': Sub<{ 'action/id': string }, number>;
@@ -157,7 +150,7 @@ remoteSub('action.description/text');
 remoteSub('action.outcome/text');
 remoteSub('action/updated-at');
 remoteSub('action.locality/exists');
-remoteSub('action.locality/name');
+remoteSub('action.locality/caption');
 remoteSub('action.locality/location');
 remoteSub('action.locality/zoom');
 remoteSub('action.title/can-edit');
@@ -277,23 +270,23 @@ evt('action.locality.slide-over/close', ({ setState }) => {
 });
 
 evt('action.locality/choose', async ({ getState, params }) => {
-  const currentActionId = getState()['action/state']['current.action/id'];
+  const actionId = getState()['action/state']['current.action/id'];
   const { location, zoom } = params;
   const placeDetails = await resolveLatLng(location);
   const name = parseClosestLocality(placeDetails.addressComponents);
 
-  await rpcPost('action.locality/upsert', {
-    'action/id': currentActionId,
+  const res = await rpcPost('action.locality/upsert', {
+    'action/id': actionId,
     location,
     zoom,
     name,
   });
 
-  await invalidateAsyncSubs([
-    ['action.locality/location', { 'action/id': currentActionId }],
-    ['action.locality/zoom', { 'action/id': currentActionId }],
-    ['action.locality/name', { 'action/id': currentActionId }],
-    ['action.locality/exists', { 'action/id': currentActionId }],
+  replaceAsyncSubs([
+    [['action.locality/location', { 'action/id': actionId }], res['action.locality/location']],
+    [['action.locality/zoom', { 'action/id': actionId }], res['action.locality/zoom']],
+    [['action.locality/caption', { 'action/id': actionId }], res['action.locality/caption']],
+    [['action.locality/exists', { 'action/id': actionId }], res['action.locality/exists']],
   ]);
 
   dispatch('action.locality.slide-over/close', {});

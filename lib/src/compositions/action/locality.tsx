@@ -37,7 +37,7 @@ export const Locality = suspensify(({ actionId }: { actionId: string }) => {
   const t = useTranslation();
   const isLocalityChosen = useValue('action.locality/exists', { 'action/id': actionId });
   const error = useValue('action.locality/error', { 'action/id': actionId });
-  const localityName = useValue('action.locality/name', { 'action/id': actionId });
+  const localityName = useValue('action.locality/caption', { 'action/id': actionId });
   const openSlideOver = useDispatch('action.locality.slide-over/open') as () => void;
   const clearError = useDispatch('action.locality.error/clear') as () => void;
 

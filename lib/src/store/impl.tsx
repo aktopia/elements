@@ -82,6 +82,12 @@ export const invalidateAsyncSub = async <T extends keyof Subs>(
   await queryClient.invalidateQueries({ queryKey: [id, { params }] });
 };
 
+export const invalidateAsyncSubs = async <T extends keyof Subs>(
+  subs: Array<[id: T, params?: Subs[T]['params']]>
+) => {
+  await Promise.all(subs.map(([id, params]) => invalidateAsyncSub([id, params])));
+};
+
 export const replaceAsyncSub = <T extends keyof Subs>(
   sub: [id: T, params?: Subs[T]['params']],
   updater: Subs[T]['result'] | ((old: Subs[T]['result']) => Subs[T]['result'])
@@ -90,10 +96,18 @@ export const replaceAsyncSub = <T extends keyof Subs>(
   queryClient.setQueryData([id, { params }], updater);
 };
 
-export const invalidateAsyncSubs = async <T extends keyof Subs>(
-  subs: Array<[id: T, params?: Subs[T]['params']]>
+export const replaceAsyncSubs = <T extends keyof Subs>(
+  subs: Array<
+    [
+      [id: T, params?: Subs[T]['params']],
+      updater: Subs[T]['result'] | ((old: Subs[T]['result']) => Subs[T]['result']),
+    ]
+  >
 ) => {
-  await Promise.all(subs.map(([id, params]) => invalidateAsyncSub([id, params])));
+  for (const sub of subs) {
+    const [[id, params], updater] = sub;
+    queryClient.setQueryData([id, { params }], updater);
+  }
 };
 
 export const Store = ({ children }: { children: ReactNode }) => {
