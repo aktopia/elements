@@ -13,7 +13,7 @@ export const votingSlice = () => ({
 
 export type Subs = {
   'voting.vote/count': Sub<{ ident: Ident }, number>;
-  'voting.current.user.vote/kind': Sub<{ ident: Ident }, Kind>;
+  'voting.user.vote/kind': Sub<{ ident: Ident; 'user/id': string }, Kind>;
 };
 
 export type Events = {
@@ -22,30 +22,32 @@ export type Events = {
 };
 
 remoteSub('voting.vote/count');
-remoteSub('voting.current.user.vote/kind');
+remoteSub('voting.user.vote/kind');
 
 evt(
   'voting.current.user/upvote',
-  wrapRequireAuth(async ({ params }) => {
+  wrapRequireAuth(async ({ params, read }) => {
+    const userId = read('current.user/id');
     const { 'voting.vote/count': count, 'voting.current.user.vote/kind': kind } = await rpcPost(
       'voting.current.user/upvote',
       params
     );
 
     replaceAsyncSub(['voting.vote/count', params], count);
-    replaceAsyncSub(['voting.current.user.vote/kind', params], kind);
+    replaceAsyncSub(['voting.user.vote/kind', { ...params, 'user/id': userId }], kind);
   })
 );
 
 evt(
   'voting.current.user/downvote',
-  wrapRequireAuth(async ({ params }) => {
+  wrapRequireAuth(async ({ params, read }) => {
+    const userId = read('current.user/id');
     const { 'voting.vote/count': count, 'voting.current.user.vote/kind': kind } = await rpcPost(
       'voting.current.user/downvote',
       params
     );
 
     replaceAsyncSub(['voting.vote/count', params], count);
-    replaceAsyncSub(['voting.current.user.vote/kind', params], kind);
+    replaceAsyncSub(['voting.user.vote/kind', { ...params, 'user/id': userId }], kind);
   })
 );

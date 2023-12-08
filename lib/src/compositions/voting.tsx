@@ -14,8 +14,9 @@ interface VotingProps {
 
 export const Voting = suspensify(
   ({ ident, size, downvoteTooltipText, upvoteTooltipText }: VotingProps) => {
+    const userId = useValue('current.user/id');
     const count = useValue('voting.vote/count', { ident });
-    const kind = useValue('voting.current.user.vote/kind', { ident });
+    const kind = useValue('voting.user.vote/kind', { ident, 'user/id': userId });
 
     const upvote = useDispatch('voting.current.user/upvote');
     const downvote = useDispatch('voting.current.user/downvote');
@@ -44,8 +45,9 @@ interface UpvotingProps {
 }
 
 export const UpVoting = suspensify(({ ident, size, upvoteTooltipText }: UpvotingProps) => {
+  const userId = useValue('current.user/id');
   const count = useValue('voting.vote/count', { ident });
-  const kind = useValue('voting.current.user.vote/kind', { ident });
+  const kind = useValue('voting.user.vote/kind', { ident, 'user/id': userId });
 
   const upvote = useDispatch('voting.current.user/upvote');
 

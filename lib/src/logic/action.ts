@@ -273,13 +273,13 @@ evt('action.locality/choose', async ({ getState, params }) => {
   const actionId = getState()['action/state']['current.action/id'];
   const { location, zoom } = params;
   const placeDetails = await resolveLatLng(location);
-  const name = parseClosestLocality(placeDetails.addressComponents);
+  const caption = parseClosestLocality(placeDetails.addressComponents);
 
   const res = await rpcPost('action.locality/upsert', {
     'action/id': actionId,
     location,
     zoom,
-    name,
+    caption,
   });
 
   replaceAsyncSubs([
