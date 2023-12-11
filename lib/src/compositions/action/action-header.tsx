@@ -17,7 +17,7 @@ import { EditButton } from '@elements/components/edit-button';
 import { EntityType as Type } from '@elements/types';
 import { Locality, LocalitySlideOver } from '@elements/compositions/action/locality';
 import { LastActive } from '@elements/compositions/last-active';
-import { updateHashParams } from '@elements/router';
+import { updateHashParams } from '@elements/utils/router';
 import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover';
 import { Status } from '@elements/logic/meta/initiative';
 import type { SwitchId } from '@elements/logic/action';

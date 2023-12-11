@@ -6,7 +6,7 @@ import { wrapPage } from '@elements/compositions/wrap-page';
 import { useValue } from '@elements/store';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
-import { updateHashParams } from '@elements/router';
+import { updateHashParams } from '@elements/utils/router';
 import type { TabId } from '@elements/logic/profile';
 
 const Name = suspensify(() => {

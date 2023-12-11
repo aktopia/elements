@@ -1,14 +1,9 @@
 import { dispatch, evt, sub } from '@elements/store';
 import type { Events as AllEvents, Evt, Sub } from '@elements/store/types';
-import type { Match, Params } from '@elements/router';
-import { events, getLocation, navigateToPath } from '@elements/router';
+import type { Match, Params } from '@elements/utils/router';
+import { navigateToPath } from '@elements/utils/router';
 import isEqual from 'lodash/isEqual';
-import { ROUTES, type RouteWithMatcher } from '@elements/routes';
-import { keep, scrollToTop } from '@elements/utils';
-import omit from 'lodash/omit';
-import { compile } from 'path-to-regexp';
-
-type RouteMappings = Record<string, RouteWithMatcher>;
+import { navigateToRoute } from '@elements/router';
 
 export enum NavigationState {
   Uninitiated = 'route.navigation.state/uninitiated',
@@ -26,61 +21,7 @@ export type Events = {
   'route.navigation/initiate': Evt<Match>;
   'route.navigation/complete': Evt<{}>;
   'navigate/path': Evt<{ path: string; replace?: boolean }>;
-  'navigate/route': Evt<{ id: string; pathParams: Params; replace?: boolean }>;
-};
-
-const ROUTE_MAPPINGS: RouteMappings = ROUTES.reduce((acc: RouteMappings, route) => {
-  acc[route.id] = route;
-  return acc;
-}, {});
-
-export const generatePath = (id: string, { pathParams }: { pathParams?: Params }) => {
-  const toPath = compile(ROUTE_MAPPINGS[id].path, { encode: encodeURIComponent });
-  return toPath(pathParams);
-};
-
-export const navigateToRoute = (
-  id: string,
-  { pathParams }: { pathParams?: Params },
-  { replace = false } = {}
-) => {
-  const path = generatePath(id, { pathParams });
-  navigateToPath(path, { replace });
-  scrollToTop({ behavior: 'auto' });
-};
-
-const resolveRoute = (routes: RouteWithMatcher[]): Match => {
-  const location = getLocation();
-
-  const matched = keep(routes, (route) => {
-    const found = route.matcher(location.path);
-    return found ? omit({ ...route, pathParams: found.params }, ['matcher']) : null;
-  });
-
-  return {
-    ...location,
-    ...matched,
-  };
-};
-
-const subscribe = (callback: EventListener) => {
-  for (const event of events) {
-    window.addEventListener(event, callback);
-  }
-
-  return () => {
-    for (const event of events) {
-      window.removeEventListener(event, callback);
-    }
-  };
-};
-
-export const initRouter = () => {
-  dispatch('route.navigation/initiate', resolveRoute(ROUTES));
-
-  return subscribe(() => {
-    dispatch('route.navigation/initiate', resolveRoute(ROUTES));
-  });
+  'navigate/route': Evt<{ id: string; pathParams?: Params; replace?: boolean }>;
 };
 
 export const routerSlice = () => ({

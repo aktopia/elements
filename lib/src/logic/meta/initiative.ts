@@ -8,7 +8,7 @@ import {
   text,
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
-import { type Match } from '@elements/router';
+import { type Match } from '@elements/utils/router';
 import type { Evt, Sub } from '@elements/store/types';
 
 export enum Status {

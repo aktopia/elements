@@ -6,7 +6,7 @@ import { dispatch, useValue } from '@elements/store';
 import { suspensify } from '@elements/components/suspensify';
 import { authApiDomain } from '@elements/config';
 import { FullPageSpinner } from '@elements/components/full-page-spinner';
-import { initRouter } from '@elements/logic/router';
+import { initRouter } from '@elements/router';
 
 const authConfig = {
   apiDomain: authApiDomain,

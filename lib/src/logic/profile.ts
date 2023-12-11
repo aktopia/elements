@@ -1,5 +1,5 @@
 import { dispatch, evt, remoteSub, sub } from '@elements/store';
-import type { Match } from '@elements/router';
+import type { Match } from '@elements/utils/router';
 import type { Evt, Sub } from '@elements/store/types';
 
 export type TabId = 'actions' | 'issues';

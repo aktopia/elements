@@ -9,7 +9,7 @@ import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';
 import { EntityType as Type } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';
-import { updateHashParams } from '@elements/router';
+import { updateHashParams } from '@elements/utils/router';
 import { wrapPage } from '@elements/compositions/wrap-page';
 import { Updates } from '@elements/compositions/updates';
 import { Discuss } from '@elements/compositions/discuss';

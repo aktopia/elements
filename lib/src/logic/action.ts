@@ -10,13 +10,14 @@ import {
   startEditing,
   text,
 } from '@elements/logic/text-editor';
-import type { Match } from '@elements/router';
+import type { Match } from '@elements/utils/router';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { replaceAsyncSubs } from '@elements/store/impl';
-import { navigateToRoute } from '@elements/logic/router';
+
+import { navigateToRoute } from '@elements/router';
 
 export enum ActionTab {
   Home = 'action.tab/home',
@@ -254,6 +255,7 @@ evt('navigated.action/view', ({ params }) => {
 evt('navigated.action/new', async ({ params }) => {
   const { title } = params.route.queryParams;
   const { id } = await rpcPost('action.draft/create', { 'action.title/text': title });
+  // dispatch('navigate/route', { id: 'action/view', pathParams: { id }, replace: true });
   navigateToRoute('action/view', { pathParams: { id } }, { replace: true });
 });
 
