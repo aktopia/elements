@@ -60,7 +60,7 @@ const Action_ = ({ actionId }: { actionId: string }) => {
   );
 };
 
-const Action = wrapPage(() => {
+export const Action = wrapPage(() => {
   const actionId = useValue('current.action/id');
   const actionExists = useValue('action/exists', { 'action/id': actionId });
 

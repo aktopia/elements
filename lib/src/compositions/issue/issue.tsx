@@ -8,7 +8,7 @@ import { useValue } from '@elements/store';
 import { useIdent } from '@elements/store/hooks';
 import { IssueTab } from '@elements/logic/issue';
 
-const Issue = wrapPage(() => {
+export const Issue = wrapPage(() => {
   const activeTabId = useValue('issue.tabs/active-tab');
   const issueId = useValue('current.issue/id');
   const ref = useIdent('issue/id', issueId);

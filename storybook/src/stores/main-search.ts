@@ -1,5 +1,6 @@
 export const store = {
   sub: {
+    'main-search/query': '',
     'main-search/visible': true,
     'main-search/results': [
       {
