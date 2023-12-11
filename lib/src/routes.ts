@@ -91,7 +91,7 @@ const routes_: Route[] = [
   { id: 'contact', path: '/contact', component: Contact },
 ];
 
-export const routes: RouteWithMatcher[] = routes_.map((route) => {
+export const ROUTES: RouteWithMatcher[] = routes_.map((route) => {
   resolveComponent[route.id] = route.component;
   return { ...route, matcher: match(route.path) };
 });

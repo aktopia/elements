@@ -1,13 +1,10 @@
 import { suspensify } from '@elements/components/suspensify';
-import { dispatch, useValue } from '@elements/store';
+import { useValue } from '@elements/store';
 import { Spinner } from '@elements/components/spinner';
-import { type Match } from '@elements/router';
 import { NavigationState } from '@elements/logic/router';
 import { NotFoundPage } from '@elements/compositions/not-found';
 import { resolveComponent } from '@elements/routes';
 import { FullPageSpinner } from '@elements/components/full-page-spinner';
-
-export const listener = (match: Match) => dispatch('route.navigation/initiate', match);
 
 export const Router = suspensify(() => {
   const currentRoute = useValue('current.route/id');
