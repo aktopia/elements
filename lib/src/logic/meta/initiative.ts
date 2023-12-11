@@ -1,4 +1,3 @@
-import { invalidateAsyncSub } from '@elements/store';
 import {
   endEditing,
   onEditCancelDefault,
@@ -108,7 +107,7 @@ evt('navigated.meta.initiative/view', ({ params, dispatch }) => {
   dispatch('route.navigation/complete');
 });
 
-evt('meta.initiative.status/update', async ({ params }) => {
+evt('meta.initiative.status/update', async ({ params, invalidateAsyncSub }) => {
   await rpcPost('meta.initiative.status/update', {
     'meta.initiative/slug': params['meta.initiative/slug'],
     status: params.status,
@@ -124,7 +123,7 @@ evt('meta.initiative.status/update', async ({ params }) => {
 
 registerTextEditor('meta.initiative.title/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const title = text({ getState, params });
     await rpcPost('meta.initiative.title.text/update', {
       'meta.initiative/slug': params.ref[1],
@@ -143,7 +142,7 @@ registerTextEditor('meta.initiative.title/text', {
 
 registerTextEditor('meta.initiative.description/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const description = text({ getState, params });
     await rpcPost('meta.initiative.description.text/update', {
       'meta.initiative/slug': params.ref[1],

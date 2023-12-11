@@ -1,4 +1,4 @@
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useCallback, useMemo, useState } from 'react';
 import type { Ident } from '@elements/types';
 

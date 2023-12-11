@@ -1,9 +1,8 @@
-import { invalidateAsyncSub, invalidateAsyncSubs } from '@elements/store';
 import { consumeOtp, resendOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
 import { rpcPost } from '@elements/rpc';
 import type { EventHandler, EventHandlerArgs } from '@elements/store/register';
-import type { Events as AllEvents, Evt, Sub } from '@elements/store/types';
 import { evt, sub } from '@elements/store/register';
+import type { Events as AllEvents, Evt, Sub } from '@elements/store/types';
 
 export type ResendOtpState = 'idle' | 'waiting' | 'resending';
 
@@ -221,7 +220,7 @@ evt('auth.verify-otp/update-otp', ({ setState, params }) => {
   });
 });
 
-evt('auth.verify-otp/verify-otp', async ({ setState, params, dispatch }) => {
+evt('auth.verify-otp/verify-otp', async ({ setState, params, dispatch, invalidateAsyncSubs }) => {
   const { otp } = params;
   try {
     setState((state: any) => {
@@ -237,7 +236,7 @@ evt('auth.verify-otp/verify-otp', async ({ setState, params, dispatch }) => {
       });
     }
 
-    await invalidateAsyncSubs([['current.user/id']]);
+    await invalidateAsyncSubs([['current.user/id', {}]]);
 
     setState((state: any) => {
       state['authentication/state']['auth.verify-otp/verifying'] = false;
@@ -267,13 +266,13 @@ evt('user.registration.input.name/update', ({ setState, params }) => {
   });
 });
 
-evt('user.registration/done', async ({ getState, read }) => {
+evt('user.registration/done', async ({ getState, read, invalidateAsyncSub }) => {
   const name = getState()['authentication/state']['user.registration.input/name'];
   const currentUserId = read('current.user/id');
 
   await rpcPost('user.name/update', { value: name, 'user/id': currentUserId });
 
-  await invalidateAsyncSub(['user.registration/pending']);
+  await invalidateAsyncSub(['user.registration/pending', { 'user/id': currentUserId }]);
 });
 
 export function wrapRequireAuth<T extends keyof AllEvents>(fn: EventHandler<T>) {

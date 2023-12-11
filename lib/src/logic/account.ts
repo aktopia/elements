@@ -1,4 +1,3 @@
-import { invalidateAsyncSubs } from '@elements/store';
 import {
   endEditing,
   onEditCancelDefault,
@@ -25,7 +24,7 @@ evt('account.user.name/edit', ({ setState, params }) => {
 
 registerTextEditor('user/name', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSubs }) => {
     const value = text({ getState, params });
     await rpcPost('user.name/update', {
       'user/id': params.ref[1],

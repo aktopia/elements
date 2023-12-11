@@ -1,4 +1,3 @@
-import { invalidateAsyncSub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import { ref } from '@elements/utils';
 import {
@@ -11,7 +10,6 @@ import {
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
 import type { Ident } from '@elements/types';
-import { replaceAsyncSub } from '@elements/store/impl';
 import { evt, remoteSub, sub } from '@elements/store/register';
 
 export type Subs = {
@@ -77,7 +75,7 @@ evt('comment.replying/set', ({ setState, params }) => {
   });
 });
 
-evt('new.comment/create', async ({ getState, params, dispatch }) => {
+evt('new.comment/create', async ({ getState, params, dispatch, invalidateAsyncSub }) => {
   const key = ref(params.ref);
   const newComment = getState()['comment/state']['new/comment'][key]?.text?.trim();
 
@@ -125,7 +123,7 @@ evt('comment.deletion/start', ({ setState, params }) => {
   });
 });
 
-evt('comment/delete', async ({ setState, params }) => {
+evt('comment/delete', async ({ setState, params, invalidateAsyncSub }) => {
   await rpcPost('comment/delete', {
     'comment/id': params['comment/id'],
   });
@@ -162,7 +160,7 @@ evt('new.comment.error/clear', ({ setState, params }) => {
 
 registerTextEditor('comment/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params, dispatch }) => {
+  onEditDone: async ({ setState, getState, params, dispatch, replaceAsyncSub }) => {
     const value = text({ getState, params })?.trim();
     if (value === '') {
       return dispatch('new.comment.error/set', {

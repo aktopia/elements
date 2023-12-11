@@ -1,4 +1,3 @@
-import { dispatch } from '@elements/store';
 import type { Evt, Sub } from '@elements/store/types';
 import { evt, sub } from '@elements/store/register';
 
@@ -21,7 +20,7 @@ evt('app.loading/set', ({ setState, params }) => {
   });
 });
 
-evt('app/load', async () => {
+evt('app/load', async ({ dispatch }) => {
   dispatch('app.loading/set', { loading: true });
   await dispatch('auth.session/sync');
   dispatch('user.chosen.locality/sync');

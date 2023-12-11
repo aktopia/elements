@@ -2,7 +2,6 @@ import { rpcPost } from '@elements/rpc';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Ident } from '@elements/types';
 import type { Evt, Sub } from '@elements/store/types';
-import { replaceAsyncSub } from '@elements/store/impl';
 import { evt, remoteSub } from '@elements/store/register';
 
 export type Kind = 'upvote' | 'downvote' | null;
@@ -26,7 +25,7 @@ remoteSub('voting.user.vote/kind');
 
 evt(
   'voting.current.user/upvote',
-  wrapRequireAuth(async ({ params, read }) => {
+  wrapRequireAuth(async ({ params, read, replaceAsyncSub }) => {
     const userId = read('current.user/id');
     const { 'voting.vote/count': count, 'voting.current.user.vote/kind': kind } = await rpcPost(
       'voting.current.user/upvote',
@@ -40,7 +39,7 @@ evt(
 
 evt(
   'voting.current.user/downvote',
-  wrapRequireAuth(async ({ params, read }) => {
+  wrapRequireAuth(async ({ params, read, replaceAsyncSub }) => {
     const userId = read('current.user/id');
     const { 'voting.vote/count': count, 'voting.current.user.vote/kind': kind } = await rpcPost(
       'voting.current.user/downvote',

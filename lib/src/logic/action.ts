@@ -1,4 +1,3 @@
-import { invalidateAsyncSub } from '@elements/store';
 import { rpcGet, rpcPost } from '@elements/rpc';
 import {
   endEditing,
@@ -15,7 +14,6 @@ import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
-import { replaceAsyncSubs } from '@elements/store/impl';
 import { asyncSub, evt, remoteSub, sub } from '@elements/store/register';
 
 export enum ActionTab {
@@ -269,7 +267,7 @@ evt('action.locality.slide-over/close', ({ setState }) => {
   });
 });
 
-evt('action.locality/choose', async ({ getState, params, dispatch }) => {
+evt('action.locality/choose', async ({ getState, params, dispatch, replaceAsyncSubs }) => {
   const actionId = getState()['action/state']['current.action/id'];
   const { location, zoom } = params;
   const placeDetails = await resolveLatLng(location);
@@ -388,7 +386,7 @@ evt('action/delete', async ({ params, dispatch }) => {
 
 registerTextEditor('action.title/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const title = text({ getState, params })?.trim();
 
     // TODO Think about abstracting validations than having them in the logic layer.
@@ -408,7 +406,7 @@ registerTextEditor('action.title/text', {
 
 registerTextEditor('action.description/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const description = text({ getState, params });
     await rpcPost('action.description.text/update', {
       'action/id': params.ref[1],
@@ -422,7 +420,7 @@ registerTextEditor('action.description/text', {
 
 registerTextEditor('action.outcome/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const outcome = text({ getState, params });
     await rpcPost('action.outcome.text/update', {
       'action/id': params.ref[1],

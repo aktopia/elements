@@ -46,21 +46,21 @@ const queryClient = new QueryClient({
 export const setState = useStore.setState;
 export const getState = useStore.getState;
 
-export const invalidateAsyncSub: InvalidateAsyncSub = async (sub) => {
+const invalidateAsyncSub: InvalidateAsyncSub = async (sub) => {
   const [id, params] = sub;
   await queryClient.invalidateQueries({ queryKey: [id, { params }] });
 };
 
-export const invalidateAsyncSubs: InvalidateAsyncSubs = async (subs) => {
+const invalidateAsyncSubs: InvalidateAsyncSubs = async (subs) => {
   await Promise.all(subs.map(([id, params]) => invalidateAsyncSub([id, params])));
 };
 
-export const replaceAsyncSub: ReplaceAsyncSub = (sub, updater) => {
+const replaceAsyncSub: ReplaceAsyncSub = (sub, updater) => {
   const [id, params] = sub;
   queryClient.setQueryData([id, { params }], updater);
 };
 
-export const replaceAsyncSubs: ReplaceAsyncSubs = (subs) => {
+const replaceAsyncSubs: ReplaceAsyncSubs = (subs) => {
   for (const sub of subs) {
     const [[id, params], updater] = sub;
     queryClient.setQueryData([id, { params }], updater);
