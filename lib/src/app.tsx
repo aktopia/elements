@@ -3,7 +3,6 @@ import { Router } from '@elements/compositions/router';
 import { useEffect } from 'react';
 import { init as initAuth } from '@elements/authentication';
 import { useDispatch, useValue } from '@elements/store/interface';
-import { dispatch } from '@elements/store/impl';
 import { suspensify } from '@elements/components/suspensify';
 import { authApiDomain } from '@elements/config';
 import { FullPageSpinner } from '@elements/components/full-page-spinner';
@@ -13,11 +12,6 @@ const authConfig = {
   apiBasePath: '/api/auth',
   appName: 'aktopia',
 };
-
-function init() {
-  initAuth(authConfig);
-  dispatch('app/load');
-}
 
 const handleClick = (event: any) => {
   // FIXME This might be expensive, evaluate how expensive
@@ -31,16 +25,19 @@ const handleClick = (event: any) => {
 };
 
 export const App = suspensify(() => {
+  const loadApp = useDispatch('app/load');
   const viewportResize = useDispatch('viewport/resize');
 
   useEffect(() => {
-    init();
+    initAuth(authConfig);
+    loadApp({});
+
     window.addEventListener('resize', viewportResize);
 
     return () => {
       window.removeEventListener('resize', viewportResize);
     };
-  }, [viewportResize]);
+  }, [viewportResize, loadApp]);
 
   useEffect(() => {
     document.addEventListener('click', handleClick);
