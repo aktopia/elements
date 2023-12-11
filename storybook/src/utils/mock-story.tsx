@@ -1,5 +1,5 @@
 import { Translation } from '@elements/translation';
-import translations from '@elements/translations';
+import translations, { type Translations } from '@elements/translations';
 import { action } from '@storybook/addon-actions';
 import type { ComponentProps, ComponentType, ReactNode } from 'react';
 import { useCallback } from 'react';
@@ -15,7 +15,7 @@ interface MockStoreProps<T extends keyof Subs> {
   sub: Record<T, any>;
   evt: EvtMock;
   children: ReactNode;
-  locales?: Record<string, any>;
+  locales?: Record<keyof Translations, any>;
 }
 
 export interface MockStore {
@@ -43,7 +43,7 @@ export const MockStore = <T extends keyof Subs>({
   sub,
   evt,
   children,
-  locales,
+  locales = translations,
 }: MockStoreProps<T>) => {
   const useValueImpl = useCallback(
     function (id: T, params?: Subs[T]['params']) {
@@ -69,7 +69,7 @@ export const MockStore = <T extends keyof Subs>({
 
   return (
     <StoreInterface useDispatch={useDispatchImpl} useValue={useValueImpl}>
-      <Translation defaultLocale={'en'} locales={locales || translations} suspenseLines={8}>
+      <Translation defaultLocale={'en'} locales={locales} suspenseLines={8}>
         {children}
       </Translation>
     </StoreInterface>
