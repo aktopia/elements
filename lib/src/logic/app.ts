@@ -1,5 +1,7 @@
 import type { Evt, Sub } from '@elements/store/types';
 import { evt, sub } from '@elements/store/register';
+import { ROUTES } from '@elements/routes';
+import { resolveRoute, subscribe } from '@elements/router';
 
 export type Subs = {
   'app/loading': Sub<{}, boolean>;
@@ -21,6 +23,11 @@ evt('app.loading/set', ({ setState, params }) => {
 });
 
 evt('app/load', async ({ dispatch }) => {
+  dispatch('route.navigation/initiate', resolveRoute(ROUTES));
+  subscribe(() => {
+    dispatch('route.navigation/initiate', resolveRoute(ROUTES));
+  });
+
   dispatch('app.loading/set', { loading: true });
   dispatch('viewport/resize');
   await dispatch('auth.session/sync');

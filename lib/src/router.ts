@@ -33,7 +33,7 @@ export const navigateToRoute = (
   scrollToTop({ behavior: 'auto' });
 };
 
-const resolveRoute = (routes: RouteWithMatcher[]): Match => {
+export const resolveRoute = (routes: RouteWithMatcher[]): Match => {
   const location = getLocation();
 
   const matched = keep(routes, (route) => {
@@ -47,7 +47,7 @@ const resolveRoute = (routes: RouteWithMatcher[]): Match => {
   };
 };
 
-const subscribe = (callback: EventListener) => {
+export const subscribe = (callback: EventListener) => {
   for (const event of events) {
     window.addEventListener(event, callback);
   }
