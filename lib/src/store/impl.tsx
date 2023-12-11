@@ -67,7 +67,7 @@ const replaceAsyncSubs: ReplaceAsyncSubs = (subs) => {
   }
 };
 
-export const dispatch: Dispatch = (id, params?) => {
+const dispatch: Dispatch = (id, params?) => {
   const { fn } = events[id];
   return fn({
     setState,
