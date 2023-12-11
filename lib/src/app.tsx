@@ -1,12 +1,12 @@
 import '@elements/index.css';
-import { listener, Router } from '@elements/compositions/router';
+import { Router } from '@elements/compositions/router';
 import { useEffect } from 'react';
 import { init as initAuth } from '@elements/authentication';
 import { dispatch, useValue } from '@elements/store';
 import { suspensify } from '@elements/components/suspensify';
-import { initRouter } from '@elements/router';
 import { authApiDomain } from '@elements/config';
 import { FullPageSpinner } from '@elements/components/full-page-spinner';
+import { initRouter } from '@elements/logic/router';
 
 const authConfig = {
   apiDomain: authApiDomain,
@@ -20,7 +20,7 @@ const handleViewportResize = () => {
 
 function init() {
   initAuth(authConfig);
-  initRouter(listener);
+  initRouter();
   dispatch('app/load');
   handleViewportResize();
 }

@@ -17,13 +17,13 @@ import {
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
 import type { Match } from '@elements/router';
-import { navigateToRoute } from '@elements/router';
 import type { LatLng, LatLngBounds } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
 import type { Image } from '@elements/components/media-gallery';
+import { navigateToRoute } from '@elements/logic/router';
 
 export enum IssueTab {
   Home = 'issue.tab/home',

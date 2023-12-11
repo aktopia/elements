@@ -11,12 +11,12 @@ import {
   text,
 } from '@elements/logic/text-editor';
 import type { Match } from '@elements/router';
-import { navigateToRoute } from '@elements/router';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { replaceAsyncSubs } from '@elements/store/impl';
+import { navigateToRoute } from '@elements/logic/router';
 
 export enum ActionTab {
   Home = 'action.tab/home',
