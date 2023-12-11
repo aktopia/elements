@@ -43,8 +43,8 @@ const queryClient = new QueryClient({
   },
 });
 
-export const setState = useStore.setState;
-export const getState = useStore.getState;
+const setState = useStore.setState;
+const getState = useStore.getState;
 
 const invalidateAsyncSub: InvalidateAsyncSub = async (sub) => {
   const [id, params] = sub;
