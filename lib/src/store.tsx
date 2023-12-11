@@ -1,5 +1,3 @@
-export { useValue, useDispatch, Store } from '@elements/store/interface';
-export { sub, asyncSub, evt, remoteSub } from '@elements/store/register';
 export {
   setState,
   getState,
@@ -8,3 +6,5 @@ export {
   invalidateAsyncSub,
   invalidateAsyncSubs,
 } from '@elements/store/impl';
+
+export { useValue, useDispatch, Store } from '@elements/store/interface';

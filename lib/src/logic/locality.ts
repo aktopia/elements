@@ -1,7 +1,7 @@
-import { evt, sub } from '@elements/store';
 import type { LatLng } from '@elements/components/map';
 import { geolocate, parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import type { Evt, Sub } from '@elements/store/types';
+import { evt, sub } from '@elements/store/register';
 
 interface Locality {
   location: LatLng;

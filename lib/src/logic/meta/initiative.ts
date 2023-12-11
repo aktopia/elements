@@ -1,4 +1,4 @@
-import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
+import { invalidateAsyncSub } from '@elements/store';
 import {
   endEditing,
   onEditCancelDefault,
@@ -10,6 +10,7 @@ import {
 import { rpcPost } from '@elements/rpc';
 import { type Match } from '@elements/utils/router';
 import type { Evt, Sub } from '@elements/store/types';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export enum Status {
   Evaluating = 'meta.initiative.status/evaluating',

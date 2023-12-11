@@ -1,9 +1,9 @@
-import { evt, sub } from '@elements/store';
 import type { Events as AllEvents, Evt, Sub } from '@elements/store/types';
 import type { Match, Params } from '@elements/utils/router';
 import { navigateToPath } from '@elements/utils/router';
 import isEqual from 'lodash/isEqual';
 import { navigateToRoute } from '@elements/router';
+import { evt, sub } from '@elements/store/register';
 
 export enum NavigationState {
   Uninitiated = 'route.navigation.state/uninitiated',

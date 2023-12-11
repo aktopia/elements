@@ -1,6 +1,6 @@
-import { remoteSub } from '@elements/store';
 import type { LatLng, LatLngBounds } from '@elements/components/map';
 import type { Evt, Sub } from '@elements/store/types';
+import { remoteSub } from '@elements/store/register';
 
 export type Subs = {
   'location.created-by/name': Sub<{ 'location/id': string }, string>;

@@ -1,5 +1,5 @@
-import { remoteSub } from '@elements/store';
 import type { Sub } from '@elements/store/types';
+import { remoteSub } from '@elements/store/register';
 
 export const userSlice = () => ({
   'user/state': {},

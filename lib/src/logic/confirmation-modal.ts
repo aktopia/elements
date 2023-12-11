@@ -1,8 +1,8 @@
 import { emptyObject } from '@elements/utils';
 import type { Reference } from '@elements/types';
-import { evt, sub } from '@elements/store';
 import type { ButtonKind } from '@elements/components/button';
 import type { Evt, Sub } from '@elements/store/types';
+import { evt, sub } from '@elements/store/register';
 
 export type Subs = {
   'confirmation-modal/visible': Sub<{}, boolean>;

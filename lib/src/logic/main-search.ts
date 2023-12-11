@@ -1,6 +1,6 @@
-import { evt, remoteSub, sub } from '@elements/store';
 import type { EntityType } from '@elements/types';
 import type { Evt, Sub } from '@elements/store/types';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export interface SearchResult {
   'entity/type': EntityType;

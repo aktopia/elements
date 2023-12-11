@@ -1,4 +1,4 @@
-import { evt, invalidateAsyncSubs } from '@elements/store';
+import { invalidateAsyncSubs } from '@elements/store';
 import {
   endEditing,
   onEditCancelDefault,
@@ -9,6 +9,7 @@ import {
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
 import type { Evt } from '@elements/store/types';
+import { evt } from '@elements/store/register';
 
 export type Events = {
   'account.user.name/edit': Evt<{ 'user/id': string }>;

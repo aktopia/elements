@@ -1,5 +1,6 @@
-import { dispatch, evt, sub } from '@elements/store';
+import { dispatch } from '@elements/store';
 import type { Evt, Sub } from '@elements/store/types';
+import { evt, sub } from '@elements/store/register';
 
 export type Subs = {
   'app/loading': Sub<{}, boolean>;

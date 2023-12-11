@@ -1,9 +1,9 @@
-import { evt, remoteSub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Ident } from '@elements/types';
 import type { Evt, Sub } from '@elements/store/types';
 import { replaceAsyncSub } from '@elements/store/impl';
+import { evt, remoteSub } from '@elements/store/register';
 
 export type Kind = 'upvote' | 'downvote' | null;
 

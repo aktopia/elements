@@ -1,4 +1,4 @@
-import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
+import { invalidateAsyncSub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import {
   endEditing,
@@ -11,6 +11,7 @@ import {
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
 import type { Ident } from '@elements/types';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export type Subs = {
   'update/ids': Sub<{ ref: Ident }, string[]>;

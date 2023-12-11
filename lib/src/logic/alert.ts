@@ -1,5 +1,5 @@
-import { evt, sub } from '@elements/store';
 import type { Evt, Sub } from '@elements/store/types';
+import { evt, sub } from '@elements/store/register';
 
 export type Kind = 'info' | 'success' | 'warning' | 'error';
 

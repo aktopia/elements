@@ -1,7 +1,14 @@
 import type { StoreApi } from 'zustand';
 import { rpcGet } from '@elements/rpc';
 import type { Events, Subs } from '@elements/store/types';
-import type { Dispatch, Read } from '@elements/store/interface';
+import type {
+  Dispatch,
+  InvalidateAsyncSub,
+  InvalidateAsyncSubs,
+  Read,
+  ReplaceAsyncSub,
+  ReplaceAsyncSubs,
+} from '@elements/store/interface';
 
 type Resolve<T extends keyof Subs> = (args: {
   state: any;
@@ -14,6 +21,10 @@ export type EventHandlerArgs<T extends keyof Events> = {
   read: Read;
   params: Events[T]['params'];
   dispatch: Dispatch;
+  invalidateAsyncSub: InvalidateAsyncSub;
+  invalidateAsyncSubs: InvalidateAsyncSubs;
+  replaceAsyncSub: ReplaceAsyncSub;
+  replaceAsyncSubs: ReplaceAsyncSubs;
 };
 
 export type EventHandler<T extends keyof Events> = (args: EventHandlerArgs<T>) => void;

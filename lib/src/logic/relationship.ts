@@ -1,7 +1,8 @@
-import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
+import { invalidateAsyncSub } from '@elements/store';
 import type { EntityType, Ident } from '@elements/types';
 import { rpcPost } from '@elements/rpc';
 import type { Evt, Sub } from '@elements/store/types';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export enum RelationType {
   Resolves = 'relation.type/resolves',

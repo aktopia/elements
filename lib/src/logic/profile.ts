@@ -1,6 +1,6 @@
-import { evt, remoteSub, sub } from '@elements/store';
 import type { Match } from '@elements/utils/router';
 import type { Evt, Sub } from '@elements/store/types';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export type TabId = 'actions' | 'issues';
 

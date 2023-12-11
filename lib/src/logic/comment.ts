@@ -1,4 +1,4 @@
-import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
+import { invalidateAsyncSub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import { ref } from '@elements/utils';
 import {
@@ -12,6 +12,7 @@ import {
 import type { Evt, Sub } from '@elements/store/types';
 import type { Ident } from '@elements/types';
 import { replaceAsyncSub } from '@elements/store/impl';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export type Subs = {
   'comment/status': Sub<{ 'comment/id': string }, string>;

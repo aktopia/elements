@@ -1,8 +1,9 @@
-import { evt, invalidateAsyncSub, invalidateAsyncSubs, sub } from '@elements/store';
+import { invalidateAsyncSub, invalidateAsyncSubs } from '@elements/store';
 import { consumeOtp, resendOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
 import { rpcPost } from '@elements/rpc';
 import type { EventHandler, EventHandlerArgs } from '@elements/store/register';
 import type { Events as AllEvents, Evt, Sub } from '@elements/store/types';
+import { evt, sub } from '@elements/store/register';
 
 export type ResendOtpState = 'idle' | 'waiting' | 'resending';
 
