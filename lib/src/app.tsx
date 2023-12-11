@@ -2,7 +2,7 @@ import '@elements/index.css';
 import { Router } from '@elements/compositions/router';
 import { useEffect } from 'react';
 import { init as initAuth } from '@elements/authentication';
-import { useValue } from '@elements/store/interface';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { dispatch } from '@elements/store/impl';
 import { suspensify } from '@elements/components/suspensify';
 import { authApiDomain } from '@elements/config';
@@ -15,15 +15,10 @@ const authConfig = {
   appName: 'aktopia',
 };
 
-const handleViewportResize = () => {
-  dispatch('viewport/resize');
-};
-
 function init() {
   initAuth(authConfig);
   initRouter();
   dispatch('app/load');
-  handleViewportResize();
 }
 
 const handleClick = (event: any) => {
@@ -38,14 +33,16 @@ const handleClick = (event: any) => {
 };
 
 export const App = suspensify(() => {
+  const viewportResize = useDispatch('viewport/resize');
+
   useEffect(() => {
     init();
-    window.addEventListener('resize', handleViewportResize);
+    window.addEventListener('resize', viewportResize);
 
     return () => {
-      window.removeEventListener('resize', handleViewportResize);
+      window.removeEventListener('resize', viewportResize);
     };
-  }, []);
+  }, [viewportResize]);
 
   useEffect(() => {
     document.addEventListener('click', handleClick);

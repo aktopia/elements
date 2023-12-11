@@ -22,6 +22,7 @@ evt('app.loading/set', ({ setState, params }) => {
 
 evt('app/load', async ({ dispatch }) => {
   dispatch('app.loading/set', { loading: true });
+  dispatch('viewport/resize');
   await dispatch('auth.session/sync');
   dispatch('user.chosen.locality/sync');
   dispatch('user.apparent.locality/sync');
