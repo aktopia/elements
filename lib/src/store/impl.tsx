@@ -82,7 +82,7 @@ export const dispatch: Dispatch = (id, params?) => {
   });
 };
 
-export const read: Read = (id, params?) => {
+const read: Read = (id, params?) => {
   const { fn, async } = subscriptions[id];
   return async
     ? queryClient.getQueryState([id, { params }])?.data
