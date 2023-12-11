@@ -17,6 +17,26 @@ export type DispatchHook = <T extends keyof Events>(
   id: T
 ) => (params: Events[T]['params']) => void | Promise<void>;
 
+export type InvalidateAsyncSub = <T extends keyof Subs>(
+  sub: [id: T, params: Subs[T]['params'] | undefined]
+) => Promise<void>;
+
+export type InvalidateAsyncSubs = <T extends keyof Subs>(
+  subs: [id: T, params: Subs[T]['params'] | undefined][]
+) => Promise<void>;
+
+export type ReplaceAsyncSub = <T extends keyof Subs>(
+  sub: [id: T, params: Subs[T]['params'] | undefined],
+  updater: Subs[T]['result'] | ((old: Subs[T]['result']) => Subs[T]['result'])
+) => void;
+
+export type ReplaceAsyncSubs = <T extends keyof Subs>(
+  subs: [
+    sub: [id: T, params: Subs[T]['params'] | undefined],
+    updater: Subs[T]['result'] | ((old: Subs[T]['result']) => Subs[T]['result']),
+  ][]
+) => void;
+
 interface StoreContextType {
   useValueImpl: ValueHook;
   useDispatchImpl: DispatchHook;
