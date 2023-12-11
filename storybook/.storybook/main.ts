@@ -1,9 +1,10 @@
 import * as path from 'path';
 import { mergeConfig, searchForWorkspaceRoot } from 'vite';
 import type { StorybookConfig } from '@storybook/react-vite';
+import { resolve } from 'path';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.story.@(js|jsx|ts|tsx|mdx)'],
+  stories: [resolve(__dirname, '../src/**/*.story.@(js|jsx|ts|tsx|mdx)')],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
