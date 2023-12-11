@@ -45,7 +45,7 @@ export const getState = useStore.getState;
 
 export const dispatch: Dispatch = (id, params?) => {
   const { fn } = events[id];
-  return fn({ setState, getState, params });
+  return fn({ setState, getState, params, read, dispatch });
 };
 
 export const read: Read = (id, params?) => {
@@ -71,8 +71,7 @@ const useValueImpl: ValueHook = (id, params) => {
 };
 
 const useDispatchImpl: DispatchHook = (id) => {
-  const { fn } = events[id];
-  return useCallback((params) => fn({ setState, getState, params, read, dispatch }), [fn]);
+  return useCallback((params) => dispatch(id, params), [id]);
 };
 
 export const invalidateAsyncSub = async <T extends keyof Subs>(

@@ -23,7 +23,6 @@ import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
 import type { Image } from '@elements/components/media-gallery';
-import { navigateToRoute } from '@elements/router';
 
 export enum IssueTab {
   Home = 'issue.tab/home',
@@ -261,10 +260,10 @@ evt('navigated.issue/view', ({ params }) => {
   dispatch('route.navigation/complete');
 });
 
-evt('navigated.issue/new', async ({ params }) => {
+evt('navigated.issue/new', async ({ params, dispatch }) => {
   const { title } = params.route.queryParams;
   const { id } = await rpcPost('issue.draft/create', { 'issue.title/text': title });
-  navigateToRoute('issue/view', { pathParams: { id } }, { replace: true });
+  dispatch('navigate/route', { id: 'issue/view', pathParams: { id }, replace: true });
 });
 
 evt('issue.current.user.severity/vote', async ({ getState, params }) => {

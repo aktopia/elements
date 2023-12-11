@@ -17,8 +17,6 @@ import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { replaceAsyncSubs } from '@elements/store/impl';
 
-import { navigateToRoute } from '@elements/router';
-
 export enum ActionTab {
   Home = 'action.tab/home',
   Discuss = 'action.tab/discuss',
@@ -252,11 +250,10 @@ evt('navigated.action/view', ({ params }) => {
   dispatch('route.navigation/complete');
 });
 
-evt('navigated.action/new', async ({ params }) => {
+evt('navigated.action/new', async ({ params, dispatch }) => {
   const { title } = params.route.queryParams;
-  const { id } = await rpcPost('action.draft/create', { 'action.title/text': title });
-  // dispatch('navigate/route', { id: 'action/view', pathParams: { id }, replace: true });
-  navigateToRoute('action/view', { pathParams: { id } }, { replace: true });
+  const { 'action/id': id } = await rpcPost('action.draft/create', { 'action.title/text': title });
+  dispatch('navigate/route', { id: 'action/view', pathParams: { id }, replace: true });
 });
 
 evt('action.locality.slide-over/open', ({ setState }) => {
@@ -380,9 +377,9 @@ evt('action.status/update', async ({ params, dispatch, getState, setState, read 
   await invalidateAsyncSub(['action/status', { 'action/id': params['action/id'] }]);
 });
 
-evt('action/delete', async ({ params }) => {
+evt('action/delete', async ({ params, dispatch }) => {
   await rpcPost('action/delete', { 'action/id': params['action/id'] });
-  navigateToRoute('home/view', {}, { replace: true });
+  dispatch('navigate/route', { replace: true, id: 'home/view' });
 });
 
 registerTextEditor('action.title/text', {
