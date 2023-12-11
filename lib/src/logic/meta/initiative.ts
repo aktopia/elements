@@ -1,4 +1,4 @@
-import { dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
+import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import {
   endEditing,
   onEditCancelDefault,
@@ -97,7 +97,7 @@ evt('meta.initiative.description/edit', ({ setState, getState }) => {
   });
 });
 
-evt('navigated.meta.initiative/view', ({ params }) => {
+evt('navigated.meta.initiative/view', ({ params, dispatch }) => {
   const id = params.route.pathParams.id;
   const tab = params.route.hashParams.tab;
   if (tab) {

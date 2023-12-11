@@ -1,4 +1,4 @@
-import { dispatch, evt, sub } from '@elements/store';
+import { evt, sub } from '@elements/store';
 import type { Events as AllEvents, Evt, Sub } from '@elements/store/types';
 import type { Match, Params } from '@elements/utils/router';
 import { navigateToPath } from '@elements/utils/router';
@@ -49,7 +49,7 @@ const routeChanged = (currentState: any, newMatch: Match) => {
   );
 };
 
-evt('route.navigation/initiate', async ({ setState, params, getState }) => {
+evt('route.navigation/initiate', async ({ setState, params, getState, dispatch }) => {
   const { id, pathParams, queryParams, hashParams, path, onNavigateEvent } = params;
   const navigationState = getState()['router/state']['route.navigation/state'];
   const navigationUninitiated = navigationState === NavigationState.Uninitiated;

@@ -1,4 +1,4 @@
-import { asyncSub, dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
+import { asyncSub, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcGet, rpcPost } from '@elements/rpc';
 import {
   endEditing,
@@ -240,7 +240,7 @@ evt('action.create.modal.title/update', ({ setState, params }) => {
   });
 });
 
-evt('navigated.action/view', ({ params }) => {
+evt('navigated.action/view', ({ params, dispatch }) => {
   const id = params.route.pathParams.id;
   const tab = params.route.hashParams.tab as ActionTab;
   if (tab) {
@@ -268,7 +268,7 @@ evt('action.locality.slide-over/close', ({ setState }) => {
   });
 });
 
-evt('action.locality/choose', async ({ getState, params }) => {
+evt('action.locality/choose', async ({ getState, params, dispatch }) => {
   const actionId = getState()['action/state']['current.action/id'];
   const { location, zoom } = params;
   const placeDetails = await resolveLatLng(location);

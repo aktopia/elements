@@ -1,4 +1,4 @@
-import { dispatch, evt, sub } from '@elements/store';
+import { evt, sub } from '@elements/store';
 import type { LatLng } from '@elements/components/map';
 import { geolocate, parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import type { Evt, Sub } from '@elements/store/types';
@@ -116,7 +116,7 @@ evt('choose-locality.slide-over/open', ({ setState }) => {
   });
 });
 
-evt('choose-locality.location/done', async ({ setState, params }) => {
+evt('choose-locality.location/done', async ({ setState, params, dispatch }) => {
   const { location, zoom } = params;
 
   setState((state: any) => {

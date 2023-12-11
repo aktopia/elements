@@ -1,11 +1,4 @@
-import {
-  dispatch,
-  evt,
-  invalidateAsyncSub,
-  invalidateAsyncSubs,
-  remoteSub,
-  sub,
-} from '@elements/store';
+import { evt, invalidateAsyncSub, invalidateAsyncSubs, remoteSub, sub } from '@elements/store';
 import {
   endEditing,
   onEditCancelDefault,
@@ -250,7 +243,7 @@ evt('issue.create.modal.title/update', ({ setState, params }) => {
   });
 });
 
-evt('navigated.issue/view', ({ params }) => {
+evt('navigated.issue/view', ({ params, dispatch }) => {
   const id = params.route.pathParams.id;
   const tab = params.route.hashParams.tab;
   if (tab) {
@@ -291,7 +284,7 @@ evt('issue.locality.slide-over/close', ({ setState }) => {
   });
 });
 
-evt('issue.locality/choose', async ({ getState, params }) => {
+evt('issue.locality/choose', async ({ getState, params, dispatch }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];
   const { location, zoom } = params;
   const placeDetails = await resolveLatLng(location);

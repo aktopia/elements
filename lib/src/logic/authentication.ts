@@ -1,4 +1,4 @@
-import { dispatch, evt, invalidateAsyncSub, invalidateAsyncSubs, sub } from '@elements/store';
+import { evt, invalidateAsyncSub, invalidateAsyncSubs, sub } from '@elements/store';
 import { consumeOtp, resendOtp, sendOtp, sessionExists, signOut } from '@elements/authentication';
 import { rpcPost } from '@elements/rpc';
 import type { EventHandler, EventHandlerArgs } from '@elements/store/register';
@@ -105,7 +105,7 @@ evt('auth.sign-in/initiate', ({ setState }) => {
   });
 });
 
-evt('auth/sign-out', async ({}) => {
+evt('auth/sign-out', async ({ dispatch }) => {
   await signOut();
   dispatch('auth.session/sync');
 });
@@ -220,7 +220,7 @@ evt('auth.verify-otp/update-otp', ({ setState, params }) => {
   });
 });
 
-evt('auth.verify-otp/verify-otp', async ({ setState, params }) => {
+evt('auth.verify-otp/verify-otp', async ({ setState, params, dispatch }) => {
   const { otp } = params;
   try {
     setState((state: any) => {

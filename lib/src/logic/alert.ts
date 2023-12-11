@@ -1,4 +1,4 @@
-import { dispatch, evt, sub } from '@elements/store';
+import { evt, sub } from '@elements/store';
 import type { Evt, Sub } from '@elements/store/types';
 
 export type Kind = 'info' | 'success' | 'warning' | 'error';
@@ -31,7 +31,7 @@ evt('alert/dismiss', ({ setState }) => {
   });
 });
 
-evt('alert/flash', ({ setState, params }) => {
+evt('alert/flash', ({ setState, params, dispatch }) => {
   setState((state: any) => {
     state['alert/state']['alert/message'] = params.message;
     state['alert/state']['alert/kind'] = params.kind;

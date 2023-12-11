@@ -1,4 +1,4 @@
-import { dispatch, evt, remoteSub, sub } from '@elements/store';
+import { evt, remoteSub, sub } from '@elements/store';
 import type { Match } from '@elements/utils/router';
 import type { Evt, Sub } from '@elements/store/types';
 
@@ -41,7 +41,7 @@ evt('profile.user.id/set', ({ setState, params }) => {
   });
 });
 
-evt('navigated.profile/view', ({ params }) => {
+evt('navigated.profile/view', ({ params, dispatch }) => {
   const { id } = params.route.pathParams;
   const tab = params.route.hashParams.tab;
 
