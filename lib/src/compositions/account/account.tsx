@@ -1,5 +1,5 @@
 import { wrapPage } from '@elements/compositions/wrap-page';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { EditButton } from '@elements/components/edit-button';
 import { useTranslation } from '@elements/translation';
 import { Button } from '@elements/components/button';

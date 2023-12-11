@@ -3,7 +3,7 @@ import { Tabs } from '@elements/components/tabs';
 import { Actions } from '@elements/compositions/profile/actions';
 import { Issues } from '@elements/compositions/profile/issues';
 import { wrapPage } from '@elements/compositions/wrap-page';
-import { useValue } from '@elements/store';
+import { useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { updateHashParams } from '@elements/utils/router';

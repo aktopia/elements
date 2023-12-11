@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import { cx } from '@elements/utils';
 import { useTranslation } from '@elements/translation';
 import { Status } from '@elements/logic/meta/initiative';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useCallback, useMemo } from 'react';
 
 const Item = (props: ListBoxItemProps & { children: ReactNode }) => {

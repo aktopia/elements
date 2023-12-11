@@ -1,6 +1,6 @@
 import { Snackbar as Component } from '@elements/components/snackbar';
 import { suspensify } from '@elements/components/suspensify';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 
 export const Snackbar = suspensify(() => {
   const visible = useValue('alert/visible');

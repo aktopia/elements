@@ -1,5 +1,5 @@
 import { suspensify } from '@elements/components/suspensify';
-import { useValue } from '@elements/store';
+import { useValue } from '@elements/store/interface';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { EntityType as Type } from '@elements/types';
 import { LastActive } from '@elements/compositions/last-active';

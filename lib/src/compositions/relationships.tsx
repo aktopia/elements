@@ -8,7 +8,7 @@ import {
 import { suspensify } from '@elements/components/suspensify';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { EntityType as ResultType, type Ident } from '@elements/types';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import {
   type ChangeEvent,
   type ComponentType,

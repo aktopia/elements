@@ -10,7 +10,7 @@ import {
 } from '@elements/components/slide-over';
 import { cx } from '@elements/utils';
 import { Spinner } from '@elements/components/spinner';
-import { useDispatch } from '@elements/store';
+import { useDispatch } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import { useWrapRequireAuth } from '@elements/store/hooks';
 

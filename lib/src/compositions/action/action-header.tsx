@@ -10,7 +10,7 @@ import { Tabs } from '@elements/components/tabs';
 import { EntityTypeBadge } from '@elements/compositions/entity-type-badge';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { Voting } from '@elements/compositions/voting';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { EditButton } from '@elements/components/edit-button';

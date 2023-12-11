@@ -1,6 +1,6 @@
 import { suspensify } from '@elements/components/suspensify';
 import { TextAreaEditor } from '@elements/components/text-area-editor';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import type { ReactElement } from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';

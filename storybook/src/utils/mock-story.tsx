@@ -5,7 +5,7 @@ import type { ComponentProps, ComponentType, ReactNode } from 'react';
 import { useCallback } from 'react';
 import type { Parameters } from '@storybook/react';
 import type { ValueHook } from '@elements/store/interface';
-import { Store as StoreInterface } from '@elements/store';
+import { Store as StoreInterface } from '@elements/store/interface';
 import type { Subs } from '@elements/store/types';
 
 export type SubMock = keyof Subs;

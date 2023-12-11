@@ -12,7 +12,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { Timestamp } from '@elements/components/timestamp';
 import { TextEditor } from '@elements/compositions/text-editor';
 import { Voting } from '@elements/compositions/voting';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import isEmpty from 'lodash/isEmpty';
 import { useCallback, useMemo, useState } from 'react';

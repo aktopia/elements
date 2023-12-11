@@ -2,7 +2,7 @@ import { CheckBadgeSolid } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
 import { Relationships } from '@elements/compositions/relationships';
 import { TextEditor } from '@elements/compositions/text-editor';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import { EditButton } from '@elements/components/edit-button';
 import { useIdent } from '@elements/store/hooks';

@@ -1,6 +1,6 @@
 import { suspensify } from '@elements/components/suspensify';
 import { Modal, ModalPanel } from '@elements/components/modal';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { Button } from '@elements/components/button';
 import { type FormEventHandler, type ChangeEvent, useCallback, useState } from 'react';
 import { useTranslation } from '@elements/translation';

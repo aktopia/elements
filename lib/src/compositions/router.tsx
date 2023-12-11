@@ -1,5 +1,5 @@
 import { suspensify } from '@elements/components/suspensify';
-import { useValue } from '@elements/store';
+import { useValue } from '@elements/store/interface';
 import { Spinner } from '@elements/components/spinner';
 import { NavigationState } from '@elements/logic/router';
 import { NotFoundPage } from '@elements/compositions/not-found';

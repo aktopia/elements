@@ -8,7 +8,6 @@ import {
 } from '@elements/utils/router';
 import { keep, scrollToTop } from '@elements/utils';
 import omit from 'lodash/omit';
-import { dispatch } from '@elements/store/impl';
 import { compile } from 'path-to-regexp';
 
 type RouteMappings = Record<string, RouteWithMatcher>;
@@ -57,12 +56,4 @@ export const subscribe = (callback: EventListener) => {
       window.removeEventListener(event, callback);
     }
   };
-};
-
-export const initRouter = () => {
-  dispatch('route.navigation/initiate', resolveRoute(ROUTES));
-
-  return subscribe(() => {
-    dispatch('route.navigation/initiate', resolveRoute(ROUTES));
-  });
 };

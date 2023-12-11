@@ -1,7 +1,7 @@
 import { Button } from '@elements/components/button';
 import { Modal, ModalHeader, ModalPanel } from '@elements/components/modal';
 import { suspensify } from '@elements/components/suspensify';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 
 export const SocialSignIn = suspensify(() => {
