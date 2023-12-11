@@ -18,6 +18,8 @@ import { slices } from '@elements/store/slices';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
 
+// IMPORTANT: nothing except the store component should be exported from this file.
+
 function queryFn({ queryKey }: any) {
   const [id, params] = queryKey;
   const sub = subscriptions[id].fn;
