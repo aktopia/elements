@@ -36,6 +36,9 @@ const config: StorybookConfig = {
           allow: [searchForWorkspaceRoot(process.cwd()), '../../lib'],
         },
       },
+      build: {
+        target: 'esnext',
+      },
     });
   },
 };
