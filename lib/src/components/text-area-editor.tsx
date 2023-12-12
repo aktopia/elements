@@ -6,7 +6,7 @@ import RichTextArea, {
   type RichTextOutput,
 } from '@elements/components/rich-text-area';
 import { type FormEventHandler, type Ref, useCallback, useMemo, useState } from 'react';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import { ExclamationCircleMiniSolid } from '@elements/icons';
 
 interface TextAreaEditorProps {

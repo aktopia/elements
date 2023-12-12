@@ -1,5 +1,5 @@
 import { UserCircleSolid } from '@elements/icons';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import { cx } from '@elements/utils';
 
 const variant = cva('inline-block rounded-full', {

@@ -1,4 +1,4 @@
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import { memo, useCallback } from 'react';
 
 const containerVariant = cva(

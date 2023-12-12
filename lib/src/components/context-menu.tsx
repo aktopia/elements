@@ -1,6 +1,6 @@
 import { EllipsisHorizontalOutline, EllipsisVerticalOutline } from '@elements/icons';
 import { Dropdown, type ItemType } from '@elements/components/dropdown';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 
 type Orientation = 'vertical' | 'horizontal';
 

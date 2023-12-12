@@ -52,7 +52,7 @@
     "@tiptap/extension-text": "^2.1.13",
     "@tiptap/pm": "2.1.13",
     "@tiptap/react": "2.1.13",
-    "cva": "npm:class-variance-authority@^0.7.0",
+    "class-variance-authority": "^0.7.0",
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.16",
     "immer": "^10.0.3",

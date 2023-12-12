@@ -1,6 +1,6 @@
 import { Link } from '@elements/components/link';
 import { LightBulbSolid, SparklesSolid } from '@elements/icons';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import { Status } from '@elements/logic/meta/initiative';
 
 const containerVariant = cva('w-full flex items-center justify-center', {

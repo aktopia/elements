@@ -1,5 +1,5 @@
 import { HandRaisedOutline, HandRaisedSolid } from '@elements/icons';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import { formatCount } from '@elements/utils';
 import { WithInfoTooltip } from '@elements/components/info-tooltip';
 
