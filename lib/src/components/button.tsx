@@ -1,5 +1,5 @@
 import { formatCount } from '@elements/utils';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import type { ComponentType, ForwardedRef, HTMLProps } from 'react';
 import { type ComponentProps, forwardRef, memo, type MouseEvent, useCallback } from 'react';
 import { Link } from '@elements/components/link';

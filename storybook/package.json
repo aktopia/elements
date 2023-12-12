@@ -1,5 +1,5 @@
 {
-  "name": "elements-storybook",
+  "name": "@aktopia/elements-storybook",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -21,6 +21,9 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.7",
+    "@types/node": "^20.10.4",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
     "autoprefixer": "^10.4.16",
     "chromatic": "^10.1.0",
     "edn-data": "^1.1.1",
@@ -32,9 +35,7 @@
     "tailwindcss": "3.3.6",
     "typescript": "^5.3.3",
     "vite": "^5.0.8",
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "@types/node": "^20.10.4"
+    "@storybook/addon-themes": "^7.6.4"
   },
   "readme": "ERROR: No README data found!",
   "_id": "elements-storybook@0.0.0"

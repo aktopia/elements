@@ -1,5 +1,5 @@
 import { useTranslation } from '@elements/translation';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import { EntityType as Type } from '@elements/types';
 
 const entityTypeTranslation = {

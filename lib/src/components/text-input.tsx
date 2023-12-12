@@ -1,4 +1,4 @@
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import { ExclamationCircleMiniSolid } from '@elements/icons';
 
 const variant = cva('w-full bg-gray-100 text-gray-700 placeholder:text-gray-400 ', {

@@ -1,4 +1,4 @@
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 
 const statusContainerVariant = cva(
   'flex items-center gap-2 border pl-2 pr-2.5 py-1 rounded-full shadow-sm bg-white',
