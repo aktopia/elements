@@ -10,7 +10,7 @@ const store = {
     'action/updated-at': randomTimestamp(),
     'action.status/check': false,
     'action.locality/exists': false,
-    'action.locality/caption':lorem.generateSentences(1),
+    'action.locality/caption': lorem.generateSentences(1),
   },
   evt: [],
 };

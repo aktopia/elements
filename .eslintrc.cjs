@@ -42,12 +42,6 @@ module.exports = {
         ignoreProps: true,
       },
     ],
-    'prettier/prettier': [
-      'error',
-      {
-        endOfLine: 'auto',
-      },
-    ],
     'react/jsx-no-bind': [
       'error',
       {
