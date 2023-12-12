@@ -4,6 +4,7 @@ on: push
 
 jobs:
   chromatic:
+    environment: elements
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
