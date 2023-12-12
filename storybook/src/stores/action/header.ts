@@ -1,4 +1,5 @@
 import { store as textEditorStore } from '@story/stores/text-editor';
+import { randomTimestamp } from '@story/utils/time';
 
 export const store = {
   sub: {
@@ -20,6 +21,11 @@ export const store = {
       { id: 'funding', label: 'Funding' },
     ],
     'action.tabs/active-tab': 'home',
+    'action.status/can-update': false,
+    'action.title/can-edit': false,
+    'action/can-delete': false,
+    'action/updated-at': randomTimestamp(),
+    'action.status/modal': false,
   },
   evt: [
     ...textEditorStore.evt,
@@ -32,5 +38,9 @@ export const store = {
     'action/fund',
     'action.progress-bar/update',
     'action.tabs/update',
+    'action.title/edit',
+    'action/delete',
+    'action/volunteer',
+    'confirmation-modal/open'
   ],
 };

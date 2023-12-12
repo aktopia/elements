@@ -38,8 +38,5 @@
     "vite": "^5.0.6"
   },
   "readme": "ERROR: No README data found!",
-  "_id": "elements-storybook@0.0.0",
-  "dependencies": {
-    "@tiptap/core": "^2.1.13"
-  }
+  "_id": "elements-storybook@0.0.0"
 }
