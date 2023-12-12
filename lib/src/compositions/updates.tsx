@@ -4,7 +4,7 @@ import { suspensify } from '@elements/components/suspensify';
 import { Timestamp } from '@elements/components/timestamp';
 import { UpVoting } from '@elements/compositions/voting';
 import { TextEditor } from '@elements/compositions/text-editor';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import { useCallback, useMemo } from 'react';
 import { type ItemType } from '@elements/components/dropdown';

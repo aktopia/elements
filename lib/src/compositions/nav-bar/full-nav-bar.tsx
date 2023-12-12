@@ -7,7 +7,7 @@ import {
 import { Dropdown, type ItemType } from '@elements/components/dropdown';
 import { suspensify } from '@elements/components/suspensify';
 import { MainSearch } from '@elements/compositions/main-search';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import { useMemo } from 'react';
 import { Auth } from '@elements/compositions/auth/auth';

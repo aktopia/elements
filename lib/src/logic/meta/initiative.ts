@@ -1,4 +1,3 @@
-import { dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import {
   endEditing,
   onEditCancelDefault,
@@ -8,8 +7,9 @@ import {
   text,
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
-import { type Match } from '@elements/router';
+import { type Match } from '@elements/utils/router';
 import type { Evt, Sub } from '@elements/store/types';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export enum Status {
   Evaluating = 'meta.initiative.status/evaluating',
@@ -97,7 +97,7 @@ evt('meta.initiative.description/edit', ({ setState, getState }) => {
   });
 });
 
-evt('navigated.meta.initiative/view', ({ params }) => {
+evt('navigated.meta.initiative/view', ({ params, dispatch }) => {
   const id = params.route.pathParams.id;
   const tab = params.route.hashParams.tab;
   if (tab) {
@@ -107,7 +107,7 @@ evt('navigated.meta.initiative/view', ({ params }) => {
   dispatch('route.navigation/complete');
 });
 
-evt('meta.initiative.status/update', async ({ params }) => {
+evt('meta.initiative.status/update', async ({ params, invalidateAsyncSub }) => {
   await rpcPost('meta.initiative.status/update', {
     'meta.initiative/slug': params['meta.initiative/slug'],
     status: params.status,
@@ -123,7 +123,7 @@ evt('meta.initiative.status/update', async ({ params }) => {
 
 registerTextEditor('meta.initiative.title/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const title = text({ getState, params });
     await rpcPost('meta.initiative.title.text/update', {
       'meta.initiative/slug': params.ref[1],
@@ -142,7 +142,7 @@ registerTextEditor('meta.initiative.title/text', {
 
 registerTextEditor('meta.initiative.description/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const description = text({ getState, params });
     await rpcPost('meta.initiative.description.text/update', {
       'meta.initiative/slug': params.ref[1],

@@ -1,4 +1,4 @@
-import { navigateToPath } from '@elements/router';
+import { navigateToPath } from '@elements/utils/router';
 import useEvent from 'react-use-event-hook';
 import { type AnchorHTMLAttributes, type ForwardedRef, forwardRef, type MouseEvent } from 'react';
 

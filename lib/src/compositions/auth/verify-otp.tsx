@@ -2,7 +2,7 @@ import { BackIconButton } from '@elements/components/back-icon-button';
 import { Button } from '@elements/components/button';
 import { Modal, ModalHeader, ModalPanel } from '@elements/components/modal';
 import { Spinner } from '@elements/components/spinner';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import { cva } from 'cva';
 import { useCallback, type ChangeEvent } from 'react';

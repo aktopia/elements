@@ -1,4 +1,4 @@
-import { evt, sub } from '@elements/store';
+import { evt, sub } from '@elements/store/register';
 import type { Translations } from '@elements/translations';
 import type { Evt, Sub } from '@elements/store/types';
 

@@ -1,5 +1,5 @@
 import { Button } from '@elements/components/button';
-import { useValue } from '@elements/store';
+import { useValue } from '@elements/store/interface';
 import { getTranslation, TranslationContext } from '@elements/translation';
 import React, { useCallback, useContext, useState } from 'react';
 

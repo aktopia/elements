@@ -3,7 +3,7 @@ import {
   ExclamationTriangleOutline,
   GlobeAmericasMiniSolid,
 } from '@elements/icons';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import { Slider, SliderThumb, SliderTrack } from 'react-aria-components';
 import { useCallback, useState } from 'react';

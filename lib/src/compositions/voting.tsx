@@ -1,7 +1,7 @@
 import { suspensify } from '@elements/components/suspensify';
 import type { Size } from '@elements/components/voting';
 import { UpVoting as RawUpVoting, Voting as RawVoting } from '@elements/components/voting';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useCallback } from 'react';
 import type { Ident } from '@elements/types';
 

@@ -1,4 +1,3 @@
-import { evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcPost } from '@elements/rpc';
 import {
   endEditing,
@@ -11,6 +10,7 @@ import {
 } from '@elements/logic/text-editor';
 import type { Evt, Sub } from '@elements/store/types';
 import type { Ident } from '@elements/types';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export type Subs = {
   'update/ids': Sub<{ ref: Ident }, string[]>;
@@ -56,7 +56,7 @@ remoteSub('update/can-create');
 remoteSub('update/can-update');
 remoteSub('update/can-delete');
 
-evt('new.update/create', async ({ getState, dispatch, params }) => {
+evt('new.update/create', async ({ getState, dispatch, params, invalidateAsyncSub }) => {
   const newUpdate = getState()['update/state']['new/update'].text?.trim();
   if (newUpdate === '') {
     return dispatch('new.update.error/set', { error: 'Update cannot be empty.' });
@@ -92,7 +92,7 @@ evt('update.deletion/start', ({ setState, params }) => {
   });
 });
 
-evt('update/delete', async ({ setState, params }) => {
+evt('update/delete', async ({ setState, params, invalidateAsyncSub }) => {
   await rpcPost('update/delete', {
     'update/id': params['update/id'],
   });
@@ -125,7 +125,7 @@ evt('new.update.error/clear', ({ setState }) => {
 
 registerTextEditor('update/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const value = text({ getState, params })?.trim();
 
     if (value === '') {

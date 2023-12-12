@@ -5,7 +5,11 @@ import { useCallback } from 'react';
 import {
   type Dispatch,
   type DispatchHook,
+  type InvalidateAsyncSub,
+  type InvalidateAsyncSubs,
   type Read,
+  type ReplaceAsyncSub,
+  type ReplaceAsyncSubs,
   Store as StoreInterface,
   type ValueHook,
 } from '@elements/store/interface';
@@ -13,7 +17,8 @@ import { events, subscriptions } from '@elements/store/register';
 import { slices } from '@elements/store/slices';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
-import type { Subs } from '@elements/store/types';
+
+// IMPORTANT: nothing except the store component should be exported from this file.
 
 function queryFn({ queryKey }: any) {
   const [id, params] = queryKey;
@@ -40,15 +45,46 @@ const queryClient = new QueryClient({
   },
 });
 
-export const setState = useStore.setState;
-export const getState = useStore.getState;
+const setState = useStore.setState;
+const getState = useStore.getState;
 
-export const dispatch: Dispatch = (id, params?) => {
-  const { fn } = events[id];
-  return fn({ setState, getState, params });
+const invalidateAsyncSub: InvalidateAsyncSub = async (sub) => {
+  const [id, params] = sub;
+  await queryClient.invalidateQueries({ queryKey: [id, { params }] });
 };
 
-export const read: Read = (id, params?) => {
+const invalidateAsyncSubs: InvalidateAsyncSubs = async (subs) => {
+  await Promise.all(subs.map(([id, params]) => invalidateAsyncSub([id, params])));
+};
+
+const replaceAsyncSub: ReplaceAsyncSub = (sub, updater) => {
+  const [id, params] = sub;
+  queryClient.setQueryData([id, { params }], updater);
+};
+
+const replaceAsyncSubs: ReplaceAsyncSubs = (subs) => {
+  for (const sub of subs) {
+    const [[id, params], updater] = sub;
+    queryClient.setQueryData([id, { params }], updater);
+  }
+};
+
+const dispatch: Dispatch = (id, params?) => {
+  const { fn } = events[id];
+  return fn({
+    setState,
+    getState,
+    params,
+    read,
+    dispatch,
+    invalidateAsyncSub,
+    invalidateAsyncSubs,
+    replaceAsyncSub,
+    replaceAsyncSubs,
+  });
+};
+
+const read: Read = (id, params?) => {
   const { fn, async } = subscriptions[id];
   return async
     ? queryClient.getQueryState([id, { params }])?.data
@@ -71,43 +107,7 @@ const useValueImpl: ValueHook = (id, params) => {
 };
 
 const useDispatchImpl: DispatchHook = (id) => {
-  const { fn } = events[id];
-  return useCallback((params) => fn({ setState, getState, params, read, dispatch }), [fn]);
-};
-
-export const invalidateAsyncSub = async <T extends keyof Subs>(
-  sub: [id: T, params?: Subs[T]['params']]
-) => {
-  const [id, params] = sub;
-  await queryClient.invalidateQueries({ queryKey: [id, { params }] });
-};
-
-export const invalidateAsyncSubs = async <T extends keyof Subs>(
-  subs: Array<[id: T, params?: Subs[T]['params']]>
-) => {
-  await Promise.all(subs.map(([id, params]) => invalidateAsyncSub([id, params])));
-};
-
-export const replaceAsyncSub = <T extends keyof Subs>(
-  sub: [id: T, params?: Subs[T]['params']],
-  updater: Subs[T]['result'] | ((old: Subs[T]['result']) => Subs[T]['result'])
-) => {
-  const [id, params] = sub;
-  queryClient.setQueryData([id, { params }], updater);
-};
-
-export const replaceAsyncSubs = <T extends keyof Subs>(
-  subs: Array<
-    [
-      [id: T, params?: Subs[T]['params']],
-      updater: Subs[T]['result'] | ((old: Subs[T]['result']) => Subs[T]['result']),
-    ]
-  >
-) => {
-  for (const sub of subs) {
-    const [[id, params], updater] = sub;
-    queryClient.setQueryData([id, { params }], updater);
-  }
+  return useCallback((params) => dispatch(id, params), [id]);
 };
 
 export const Store = ({ children }: { children: ReactNode }) => {

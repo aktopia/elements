@@ -1,4 +1,3 @@
-import { asyncSub, dispatch, evt, invalidateAsyncSub, remoteSub, sub } from '@elements/store';
 import { rpcGet, rpcPost } from '@elements/rpc';
 import {
   endEditing,
@@ -10,13 +9,12 @@ import {
   startEditing,
   text,
 } from '@elements/logic/text-editor';
-import type { Match } from '@elements/router';
+import type { Match } from '@elements/utils/router';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
-import { replaceAsyncSubs } from '@elements/store/impl';
-import { navigateToRoute } from '@elements/logic/router';
+import { asyncSub, evt, remoteSub, sub } from '@elements/store/register';
 
 export enum ActionTab {
   Home = 'action.tab/home',
@@ -241,7 +239,7 @@ evt('action.create.modal.title/update', ({ setState, params }) => {
   });
 });
 
-evt('navigated.action/view', ({ params }) => {
+evt('navigated.action/view', ({ params, dispatch }) => {
   const id = params.route.pathParams.id;
   const tab = params.route.hashParams.tab as ActionTab;
   if (tab) {
@@ -251,10 +249,10 @@ evt('navigated.action/view', ({ params }) => {
   dispatch('route.navigation/complete');
 });
 
-evt('navigated.action/new', async ({ params }) => {
+evt('navigated.action/new', async ({ params, dispatch }) => {
   const { title } = params.route.queryParams;
-  const { id } = await rpcPost('action.draft/create', { 'action.title/text': title });
-  navigateToRoute('action/view', { pathParams: { id } }, { replace: true });
+  const { 'action/id': id } = await rpcPost('action.draft/create', { 'action.title/text': title });
+  dispatch('navigate/route', { id: 'action/view', pathParams: { id }, replace: true });
 });
 
 evt('action.locality.slide-over/open', ({ setState }) => {
@@ -269,7 +267,7 @@ evt('action.locality.slide-over/close', ({ setState }) => {
   });
 });
 
-evt('action.locality/choose', async ({ getState, params }) => {
+evt('action.locality/choose', async ({ getState, params, dispatch, replaceAsyncSubs }) => {
   const actionId = getState()['action/state']['current.action/id'];
   const { location, zoom } = params;
   const placeDetails = await resolveLatLng(location);
@@ -313,79 +311,82 @@ evt('action.status.modal/close', ({ setState }) => {
   });
 });
 
-evt('action.status/update', async ({ params, dispatch, getState, setState, read }) => {
-  const actionId = params['action/id'];
+evt(
+  'action.status/update',
+  async ({ params, dispatch, getState, setState, read, invalidateAsyncSub }) => {
+    const actionId = params['action/id'];
 
-  // TODO Think about abstracting validations than having them in the logic layer.
-  if ([ActionStatus.Reviewing, ActionStatus.Active].includes(params.status)) {
-    const isDescriptionEmpty = isEmpty({
-      getState,
-      params: { ref: ['action.description/text', actionId] },
+    // TODO Think about abstracting validations than having them in the logic layer.
+    if ([ActionStatus.Reviewing, ActionStatus.Active].includes(params.status)) {
+      const isDescriptionEmpty = isEmpty({
+        getState,
+        params: { ref: ['action.description/text', actionId] },
+      });
+
+      const isOutcomeEmpty = isEmpty({
+        getState,
+        params: { ref: ['action.outcome/text', actionId] },
+      });
+
+      const isLocalityNotChosen = !read('action.locality/exists', { 'action/id': actionId });
+
+      const hasErrors = isDescriptionEmpty || isOutcomeEmpty || isLocalityNotChosen;
+
+      if (isDescriptionEmpty) {
+        startEditing({ setState, params: { ref: ['action.description/text', actionId] } });
+        setError({
+          setState,
+          params: {
+            ref: ['action.description/text', actionId],
+            error: 'Description cannot be empty.', // TODO i18n
+          },
+        });
+      }
+
+      if (isOutcomeEmpty) {
+        startEditing({ setState, params: { ref: ['action.outcome/text', actionId] } });
+        setError({
+          setState,
+          params: {
+            ref: ['action.outcome/text', actionId],
+            error: 'Outcome cannot be empty.', // TODO i18n
+          },
+        });
+      }
+
+      if (isLocalityNotChosen) {
+        setState((state: any) => {
+          state['action/state']['action.locality/error'] = 'Locality must be chosen.'; // TODO i18n
+        });
+      }
+
+      if (hasErrors) {
+        return;
+      }
+    }
+
+    await rpcPost('action.status/update', {
+      'action/id': params['action/id'],
+      status: params.status,
     });
 
-    const isOutcomeEmpty = isEmpty({
-      getState,
-      params: { ref: ['action.outcome/text', actionId] },
+    dispatch('action.status.modal/close', {});
+    dispatch('alert/flash', {
+      message: 'Action status has been updated.',
+      kind: 'info',
     });
-
-    const isLocalityNotChosen = !read('action.locality/exists', { 'action/id': actionId });
-
-    const hasErrors = isDescriptionEmpty || isOutcomeEmpty || isLocalityNotChosen;
-
-    if (isDescriptionEmpty) {
-      startEditing({ setState, params: { ref: ['action.description/text', actionId] } });
-      setError({
-        setState,
-        params: {
-          ref: ['action.description/text', actionId],
-          error: 'Description cannot be empty.', // TODO i18n
-        },
-      });
-    }
-
-    if (isOutcomeEmpty) {
-      startEditing({ setState, params: { ref: ['action.outcome/text', actionId] } });
-      setError({
-        setState,
-        params: {
-          ref: ['action.outcome/text', actionId],
-          error: 'Outcome cannot be empty.', // TODO i18n
-        },
-      });
-    }
-
-    if (isLocalityNotChosen) {
-      setState((state: any) => {
-        state['action/state']['action.locality/error'] = 'Locality must be chosen.'; // TODO i18n
-      });
-    }
-
-    if (hasErrors) {
-      return;
-    }
+    await invalidateAsyncSub(['action/status', { 'action/id': params['action/id'] }]);
   }
+);
 
-  await rpcPost('action.status/update', {
-    'action/id': params['action/id'],
-    status: params.status,
-  });
-
-  dispatch('action.status.modal/close', {});
-  dispatch('alert/flash', {
-    message: 'Action status has been updated.',
-    kind: 'info',
-  });
-  await invalidateAsyncSub(['action/status', { 'action/id': params['action/id'] }]);
-});
-
-evt('action/delete', async ({ params }) => {
+evt('action/delete', async ({ params, dispatch }) => {
   await rpcPost('action/delete', { 'action/id': params['action/id'] });
-  navigateToRoute('home/view', {}, { replace: true });
+  dispatch('navigate/route', { replace: true, id: 'home/view' });
 });
 
 registerTextEditor('action.title/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const title = text({ getState, params })?.trim();
 
     // TODO Think about abstracting validations than having them in the logic layer.
@@ -405,7 +406,7 @@ registerTextEditor('action.title/text', {
 
 registerTextEditor('action.description/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const description = text({ getState, params });
     await rpcPost('action.description.text/update', {
       'action/id': params.ref[1],
@@ -419,7 +420,7 @@ registerTextEditor('action.description/text', {
 
 registerTextEditor('action.outcome/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const outcome = text({ getState, params });
     await rpcPost('action.outcome.text/update', {
       'action/id': params.ref[1],

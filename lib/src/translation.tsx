@@ -1,5 +1,5 @@
 import { suspensify } from '@elements/components/suspensify';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { createContext, type ReactNode, useCallback, useContext, useMemo } from 'react';
 import type { Translations } from '@elements/translations';
 

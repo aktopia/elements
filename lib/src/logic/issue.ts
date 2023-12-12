@@ -1,12 +1,4 @@
 import {
-  dispatch,
-  evt,
-  invalidateAsyncSub,
-  invalidateAsyncSubs,
-  remoteSub,
-  sub,
-} from '@elements/store';
-import {
   endEditing,
   onEditCancelDefault,
   onTextUpdateDefault,
@@ -16,14 +8,14 @@ import {
   text,
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
-import type { Match } from '@elements/router';
+import type { Match } from '@elements/utils/router';
 import type { LatLng, LatLngBounds } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
 import type { Image } from '@elements/components/media-gallery';
-import { navigateToRoute } from '@elements/logic/router';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export enum IssueTab {
   Home = 'issue.tab/home',
@@ -172,7 +164,7 @@ evt('issue.location.slide-over/close', ({ setState }) => {
   });
 });
 
-evt('issue.location/add', async ({ getState, params }) => {
+evt('issue.location/add', async ({ getState, params, invalidateAsyncSub }) => {
   const { 'current.issue/id': currentIssueId } = getState()['issue/state'];
   const { location, bounds, caption } = params;
 
@@ -180,7 +172,7 @@ evt('issue.location/add', async ({ getState, params }) => {
   await invalidateAsyncSub(['issue/locations', { 'issue/id': currentIssueId }]);
 });
 
-evt('issue.current.user/face', async ({ getState }) => {
+evt('issue.current.user/face', async ({ getState, invalidateAsyncSubs }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];
   await rpcPost('issue.current.user/face', { 'issue/id': currentIssueId });
 
@@ -251,7 +243,7 @@ evt('issue.create.modal.title/update', ({ setState, params }) => {
   });
 });
 
-evt('navigated.issue/view', ({ params }) => {
+evt('navigated.issue/view', ({ params, dispatch }) => {
   const id = params.route.pathParams.id;
   const tab = params.route.hashParams.tab;
   if (tab) {
@@ -261,13 +253,13 @@ evt('navigated.issue/view', ({ params }) => {
   dispatch('route.navigation/complete');
 });
 
-evt('navigated.issue/new', async ({ params }) => {
+evt('navigated.issue/new', async ({ params, dispatch }) => {
   const { title } = params.route.queryParams;
   const { id } = await rpcPost('issue.draft/create', { 'issue.title/text': title });
-  navigateToRoute('issue/view', { pathParams: { id } }, { replace: true });
+  dispatch('navigate/route', { id: 'issue/view', pathParams: { id }, replace: true });
 });
 
-evt('issue.current.user.severity/vote', async ({ getState, params }) => {
+evt('issue.current.user.severity/vote', async ({ getState, params, invalidateAsyncSubs }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];
   await rpcPost('issue.current.user.severity/vote', {
     'issue/id': currentIssueId,
@@ -292,7 +284,7 @@ evt('issue.locality.slide-over/close', ({ setState }) => {
   });
 });
 
-evt('issue.locality/choose', async ({ getState, params }) => {
+evt('issue.locality/choose', async ({ getState, params, dispatch, invalidateAsyncSubs }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];
   const { location, zoom } = params;
   const placeDetails = await resolveLatLng(location);
@@ -315,7 +307,7 @@ evt('issue.locality/choose', async ({ getState, params }) => {
   dispatch('issue.locality.slide-over/close', {});
 });
 
-evt('issue.location/delete', async ({ getState, params }) => {
+evt('issue.location/delete', async ({ getState, params, invalidateAsyncSub }) => {
   const currentIssueId = getState()['issue/state']['current.issue/id'];
   await rpcPost('location/delete', { 'location/id': params['location/id'] });
   await invalidateAsyncSub(['issue/locations', { 'issue/id': currentIssueId }]);
@@ -331,7 +323,7 @@ const uploadToS3 = async (presignedUrl: string, file: File) => {
   });
 };
 
-evt('issue.image/add', async ({ params }) => {
+evt('issue.image/add', async ({ params, invalidateAsyncSub }) => {
   // TODO Add metadata like type, timestamp, etc.
   // TODO Think if extension to objectKey is required.
   try {
@@ -360,7 +352,7 @@ evt('issue.image/add', async ({ params }) => {
   }
 });
 
-evt('issue.image/delete', async ({ params }) => {
+evt('issue.image/delete', async ({ params, invalidateAsyncSub }) => {
   await rpcPost('issue.image/delete', {
     'issue/id': params['issue/id'],
     'image/id': params['image/id'],
@@ -371,7 +363,7 @@ evt('issue.image/delete', async ({ params }) => {
 
 registerTextEditor('issue.title/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const title = text({ getState, params })?.trim();
     // TODO Think about abstracting validations than having them in the logic layer.
     if (title === '') {
@@ -390,7 +382,7 @@ registerTextEditor('issue.title/text', {
 
 registerTextEditor('issue.description/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const description = text({ getState, params });
     await rpcPost('issue.description.text/update', {
       'issue/id': params.ref[1],
@@ -404,7 +396,7 @@ registerTextEditor('issue.description/text', {
 
 registerTextEditor('issue.resolution/text', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSub }) => {
     const resolution = text({ getState, params });
     await rpcPost('issue.resolution.text/update', {
       'issue/id': params.ref[1],

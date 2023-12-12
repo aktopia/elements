@@ -2,28 +2,16 @@ import '@elements/index.css';
 import { Router } from '@elements/compositions/router';
 import { useEffect } from 'react';
 import { init as initAuth } from '@elements/authentication';
-import { dispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { suspensify } from '@elements/components/suspensify';
 import { authApiDomain } from '@elements/config';
 import { FullPageSpinner } from '@elements/components/full-page-spinner';
-import { initRouter } from '@elements/logic/router';
 
 const authConfig = {
   apiDomain: authApiDomain,
   apiBasePath: '/api/auth',
   appName: 'aktopia',
 };
-
-const handleViewportResize = () => {
-  dispatch('viewport/resize');
-};
-
-function init() {
-  initAuth(authConfig);
-  initRouter();
-  dispatch('app/load');
-  handleViewportResize();
-}
 
 const handleClick = (event: any) => {
   // FIXME This might be expensive, evaluate how expensive
@@ -37,14 +25,19 @@ const handleClick = (event: any) => {
 };
 
 export const App = suspensify(() => {
+  const loadApp = useDispatch('app/load');
+  const viewportResize = useDispatch('viewport/resize');
+
   useEffect(() => {
-    init();
-    window.addEventListener('resize', handleViewportResize);
+    initAuth(authConfig);
+    loadApp({});
+
+    window.addEventListener('resize', viewportResize);
 
     return () => {
-      window.removeEventListener('resize', handleViewportResize);
+      window.removeEventListener('resize', viewportResize);
     };
-  }, []);
+  }, [viewportResize, loadApp]);
 
   useEffect(() => {
     document.addEventListener('click', handleClick);

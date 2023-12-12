@@ -1,5 +1,5 @@
 import { suspensify } from '@elements/components/suspensify';
-import { useValue } from '@elements/store';
+import { useValue } from '@elements/store/interface';
 import { ActionCard } from '@elements/compositions/action/action-card';
 import { ViewLocalitySlideOver as RawViewLocalitySlideOver } from '@elements/components/view-locality-slide-over';
 import { useCallback, useMemo, useState } from 'react';

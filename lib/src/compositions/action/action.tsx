@@ -3,7 +3,7 @@ import { ActionHeader } from '@elements/compositions/action/action-header';
 import { ActionHome } from '@elements/compositions/action/action-home';
 import { Updates } from '@elements/compositions/updates';
 import { wrapPage } from '@elements/compositions/wrap-page';
-import { useValue } from '@elements/store';
+import { useValue } from '@elements/store/interface';
 import { useIdent } from '@elements/store/hooks';
 import { NotFound } from '@elements/compositions/not-found';
 import { ActionStatus, ActionTab } from '@elements/logic/action';

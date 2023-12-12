@@ -4,7 +4,7 @@ import { IssueHome } from '@elements/compositions/issue/issue-home';
 import { Spots } from '@elements/compositions/issue/spots';
 import { Media } from '@elements/compositions/issue/media';
 import { wrapPage } from '@elements/compositions/wrap-page';
-import { useValue } from '@elements/store';
+import { useValue } from '@elements/store/interface';
 import { useIdent } from '@elements/store/hooks';
 import { IssueTab } from '@elements/logic/issue';
 

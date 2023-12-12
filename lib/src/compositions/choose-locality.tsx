@@ -1,5 +1,5 @@
 import { suspensify } from '@elements/components/suspensify';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { ChooseLocalitySlideOver as RawChooseLocalitySlideOver } from '@elements/components/choose-locality-slider-over';
 import { useTranslation } from '@elements/translation';
 

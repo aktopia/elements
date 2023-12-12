@@ -1,4 +1,3 @@
-import { evt, invalidateAsyncSubs } from '@elements/store';
 import {
   endEditing,
   onEditCancelDefault,
@@ -9,6 +8,7 @@ import {
 } from '@elements/logic/text-editor';
 import { rpcPost } from '@elements/rpc';
 import type { Evt } from '@elements/store/types';
+import { evt } from '@elements/store/register';
 
 export type Events = {
   'account.user.name/edit': Evt<{ 'user/id': string }>;
@@ -24,7 +24,7 @@ evt('account.user.name/edit', ({ setState, params }) => {
 
 registerTextEditor('user/name', {
   onTextUpdate: onTextUpdateDefault,
-  onEditDone: async ({ setState, getState, params }) => {
+  onEditDone: async ({ setState, getState, params, invalidateAsyncSubs }) => {
     const value = text({ getState, params });
     await rpcPost('user.name/update', {
       'user/id': params.ref[1],

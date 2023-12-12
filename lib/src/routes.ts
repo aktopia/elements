@@ -92,6 +92,9 @@ const routes_: Route[] = [
 ];
 
 export const ROUTES: RouteWithMatcher[] = routes_.map((route) => {
-  resolveComponent[route.id] = route.component;
   return { ...route, matcher: match(route.path) };
 });
+
+for (const route of ROUTES) {
+  resolveComponent[route.id] = route.component;
+}

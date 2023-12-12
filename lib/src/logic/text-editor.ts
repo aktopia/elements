@@ -1,8 +1,8 @@
-import { evt, sub } from '@elements/store';
 import { ref } from '@elements/utils';
 import type { Ident } from '@elements/types';
 import type { Evt, Sub } from '@elements/store/types';
 import type { EventHandlerArgs } from '@elements/store/register';
+import { evt, sub } from '@elements/store/register';
 
 interface Action {
   setState: any;

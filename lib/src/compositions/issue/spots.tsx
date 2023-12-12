@@ -8,7 +8,7 @@ import {
   SlideOverTitle,
 } from '@elements/components/slide-over';
 import { suspensify } from '@elements/components/suspensify';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import type { Location } from '@elements/logic/issue';
 import { ListBulletOutline, MapPinSolid, TrashOutline } from '@elements/icons';

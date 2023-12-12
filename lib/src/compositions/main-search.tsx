@@ -1,6 +1,6 @@
 import { MagnifyingGlassSolid } from '@elements/icons';
 import { suspensify } from '@elements/components/suspensify';
-import { useDispatch, useValue } from '@elements/store';
+import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
 import React, { Fragment, useCallback } from 'react';
 import type { EntityType } from '@elements/types';
