@@ -1,4 +1,5 @@
 import { store as textEditorStore } from '@story/stores/text-editor';
+import { store as confirmationModalStore } from '@story/stores/confirmation-modal';
 import { randomTimestamp } from '@story/utils/time';
 
 export const store = {
@@ -29,6 +30,7 @@ export const store = {
   },
   evt: [
     ...textEditorStore.evt,
+    ...confirmationModalStore.evt,
     'action/follow',
     'action/unfollow',
     'action/save',
@@ -41,6 +43,5 @@ export const store = {
     'action.title/edit',
     'action/delete',
     'action/volunteer',
-    'confirmation-modal/open'
   ],
 };
