@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "storybook dev -p 3006",
-    "build": "storybook build",
-    "chromatic": "chromatic --build-script-name build"
+    "dev": "npx storybook dev -p 3006",
+    "build": "npx storybook build",
+    "chromatic": "npx chromatic --build-script-name build"
   },
   "devDependencies": {
     "@headlessui/tailwindcss": "0.2.0",
