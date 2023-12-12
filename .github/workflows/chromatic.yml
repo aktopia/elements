@@ -7,16 +7,20 @@ jobs:
     environment: elements
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
+      - name: install lib dependencies
+        working-directory: ./lib
+        run: npm install
+
+      - name: install storybook dependencies
         working-directory: ./storybook
         run: npm install
 
-      - name: Publish to Chromatic
+      - name: publish to chromatic
         uses: chromaui/action@latest
         with:
           workingDir: ./storybook
