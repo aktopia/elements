@@ -1,5 +1,5 @@
 import { ArrowSmallDownSolid, ArrowSmallUpSolid } from '@elements/icons';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import type { Kind } from '@elements/logic/voting';
 import { WithInfoTooltip } from '@elements/components/info-tooltip';
 import { useWrapWaiting } from '@elements/store/hooks';

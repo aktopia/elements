@@ -75,7 +75,7 @@ const Introduction = () => {
     'Aktopia empowers communities to come together and solve their pressing problems.';
   const whatsHappening = "See what's happening near you";
   const prototypeWarning = 'Experimental prototype warning';
-  const lastUpdated = 'Last updated on 24th Nov 2023';
+  const lastUpdated = 'Last updated on 12th Dec 2023';
 
   const [isPrototypeWarningModalVisible, setIsPrototypeWarningModalVisible] = useState(true);
   const [isLastUpdatedModalVisible, setIsLastUpdatedModalVisible] = useState(false);

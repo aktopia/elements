@@ -1,11 +1,17 @@
-### Latest Update - 24th Nov 2023
+### Latest Update - 12th Dec 2023
 
 #### Product
 
-- The ability to delete an image from an issue.
+- Image uploading for issues
 
 #### Engineering
 
-- All the backend work for deleting an image from an issue by an authorized user.
+- Aktopia is getting faster. We're introducing fastly caching in phases.
+- Umpteen bug fixes and UX improvements.
 
 ---
+
+#### What's next?
+
+- Funding
+- Ironing out all the bugs

@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalPanel } from '@elements/components/modal';
 import { Spinner } from '@elements/components/spinner';
 import { useDispatch, useValue } from '@elements/store/interface';
 import { useTranslation } from '@elements/translation';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import { useCallback, type ChangeEvent } from 'react';
 import { MAX_OTP_DIGITS } from '@elements/logic/authentication';
 import { suspensify } from '@elements/components/suspensify';

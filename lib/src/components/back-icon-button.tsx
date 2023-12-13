@@ -1,5 +1,5 @@
 import { ChevronLeftMini } from '@elements/icons';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import React from 'react';
 
 const container = cva(

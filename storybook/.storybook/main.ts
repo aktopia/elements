@@ -9,7 +9,7 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-actions',
-    '@storybook/addon-styling',
+    '@storybook/addon-themes',
   ],
   framework: {
     name: '@storybook/react-vite',
@@ -37,7 +37,7 @@ const config: StorybookConfig = {
       },
       build: {
         target: 'esnext',
-      }
+      },
     });
   },
 };

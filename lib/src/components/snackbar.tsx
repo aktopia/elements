@@ -5,7 +5,7 @@ import {
   XCircleMiniSolid,
   XMarkMiniSolid,
 } from '@elements/icons';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 import type { MouseEvent } from 'react';
 import type { Kind } from '@elements/logic/alert';
 

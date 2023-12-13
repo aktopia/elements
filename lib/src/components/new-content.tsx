@@ -4,7 +4,7 @@ import type { RichTextAreaHandle } from '@elements/components/rich-text-area';
 import RichTextArea from '@elements/components/rich-text-area';
 import { type FormEventHandler, useCallback, useRef } from 'react';
 import { ExclamationCircleMiniSolid } from '@elements/icons';
-import { cva } from 'cva';
+import { cva } from '@elements/utils/style';
 
 interface NewContentProps {
   placeholderText: string;
