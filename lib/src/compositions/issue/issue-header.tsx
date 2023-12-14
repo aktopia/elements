@@ -20,6 +20,9 @@ import { WrapComingSoonPopover } from '@elements/components/coming-soon-popover'
 import { useIdent, useWrapRequireAuth } from '@elements/store/hooks';
 import { Status } from '@elements/logic/meta/initiative';
 import { IssueTab } from '@elements/logic/issue';
+import { ContextMenu } from '@elements/components/context-menu';
+import { type ItemType } from '@elements/components/dropdown';
+import { TrashOutline } from '@elements/icons';
 
 const Title = suspensify(() => {
   const issueId = useValue('current.issue/id');
@@ -163,6 +166,46 @@ const ActionBar = () => {
   );
 };
 
+const IssueContextMenu = suspensify(() => {
+  const t = useTranslation();
+
+  const issueId = useValue('current.issue/id');
+  const canDelete = useValue('issue/can-delete', { 'issue/id': issueId });
+  const openModal = useDispatch('confirmation-modal/open');
+  const deleteAction = useDispatch('issue/delete');
+
+  const onDeleteClick = useCallback(() => {
+    const onConfirm = async () => deleteAction({ 'issue/id': issueId });
+    openModal({
+      kind: 'danger',
+      confirmText: t('common/delete'),
+      titleText: t('issue.delete.modal/title'),
+      bodyText: t('issue.delete.modal/body'),
+      cancelText: t('common/cancel'),
+      onConfirm,
+    });
+  }, [openModal, t, deleteAction, issueId]);
+
+  const items = useMemo(() => {
+    let items = [];
+    if (canDelete) {
+      items.push({
+        text: t('common/delete'),
+        onClick: onDeleteClick,
+        Icon: TrashOutline,
+        kind: 'danger',
+        key: 'delete',
+        type: 'button',
+      });
+    }
+
+    return items;
+  }, [t, canDelete, onDeleteClick]) as ItemType[];
+  return items.length === 0 ? null : (
+    <ContextMenu dotsOnly={false} items={items} orientation={'vertical'} />
+  );
+});
+
 export const IssueHeader = suspensify(() => {
   const issueId = useValue('current.issue/id');
   const updatedAt = useValue('issue/updated-at', { 'issue/id': issueId });
@@ -178,6 +221,10 @@ export const IssueHeader = suspensify(() => {
                 <EntityTypeBadge size={'sm'} type={Type.Issue} />
                 <LastActive timestamp={updatedAt} />
                 <Locality issueId={issueId} />
+              </div>
+              <div className={'flex gap-4 items-center flex-row-reverse md:flex-row'}>
+                {/*{isDraft ? null : <SubscriptionBar suspenseLines={2} />}*/}
+                <IssueContextMenu />
               </div>
               {/*<SubscriptionBar suspenseLines={1} />*/}
             </div>
