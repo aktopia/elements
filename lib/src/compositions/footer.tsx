@@ -1,4 +1,4 @@
-import { MakeUsBetter } from '@elements/components/make-us-better';
+// import { MakeUsBetter } from '@elements/components/make-us-better';
 import { Link } from '@elements/components/link';
 
 const Copyright = () => {
@@ -47,7 +47,7 @@ export const Footer = () => {
     <footer
       className={'bg-gradient-to-br from-blue-800 to-blue-600 w-full py-6 flex-col flex gap-7'}>
       <div className={'flex flex-col items-center gap-7'}>
-        <MakeUsBetter />
+        {/*<MakeUsBetter />*/}
         <ContactUs />
         <div className={'flex divide-x'}>
           <PrivacyPolicy />
