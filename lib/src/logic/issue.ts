@@ -6,8 +6,9 @@ import {
   setError,
   startEditing,
   text,
+  isEmpty,
 } from '@elements/logic/text-editor';
-import { rpcPost } from '@elements/rpc';
+import { rpcPost, rpcGet } from '@elements/rpc';
 import type { Match } from '@elements/utils/router';
 import type { LatLng, LatLngBounds } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
@@ -15,7 +16,7 @@ import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
 import type { Image } from '@elements/components/media-gallery';
-import { evt, remoteSub, sub } from '@elements/store/register';
+import { asyncSub, evt, remoteSub, sub } from '@elements/store/register';
 
 export enum IssueTab {
   Home = 'issue.tab/home',
@@ -28,6 +29,13 @@ export interface Location extends LatLng {
   id: string;
   caption: string;
 }
+
+export enum IssueStatus {
+  Draft = 'issue.status/draft',
+  Open = 'issue.status/open',
+  Resolved = 'issue.status/resolved',
+}
+
 
 export type Subs = {
   'current.issue/id': Sub<{}, string>;
@@ -59,6 +67,10 @@ export type Subs = {
   'issue/images': Sub<{ 'issue/id': string }, Image[]>;
   'issue.image/can-delete': Sub<{ 'issue/id': string }, boolean>;
   'issue/can-delete': Sub<{ 'issue/id': string }, boolean>;
+  'issue/status': Sub<{ 'issue/id': string }, IssueStatus>;
+  'issue.status/modal': Sub<{}, { 'issue/id': string; visible: boolean }>;
+  'issue.status/check': Sub<{ 'issue/id': string; in: IssueStatus }, boolean>;
+  'issue.status/can-update': Sub<{ 'issue/id': string; status: IssueStatus }, boolean>;
 };
 
 export type Events = {
@@ -89,6 +101,9 @@ export type Events = {
   'issue.image/add': Evt<{ file: File; 'issue/id': string; caption: string }>;
   'issue.image/delete': Evt<{ 'image/id': string; 'issue/id': string }>;
   'issue/delete': Evt<{ 'issue/id': string }>;
+  'issue.status.modal/open': Evt<{ 'issue/id': string }>;
+  'issue.status.modal/close': Evt<{}>;
+  'issue.status/update': Evt<{ 'issue/id': string; status: IssueStatus }>;
 };
 
 export const issueSlice = () => ({
@@ -98,6 +113,7 @@ export const issueSlice = () => ({
     'issue.create.modal/title': '',
     'issue.location.slide-over/visible': false,
     'issue.locality.slide-over/visible': false,
+    'issue.status/modal': { visible: false },
   },
 });
 
@@ -128,6 +144,13 @@ sub(
   ({ state }) => state['issue/state']['issue.locality.slide-over/visible']
 );
 
+sub('issue.status/modal', ({ state }) => state['issue/state']['issue.status/modal']);
+
+asyncSub('issue.status/check', async ({ params }) => {
+  const status: IssueStatus = await rpcGet('issue/status', { 'issue/id': params['issue/id'] });
+  return params['in'].includes(status);
+});
+
 remoteSub('issue.users.facing/count');
 remoteSub('issue.current.user/facing');
 remoteSub('issue.title/text');
@@ -147,6 +170,8 @@ remoteSub('issue.locality/location');
 remoteSub('issue.locality/zoom');
 remoteSub('issue/images');
 remoteSub('issue.image/can-delete');
+remoteSub('issue/status');
+remoteSub('issue.status/can-update');
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
@@ -314,6 +339,89 @@ evt('issue.location/delete', async ({ getState, params, invalidateAsyncSub }) =>
   await rpcPost('location/delete', { 'location/id': params['location/id'] });
   await invalidateAsyncSub(['issue/locations', { 'issue/id': currentIssueId }]);
 });
+
+evt('issue.status.modal/open', ({ setState, params }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.status/modal'] = {
+      visible: true,
+      'issue/id': params['issue/id'],
+    };
+  });
+});
+
+evt('issue.status.modal/close', ({ setState }) => {
+  setState((state: any) => {
+    state['issue/state']['issue.status/modal'] = { visible: false };
+  });
+});
+
+evt(
+  'issue.status/update',
+  async ({ params, dispatch, getState, setState, read, invalidateAsyncSub }) => {
+    const issueId = params['issue/id'];
+
+    // TODO Think about abstracting validations than having them in the logic layer.
+    if ([IssueStatus.Open].includes(params.status)) {
+      const isDescriptionEmpty = isEmpty({
+        getState,
+        params: { ref: ['issue.description/text', issueId] },
+      });
+
+      const isOutcomeEmpty = isEmpty({
+        getState,
+        params: { ref: ['issue.outcome/text', issueId] },
+      });
+
+      const isLocalityNotChosen = !read('issue.locality/exists', { 'issue/id': issueId });
+
+      const hasErrors = isDescriptionEmpty || isOutcomeEmpty || isLocalityNotChosen;
+
+      if (isDescriptionEmpty) {
+        startEditing({ setState, params: { ref: ['issue.description/text', issueId] } });
+        setError({
+          setState,
+          params: {
+            ref: ['issue.description/text', issueId],
+            error: 'Description cannot be empty.', // TODO i18n
+          },
+        });
+      }
+
+      if (isOutcomeEmpty) {
+        startEditing({ setState, params: { ref: ['issue.outcome/text', issueId] } });
+        setError({
+          setState,
+          params: {
+            ref: ['issue.outcome/text', issueId],
+            error: 'Outcome cannot be empty.', // TODO i18n
+          },
+        });
+      }
+
+      if (isLocalityNotChosen) {
+        setState((state: any) => {
+          state['issue/state']['action.locality/error'] = 'Locality must be chosen.'; // TODO i18n
+        });
+      }
+
+      if (hasErrors) {
+        return;
+      }
+    }
+
+    await rpcPost('issue.status/update', {
+      'issue/id': params['issue/id'],
+      status: params.status,
+    });
+
+    dispatch('issue.status.modal/close', {});
+    dispatch('alert/flash', {
+      message: 'Issue status has been updated.',
+      kind: 'info',
+    });
+    await invalidateAsyncSub(['issue/status', { 'issue/id': params['issue/id'] }]);
+  }
+);
 
 const uploadToS3 = async (presignedUrl: string, file: File) => {
   return await fetch(presignedUrl, {

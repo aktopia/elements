@@ -105,6 +105,9 @@ const issue = {
   'issue.image.delete.modal/title': 'Delete Image',
   'issue.image.delete.modal/body':
     'Are you sure you want to delete the image? This cannot be undone.',
+  'issue.status/draft': 'Draft',
+  'issue.status/open': 'Open',
+  'issue.status/resolved': 'Resolved',
 };
 
 const update = {
