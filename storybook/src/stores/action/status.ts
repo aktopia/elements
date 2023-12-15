@@ -8,7 +8,6 @@ export const store = {
     'action/status': ActionStatus.Active,
     'action.status/can-update': false,
     'action/id': actionId,
-    'action.status/check' : false,
   },
   evt: ['action.status.modal/close', 'action.status.modal/open', 'action.status/update'],
 };

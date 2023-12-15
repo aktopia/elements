@@ -126,7 +126,7 @@ export const ActionBar = suspensify(() => {
   const actionStatus = useValue('action/status', {
     'action/id': actionId,
   });
-  const inDraftOrReview = actionStatus ? actionStatus === ActionStatus.Draft : false;
+  const inDraftOrReview = [ActionStatus.Draft, ActionStatus.Reviewing].includes(actionStatus)
 
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
 

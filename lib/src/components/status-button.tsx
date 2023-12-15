@@ -13,6 +13,7 @@ const statusContainerVariant = cva(
         orange: 'border-orange-600',
         teal: 'border-teal-600',
         sky: 'border-sky-600',
+        amber: 'border-amber-600',
       },
     },
   }
@@ -29,6 +30,7 @@ const statusDotVariant = cva('w-3 h-3 rounded-full', {
       orange: 'bg-orange-600',
       teal: 'bg-teal-600',
       sky: 'bg-sky-600',
+      amber: 'bg-amber-600',
     },
   },
 });
@@ -44,11 +46,12 @@ const statusTextVariant = cva('text-xs font-medium', {
       orange: 'text-orange-600',
       teal: 'text-teal-600',
       sky: 'text-sky-600',
+      amber: 'text-amber-600'
     },
   },
 });
 
-export type Colors = 'gray' | 'blue' | 'green' | 'indigo' | 'lime' | 'orange';
+export type Colors = 'gray' | 'blue' | 'green' | 'indigo' | 'lime' | 'orange' | 'amber';
 
 interface StatusButtonProps {
   name: string;

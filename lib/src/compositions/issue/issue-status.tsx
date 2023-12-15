@@ -11,8 +11,8 @@ import { ArrowRightSolid } from '@elements/icons';
 
 const colorMapping: Record<IssueStatusEnum, Colors> = {
   [IssueStatusEnum.Draft]: 'gray',
-  [IssueStatusEnum.Open]: 'green',
-  [IssueStatusEnum.Resolved]: 'blue',
+  [IssueStatusEnum.Open]: 'amber',
+  [IssueStatusEnum.Resolved]: 'indigo',
 };
 
 const states = [
