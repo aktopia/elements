@@ -1,4 +1,4 @@
-import { rpcGet, rpcPost } from '@elements/rpc';
+import { rpcPost } from '@elements/rpc';
 import {
   endEditing,
   isEmpty,
@@ -14,7 +14,7 @@ import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { type LatLng } from '@elements/components/map';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
-import { asyncSub, evt, remoteSub, sub } from '@elements/store/register';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export enum ActionTab {
   Home = 'action.tab/home',
@@ -59,7 +59,6 @@ export type Subs = {
   'action.status/modal': Sub<{}, { 'action/id': string; visible: boolean }>;
   'action/can-delete': Sub<{ 'action/id': string }, boolean>;
   'action/exists': Sub<{ 'action/id': string }, boolean>;
-  'action.status/check': Sub<{ 'action/id': string; in: ActionStatus[] }, boolean>;
   'action.locality/error': Sub<{}, string>;
   'action.status/can-update': Sub<{ 'action/id': string; status: ActionStatus }, boolean>;
 };
@@ -137,11 +136,6 @@ sub(
 sub('action.status/modal', ({ state }) => state['action/state']['action.status/modal']);
 
 sub('action.locality/error', ({ state }) => state['action/state']['action.locality/error']);
-
-asyncSub('action.status/check', async ({ params }) => {
-  const status: ActionStatus = await rpcGet('action/status', { 'action/id': params['action/id'] });
-  return params['in'].includes(status);
-});
 
 remoteSub('action.title/text');
 remoteSub('action.description/text');

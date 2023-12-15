@@ -123,10 +123,10 @@ export const ActionBar = suspensify(() => {
   const t = useTranslation();
   const actionId = useValue('current.action/id');
   const userId = useValue('current.user/id');
-  const inDraftOrReview = useValue('action.status/check', {
+  const actionStatus = useValue('action/status', {
     'action/id': actionId,
-    in: [ActionStatus.Draft, ActionStatus.Reviewing],
   });
+  const inDraftOrReview = [ActionStatus.Draft, ActionStatus.Reviewing].includes(actionStatus)
 
   const ident = useMemo(() => ({ 'user/id': userId, 'action/id': actionId }), [userId, actionId]);
 
