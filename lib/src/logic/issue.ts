@@ -8,7 +8,7 @@ import {
   text,
   isEmpty,
 } from '@elements/logic/text-editor';
-import { rpcPost, rpcGet } from '@elements/rpc';
+import { rpcPost } from '@elements/rpc';
 import type { Match } from '@elements/utils/router';
 import type { LatLng, LatLngBounds } from '@elements/components/map';
 import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
@@ -16,7 +16,7 @@ import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
 import type { Image } from '@elements/components/media-gallery';
-import { asyncSub, evt, remoteSub, sub } from '@elements/store/register';
+import { evt, remoteSub, sub } from '@elements/store/register';
 
 export enum IssueTab {
   Home = 'issue.tab/home',
@@ -69,7 +69,6 @@ export type Subs = {
   'issue/can-delete': Sub<{ 'issue/id': string }, boolean>;
   'issue/status': Sub<{ 'issue/id': string }, IssueStatus>;
   'issue.status/modal': Sub<{}, { 'issue/id': string; visible: boolean }>;
-  'issue.status/check': Sub<{ 'issue/id': string; in: IssueStatus }, boolean>;
   'issue.status/can-update': Sub<{ 'issue/id': string; status: IssueStatus }, boolean>;
 };
 
@@ -145,11 +144,6 @@ sub(
 );
 
 sub('issue.status/modal', ({ state }) => state['issue/state']['issue.status/modal']);
-
-asyncSub('issue.status/check', async ({ params }) => {
-  const status: IssueStatus = await rpcGet('issue/status', { 'issue/id': params['issue/id'] });
-  return params['in'].includes(status);
-});
 
 remoteSub('issue.users.facing/count');
 remoteSub('issue.current.user/facing');

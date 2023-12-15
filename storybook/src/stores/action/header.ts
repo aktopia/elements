@@ -1,6 +1,7 @@
 import { store as textEditorStore } from '@story/stores/text-editor';
 import { store as confirmationModalStore } from '@story/stores/confirmation-modal';
 import { randomTimestamp } from '@story/utils/time';
+import { ActionStatus } from '@elements/logic/action';
 
 export const store = {
   sub: {
@@ -27,6 +28,7 @@ export const store = {
     'action/can-delete': false,
     'action/updated-at': randomTimestamp(),
     'action.status/modal': false,
+    'action/status': ActionStatus.Reviewing,
   },
   evt: [
     ...textEditorStore.evt,
