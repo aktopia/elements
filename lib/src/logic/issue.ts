@@ -15,7 +15,7 @@ import { parseClosestLocality, resolveLatLng } from '@elements/utils/location';
 import { wrapRequireAuth } from '@elements/logic/authentication';
 import type { Evt, Sub } from '@elements/store/types';
 import { guid } from '@elements/utils';
-import type { Image } from '@elements/components/media-gallery';
+import type { Image } from '@elements/compositions/media-gallery';
 import { evt, remoteSub, sub } from '@elements/store/register';
 
 export enum IssueTab {
