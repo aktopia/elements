@@ -58,6 +58,7 @@ export type Subs = {
   'issue.locality/zoom': Sub<{ 'issue/id': string }, number>;
   'issue/images': Sub<{ 'issue/id': string }, Image[]>;
   'issue.image/can-delete': Sub<{ 'issue/id': string }, boolean>;
+  'issue/can-delete': Sub<{ 'issue/id': string }, boolean>;
 };
 
 export type Events = {
@@ -87,6 +88,7 @@ export type Events = {
   'navigated.issue/new': Evt<{ route: Match }>;
   'issue.image/add': Evt<{ file: File; 'issue/id': string; caption: string }>;
   'issue.image/delete': Evt<{ 'image/id': string; 'issue/id': string }>;
+  'issue/delete': Evt<{ 'issue/id': string }>;
 };
 
 export const issueSlice = () => ({
