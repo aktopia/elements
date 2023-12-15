@@ -84,6 +84,8 @@ const issue = {
   'issue.locality/update': 'Update issue locality',
   'issue.locality/description': 'The locality around which the issue is centered.',
   'issue/locality': 'Issue locality',
+  'issue.delete.modal/title': 'Delete Issue',
+  'issue.delete.modal/body': 'Are you sure you want to delete the issue? This cannot be undone.',
   'issue.severity/label': ({ avgScore, userScore, votes }: any) => {
     const oneVote = votes === 1 || votes === '1';
     const userScoreText = userScore
