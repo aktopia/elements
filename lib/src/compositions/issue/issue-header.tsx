@@ -152,7 +152,7 @@ const RaiseHand = suspensify(() => {
       raised={raised}
       size={'md'}
       tooltipText={t('issue.facing.tooltip/text')}
-      onClick={onClick}
+      onRaiseHand={onClick}
     />
   );
 });
