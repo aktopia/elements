@@ -11,6 +11,7 @@ import type { LatLng, MapHandle } from '@elements/components/map';
 import { AddLocationPin, Map } from '@elements/components/map';
 import type { Place } from '@elements/compositions/map';
 import { SearchLocation } from '@elements/compositions/map';
+import { useWrapWaiting } from '@elements/store/hooks';
 
 interface ChooseLocalitySlideOverProps {
   visible: boolean;
@@ -55,6 +56,8 @@ export const ChooseLocalitySlideOver = ({
     center && zoom && onDone({ location: center, zoom });
   }, [onDone]);
 
+  const [onAction_, actionLocalityWaiting] = useWrapWaiting(onAction, false, [onAction]);
+
   if (!visible) {
     return null;
   }
@@ -89,8 +92,9 @@ export const ChooseLocalitySlideOver = ({
         <div className={'sticky bottom-0 w-full'}>
           <SlideOverFooter
             actionText={'Done'}
+            actionWaiting={actionLocalityWaiting}
             cancelText={'Cancel'}
-            onAction={onAction}
+            onAction={onAction_}
             onCancel={onClose}
           />
         </div>
