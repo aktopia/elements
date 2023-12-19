@@ -4,6 +4,7 @@ import { useDispatch, useValue } from '@elements/store/interface';
 import React, { useCallback } from 'react';
 import { Modal, ModalPanel, ModalTitle } from '@elements/components/modal';
 import { Button } from '@elements/components/button';
+import { useWrapWaiting } from '@elements/store/hooks';
 
 const UserRegistration_ = suspensify(({}) => {
   const t = useTranslation();
@@ -21,6 +22,8 @@ const UserRegistration_ = suspensify(({}) => {
     },
     [updateName]
   );
+
+  const [onComplete_, completeWaiting] = useWrapWaiting(onComplete, false, [onComplete]);
 
   return (
     <Modal visible={visible}>
@@ -41,7 +44,13 @@ const UserRegistration_ = suspensify(({}) => {
               onChange={onNameChange}
             />
             <div className={'flex items-center justify-end gap-5'}>
-              <Button kind={'success'} size={'sm'} value={t('common/done')} onClick={onComplete} />
+              <Button
+                kind={'success'}
+                size={'sm'}
+                value={t('common/done')}
+                waiting={completeWaiting}
+                onClick={onComplete_}
+              />
             </div>
           </form>
         </div>
