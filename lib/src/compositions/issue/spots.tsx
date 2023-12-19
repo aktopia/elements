@@ -20,7 +20,7 @@ import { Timestamp } from '@elements/components/timestamp';
 import { ContextMenu } from '@elements/components/context-menu';
 import type { ItemType } from '@elements/components/dropdown';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { useWrapRequireAuth } from '@elements/store/hooks';
+import { useWrapRequireAuth, useWrapWaiting } from '@elements/store/hooks';
 
 interface LocationCardProps {
   locationId: string;
@@ -168,8 +168,10 @@ const AddLocation = ({
 
   const { register, handleSubmit: onSubmit, reset } = useForm<{ caption: string }>();
 
+  const [onAdd_, waitingAdd] = useWrapWaiting(onAdd, false, [onAdd]);
+
   const submit: SubmitHandler<{ caption: string }> = ({ caption }) => {
-    onAdd({ caption });
+    onAdd_({ caption });
     reset();
   };
 
@@ -189,7 +191,13 @@ const AddLocation = ({
         {...register('caption', { required: true })}
       />
       <div className={'flex gap-2'}>
-        <Button kind={'success'} size={'sm'} type={'submit'} value={t('common/add')} />
+        <Button
+          kind={'success'}
+          size={'sm'}
+          type={'submit'}
+          value={t('common/add')}
+          waiting={waitingAdd}
+        />
         <Button kind={'tertiary'} size={'sm'} value={t('common/cancel')} onClick={onCancel_} />
       </div>
     </form>
