@@ -36,7 +36,6 @@ export enum IssueStatus {
   Resolved = 'issue.status/resolved',
 }
 
-
 export type Subs = {
   'current.issue/id': Sub<{}, string>;
   'issue/saved': Sub<{}, boolean>;
@@ -166,6 +165,7 @@ remoteSub('issue/images');
 remoteSub('issue.image/can-delete');
 remoteSub('issue/status');
 remoteSub('issue.status/can-update');
+remoteSub('issue/can-delete');
 
 evt('issue/follow', () => null);
 evt('issue/unfollow', () => null);
@@ -347,6 +347,11 @@ evt('issue.status.modal/close', ({ setState }) => {
   setState((state: any) => {
     state['issue/state']['issue.status/modal'] = { visible: false };
   });
+});
+
+evt('issue/delete', async ({ params, dispatch }) => {
+  await rpcPost('issue/delete', { 'issue/id': params['issue/id'] });
+  dispatch('navigate/route', { replace: true, id: 'home/view' });
 });
 
 evt(
