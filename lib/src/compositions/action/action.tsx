@@ -23,10 +23,8 @@ const Action_ = ({ actionId }: { actionId: string }) => {
   const t = useTranslation();
   const activeTabId = useValue('action.tabs/active-tab');
   const ref = useIdent('action/id', actionId);
-  const isDraft = useValue('action.status/check', {
-    'action/id': actionId,
-    in: [ActionStatus.Draft],
-  });
+  const status = useValue('action/status', { 'action/id': actionId });
+  const isDraft = status === ActionStatus.Draft;
 
   let tab;
 

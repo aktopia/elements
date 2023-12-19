@@ -36,10 +36,8 @@ export const Locality = suspensify(
 
 export const ActionCard = suspensify(({ id, onLocalitySlideOverOpen }: ActionCardProps) => {
   const title = useValue('action.title/text', { 'action/id': id });
-  const isDraft = useValue('action.status/check', {
-    'action/id': id,
-    in: [ActionStatus.Draft],
-  });
+  const status = useValue('action/status', { 'action/id': id });
+  const isDraft = status === ActionStatus.Draft;
   const onLocalityClick = useCallback(
     () => onLocalitySlideOverOpen(id, Type.Action),
     [id, onLocalitySlideOverOpen]
