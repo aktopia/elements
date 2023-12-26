@@ -11,7 +11,7 @@
     "ts": "npm run ts-lib && npm run ts-storybook"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^6.14.0",
+    "@typescript-eslint/parser": "^6.16.0",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
