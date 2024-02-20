@@ -1,5 +1,5 @@
 import { wrapPage } from '@elements/compositions/wrap-page';
-import { lazy, Suspense, useCallback, useState } from 'react';
+import { lazy, Suspense } from 'react';
 import {
   ChatBubbleLeftEllipsisOutline,
   CheckCircleOutline,
@@ -7,18 +7,12 @@ import {
   Crowd,
   DocumentTextOutline,
   ExclamationTriangleOutline,
-  ExclamationTriangleSolid,
   Giving,
   HandRaisedOutline,
   MapPinOutline,
   MegaphoneOutline,
   PhotoOutline,
 } from '@elements/icons';
-import { Modal, ModalPanel } from '@elements/components/modal';
-import Markdown from 'react-markdown';
-import prototypeWarningMarkdown from '@elements/markdown/prototype-warning.md?raw';
-import latestUpdateMarkdown from '@elements/markdown/latest-update.md?raw';
-import { Button } from '@elements/components/button';
 import { Spinner } from '@elements/components/spinner';
 import { cx } from '@elements/utils';
 import { FAQ } from '@elements/compositions/home/faq';
@@ -33,109 +27,30 @@ const ImageFallback = ({ className }: any) => (
   </div>
 );
 
-const PrototypeWarningModal = ({ visible, onClose }: any) => {
-  const title = 'Prototype Warning';
-  return (
-    <Modal visible={visible} onClose={onClose}>
-      <ModalPanel>
-        <div className={'px-8 pt-12 pb-10 flex-col flex gap-8 items-center'}>
-          <div className={'flex flex-col gap-2 justify-center items-center'}>
-            <ExclamationTriangleSolid className={'h-12 w-12 text-amber-500'} />
-            <h2 className={'text-2xl text-gray-600 font-semibold'}>{title}</h2>
-          </div>
-          <Markdown className={'prose prose-gray prose-h3:text-gray-700 prose-h3:font-medium'}>
-            {prototypeWarningMarkdown}
-          </Markdown>
-          <div>
-            <Button kind={'primary'} size={'md'} value={'Okay, I understand.'} onClick={onClose} />
-          </div>
-        </div>
-      </ModalPanel>
-    </Modal>
-  );
-};
-
-const LastUpdatedModal = ({ visible, onClose }: any) => {
-  return (
-    <Modal visible={visible} onClose={onClose}>
-      <ModalPanel>
-        <div className={'p-6 flex-col flex gap-8'}>
-          <Markdown className={'prose prose-gray prose-h3:text-gray-700 prose-h3:font-medium'}>
-            {latestUpdateMarkdown}
-          </Markdown>
-        </div>
-      </ModalPanel>
-    </Modal>
-  );
-};
-
 const Introduction = () => {
   const text = 'The future of democracy is already here.';
   const subText =
     'Aktopia empowers communities to come together and solve their pressing problems.';
   const whatsHappening = "See what's happening near you";
-  const prototypeWarning = 'Experimental prototype warning';
-  const lastUpdated = 'Last updated on 12th Dec 2023';
-
-  const [isPrototypeWarningModalVisible, setIsPrototypeWarningModalVisible] = useState(true);
-  const [isLastUpdatedModalVisible, setIsLastUpdatedModalVisible] = useState(false);
-
-  const onPrototypeWarningModalOpen = useCallback(() => {
-    setIsPrototypeWarningModalVisible(true);
-  }, []);
-
-  const onLastUpdatedModalOpen = useCallback(() => {
-    setIsLastUpdatedModalVisible(true);
-  }, []);
-
-  const onPrototypeWarningModalClose = useCallback(() => {
-    setIsPrototypeWarningModalVisible(false);
-  }, []);
-
-  const onLastUpdatedModalClose = useCallback(() => {
-    setIsLastUpdatedModalVisible(false);
-  }, []);
 
   return (
-    <>
-      <section className={'flex flex-col justify-center items-center gap-6'}>
-        <div className={'flex flex-col gap-3 items-center'}>
-          <button
-            data-event-id={'last-updated-button-click'}
-            type={'button'}
-            onClick={onLastUpdatedModalOpen}>
-            <p className={'text-gray-500 font-medium text-xs underline'}>{lastUpdated}</p>
-          </button>
-          <button
-            className={'w-max flex gap-2.5 items-center'}
-            type={'button'}
-            onClick={onPrototypeWarningModalOpen}>
-            <ExclamationTriangleSolid className={'h-6 w-6 text-amber-500'} />
-            <p className={'text-amber-800 text-lg hover:underline'}>{prototypeWarning}</p>
-          </button>
-        </div>
-        <h1
-          className={
-            'md:text-7xl text-5xl text-center font-semibold bg-gradient-to-br from-blue-600 to-blue-800 text-transparent bg-clip-text p-5'
-          }>
-          {text}
-        </h1>
-        <h2 className={'text-xl text-center font-medium text-gray-500'}>{subText}</h2>
-        <a
-          className={
-            'shadow-sm w-max flex gap-2 justify-center items-center py-2 px-4 rounded-full border border-gray-200 bg-gradient-to-br from-blue-100 via-blue-50 to-blue-200'
-          }
-          href={'#home-feed'}>
-          <p className={'text-gray-700 text-lg font-medium'}>{whatsHappening}</p>
-          <ChevronRightSolid className={'h-5 w-5 text-gray-700'} />
-        </a>
-      </section>
-      <PrototypeWarningModal
-        visible={isPrototypeWarningModalVisible}
-        onClose={onPrototypeWarningModalClose}
-      />
-      <LastUpdatedModal visible={isLastUpdatedModalVisible} onClose={onLastUpdatedModalClose} />
-    </>
+    <section className={'flex flex-col justify-center items-center gap-6'}>
+      <h1
+        className={
+          'md:text-7xl text-5xl text-center font-semibold bg-gradient-to-br from-blue-600 to-blue-800 text-transparent bg-clip-text p-5'
+        }>
+        {text}
+      </h1>
+      <h2 className={'text-xl text-center font-medium text-gray-500'}>{subText}</h2>
+      <a
+        className={
+          'shadow-sm w-max flex gap-2 justify-center items-center py-2 px-4 rounded-full border border-gray-200 bg-gradient-to-br from-blue-100 via-blue-50 to-blue-200'
+        }
+        href={'#home-feed'}>
+        <p className={'text-gray-700 text-lg font-medium'}>{whatsHappening}</p>
+        <ChevronRightSolid className={'h-5 w-5 text-gray-700'} />
+      </a>
+    </section>
   );
 };
 
