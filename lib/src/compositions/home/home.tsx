@@ -15,7 +15,7 @@ import {
 } from '@elements/icons';
 import { Spinner } from '@elements/components/spinner';
 import { cx } from '@elements/utils';
-import { FAQ } from '@elements/compositions/home/faq';
+// import { FAQ } from '@elements/compositions/home/faq';
 import { Feed } from '@elements/compositions/home/feed';
 
 const WaterPollution = lazy(() => import('@elements/assets/water-pollution.svg?react'));
@@ -182,7 +182,7 @@ export const Home = wrapPage(() => {
       <Introduction />
       <IssueIntroduction />
       <ActionIntroduction />
-      <FAQ />
+      {/*<FAQ />*/}
       <Feed />
     </main>
   );
